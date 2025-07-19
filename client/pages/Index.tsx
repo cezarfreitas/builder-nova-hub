@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Card, CardContent } from "../components/ui/card";
@@ -9,8 +9,11 @@ import {
   TrendingUp,
   Users,
   Crown,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { Testimonial, TestimonialsResponse } from "@shared/api";
+import useEmblaCarousel from "embla-carousel-react";
 
 interface LeadFormData {
   name: string;
@@ -29,6 +32,38 @@ export default function Index() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    loop: true,
+    align: "start",
+    skipSnaps: false,
+    breakpoints: {
+      "(min-width: 768px)": { slidesToScroll: 2 },
+      "(min-width: 1024px)": { slidesToScroll: 3 },
+    },
+  });
+  const [canScrollPrev, setCanScrollPrev] = useState(false);
+  const [canScrollNext, setCanScrollNext] = useState(false);
+
+  const scrollPrev = useCallback(() => {
+    if (emblaApi) emblaApi.scrollPrev();
+  }, [emblaApi]);
+
+  const scrollNext = useCallback(() => {
+    if (emblaApi) emblaApi.scrollNext();
+  }, [emblaApi]);
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setCanScrollPrev(emblaApi.canScrollPrev());
+    setCanScrollNext(emblaApi.canScrollNext());
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    onSelect();
+    emblaApi.on("select", onSelect);
+    emblaApi.on("reInit", onSelect);
+  }, [emblaApi, onSelect]);
 
   useEffect(() => {
     fetchTestimonials();
@@ -392,71 +427,116 @@ export default function Index() {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {testimonials.map((testimonial, index) => (
-                <Card
-                  key={testimonial.id}
-                  className="group hover:shadow-2xl transition-all duration-300 border-0 shadow-lg bg-white overflow-hidden relative"
-                >
-                  <CardContent className="p-8">
-                    {/* Quote Icon */}
-                    <div className="absolute top-6 right-6 opacity-10 group-hover:opacity-20 transition-opacity">
-                      <Quote className="w-12 h-12 text-ecko-red" />
-                    </div>
+            {/* Carousel Container */}
+            <div className="relative">
+              {/* Navigation Buttons */}
+              <div className="flex justify-between items-center mb-8">
+                <div className="flex space-x-4">
+                  <button
+                    onClick={scrollPrev}
+                    disabled={!canScrollPrev}
+                    className="group p-3 bg-white shadow-lg hover:shadow-xl rounded-full border border-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover:bg-ecko-red disabled:hover:bg-white"
+                  >
+                    <ChevronLeft className="w-6 h-6 text-gray-700 group-hover:text-white group-disabled:group-hover:text-gray-700" />
+                  </button>
+                  <button
+                    onClick={scrollNext}
+                    disabled={!canScrollNext}
+                    className="group p-3 bg-white shadow-lg hover:shadow-xl rounded-full border border-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover:bg-ecko-red disabled:hover:bg-white"
+                  >
+                    <ChevronRight className="w-6 h-6 text-gray-700 group-hover:text-white group-disabled:group-hover:text-gray-700" />
+                  </button>
+                </div>
 
-                    {/* Rating */}
-                    <div className="flex items-center space-x-1 mb-6">
-                      {[...Array(5)].map((_, i) => (
-                        <Star
-                          key={i}
-                          className={`w-5 h-5 ${
-                            i < testimonial.rating
-                              ? "fill-yellow-400 text-yellow-400"
-                              : "text-gray-300"
-                          }`}
-                        />
-                      ))}
-                    </div>
+                {/* Indicators */}
+                <div className="hidden md:flex items-center space-x-2">
+                  <div className="text-sm text-gray-500">
+                    {testimonials.length} depoimentos
+                  </div>
+                </div>
+              </div>
 
-                    {/* Testimonial Content */}
-                    <blockquote className="text-gray-700 text-lg leading-relaxed mb-8 relative z-10">
-                      "{testimonial.content}"
-                    </blockquote>
+              {/* Carousel */}
+              <div className="overflow-hidden" ref={emblaRef}>
+                <div className="flex">
+                  {testimonials.map((testimonial, index) => (
+                    <div
+                      key={testimonial.id}
+                      className="flex-[0_0_100%] md:flex-[0_0_50%] lg:flex-[0_0_33.333%] min-w-0 pl-4"
+                    >
+                      <Card className="group hover:shadow-2xl transition-all duration-300 border-0 shadow-lg bg-white overflow-hidden relative h-full mr-4">
+                        <CardContent className="p-8 h-full flex flex-col">
+                          {/* Quote Icon */}
+                          <div className="absolute top-6 right-6 opacity-10 group-hover:opacity-20 transition-opacity">
+                            <Quote className="w-12 h-12 text-ecko-red" />
+                          </div>
 
-                    {/* Author Info */}
-                    <div className="flex items-center space-x-4">
-                      {testimonial.avatar_url ? (
-                        <img
-                          src={testimonial.avatar_url}
-                          alt={testimonial.name}
-                          className="w-14 h-14 rounded-full object-cover ring-4 ring-ecko-red/10"
-                        />
-                      ) : (
-                        <div className="w-14 h-14 bg-gradient-to-br from-ecko-red to-ecko-red-dark rounded-full flex items-center justify-center ring-4 ring-ecko-red/10">
-                          <span className="text-white font-bold text-lg">
-                            {testimonial.name.charAt(0).toUpperCase()}
-                          </span>
-                        </div>
-                      )}
-                      <div>
-                        <h4 className="font-bold text-gray-900 text-lg">
-                          {testimonial.name}
-                        </h4>
-                        {testimonial.company && (
-                          <p className="text-ecko-red font-medium">
-                            {testimonial.company}
-                          </p>
-                        )}
-                        {testimonial.role && (
-                          <p className="text-gray-600 text-sm">
-                            {testimonial.role}
-                          </p>
-                        )}
-                      </div>
+                          {/* Rating */}
+                          <div className="flex items-center space-x-1 mb-6">
+                            {[...Array(5)].map((_, i) => (
+                              <Star
+                                key={i}
+                                className={`w-5 h-5 ${
+                                  i < testimonial.rating
+                                    ? "fill-yellow-400 text-yellow-400"
+                                    : "text-gray-300"
+                                }`}
+                              />
+                            ))}
+                          </div>
+
+                          {/* Testimonial Content */}
+                          <blockquote className="text-gray-700 text-lg leading-relaxed mb-8 relative z-10 flex-grow">
+                            "{testimonial.content}"
+                          </blockquote>
+
+                          {/* Author Info */}
+                          <div className="flex items-center space-x-4 mt-auto">
+                            {testimonial.avatar_url ? (
+                              <img
+                                src={testimonial.avatar_url}
+                                alt={testimonial.name}
+                                className="w-14 h-14 rounded-full object-cover ring-4 ring-ecko-red/10"
+                              />
+                            ) : (
+                              <div className="w-14 h-14 bg-gradient-to-br from-ecko-red to-ecko-red-dark rounded-full flex items-center justify-center ring-4 ring-ecko-red/10">
+                                <span className="text-white font-bold text-lg">
+                                  {testimonial.name.charAt(0).toUpperCase()}
+                                </span>
+                              </div>
+                            )}
+                            <div>
+                              <h4 className="font-bold text-gray-900 text-lg">
+                                {testimonial.name}
+                              </h4>
+                              {testimonial.company && (
+                                <p className="text-ecko-red font-medium">
+                                  {testimonial.company}
+                                </p>
+                              )}
+                              {testimonial.role && (
+                                <p className="text-gray-600 text-sm">
+                                  {testimonial.role}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
                     </div>
-                  </CardContent>
-                </Card>
-              ))}
+                  ))}
+                </div>
+              </div>
+
+              {/* Auto-scroll Indicator */}
+              <div className="mt-8 text-center">
+                <div className="inline-flex items-center space-x-2 bg-gray-100 rounded-full px-4 py-2">
+                  <div className="w-2 h-2 bg-ecko-red rounded-full animate-pulse"></div>
+                  <span className="text-sm text-gray-600">
+                    Arraste para navegar ou use as setas
+                  </span>
+                </div>
+              </div>
             </div>
 
             {/* Call to Action */}
