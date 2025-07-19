@@ -357,7 +357,15 @@ export default function Index() {
       <section className="h-screen relative flex flex-col justify-center items-center overflow-hidden">
         {/* Background Image */}
         <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/80 z-10"></div>
+          {/* Dynamic overlay based on hero settings */}
+          <div
+            className="absolute inset-0 z-10"
+            style={{
+              backgroundColor:
+                heroSettings?.background_overlay_color || "#000000",
+              opacity: (heroSettings?.background_overlay_opacity || 50) / 100,
+            }}
+          ></div>
           <div
             className="w-full h-full bg-cover bg-center"
             style={{
