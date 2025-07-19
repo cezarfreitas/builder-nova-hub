@@ -36,12 +36,9 @@ interface LeadFormData {
 export default function Index() {
   const [formData, setFormData] = useState<LeadFormData>({
     name: "",
-    email: "",
-    phone: "",
-    company: "",
-    city: "",
-    experience: "",
-    message: "",
+    whatsapp: "",
+    hasCnpj: "",
+    storeType: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
