@@ -457,14 +457,11 @@ export default function Index() {
               </div>
 
               {/* Carousel */}
-              <div className="overflow-hidden" ref={emblaRef}>
-                <div className="flex">
+              <div className="embla" ref={emblaRef}>
+                <div className="embla__container">
                   {testimonials.map((testimonial, index) => (
-                    <div
-                      key={testimonial.id}
-                      className="flex-[0_0_100%] md:flex-[0_0_50%] lg:flex-[0_0_33.333%] min-w-0 pl-4"
-                    >
-                      <Card className="group hover:shadow-2xl transition-all duration-300 border-0 shadow-lg bg-white overflow-hidden relative h-full mr-4">
+                    <div key={testimonial.id} className="embla__slide">
+                      <Card className="group hover:shadow-2xl transition-all duration-300 border-0 shadow-lg bg-white overflow-hidden relative h-full">
                         <CardContent className="p-8 h-full flex flex-col">
                           {/* Quote Icon */}
                           <div className="absolute top-6 right-6 opacity-10 group-hover:opacity-20 transition-opacity">
