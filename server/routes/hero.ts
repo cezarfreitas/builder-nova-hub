@@ -7,10 +7,14 @@ const router = Router();
 // Schema para validação
 const HeroSettingsSchema = z.object({
   logo_url: z.string().optional().nullable(),
+  logo_width: z.number().min(50).max(400).optional().default(200),
+  logo_height: z.number().min(30).max(200).optional().default(80),
   main_title: z.string().min(1, "Título principal é obrigatório"),
   subtitle: z.string().optional().nullable(),
   description: z.string().optional().nullable(),
   background_image_url: z.string().optional().nullable(),
+  background_overlay_opacity: z.number().min(0).max(100).optional().default(50),
+  background_overlay_color: z.string().optional().default("#000000"),
   cta_text: z.string().optional().default("Descubra Como Funciona"),
 });
 
