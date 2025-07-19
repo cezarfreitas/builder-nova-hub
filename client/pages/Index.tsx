@@ -728,66 +728,6 @@ export default function Index() {
         </section>
       )}
 
-      {/* Footer */}
-      <footer className="py-16 bg-black border-t border-gray-800">
-        <div className="container mx-auto px-6 max-w-6xl">
-          <div className="grid md:grid-cols-4 gap-8">
-            <div className="md:col-span-2">
-              <div className="flex items-center mb-6">
-                <div className="w-12 h-12 bg-ecko-red rounded-lg flex items-center justify-center mr-4">
-                  <span className="text-white font-black text-xl">🦏</span>
-                </div>
-                <div>
-                  <h3 className="text-2xl font-black text-white">
-                    eckō unltd.
-                  </h3>
-                  <p className="text-ecko-red text-sm font-bold uppercase tracking-wider">
-                    Unlimited Potential
-                  </p>
-                </div>
-              </div>
-              <p className="text-gray-400 text-sm leading-relaxed mb-6">
-                Há mais de 25 anos criando tendências no streetwear mundial.
-                Junte-se a nós e faça parte desta história de sucesso que
-                continua crescendo!
-              </p>
-            </div>
-
-            <div>
-              <h4 className="font-bold text-white mb-4 uppercase tracking-wide text-sm">
-                Contato
-              </h4>
-              <div className="space-y-2 text-gray-400 text-sm">
-                <p>(11) 4000-2000</p>
-                <p>lojistas@ecko.com.br</p>
-                <p>São Paulo, SP - Brasil</p>
-              </div>
-            </div>
-
-            <div>
-              <h4 className="font-bold text-white mb-4 uppercase tracking-wide text-sm">
-                Suporte
-              </h4>
-              <div className="space-y-2 text-gray-400 text-sm">
-                <p className="hover:text-ecko-red cursor-pointer transition-colors">
-                  Central de Ajuda
-                </p>
-                <p className="hover:text-ecko-red cursor-pointer transition-colors">
-                  Política de Trocas
-                </p>
-                <p className="hover:text-ecko-red cursor-pointer transition-colors">
-                  Entrega e Logística
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500 text-xs">
-            <p>&copy; 2024 Ecko Unlimited. Todos os direitos reservados.</p>
-          </div>
-        </div>
-      </footer>
-
       {/* WhatsApp Float Button */}
       <div className="fixed bottom-6 right-6 z-50">
         <div className="relative">
