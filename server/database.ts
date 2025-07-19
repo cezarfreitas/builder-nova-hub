@@ -306,6 +306,84 @@ export async function initializeDatabase() {
       )
     `);
 
+    // Create sessions table for tracking user sessions
+    await connection.execute(`
+      CREATE TABLE IF NOT EXISTS sessions (
+        id VARCHAR(36) PRIMARY KEY,
+        user_agent TEXT,
+        ip_address VARCHAR(45),
+        referrer VARCHAR(500),
+        utm_source VARCHAR(100),
+        utm_medium VARCHAR(100),
+        utm_campaign VARCHAR(100),
+        utm_term VARCHAR(100),
+        utm_content VARCHAR(100),
+        country VARCHAR(50),
+        region VARCHAR(100),
+        city VARCHAR(100),
+        device_type ENUM('desktop', 'mobile', 'tablet') DEFAULT 'desktop',
+        browser VARCHAR(100),
+        os VARCHAR(100),
+        screen_resolution VARCHAR(20),
+        language VARCHAR(10),
+        timezone VARCHAR(50),
+        started_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        ended_at TIMESTAMP NULL,
+        duration_seconds INT DEFAULT 0,
+        page_views INT DEFAULT 0,
+        bounce BOOLEAN DEFAULT TRUE,
+        conversion BOOLEAN DEFAULT FALSE,
+        INDEX idx_started_at (started_at),
+        INDEX idx_conversion (conversion),
+        INDEX idx_utm_source (utm_source),
+        INDEX idx_device_type (device_type)
+      )
+    `);
+
+    // Create events table for tracking user actions
+    await connection.execute(`
+      CREATE TABLE IF NOT EXISTS events (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        session_id VARCHAR(36) NOT NULL,
+        event_type VARCHAR(100) NOT NULL,
+        event_category VARCHAR(100),
+        event_action VARCHAR(100),
+        event_label VARCHAR(100),
+        event_value TEXT,
+        page_url VARCHAR(500),
+        page_title VARCHAR(255),
+        element_id VARCHAR(100),
+        element_class VARCHAR(100),
+        element_text VARCHAR(255),
+        timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (session_id) REFERENCES sessions(id) ON DELETE CASCADE,
+        INDEX idx_session_id (session_id),
+        INDEX idx_event_type (event_type),
+        INDEX idx_timestamp (timestamp),
+        INDEX idx_event_category (event_category)
+      )
+    `);
+
+    // Create conversions table for tracking conversion events
+    await connection.execute(`
+      CREATE TABLE IF NOT EXISTS conversions (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        session_id VARCHAR(36) NOT NULL,
+        lead_id INT,
+        conversion_type ENUM('lead_form', 'phone_click', 'email_click', 'social_click', 'no_store_indication') NOT NULL,
+        conversion_value TEXT,
+        form_data TEXT,
+        page_url VARCHAR(500),
+        timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (session_id) REFERENCES sessions(id) ON DELETE CASCADE,
+        FOREIGN KEY (lead_id) REFERENCES leads(id) ON DELETE SET NULL,
+        INDEX idx_session_id (session_id),
+        INDEX idx_conversion_type (conversion_type),
+        INDEX idx_timestamp (timestamp),
+        INDEX idx_lead_id (lead_id)
+      )
+    `);
+
     console.log("✅ Database tables initialized and updated");
     connection.release();
     return true;
