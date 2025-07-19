@@ -7,6 +7,11 @@ import {
   updateLeadStatus,
   deleteLead,
 } from "./routes/leads";
+import {
+  getDailyStats,
+  sendWebhook,
+  checkDuplicates,
+} from "./routes/analytics";
 import { testConnection, initializeDatabase } from "./database";
 
 export function createServer() {
