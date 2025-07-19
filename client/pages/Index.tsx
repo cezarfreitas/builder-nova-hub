@@ -255,7 +255,9 @@ export default function Index() {
           <div
             className="w-full h-full bg-cover bg-center"
             style={{
-              backgroundImage: `url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080"%3E%3Cdefs%3E%3ClinearGradient id="hero-bg" x1="0%" y1="0%" x2="100%" y2="100%"%3E%3Cstop offset="0%" style="stop-color:%23000000;stop-opacity:1" /%3E%3Cstop offset="50%" style="stop-color:%23dc2626;stop-opacity:0.1" /%3E%3Cstop offset="100%" style="stop-color:%23000000;stop-opacity:1" /%3E%3C/linearGradient%3E%3Cpattern id="streetwear-pattern" patternUnits="userSpaceOnUse" width="100" height="100"%3E%3Ccircle cx="50" cy="50" r="2" fill="%23dc2626" opacity="0.1"/%3E%3Ccircle cx="25" cy="25" r="1" fill="%23dc2626" opacity="0.05"/%3E%3Ccircle cx="75" cy="75" r="1" fill="%23dc2626" opacity="0.05"/%3E%3C/pattern%3E%3C/defs%3E%3Crect width="100%" height="100%" fill="url(%23hero-bg)"/%3E%3Crect width="100%" height="100%" fill="url(%23streetwear-pattern)"/%3E%3C/svg%3E')`,
+              backgroundImage: heroSettings?.background_image_url
+                ? `url(${heroSettings.background_image_url})`
+                : `url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080"%3E%3Cdefs%3E%3ClinearGradient id="hero-bg" x1="0%" y1="0%" x2="100%" y2="100%"%3E%3Cstop offset="0%" style="stop-color:%23000000;stop-opacity:1" /%3E%3Cstop offset="50%" style="stop-color:%23dc2626;stop-opacity:0.1" /%3E%3Cstop offset="100%" style="stop-color:%23000000;stop-opacity:1" /%3E%3C/linearGradient%3E%3Cpattern id="streetwear-pattern" patternUnits="userSpaceOnUse" width="100" height="100"%3E%3Ccircle cx="50" cy="50" r="2" fill="%23dc2626" opacity="0.1"/%3E%3Ccircle cx="25" cy="25" r="1" fill="%23dc2626" opacity="0.05"/%3E%3Ccircle cx="75" cy="75" r="1" fill="%23dc2626" opacity="0.05"/%3E%3C/pattern%3E%3C/defs%3E%3Crect width="100%" height="100%" fill="url(%23hero-bg)"/%3E%3Crect width="100%" height="100%" fill="url(%23streetwear-pattern)"/%3E%3C/svg%3E')`,
             }}
           ></div>
         </div>
@@ -264,31 +266,56 @@ export default function Index() {
         <div className="relative z-20 text-center px-6 max-w-4xl mx-auto">
           {/* Logo */}
           <div className="flex items-center justify-center mb-8">
-            <div className="w-20 h-20 bg-ecko-red rounded-xl flex items-center justify-center mr-6">
-              <span className="text-white font-black text-3xl">🦏</span>
-            </div>
+            {heroSettings?.logo_url ? (
+              <img
+                src={heroSettings.logo_url}
+                alt="Logo"
+                className="w-20 h-20 object-contain mr-6"
+              />
+            ) : (
+              <div className="w-20 h-20 bg-ecko-red rounded-xl flex items-center justify-center mr-6">
+                <span className="text-white font-black text-3xl">🦏</span>
+              </div>
+            )}
             <div className="text-left">
               <h1 className="text-4xl lg:text-5xl font-black text-white">
                 eckō unltd.
               </h1>
               <p className="text-ecko-red text-lg font-bold uppercase tracking-wider">
-                Programa de Revendedores
+                {heroSettings?.subtitle || "Programa de Revendedores"}
               </p>
             </div>
           </div>
 
           {/* Main Message */}
           <h2 className="text-4xl lg:text-7xl font-black text-white mb-6 leading-tight">
-            TRANSFORME SUA
-            <br />
-            <span className="text-ecko-red">PAIXÃO</span>
-            <br />
-            EM <span className="text-ecko-red">LUCRO</span>
+            {heroSettings?.main_title ? (
+              heroSettings.main_title.split("\n").map((line, index) => (
+                <div key={index}>
+                  {index === 0 ? (
+                    line
+                  ) : (
+                    <span className="text-ecko-red">{line}</span>
+                  )}
+                  {index < heroSettings.main_title.split("\n").length - 1 && (
+                    <br />
+                  )}
+                </div>
+              ))
+            ) : (
+              <>
+                TRANSFORME SUA
+                <br />
+                <span className="text-ecko-red">PAIXÃO</span>
+                <br />
+                EM <span className="text-ecko-red">LUCRO</span>
+              </>
+            )}
           </h2>
 
           <p className="text-xl lg:text-2xl text-gray-300 mb-12 font-medium max-w-2xl mx-auto">
-            Seja um revendedor oficial da marca de streetwear mais desejada do
-            Brasil e multiplique suas vendas!
+            {heroSettings?.description ||
+              "Seja um revendedor oficial da marca de streetwear mais desejada do Brasil e multiplique suas vendas!"}
           </p>
 
           {/* Scroll Down Button */}
@@ -298,7 +325,7 @@ export default function Index() {
               variant="outline"
               className="mb-8 bg-transparent border-2 border-ecko-red text-ecko-red hover:bg-ecko-red hover:text-white font-bold px-8 py-4 h-auto text-lg uppercase tracking-wider transition-all duration-300"
             >
-              Descubra Como Funciona
+              {heroSettings?.cta_text || "Descubra Como Funciona"}
               <ChevronDown className="ml-2 w-6 h-6" />
             </Button>
 
