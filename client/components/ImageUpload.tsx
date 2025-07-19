@@ -57,6 +57,8 @@ export default function ImageUpload({
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
   const [isLoadingGallery, setIsLoadingGallery] = useState(false);
   const [urlInput, setUrlInput] = useState(value);
+  const [isDragging, setIsDragging] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileSelect = async (
