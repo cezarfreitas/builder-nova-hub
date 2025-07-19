@@ -221,6 +221,25 @@ export async function initializeDatabase() {
       console.log("✅ Sample gallery images created");
     }
 
+    // Insert sample testimonials if none exist
+    const [testimonialRows] = await connection.execute(
+      "SELECT COUNT(*) as count FROM testimonials",
+    );
+    const testimonialCount = (testimonialRows as any)[0].count;
+
+    if (testimonialCount === 0) {
+      await connection.execute(`
+        INSERT INTO testimonials (name, company, role, content, avatar_url, rating, is_active) VALUES
+        ('Ricardo Silva', 'Silva Streetwear', 'Proprietário', 'Trabalhar com a Ecko mudou completamente meu negócio. As vendas triplicaram em apenas 6 meses e os clientes sempre voltam para comprar mais. A qualidade dos produtos é excepcional!', 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face', 5, TRUE),
+        ('Ana Carolina', 'Street Style Store', 'CEO', 'Como mulher empreendedora, encontrei na Ecko o parceiro ideal. O suporte é incrível e os produtos vendem sozinhos. Minha loja cresceu 400% desde que me tornei revendedora oficial.', 'https://images.unsplash.com/photo-1494790108755-2616b612b647?w=150&h=150&fit=crop&crop=face', 5, TRUE),
+        ('Marcus Santos', 'Urban Fashion', 'Diretor Comercial', 'A Ecko não é só uma marca, é um estilo de vida. Nossos clientes são apaixonados pelos produtos e isso reflete diretamente nas nossas vendas. Melhor decisão que já tomei!', 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face', 5, TRUE),
+        ('Fernanda Costa', 'FC Moda Urbana', 'Fundadora', 'Em 2 anos como revendedora Ecko, consegui abrir mais 3 lojas. A marca tem uma força incrível no mercado e os jovens amam. O retorno sobre investimento é fantástico!', 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=150&h=150&fit=crop&crop=face', 5, TRUE),
+        ('Rafael Oliveira', 'Street Kings', 'Sócio-Proprietário', 'A Ecko sempre foi referência em streetwear. Desde que me tornei revendedor oficial, minha margem de lucro aumentou significativamente. A qualidade justifica cada centavo.', 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face', 5, TRUE),
+        ('Juliana Mendes', 'JM Fashion', 'Proprietária', 'Comecei pequena e hoje tenho uma das maiores lojas de streetwear da região. A Ecko me deu credibilidade no mercado e produtos que realmente vendem. Recomendo de olhos fechados!', 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face', 5, TRUE)
+      `);
+      console.log("✅ Sample testimonials created");
+    }
+
     // Insert sample leads if none exist
     const [leadRows] = await connection.execute(
       "SELECT COUNT(*) as count FROM leads",
