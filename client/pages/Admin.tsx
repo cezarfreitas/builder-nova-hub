@@ -541,16 +541,19 @@ export default function Admin() {
                 <Button
                   className="bg-ecko-red hover:bg-ecko-red-dark"
                   onClick={() =>
-                    window.open(`mailto:${selectedLead.email}`, "_blank")
+                    window.open(
+                      `https://wa.me/55${selectedLead.whatsapp.replace(/\D/g, "")}`,
+                      "_blank",
+                    )
                   }
                 >
-                  <Mail className="w-4 h-4 mr-2" />
-                  Enviar Email
+                  <Phone className="w-4 h-4 mr-2" />
+                  WhatsApp
                 </Button>
                 <Button
                   variant="outline"
                   onClick={() =>
-                    window.open(`tel:${selectedLead.phone}`, "_blank")
+                    window.open(`tel:${selectedLead.whatsapp}`, "_blank")
                   }
                 >
                   <Phone className="w-4 h-4 mr-2" />
