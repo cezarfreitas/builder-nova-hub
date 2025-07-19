@@ -91,6 +91,9 @@ export default function Admin() {
       setTotal(data.total || 0);
     } catch (error) {
       console.error("Error fetching leads:", error);
+      // Set empty array as fallback
+      setLeads([]);
+      setTotal(0);
     } finally {
       setLoading(false);
     }
