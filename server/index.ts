@@ -7,6 +7,7 @@ import {
   updateLeadStatus,
   deleteLead,
 } from "./routes/leads";
+import { testConnection, initializeDatabase } from "./database";
 
 export function createServer() {
   const app = express();
