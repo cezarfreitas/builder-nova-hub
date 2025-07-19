@@ -402,20 +402,20 @@ export default function Index() {
               {/* Right Form */}
               <div className="relative">
                 <div className="absolute -inset-4 bg-gradient-to-r from-ecko-red via-red-500 to-ecko-red-dark rounded-3xl opacity-20 blur-xl"></div>
-                <Card className="relative shadow-2xl border-0 bg-white/95 backdrop-blur-lg">
+                <Card className="relative shadow-2xl border-2 border-ecko-red/30 bg-gray-900/95 backdrop-blur-lg">
                   <CardContent className="p-8">
                     <div className="text-center mb-6">
-                      <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                      <h2 className="text-2xl font-bold text-white mb-2">
                         Cadastro de Revendedor
                       </h2>
-                      <p className="text-gray-600">
+                      <p className="text-gray-300">
                         Preencha os dados para receber nossa proposta
                       </p>
                     </div>
 
                     <form onSubmit={handleSubmit} className="space-y-5">
                       <div>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                        <label className="block text-sm font-semibold text-gray-300 mb-2">
                           Nome Completo
                         </label>
                         <Input
@@ -424,12 +424,12 @@ export default function Index() {
                           onChange={handleInputChange}
                           placeholder="Digite seu nome"
                           required
-                          className="h-12 border-gray-300 focus:border-ecko-red focus:ring-ecko-red/20"
+                          className="h-12 bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-ecko-red focus:ring-ecko-red/20"
                         />
                       </div>
 
                       <div>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                        <label className="block text-sm font-semibold text-gray-300 mb-2">
                           WhatsApp
                         </label>
                         <Input
@@ -439,12 +439,12 @@ export default function Index() {
                           onChange={handleInputChange}
                           placeholder="(11) 99999-9999"
                           required
-                          className="h-12 border-gray-300 focus:border-ecko-red focus:ring-ecko-red/20"
+                          className="h-12 bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-ecko-red focus:ring-ecko-red/20"
                         />
                       </div>
 
                       <div>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                        <label className="block text-sm font-semibold text-gray-300 mb-2">
                           Tem CNPJ?
                         </label>
                         <select
@@ -452,7 +452,7 @@ export default function Index() {
                           value={formData.hasCnpj}
                           onChange={handleInputChange}
                           required
-                          className="w-full h-12 border border-gray-300 rounded-md px-4 bg-white text-gray-900 focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none"
+                          className="w-full h-12 border border-gray-700 rounded-md px-4 bg-gray-800 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none"
                         >
                           <option value="">Selecione uma opção</option>
                           <option value="sim">Sim, tenho CNPJ</option>
@@ -464,7 +464,7 @@ export default function Index() {
                       </div>
 
                       <div>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                        <label className="block text-sm font-semibold text-gray-300 mb-2">
                           Tipo de Loja
                         </label>
                         <select
@@ -472,7 +472,7 @@ export default function Index() {
                           value={formData.storeType}
                           onChange={handleInputChange}
                           required
-                          className="w-full h-12 border border-gray-300 rounded-md px-4 bg-white text-gray-900 focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none"
+                          className="w-full h-12 border border-gray-700 rounded-md px-4 bg-gray-800 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none"
                         >
                           <option value="">Selecione o tipo</option>
                           <option value="fisica">Loja Física</option>
@@ -503,7 +503,7 @@ export default function Index() {
                         )}
                       </Button>
 
-                      <p className="text-xs text-gray-500 text-center">
+                      <p className="text-xs text-gray-400 text-center">
                         🔒 Seus dados estão seguros • Cadastro 100% gratuito
                       </p>
                     </form>
