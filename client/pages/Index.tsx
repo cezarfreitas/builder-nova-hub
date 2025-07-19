@@ -13,14 +13,17 @@ import {
   CheckCircle,
   Star,
   Users,
-  Zap,
+  TrendingUp,
   Shield,
   Phone,
   Mail,
   MapPin,
   Award,
-  Rocket,
+  ShoppingBag,
   Target,
+  Crown,
+  Zap,
+  Globe,
 } from "lucide-react";
 
 interface LeadFormData {
@@ -28,6 +31,8 @@ interface LeadFormData {
   email: string;
   phone: string;
   company: string;
+  city: string;
+  experience: string;
   message: string;
 }
 
@@ -37,6 +42,8 @@ export default function Index() {
     email: "",
     phone: "",
     company: "",
+    city: "",
+    experience: "",
     message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -69,6 +76,8 @@ export default function Index() {
           email: "",
           phone: "",
           company: "",
+          city: "",
+          experience: "",
           message: "",
         });
       }
@@ -88,18 +97,18 @@ export default function Index() {
               <CheckCircle className="w-12 h-12 text-green-600" />
             </div>
             <h2 className="text-3xl font-bold text-ecko-gray mb-4">
-              Obrigado!
+              Parabéns!
             </h2>
             <p className="text-gray-600 mb-6 text-lg">
-              Seu cadastro foi enviado com sucesso. Nossa equipe entrará em
-              contato em breve para apresentar as melhores soluções para seu
-              negócio.
+              Recebemos seu interesse em se tornar um Revendedor Oficial Ecko.
+              Nossa equipe entrará em contato em até 24h para apresentar nossa
+              proposta exclusiva!
             </p>
             <Button
               onClick={() => setIsSubmitted(false)}
               className="bg-ecko-red hover:bg-ecko-red-dark text-white px-8 py-3 text-lg"
             >
-              Enviar Outro Lead
+              Enviar Nova Solicitação
             </Button>
           </CardContent>
         </Card>
@@ -125,87 +134,85 @@ export default function Index() {
             <div className="space-y-10 text-center lg:text-left">
               {/* Logo */}
               <div className="flex items-center justify-center lg:justify-start space-x-4 mb-8">
-                <div className="w-20 h-20 bg-gradient-to-br from-ecko-red to-ecko-red-dark rounded-2xl flex items-center justify-center shadow-2xl">
-                  <span className="text-white font-black text-3xl">E</span>
-                </div>
-                <div>
-                  <h1 className="text-5xl lg:text-6xl font-black text-white tracking-tight">
-                    ECKO
-                  </h1>
-                  <p className="text-ecko-red text-lg font-semibold tracking-wide">
-                    SOLUÇÕES DIGITAIS
-                  </p>
-                </div>
+                <img
+                  src="https://cdn.builder.io/api/v1/image/assets%2F3a038822502b49b39691cbaf44da5f95%2Feccf0f847f4c4b16a6f95a4577bb4282?format=webp&width=800"
+                  alt="Ecko Unlimited Logo"
+                  className="h-20 w-auto"
+                />
               </div>
 
               {/* Main Headline */}
               <div className="space-y-6">
                 <div className="inline-flex items-center bg-ecko-red/20 backdrop-blur-sm border border-ecko-red/30 rounded-full px-6 py-3">
-                  <Rocket className="w-5 h-5 text-ecko-red mr-2" />
+                  <Crown className="w-5 h-5 text-ecko-red mr-2" />
                   <span className="text-ecko-red font-semibold">
-                    #1 em Transformação Digital
+                    Marca #1 em Streetwear
                   </span>
                 </div>
 
-                <h2 className="text-4xl lg:text-6xl font-black text-white leading-tight">
-                  Revolucione seu
+                <h1 className="text-4xl lg:text-6xl font-black text-white leading-tight">
+                  Seja um
                   <span className="block bg-gradient-to-r from-ecko-red via-red-400 to-ecko-red bg-clip-text text-transparent">
-                    NEGÓCIO
+                    REVENDEDOR
                   </span>
-                  com tecnologia
-                </h2>
+                  <span className="block text-ecko-red">OFICIAL ECKO</span>
+                </h1>
 
                 <p className="text-xl lg:text-2xl text-gray-300 leading-relaxed max-w-2xl">
-                  Potencialize seus resultados com nossas soluções inovadoras.
-                  Mais de{" "}
-                  <span className="text-ecko-red font-bold">
-                    1000+ empresas
-                  </span>{" "}
-                  já transformaram seus negócios conosco.
+                  Transforme sua paixão por{" "}
+                  <span className="text-ecko-red font-bold">streetwear</span> em
+                  um negócio lucrativo com uma das marcas mais icônicas do
+                  Brasil
                 </p>
+              </div>
+
+              {/* Benefits */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="flex items-center bg-white/10 backdrop-blur-sm rounded-lg px-4 py-3">
+                  <CheckCircle className="w-6 h-6 text-green-400 mr-3 flex-shrink-0" />
+                  <span className="text-white font-medium">
+                    Cadastro Gratuito
+                  </span>
+                </div>
+                <div className="flex items-center bg-white/10 backdrop-blur-sm rounded-lg px-4 py-3">
+                  <CheckCircle className="w-6 h-6 text-green-400 mr-3 flex-shrink-0" />
+                  <span className="text-white font-medium">
+                    Suporte Completo
+                  </span>
+                </div>
+                <div className="flex items-center bg-white/10 backdrop-blur-sm rounded-lg px-4 py-3">
+                  <CheckCircle className="w-6 h-6 text-green-400 mr-3 flex-shrink-0" />
+                  <span className="text-white font-medium">
+                    Produtos Exclusivos
+                  </span>
+                </div>
+                <div className="flex items-center bg-white/10 backdrop-blur-sm rounded-lg px-4 py-3">
+                  <CheckCircle className="w-6 h-6 text-green-400 mr-3 flex-shrink-0" />
+                  <span className="text-white font-medium">
+                    Margem Atrativa
+                  </span>
+                </div>
               </div>
 
               {/* Stats */}
               <div className="grid grid-cols-3 gap-8 py-8">
                 <div className="text-center">
                   <div className="text-4xl lg:text-5xl font-black text-ecko-red">
-                    1000+
+                    500+
                   </div>
-                  <div className="text-gray-400 font-medium">
-                    Empresas Atendidas
-                  </div>
+                  <div className="text-gray-400 font-medium">Revendedores</div>
                 </div>
                 <div className="text-center">
                   <div className="text-4xl lg:text-5xl font-black text-ecko-red">
-                    99%
+                    25+
                   </div>
-                  <div className="text-gray-400 font-medium">Satisfação</div>
+                  <div className="text-gray-400 font-medium">Anos</div>
                 </div>
                 <div className="text-center">
                   <div className="text-4xl lg:text-5xl font-black text-ecko-red">
-                    24/7
+                    1M+
                   </div>
-                  <div className="text-gray-400 font-medium">Suporte</div>
-                </div>
-              </div>
-
-              {/* Benefits */}
-              <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
-                <div className="flex items-center bg-white/10 backdrop-blur-sm rounded-full px-4 py-2">
-                  <CheckCircle className="w-5 h-5 text-green-400 mr-2" />
-                  <span className="text-white font-medium">
-                    Implementação Rápida
-                  </span>
-                </div>
-                <div className="flex items-center bg-white/10 backdrop-blur-sm rounded-full px-4 py-2">
-                  <CheckCircle className="w-5 h-5 text-green-400 mr-2" />
-                  <span className="text-white font-medium">ROI Garantido</span>
-                </div>
-                <div className="flex items-center bg-white/10 backdrop-blur-sm rounded-full px-4 py-2">
-                  <CheckCircle className="w-5 h-5 text-green-400 mr-2" />
-                  <span className="text-white font-medium">
-                    Suporte Premium
-                  </span>
+                  <div className="text-gray-400 font-medium">Clientes</div>
                 </div>
               </div>
             </div>
@@ -216,13 +223,13 @@ export default function Index() {
               <Card className="relative shadow-2xl border-0 bg-white/95 backdrop-blur-lg">
                 <CardHeader className="text-center pb-8">
                   <div className="w-16 h-16 bg-gradient-to-br from-ecko-red to-ecko-red-dark rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Target className="w-8 h-8 text-white" />
+                    <ShoppingBag className="w-8 h-8 text-white" />
                   </div>
                   <CardTitle className="text-3xl font-bold text-ecko-gray">
-                    Solicite uma Proposta
+                    Quero Ser Revendedor Agora
                   </CardTitle>
                   <p className="text-gray-600 text-lg">
-                    Preencha o formulário e receba uma proposta personalizada em
+                    Preencha o formulário e receba nossa proposta exclusiva em
                     até 24h
                   </p>
                 </CardHeader>
@@ -245,14 +252,14 @@ export default function Index() {
 
                       <div>
                         <label className="text-sm font-semibold text-ecko-gray mb-2 block">
-                          Email Corporativo *
+                          Email *
                         </label>
                         <Input
                           name="email"
                           type="email"
                           value={formData.email}
                           onChange={handleInputChange}
-                          placeholder="seu@empresa.com.br"
+                          placeholder="seu@email.com"
                           required
                           className="h-12 border-gray-300 focus:border-ecko-red focus:ring-ecko-red"
                         />
@@ -261,7 +268,7 @@ export default function Index() {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                           <label className="text-sm font-semibold text-ecko-gray mb-2 block">
-                            Telefone *
+                            Telefone/WhatsApp *
                           </label>
                           <Input
                             name="phone"
@@ -275,13 +282,14 @@ export default function Index() {
                         </div>
                         <div>
                           <label className="text-sm font-semibold text-ecko-gray mb-2 block">
-                            Empresa
+                            Cidade/Estado *
                           </label>
                           <Input
-                            name="company"
-                            value={formData.company}
+                            name="city"
+                            value={formData.city}
                             onChange={handleInputChange}
-                            placeholder="Nome da empresa"
+                            placeholder="São Paulo/SP"
+                            required
                             className="h-12 border-gray-300 focus:border-ecko-red focus:ring-ecko-red"
                           />
                         </div>
@@ -289,13 +297,39 @@ export default function Index() {
 
                       <div>
                         <label className="text-sm font-semibold text-ecko-gray mb-2 block">
-                          Como podemos ajudar?
+                          Já possui loja/negócio?
+                        </label>
+                        <Input
+                          name="company"
+                          value={formData.company}
+                          onChange={handleInputChange}
+                          placeholder="Nome da loja (se tiver)"
+                          className="h-12 border-gray-300 focus:border-ecko-red focus:ring-ecko-red"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="text-sm font-semibold text-ecko-gray mb-2 block">
+                          Experiência com vendas
+                        </label>
+                        <Input
+                          name="experience"
+                          value={formData.experience}
+                          onChange={handleInputChange}
+                          placeholder="Ex: 2 anos vendendo roupas online"
+                          className="h-12 border-gray-300 focus:border-ecko-red focus:ring-ecko-red"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="text-sm font-semibold text-ecko-gray mb-2 block">
+                          Por que quer ser revendedor Ecko?
                         </label>
                         <Textarea
                           name="message"
                           value={formData.message}
                           onChange={handleInputChange}
-                          placeholder="Descreva suas necessidades e objetivos..."
+                          placeholder="Conte-nos sua motivação e objetivos..."
                           rows={4}
                           className="border-gray-300 focus:border-ecko-red focus:ring-ecko-red"
                         />
@@ -313,14 +347,19 @@ export default function Index() {
                           Enviando...
                         </div>
                       ) : (
-                        "Solicitar Proposta Gratuita"
+                        "QUERO SER REVENDEDOR AGORA"
                       )}
                     </Button>
 
-                    <p className="text-xs text-gray-500 text-center">
-                      🔒 Seus dados estão seguros conosco. Ao enviar, você
-                      concorda com nossa política de privacidade.
-                    </p>
+                    <div className="text-center space-y-2">
+                      <p className="text-xs text-gray-500">
+                        🔒 Seus dados estão seguros conosco
+                      </p>
+                      <p className="text-xs text-gray-600">
+                        ✓ Cadastro gratuito ✓ Suporte completo ✓ Produtos
+                        exclusivos
+                      </p>
+                    </div>
                   </form>
                 </CardContent>
               </Card>
@@ -329,19 +368,20 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Features Section */}
+      {/* Why Ecko Section */}
       <section className="py-20 bg-white relative">
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="text-center mb-16">
             <Badge className="bg-ecko-red/10 text-ecko-red border-ecko-red/20 mb-4 text-lg px-6 py-2">
-              Por que ECKO?
+              Por que escolher a Ecko?
             </Badge>
             <h2 className="text-4xl lg:text-5xl font-bold text-ecko-gray mb-6">
-              Soluções que <span className="text-ecko-red">Transformam</span>
+              A marca que <span className="text-ecko-red">mais cresce</span> no
+              streetwear
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Oferecemos tecnologia de ponta com suporte humano especializado
-              para garantir o sucesso do seu projeto
+              Com mais de 25 anos de história, a Ecko é sinônimo de qualidade,
+              estilo e inovação no universo do streetwear brasileiro
             </p>
           </div>
 
@@ -349,14 +389,29 @@ export default function Index() {
             <Card className="text-center border-0 shadow-xl hover:shadow-2xl transition-all duration-300 group">
               <CardContent className="p-8">
                 <div className="w-20 h-20 bg-gradient-to-br from-ecko-red to-ecko-red-dark rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
-                  <Zap className="w-10 h-10 text-white" />
+                  <TrendingUp className="w-10 h-10 text-white" />
                 </div>
                 <h3 className="text-2xl font-bold text-ecko-gray mb-4">
-                  Performance Extrema
+                  Margem Atrativa
                 </h3>
                 <p className="text-gray-600 text-lg">
-                  Soluções otimizadas que entregam resultados excepcionais e
-                  aumentam sua produtividade em até 300%
+                  Margens competitivas e condições especiais para revendedores
+                  oficiais. Lucre mais vendendo produtos de qualidade premium
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center border-0 shadow-xl hover:shadow-2xl transition-all duration-300 group">
+              <CardContent className="p-8">
+                <div className="w-20 h-20 bg-gradient-to-br from-ecko-red to-ecko-red-dark rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+                  <Globe className="w-10 h-10 text-white" />
+                </div>
+                <h3 className="text-2xl font-bold text-ecko-gray mb-4">
+                  Marca Reconhecida
+                </h3>
+                <p className="text-gray-600 text-lg">
+                  Ecko é uma das marcas mais lembradas e desejadas do Brasil.
+                  Venda produtos que os clientes já conhecem e confiam
                 </p>
               </CardContent>
             </Card>
@@ -367,26 +422,11 @@ export default function Index() {
                   <Shield className="w-10 h-10 text-white" />
                 </div>
                 <h3 className="text-2xl font-bold text-ecko-gray mb-4">
-                  Segurança Total
+                  Suporte Total
                 </h3>
                 <p className="text-gray-600 text-lg">
-                  Proteção de dados de última geração com os mais altos padrões
-                  de segurança e conformidade do mercado
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="text-center border-0 shadow-xl hover:shadow-2xl transition-all duration-300 group">
-              <CardContent className="p-8">
-                <div className="w-20 h-20 bg-gradient-to-br from-ecko-red to-ecko-red-dark rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
-                  <Award className="w-10 h-10 text-white" />
-                </div>
-                <h3 className="text-2xl font-bold text-ecko-gray mb-4">
-                  Suporte Premium
-                </h3>
-                <p className="text-gray-600 text-lg">
-                  Equipe especializada disponível 24/7 para garantir o sucesso
-                  contínuo da sua operação
+                  Treinamento completo, materiais de marketing, suporte de
+                  vendas e acompanhamento dedicado para seu sucesso
                 </p>
               </CardContent>
             </Card>
@@ -394,52 +434,51 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Social Proof */}
+      {/* Success Stories */}
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="text-center mb-16">
             <h2 className="text-4xl lg:text-5xl font-bold text-ecko-gray mb-8">
-              Empresas que <span className="text-ecko-red">Confiam</span> na
-              ECKO
+              Histórias de <span className="text-ecko-red">Sucesso</span>
             </h2>
             <div className="flex items-center justify-center space-x-2 mb-8">
               {[...Array(5)].map((_, i) => (
                 <Star key={i} className="w-8 h-8 fill-ecko-red text-ecko-red" />
               ))}
               <span className="text-2xl font-bold text-ecko-gray ml-4">
-                4.9/5
+                4.8/5
               </span>
-              <span className="text-gray-600">(+500 avaliações)</span>
+              <span className="text-gray-600">(+200 avaliações)</span>
             </div>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                company: "TechCorp Ltda",
-                testimonial:
-                  "A ECKO revolucionou nossos processos. Tivemos um aumento de 400% na eficiência operacional!",
-                author: "Maria Silva",
-                role: "CEO",
-                image: "MS",
+                name: "Lucas Silva",
+                location: "São Paulo/SP",
+                story:
+                  "Em 6 meses como revendedor Ecko, consegui triplicar minha renda! A marca vende sozinha.",
+                sales: "R$ 15k/mês",
+                image: "LS",
               },
               {
-                company: "InnovateX",
-                testimonial:
-                  "Implementação perfeita e suporte excepcional. O ROI foi alcançado em apenas 2 meses.",
-                author: "João Santos",
-                role: "CTO",
-                image: "JS",
-              },
-              {
-                company: "GrowthCo",
-                testimonial:
-                  "Resultados surpreendentes! A melhor decisão estratégica que tomamos este ano.",
-                author: "Ana Costa",
-                role: "Diretora Comercial",
+                name: "Ana Costa",
+                location: "Rio de Janeiro/RJ",
+                story:
+                  "Comecei vendendo online e hoje tenho minha própria loja física. A Ecko mudou minha vida!",
+                sales: "R$ 25k/mês",
                 image: "AC",
               },
-            ].map((testimonial, index) => (
+              {
+                name: "Pedro Santos",
+                location: "Belo Horizonte/MG",
+                story:
+                  "O suporte da equipe Ecko é incrível. Sempre me ajudam a vender mais e melhor!",
+                sales: "R$ 18k/mês",
+                image: "PS",
+              },
+            ].map((story, index) => (
               <Card key={index} className="border-0 shadow-xl bg-white p-2">
                 <CardContent className="p-8">
                   <div className="flex items-center space-x-2 mb-6">
@@ -451,24 +490,27 @@ export default function Index() {
                     ))}
                   </div>
                   <p className="text-gray-700 mb-6 text-lg italic leading-relaxed">
-                    "{testimonial.testimonial}"
+                    "{story.story}"
                   </p>
-                  <div className="flex items-center space-x-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-ecko-red to-ecko-red-dark rounded-full flex items-center justify-center">
-                      <span className="text-white font-bold">
-                        {testimonial.image}
-                      </span>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <div className="w-12 h-12 bg-gradient-to-br from-ecko-red to-ecko-red-dark rounded-full flex items-center justify-center">
+                        <span className="text-white font-bold">
+                          {story.image}
+                        </span>
+                      </div>
+                      <div>
+                        <div className="font-bold text-ecko-gray text-lg">
+                          {story.name}
+                        </div>
+                        <div className="text-gray-500">{story.location}</div>
+                      </div>
                     </div>
-                    <div>
-                      <div className="font-bold text-ecko-gray text-lg">
-                        {testimonial.author}
+                    <div className="text-right">
+                      <div className="text-ecko-red font-bold text-lg">
+                        {story.sales}
                       </div>
-                      <div className="text-ecko-red font-medium">
-                        {testimonial.role}
-                      </div>
-                      <div className="text-gray-500 text-sm">
-                        {testimonial.company}
-                      </div>
+                      <div className="text-gray-500 text-sm">faturamento</div>
                     </div>
                   </div>
                 </CardContent>
@@ -484,65 +526,61 @@ export default function Index() {
           <div className="grid md:grid-cols-4 gap-8">
             <div className="space-y-6">
               <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-gradient-to-br from-ecko-red to-ecko-red-dark rounded-xl flex items-center justify-center">
-                  <span className="text-white font-bold text-xl">E</span>
-                </div>
-                <div>
-                  <span className="text-2xl font-black">ECKO</span>
-                  <p className="text-ecko-red text-sm font-semibold">
-                    SOLUÇÕES DIGITAIS
-                  </p>
-                </div>
+                <img
+                  src="https://cdn.builder.io/api/v1/image/assets%2F3a038822502b49b39691cbaf44da5f95%2Feccf0f847f4c4b16a6f95a4577bb4282?format=webp&width=800"
+                  alt="Ecko Logo"
+                  className="h-12 w-auto"
+                />
               </div>
               <p className="text-gray-300 text-lg">
-                Transformando negócios através da tecnologia e inovação há mais
-                de 10 anos.
+                Há mais de 25 anos criando tendências no streetwear brasileiro.
+                Junte-se a nós e faça parte desta história de sucesso!
               </p>
               <div className="flex space-x-4">
                 <div className="w-10 h-10 bg-ecko-red rounded-full flex items-center justify-center cursor-pointer hover:bg-ecko-red-dark transition-colors">
                   <span className="text-sm font-bold">f</span>
                 </div>
                 <div className="w-10 h-10 bg-ecko-red rounded-full flex items-center justify-center cursor-pointer hover:bg-ecko-red-dark transition-colors">
-                  <span className="text-sm font-bold">in</span>
+                  <span className="text-sm font-bold">ig</span>
                 </div>
                 <div className="w-10 h-10 bg-ecko-red rounded-full flex items-center justify-center cursor-pointer hover:bg-ecko-red-dark transition-colors">
-                  <span className="text-sm font-bold">ig</span>
+                  <span className="text-sm font-bold">tt</span>
                 </div>
               </div>
             </div>
 
             <div>
-              <h4 className="font-bold mb-6 text-xl">Soluções</h4>
+              <h4 className="font-bold mb-6 text-xl">Para Revendedores</h4>
               <ul className="space-y-3 text-gray-300">
                 <li className="hover:text-ecko-red cursor-pointer transition-colors">
-                  Transformação Digital
+                  Como Funciona
                 </li>
                 <li className="hover:text-ecko-red cursor-pointer transition-colors">
-                  Analytics Avançado
+                  Catálogo de Produtos
                 </li>
                 <li className="hover:text-ecko-red cursor-pointer transition-colors">
-                  Automação de Processos
+                  Tabela de Preços
                 </li>
                 <li className="hover:text-ecko-red cursor-pointer transition-colors">
-                  Consultoria Estratégica
+                  Materiais de Marketing
                 </li>
               </ul>
             </div>
 
             <div>
-              <h4 className="font-bold mb-6 text-xl">Empresa</h4>
+              <h4 className="font-bold mb-6 text-xl">Suporte</h4>
               <ul className="space-y-3 text-gray-300">
                 <li className="hover:text-ecko-red cursor-pointer transition-colors">
-                  Sobre a ECKO
+                  Central de Ajuda
                 </li>
                 <li className="hover:text-ecko-red cursor-pointer transition-colors">
-                  Nossa Equipe
+                  Política de Trocas
                 </li>
                 <li className="hover:text-ecko-red cursor-pointer transition-colors">
-                  Cases de Sucesso
+                  Entrega e Logística
                 </li>
                 <li className="hover:text-ecko-red cursor-pointer transition-colors">
-                  Trabalhe Conosco
+                  Financeiro
                 </li>
               </ul>
             </div>
@@ -552,11 +590,11 @@ export default function Index() {
               <div className="space-y-4 text-gray-300">
                 <div className="flex items-center space-x-3">
                   <Phone className="w-5 h-5 text-ecko-red" />
-                  <span>(11) 3000-0000</span>
+                  <span>(11) 4000-2000</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <Mail className="w-5 h-5 text-ecko-red" />
-                  <span>contato@ecko.com.br</span>
+                  <span>revendedores@ecko.com.br</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <MapPin className="w-5 h-5 text-ecko-red" />
@@ -575,9 +613,7 @@ export default function Index() {
           </div>
 
           <div className="border-t border-gray-700 mt-12 pt-8 text-center text-gray-400">
-            <p>
-              &copy; 2024 ECKO Soluções Digitais. Todos os direitos reservados.
-            </p>
+            <p>&copy; 2024 Ecko Unlimited. Todos os direitos reservados.</p>
           </div>
         </div>
       </footer>
