@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { useState } from "react";
+import { useAuth } from "../contexts/AuthContext";
 
 interface AdminLayoutProps {
   children: React.ReactNode;
