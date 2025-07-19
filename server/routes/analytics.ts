@@ -114,6 +114,23 @@ export const sendWebhook: RequestHandler = async (req, res) => {
 
     const lead = leadResult[0];
 
+    const requestPayload = JSON.stringify({
+      id_lead: lead.id,
+      name: lead.name,
+      whatsapp: lead.whatsapp,
+      hasCnpj: lead.hasCnpj,
+      storeType: lead.storeType,
+      status: lead.status,
+      created_at: lead.created_at,
+    });
+
+    // Check for existing attempt count
+    const [attemptResult] = await pool.execute<RowDataPacket[]>(
+      "SELECT COUNT(*) as count FROM webhook_logs WHERE lead_id = ?",
+      [id],
+    );
+    const attemptNumber = (attemptResult[0].count || 0) + 1;
+
     try {
       // Send webhook
       const webhookResponse = await fetch(webhook_url, {
@@ -121,19 +138,29 @@ export const sendWebhook: RequestHandler = async (req, res) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          id_lead: lead.id,
-          name: lead.name,
-          whatsapp: lead.whatsapp,
-          hasCnpj: lead.hasCnpj,
-          storeType: lead.storeType,
-          status: lead.status,
-          created_at: lead.created_at,
-        }),
-        timeout: 10000, // 10 second timeout
+        body: requestPayload,
       });
 
       const responseText = await webhookResponse.text();
+      const responseHeaders = JSON.stringify(
+        Object.fromEntries(webhookResponse.headers.entries()),
+      );
+
+      // Log successful webhook
+      await pool.execute(
+        `INSERT INTO webhook_logs 
+         (lead_id, webhook_url, request_payload, response_status, response_body, response_headers, attempt_number, success) 
+         VALUES (?, ?, ?, ?, ?, ?, ?, TRUE)`,
+        [
+          id,
+          webhook_url,
+          requestPayload,
+          webhookResponse.status,
+          responseText,
+          responseHeaders,
+          attemptNumber,
+        ],
+      );
 
       // Update lead with webhook result
       await pool.execute(
@@ -148,8 +175,17 @@ export const sendWebhook: RequestHandler = async (req, res) => {
         message: "Webhook enviado com sucesso",
         webhook_response: responseText,
         status_code: webhookResponse.status,
+        attempt_number: attemptNumber,
       });
-    } catch (webhookError) {
+    } catch (webhookError: any) {
+      // Log failed webhook
+      await pool.execute(
+        `INSERT INTO webhook_logs 
+         (lead_id, webhook_url, request_payload, attempt_number, success, error_message) 
+         VALUES (?, ?, ?, ?, FALSE, ?)`,
+        [id, webhook_url, requestPayload, attemptNumber, webhookError.message],
+      );
+
       // Update lead with webhook failure
       await pool.execute(
         `UPDATE leads 
@@ -162,6 +198,7 @@ export const sendWebhook: RequestHandler = async (req, res) => {
         success: false,
         message: "Erro ao enviar webhook",
         error: webhookError.message,
+        attempt_number: attemptNumber,
       });
     }
   } catch (error) {
@@ -206,6 +243,32 @@ export const checkDuplicates: RequestHandler = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Erro ao verificar duplicados",
+    });
+  }
+};
+
+// GET /api/analytics/webhook-logs/:id - Get webhook logs for a specific lead
+export const getWebhookLogs: RequestHandler = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const [logs] = await pool.execute<RowDataPacket[]>(
+      `SELECT * FROM webhook_logs 
+       WHERE lead_id = ? 
+       ORDER BY sent_at DESC`,
+      [id],
+    );
+
+    res.json({
+      success: true,
+      logs: logs,
+      total: logs.length,
+    });
+  } catch (error) {
+    console.error("Error fetching webhook logs:", error);
+    res.status(500).json({
+      success: false,
+      message: "Erro ao buscar logs do webhook",
     });
   }
 };
