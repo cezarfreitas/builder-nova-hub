@@ -120,6 +120,7 @@ export default function LeadsAnalytics() {
   const fetchLeads = async () => {
     try {
       setLoading(true);
+      setError(null);
       const params = new URLSearchParams({
         page: currentPage.toString(),
         limit: "20",
@@ -132,7 +133,7 @@ export default function LeadsAnalytics() {
       const response = await fetch(`/api/leads?${params}`);
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(`Erro ${response.status}: ${response.statusText}`);
       }
 
       const data: LeadsResponse = await response.json();
@@ -140,6 +141,9 @@ export default function LeadsAnalytics() {
       setTotal(data.total || 0);
     } catch (error) {
       console.error("Error fetching leads:", error);
+      setError(
+        error instanceof Error ? error.message : "Erro ao carregar leads",
+      );
       setLeads([]);
       setTotal(0);
     } finally {
