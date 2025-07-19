@@ -756,6 +756,102 @@ export default function Index() {
         </div>
       </section>
 
+      {/* Testimonials Section */}
+      {testimonials.length > 0 && (
+        <section className="py-20 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden">
+          {/* Background Pattern */}
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-ecko-red/5 via-transparent to-ecko-red/5"></div>
+          </div>
+
+          <div className="max-w-7xl mx-auto px-6 relative z-10">
+            {/* Section Header */}
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+                O que nossos <span className="text-ecko-red">revendedores</span>{" "}
+                dizem
+              </h2>
+              <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+                Depoimentos reais de parceiros que transformaram suas paixões em
+                negócios lucrativos com a Ecko
+              </p>
+            </div>
+
+            {/* Testimonials Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {testimonials.slice(0, 6).map((testimonial, index) => (
+                <div
+                  key={testimonial.id}
+                  className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50 hover:border-ecko-red/30 transition-all duration-300 hover:transform hover:scale-105"
+                >
+                  {/* Rating Stars */}
+                  <div className="flex mb-4">
+                    {[...Array(testimonial.rating || 5)].map((_, i) => (
+                      <svg
+                        key={i}
+                        className="w-5 h-5 text-yellow-400 fill-current"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                    ))}
+                  </div>
+
+                  {/* Testimonial Content */}
+                  <blockquote className="text-gray-300 mb-6 text-sm leading-relaxed">
+                    "{testimonial.content}"
+                  </blockquote>
+
+                  {/* Author Info */}
+                  <div className="flex items-center space-x-3">
+                    {testimonial.avatar_url ? (
+                      <img
+                        src={testimonial.avatar_url}
+                        alt={testimonial.name}
+                        className="w-12 h-12 rounded-full object-cover border-2 border-ecko-red/20"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(testimonial.name)}&background=dc2626&color=ffffff&size=48&bold=true`;
+                        }}
+                      />
+                    ) : (
+                      <div className="w-12 h-12 bg-ecko-red rounded-full flex items-center justify-center">
+                        <span className="text-white font-bold text-lg">
+                          {testimonial.name.charAt(0).toUpperCase()}
+                        </span>
+                      </div>
+                    )}
+                    <div>
+                      <div className="font-semibold text-white">
+                        {testimonial.name}
+                      </div>
+                      {testimonial.company && (
+                        <div className="text-sm text-gray-400">
+                          {testimonial.role ? `${testimonial.role}, ` : ""}
+                          {testimonial.company}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Show More Button */}
+            {testimonials.length > 6 && (
+              <div className="text-center mt-12">
+                <Button
+                  variant="outline"
+                  className="border-ecko-red text-ecko-red hover:bg-ecko-red hover:text-white transition-colors duration-300"
+                >
+                  Ver Mais Depoimentos
+                </Button>
+              </div>
+            )}
+          </div>
+        </section>
+      )}
+
       {/* Gallery Section */}
       <section className="py-20 bg-gray-900 relative overflow-hidden">
         {/* Background Pattern */}
