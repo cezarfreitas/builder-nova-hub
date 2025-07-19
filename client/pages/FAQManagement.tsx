@@ -259,7 +259,7 @@ export default function FAQManagement() {
     }
   };
 
-  if (isLoading) {
+    if (isLoading) {
     return (
       <AdminLayout>
         <div className="flex items-center justify-center py-20">
@@ -272,14 +272,13 @@ export default function FAQManagement() {
     );
   }
 
-  return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-7xl mx-auto">
+    return (
+    <AdminLayout>
+      <div className="space-y-6">
         {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">
                 Gerenciar Perguntas Frequentes
               </h1>
               <p className="text-gray-600 mt-2">
