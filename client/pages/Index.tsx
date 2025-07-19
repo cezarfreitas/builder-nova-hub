@@ -443,49 +443,47 @@ export default function Index() {
                         />
                       </div>
 
-                      <div>
-                        <label className="block text-sm font-semibold text-gray-300 mb-2">
-                          Tem CNPJ?
-                        </label>
-                        <select
-                          name="hasCnpj"
-                          value={formData.hasCnpj}
-                          onChange={handleInputChange}
-                          required
-                          className="w-full h-12 border border-gray-700 rounded-md px-4 bg-gray-800 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none"
-                        >
-                          <option value="">Selecione uma opção</option>
-                          <option value="sim">Sim, tenho CNPJ</option>
-                          <option value="nao">Não tenho CNPJ</option>
-                          <option value="processo">
-                            Em processo de abertura
-                          </option>
-                        </select>
-                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-semibold text-gray-300 mb-2">
+                            Tem CNPJ?
+                          </label>
+                          <select
+                            name="hasCnpj"
+                            value={formData.hasCnpj}
+                            onChange={handleInputChange}
+                            required
+                            className="w-full h-12 border border-gray-700 rounded-md px-4 bg-gray-800 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none"
+                          >
+                            <option value="">Selecione</option>
+                            <option value="sim">Sim</option>
+                            <option value="nao">Não</option>
+                            <option value="processo">Em processo</option>
+                          </select>
+                        </div>
 
-                      <div>
-                        <label className="block text-sm font-semibold text-gray-300 mb-2">
-                          Tipo de Loja
-                        </label>
-                        <select
-                          name="storeType"
-                          value={formData.storeType}
-                          onChange={handleInputChange}
-                          required
-                          className="w-full h-12 border border-gray-700 rounded-md px-4 bg-gray-800 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none"
-                        >
-                          <option value="">Selecione o tipo</option>
-                          <option value="fisica">Loja Física</option>
-                          <option value="online">Loja Online</option>
-                          <option value="ambas">Física + Online</option>
-                          <option value="vendedor">
-                            Vendedor/Representante
-                          </option>
-                          <option value="marketplace">Marketplace</option>
-                          <option value="ainda-nao-tenho">
-                            Ainda não tenho loja
-                          </option>
-                        </select>
+                        <div>
+                          <label className="block text-sm font-semibold text-gray-300 mb-2">
+                            Tipo de Loja
+                          </label>
+                          <select
+                            name="storeType"
+                            value={formData.storeType}
+                            onChange={handleInputChange}
+                            required
+                            className="w-full h-12 border border-gray-700 rounded-md px-4 bg-gray-800 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none"
+                          >
+                            <option value="">Selecione</option>
+                            <option value="fisica">Física</option>
+                            <option value="online">Online</option>
+                            <option value="ambas">Física + Online</option>
+                            <option value="vendedor">Vendedor</option>
+                            <option value="marketplace">Marketplace</option>
+                            <option value="ainda-nao-tenho">
+                              Ainda não tenho
+                            </option>
+                          </select>
+                        </div>
                       </div>
 
                       <Button
