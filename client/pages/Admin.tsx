@@ -482,7 +482,7 @@ export default function Admin() {
 
                 <div className="space-y-4">
                   <div className="flex items-center space-x-3">
-                    <Building className="w-5 h-5 text-ecko-blue" />
+                    <Building className="w-5 h-5 text-ecko-red" />
                     <div>
                       <p className="font-semibold">
                         {selectedLead.company || "Não informado"}
@@ -492,7 +492,7 @@ export default function Admin() {
                   </div>
 
                   <div className="flex items-center space-x-3">
-                    <Calendar className="w-5 h-5 text-ecko-blue" />
+                    <Calendar className="w-5 h-5 text-ecko-red" />
                     <div>
                       <p className="font-semibold">
                         {selectedLead.created_at
