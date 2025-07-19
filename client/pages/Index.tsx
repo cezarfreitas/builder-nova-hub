@@ -690,40 +690,83 @@ export default function Index() {
 
       {/* FAQ Section */}
       {faqs.length > 0 && (
-        <section className="py-20 bg-gray-50">
-          <div className="container mx-auto px-6 max-w-4xl">
+        <section className="py-20 bg-black relative overflow-hidden">
+          {/* Background Pattern */}
+          <div className="absolute inset-0">
+            <div
+              className={
+                'w-full h-full bg-[url(\'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"%3E%3Cdefs%3E%3Cpattern id="faq-pattern" patternUnits="userSpaceOnUse" width="40" height="40"%3E%3Ccircle cx="20" cy="20" r="1" fill="%23dc2626" opacity="0.1"/%3E%3C/pattern%3E%3C/defs%3E%3Crect width="100%" height="100%" fill="%23000000"/%3E%3Crect width="100%" height="100%" fill="url(%23faq-pattern)"/%3E%3C/svg%3E\')] bg-cover bg-center'
+              }
+            ></div>
+          </div>
+
+          <div className="container mx-auto px-6 max-w-6xl relative z-10">
             <div className="text-center mb-16">
-              <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-                Dúvidas <span className="text-ecko-red">Respondidas</span>
+              <div className="inline-flex items-center bg-ecko-red/20 backdrop-blur-sm border border-ecko-red/30 rounded-full px-6 py-3 mb-6">
+                <HelpCircle className="w-5 h-5 text-ecko-red mr-2" />
+                <span className="text-ecko-red font-bold uppercase tracking-wider">
+                  Perguntas Frequentes
+                </span>
+              </div>
+              <h2 className="text-4xl lg:text-6xl font-black text-white mb-6 leading-tight">
+                DÚVIDAS <span className="text-ecko-red">RESPONDIDAS</span>
               </h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              <p className="text-xl lg:text-2xl text-gray-300 max-w-3xl mx-auto font-medium">
                 Encontre respostas para as principais dúvidas sobre nosso
                 programa de revendedores
               </p>
             </div>
 
-            <Card className="shadow-xl border-0">
-              <CardContent className="p-8">
-                <Accordion type="single" collapsible className="space-y-4">
-                  {faqs
-                    .sort((a, b) => a.display_order - b.display_order)
-                    .map((faq) => (
-                      <AccordionItem
-                        key={faq.id}
-                        value={`faq-${faq.id}`}
-                        className="border-b border-gray-200 last:border-b-0"
-                      >
-                        <AccordionTrigger className="text-left text-lg font-semibold text-gray-900 hover:text-ecko-red transition-colors py-6">
-                          {faq.question}
-                        </AccordionTrigger>
-                        <AccordionContent className="text-gray-600 text-base leading-relaxed pb-6">
-                          {faq.answer}
-                        </AccordionContent>
-                      </AccordionItem>
-                    ))}
-                </Accordion>
-              </CardContent>
-            </Card>
+            <div className="max-w-4xl mx-auto">
+              <Card className="shadow-2xl border-2 border-ecko-red/30 bg-gray-900/95 backdrop-blur-lg">
+                <CardContent className="p-8">
+                  <Accordion type="single" collapsible className="space-y-2">
+                    {faqs
+                      .sort((a, b) => a.display_order - b.display_order)
+                      .map((faq, index) => (
+                        <AccordionItem
+                          key={faq.id}
+                          value={`faq-${faq.id}`}
+                          className="group border-b border-gray-700 last:border-b-0 rounded-lg overflow-hidden hover:bg-gray-800/50 transition-all duration-300"
+                        >
+                          <AccordionTrigger className="text-left text-lg font-bold text-white hover:text-ecko-red transition-colors py-6 px-4 group-hover:bg-gray-800/30 [&>svg]:text-ecko-red">
+                            <div className="flex items-center">
+                              <span className="bg-ecko-red/20 text-ecko-red font-black text-sm rounded-full w-8 h-8 flex items-center justify-center mr-4 group-hover:bg-ecko-red group-hover:text-white transition-all">
+                                {String(index + 1).padStart(2, "0")}
+                              </span>
+                              {faq.question}
+                            </div>
+                          </AccordionTrigger>
+                          <AccordionContent className="text-gray-300 text-base leading-relaxed pb-6 px-4 pl-16">
+                            {faq.answer}
+                          </AccordionContent>
+                        </AccordionItem>
+                      ))}
+                  </Accordion>
+                </CardContent>
+              </Card>
+
+              {/* CTA Section */}
+              <div className="text-center mt-12">
+                <div className="bg-gradient-to-r from-ecko-red/10 to-ecko-red-dark/10 rounded-2xl p-8 border border-ecko-red/20 backdrop-blur-sm">
+                  <h3 className="text-2xl font-bold text-white mb-4">
+                    Ainda tem dúvidas?
+                  </h3>
+                  <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
+                    Nossa equipe está pronta para ajudar você a se tornar um
+                    revendedor oficial da marca de streetwear mais desejada do
+                    Brasil
+                  </p>
+                  <Button
+                    onClick={() => setShowForm(true)}
+                    className="bg-ecko-red hover:bg-ecko-red-dark text-white px-8 py-4 font-bold text-lg shadow-2xl hover:shadow-ecko-red/25 transition-all duration-300 group uppercase tracking-wider"
+                  >
+                    FALE COM NOSSA EQUIPE
+                    <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
       )}
