@@ -235,7 +235,7 @@ export default function HeroManagement() {
                     className="mt-1"
                   />
                   <p className="text-sm text-gray-500 mt-1">
-                    Deixe vazio para usar o logo padrão (🦏)
+                    Deixe vazio para usar o logo padrão da Ecko
                   </p>
                 </div>
                 {formData.logo_url && (
