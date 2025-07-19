@@ -54,11 +54,15 @@ export default function Index() {
   const [faqs, setFaqs] = useState<FAQ[]>([]);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [galleryImages, setGalleryImages] = useState<GalleryImage[]>([]);
+  const [themeSettings, setThemeSettings] = useState<ThemeSettings | null>(
+    null,
+  );
 
   useEffect(() => {
     fetchHeroSettings();
     fetchFAQs();
     fetchGalleryImages();
+    fetchThemeSettings();
   }, []);
 
   const fetchHeroSettings = async () => {
