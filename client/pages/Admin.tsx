@@ -177,7 +177,7 @@ export default function Admin() {
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <Link to="/" className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-r from-ecko-orange to-ecko-blue rounded-lg flex items-center justify-center">
+              <div className="w-10 h-10 bg-gradient-to-r from-ecko-red to-ecko-red-dark rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold">E</span>
               </div>
               <span className="text-xl font-bold text-ecko-gray">
