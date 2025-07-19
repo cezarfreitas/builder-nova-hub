@@ -8,6 +8,8 @@ export interface Lead {
   email: string;
   phone: string;
   company?: string;
+  city?: string;
+  experience?: string;
   message?: string;
   created_at?: string;
   status?: "new" | "contacted" | "qualified" | "converted";
