@@ -557,7 +557,7 @@ export default function GalleryManagement() {
                   </div>
 
                   {/* Quick Actions Overlay */}
-                  <div className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-50 transition-all duration-200 flex items-center justify-center opacity-0 hover:opacity-100">
+                  <div className="absolute inset-0 image-overlay opacity-0 hover:opacity-100 transition-all duration-300 flex items-center justify-center">
                     <div className="flex gap-2">
                       <Button
                         size="sm"
