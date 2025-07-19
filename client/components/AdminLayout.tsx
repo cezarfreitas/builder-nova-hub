@@ -150,7 +150,10 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                 <Eye className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" />
                 Ver Site
               </Link>
-              <button className="group flex items-center w-full px-4 py-3 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-colors">
+              <button
+                onClick={logout}
+                className="group flex items-center w-full px-4 py-3 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-colors"
+              >
                 <LogOut className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" />
                 Sair
               </button>
