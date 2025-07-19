@@ -144,6 +144,7 @@ export default function ImageUpload({
   const handleUrlChange = (newUrl: string) => {
     setUrlInput(newUrl);
     onChange(newUrl);
+    setError(null); // Clear any previous errors
   };
 
   const handleDragOver = (e: React.DragEvent) => {
