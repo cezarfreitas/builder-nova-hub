@@ -5,12 +5,9 @@ import { z } from "zod";
 // Validation schema for lead submission
 const leadSchema = z.object({
   name: z.string().min(1, "Nome é obrigatório"),
-  email: z.string().email("Email inválido"),
-  phone: z.string().min(1, "Telefone é obrigatório"),
-  company: z.string().optional(),
-  city: z.string().optional(),
-  experience: z.string().optional(),
-  message: z.string().optional(),
+  whatsapp: z.string().min(1, "WhatsApp é obrigatório"),
+  hasCnpj: z.string().min(1, "Informação sobre CNPJ é obrigatória"),
+  storeType: z.string().min(1, "Tipo de loja é obrigatório"),
 });
 
 // In-memory storage for development (replace with MySQL later)
