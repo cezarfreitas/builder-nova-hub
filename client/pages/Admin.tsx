@@ -456,7 +456,7 @@ export default function Admin() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-4">
                   <div className="flex items-center space-x-3">
-                    <Users className="w-5 h-5 text-ecko-blue" />
+                    <Users className="w-5 h-5 text-ecko-red" />
                     <div>
                       <p className="font-semibold">{selectedLead.name}</p>
                       <p className="text-sm text-gray-600">Nome</p>
