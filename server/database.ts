@@ -51,8 +51,15 @@ export async function initializeDatabase() {
         hasCnpj ENUM('sim', 'nao', 'processo') NOT NULL,
         storeType VARCHAR(100) NOT NULL,
         status ENUM('new', 'contacted', 'qualified', 'converted') DEFAULT 'new',
+        is_duplicate BOOLEAN DEFAULT FALSE,
+        webhook_sent BOOLEAN DEFAULT FALSE,
+        webhook_response TEXT,
+        webhook_sent_at TIMESTAMP NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        INDEX idx_created_date (DATE(created_at)),
+        INDEX idx_whatsapp (whatsapp),
+        INDEX idx_webhook_sent (webhook_sent)
       )
     `);
 
