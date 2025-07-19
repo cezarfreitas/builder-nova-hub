@@ -94,22 +94,18 @@ export const getLeads: RequestHandler = async (req, res) => {
     );
     const offset = (pageNum - 1) * limitNum;
 
-    let query = "SELECT * FROM leads";
+    let query = "SELECT * FROM leads ORDER BY created_at DESC";
     let countQuery = "SELECT COUNT(*) as total FROM leads";
     const queryParams: any[] = [];
     const countParams: any[] = [];
 
     // Filter by status if provided
     if (status && typeof status === "string") {
-      query += " WHERE status = ?";
-      countQuery += " WHERE status = ?";
+      query = "SELECT * FROM leads WHERE status = ? ORDER BY created_at DESC";
+      countQuery = "SELECT COUNT(*) as total FROM leads WHERE status = ?";
       queryParams.push(status);
       countParams.push(status);
     }
-
-    // Add ordering and pagination
-    query += " ORDER BY created_at DESC LIMIT ? OFFSET ?";
-    queryParams.push(limitNum, offset);
 
     // Execute both queries
     const [leads] = await pool.execute<LeadRow[]>(query, queryParams);
