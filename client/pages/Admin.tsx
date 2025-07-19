@@ -401,6 +401,12 @@ export default function Admin() {
             Ações Rápidas
           </h2>
           <div className="flex flex-wrap gap-4">
+            <Link to="/admin/hero">
+              <Button className="bg-purple-600 hover:bg-purple-700 text-white">
+                <Settings className="w-4 h-4 mr-2" />
+                Gerenciar Hero
+              </Button>
+            </Link>
             <Link to="/admin/testimonials">
               <Button className="bg-ecko-red hover:bg-ecko-red-dark text-white">
                 <MessageSquare className="w-4 h-4 mr-2" />
