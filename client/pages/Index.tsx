@@ -56,6 +56,18 @@ export default function Index() {
     }
   };
 
+  const fetchFAQs = async () => {
+    try {
+      const response = await fetch("/api/faqs?active_only=true");
+      if (response.ok) {
+        const data: FAQsResponse = await response.json();
+        setFaqs(data.faqs || []);
+      }
+    } catch (error) {
+      console.error("Error fetching FAQs:", error);
+    }
+  };
+
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
