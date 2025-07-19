@@ -40,5 +40,10 @@ export function createServer() {
   app.put("/api/leads/:id", updateLeadStatus);
   app.delete("/api/leads/:id", deleteLead);
 
+  // Analytics API routes
+  app.get("/api/analytics/daily", getDailyStats);
+  app.post("/api/analytics/webhook/:id", sendWebhook);
+  app.post("/api/analytics/check-duplicates", checkDuplicates);
+
   return app;
 }
