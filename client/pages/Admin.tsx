@@ -464,7 +464,7 @@ export default function Admin() {
                   </div>
 
                   <div className="flex items-center space-x-3">
-                    <Mail className="w-5 h-5 text-ecko-blue" />
+                    <Mail className="w-5 h-5 text-ecko-red" />
                     <div>
                       <p className="font-semibold">{selectedLead.email}</p>
                       <p className="text-sm text-gray-600">Email</p>
@@ -472,7 +472,7 @@ export default function Admin() {
                   </div>
 
                   <div className="flex items-center space-x-3">
-                    <Phone className="w-5 h-5 text-ecko-blue" />
+                    <Phone className="w-5 h-5 text-ecko-red" />
                     <div>
                       <p className="font-semibold">{selectedLead.phone}</p>
                       <p className="text-sm text-gray-600">Telefone</p>
