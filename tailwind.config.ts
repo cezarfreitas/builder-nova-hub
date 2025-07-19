@@ -23,6 +23,14 @@ export default {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
         },
+        ecko: {
+          orange: "hsl(var(--ecko-orange))",
+          "orange-dark": "hsl(var(--ecko-orange-dark))",
+          blue: "hsl(var(--ecko-blue))",
+          "blue-dark": "hsl(var(--ecko-blue-dark))",
+          gray: "hsl(var(--ecko-gray))",
+          "gray-light": "hsl(var(--ecko-gray-light))",
+        },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
