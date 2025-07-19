@@ -350,9 +350,15 @@ export default function Admin() {
                         <TableCell className="font-medium">
                           {lead.name}
                         </TableCell>
-                        <TableCell>{lead.email}</TableCell>
-                        <TableCell>{lead.phone}</TableCell>
-                        <TableCell>{lead.company || "-"}</TableCell>
+                        <TableCell>{lead.whatsapp}</TableCell>
+                        <TableCell>
+                          {lead.hasCnpj === "sim"
+                            ? "Sim"
+                            : lead.hasCnpj === "nao"
+                              ? "Não"
+                              : "Em processo"}
+                        </TableCell>
+                        <TableCell>{lead.storeType}</TableCell>
                         <TableCell>
                           <Select
                             value={lead.status}
