@@ -198,6 +198,24 @@ export async function initializeDatabase() {
       console.log("✅ Sample gallery images created");
     }
 
+    // Insert sample leads if none exist
+    const [leadRows] = await connection.execute(
+      "SELECT COUNT(*) as count FROM leads",
+    );
+    const leadCount = (leadRows as any)[0].count;
+
+    if (leadCount === 0) {
+      await connection.execute(`
+        INSERT INTO leads (name, whatsapp, hasCnpj, storeType, status, is_duplicate, webhook_sent) VALUES
+        ('João Silva', '11999888777', 'sim', 'Loja Física', 'new', FALSE, FALSE),
+        ('Maria Santos', '11988777666', 'sim', 'E-commerce', 'contacted', FALSE, TRUE),
+        ('Pedro Costa', '11977666555', 'sim', 'Loja Física', 'qualified', FALSE, TRUE),
+        ('Ana Oliveira', '11966555444', 'sim', 'Multi-canal', 'converted', FALSE, TRUE),
+        ('Carlos Souza', '11955444333', 'sim', 'E-commerce', 'new', FALSE, FALSE)
+      `);
+      console.log("✅ Sample leads created");
+    }
+
     // Create seo_settings table if it doesn't exist
     await connection.execute(`
       CREATE TABLE IF NOT EXISTS seo_settings (
