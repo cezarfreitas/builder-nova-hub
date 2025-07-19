@@ -122,35 +122,30 @@ export default function AdminDashboard() {
   const recentStats = dailyStats?.stats.slice(0, 7) || [];
   const today = recentStats[0];
 
-  return (
-    <div className="space-y-8">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">
-            Painel Administrativo
-          </h1>
-          <p className="text-gray-600 mt-1">
-            Gerencie todos os aspectos da sua landing page Ecko
-          </p>
-        </div>
-        <div className="flex gap-2">
-          <Link to="/" target="_blank">
-            <Button variant="outline" className="flex items-center gap-2">
-              <Eye className="w-4 h-4" />
-              Ver Landing Page
+    return (
+    <AdminLayout>
+      <div className="space-y-8">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">
+              Painel Administrativo
+            </h1>
+            <p className="text-gray-600 mt-1">
+              Gerencie todos os aspectos da sua landing page Ecko
+            </p>
+          </div>
+          <div className="flex gap-2">
+            <Button
+              onClick={fetchDailyStats}
+              variant="outline"
+              className="flex items-center gap-2"
+            >
+              <RefreshCw className="w-4 h-4" />
+              Atualizar
             </Button>
-          </Link>
-          <Button
-            onClick={fetchDailyStats}
-            variant="outline"
-            className="flex items-center gap-2"
-          >
-            <RefreshCw className="w-4 h-4" />
-            Atualizar
-          </Button>
+          </div>
         </div>
-      </div>
 
       {/* Stats Overview */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
