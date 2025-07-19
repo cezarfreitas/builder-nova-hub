@@ -67,12 +67,9 @@ export default function Index() {
         setIsSubmitted(true);
         setFormData({
           name: "",
-          email: "",
-          phone: "",
-          company: "",
-          city: "",
-          experience: "",
-          message: "",
+          whatsapp: "",
+          hasCnpj: "",
+          storeType: "",
         });
       }
     } catch (error) {
