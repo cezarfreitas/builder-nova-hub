@@ -250,17 +250,11 @@ export default function LeadsAnalytics() {
       lead.storeType.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
-  return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div className="flex items-center gap-4">
-          <Link to="/admin">
-            <Button variant="outline" size="sm">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Voltar ao Admin
-            </Button>
-          </Link>
+    return (
+    <AdminLayout>
+      <div className="space-y-6">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
             <h1 className="text-3xl font-bold text-gray-900">
               Analytics de Leads
@@ -269,7 +263,6 @@ export default function LeadsAnalytics() {
               Análise detalhada de leads e conversões
             </p>
           </div>
-        </div>
         <div className="flex gap-2">
           <Button variant="outline" className="flex items-center gap-2">
             <Download className="w-4 h-4" />
