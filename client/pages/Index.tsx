@@ -270,15 +270,23 @@ export default function Index() {
               <img
                 src={heroSettings.logo_url}
                 alt="Logo"
-                className="h-20 object-contain mt-11 mr-6"
-                style={{ width: "370px" }}
+                className="object-contain mr-6"
+                style={{
+                  width: "500px",
+                  height: "120px",
+                  margin: "auto 24px 0 0",
+                }}
               />
             ) : (
               <img
                 src="https://www.ntktextil.com.br/wp-content/uploads/2022/08/Logo-Ecko.png"
                 alt="Logo"
-                className="h-20 object-contain mt-11 mr-6"
-                style={{ width: "370px" }}
+                className="object-contain mr-6"
+                style={{
+                  width: "500px",
+                  height: "120px",
+                  margin: "auto 24px 0 0",
+                }}
               />
             )}
           </div>
