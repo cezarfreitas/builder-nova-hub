@@ -46,6 +46,7 @@ import {
   TrendingUp,
   Activity,
   Webhook,
+  MessageSquare,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
