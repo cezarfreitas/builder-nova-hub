@@ -306,6 +306,26 @@ export async function initializeDatabase() {
       )
     `);
 
+    // Create uploaded_files table for image uploads
+    await connection.execute(`
+      CREATE TABLE IF NOT EXISTS uploaded_files (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        filename VARCHAR(255) NOT NULL UNIQUE,
+        original_name VARCHAR(255) NOT NULL,
+        file_path VARCHAR(500) NOT NULL,
+        file_url VARCHAR(500) NOT NULL,
+        file_size INT NOT NULL,
+        mime_type VARCHAR(100) NOT NULL,
+        alt_text VARCHAR(255),
+        used_for VARCHAR(100),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        INDEX idx_used_for (used_for),
+        INDEX idx_created_at (created_at),
+        INDEX idx_filename (filename)
+      )
+    `);
+
     // Create sessions table for tracking user sessions
     await connection.execute(`
       CREATE TABLE IF NOT EXISTS sessions (
