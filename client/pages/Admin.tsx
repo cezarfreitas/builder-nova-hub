@@ -399,6 +399,12 @@ export default function Admin() {
             Ações Rápidas
           </h2>
           <div className="flex flex-wrap gap-4">
+            <Link to="/admin/testimonials">
+              <Button className="bg-ecko-red hover:bg-ecko-red-dark text-white">
+                <MessageSquare className="w-4 h-4 mr-2" />
+                Gerenciar Depoimentos
+              </Button>
+            </Link>
             <Button
               onClick={checkDuplicates}
               className="bg-orange-600 hover:bg-orange-700 text-white"
