@@ -116,8 +116,13 @@ export const getLeads: RequestHandler = async (req, res) => {
 
     const total = countResult[0].total;
 
+    // Apply pagination in memory for now (will optimize later)
+    const startIndex = offset;
+    const endIndex = startIndex + limitNum;
+    const paginatedLeads = leads.slice(startIndex, endIndex);
+
     // Map database results to Lead interface
-    const mappedLeads: Lead[] = leads.map((row) => ({
+    const mappedLeads: Lead[] = paginatedLeads.map((row) => ({
       id: row.id,
       name: row.name,
       whatsapp: row.whatsapp,
