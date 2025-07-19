@@ -17,6 +17,7 @@ import {
   ArrowRight,
   MessageCircle,
   ChevronDown,
+  HelpCircle,
 } from "lucide-react";
 import { HeroSettings, HeroResponse, FAQ, FAQsResponse } from "@shared/api";
 
