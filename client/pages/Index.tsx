@@ -553,16 +553,41 @@ export default function Index() {
       </section>
 
       {/* Benefits Section */}
-      <section className="py-20 bg-black">
-        <div className="container mx-auto px-6 max-w-6xl">
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <section className="py-20 bg-black relative overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0 bg-gradient-to-r from-ecko-red/20 via-transparent to-ecko-red/20"></div>
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-ecko-red/5 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-ecko-red/5 rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="container mx-auto px-6 max-w-6xl relative z-10">
+          {/* Section Header */}
+          <div className="text-center mb-16">
+            <Badge className="bg-ecko-red text-white px-6 py-2 text-sm font-semibold uppercase tracking-widest mb-6">
+              Por que escolher a Ecko?
+            </Badge>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 uppercase tracking-tight">
+              VANTAGENS EXCLUSIVAS
+              <span className="block text-2xl md:text-3xl text-ecko-red mt-2">
+                para nossos parceiros
+              </span>
+            </h2>
+            <p className="text-gray-300 text-lg max-w-3xl mx-auto leading-relaxed">
+              Descubra os benefícios únicos que fazem da Ecko a escolha certa
+              para impulsionar seu negócio no mundo da moda streetwear
+            </p>
+          </div>
+
+          {/* Benefits Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Marca Internacional */}
-            <Card className="bg-black border-2 border-ecko-red hover:bg-gray-900 transition-all duration-300 group">
-              <CardContent className="p-8 text-center">
-                <div className="w-16 h-16 bg-ecko-red/20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-ecko-red/30 transition-colors">
-                  <Globe className="w-8 h-8 text-ecko-red" />
+            <Card className="bg-gray-900/50 backdrop-blur-sm border-2 border-gray-700 hover:border-ecko-red hover:bg-gray-800/70 transition-all duration-500 group transform hover:-translate-y-2 hover:scale-105">
+              <CardContent className="p-8 text-center relative">
+                <div className="w-20 h-20 bg-gradient-to-br from-ecko-red/30 to-ecko-red/10 rounded-2xl flex items-center justify-center mx-auto mb-8 group-hover:from-ecko-red/50 group-hover:to-ecko-red/20 transition-all duration-500 group-hover:rotate-6">
+                  <Globe className="w-10 h-10 text-ecko-red group-hover:scale-110 transition-transform duration-300" />
                 </div>
-                <h3 className="text-xl font-bold text-ecko-red mb-4 uppercase tracking-wide">
+                <h3 className="text-xl font-bold text-white mb-4 uppercase tracking-wide group-hover:text-ecko-red transition-colors duration-300">
                   MARCA INTERNACIONAL
                 </h3>
                 <p className="text-gray-300 text-sm leading-relaxed">
@@ -570,16 +595,17 @@ export default function Index() {
                   presença no Brasil e grande apelo junto ao público jovem. Uma
                   marca que só o nome vende sozinho.
                 </p>
+                <div className="absolute inset-0 bg-gradient-to-t from-ecko-red/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg"></div>
               </CardContent>
             </Card>
 
             {/* Pronta Entrega */}
-            <Card className="bg-black border-2 border-ecko-red hover:bg-gray-900 transition-all duration-300 group">
-              <CardContent className="p-8 text-center">
-                <div className="w-16 h-16 bg-ecko-red/20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-ecko-red/30 transition-colors">
-                  <Truck className="w-8 h-8 text-ecko-red" />
+            <Card className="bg-gray-900/50 backdrop-blur-sm border-2 border-gray-700 hover:border-ecko-red hover:bg-gray-800/70 transition-all duration-500 group transform hover:-translate-y-2 hover:scale-105">
+              <CardContent className="p-8 text-center relative">
+                <div className="w-20 h-20 bg-gradient-to-br from-ecko-red/30 to-ecko-red/10 rounded-2xl flex items-center justify-center mx-auto mb-8 group-hover:from-ecko-red/50 group-hover:to-ecko-red/20 transition-all duration-500 group-hover:rotate-6">
+                  <Truck className="w-10 h-10 text-ecko-red group-hover:scale-110 transition-transform duration-300" />
                 </div>
-                <h3 className="text-xl font-bold text-ecko-red mb-4 uppercase tracking-wide">
+                <h3 className="text-xl font-bold text-white mb-4 uppercase tracking-wide group-hover:text-ecko-red transition-colors duration-300">
                   PRONTA ENTREGA
                 </h3>
                 <p className="text-gray-300 text-sm leading-relaxed">
@@ -587,16 +613,17 @@ export default function Index() {
                   entrega, para impulsionar suas vendas com excelentes margens
                   de lucro e um ótimo rápido giro de estoque.
                 </p>
+                <div className="absolute inset-0 bg-gradient-to-t from-ecko-red/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg"></div>
               </CardContent>
             </Card>
 
             {/* Suporte ao Lojista */}
-            <Card className="bg-black border-2 border-ecko-red hover:bg-gray-900 transition-all duration-300 group">
-              <CardContent className="p-8 text-center">
-                <div className="w-16 h-16 bg-ecko-red/20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-ecko-red/30 transition-colors">
-                  <HeadphonesIcon className="w-8 h-8 text-ecko-red" />
+            <Card className="bg-gray-900/50 backdrop-blur-sm border-2 border-gray-700 hover:border-ecko-red hover:bg-gray-800/70 transition-all duration-500 group transform hover:-translate-y-2 hover:scale-105">
+              <CardContent className="p-8 text-center relative">
+                <div className="w-20 h-20 bg-gradient-to-br from-ecko-red/30 to-ecko-red/10 rounded-2xl flex items-center justify-center mx-auto mb-8 group-hover:from-ecko-red/50 group-hover:to-ecko-red/20 transition-all duration-500 group-hover:rotate-6">
+                  <HeadphonesIcon className="w-10 h-10 text-ecko-red group-hover:scale-110 transition-transform duration-300" />
                 </div>
-                <h3 className="text-xl font-bold text-ecko-red mb-4 uppercase tracking-wide">
+                <h3 className="text-xl font-bold text-white mb-4 uppercase tracking-wide group-hover:text-ecko-red transition-colors duration-300">
                   SUPORTE AO LOJISTA
                 </h3>
                 <p className="text-gray-300 text-sm leading-relaxed">
@@ -604,16 +631,17 @@ export default function Index() {
                   garantir que você tenha a melhor experiência, tanto na compra
                   quanto na venda do produto em sua loja.
                 </p>
+                <div className="absolute inset-0 bg-gradient-to-t from-ecko-red/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg"></div>
               </CardContent>
             </Card>
 
             {/* Totalmente Online */}
-            <Card className="bg-black border-2 border-ecko-red hover:bg-gray-900 transition-all duration-300 group">
-              <CardContent className="p-8 text-center">
-                <div className="w-16 h-16 bg-ecko-red/20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-ecko-red/30 transition-colors">
-                  <Monitor className="w-8 h-8 text-ecko-red" />
+            <Card className="bg-gray-900/50 backdrop-blur-sm border-2 border-gray-700 hover:border-ecko-red hover:bg-gray-800/70 transition-all duration-500 group transform hover:-translate-y-2 hover:scale-105">
+              <CardContent className="p-8 text-center relative">
+                <div className="w-20 h-20 bg-gradient-to-br from-ecko-red/30 to-ecko-red/10 rounded-2xl flex items-center justify-center mx-auto mb-8 group-hover:from-ecko-red/50 group-hover:to-ecko-red/20 transition-all duration-500 group-hover:rotate-6">
+                  <Monitor className="w-10 h-10 text-ecko-red group-hover:scale-110 transition-transform duration-300" />
                 </div>
-                <h3 className="text-xl font-bold text-ecko-red mb-4 uppercase tracking-wide">
+                <h3 className="text-xl font-bold text-white mb-4 uppercase tracking-wide group-hover:text-ecko-red transition-colors duration-300">
                   TOTALMENTE ONLINE
                 </h3>
                 <p className="text-gray-300 text-sm leading-relaxed">
@@ -621,8 +649,19 @@ export default function Index() {
                   preços de atacado destinados aos lojistas de todo o Brasil
                   para facilitar a sua compra e reabastecimento.
                 </p>
+                <div className="absolute inset-0 bg-gradient-to-t from-ecko-red/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg"></div>
               </CardContent>
             </Card>
+          </div>
+
+          {/* Bottom CTA */}
+          <div className="text-center mt-16">
+            <div className="inline-flex items-center gap-2 text-ecko-red font-semibold text-lg">
+              <span>
+                Junte-se a milhares de parceiros que já confiam na Ecko
+              </span>
+              <ChevronDown className="w-5 h-5 animate-bounce" />
+            </div>
           </div>
         </div>
       </section>
