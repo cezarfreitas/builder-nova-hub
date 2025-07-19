@@ -553,13 +553,36 @@ export default function Index() {
                 </div>
               </div>
 
-              {/* Auto-scroll Indicator */}
-              <div className="mt-8 text-center">
-                <div className="inline-flex items-center space-x-2 bg-gray-100 rounded-full px-4 py-2">
-                  <div className="w-2 h-2 bg-ecko-red rounded-full animate-pulse"></div>
-                  <span className="text-sm text-gray-600">
-                    Arraste para navegar ou use as setas
-                  </span>
+              {/* Mobile Indicators & Instructions */}
+              <div className="mt-8">
+                {/* Mobile dots */}
+                <div className="flex justify-center space-x-2 mb-4 md:hidden">
+                  {scrollSnaps.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => scrollTo(index)}
+                      className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                        index === selectedIndex
+                          ? "bg-ecko-red scale-125"
+                          : "bg-gray-300 hover:bg-gray-400"
+                      }`}
+                    />
+                  ))}
+                </div>
+
+                {/* Instructions */}
+                <div className="text-center">
+                  <div className="inline-flex items-center space-x-2 bg-gray-100 rounded-full px-4 py-2">
+                    <div className="w-2 h-2 bg-ecko-red rounded-full animate-pulse"></div>
+                    <span className="text-sm text-gray-600">
+                      <span className="hidden md:inline">
+                        Arraste para navegar ou use as setas
+                      </span>
+                      <span className="md:hidden">
+                        Arraste para ver mais depoimentos
+                      </span>
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
