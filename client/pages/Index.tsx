@@ -27,6 +27,8 @@ import {
   FAQsResponse,
   GalleryImage,
   GalleryResponse,
+  ThemeSettings,
+  ThemeResponse,
 } from "@shared/api";
 
 interface LeadFormData {
