@@ -52,5 +52,12 @@ export function createServer() {
   app.post("/api/analytics/webhook/:id", sendWebhook);
   app.post("/api/analytics/check-duplicates", checkDuplicates);
 
+  // Testimonials API routes
+  app.get("/api/testimonials", getTestimonials);
+  app.post("/api/testimonials", createTestimonial);
+  app.get("/api/testimonials/:id", getTestimonial);
+  app.put("/api/testimonials/:id", updateTestimonial);
+  app.delete("/api/testimonials/:id", deleteTestimonial);
+
   return app;
 }
