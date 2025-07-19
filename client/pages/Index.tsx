@@ -367,23 +367,6 @@ export default function Index() {
           ></div>
         </div>
 
-        {/* Header */}
-        <header className="relative z-20 p-6">
-          <div className="container mx-auto max-w-6xl flex items-center justify-between">
-            <div className="flex items-center">
-              <div className="w-16 h-16 bg-ecko-red rounded-lg flex items-center justify-center mr-4">
-                <span className="text-white font-black text-2xl">🦏</span>
-              </div>
-              <div>
-                <h1 className="text-2xl font-black text-white">eckō unltd.</h1>
-                <p className="text-ecko-red text-sm font-bold uppercase tracking-wider">
-                  Como Funciona
-                </p>
-              </div>
-            </div>
-          </div>
-        </header>
-
         {/* Hero Content */}
         <div className="relative z-20 flex-1 flex items-center py-20">
           <div className="container mx-auto px-6 max-w-6xl">
