@@ -118,5 +118,8 @@ export function createServer() {
   // Theme API routes
   app.use("/api/theme", themeRoutes);
 
+  // Authentication API routes
+  app.use("/api/auth", authRoutes);
+
   return app;
 }
