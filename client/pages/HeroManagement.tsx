@@ -227,34 +227,17 @@ export default function HeroManagement() {
                   <span>Logo</span>
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <Label htmlFor="logo_url">URL do Logo</Label>
-                  <Input
-                    id="logo_url"
-                    name="logo_url"
-                    value={formData.logo_url}
-                    onChange={handleInputChange}
-                    placeholder="https://exemplo.com/logo.png"
-                    className="mt-1"
-                  />
-                  <p className="text-sm text-gray-500 mt-1">
-                    Deixe vazio para usar o logo padrão da Ecko
-                  </p>
-                </div>
-                {formData.logo_url && (
-                  <div className="mt-3">
-                    <img
-                      src={formData.logo_url}
-                      alt="Preview do Logo"
-                      className="w-16 h-16 object-contain rounded-lg border border-gray-200"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src =
-                          "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0yMiAyMkw0MiA0Mk0yMiA0Mkw0MiAyMiIgc3Ryb2tlPSIjOTNBM0I4IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8L3N2Zz4K";
-                      }}
-                    />
-                  </div>
-                )}
+              <CardContent>
+                <ImageUpload
+                  value={formData.logo_url}
+                  onChange={(url) =>
+                    setFormData((prev) => ({ ...prev, logo_url: url }))
+                  }
+                  label="Logo da Empresa"
+                  placeholder="URL do logo ou faça upload"
+                  description="Deixe vazio para usar o logo padrão da Ecko. Recomendado: 200x80px, PNG transparente"
+                  usedFor="hero_logo"
+                />
               </CardContent>
             </Card>
 
