@@ -160,6 +160,112 @@ export async function initializeDatabase() {
       console.log("✅ Default FAQs created");
     }
 
+    // Create gallery table if it doesn't exist
+    await connection.execute(`
+      CREATE TABLE IF NOT EXISTS gallery (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        title VARCHAR(255) NOT NULL,
+        description TEXT,
+        image_url VARCHAR(500) NOT NULL,
+        alt_text VARCHAR(255),
+        display_order INT DEFAULT 0,
+        is_active BOOLEAN DEFAULT TRUE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        INDEX idx_active_order (is_active, display_order)
+      )
+    `);
+
+    // Create seo_settings table if it doesn't exist
+    await connection.execute(`
+      CREATE TABLE IF NOT EXISTS seo_settings (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        page_title VARCHAR(255) NOT NULL,
+        meta_description TEXT,
+        meta_keywords TEXT,
+        og_title VARCHAR(255),
+        og_description TEXT,
+        og_image VARCHAR(500),
+        canonical_url VARCHAR(500),
+        robots VARCHAR(100) DEFAULT 'index, follow',
+        is_active BOOLEAN DEFAULT TRUE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+      )
+    `);
+
+    // Insert default SEO settings if none exist
+    const [seoRows] = await connection.execute(
+      "SELECT COUNT(*) as count FROM seo_settings WHERE is_active = TRUE",
+    );
+    const seoCount = (seoRows as any)[0].count;
+
+    if (seoCount === 0) {
+      await connection.execute(`
+        INSERT INTO seo_settings (page_title, meta_description, meta_keywords, og_title, og_description) VALUES (
+          'Ecko - Programa de Revendedores | Seja um Parceiro Oficial',
+          'Torne-se um revendedor oficial da Ecko, a marca de streetwear mais desejada do Brasil. Produtos exclusivos, margens atrativas e suporte completo.',
+          'ecko, revendedor, streetwear, moda urbana, programa revendedores, atacado',
+          'Ecko - Programa de Revendedores Oficial',
+          'Seja um revendedor oficial da marca Ecko e multiplique suas vendas com produtos de streetwear exclusivos.'
+        )
+      `);
+      console.log("✅ Default SEO settings created");
+    }
+
+    // Create theme_settings table if it doesn't exist
+    await connection.execute(`
+      CREATE TABLE IF NOT EXISTS theme_settings (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        primary_color VARCHAR(7) DEFAULT '#DC2626',
+        primary_light VARCHAR(7) DEFAULT '#F87171',
+        primary_dark VARCHAR(7) DEFAULT '#991B1B',
+        secondary_color VARCHAR(7) DEFAULT '#1F2937',
+        background_color VARCHAR(7) DEFAULT '#000000',
+        text_color VARCHAR(7) DEFAULT '#FFFFFF',
+        accent_color VARCHAR(7) DEFAULT '#EF4444',
+        is_active BOOLEAN DEFAULT TRUE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+      )
+    `);
+
+    // Insert default theme settings if none exist
+    const [themeRows] = await connection.execute(
+      "SELECT COUNT(*) as count FROM theme_settings WHERE is_active = TRUE",
+    );
+    const themeCount = (themeRows as any)[0].count;
+
+    if (themeCount === 0) {
+      await connection.execute(`
+        INSERT INTO theme_settings (primary_color, primary_light, primary_dark, secondary_color, background_color, text_color, accent_color) VALUES (
+          '#DC2626', '#F87171', '#991B1B', '#1F2937', '#000000', '#FFFFFF', '#EF4444'
+        )
+      `);
+      console.log("✅ Default theme settings created");
+    }
+
+    // Create webhook_logs table if it doesn't exist
+    await connection.execute(`
+      CREATE TABLE IF NOT EXISTS webhook_logs (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        lead_id INT NOT NULL,
+        webhook_url VARCHAR(500),
+        request_payload TEXT,
+        response_status INT,
+        response_body TEXT,
+        response_headers TEXT,
+        attempt_number INT DEFAULT 1,
+        success BOOLEAN DEFAULT FALSE,
+        error_message TEXT,
+        sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (lead_id) REFERENCES leads(id) ON DELETE CASCADE,
+        INDEX idx_lead_id (lead_id),
+        INDEX idx_success (success),
+        INDEX idx_sent_at (sent_at)
+      )
+    `);
+
     console.log("✅ Database tables initialized and updated");
     connection.release();
     return true;
