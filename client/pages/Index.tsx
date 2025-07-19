@@ -369,32 +369,147 @@ export default function Index() {
 
         {/* Hero Content */}
         <div className="relative z-20 flex-1 flex items-center py-20">
-          <div className="container mx-auto px-6 max-w-6xl">
-            <div className="max-w-3xl">
-              <h1 className="text-4xl lg:text-6xl font-black text-white mb-8 leading-tight">
-                REVENDA ECKO:
-                <br />
-                <span className="text-ecko-red">
-                  SEJA UM LOJISTA AUTORIZADO
-                </span>
-                <br />
-                <span className="text-ecko-red">
-                  E MULTIPLIQUE SUAS VENDAS!
-                </span>
-              </h1>
+          <div className="container mx-auto px-6 max-w-7xl">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              {/* Left Content */}
+              <div>
+                <h1 className="text-4xl lg:text-6xl font-black text-white mb-8 leading-tight">
+                  REVENDA ECKO:
+                  <br />
+                  <span className="text-ecko-red">
+                    SEJA UM LOJISTA AUTORIZADO
+                  </span>
+                  <br />
+                  <span className="text-ecko-red">
+                    E MULTIPLIQUE SUAS VENDAS!
+                  </span>
+                </h1>
 
-              <p className="text-xl lg:text-2xl text-gray-300 mb-12 font-medium">
-                Venda uma das marcas mais desejadas do streetwear e aumente seus
-                lucros!
-              </p>
+                <p className="text-xl lg:text-2xl text-gray-300 mb-12 font-medium">
+                  Venda uma das marcas mais desejadas do streetwear e aumente
+                  seus lucros!
+                </p>
 
-              <Button
-                onClick={() => setShowForm(true)}
-                className="bg-ecko-red hover:bg-ecko-red-dark text-white text-lg px-8 py-4 h-auto font-bold shadow-2xl hover:shadow-ecko-red/25 transition-all duration-300 group text-uppercase tracking-wider"
-              >
-                QUERO SER UM REVENDEDOR OFICIAL
-                <ArrowRight className="ml-3 w-6 h-6 group-hover:translate-x-1 transition-transform" />
-              </Button>
+                <Button
+                  onClick={() => setShowForm(true)}
+                  className="bg-ecko-red hover:bg-ecko-red-dark text-white text-lg px-8 py-4 h-auto font-bold shadow-2xl hover:shadow-ecko-red/25 transition-all duration-300 group text-uppercase tracking-wider lg:hidden"
+                >
+                  QUERO SER UM REVENDEDOR OFICIAL
+                  <ArrowRight className="ml-3 w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </div>
+
+              {/* Right Form */}
+              <div className="relative">
+                <div className="absolute -inset-4 bg-gradient-to-r from-ecko-red via-red-500 to-ecko-red-dark rounded-3xl opacity-20 blur-xl"></div>
+                <Card className="relative shadow-2xl border-0 bg-white/95 backdrop-blur-lg">
+                  <CardContent className="p-8">
+                    <div className="text-center mb-6">
+                      <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                        Cadastro de Revendedor
+                      </h2>
+                      <p className="text-gray-600">
+                        Preencha os dados para receber nossa proposta
+                      </p>
+                    </div>
+
+                    <form onSubmit={handleSubmit} className="space-y-5">
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                          Nome Completo
+                        </label>
+                        <Input
+                          name="name"
+                          value={formData.name}
+                          onChange={handleInputChange}
+                          placeholder="Digite seu nome"
+                          required
+                          className="h-12 border-gray-300 focus:border-ecko-red focus:ring-ecko-red/20"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                          WhatsApp
+                        </label>
+                        <Input
+                          name="whatsapp"
+                          type="tel"
+                          value={formData.whatsapp}
+                          onChange={handleInputChange}
+                          placeholder="(11) 99999-9999"
+                          required
+                          className="h-12 border-gray-300 focus:border-ecko-red focus:ring-ecko-red/20"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                          Tem CNPJ?
+                        </label>
+                        <select
+                          name="hasCnpj"
+                          value={formData.hasCnpj}
+                          onChange={handleInputChange}
+                          required
+                          className="w-full h-12 border border-gray-300 rounded-md px-4 bg-white text-gray-900 focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none"
+                        >
+                          <option value="">Selecione uma opção</option>
+                          <option value="sim">Sim, tenho CNPJ</option>
+                          <option value="nao">Não tenho CNPJ</option>
+                          <option value="processo">
+                            Em processo de abertura
+                          </option>
+                        </select>
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                          Tipo de Loja
+                        </label>
+                        <select
+                          name="storeType"
+                          value={formData.storeType}
+                          onChange={handleInputChange}
+                          required
+                          className="w-full h-12 border border-gray-300 rounded-md px-4 bg-white text-gray-900 focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none"
+                        >
+                          <option value="">Selecione o tipo</option>
+                          <option value="fisica">Loja Física</option>
+                          <option value="online">Loja Online</option>
+                          <option value="ambas">Física + Online</option>
+                          <option value="vendedor">
+                            Vendedor/Representante
+                          </option>
+                          <option value="marketplace">Marketplace</option>
+                          <option value="ainda-nao-tenho">
+                            Ainda não tenho loja
+                          </option>
+                        </select>
+                      </div>
+
+                      <Button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="w-full bg-gradient-to-r from-ecko-red to-ecko-red-dark hover:from-ecko-red-dark hover:to-ecko-red text-white py-3 text-lg font-bold shadow-lg hover:shadow-xl transition-all duration-300"
+                      >
+                        {isSubmitting ? (
+                          <div className="flex items-center justify-center">
+                            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                            Enviando...
+                          </div>
+                        ) : (
+                          "QUERO SER REVENDEDOR AGORA"
+                        )}
+                      </Button>
+
+                      <p className="text-xs text-gray-500 text-center">
+                        🔒 Seus dados estão seguros • Cadastro 100% gratuito
+                      </p>
+                    </form>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
           </div>
         </div>
