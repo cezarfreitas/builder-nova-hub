@@ -519,10 +519,11 @@ export default function GalleryManagement() {
         ) : viewMode === "grid" ? (
           /* Grid View */
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filteredImages.map((image) => (
+            {filteredImages.map((image, index) => (
               <Card
                 key={image.id}
-                className="overflow-hidden hover:shadow-lg transition-shadow"
+                className="gallery-card overflow-hidden gallery-grid-enter"
+                style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className="relative">
                   {/* Selection Checkbox */}
