@@ -3,7 +3,6 @@ import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Card, CardContent } from "../components/ui/card";
 import { CheckCircle } from "lucide-react";
-import { cn } from "../lib/utils";
 
 interface LeadFormData {
   name: string;
@@ -29,16 +28,8 @@ export default function Index() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleOptionSelect = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.hasCnpj || !formData.storeType) {
-      alert("Por favor, selecione todas as opções");
-      return;
-    }
     setIsSubmitting(true);
 
     try {
@@ -74,7 +65,7 @@ export default function Index() {
             <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <CheckCircle className="w-6 h-6 text-green-600" />
             </div>
-            <h2 className="text-xl font-bold text-gray-900 mb-3">
+            <h2 className="text-xl font-semibold text-gray-900 mb-3">
               Cadastro Enviado!
             </h2>
             <p className="text-gray-600 mb-4 text-sm">
@@ -82,7 +73,7 @@ export default function Index() {
             </p>
             <Button
               onClick={() => setIsSubmitted(false)}
-              className="bg-ecko-red hover:bg-ecko-red-dark text-white text-sm"
+              className="bg-ecko-red hover:bg-ecko-red-dark text-white text-sm px-6 py-2"
             >
               Enviar Novo Cadastro
             </Button>
@@ -95,14 +86,11 @@ export default function Index() {
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
       <div className="w-full max-w-sm">
-        <Card className="shadow-lg border-0">
+        <Card className="shadow-xl border-0">
           <CardContent className="p-6">
-            {/* Header */}
+            {/* Header sem ícone */}
             <div className="text-center mb-6">
-              <div className="w-10 h-10 bg-ecko-red rounded-lg flex items-center justify-center mx-auto mb-3">
-                <CheckCircle className="w-5 h-5 text-white" />
-              </div>
-              <h2 className="text-xl font-bold text-gray-900 mb-1">
+              <h2 className="text-xl font-semibold text-gray-900 mb-2">
                 Cadastro de Revendedor
               </h2>
               <p className="text-gray-600 text-sm">
@@ -113,7 +101,7 @@ export default function Index() {
             {/* Formulário */}
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">
                   Nome Completo
                 </label>
                 <Input
@@ -122,12 +110,12 @@ export default function Index() {
                   onChange={handleInputChange}
                   placeholder="Digite seu nome"
                   required
-                  className="h-10 text-sm border-gray-200 focus:border-ecko-red focus:ring-ecko-red/20"
+                  className="h-10 text-sm border-gray-200 focus:border-ecko-red focus:ring-1 focus:ring-ecko-red"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">
                   WhatsApp
                 </label>
                 <Input
@@ -137,142 +125,65 @@ export default function Index() {
                   onChange={handleInputChange}
                   placeholder="(11) 99999-9999"
                   required
-                  className="h-10 text-sm border-gray-200 focus:border-ecko-red focus:ring-ecko-red/20"
+                  className="h-10 text-sm border-gray-200 focus:border-ecko-red focus:ring-1 focus:ring-ecko-red"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">
                   Tem CNPJ?
                 </label>
-                <div className="grid grid-cols-1 gap-2">
-                  <button
-                    type="button"
-                    onClick={() => handleOptionSelect("hasCnpj", "sim")}
-                    className={cn(
-                      "px-3 py-2 text-sm border rounded-md transition-colors text-left",
-                      formData.hasCnpj === "sim"
-                        ? "bg-ecko-red text-white border-ecko-red"
-                        : "bg-white text-gray-700 border-gray-200 hover:border-ecko-red",
-                    )}
-                  >
-                    Sim, tenho CNPJ
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleOptionSelect("hasCnpj", "nao")}
-                    className={cn(
-                      "px-3 py-2 text-sm border rounded-md transition-colors text-left",
-                      formData.hasCnpj === "nao"
-                        ? "bg-ecko-red text-white border-ecko-red"
-                        : "bg-white text-gray-700 border-gray-200 hover:border-ecko-red",
-                    )}
-                  >
-                    Não tenho CNPJ
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleOptionSelect("hasCnpj", "processo")}
-                    className={cn(
-                      "px-3 py-2 text-sm border rounded-md transition-colors text-left",
-                      formData.hasCnpj === "processo"
-                        ? "bg-ecko-red text-white border-ecko-red"
-                        : "bg-white text-gray-700 border-gray-200 hover:border-ecko-red",
-                    )}
-                  >
-                    Em processo de abertura
-                  </button>
-                </div>
+                <select
+                  name="hasCnpj"
+                  value={formData.hasCnpj}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full h-10 text-sm border border-gray-200 rounded-md px-3 bg-white text-gray-900 focus:border-ecko-red focus:ring-1 focus:ring-ecko-red focus:outline-none appearance-none cursor-pointer"
+                  style={{
+                    backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23374151' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e")`,
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "right 8px center",
+                    backgroundSize: "16px",
+                  }}
+                >
+                  <option value="">Selecione uma opção</option>
+                  <option value="sim">Sim, tenho CNPJ</option>
+                  <option value="nao">Não tenho CNPJ</option>
+                  <option value="processo">Em processo de abertura</option>
+                </select>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">
                   Tipo de Loja
                 </label>
-                <div className="grid grid-cols-1 gap-2">
-                  <button
-                    type="button"
-                    onClick={() => handleOptionSelect("storeType", "fisica")}
-                    className={cn(
-                      "px-3 py-2 text-sm border rounded-md transition-colors text-left",
-                      formData.storeType === "fisica"
-                        ? "bg-ecko-red text-white border-ecko-red"
-                        : "bg-white text-gray-700 border-gray-200 hover:border-ecko-red",
-                    )}
-                  >
-                    Loja Física
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleOptionSelect("storeType", "online")}
-                    className={cn(
-                      "px-3 py-2 text-sm border rounded-md transition-colors text-left",
-                      formData.storeType === "online"
-                        ? "bg-ecko-red text-white border-ecko-red"
-                        : "bg-white text-gray-700 border-gray-200 hover:border-ecko-red",
-                    )}
-                  >
-                    Loja Online
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleOptionSelect("storeType", "ambas")}
-                    className={cn(
-                      "px-3 py-2 text-sm border rounded-md transition-colors text-left",
-                      formData.storeType === "ambas"
-                        ? "bg-ecko-red text-white border-ecko-red"
-                        : "bg-white text-gray-700 border-gray-200 hover:border-ecko-red",
-                    )}
-                  >
-                    Física + Online
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleOptionSelect("storeType", "vendedor")}
-                    className={cn(
-                      "px-3 py-2 text-sm border rounded-md transition-colors text-left",
-                      formData.storeType === "vendedor"
-                        ? "bg-ecko-red text-white border-ecko-red"
-                        : "bg-white text-gray-700 border-gray-200 hover:border-ecko-red",
-                    )}
-                  >
-                    Vendedor/Representante
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      handleOptionSelect("storeType", "marketplace")
-                    }
-                    className={cn(
-                      "px-3 py-2 text-sm border rounded-md transition-colors text-left",
-                      formData.storeType === "marketplace"
-                        ? "bg-ecko-red text-white border-ecko-red"
-                        : "bg-white text-gray-700 border-gray-200 hover:border-ecko-red",
-                    )}
-                  >
-                    Marketplace
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      handleOptionSelect("storeType", "ainda-nao-tenho")
-                    }
-                    className={cn(
-                      "px-3 py-2 text-sm border rounded-md transition-colors text-left",
-                      formData.storeType === "ainda-nao-tenho"
-                        ? "bg-ecko-red text-white border-ecko-red"
-                        : "bg-white text-gray-700 border-gray-200 hover:border-ecko-red",
-                    )}
-                  >
-                    Ainda não tenho loja
-                  </button>
-                </div>
+                <select
+                  name="storeType"
+                  value={formData.storeType}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full h-10 text-sm border border-gray-200 rounded-md px-3 bg-white text-gray-900 focus:border-ecko-red focus:ring-1 focus:ring-ecko-red focus:outline-none appearance-none cursor-pointer"
+                  style={{
+                    backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23374151' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e")`,
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "right 8px center",
+                    backgroundSize: "16px",
+                  }}
+                >
+                  <option value="">Selecione o tipo</option>
+                  <option value="fisica">Loja Física</option>
+                  <option value="online">Loja Online</option>
+                  <option value="ambas">Física + Online</option>
+                  <option value="vendedor">Vendedor/Representante</option>
+                  <option value="marketplace">Marketplace</option>
+                  <option value="ainda-nao-tenho">Ainda não tenho loja</option>
+                </select>
               </div>
 
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-ecko-red hover:bg-ecko-red-dark text-white py-2.5 text-sm font-semibold shadow-lg hover:shadow-xl transition-all duration-200 mt-6"
+                className="w-full bg-ecko-red hover:bg-ecko-red-dark text-white py-2.5 text-sm font-medium shadow-lg hover:shadow-xl transition-all duration-200 mt-6"
               >
                 {isSubmitting ? (
                   <div className="flex items-center justify-center">
