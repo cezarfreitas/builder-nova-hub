@@ -96,13 +96,17 @@ export async function initializeDatabase() {
 
     // Create hero_settings table if it doesn't exist
     await connection.execute(`
-      CREATE TABLE IF NOT EXISTS hero_settings (
+            CREATE TABLE IF NOT EXISTS hero_settings (
         id INT AUTO_INCREMENT PRIMARY KEY,
         logo_url VARCHAR(500),
+        logo_width INT DEFAULT 200,
+        logo_height INT DEFAULT 80,
         main_title TEXT NOT NULL,
         subtitle TEXT,
         description TEXT,
         background_image_url VARCHAR(500),
+        background_overlay_opacity INT DEFAULT 50,
+        background_overlay_color VARCHAR(7) DEFAULT '#000000',
         cta_text VARCHAR(255) DEFAULT 'Descubra Como Funciona',
         is_active BOOLEAN DEFAULT TRUE,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
