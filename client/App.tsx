@@ -19,6 +19,9 @@ import GalleryManagement from "./pages/GalleryManagement";
 import SEOManagement from "./pages/SEOManagement";
 import ThemeManagement from "./pages/ThemeManagement";
 import NotFound from "./pages/NotFound";
+import Login from "./pages/Login";
+import ProtectedRoute from "./components/ProtectedRoute";
+import { AuthProvider } from "./contexts/AuthContext";
 import { initAnalytics } from "./lib/analytics";
 
 const queryClient = new QueryClient();
