@@ -205,7 +205,7 @@ export default function Admin() {
                     {stats.total}
                   </p>
                 </div>
-                <Users className="w-8 h-8 text-ecko-blue" />
+                <Users className="w-8 h-8 text-ecko-red" />
               </div>
             </CardContent>
           </Card>
