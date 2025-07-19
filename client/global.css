@@ -120,3 +120,50 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  /* Carousel Smooth Scrolling */
+  .embla {
+    overflow: hidden;
+  }
+
+  .embla__container {
+    display: flex;
+    touch-action: pan-y;
+    margin-left: calc(1rem * -1);
+  }
+
+  .embla__slide {
+    transform: translate3d(0, 0, 0);
+    flex: 0 0 100%;
+    min-width: 0;
+    padding-left: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .embla__slide {
+      flex: 0 0 50%;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .embla__slide {
+      flex: 0 0 33.333%;
+    }
+  }
+
+  /* Carousel Animation */
+  .embla__slide {
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  /* Custom Scrollbar for horizontal scroll hint */
+  .embla::-webkit-scrollbar {
+    display: none;
+  }
+
+  .embla {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
