@@ -12,6 +12,13 @@ import {
   sendWebhook,
   checkDuplicates,
 } from "./routes/analytics";
+import {
+  getTestimonials,
+  createTestimonial,
+  updateTestimonial,
+  deleteTestimonial,
+  getTestimonial,
+} from "./routes/testimonials";
 import { testConnection, initializeDatabase } from "./database";
 
 export function createServer() {
