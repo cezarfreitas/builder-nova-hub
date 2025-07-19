@@ -265,26 +265,22 @@ export default function Index() {
         {/* Content */}
         <div className="relative z-20 text-center px-6 max-w-4xl mx-auto">
           {/* Logo */}
-          <div className="flex items-center justify-center mb-8">
+          <div className="flex items-center justify-center mt-20 mb-8">
             {heroSettings?.logo_url ? (
               <img
                 src={heroSettings.logo_url}
                 alt="Logo"
-                className="w-20 h-20 object-contain mr-6"
+                className="h-20 object-contain mt-11 mr-6"
+                style={{ width: "370px" }}
               />
             ) : (
-              <div className="w-20 h-20 bg-ecko-red rounded-xl flex items-center justify-center mr-6">
-                <span className="text-white font-black text-3xl">🦏</span>
-              </div>
+              <img
+                src="https://www.ntktextil.com.br/wp-content/uploads/2022/08/Logo-Ecko.png"
+                alt="Logo"
+                className="h-20 object-contain mt-11 mr-6"
+                style={{ width: "370px" }}
+              />
             )}
-            <div className="text-left">
-              <h1 className="text-4xl lg:text-5xl font-black text-white">
-                eckō unltd.
-              </h1>
-              <p className="text-ecko-red text-lg font-bold uppercase tracking-wider">
-                {heroSettings?.subtitle || "Programa de Revendedores"}
-              </p>
-            </div>
           </div>
 
           {/* Main Message */}
