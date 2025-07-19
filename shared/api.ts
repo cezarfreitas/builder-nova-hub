@@ -69,3 +69,27 @@ export interface LeadSubmissionResponse {
   message: string;
   lead?: Lead;
 }
+
+export interface HeroSettings {
+  id?: number;
+  logo_url?: string;
+  main_title: string;
+  subtitle?: string;
+  description?: string;
+  background_image_url?: string;
+  cta_text?: string;
+  is_active?: boolean;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface HeroResponse {
+  success: boolean;
+  hero: HeroSettings;
+}
+
+export interface HeroUpdateResponse {
+  success: boolean;
+  message: string;
+  hero: HeroSettings;
+}
