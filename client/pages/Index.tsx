@@ -688,6 +688,72 @@ export default function Index() {
         </div>
       </section>
 
+      {/* FAQ Section */}
+      {faqs.length > 0 && (
+        <section className="py-20 bg-gray-50">
+          <div className="container mx-auto px-6 max-w-4xl">
+            <div className="text-center mb-16">
+              <div className="inline-flex items-center bg-ecko-red/10 rounded-full px-6 py-3 mb-6">
+                <HelpCircle className="w-5 h-5 text-ecko-red mr-2" />
+                <span className="text-ecko-red font-semibold">
+                  Perguntas Frequentes
+                </span>
+              </div>
+              <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
+                Dúvidas <span className="text-ecko-red">Respondidas</span>
+              </h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                Encontre respostas para as principais dúvidas sobre nosso
+                programa de revendedores
+              </p>
+            </div>
+
+            <Card className="shadow-xl border-0">
+              <CardContent className="p-8">
+                <Accordion type="single" collapsible className="space-y-4">
+                  {faqs
+                    .sort((a, b) => a.display_order - b.display_order)
+                    .map((faq) => (
+                      <AccordionItem
+                        key={faq.id}
+                        value={`faq-${faq.id}`}
+                        className="border-b border-gray-200 last:border-b-0"
+                      >
+                        <AccordionTrigger className="text-left text-lg font-semibold text-gray-900 hover:text-ecko-red transition-colors py-6">
+                          {faq.question}
+                        </AccordionTrigger>
+                        <AccordionContent className="text-gray-600 text-base leading-relaxed pb-6">
+                          {faq.answer}
+                        </AccordionContent>
+                      </AccordionItem>
+                    ))}
+                </Accordion>
+              </CardContent>
+            </Card>
+
+            {/* CTA */}
+            <div className="text-center mt-12">
+              <div className="bg-white rounded-2xl p-8 shadow-lg inline-block">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                  Ainda tem dúvidas?
+                </h3>
+                <p className="text-gray-600 mb-6">
+                  Nossa equipe está pronta para ajudar você a se tornar um
+                  revendedor oficial
+                </p>
+                <Button
+                  onClick={() => setShowForm(true)}
+                  className="bg-ecko-red hover:bg-ecko-red-dark text-white px-8 py-3 font-bold"
+                >
+                  Entre em Contato
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </Button>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Footer */}
       <footer className="py-16 bg-black border-t border-gray-800">
         <div className="container mx-auto px-6 max-w-6xl">
