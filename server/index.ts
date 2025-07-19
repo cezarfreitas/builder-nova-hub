@@ -86,6 +86,12 @@ export function createServer() {
   app.get("/api/analytics/events", getEventAnalytics);
   app.get("/api/analytics/conversions", getConversionAnalytics);
 
+  // Upload API routes
+  app.post("/api/upload/image", upload.single("image"), uploadImage);
+  app.get("/api/upload/images", getUploadedImages);
+  app.delete("/api/upload/image/:id", deleteUploadedImage);
+  app.put("/api/upload/image/:id", updateUploadedImage);
+
   // Testimonials API routes
   app.get("/api/testimonials", getTestimonials);
   app.post("/api/testimonials", createTestimonial);
