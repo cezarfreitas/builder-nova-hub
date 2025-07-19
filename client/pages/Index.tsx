@@ -74,16 +74,12 @@ export default function Index() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validar se tem CNPJ
+    // Se não tem CNPJ, não prosseguir
     if (formData.hasCnpj === "nao") {
-      setCnpjError(
-        "Para ser um revendedor oficial da Ecko é necessário ter CNPJ.",
-      );
       return;
     }
 
     setIsSubmitting(true);
-    setCnpjError("");
 
     try {
       const response = await fetch("/api/leads", {
