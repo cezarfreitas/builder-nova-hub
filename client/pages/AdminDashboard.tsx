@@ -7,6 +7,7 @@ import {
   CardTitle,
 } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
+import AdminLayout from "../components/AdminLayout";
 import {
   Users,
   Settings as SettingsIcon,
