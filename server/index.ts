@@ -55,6 +55,7 @@ export function createServer() {
   app.get("/api/analytics/daily", getDailyStats);
   app.post("/api/analytics/webhook/:id", sendWebhook);
   app.post("/api/analytics/check-duplicates", checkDuplicates);
+  app.get("/api/analytics/webhook-logs/:id", getWebhookLogs);
 
   // Testimonials API routes
   app.get("/api/testimonials", getTestimonials);
