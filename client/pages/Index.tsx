@@ -84,218 +84,125 @@ export default function Index() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Container principal */}
-      <div className="max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-2 min-h-screen">
-          {/* Lado Esquerdo - Conteúdo */}
-          <div className="flex items-center justify-center p-8 lg:p-16">
-            <div className="max-w-lg w-full">
-              {/* Logo */}
-              <div className="mb-12">
-                <img
-                  src="https://cdn.builder.io/api/v1/image/assets%2F3a038822502b49b39691cbaf44da5f95%2Feccf0f847f4c4b16a6f95a4577bb4282?format=webp&width=800"
-                  alt="Ecko Logo"
-                  className="h-12 mb-8"
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
+      <div className="w-full max-w-md">
+        <Card className="shadow-lg border-0">
+          <CardContent className="p-8">
+            {/* Header do Form */}
+            <div className="text-center mb-8">
+              <div className="w-12 h-12 bg-ecko-red rounded-lg flex items-center justify-center mx-auto mb-4">
+                <CheckCircle className="w-6 h-6 text-white" />
+              </div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                Cadastro de Revendedor
+              </h2>
+              <p className="text-gray-600">
+                Preencha os dados para receber nossa proposta
+              </p>
+            </div>
+
+            {/* Formulário */}
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Nome Completo
+                </label>
+                <Input
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  placeholder="Digite seu nome completo"
+                  required
+                  className="h-12 text-base border-gray-200 focus:border-ecko-red focus:ring-ecko-red/20"
                 />
               </div>
 
-              {/* Título Principal */}
-              <div className="mb-10">
-                <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight mb-6">
-                  Seja um
-                  <span className="block text-ecko-red">
-                    Revendedor Oficial
-                  </span>
-                  <span className="text-gray-900">Ecko</span>
-                </h1>
-                <p className="text-xl text-gray-600 leading-relaxed">
-                  Transforme sua paixão por streetwear em um negócio lucrativo
-                  com uma das marcas mais icônicas do Brasil.
-                </p>
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  WhatsApp
+                </label>
+                <Input
+                  name="whatsapp"
+                  type="tel"
+                  value={formData.whatsapp}
+                  onChange={handleInputChange}
+                  placeholder="(11) 99999-9999"
+                  required
+                  className="h-12 text-base border-gray-200 focus:border-ecko-red focus:ring-ecko-red/20"
+                />
               </div>
 
-              {/* Benefícios */}
-              <div className="space-y-4 mb-10">
-                <div className="flex items-center">
-                  <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mr-4">
-                    <CheckCircle className="w-4 h-4 text-green-600" />
-                  </div>
-                  <span className="text-gray-700 font-medium">
-                    Cadastro 100% gratuito
-                  </span>
-                </div>
-                <div className="flex items-center">
-                  <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mr-4">
-                    <CheckCircle className="w-4 h-4 text-green-600" />
-                  </div>
-                  <span className="text-gray-700 font-medium">
-                    Suporte completo
-                  </span>
-                </div>
-                <div className="flex items-center">
-                  <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mr-4">
-                    <CheckCircle className="w-4 h-4 text-green-600" />
-                  </div>
-                  <span className="text-gray-700 font-medium">
-                    Marca reconhecida nacionalmente
-                  </span>
-                </div>
-                <div className="flex items-center">
-                  <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mr-4">
-                    <CheckCircle className="w-4 h-4 text-green-600" />
-                  </div>
-                  <span className="text-gray-700 font-medium">
-                    Margem atrativa
-                  </span>
-                </div>
-              </div>
-
-              {/* Stats */}
-              <div className="grid grid-cols-2 gap-8">
-                <div>
-                  <div className="text-3xl font-bold text-ecko-red mb-1">
-                    500+
-                  </div>
-                  <div className="text-gray-600">Revendedores ativos</div>
-                </div>
-                <div>
-                  <div className="text-3xl font-bold text-ecko-red mb-1">
-                    25+
-                  </div>
-                  <div className="text-gray-600">Anos no mercado</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Lado Direito - Formulário */}
-          <div className="bg-gray-50 flex items-center justify-center p-8 lg:p-16">
-            <div className="max-w-md w-full">
-              <Card className="shadow-lg border-0">
-                <CardContent className="p-8">
-                  {/* Header do Form */}
-                  <div className="text-center mb-8">
-                    <div className="w-12 h-12 bg-ecko-red rounded-lg flex items-center justify-center mx-auto mb-4">
-                      <CheckCircle className="w-6 h-6 text-white" />
-                    </div>
-                    <h2 className="text-2xl font-bold text-gray-900 mb-2">
-                      Cadastro de Revendedor
-                    </h2>
-                    <p className="text-gray-600">
-                      Preencha os dados para receber nossa proposta
-                    </p>
-                  </div>
-
-                  {/* Formulário */}
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        Nome Completo
-                      </label>
-                      <Input
-                        name="name"
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        placeholder="Digite seu nome completo"
-                        required
-                        className="h-12 text-base border-gray-200 focus:border-ecko-red focus:ring-ecko-red/20"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        WhatsApp
-                      </label>
-                      <Input
-                        name="whatsapp"
-                        type="tel"
-                        value={formData.whatsapp}
-                        onChange={handleInputChange}
-                        placeholder="(11) 99999-9999"
-                        required
-                        className="h-12 text-base border-gray-200 focus:border-ecko-red focus:ring-ecko-red/20"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        Tem CNPJ?
-                      </label>
-                      <select
-                        name="hasCnpj"
-                        value={formData.hasCnpj}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full h-12 text-base border border-gray-200 rounded-md px-4 py-3 focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none bg-white"
-                      >
-                        <option value="">Selecione uma opção</option>
-                        <option value="sim">Sim, tenho CNPJ</option>
-                        <option value="nao">Não tenho CNPJ</option>
-                        <option value="processo">
-                          Em processo de abertura
-                        </option>
-                      </select>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        Tipo de Loja
-                      </label>
-                      <select
-                        name="storeType"
-                        value={formData.storeType}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full h-12 text-base border border-gray-200 rounded-md px-4 py-3 focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none bg-white"
-                      >
-                        <option value="">Selecione o tipo</option>
-                        <option value="fisica">Loja Física</option>
-                        <option value="online">Loja Online</option>
-                        <option value="ambas">Física + Online</option>
-                        <option value="vendedor">Vendedor/Representante</option>
-                        <option value="marketplace">
-                          Marketplace (Mercado Livre, etc)
-                        </option>
-                        <option value="ainda-nao-tenho">
-                          Ainda não tenho loja
-                        </option>
-                      </select>
-                    </div>
-
-                    <Button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="w-full bg-ecko-red hover:bg-ecko-red-dark text-white py-3 text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-200 h-12"
-                    >
-                      {isSubmitting ? (
-                        <div className="flex items-center justify-center">
-                          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                          Enviando...
-                        </div>
-                      ) : (
-                        "Quero Ser Revendedor"
-                      )}
-                    </Button>
-
-                    <p className="text-xs text-gray-500 text-center">
-                      🔒 Seus dados estão protegidos • Cadastro gratuito
-                    </p>
-                  </form>
-                </CardContent>
-              </Card>
-
-              {/* Link Admin */}
-              <div className="text-center mt-6">
-                <a
-                  href="/admin"
-                  className="text-xs text-gray-400 hover:text-ecko-red transition-colors"
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Tem CNPJ?
+                </label>
+                <select
+                  name="hasCnpj"
+                  value={formData.hasCnpj}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full h-12 text-base border border-gray-200 rounded-md px-4 py-3 focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none bg-white"
                 >
-                  Área Administrativa
-                </a>
+                  <option value="">Selecione uma opção</option>
+                  <option value="sim">Sim, tenho CNPJ</option>
+                  <option value="nao">Não tenho CNPJ</option>
+                  <option value="processo">Em processo de abertura</option>
+                </select>
               </div>
-            </div>
-          </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Tipo de Loja
+                </label>
+                <select
+                  name="storeType"
+                  value={formData.storeType}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full h-12 text-base border border-gray-200 rounded-md px-4 py-3 focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none bg-white"
+                >
+                  <option value="">Selecione o tipo</option>
+                  <option value="fisica">Loja Física</option>
+                  <option value="online">Loja Online</option>
+                  <option value="ambas">Física + Online</option>
+                  <option value="vendedor">Vendedor/Representante</option>
+                  <option value="marketplace">
+                    Marketplace (Mercado Livre, etc)
+                  </option>
+                  <option value="ainda-nao-tenho">Ainda não tenho loja</option>
+                </select>
+              </div>
+
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-ecko-red hover:bg-ecko-red-dark text-white py-3 text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-200 h-12"
+              >
+                {isSubmitting ? (
+                  <div className="flex items-center justify-center">
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                    Enviando...
+                  </div>
+                ) : (
+                  "Quero Ser Revendedor"
+                )}
+              </Button>
+
+              <p className="text-xs text-gray-500 text-center">
+                🔒 Seus dados estão protegidos • Cadastro gratuito
+              </p>
+            </form>
+          </CardContent>
+        </Card>
+
+        {/* Link Admin */}
+        <div className="text-center mt-6">
+          <a
+            href="/admin"
+            className="text-xs text-gray-400 hover:text-ecko-red transition-colors"
+          >
+            Área Administrativa
+          </a>
         </div>
       </div>
     </div>
