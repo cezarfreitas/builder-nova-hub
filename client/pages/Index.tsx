@@ -85,6 +85,18 @@ export default function Index() {
     }
   };
 
+  const fetchGalleryImages = async () => {
+    try {
+      const response = await fetch("/api/gallery?active_only=true");
+      if (response.ok) {
+        const data: GalleryResponse = await response.json();
+        setGalleryImages(data.images || []);
+      }
+    } catch (error) {
+      console.error("Error fetching gallery images:", error);
+    }
+  };
+
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
