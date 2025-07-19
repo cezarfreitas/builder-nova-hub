@@ -551,8 +551,8 @@ export default function Testimonials() {
               </Button>
             </div>
           </form>
-                </DialogContent>
-      </Dialog>
+                          </DialogContent>
+        </Dialog>
       </div>
     </AdminLayout>
   );
