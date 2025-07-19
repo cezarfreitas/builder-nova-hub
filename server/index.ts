@@ -24,6 +24,13 @@ import {
   getConversionAnalytics,
 } from "./routes/session-analytics";
 import {
+  upload,
+  uploadImage,
+  getUploadedImages,
+  deleteUploadedImage,
+  updateUploadedImage,
+} from "./routes/upload";
+import {
   getTestimonials,
   createTestimonial,
   updateTestimonial,
