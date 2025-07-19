@@ -57,6 +57,7 @@ export default function Index() {
   const [faqs, setFaqs] = useState<FAQ[]>([]);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [galleryImages, setGalleryImages] = useState<GalleryImage[]>([]);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [themeSettings, setThemeSettings] = useState<ThemeSettings | null>(
     null,
   );
@@ -65,6 +66,7 @@ export default function Index() {
     fetchHeroSettings();
     fetchFAQs();
     fetchGalleryImages();
+    fetchTestimonials();
     fetchThemeSettings();
   }, []);
 
