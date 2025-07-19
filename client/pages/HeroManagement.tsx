@@ -143,12 +143,14 @@ export default function HeroManagement() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="flex items-center space-x-3">
-          <RefreshCw className="w-6 h-6 animate-spin text-ecko-red" />
-          <span className="text-gray-600">Carregando configurações...</span>
+      <AdminLayout>
+        <div className="flex items-center justify-center py-20">
+          <div className="flex items-center space-x-3">
+            <RefreshCw className="w-6 h-6 animate-spin text-ecko-red" />
+            <span className="text-gray-600">Carregando configurações...</span>
+          </div>
         </div>
-      </div>
+      </AdminLayout>
     );
   }
 
