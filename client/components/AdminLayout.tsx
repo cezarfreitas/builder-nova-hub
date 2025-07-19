@@ -28,9 +28,14 @@ const navigation = [
     icon: LayoutDashboard,
   },
   {
-    name: "Analytics",
+    name: "Analytics Leads",
     href: "/admin/analytics",
     icon: BarChart3,
+  },
+  {
+    name: "Analytics Sessões",
+    href: "/admin/sessions",
+    icon: Activity,
   },
   {
     name: "Configurações",
