@@ -12,6 +12,7 @@ import {
   LogOut,
   Menu,
   X,
+  Activity,
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { useState } from "react";
