@@ -23,6 +23,7 @@ import {
 import heroRoutes from "./routes/hero";
 import faqRoutes from "./routes/faqs";
 import galleryRoutes from "./routes/gallery";
+import seoRoutes from "./routes/seo";
 import { testConnection, initializeDatabase } from "./database";
 
 export function createServer() {
