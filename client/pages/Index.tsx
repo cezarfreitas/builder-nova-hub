@@ -33,6 +33,7 @@ export default function Index() {
   const [showForm, setShowForm] = useState(false);
   const [heroSettings, setHeroSettings] = useState<HeroSettings | null>(null);
   const [isLoadingHero, setIsLoadingHero] = useState(true);
+  const [cnpjError, setCnpjError] = useState("");
 
   useEffect(() => {
     fetchHeroSettings();
@@ -57,11 +58,26 @@ export default function Index() {
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+
+    // Limpar erro de CNPJ quando mudar a seleção
+    if (name === "hasCnpj") {
+      setCnpjError("");
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validar se tem CNPJ
+    if (formData.hasCnpj === "nao") {
+      setCnpjError(
+        "Para ser um revendedor oficial da Ecko é necessário ter CNPJ.",
+      );
+      return;
+    }
+
     setIsSubmitting(true);
+    setCnpjError("");
 
     try {
       const response = await fetch("/api/leads", {
@@ -458,8 +474,12 @@ export default function Index() {
                             <option value="">Selecione</option>
                             <option value="sim">Sim</option>
                             <option value="nao">Não</option>
-                            <option value="processo">Em processo</option>
                           </select>
+                          {cnpjError && (
+                            <p className="text-ecko-red text-sm mt-2 font-medium">
+                              {cnpjError}
+                            </p>
+                          )}
                         </div>
 
                         <div>
@@ -477,11 +497,6 @@ export default function Index() {
                             <option value="fisica">Física</option>
                             <option value="online">Online</option>
                             <option value="ambas">Física + Online</option>
-                            <option value="vendedor">Vendedor</option>
-                            <option value="marketplace">Marketplace</option>
-                            <option value="ainda-nao-tenho">
-                              Ainda não tenho
-                            </option>
                           </select>
                         </div>
                       </div>
