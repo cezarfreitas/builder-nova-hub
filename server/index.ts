@@ -74,5 +74,8 @@ export function createServer() {
   // Gallery API routes
   app.use("/api/gallery", galleryRoutes);
 
+  // SEO API routes
+  app.use("/api/seo", seoRoutes);
+
   return app;
 }
