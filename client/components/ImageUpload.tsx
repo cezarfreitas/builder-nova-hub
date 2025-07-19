@@ -250,7 +250,9 @@ export default function ImageUpload({
                 <ImageIcon className="w-12 h-12 mx-auto text-gray-400" />
                 <div className="space-y-2">
                   <p className="text-sm font-medium text-gray-900">
-                    Clique para enviar ou arraste uma imagem
+                    {isDragging
+                      ? "Solte a imagem aqui"
+                      : "Clique para enviar ou arraste uma imagem"}
                   </p>
                   <p className="text-xs text-gray-500">
                     PNG, JPG, GIF, WebP até 5MB
