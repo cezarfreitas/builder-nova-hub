@@ -379,27 +379,15 @@ export default function HeroManagement() {
                     <div className="relative z-10">
                       {/* Logo Preview */}
                       <div className="flex items-center justify-center mb-6">
-                        {formData.logo_url ? (
-                          <img
-                            src={formData.logo_url}
-                            alt="Logo"
-                            className="w-12 h-12 object-contain mr-3"
-                          />
-                        ) : (
-                          <div className="w-12 h-12 bg-ecko-red rounded-lg flex items-center justify-center mr-3">
-                            <span className="text-white font-black text-xl">
-                              🦏
-                            </span>
-                          </div>
-                        )}
-                        <div className="text-left">
-                          <h1 className="text-xl font-black text-white">
-                            eckō unltd.
-                          </h1>
-                          <p className="text-ecko-red text-sm font-bold uppercase tracking-wider">
-                            {formData.subtitle || "Programa de Revendedores"}
-                          </p>
-                        </div>
+                        <img
+                          src={
+                            formData.logo_url ||
+                            "https://www.ntktextil.com.br/wp-content/uploads/2022/08/Logo-Ecko.png"
+                          }
+                          alt="Logo"
+                          className="h-12 object-contain"
+                          style={{ width: "180px" }}
+                        />
                       </div>
 
                       {/* Title Preview */}
