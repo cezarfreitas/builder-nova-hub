@@ -120,3 +120,103 @@ export interface FAQUpdateResponse {
   message: string;
   faq: FAQ;
 }
+
+export interface GalleryImage {
+  id?: number;
+  title: string;
+  description?: string;
+  image_url: string;
+  alt_text?: string;
+  display_order: number;
+  is_active: boolean;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface GalleryResponse {
+  success: boolean;
+  images: GalleryImage[];
+  total: number;
+}
+
+export interface GalleryImageResponse {
+  success: boolean;
+  image: GalleryImage;
+}
+
+export interface GalleryUpdateResponse {
+  success: boolean;
+  message: string;
+  image: GalleryImage;
+}
+
+export interface SEOSettings {
+  id?: number;
+  page_title: string;
+  meta_description?: string;
+  meta_keywords?: string;
+  og_title?: string;
+  og_description?: string;
+  og_image?: string;
+  canonical_url?: string;
+  robots?: string;
+  is_active?: boolean;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface SEOResponse {
+  success: boolean;
+  seo: SEOSettings;
+}
+
+export interface SEOUpdateResponse {
+  success: boolean;
+  message: string;
+  seo: SEOSettings;
+}
+
+export interface ThemeSettings {
+  id?: number;
+  primary_color: string;
+  primary_light: string;
+  primary_dark: string;
+  secondary_color: string;
+  background_color: string;
+  text_color: string;
+  accent_color: string;
+  is_active?: boolean;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface ThemeResponse {
+  success: boolean;
+  theme: ThemeSettings;
+}
+
+export interface ThemeUpdateResponse {
+  success: boolean;
+  message: string;
+  theme: ThemeSettings;
+}
+
+export interface WebhookLog {
+  id?: number;
+  lead_id: number;
+  webhook_url?: string;
+  request_payload?: string;
+  response_status?: number;
+  response_body?: string;
+  response_headers?: string;
+  attempt_number: number;
+  success: boolean;
+  error_message?: string;
+  sent_at?: string;
+}
+
+export interface WebhookLogsResponse {
+  success: boolean;
+  logs: WebhookLog[];
+  total: number;
+}
