@@ -140,7 +140,7 @@ export default function Admin() {
         "Status",
         "Data de Cadastro",
       ],
-      ...leads.map((lead) => [
+      ...(leads || []).map((lead) => [
         lead.name,
         lead.whatsapp,
         lead.hasCnpj === "sim"
