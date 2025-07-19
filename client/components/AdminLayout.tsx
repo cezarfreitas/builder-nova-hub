@@ -164,15 +164,15 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         {/* User info */}
         <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200">
           <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
-              <Users className="w-4 h-4 text-gray-600" />
+            <div className="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center">
+              <Users className="w-4 h-4 text-white" />
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium text-gray-900 truncate">
-                Admin
+                {user?.username || "Admin"}
               </p>
-              <p className="text-xs text-gray-500 truncate">
-                Ecko Administrator
+              <p className="text-xs text-gray-500 truncate capitalize">
+                {user?.role || "Administrator"}
               </p>
             </div>
           </div>
