@@ -29,7 +29,6 @@ router.get("/", async (req, res) => {
 
     let query = "SELECT * FROM gallery";
     let countQuery = "SELECT COUNT(*) as total FROM gallery";
-    const queryParams: any[] = [];
 
     if (active_only === "true") {
       query += " WHERE is_active = TRUE";
@@ -38,17 +37,22 @@ router.get("/", async (req, res) => {
 
     query += " ORDER BY display_order ASC, created_at DESC";
 
-    // Add pagination
-    query += " LIMIT ? OFFSET ?";
-    queryParams.push(parseInt(limit as string), parseInt(offset as string));
-
-    const [images] = await pool.execute(query, queryParams);
+    // Execute query without LIMIT/OFFSET due to MySQL parameter issues
+    const [allImages] = await pool.execute(query);
     const [countResult] = await pool.execute(countQuery);
     const total = (countResult as any)[0].total;
 
+    // Apply pagination in memory
+    const limitNum = parseInt(limit as string) || 20;
+    const offsetNum = parseInt(offset as string) || 0;
+    const images = (allImages as GalleryImage[]).slice(
+      offsetNum,
+      offsetNum + limitNum,
+    );
+
     const response: GalleryResponse = {
       success: true,
-      images: images as GalleryImage[],
+      images: images,
       total,
     };
 
