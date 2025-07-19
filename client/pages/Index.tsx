@@ -505,8 +505,12 @@ export default function Index() {
 
                       <Button
                         type="submit"
-                        disabled={isSubmitting}
-                        className="w-full bg-gradient-to-r from-ecko-red to-ecko-red-dark hover:from-ecko-red-dark hover:to-ecko-red text-white py-3 text-lg font-bold shadow-lg hover:shadow-xl transition-all duration-300"
+                        disabled={isSubmitting || formData.hasCnpj === "nao"}
+                        className={`w-full py-3 text-lg font-bold shadow-lg hover:shadow-xl transition-all duration-300 ${
+                          formData.hasCnpj === "nao"
+                            ? "bg-gray-600 cursor-not-allowed"
+                            : "bg-gradient-to-r from-ecko-red to-ecko-red-dark hover:from-ecko-red-dark hover:to-ecko-red"
+                        } text-white`}
                       >
                         {isSubmitting ? (
                           <div className="flex items-center justify-center">
