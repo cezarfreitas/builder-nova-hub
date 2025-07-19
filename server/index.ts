@@ -60,5 +60,8 @@ export function createServer() {
   app.put("/api/testimonials/:id", updateTestimonial);
   app.delete("/api/testimonials/:id", deleteTestimonial);
 
+  // Hero API routes
+  app.use("/api/hero", heroRoutes);
+
   return app;
 }
