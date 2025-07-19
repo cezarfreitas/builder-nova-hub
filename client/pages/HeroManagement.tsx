@@ -21,6 +21,7 @@ import {
   CheckCircle,
 } from "lucide-react";
 import { HeroSettings, HeroResponse, HeroUpdateResponse } from "@shared/api";
+import ImageUpload from "../components/ImageUpload";
 
 export default function HeroManagement() {
   const [heroSettings, setHeroSettings] = useState<HeroSettings | null>(null);
