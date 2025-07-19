@@ -29,7 +29,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../components/ui/dialog";
-import { Lead, LeadsResponse } from "@shared/api";
+import { Lead, LeadsResponse, DailyStatsResponse } from "@shared/api";
 import {
   Users,
   Search,
@@ -37,10 +37,15 @@ import {
   Download,
   Eye,
   Trash2,
-  Mail,
   Phone,
   Building,
   Calendar,
+  Send,
+  RefreshCw,
+  AlertTriangle,
+  TrendingUp,
+  Activity,
+  Webhook,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -67,9 +72,13 @@ export default function Admin() {
   const [showDetails, setShowDetails] = useState(false);
   const [total, setTotal] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  const [dailyStats, setDailyStats] = useState<DailyStatsResponse | null>(null);
+  const [webhookUrl, setWebhookUrl] = useState("https://webhook.site/your-url");
+  const [sendingWebhook, setSendingWebhook] = useState<number | null>(null);
 
   useEffect(() => {
     fetchLeads();
+    fetchDailyStats();
   }, [statusFilter, currentPage]);
 
   const fetchLeads = async () => {
@@ -91,11 +100,20 @@ export default function Admin() {
       setTotal(data.total || 0);
     } catch (error) {
       console.error("Error fetching leads:", error);
-      // Set empty array as fallback
       setLeads([]);
       setTotal(0);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchDailyStats = async () => {
+    try {
+      const response = await fetch("/api/analytics/daily?days=30");
+      const data: DailyStatsResponse = await response.json();
+      setDailyStats(data);
+    } catch (error) {
+      console.error("Error fetching daily stats:", error);
     }
   };
 
@@ -126,10 +144,63 @@ export default function Admin() {
 
         if (response.ok) {
           fetchLeads();
+          fetchDailyStats();
         }
       } catch (error) {
         console.error("Error deleting lead:", error);
       }
+    }
+  };
+
+  const sendWebhook = async (leadId: number) => {
+    if (!webhookUrl) {
+      alert("Por favor, configure a URL do webhook");
+      return;
+    }
+
+    setSendingWebhook(leadId);
+    try {
+      const response = await fetch(`/api/analytics/webhook/${leadId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ webhook_url: webhookUrl }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        alert("Webhook enviado com sucesso!");
+        fetchLeads();
+      } else {
+        alert(`Erro ao enviar webhook: ${result.message}`);
+      }
+    } catch (error) {
+      console.error("Error sending webhook:", error);
+      alert("Erro ao enviar webhook");
+    } finally {
+      setSendingWebhook(null);
+    }
+  };
+
+  const checkDuplicates = async () => {
+    try {
+      const response = await fetch("/api/analytics/check-duplicates", {
+        method: "POST",
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        alert(
+          `Verificação concluída! ${result.duplicates_found} duplicados encontrados.`,
+        );
+        fetchLeads();
+        fetchDailyStats();
+      }
+    } catch (error) {
+      console.error("Error checking duplicates:", error);
     }
   };
 
@@ -141,6 +212,8 @@ export default function Admin() {
         "CNPJ",
         "Tipo de Loja",
         "Status",
+        "Duplicado",
+        "Webhook Enviado",
         "Data de Cadastro",
       ],
       ...(leads || []).map((lead) => [
@@ -153,6 +226,8 @@ export default function Admin() {
             : "Em processo",
         lead.storeType || "",
         statusLabels[lead.status || "new"],
+        lead.is_duplicate ? "Sim" : "Não",
+        lead.webhook_sent ? "Sim" : "Não",
         lead.created_at
           ? new Date(lead.created_at).toLocaleDateString("pt-BR")
           : "",
@@ -209,6 +284,142 @@ export default function Admin() {
       </header>
 
       <div className="container mx-auto px-4 py-8">
+        {/* Daily Stats Section */}
+        {dailyStats && (
+          <div className="mb-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+              <TrendingUp className="w-6 h-6 mr-2 text-ecko-red" />
+              Estatísticas Diárias
+            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-6">
+              <Card>
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-gray-600">Hoje</p>
+                      <p className="text-2xl font-bold text-ecko-red">
+                        {dailyStats.summary.today_leads}
+                      </p>
+                    </div>
+                    <Activity className="w-6 h-6 text-ecko-red" />
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-gray-600">
+                        Duplicados Hoje
+                      </p>
+                      <p className="text-2xl font-bold text-orange-600">
+                        {dailyStats.summary.duplicates_today}
+                      </p>
+                    </div>
+                    <AlertTriangle className="w-6 h-6 text-orange-600" />
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-gray-600">
+                        Webhooks Pendentes
+                      </p>
+                      <p className="text-2xl font-bold text-blue-600">
+                        {dailyStats.summary.webhooks_pending}
+                      </p>
+                    </div>
+                    <Webhook className="w-6 h-6 text-blue-600" />
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-gray-600">
+                        Total Geral
+                      </p>
+                      <p className="text-2xl font-bold text-gray-900">
+                        {dailyStats.summary.total_leads}
+                      </p>
+                    </div>
+                    <Users className="w-6 h-6 text-gray-600" />
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Chart Area */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Últimos 7 Dias</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  {dailyStats.stats.slice(0, 7).map((stat, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center justify-between py-2 border-b"
+                    >
+                      <div className="flex items-center space-x-4">
+                        <span className="text-sm font-medium w-20">
+                          {new Date(stat.date).toLocaleDateString("pt-BR", {
+                            day: "2-digit",
+                            month: "2-digit",
+                          })}
+                        </span>
+                        <div className="flex space-x-4 text-sm">
+                          <span className="text-green-600">
+                            +{stat.total_leads} leads
+                          </span>
+                          {stat.duplicates > 0 && (
+                            <span className="text-orange-600">
+                              {stat.duplicates} duplicados
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
+        {/* Quick Actions */}
+        <div className="mb-6">
+          <h2 className="text-xl font-bold text-gray-900 mb-4">
+            Ações Rápidas
+          </h2>
+          <div className="flex flex-wrap gap-4">
+            <Button
+              onClick={checkDuplicates}
+              className="bg-orange-600 hover:bg-orange-700 text-white"
+            >
+              <RefreshCw className="w-4 h-4 mr-2" />
+              Verificar Duplicados
+            </Button>
+            <div className="flex items-center space-x-2">
+              <Input
+                placeholder="URL do Webhook"
+                value={webhookUrl}
+                onChange={(e) => setWebhookUrl(e.target.value)}
+                className="w-64"
+              />
+              <Button variant="outline" size="sm">
+                Salvar URL
+              </Button>
+            </div>
+          </div>
+        </div>
+
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-8">
           <Card>
@@ -344,6 +555,8 @@ export default function Admin() {
                     <TableHead>CNPJ</TableHead>
                     <TableHead>Tipo de Loja</TableHead>
                     <TableHead>Status</TableHead>
+                    <TableHead>Duplicado</TableHead>
+                    <TableHead>Webhook</TableHead>
                     <TableHead>Data</TableHead>
                     <TableHead>Ações</TableHead>
                   </TableRow>
@@ -351,13 +564,13 @@ export default function Admin() {
                 <TableBody>
                   {loading ? (
                     <TableRow>
-                      <TableCell colSpan={7} className="text-center py-8">
+                      <TableCell colSpan={9} className="text-center py-8">
                         Carregando...
                       </TableCell>
                     </TableRow>
                   ) : filteredLeads.length === 0 ? (
                     <TableRow>
-                      <TableCell colSpan={7} className="text-center py-8">
+                      <TableCell colSpan={9} className="text-center py-8">
                         Nenhum lead encontrado
                       </TableCell>
                     </TableRow>
@@ -405,6 +618,43 @@ export default function Admin() {
                               </SelectItem>
                             </SelectContent>
                           </Select>
+                        </TableCell>
+                        <TableCell>
+                          {lead.is_duplicate ? (
+                            <Badge className="bg-red-100 text-red-800">
+                              Duplicado
+                            </Badge>
+                          ) : (
+                            <Badge className="bg-green-100 text-green-800">
+                              Único
+                            </Badge>
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center space-x-2">
+                            {lead.webhook_sent ? (
+                              <Badge className="bg-green-100 text-green-800">
+                                Enviado
+                              </Badge>
+                            ) : (
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() => sendWebhook(lead.id!)}
+                                disabled={sendingWebhook === lead.id}
+                                className="text-xs"
+                              >
+                                {sendingWebhook === lead.id ? (
+                                  <RefreshCw className="w-3 h-3 animate-spin" />
+                                ) : (
+                                  <>
+                                    <Send className="w-3 h-3 mr-1" />
+                                    Enviar
+                                  </>
+                                )}
+                              </Button>
+                            )}
+                          </div>
                         </TableCell>
                         <TableCell>
                           {lead.created_at
@@ -493,20 +743,6 @@ export default function Admin() {
                       <p className="text-sm text-gray-600">WhatsApp</p>
                     </div>
                   </div>
-
-                  <div className="flex items-center space-x-3">
-                    <Shield className="w-5 h-5 text-ecko-red" />
-                    <div>
-                      <p className="font-semibold">
-                        {selectedLead.hasCnpj === "sim"
-                          ? "Sim, tem CNPJ"
-                          : selectedLead.hasCnpj === "nao"
-                            ? "Não tem CNPJ"
-                            : "CNPJ em processo"}
-                      </p>
-                      <p className="text-sm text-gray-600">CNPJ</p>
-                    </div>
-                  </div>
                 </div>
 
                 <div className="space-y-4">
@@ -545,11 +781,14 @@ export default function Admin() {
                 </div>
               </div>
 
-              {selectedLead.message && (
+              {/* Webhook Info */}
+              {selectedLead.webhook_response && (
                 <div>
-                  <h4 className="font-semibold mb-2">Mensagem:</h4>
+                  <h4 className="font-semibold mb-2">Resposta do Webhook:</h4>
                   <div className="bg-gray-50 p-4 rounded-lg">
-                    <p className="text-gray-700">{selectedLead.message}</p>
+                    <pre className="text-sm text-gray-700 whitespace-pre-wrap">
+                      {selectedLead.webhook_response}
+                    </pre>
                   </div>
                 </div>
               )}
@@ -576,6 +815,18 @@ export default function Admin() {
                   <Phone className="w-4 h-4 mr-2" />
                   Ligar
                 </Button>
+                {!selectedLead.webhook_sent && (
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      sendWebhook(selectedLead.id!);
+                      setShowDetails(false);
+                    }}
+                  >
+                    <Send className="w-4 h-4 mr-2" />
+                    Enviar Webhook
+                  </Button>
+                )}
               </div>
             </div>
           )}
