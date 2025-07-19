@@ -385,8 +385,8 @@ export default function HeroManagement() {
                             "https://www.ntktextil.com.br/wp-content/uploads/2022/08/Logo-Ecko.png"
                           }
                           alt="Logo"
-                          className="h-12 object-contain"
-                          style={{ width: "180px" }}
+                          className="object-contain"
+                          style={{ width: "240px", height: "72px" }}
                         />
                       </div>
 
