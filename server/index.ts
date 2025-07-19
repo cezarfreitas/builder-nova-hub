@@ -63,11 +63,21 @@ export function createServer() {
   app.put("/api/leads/:id", updateLeadStatus);
   app.delete("/api/leads/:id", deleteLead);
 
-  // Analytics API routes
+  // Analytics API routes (existing)
   app.get("/api/analytics/daily", getDailyStats);
   app.post("/api/analytics/webhook/:id", sendWebhook);
   app.post("/api/analytics/check-duplicates", checkDuplicates);
   app.get("/api/analytics/webhook-logs/:id", getWebhookLogs);
+
+  // Session Analytics API routes
+  app.post("/api/analytics/session", startSession);
+  app.put("/api/analytics/session/update", updateSession);
+  app.post("/api/analytics/session/end", endSession);
+  app.post("/api/analytics/event", trackEvent);
+  app.post("/api/analytics/conversion", trackConversion);
+  app.get("/api/analytics/sessions", getSessionAnalytics);
+  app.get("/api/analytics/events", getEventAnalytics);
+  app.get("/api/analytics/conversions", getConversionAnalytics);
 
   // Testimonials API routes
   app.get("/api/testimonials", getTestimonials);
