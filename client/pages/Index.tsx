@@ -3,6 +3,7 @@ import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Card, CardContent } from "../components/ui/card";
 import { CheckCircle } from "lucide-react";
+import { cn } from "../lib/utils";
 
 interface LeadFormData {
   name: string;
@@ -28,8 +29,16 @@ export default function Index() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleOptionSelect = (field: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formData.hasCnpj || !formData.storeType) {
+      alert("Por favor, selecione todas as opções");
+      return;
+    }
     setIsSubmitting(true);
 
     try {
@@ -59,21 +68,21 @@ export default function Index() {
 
   if (isSubmitted) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
-        <Card className="max-w-md w-full text-center">
-          <CardContent className="p-8">
-            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <CheckCircle className="w-8 h-8 text-green-600" />
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+        <Card className="max-w-sm w-full text-center">
+          <CardContent className="p-6">
+            <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <CheckCircle className="w-6 h-6 text-green-600" />
             </div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">
+            <h2 className="text-xl font-bold text-gray-900 mb-3">
               Cadastro Enviado!
             </h2>
-            <p className="text-gray-600 mb-6">
+            <p className="text-gray-600 mb-4 text-sm">
               Nossa equipe entrará em contato em até 24h!
             </p>
             <Button
               onClick={() => setIsSubmitted(false)}
-              className="bg-ecko-red hover:bg-ecko-red-dark text-white"
+              className="bg-ecko-red hover:bg-ecko-red-dark text-white text-sm"
             >
               Enviar Novo Cadastro
             </Button>
@@ -84,41 +93,41 @@ export default function Index() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+      <div className="w-full max-w-sm">
         <Card className="shadow-lg border-0">
-          <CardContent className="p-8">
-            {/* Header do Form */}
-            <div className="text-center mb-8">
-              <div className="w-12 h-12 bg-ecko-red rounded-lg flex items-center justify-center mx-auto mb-4">
-                <CheckCircle className="w-6 h-6 text-white" />
+          <CardContent className="p-6">
+            {/* Header */}
+            <div className="text-center mb-6">
+              <div className="w-10 h-10 bg-ecko-red rounded-lg flex items-center justify-center mx-auto mb-3">
+                <CheckCircle className="w-5 h-5 text-white" />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">
+              <h2 className="text-xl font-bold text-gray-900 mb-1">
                 Cadastro de Revendedor
               </h2>
-              <p className="text-gray-600">
+              <p className="text-gray-600 text-sm">
                 Preencha os dados para receber nossa proposta
               </p>
             </div>
 
             {/* Formulário */}
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
                   Nome Completo
                 </label>
                 <Input
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  placeholder="Digite seu nome completo"
+                  placeholder="Digite seu nome"
                   required
-                  className="h-12 text-base border-gray-200 focus:border-ecko-red focus:ring-ecko-red/20"
+                  className="h-10 text-sm border-gray-200 focus:border-ecko-red focus:ring-ecko-red/20"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
                   WhatsApp
                 </label>
                 <Input
@@ -128,55 +137,142 @@ export default function Index() {
                   onChange={handleInputChange}
                   placeholder="(11) 99999-9999"
                   required
-                  className="h-12 text-base border-gray-200 focus:border-ecko-red focus:ring-ecko-red/20"
+                  className="h-10 text-sm border-gray-200 focus:border-ecko-red focus:ring-ecko-red/20"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Tem CNPJ?
                 </label>
-                <select
-                  name="hasCnpj"
-                  value={formData.hasCnpj}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full h-12 text-base border border-gray-200 rounded-md px-4 py-3 focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none bg-white"
-                >
-                  <option value="">Selecione uma opção</option>
-                  <option value="sim">Sim, tenho CNPJ</option>
-                  <option value="nao">Não tenho CNPJ</option>
-                  <option value="processo">Em processo de abertura</option>
-                </select>
+                <div className="grid grid-cols-1 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => handleOptionSelect("hasCnpj", "sim")}
+                    className={cn(
+                      "px-3 py-2 text-sm border rounded-md transition-colors text-left",
+                      formData.hasCnpj === "sim"
+                        ? "bg-ecko-red text-white border-ecko-red"
+                        : "bg-white text-gray-700 border-gray-200 hover:border-ecko-red",
+                    )}
+                  >
+                    Sim, tenho CNPJ
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleOptionSelect("hasCnpj", "nao")}
+                    className={cn(
+                      "px-3 py-2 text-sm border rounded-md transition-colors text-left",
+                      formData.hasCnpj === "nao"
+                        ? "bg-ecko-red text-white border-ecko-red"
+                        : "bg-white text-gray-700 border-gray-200 hover:border-ecko-red",
+                    )}
+                  >
+                    Não tenho CNPJ
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleOptionSelect("hasCnpj", "processo")}
+                    className={cn(
+                      "px-3 py-2 text-sm border rounded-md transition-colors text-left",
+                      formData.hasCnpj === "processo"
+                        ? "bg-ecko-red text-white border-ecko-red"
+                        : "bg-white text-gray-700 border-gray-200 hover:border-ecko-red",
+                    )}
+                  >
+                    Em processo de abertura
+                  </button>
+                </div>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Tipo de Loja
                 </label>
-                <select
-                  name="storeType"
-                  value={formData.storeType}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full h-12 text-base border border-gray-200 rounded-md px-4 py-3 focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none bg-white"
-                >
-                  <option value="">Selecione o tipo</option>
-                  <option value="fisica">Loja Física</option>
-                  <option value="online">Loja Online</option>
-                  <option value="ambas">Física + Online</option>
-                  <option value="vendedor">Vendedor/Representante</option>
-                  <option value="marketplace">
-                    Marketplace (Mercado Livre, etc)
-                  </option>
-                  <option value="ainda-nao-tenho">Ainda não tenho loja</option>
-                </select>
+                <div className="grid grid-cols-1 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => handleOptionSelect("storeType", "fisica")}
+                    className={cn(
+                      "px-3 py-2 text-sm border rounded-md transition-colors text-left",
+                      formData.storeType === "fisica"
+                        ? "bg-ecko-red text-white border-ecko-red"
+                        : "bg-white text-gray-700 border-gray-200 hover:border-ecko-red",
+                    )}
+                  >
+                    Loja Física
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleOptionSelect("storeType", "online")}
+                    className={cn(
+                      "px-3 py-2 text-sm border rounded-md transition-colors text-left",
+                      formData.storeType === "online"
+                        ? "bg-ecko-red text-white border-ecko-red"
+                        : "bg-white text-gray-700 border-gray-200 hover:border-ecko-red",
+                    )}
+                  >
+                    Loja Online
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleOptionSelect("storeType", "ambas")}
+                    className={cn(
+                      "px-3 py-2 text-sm border rounded-md transition-colors text-left",
+                      formData.storeType === "ambas"
+                        ? "bg-ecko-red text-white border-ecko-red"
+                        : "bg-white text-gray-700 border-gray-200 hover:border-ecko-red",
+                    )}
+                  >
+                    Física + Online
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleOptionSelect("storeType", "vendedor")}
+                    className={cn(
+                      "px-3 py-2 text-sm border rounded-md transition-colors text-left",
+                      formData.storeType === "vendedor"
+                        ? "bg-ecko-red text-white border-ecko-red"
+                        : "bg-white text-gray-700 border-gray-200 hover:border-ecko-red",
+                    )}
+                  >
+                    Vendedor/Representante
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      handleOptionSelect("storeType", "marketplace")
+                    }
+                    className={cn(
+                      "px-3 py-2 text-sm border rounded-md transition-colors text-left",
+                      formData.storeType === "marketplace"
+                        ? "bg-ecko-red text-white border-ecko-red"
+                        : "bg-white text-gray-700 border-gray-200 hover:border-ecko-red",
+                    )}
+                  >
+                    Marketplace
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      handleOptionSelect("storeType", "ainda-nao-tenho")
+                    }
+                    className={cn(
+                      "px-3 py-2 text-sm border rounded-md transition-colors text-left",
+                      formData.storeType === "ainda-nao-tenho"
+                        ? "bg-ecko-red text-white border-ecko-red"
+                        : "bg-white text-gray-700 border-gray-200 hover:border-ecko-red",
+                    )}
+                  >
+                    Ainda não tenho loja
+                  </button>
+                </div>
               </div>
 
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-ecko-red hover:bg-ecko-red-dark text-white py-3 text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-200 h-12"
+                className="w-full bg-ecko-red hover:bg-ecko-red-dark text-white py-2.5 text-sm font-semibold shadow-lg hover:shadow-xl transition-all duration-200 mt-6"
               >
                 {isSubmitting ? (
                   <div className="flex items-center justify-center">
@@ -188,15 +284,15 @@ export default function Index() {
                 )}
               </Button>
 
-              <p className="text-xs text-gray-500 text-center">
-                🔒 Seus dados estão protegidos • Cadastro gratuito
+              <p className="text-xs text-gray-500 text-center mt-3">
+                🔒 Seus dados estão protegidos
               </p>
             </form>
           </CardContent>
         </Card>
 
         {/* Link Admin */}
-        <div className="text-center mt-6">
+        <div className="text-center mt-4">
           <a
             href="/admin"
             className="text-xs text-gray-400 hover:text-ecko-red transition-colors"
