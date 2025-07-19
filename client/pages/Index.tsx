@@ -51,10 +51,12 @@ export default function Index() {
   const [cnpjError, setCnpjError] = useState("");
   const [faqs, setFaqs] = useState<FAQ[]>([]);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [galleryImages, setGalleryImages] = useState<GalleryImage[]>([]);
 
   useEffect(() => {
     fetchHeroSettings();
     fetchFAQs();
+    fetchGalleryImages();
   }, []);
 
   const fetchHeroSettings = async () => {
