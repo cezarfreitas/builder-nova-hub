@@ -39,6 +39,7 @@ export default function Index() {
 
   useEffect(() => {
     fetchHeroSettings();
+    fetchFAQs();
   }, []);
 
   const fetchHeroSettings = async () => {
