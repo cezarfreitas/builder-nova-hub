@@ -128,6 +128,14 @@ export const updateSession: RequestHandler = async (req, res) => {
   try {
     const { sessionId, duration, pageViews, bounce, lastActivity } = req.body;
 
+    // Validate required parameters
+    if (!sessionId) {
+      return res.status(400).json({
+        success: false,
+        message: "Session ID is required",
+      });
+    }
+
     await pool.execute(
       `UPDATE sessions 
        SET duration_seconds = ?, page_views = ?, bounce = ?
