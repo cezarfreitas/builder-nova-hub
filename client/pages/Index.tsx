@@ -73,10 +73,12 @@ export default function Index() {
 
   useEffect(() => {
     if (!emblaApi) return;
+    onInit();
     onSelect();
+    emblaApi.on("init", onInit);
     emblaApi.on("select", onSelect);
     emblaApi.on("reInit", onSelect);
-  }, [emblaApi, onSelect]);
+  }, [emblaApi, onInit, onSelect]);
 
   useEffect(() => {
     fetchTestimonials();
