@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import AdminLayout from "../components/AdminLayout";
@@ -10,18 +10,22 @@ import {
 } from "../components/ui/card";
 import { Textarea } from "../components/ui/textarea";
 import { Label } from "../components/ui/label";
+import { Slider } from "../components/ui/slider";
 import {
   Save,
-  Upload,
   Eye,
   EyeOff,
-  Image as ImageIcon,
   RefreshCw,
   AlertCircle,
   CheckCircle,
+  Settings,
+  Image as ImageIcon,
+  Palette,
+  Monitor,
+  Smartphone,
 } from "lucide-react";
 import { HeroSettings, HeroResponse, HeroUpdateResponse } from "@shared/api";
-import ImageUpload from "../components/ImageUpload";
+import SimpleImageUpload from "../components/SimpleImageUpload";
 
 export default function HeroManagement() {
   const [heroSettings, setHeroSettings] = useState<HeroSettings | null>(null);
@@ -36,10 +40,14 @@ export default function HeroManagement() {
   // Form state
   const [formData, setFormData] = useState({
     logo_url: "",
+    logo_width: 200,
+    logo_height: 80,
     main_title: "",
     subtitle: "",
     description: "",
     background_image_url: "",
+    background_overlay_opacity: 50,
+    background_overlay_color: "#000000",
     cta_text: "Descubra Como Funciona",
   });
 
@@ -57,10 +65,16 @@ export default function HeroManagement() {
         setHeroSettings(data.hero);
         setFormData({
           logo_url: data.hero.logo_url || "",
+          logo_width: data.hero.logo_width || 200,
+          logo_height: data.hero.logo_height || 80,
           main_title: data.hero.main_title || "",
           subtitle: data.hero.subtitle || "",
           description: data.hero.description || "",
           background_image_url: data.hero.background_image_url || "",
+          background_overlay_opacity:
+            data.hero.background_overlay_opacity || 50,
+          background_overlay_color:
+            data.hero.background_overlay_color || "#000000",
           cta_text: data.hero.cta_text || "Descubra Como Funciona",
         });
       } else {
@@ -70,7 +84,11 @@ export default function HeroManagement() {
         });
       }
     } catch (error) {
-      setMessage({ type: "error", text: "Erro ao conectar com o servidor" });
+      console.error("Error fetching hero settings:", error);
+      setMessage({
+        type: "error",
+        text: "Erro ao carregar configurações do hero",
+      });
     } finally {
       setIsLoading(false);
     }
@@ -83,26 +101,17 @@ export default function HeroManagement() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleNumberChange = (name: string, value: number) => {
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
   const handleSave = async () => {
-    if (!heroSettings?.id) {
-      setMessage({
-        type: "error",
-        text: "ID das configurações não encontrado",
-      });
-      return;
-    }
-
-    if (!formData.main_title.trim()) {
-      setMessage({ type: "error", text: "Título principal é obrigatório" });
-      return;
-    }
-
     try {
       setIsSaving(true);
       setMessage(null);
 
-      const response = await fetch(`/api/hero/${heroSettings.id}`, {
-        method: "PUT",
+      const response = await fetch("/api/hero", {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
@@ -111,12 +120,12 @@ export default function HeroManagement() {
 
       const data: HeroUpdateResponse = await response.json();
 
-      if (response.ok) {
-        setHeroSettings(data.hero);
+      if (data.success) {
         setMessage({
           type: "success",
           text: "Configurações salvas com sucesso!",
         });
+        setHeroSettings(data.hero);
       } else {
         setMessage({
           type: "error",
@@ -124,32 +133,31 @@ export default function HeroManagement() {
         });
       }
     } catch (error) {
-      setMessage({ type: "error", text: "Erro ao conectar com o servidor" });
+      console.error("Error saving hero settings:", error);
+      setMessage({
+        type: "error",
+        text: "Erro ao salvar configurações",
+      });
     } finally {
       setIsSaving(false);
     }
   };
 
-  const formatTitle = (title: string) => {
-    return title.split("\\n").join("\n");
-  };
-
-  const previewTitle = (title: string) => {
-    return title.split("\n").map((line, index) => (
-      <div key={index} className={index > 0 ? "text-ecko-red" : ""}>
-        {line}
-      </div>
-    ));
+  const previewBackgroundStyle = {
+    backgroundImage: formData.background_image_url
+      ? `linear-gradient(rgba(${parseInt(formData.background_overlay_color.slice(1, 3), 16)}, ${parseInt(formData.background_overlay_color.slice(3, 5), 16)}, ${parseInt(formData.background_overlay_color.slice(5, 7), 16)}, ${formData.background_overlay_opacity / 100})), url(${formData.background_image_url})`
+      : undefined,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
   };
 
   if (isLoading) {
     return (
       <AdminLayout>
-        <div className="flex items-center justify-center py-20">
-          <div className="flex items-center space-x-3">
-            <RefreshCw className="w-6 h-6 animate-spin text-ecko-red" />
-            <span className="text-gray-600">Carregando configurações...</span>
-          </div>
+        <div className="flex items-center justify-center h-64">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-red-600"></div>
+          <span className="ml-2">Carregando configurações...</span>
         </div>
       </AdminLayout>
     );
@@ -159,95 +167,225 @@ export default function HeroManagement() {
     <AdminLayout>
       <div className="space-y-6">
         {/* Header */}
-        <div>
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">
-                Gerenciar Seção Hero
-              </h1>
-              <p className="text-gray-600 mt-2">
-                Configure o visual e textos da primeira seção da landing page
-              </p>
-            </div>
-            <div className="flex space-x-3">
-              <Button
-                onClick={() => setPreviewMode(!previewMode)}
-                variant="outline"
-                className="flex items-center space-x-2"
-              >
-                {previewMode ? (
-                  <EyeOff className="w-4 h-4" />
-                ) : (
-                  <Eye className="w-4 h-4" />
-                )}
-                <span>{previewMode ? "Ocultar" : "Preview"}</span>
-              </Button>
-              <Button
-                onClick={handleSave}
-                disabled={isSaving}
-                className="bg-ecko-red hover:bg-ecko-red-dark text-white flex items-center space-x-2"
-              >
-                {isSaving ? (
-                  <RefreshCw className="w-4 h-4 animate-spin" />
-                ) : (
-                  <Save className="w-4 h-4" />
-                )}
-                <span>{isSaving ? "Salvando..." : "Salvar"}</span>
-              </Button>
-            </div>
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">
+              Configurações do Hero
+            </h1>
+            <p className="text-gray-600 mt-1">
+              Personalize a seção principal da sua landing page
+            </p>
+          </div>
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              onClick={() => setPreviewMode(!previewMode)}
+              className="flex items-center gap-2"
+            >
+              {previewMode ? (
+                <EyeOff className="w-4 h-4" />
+              ) : (
+                <Eye className="w-4 h-4" />
+              )}
+              {previewMode ? "Ocultar Preview" : "Mostrar Preview"}
+            </Button>
+            <Button
+              onClick={fetchHeroSettings}
+              variant="outline"
+              className="flex items-center gap-2"
+            >
+              <RefreshCw className="w-4 h-4" />
+              Recarregar
+            </Button>
+            <Button
+              onClick={handleSave}
+              disabled={isSaving}
+              className="flex items-center gap-2"
+            >
+              {isSaving ? (
+                <RefreshCw className="w-4 h-4 animate-spin" />
+              ) : (
+                <Save className="w-4 h-4" />
+              )}
+              Salvar Alterações
+            </Button>
           </div>
         </div>
 
         {/* Message */}
         {message && (
           <div
-            className={`mb-6 p-4 rounded-lg flex items-center space-x-3 ${
+            className={`p-4 rounded-lg border ${
               message.type === "success"
-                ? "bg-green-50 border border-green-200 text-green-700"
-                : "bg-red-50 border border-red-200 text-red-700"
+                ? "bg-green-50 border-green-200 text-green-700"
+                : "bg-red-50 border-red-200 text-red-700"
             }`}
           >
-            {message.type === "success" ? (
-              <CheckCircle className="w-5 h-5" />
-            ) : (
-              <AlertCircle className="w-5 h-5" />
-            )}
-            <span>{message.text}</span>
+            <div className="flex items-center gap-2">
+              {message.type === "success" ? (
+                <CheckCircle className="w-5 h-5" />
+              ) : (
+                <AlertCircle className="w-5 h-5" />
+              )}
+              {message.text}
+            </div>
           </div>
         )}
 
-        <div className="grid lg:grid-cols-2 gap-8">
-          {/* Form Section */}
+        {/* Preview */}
+        {previewMode && (
+          <Card className="overflow-hidden">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Monitor className="w-5 h-5" />
+                Preview Desktop
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div
+                className="relative min-h-[500px] flex items-center justify-center rounded-lg overflow-hidden"
+                style={previewBackgroundStyle}
+              >
+                <div className="text-center text-white space-y-6 max-w-4xl mx-auto px-8">
+                  {formData.logo_url && (
+                    <div className="mb-8">
+                      <img
+                        src={formData.logo_url}
+                        alt="Logo"
+                        style={{
+                          width: `${formData.logo_width}px`,
+                          height: `${formData.logo_height}px`,
+                        }}
+                        className="mx-auto object-contain"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = "/placeholder.svg";
+                        }}
+                      />
+                    </div>
+                  )}
+                  {formData.subtitle && (
+                    <p className="text-lg font-medium text-red-400">
+                      {formData.subtitle}
+                    </p>
+                  )}
+                  {formData.main_title && (
+                    <h1 className="text-4xl md:text-6xl font-bold leading-tight">
+                      {formData.main_title}
+                    </h1>
+                  )}
+                  {formData.description && (
+                    <p className="text-xl text-gray-200 max-w-2xl mx-auto">
+                      {formData.description}
+                    </p>
+                  )}
+                  {formData.cta_text && (
+                    <Button size="lg" className="bg-red-600 hover:bg-red-700">
+                      {formData.cta_text}
+                    </Button>
+                  )}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Left Column - Images */}
           <div className="space-y-6">
             {/* Logo */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
+                <CardTitle className="flex items-center gap-2">
                   <ImageIcon className="w-5 h-5" />
-                  <span>Logo</span>
+                  Logo da Empresa
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <ImageUpload
+              <CardContent className="space-y-6">
+                <SimpleImageUpload
                   value={formData.logo_url}
                   onChange={(url) =>
                     setFormData((prev) => ({ ...prev, logo_url: url }))
                   }
-                  label="Logo da Empresa"
+                  label=""
                   placeholder="URL do logo ou faça upload"
-                  description="Deixe vazio para usar o logo padrão da Ecko. Recomendado: 200x80px, PNG transparente"
+                  description="Logo da empresa. Recomendado: PNG transparente"
                   usedFor="hero_logo"
+                  previewHeight="h-32"
                 />
+
+                {/* Logo Size Controls */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label>Largura do Logo (px)</Label>
+                    <div className="mt-2 space-y-2">
+                      <Slider
+                        value={[formData.logo_width]}
+                        onValueChange={(value) =>
+                          handleNumberChange("logo_width", value[0])
+                        }
+                        max={400}
+                        min={50}
+                        step={10}
+                        className="w-full"
+                      />
+                      <Input
+                        type="number"
+                        value={formData.logo_width}
+                        onChange={(e) =>
+                          handleNumberChange(
+                            "logo_width",
+                            parseInt(e.target.value) || 200,
+                          )
+                        }
+                        min="50"
+                        max="400"
+                        className="text-center"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <Label>Altura do Logo (px)</Label>
+                    <div className="mt-2 space-y-2">
+                      <Slider
+                        value={[formData.logo_height]}
+                        onValueChange={(value) =>
+                          handleNumberChange("logo_height", value[0])
+                        }
+                        max={200}
+                        min={30}
+                        step={5}
+                        className="w-full"
+                      />
+                      <Input
+                        type="number"
+                        value={formData.logo_height}
+                        onChange={(e) =>
+                          handleNumberChange(
+                            "logo_height",
+                            parseInt(e.target.value) || 80,
+                          )
+                        }
+                        min="30"
+                        max="200"
+                        className="text-center"
+                      />
+                    </div>
+                  </div>
+                </div>
               </CardContent>
             </Card>
 
-            {/* Background */}
+            {/* Background Image */}
             <Card>
               <CardHeader>
-                <CardTitle>Imagem de Fundo</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <ImageIcon className="w-5 h-5" />
+                  Imagem de Fundo
+                </CardTitle>
               </CardHeader>
-              <CardContent>
-                <ImageUpload
+              <CardContent className="space-y-6">
+                <SimpleImageUpload
                   value={formData.background_image_url}
                   onChange={(url) =>
                     setFormData((prev) => ({
@@ -255,18 +393,100 @@ export default function HeroManagement() {
                       background_image_url: url,
                     }))
                   }
-                  label="Imagem de Fundo"
+                  label=""
                   placeholder="URL da imagem de fundo ou faça upload"
-                  description="Deixe vazio para usar o background padrão. Recomendado: 1920x1080px, formato paisagem"
+                  description="Imagem de fundo do hero. Recomendado: 1920x1080px, formato paisagem"
                   usedFor="hero_background"
+                  previewHeight="h-48"
                 />
+
+                {/* Overlay Controls */}
+                <div className="space-y-4">
+                  <h4 className="font-medium flex items-center gap-2">
+                    <Palette className="w-4 h-4" />
+                    Overlay da Imagem
+                  </h4>
+
+                  <div>
+                    <Label>Cor do Overlay</Label>
+                    <div className="mt-2 flex gap-2">
+                      <Input
+                        type="color"
+                        value={formData.background_overlay_color}
+                        onChange={(e) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            background_overlay_color: e.target.value,
+                          }))
+                        }
+                        className="w-16 h-10"
+                      />
+                      <Input
+                        type="text"
+                        value={formData.background_overlay_color}
+                        onChange={(e) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            background_overlay_color: e.target.value,
+                          }))
+                        }
+                        placeholder="#000000"
+                        className="flex-1"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <Label>
+                      Opacidade do Overlay (
+                      {formData.background_overlay_opacity}%)
+                    </Label>
+                    <div className="mt-2 space-y-2">
+                      <Slider
+                        value={[formData.background_overlay_opacity]}
+                        onValueChange={(value) =>
+                          handleNumberChange(
+                            "background_overlay_opacity",
+                            value[0],
+                          )
+                        }
+                        max={100}
+                        min={0}
+                        step={5}
+                        className="w-full"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Overlay Preview */}
+                  <div className="relative h-16 rounded-lg overflow-hidden border border-gray-200">
+                    <div
+                      className="absolute inset-0"
+                      style={{
+                        backgroundColor: formData.background_overlay_color,
+                        opacity: formData.background_overlay_opacity / 100,
+                      }}
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span className="text-white text-sm font-medium">
+                        Preview do Overlay
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </CardContent>
             </Card>
+          </div>
 
-            {/* Textos */}
+          {/* Right Column - Content */}
+          <div className="space-y-6">
+            {/* Text Content */}
             <Card>
               <CardHeader>
-                <CardTitle>Textos do Hero</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <Settings className="w-5 h-5" />
+                  Conteúdo do Hero
+                </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
@@ -276,9 +496,12 @@ export default function HeroManagement() {
                     name="subtitle"
                     value={formData.subtitle}
                     onChange={handleInputChange}
-                    placeholder="Programa de Revendedores"
+                    placeholder="Ex: Programa de Revendedores"
                     className="mt-1"
                   />
+                  <p className="text-sm text-gray-500 mt-1">
+                    Texto que aparece acima do título principal
+                  </p>
                 </div>
 
                 <div>
@@ -286,16 +509,15 @@ export default function HeroManagement() {
                   <Textarea
                     id="main_title"
                     name="main_title"
-                    value={formatTitle(formData.main_title)}
+                    value={formData.main_title}
                     onChange={handleInputChange}
-                    placeholder="TRANSFORME SUA&#10;PAIXÃO&#10;EM LUCRO"
-                    rows={4}
-                    className="mt-1"
+                    placeholder="Ex: TRANSFORME SUA PAIXÃO EM LUCRO"
+                    className="mt-1 min-h-[100px]"
                     required
                   />
                   <p className="text-sm text-gray-500 mt-1">
-                    Use quebras de linha para separar as partes do título. As
-                    linhas 2 e 3 ficarão vermelhas.
+                    Título principal em destaque. Use quebras de linha para
+                    formatação
                   </p>
                 </div>
 
@@ -306,10 +528,12 @@ export default function HeroManagement() {
                     name="description"
                     value={formData.description}
                     onChange={handleInputChange}
-                    placeholder="Seja um revendedor oficial da marca de streetwear mais desejada do Brasil e multiplique suas vendas!"
-                    rows={3}
-                    className="mt-1"
+                    placeholder="Ex: Seja um revendedor oficial da marca de streetwear mais desejada do Brasil e multiplique suas vendas!"
+                    className="mt-1 min-h-[100px]"
                   />
+                  <p className="text-sm text-gray-500 mt-1">
+                    Descrição que aparece abaixo do título
+                  </p>
                 </div>
 
                 <div>
@@ -319,75 +543,45 @@ export default function HeroManagement() {
                     name="cta_text"
                     value={formData.cta_text}
                     onChange={handleInputChange}
-                    placeholder="Descubra Como Funciona"
+                    placeholder="Ex: Descubra Como Funciona"
                     className="mt-1"
                   />
+                  <p className="text-sm text-gray-500 mt-1">
+                    Texto do botão de call-to-action
+                  </p>
                 </div>
               </CardContent>
             </Card>
+
+            {/* Quick Actions */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Ações Rápidas</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <Button
+                  variant="outline"
+                  onClick={() => window.open("/", "_blank")}
+                  className="w-full justify-start"
+                >
+                  <Eye className="w-4 h-4 mr-2" />
+                  Ver Landing Page
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => setPreviewMode(!previewMode)}
+                  className="w-full justify-start"
+                >
+                  {previewMode ? (
+                    <EyeOff className="w-4 h-4 mr-2" />
+                  ) : (
+                    <Eye className="w-4 h-4 mr-2" />
+                  )}
+                  {previewMode ? "Ocultar Preview" : "Mostrar Preview"}
+                </Button>
+              </CardContent>
+            </Card>
           </div>
-
-          {/* Preview Section */}
-          {previewMode && (
-            <div className="lg:sticky lg:top-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Preview do Hero</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="bg-black rounded-lg p-8 text-center min-h-[400px] flex flex-col justify-center relative overflow-hidden">
-                    {/* Background Preview */}
-                    {formData.background_image_url && (
-                      <div
-                        className="absolute inset-0 bg-cover bg-center opacity-30"
-                        style={{
-                          backgroundImage: `url(${formData.background_image_url})`,
-                        }}
-                      />
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/80" />
-
-                    <div className="relative z-10">
-                      {/* Logo Preview */}
-                      <div className="flex items-center justify-center mb-6">
-                        <img
-                          src={
-                            formData.logo_url ||
-                            "https://www.ntktextil.com.br/wp-content/uploads/2022/08/Logo-Ecko.png"
-                          }
-                          alt="Logo"
-                          className="object-contain"
-                          style={{ width: "240px", height: "72px" }}
-                        />
-                      </div>
-
-                      {/* Title Preview */}
-                      <h2 className="text-2xl lg:text-4xl font-black text-white mb-4 leading-tight">
-                        {formData.main_title
-                          ? previewTitle(formatTitle(formData.main_title))
-                          : "TÍTULO PRINCIPAL"}
-                      </h2>
-
-                      {/* Description Preview */}
-                      <p className="text-sm lg:text-base text-gray-300 mb-6 font-medium">
-                        {formData.description ||
-                          "Descrição do hero aparecerá aqui"}
-                      </p>
-
-                      {/* CTA Preview */}
-                      <Button
-                        variant="outline"
-                        className="border-2 border-ecko-red text-ecko-red hover:bg-ecko-red hover:text-white font-bold px-4 py-2"
-                        disabled
-                      >
-                        {formData.cta_text || "Descubra Como Funciona"}
-                      </Button>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          )}
         </div>
       </div>
     </AdminLayout>
