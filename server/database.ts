@@ -128,6 +128,38 @@ export async function initializeDatabase() {
       console.log("✅ Default hero settings created");
     }
 
+    // Create faqs table if it doesn't exist
+    await connection.execute(`
+      CREATE TABLE IF NOT EXISTS faqs (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        question TEXT NOT NULL,
+        answer TEXT NOT NULL,
+        display_order INT DEFAULT 0,
+        is_active BOOLEAN DEFAULT TRUE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        INDEX idx_active_order (is_active, display_order)
+      )
+    `);
+
+    // Insert default FAQs if none exist
+    const [faqRows] = await connection.execute(
+      "SELECT COUNT(*) as count FROM faqs",
+    );
+    const faqCount = (faqRows as any)[0].count;
+
+    if (faqCount === 0) {
+      await connection.execute(`
+        INSERT INTO faqs (question, answer, display_order) VALUES
+        ('Como funciona o programa de revendedores Ecko?', 'O programa permite que você se torne um revendedor oficial da marca Ecko, com acesso a produtos exclusivos, margens atrativas e suporte completo da nossa equipe.', 1),
+        ('Preciso ter CNPJ para ser revendedor?', 'Sim, é obrigatório ter CNPJ ativo para participar do programa de revendedores oficiais da Ecko.', 2),
+        ('Qual o investimento mínimo para começar?', 'O investimento mínimo varia conforme o tipo de loja e região. Nossa equipe comercial irá apresentar as condições específicas após a análise do seu perfil.', 3),
+        ('Como funciona a entrega dos produtos?', 'Trabalhamos com logística própria e parcerias estratégicas para garantir entregas rápidas e seguras em todo o Brasil.', 4),
+        ('Há suporte para marketing e vendas?', 'Sim, oferecemos materiais de marketing, treinamentos e suporte completo para ajudar você a maximizar suas vendas.', 5)
+      `);
+      console.log("✅ Default FAQs created");
+    }
+
     console.log("✅ Database tables initialized and updated");
     connection.release();
     return true;
