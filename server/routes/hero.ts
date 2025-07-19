@@ -28,8 +28,28 @@ router.get("/", async (req, res) => {
     const heroSettings = (rows as any)[0];
 
     if (!heroSettings) {
-      return res.status(404).json({
-        error: "Configurações do hero não encontradas",
+      // Return default settings if none exist
+      const defaultSettings = {
+        id: null,
+        logo_url: "",
+        logo_width: 200,
+        logo_height: 80,
+        main_title: "TRANSFORME SUA\nPAIXÃO\nEM LUCRO",
+        subtitle: "Programa de Revendedores",
+        description:
+          "Seja um revendedor oficial da marca de streetwear mais desejada do Brasil e multiplique suas vendas!",
+        background_image_url: "",
+        background_overlay_opacity: 50,
+        background_overlay_color: "#000000",
+        cta_text: "Descubra Como Funciona",
+        is_active: true,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      };
+
+      return res.json({
+        success: true,
+        hero: defaultSettings,
       });
     }
 
@@ -45,7 +65,65 @@ router.get("/", async (req, res) => {
   }
 });
 
-// PUT /api/hero/:id - Atualizar configurações do hero
+// POST /api/hero - Criar/Atualizar configurações do hero
+router.post("/", async (req, res) => {
+  try {
+    const validation = HeroSettingsSchema.safeParse(req.body);
+
+    if (!validation.success) {
+      return res.status(400).json({
+        error: "Dados inválidos",
+        details: validation.error.errors,
+      });
+    }
+
+    const data = validation.data;
+
+    // Desativar configurações antigas
+    await pool.execute(
+      "UPDATE hero_settings SET is_active = FALSE WHERE is_active = TRUE",
+    );
+
+    // Inserir novas configurações
+    const [result] = await pool.execute(
+      `INSERT INTO hero_settings (logo_url, logo_width, logo_height, main_title, subtitle, description, background_image_url, background_overlay_opacity, background_overlay_color, cta_text) 
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        data.logo_url || null,
+        data.logo_width || 200,
+        data.logo_height || 80,
+        data.main_title,
+        data.subtitle || null,
+        data.description || null,
+        data.background_image_url || null,
+        data.background_overlay_opacity || 50,
+        data.background_overlay_color || "#000000",
+        data.cta_text || "Descubra Como Funciona",
+      ],
+    );
+
+    const insertId = (result as any).insertId;
+
+    // Buscar configurações criadas
+    const [newRows] = await pool.execute(
+      "SELECT * FROM hero_settings WHERE id = ?",
+      [insertId],
+    );
+
+    res.status(201).json({
+      success: true,
+      message: "Configurações salvas com sucesso",
+      hero: (newRows as any)[0],
+    });
+  } catch (error) {
+    console.error("Error creating hero settings:", error);
+    res.status(500).json({
+      error: "Erro interno do servidor",
+    });
+  }
+});
+
+// PUT /api/hero/:id - Atualizar configurações específicas do hero
 router.put("/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -76,20 +154,28 @@ router.put("/:id", async (req, res) => {
     await pool.execute(
       `UPDATE hero_settings SET 
        logo_url = ?, 
+       logo_width = ?,
+       logo_height = ?,
        main_title = ?, 
        subtitle = ?, 
        description = ?, 
        background_image_url = ?, 
+       background_overlay_opacity = ?,
+       background_overlay_color = ?,
        cta_text = ?,
        updated_at = CURRENT_TIMESTAMP
        WHERE id = ?`,
       [
-        data.logo_url,
+        data.logo_url || null,
+        data.logo_width || 200,
+        data.logo_height || 80,
         data.main_title,
-        data.subtitle,
-        data.description,
-        data.background_image_url,
-        data.cta_text,
+        data.subtitle || null,
+        data.description || null,
+        data.background_image_url || null,
+        data.background_overlay_opacity || 50,
+        data.background_overlay_color || "#000000",
+        data.cta_text || "Descubra Como Funciona",
         id,
       ],
     );
@@ -113,80 +199,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// POST /api/hero - Criar novas configurações do hero
-router.post("/", async (req, res) => {
-  try {
-    const validation = HeroSettingsSchema.safeParse(req.body);
-
-    if (!validation.success) {
-      return res.status(400).json({
-        error: "Dados inválidos",
-        details: validation.error.errors,
-      });
-    }
-
-    const data = validation.data;
-
-    // Desativar configurações antigas
-    await pool.execute(
-      "UPDATE hero_settings SET is_active = FALSE WHERE is_active = TRUE",
-    );
-
-    // Inserir novas configurações
-    const [result] = await pool.execute(
-      `INSERT INTO hero_settings (logo_url, main_title, subtitle, description, background_image_url, cta_text) 
-       VALUES (?, ?, ?, ?, ?, ?)`,
-      [
-        data.logo_url,
-        data.main_title,
-        data.subtitle,
-        data.description,
-        data.background_image_url,
-        data.cta_text,
-      ],
-    );
-
-    const insertId = (result as any).insertId;
-
-    // Buscar configurações criadas
-    const [newRows] = await pool.execute(
-      "SELECT * FROM hero_settings WHERE id = ?",
-      [insertId],
-    );
-
-    res.status(201).json({
-      success: true,
-      message: "Configurações criadas com sucesso",
-      hero: (newRows as any)[0],
-    });
-  } catch (error) {
-    console.error("Error creating hero settings:", error);
-    res.status(500).json({
-      error: "Erro interno do servidor",
-    });
-  }
-});
-
-// GET /api/hero/all - Obter todas as configurações do hero
-router.get("/all", async (req, res) => {
-  try {
-    const [rows] = await pool.execute(
-      "SELECT * FROM hero_settings ORDER BY created_at DESC",
-    );
-
-    res.json({
-      success: true,
-      heroes: rows,
-    });
-  } catch (error) {
-    console.error("Error fetching all hero settings:", error);
-    res.status(500).json({
-      error: "Erro interno do servidor",
-    });
-  }
-});
-
-// DELETE /api/hero/:id - Deletar configuração do hero
+// DELETE /api/hero/:id - Deletar configura��ões do hero
 router.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
