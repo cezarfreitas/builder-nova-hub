@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Card, CardContent } from "../components/ui/card";
@@ -12,6 +12,7 @@ import {
   MessageCircle,
   ChevronDown,
 } from "lucide-react";
+import { HeroSettings, HeroResponse } from "@shared/api";
 
 interface LeadFormData {
   name: string;
@@ -30,6 +31,26 @@ export default function Index() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [showForm, setShowForm] = useState(false);
+  const [heroSettings, setHeroSettings] = useState<HeroSettings | null>(null);
+  const [isLoadingHero, setIsLoadingHero] = useState(true);
+
+  useEffect(() => {
+    fetchHeroSettings();
+  }, []);
+
+  const fetchHeroSettings = async () => {
+    try {
+      const response = await fetch("/api/hero");
+      if (response.ok) {
+        const data: HeroResponse = await response.json();
+        setHeroSettings(data.hero);
+      }
+    } catch (error) {
+      console.error("Error fetching hero settings:", error);
+    } finally {
+      setIsLoadingHero(false);
+    }
+  };
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
