@@ -176,6 +176,28 @@ export async function initializeDatabase() {
       )
     `);
 
+    // Insert sample gallery images if none exist
+    const [galleryRows] = await connection.execute(
+      "SELECT COUNT(*) as count FROM gallery",
+    );
+    const galleryCount = (galleryRows as any)[0].count;
+
+    if (galleryCount === 0) {
+      await connection.execute(`
+        INSERT INTO gallery (title, description, image_url, alt_text, display_order, is_active) VALUES
+        ('Camiseta Ecko Classic Logo', 'Camiseta com logo clássico da Ecko, 100% algodão, várias cores disponíveis', 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop&crop=center', 'Camiseta Ecko com logo clássico', 1, TRUE),
+        ('Moletom Ecko Streetwear', 'Moletom com capuz da linha streetwear, design moderno e confortável', 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400&h=400&fit=crop&crop=center', 'Moletom Ecko streetwear com capuz', 2, TRUE),
+        ('Bermuda Ecko Sport', 'Bermuda esportiva ideal para atividades físicas e uso casual', 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&h=400&fit=crop&crop=center', 'Bermuda esportiva Ecko', 3, TRUE),
+        ('Tênis Ecko Limited Edition', 'Edição limitada de tênis com design exclusivo da marca', 'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&h=400&fit=crop&crop=center', 'Tênis Ecko edição limitada', 4, TRUE),
+        ('Boné Ecko Original', 'Boné aba reta com bordado original da marca Ecko', 'https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=400&h=400&fit=crop&crop=center', 'Boné Ecko aba reta original', 5, TRUE),
+        ('Jaqueta Ecko Bomber', 'Jaqueta bomber style com detalhes únicos da marca', 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400&h=400&fit=crop&crop=center', 'Jaqueta bomber Ecko', 6, TRUE),
+        ('Regata Ecko Fitness', 'Regata técnica para academia e atividades esportivas', 'https://images.unsplash.com/photo-1583743814966-8936f37f1052?w=400&h=400&fit=crop&crop=center', 'Regata técnica Ecko fitness', 7, TRUE),
+        ('Calça Ecko Jogger', 'Calça jogger com ajuste moderno e confortável', 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=400&h=400&fit=crop&crop=center', 'Calça jogger Ecko', 8, TRUE),
+        ('Mochila Ecko Urban', 'Mochila urbana com compartimentos funcionais', 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop&crop=center', 'Mochila urbana Ecko', 9, TRUE)
+      `);
+      console.log("✅ Sample gallery images created");
+    }
+
     // Create seo_settings table if it doesn't exist
     await connection.execute(`
       CREATE TABLE IF NOT EXISTS seo_settings (
