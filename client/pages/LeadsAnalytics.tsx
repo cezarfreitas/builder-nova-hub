@@ -279,7 +279,7 @@ export default function LeadsAnalytics() {
               Analytics de Leads
             </h1>
             <p className="text-gray-600 mt-1">
-              Análise detalhada de leads e conversões
+              Análise detalhada de leads e convers��es
             </p>
           </div>
           <div className="flex gap-2">
@@ -498,6 +498,19 @@ export default function LeadsAnalytics() {
               <div className="text-center py-8">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-red-600 mx-auto"></div>
                 <p className="mt-2 text-gray-600">Carregando leads...</p>
+              </div>
+            ) : error ? (
+              <div className="text-center py-8">
+                <AlertTriangle className="w-12 h-12 text-red-400 mx-auto mb-4" />
+                <p className="text-red-600 mb-4">{error}</p>
+                <Button
+                  onClick={fetchLeads}
+                  variant="outline"
+                  className="text-red-600 border-red-600 hover:bg-red-50"
+                >
+                  <RefreshCw className="w-4 h-4 mr-2" />
+                  Tentar Novamente
+                </Button>
               </div>
             ) : filteredLeads.length === 0 ? (
               <div className="text-center py-8">
