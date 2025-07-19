@@ -23,6 +23,22 @@ export default function Index() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
 
+  useEffect(() => {
+    fetchTestimonials();
+  }, []);
+
+  const fetchTestimonials = async () => {
+    try {
+      const response = await fetch(
+        "/api/testimonials?active_only=true&limit=6",
+      );
+      const data: TestimonialsResponse = await response.json();
+      setTestimonials(data.testimonials || []);
+    } catch (error) {
+      console.error("Error fetching testimonials:", error);
+    }
+  };
+
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
