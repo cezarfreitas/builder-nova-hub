@@ -10,6 +10,7 @@ import Index from "./pages/Index";
 import Admin from "./pages/Admin";
 import Testimonials from "./pages/Testimonials";
 import HeroManagement from "./pages/HeroManagement";
+import FAQManagement from "./pages/FAQManagement";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
