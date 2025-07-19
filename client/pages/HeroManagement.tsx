@@ -246,36 +246,20 @@ export default function HeroManagement() {
               <CardHeader>
                 <CardTitle>Imagem de Fundo</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <Label htmlFor="background_image_url">
-                    URL da Imagem de Fundo
-                  </Label>
-                  <Input
-                    id="background_image_url"
-                    name="background_image_url"
-                    value={formData.background_image_url}
-                    onChange={handleInputChange}
-                    placeholder="https://exemplo.com/background.jpg"
-                    className="mt-1"
-                  />
-                  <p className="text-sm text-gray-500 mt-1">
-                    Deixe vazio para usar o background padrão
-                  </p>
-                </div>
-                {formData.background_image_url && (
-                  <div className="mt-3">
-                    <img
-                      src={formData.background_image_url}
-                      alt="Preview do Background"
-                      className="w-full h-32 object-cover rounded-lg border border-gray-200"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src =
-                          "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIwIiBoZWlnaHQ9IjEyOCIgdmlld0JveD0iMCAwIDMyMCAxMjgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMjAiIGhlaWdodD0iMTI4IiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0xNDAgNTRMMTgwIDk0TTE0MCA5NEwxODAgNTQiIHN0cm9rZT0iIzkzQTNCOCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPC9zdmc+Cg==";
-                      }}
-                    />
-                  </div>
-                )}
+              <CardContent>
+                <ImageUpload
+                  value={formData.background_image_url}
+                  onChange={(url) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      background_image_url: url,
+                    }))
+                  }
+                  label="Imagem de Fundo"
+                  placeholder="URL da imagem de fundo ou faça upload"
+                  description="Deixe vazio para usar o background padrão. Recomendado: 1920x1080px, formato paisagem"
+                  usedFor="hero_background"
+                />
               </CardContent>
             </Card>
 
