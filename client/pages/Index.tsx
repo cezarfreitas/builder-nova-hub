@@ -724,26 +724,6 @@ export default function Index() {
                 </Accordion>
               </CardContent>
             </Card>
-
-            {/* CTA */}
-            <div className="text-center mt-12">
-              <div className="bg-white rounded-2xl p-8 shadow-lg inline-block">
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                  Ainda tem dúvidas?
-                </h3>
-                <p className="text-gray-600 mb-6">
-                  Nossa equipe está pronta para ajudar você a se tornar um
-                  revendedor oficial
-                </p>
-                <Button
-                  onClick={() => setShowForm(true)}
-                  className="bg-ecko-red hover:bg-ecko-red-dark text-white px-8 py-3 font-bold"
-                >
-                  Entre em Contato
-                  <ArrowRight className="ml-2 w-5 h-5" />
-                </Button>
-              </div>
-            </div>
           </div>
         </section>
       )}
