@@ -566,8 +566,8 @@ export default function FAQManagement() {
               </div>
             </form>
           </DialogContent>
-        </Dialog>
+                </Dialog>
       </div>
-    </div>
+    </AdminLayout>
   );
 }
