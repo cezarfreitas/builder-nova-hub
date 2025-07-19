@@ -195,16 +195,17 @@ export default function GalleryManagement() {
     setIsDialogOpen(true);
   };
 
-  return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Galeria de Fotos</h1>
-          <p className="text-gray-600 mt-1">
-            Gerencie as imagens da galeria da landing page
-          </p>
-        </div>
+    return (
+    <AdminLayout>
+      <div className="space-y-6">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">Galeria de Fotos</h1>
+            <p className="text-gray-600 mt-1">
+              Gerencie as imagens da galeria da landing page
+            </p>
+          </div>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
             <Button
