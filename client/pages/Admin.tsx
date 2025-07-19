@@ -166,7 +166,7 @@ export default function Admin() {
     link.click();
   };
 
-  const filteredLeads = leads.filter(
+  const filteredLeads = (leads || []).filter(
     (lead) =>
       lead.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       lead.whatsapp.toLowerCase().includes(searchTerm.toLowerCase()) ||
