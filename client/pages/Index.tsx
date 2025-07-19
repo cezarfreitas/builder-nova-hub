@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Card, CardContent } from "../components/ui/card";
-import { CheckCircle } from "lucide-react";
+import { CheckCircle, Star, Quote } from "lucide-react";
+import { Testimonial, TestimonialsResponse } from "@shared/api";
 
 interface LeadFormData {
   name: string;
