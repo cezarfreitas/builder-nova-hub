@@ -549,10 +549,10 @@ export default function Testimonials() {
               >
                 {editingTestimonial ? "Atualizar" : "Criar"} Depoimento
               </Button>
-            </div>
+                        </div>
           </form>
-                          </DialogContent>
-        </Dialog>
+        </DialogContent>
+      </Dialog>
       </div>
     </AdminLayout>
   );
