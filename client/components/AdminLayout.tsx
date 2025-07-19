@@ -169,8 +169,8 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       </div>
 
       {/* Main content */}
-      <div className="lg:pl-64">
-        {/* Top navigation */}
+      <div className="flex-1 flex flex-col overflow-hidden">
+        {/* Top navigation - Mobile only */}
         <div className="sticky top-0 z-40 flex h-16 bg-white border-b border-gray-200 lg:hidden">
           <Button
             variant="ghost"
@@ -192,7 +192,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         </div>
 
         {/* Page content */}
-        <main className="flex-1">
+        <main className="flex-1 overflow-auto">
           <div className="p-6 lg:p-8">{children}</div>
         </main>
       </div>
