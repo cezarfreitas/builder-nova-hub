@@ -280,7 +280,7 @@ export default function Admin() {
               <span>Gerenciar Leads</span>
               <Button
                 onClick={exportLeads}
-                className="bg-ecko-orange hover:bg-ecko-orange-dark"
+                className="bg-ecko-red hover:bg-ecko-red-dark"
               >
                 <Download className="w-4 h-4 mr-2" />
                 Exportar CSV
