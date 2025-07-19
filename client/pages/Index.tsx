@@ -502,10 +502,6 @@ export default function Index() {
                           "QUERO SER REVENDEDOR AGORA"
                         )}
                       </Button>
-
-                      <p className="text-xs text-gray-400 text-center">
-                        🔒 Seus dados estão seguros • Cadastro 100% gratuito
-                      </p>
                     </form>
                   </CardContent>
                 </Card>
