@@ -226,7 +226,7 @@ export default function Index() {
                 </CardHeader>
                 <CardContent className="px-8 pb-8">
                   <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="space-y-4">
+                    <div className="space-y-5">
                       <div>
                         <label className="text-sm font-semibold text-ecko-gray mb-2 block">
                           Nome Completo *
@@ -243,87 +243,64 @@ export default function Index() {
 
                       <div>
                         <label className="text-sm font-semibold text-ecko-gray mb-2 block">
-                          Email *
+                          WhatsApp *
                         </label>
                         <Input
-                          name="email"
-                          type="email"
-                          value={formData.email}
+                          name="whatsapp"
+                          type="tel"
+                          value={formData.whatsapp}
                           onChange={handleInputChange}
-                          placeholder="seu@email.com"
+                          placeholder="(11) 99999-9999"
                           required
                           className="h-12 border-gray-300 focus:border-ecko-red focus:ring-ecko-red"
                         />
                       </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <label className="text-sm font-semibold text-ecko-gray mb-2 block">
-                            Telefone/WhatsApp *
-                          </label>
-                          <Input
-                            name="phone"
-                            type="tel"
-                            value={formData.phone}
-                            onChange={handleInputChange}
-                            placeholder="(11) 99999-9999"
-                            required
-                            className="h-12 border-gray-300 focus:border-ecko-red focus:ring-ecko-red"
-                          />
-                        </div>
-                        <div>
-                          <label className="text-sm font-semibold text-ecko-gray mb-2 block">
-                            Cidade/Estado *
-                          </label>
-                          <Input
-                            name="city"
-                            value={formData.city}
-                            onChange={handleInputChange}
-                            placeholder="São Paulo/SP"
-                            required
-                            className="h-12 border-gray-300 focus:border-ecko-red focus:ring-ecko-red"
-                          />
-                        </div>
+                      <div>
+                        <label className="text-sm font-semibold text-ecko-gray mb-2 block">
+                          Tem CNPJ? *
+                        </label>
+                        <select
+                          name="hasCnpj"
+                          value={formData.hasCnpj}
+                          onChange={handleInputChange}
+                          required
+                          className="w-full h-12 border border-gray-300 rounded-md px-3 py-2 focus:border-ecko-red focus:ring-ecko-red focus:outline-none"
+                        >
+                          <option value="">Selecione uma opção</option>
+                          <option value="sim">Sim, tenho CNPJ</option>
+                          <option value="nao">Não tenho CNPJ</option>
+                          <option value="processo">
+                            Em processo de abertura
+                          </option>
+                        </select>
                       </div>
 
                       <div>
                         <label className="text-sm font-semibold text-ecko-gray mb-2 block">
-                          Já possui loja/negócio?
+                          Qual o tipo de loja? *
                         </label>
-                        <Input
-                          name="company"
-                          value={formData.company}
+                        <select
+                          name="storeType"
+                          value={formData.storeType}
                           onChange={handleInputChange}
-                          placeholder="Nome da loja (se tiver)"
-                          className="h-12 border-gray-300 focus:border-ecko-red focus:ring-ecko-red"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="text-sm font-semibold text-ecko-gray mb-2 block">
-                          Experiência com vendas
-                        </label>
-                        <Input
-                          name="experience"
-                          value={formData.experience}
-                          onChange={handleInputChange}
-                          placeholder="Ex: 2 anos vendendo roupas online"
-                          className="h-12 border-gray-300 focus:border-ecko-red focus:ring-ecko-red"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="text-sm font-semibold text-ecko-gray mb-2 block">
-                          Por que quer ser revendedor Ecko?
-                        </label>
-                        <Textarea
-                          name="message"
-                          value={formData.message}
-                          onChange={handleInputChange}
-                          placeholder="Conte-nos sua motivação e objetivos..."
-                          rows={4}
-                          className="border-gray-300 focus:border-ecko-red focus:ring-ecko-red"
-                        />
+                          required
+                          className="w-full h-12 border border-gray-300 rounded-md px-3 py-2 focus:border-ecko-red focus:ring-ecko-red focus:outline-none"
+                        >
+                          <option value="">Selecione o tipo</option>
+                          <option value="fisica">Loja Física</option>
+                          <option value="online">Loja Online</option>
+                          <option value="ambas">Física + Online</option>
+                          <option value="vendedor">
+                            Vendedor/Representante
+                          </option>
+                          <option value="marketplace">
+                            Marketplace (Mercado Livre, etc)
+                          </option>
+                          <option value="ainda-nao-tenho">
+                            Ainda não tenho loja
+                          </option>
+                        </select>
                       </div>
                     </div>
 
