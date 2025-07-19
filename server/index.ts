@@ -64,5 +64,8 @@ export function createServer() {
   // Hero API routes
   app.use("/api/hero", heroRoutes);
 
+  // FAQ API routes
+  app.use("/api/faqs", faqRoutes);
+
   return app;
 }
