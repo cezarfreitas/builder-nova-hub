@@ -30,6 +30,7 @@ import {
   ThemeSettings,
   ThemeResponse,
 } from "@shared/api";
+import { getAnalytics } from "../lib/analytics";
 
 interface LeadFormData {
   name: string;
