@@ -68,5 +68,8 @@ export function createServer() {
   // FAQ API routes
   app.use("/api/faqs", faqRoutes);
 
+  // Gallery API routes
+  app.use("/api/gallery", galleryRoutes);
+
   return app;
 }
