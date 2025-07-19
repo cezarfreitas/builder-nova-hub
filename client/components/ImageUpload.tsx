@@ -262,6 +262,13 @@ export default function ImageUpload({
             )}
           </div>
 
+          {/* Error Message */}
+          {error && (
+            <div className="mt-3 p-3 bg-red-50 border border-red-200 rounded-lg">
+              <p className="text-sm text-red-600">{error}</p>
+            </div>
+          )}
+
           <div className="mt-4 flex gap-2">
             <Dialog open={showGallery} onOpenChange={setShowGallery}>
               <DialogTrigger asChild>
