@@ -93,3 +93,30 @@ export interface HeroUpdateResponse {
   message: string;
   hero: HeroSettings;
 }
+
+export interface FAQ {
+  id?: number;
+  question: string;
+  answer: string;
+  display_order: number;
+  is_active: boolean;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface FAQsResponse {
+  success: boolean;
+  faqs: FAQ[];
+  total: number;
+}
+
+export interface FAQResponse {
+  success: boolean;
+  faq: FAQ;
+}
+
+export interface FAQUpdateResponse {
+  success: boolean;
+  message: string;
+  faq: FAQ;
+}
