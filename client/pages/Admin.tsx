@@ -50,6 +50,7 @@ import {
   Settings,
   HelpCircle,
   Image,
+  Globe,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
