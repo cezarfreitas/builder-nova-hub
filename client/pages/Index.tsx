@@ -29,6 +29,8 @@ import {
   GalleryResponse,
   ThemeSettings,
   ThemeResponse,
+  Testimonial,
+  TestimonialsResponse,
 } from "@shared/api";
 import { getAnalytics } from "../lib/analytics";
 
