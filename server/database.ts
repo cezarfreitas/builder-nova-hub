@@ -1,8 +1,8 @@
 import mysql from "mysql2/promise";
 
-// Parsing the connection string (correcting port from 5432 to 3306 for MySQL)
+// Parsing the connection string (using original port 5432)
 const connectionString =
-  "mysql://mysql:DL4J4CCeRVVbaiux6Hy4d4IF5lZeZ47s8ZtrrGCZj2EBrngccMiFbxWGS516wfsQ@5.161.52.206:3306/default";
+  "mysql://mysql:DL4J4CCeRVVbaiux6Hy4d4IF5lZeZ47s8ZtrrGCZj2EBrngccMiFbxWGS516wfsQ@5.161.52.206:5432/default";
 
 // Parse the connection URL
 const url = new URL(connectionString);
