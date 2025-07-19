@@ -20,6 +20,7 @@ import {
   getTestimonial,
 } from "./routes/testimonials";
 import heroRoutes from "./routes/hero";
+import faqRoutes from "./routes/faqs";
 import { testConnection, initializeDatabase } from "./database";
 
 export function createServer() {
