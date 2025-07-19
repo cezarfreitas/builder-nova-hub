@@ -87,8 +87,11 @@ export const submitLead: RequestHandler = async (req, res) => {
 export const getLeads: RequestHandler = async (req, res) => {
   try {
     const { page = "1", limit = "10", status } = req.query;
-    const pageNum = parseInt(page as string);
-    const limitNum = parseInt(limit as string);
+    const pageNum = Math.max(1, parseInt(page as string) || 1);
+    const limitNum = Math.max(
+      1,
+      Math.min(100, parseInt(limit as string) || 10),
+    );
     const offset = (pageNum - 1) * limitNum;
 
     let query = "SELECT * FROM leads";
