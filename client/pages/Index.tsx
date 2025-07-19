@@ -693,12 +693,6 @@ export default function Index() {
         <section className="py-20 bg-gray-50">
           <div className="container mx-auto px-6 max-w-4xl">
             <div className="text-center mb-16">
-              <div className="inline-flex items-center bg-ecko-red/10 rounded-full px-6 py-3 mb-6">
-                <HelpCircle className="w-5 h-5 text-ecko-red mr-2" />
-                <span className="text-ecko-red font-semibold">
-                  Perguntas Frequentes
-                </span>
-              </div>
               <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
                 Dúvidas <span className="text-ecko-red">Respondidas</span>
               </h2>
