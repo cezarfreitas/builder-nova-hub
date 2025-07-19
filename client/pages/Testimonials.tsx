@@ -197,33 +197,20 @@ export default function Testimonials() {
 
   const activeTestimonials = testimonials.filter((t) => t.is_active).length;
 
-  return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white border-b">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <Link to="/admin" className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-r from-ecko-red to-ecko-red-dark rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold">E</span>
-              </div>
-              <span className="text-xl font-bold text-ecko-gray">
-                ECKO Admin - Depoimentos
-              </span>
-            </Link>
-          </div>
-          <div className="flex space-x-2">
-            <Link to="/admin">
-              <Button variant="outline">Voltar ao Admin</Button>
-            </Link>
-            <Link to="/">
-              <Button variant="outline">Ver Site</Button>
-            </Link>
+    return (
+    <AdminLayout>
+      <div className="space-y-6">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">
+              Gerenciar Depoimentos
+            </h1>
+            <p className="text-gray-600 mt-1">
+              Gerencie os depoimentos de clientes da landing page
+            </p>
           </div>
         </div>
-      </header>
-
-      <div className="container mx-auto px-4 py-8">
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <Card>
