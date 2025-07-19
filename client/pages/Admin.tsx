@@ -470,18 +470,24 @@ export default function Admin() {
                   </div>
 
                   <div className="flex items-center space-x-3">
-                    <Mail className="w-5 h-5 text-ecko-red" />
+                    <Phone className="w-5 h-5 text-ecko-red" />
                     <div>
-                      <p className="font-semibold">{selectedLead.email}</p>
-                      <p className="text-sm text-gray-600">Email</p>
+                      <p className="font-semibold">{selectedLead.whatsapp}</p>
+                      <p className="text-sm text-gray-600">WhatsApp</p>
                     </div>
                   </div>
 
                   <div className="flex items-center space-x-3">
-                    <Phone className="w-5 h-5 text-ecko-red" />
+                    <Shield className="w-5 h-5 text-ecko-red" />
                     <div>
-                      <p className="font-semibold">{selectedLead.phone}</p>
-                      <p className="text-sm text-gray-600">Telefone</p>
+                      <p className="font-semibold">
+                        {selectedLead.hasCnpj === "sim"
+                          ? "Sim, tem CNPJ"
+                          : selectedLead.hasCnpj === "nao"
+                            ? "Não tem CNPJ"
+                            : "CNPJ em processo"}
+                      </p>
+                      <p className="text-sm text-gray-600">CNPJ</p>
                     </div>
                   </div>
                 </div>
@@ -491,9 +497,9 @@ export default function Admin() {
                     <Building className="w-5 h-5 text-ecko-red" />
                     <div>
                       <p className="font-semibold">
-                        {selectedLead.company || "Não informado"}
+                        {selectedLead.storeType || "Não informado"}
                       </p>
-                      <p className="text-sm text-gray-600">Empresa</p>
+                      <p className="text-sm text-gray-600">Tipo de Loja</p>
                     </div>
                   </div>
 
