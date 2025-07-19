@@ -73,10 +73,14 @@ export interface LeadSubmissionResponse {
 export interface HeroSettings {
   id?: number;
   logo_url?: string;
+  logo_width?: number;
+  logo_height?: number;
   main_title: string;
   subtitle?: string;
   description?: string;
   background_image_url?: string;
+  background_overlay_opacity?: number;
+  background_overlay_color?: string;
   cta_text?: string;
   is_active?: boolean;
   created_at?: string;
