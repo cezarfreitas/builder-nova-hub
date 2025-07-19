@@ -344,8 +344,8 @@ export const getSessionAnalytics: RequestHandler = async (req, res) => {
       `SELECT * FROM sessions 
        WHERE started_at >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
        ORDER BY started_at DESC 
-       LIMIT ? OFFSET ?`,
-      [daysNum, limitNum, offset],
+              LIMIT ${limitNum} OFFSET ${offset}`,
+      [daysNum],
     );
 
     const summary = summaryResult[0];
