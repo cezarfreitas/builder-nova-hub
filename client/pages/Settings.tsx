@@ -274,7 +274,7 @@ export default function Settings() {
     );
   }
 
-    return (
+  return (
     <AdminLayout>
       <div className="space-y-6">
         {/* Header */}
@@ -285,285 +285,288 @@ export default function Settings() {
               Gerencie as configurações do sistema
             </p>
           </div>
-        <div className="flex gap-2">
-          <Button
-            onClick={copyCSS}
-            variant="outline"
-            className="flex items-center gap-2"
-          >
-            {copiedCSS ? (
-              <Check className="w-4 h-4 text-green-600" />
-            ) : (
-              <Copy className="w-4 h-4" />
-            )}
-            {copiedCSS ? "Copiado!" : "Copiar CSS"}
-          </Button>
-          <a href="/" target="_blank" rel="noopener noreferrer">
-            <Button variant="outline" className="flex items-center gap-2">
-              <Eye className="w-4 h-4" />
-              Ver Site
-              <ExternalLink className="w-4 h-4" />
+          <div className="flex gap-2">
+            <Button
+              onClick={copyCSS}
+              variant="outline"
+              className="flex items-center gap-2"
+            >
+              {copiedCSS ? (
+                <Check className="w-4 h-4 text-green-600" />
+              ) : (
+                <Copy className="w-4 h-4" />
+              )}
+              {copiedCSS ? "Copiado!" : "Copiar CSS"}
             </Button>
-          </a>
+            <a href="/" target="_blank" rel="noopener noreferrer">
+              <Button variant="outline" className="flex items-center gap-2">
+                <Eye className="w-4 h-4" />
+                Ver Site
+                <ExternalLink className="w-4 h-4" />
+              </Button>
+            </a>
+          </div>
         </div>
-      </div>
 
-      <Tabs defaultValue="webhook" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="webhook" className="flex items-center gap-2">
-            <Webhook className="w-4 h-4" />
-            Webhook
-          </TabsTrigger>
-          <TabsTrigger value="theme" className="flex items-center gap-2">
-            <Palette className="w-4 h-4" />
-            Tema
-          </TabsTrigger>
-          <TabsTrigger value="seo" className="flex items-center gap-2">
-            <Search className="w-4 h-4" />
-            SEO
-          </TabsTrigger>
-        </TabsList>
+        <Tabs defaultValue="webhook" className="space-y-6">
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="webhook" className="flex items-center gap-2">
+              <Webhook className="w-4 h-4" />
+              Webhook
+            </TabsTrigger>
+            <TabsTrigger value="theme" className="flex items-center gap-2">
+              <Palette className="w-4 h-4" />
+              Tema
+            </TabsTrigger>
+            <TabsTrigger value="seo" className="flex items-center gap-2">
+              <Search className="w-4 h-4" />
+              SEO
+            </TabsTrigger>
+          </TabsList>
 
-        {/* Webhook Settings */}
-        <TabsContent value="webhook" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Webhook className="w-5 h-5 text-blue-600" />
-                Configurações de Webhook
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <label className="text-sm font-medium">URL do Webhook</label>
-                <Input
-                  value={webhookSettings.url}
-                  onChange={(e) =>
-                    setWebhookSettings({
-                      ...webhookSettings,
-                      url: e.target.value,
-                    })
-                  }
-                  placeholder="https://webhook.site/your-url"
-                />
-                <p className="text-xs text-gray-500">
-                  URL onde os dados dos leads serão enviados
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Webhook Settings */}
+          <TabsContent value="webhook" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Webhook className="w-5 h-5 text-blue-600" />
+                  Configurações de Webhook
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">Timeout (ms)</label>
+                  <label className="text-sm font-medium">URL do Webhook</label>
                   <Input
-                    type="number"
-                    value={webhookSettings.timeout}
+                    value={webhookSettings.url}
                     onChange={(e) =>
                       setWebhookSettings({
                         ...webhookSettings,
-                        timeout: parseInt(e.target.value) || 10000,
+                        url: e.target.value,
                       })
                     }
-                    placeholder="10000"
+                    placeholder="https://webhook.site/your-url"
                   />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Tentativas</label>
-                  <Input
-                    type="number"
-                    value={webhookSettings.retries}
-                    onChange={(e) =>
-                      setWebhookSettings({
-                        ...webhookSettings,
-                        retries: parseInt(e.target.value) || 3,
-                      })
-                    }
-                    placeholder="3"
-                  />
-                </div>
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  checked={webhookSettings.enabled}
-                  onChange={(e) =>
-                    setWebhookSettings({
-                      ...webhookSettings,
-                      enabled: e.target.checked,
-                    })
-                  }
-                  className="w-4 h-4"
-                />
-                <label className="text-sm font-medium">
-                  Webhook habilitado
-                </label>
-              </div>
-
-              <Button
-                onClick={saveWebhookSettings}
-                className="bg-blue-600 hover:bg-blue-700"
-              >
-                <Save className="w-4 h-4 mr-2" />
-                Salvar Configurações
-              </Button>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        {/* Theme Settings */}
-        <TabsContent value="theme" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Palette className="w-5 h-5 text-purple-600" />
-                Cores do Tema
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {Object.entries(themeData).map(([key, value]) => (
-                  <div key={key} className="space-y-2">
-                    <label className="text-sm font-medium capitalize">
-                      {key.replace(/_/g, " ")}
-                    </label>
-                    <div className="flex gap-2">
-                      <Input
-                        type="color"
-                        value={value}
-                        onChange={(e) =>
-                          setThemeData({
-                            ...themeData,
-                            [key]: e.target.value,
-                          })
-                        }
-                        className="w-12 h-10 p-1 rounded"
-                      />
-                      <Input
-                        value={value}
-                        onChange={(e) =>
-                          setThemeData({
-                            ...themeData,
-                            [key]: e.target.value,
-                          })
-                        }
-                        placeholder="#000000"
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <Button
-                onClick={saveThemeSettings}
-                disabled={isSubmitting}
-                className="bg-purple-600 hover:bg-purple-700"
-              >
-                {isSubmitting ? (
-                  <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
-                ) : (
-                  <Save className="w-4 h-4 mr-2" />
-                )}
-                Salvar Tema
-              </Button>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        {/* SEO Settings */}
-        <TabsContent value="seo" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Search className="w-5 h-5 text-green-600" />
-                Configurações de SEO
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">
-                    Título da Página
-                  </label>
-                  <Input
-                    value={seoData.page_title}
-                    onChange={(e) =>
-                      setSeoData({ ...seoData, page_title: e.target.value })
-                    }
-                    placeholder="Título da página"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Meta Descrição</label>
-                  <Textarea
-                    value={seoData.meta_description}
-                    onChange={(e) =>
-                      setSeoData({
-                        ...seoData,
-                        meta_description: e.target.value,
-                      })
-                    }
-                    placeholder="Descrição da página"
-                    rows={3}
-                  />
+                  <p className="text-xs text-gray-500">
+                    URL onde os dados dos leads serão enviados
+                  </p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <label className="text-sm font-medium">
-                      Palavras-chave
-                    </label>
+                    <label className="text-sm font-medium">Timeout (ms)</label>
                     <Input
-                      value={seoData.meta_keywords}
+                      type="number"
+                      value={webhookSettings.timeout}
                       onChange={(e) =>
-                        setSeoData({
-                          ...seoData,
-                          meta_keywords: e.target.value,
+                        setWebhookSettings({
+                          ...webhookSettings,
+                          timeout: parseInt(e.target.value) || 10000,
                         })
                       }
-                      placeholder="palavra1, palavra2, palavra3"
+                      placeholder="10000"
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-sm font-medium">Robots</label>
-                    <Select
-                      value={seoData.robots}
-                      onValueChange={(value) =>
-                        setSeoData({ ...seoData, robots: value })
+                    <label className="text-sm font-medium">Tentativas</label>
+                    <Input
+                      type="number"
+                      value={webhookSettings.retries}
+                      onChange={(e) =>
+                        setWebhookSettings({
+                          ...webhookSettings,
+                          retries: parseInt(e.target.value) || 3,
+                        })
                       }
-                    >
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="index, follow">
-                          Index, Follow
-                        </SelectItem>
-                        <SelectItem value="noindex, nofollow">
-                          No Index, No Follow
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
+                      placeholder="3"
+                    />
                   </div>
                 </div>
-              </div>
 
-              <Button
-                onClick={saveSEOSettings}
-                disabled={isSubmitting}
-                className="bg-green-600 hover:bg-green-700"
-              >
-                {isSubmitting ? (
-                  <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
-                ) : (
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    checked={webhookSettings.enabled}
+                    onChange={(e) =>
+                      setWebhookSettings({
+                        ...webhookSettings,
+                        enabled: e.target.checked,
+                      })
+                    }
+                    className="w-4 h-4"
+                  />
+                  <label className="text-sm font-medium">
+                    Webhook habilitado
+                  </label>
+                </div>
+
+                <Button
+                  onClick={saveWebhookSettings}
+                  className="bg-blue-600 hover:bg-blue-700"
+                >
                   <Save className="w-4 h-4 mr-2" />
-                )}
-                Salvar SEO
-              </Button>
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
-    </div>
+                  Salvar Configurações
+                </Button>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Theme Settings */}
+          <TabsContent value="theme" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Palette className="w-5 h-5 text-purple-600" />
+                  Cores do Tema
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  {Object.entries(themeData).map(([key, value]) => (
+                    <div key={key} className="space-y-2">
+                      <label className="text-sm font-medium capitalize">
+                        {key.replace(/_/g, " ")}
+                      </label>
+                      <div className="flex gap-2">
+                        <Input
+                          type="color"
+                          value={value}
+                          onChange={(e) =>
+                            setThemeData({
+                              ...themeData,
+                              [key]: e.target.value,
+                            })
+                          }
+                          className="w-12 h-10 p-1 rounded"
+                        />
+                        <Input
+                          value={value}
+                          onChange={(e) =>
+                            setThemeData({
+                              ...themeData,
+                              [key]: e.target.value,
+                            })
+                          }
+                          placeholder="#000000"
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <Button
+                  onClick={saveThemeSettings}
+                  disabled={isSubmitting}
+                  className="bg-purple-600 hover:bg-purple-700"
+                >
+                  {isSubmitting ? (
+                    <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+                  ) : (
+                    <Save className="w-4 h-4 mr-2" />
+                  )}
+                  Salvar Tema
+                </Button>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* SEO Settings */}
+          <TabsContent value="seo" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Search className="w-5 h-5 text-green-600" />
+                  Configurações de SEO
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">
+                      Título da Página
+                    </label>
+                    <Input
+                      value={seoData.page_title}
+                      onChange={(e) =>
+                        setSeoData({ ...seoData, page_title: e.target.value })
+                      }
+                      placeholder="Título da página"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">
+                      Meta Descrição
+                    </label>
+                    <Textarea
+                      value={seoData.meta_description}
+                      onChange={(e) =>
+                        setSeoData({
+                          ...seoData,
+                          meta_description: e.target.value,
+                        })
+                      }
+                      placeholder="Descrição da página"
+                      rows={3}
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">
+                        Palavras-chave
+                      </label>
+                      <Input
+                        value={seoData.meta_keywords}
+                        onChange={(e) =>
+                          setSeoData({
+                            ...seoData,
+                            meta_keywords: e.target.value,
+                          })
+                        }
+                        placeholder="palavra1, palavra2, palavra3"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Robots</label>
+                      <Select
+                        value={seoData.robots}
+                        onValueChange={(value) =>
+                          setSeoData({ ...seoData, robots: value })
+                        }
+                      >
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="index, follow">
+                            Index, Follow
+                          </SelectItem>
+                          <SelectItem value="noindex, nofollow">
+                            No Index, No Follow
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                </div>
+
+                <Button
+                  onClick={saveSEOSettings}
+                  disabled={isSubmitting}
+                  className="bg-green-600 hover:bg-green-700"
+                >
+                  {isSubmitting ? (
+                    <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+                  ) : (
+                    <Save className="w-4 h-4 mr-2" />
+                  )}
+                  Salvar SEO
+                </Button>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
+      </div>
+    </AdminLayout>
   );
 }
