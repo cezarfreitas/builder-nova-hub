@@ -421,6 +421,12 @@ export default function Admin() {
                 Gerenciar FAQs
               </Button>
             </Link>
+            <Link to="/admin/gallery">
+              <Button className="bg-green-600 hover:bg-green-700 text-white">
+                <Image className="w-4 h-4 mr-2" />
+                Gerenciar Galeria
+              </Button>
+            </Link>
             <Button
               onClick={checkDuplicates}
               className="bg-orange-600 hover:bg-orange-700 text-white"
