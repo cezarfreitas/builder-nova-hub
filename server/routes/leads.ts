@@ -8,6 +8,8 @@ const leadSchema = z.object({
   email: z.string().email("Email inválido"),
   phone: z.string().min(1, "Telefone é obrigatório"),
   company: z.string().optional(),
+  city: z.string().optional(),
+  experience: z.string().optional(),
   message: z.string().optional(),
 });
 
