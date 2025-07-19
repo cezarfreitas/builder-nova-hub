@@ -12,6 +12,11 @@ import { testConnection, initializeDatabase } from "./database";
 export function createServer() {
   const app = express();
 
+  // Initialize database on startup
+  initializeDatabase().then(() => {
+    console.log("🚀 Database ready");
+  });
+
   // Middleware
   app.use(cors());
   app.use(express.json());
