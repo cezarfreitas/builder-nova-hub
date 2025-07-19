@@ -33,28 +33,108 @@ if (typeof window !== "undefined") {
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/admin/old" element={<Admin />} />
-          <Route path="/admin/analytics" element={<LeadsAnalytics />} />
-          <Route path="/admin/sessions" element={<SessionAnalytics />} />
-          <Route path="/admin/settings" element={<Settings />} />
-          <Route path="/admin/testimonials" element={<Testimonials />} />
-          <Route path="/admin/hero" element={<HeroManagement />} />
-          <Route path="/admin/faqs" element={<FAQManagement />} />
-          <Route path="/admin/gallery" element={<GalleryManagement />} />
-          <Route path="/admin/seo" element={<SEOManagement />} />
-          <Route path="/admin/theme" element={<ThemeManagement />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
+    <AuthProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/login" element={<Login />} />
+            <Route
+              path="/admin"
+              element={
+                <ProtectedRoute>
+                  <AdminDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/old"
+              element={
+                <ProtectedRoute>
+                  <Admin />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/analytics"
+              element={
+                <ProtectedRoute>
+                  <LeadsAnalytics />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/sessions"
+              element={
+                <ProtectedRoute>
+                  <SessionAnalytics />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/settings"
+              element={
+                <ProtectedRoute>
+                  <Settings />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/testimonials"
+              element={
+                <ProtectedRoute>
+                  <Testimonials />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/hero"
+              element={
+                <ProtectedRoute>
+                  <HeroManagement />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/faqs"
+              element={
+                <ProtectedRoute>
+                  <FAQManagement />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/gallery"
+              element={
+                <ProtectedRoute>
+                  <GalleryManagement />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/seo"
+              element={
+                <ProtectedRoute>
+                  <SEOManagement />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/theme"
+              element={
+                <ProtectedRoute>
+                  <ThemeManagement />
+                </ProtectedRoute>
+              }
+            />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </AuthProvider>
   </QueryClientProvider>
 );
 
