@@ -62,7 +62,16 @@ export async function initializeDatabase() {
       )
     `);
 
-    console.log("✅ Database tables initialized");
+    // Add missing columns if they don't exist
+    await connection.execute(`
+      ALTER TABLE leads
+      ADD COLUMN IF NOT EXISTS is_duplicate BOOLEAN DEFAULT FALSE,
+      ADD COLUMN IF NOT EXISTS webhook_sent BOOLEAN DEFAULT FALSE,
+      ADD COLUMN IF NOT EXISTS webhook_response TEXT,
+      ADD COLUMN IF NOT EXISTS webhook_sent_at TIMESTAMP NULL
+    `);
+
+    console.log("✅ Database tables initialized and updated");
     connection.release();
     return true;
   } catch (error) {
