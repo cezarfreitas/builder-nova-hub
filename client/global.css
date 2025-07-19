@@ -54,6 +54,14 @@
     --sidebar-border: 220 13% 91%;
 
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Ecko Brand Colors */
+    --ecko-orange: 24 100% 50%;
+    --ecko-orange-dark: 20 100% 40%;
+    --ecko-blue: 220 100% 60%;
+    --ecko-blue-dark: 220 100% 45%;
+    --ecko-gray: 240 5% 15%;
+    --ecko-gray-light: 240 5% 96%;
   }
 
   .dark {
@@ -92,6 +100,14 @@
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Ecko Brand Colors */
+    --ecko-orange: 24 100% 50%;
+    --ecko-orange-dark: 20 100% 40%;
+    --ecko-blue: 220 100% 60%;
+    --ecko-blue-dark: 220 100% 45%;
+    --ecko-gray: 240 5% 15%;
+    --ecko-gray-light: 240 5% 96%;
   }
 }
 
