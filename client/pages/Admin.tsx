@@ -132,12 +132,23 @@ export default function Admin() {
 
   const exportLeads = () => {
     const csvContent = [
-      ["Nome", "Email", "Telefone", "Empresa", "Status", "Data de Cadastro"],
+      [
+        "Nome",
+        "WhatsApp",
+        "CNPJ",
+        "Tipo de Loja",
+        "Status",
+        "Data de Cadastro",
+      ],
       ...leads.map((lead) => [
         lead.name,
-        lead.email,
-        lead.phone,
-        lead.company || "",
+        lead.whatsapp,
+        lead.hasCnpj === "sim"
+          ? "Sim"
+          : lead.hasCnpj === "nao"
+            ? "Não"
+            : "Em processo",
+        lead.storeType || "",
         statusLabels[lead.status || "new"],
         lead.created_at
           ? new Date(lead.created_at).toLocaleDateString("pt-BR")
