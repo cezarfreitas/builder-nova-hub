@@ -414,6 +414,12 @@ export default function Admin() {
                 Gerenciar Depoimentos
               </Button>
             </Link>
+            <Link to="/admin/faqs">
+              <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+                <HelpCircle className="w-4 h-4 mr-2" />
+                Gerenciar FAQs
+              </Button>
+            </Link>
             <Button
               onClick={checkDuplicates}
               className="bg-orange-600 hover:bg-orange-700 text-white"
