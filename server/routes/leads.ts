@@ -28,6 +28,14 @@ export const submitLead: RequestHandler = async (req, res) => {
   try {
     const validatedData = leadSchema.parse(req.body);
 
+    // Check if this WhatsApp number already exists
+    const [existingLeads] = await pool.execute<RowDataPacket[]>(
+      "SELECT id FROM leads WHERE whatsapp = ?",
+      [validatedData.whatsapp],
+    );
+
+    const isDuplicate = existingLeads.length > 0;
+
     const [result] = await pool.execute<ResultSetHeader>(
       `INSERT INTO leads (name, whatsapp, hasCnpj, storeType, status) 
        VALUES (?, ?, ?, ?, 'new')`,
