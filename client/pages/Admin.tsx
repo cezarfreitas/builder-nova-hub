@@ -175,10 +175,13 @@ export default function Admin() {
 
   const stats = {
     total: total,
-    new: leads.filter((lead) => lead.status === "new").length,
-    contacted: leads.filter((lead) => lead.status === "contacted").length,
-    qualified: leads.filter((lead) => lead.status === "qualified").length,
-    converted: leads.filter((lead) => lead.status === "converted").length,
+    new: (leads || []).filter((lead) => lead.status === "new").length,
+    contacted: (leads || []).filter((lead) => lead.status === "contacted")
+      .length,
+    qualified: (leads || []).filter((lead) => lead.status === "qualified")
+      .length,
+    converted: (leads || []).filter((lead) => lead.status === "converted")
+      .length,
   };
 
   return (
