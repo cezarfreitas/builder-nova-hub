@@ -141,7 +141,7 @@ export default function HeroManagement() {
     ));
   };
 
-    if (isLoading) {
+  if (isLoading) {
     return (
       <AdminLayout>
         <div className="flex items-center justify-center py-20">
@@ -154,7 +154,7 @@ export default function HeroManagement() {
     );
   }
 
-    return (
+  return (
     <AdminLayout>
       <div className="space-y-6">
         {/* Header */}
@@ -422,6 +422,6 @@ export default function HeroManagement() {
           )}
         </div>
       </div>
-    </div>
+    </AdminLayout>
   );
 }
