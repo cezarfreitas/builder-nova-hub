@@ -14,6 +14,16 @@ import {
   getWebhookLogs,
 } from "./routes/analytics";
 import {
+  startSession,
+  updateSession,
+  endSession,
+  trackEvent,
+  trackConversion,
+  getSessionAnalytics,
+  getEventAnalytics,
+  getConversionAnalytics,
+} from "./routes/session-analytics";
+import {
   getTestimonials,
   createTestimonial,
   updateTestimonial,
