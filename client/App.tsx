@@ -10,6 +10,7 @@ import Index from "./pages/Index";
 import Admin from "./pages/Admin";
 import AdminDashboard from "./pages/AdminDashboard";
 import LeadsAnalytics from "./pages/LeadsAnalytics";
+import SessionAnalytics from "./pages/SessionAnalytics";
 import Settings from "./pages/Settings";
 import Testimonials from "./pages/Testimonials";
 import HeroManagement from "./pages/HeroManagement";
@@ -18,6 +19,7 @@ import GalleryManagement from "./pages/GalleryManagement";
 import SEOManagement from "./pages/SEOManagement";
 import ThemeManagement from "./pages/ThemeManagement";
 import NotFound from "./pages/NotFound";
+import { initAnalytics } from "./lib/analytics";
 
 const queryClient = new QueryClient();
 
