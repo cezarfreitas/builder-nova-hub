@@ -19,6 +19,7 @@ import {
   deleteTestimonial,
   getTestimonial,
 } from "./routes/testimonials";
+import heroRoutes from "./routes/hero";
 import { testConnection, initializeDatabase } from "./database";
 
 export function createServer() {
