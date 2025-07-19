@@ -149,6 +149,11 @@ export default function LeadsAnalytics() {
   const fetchDailyStats = async () => {
     try {
       const response = await fetch("/api/analytics/daily?days=30");
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
       const data: DailyStatsResponse = await response.json();
       setDailyStats(data);
 
@@ -166,6 +171,8 @@ export default function LeadsAnalytics() {
       setChartData(chartData.reverse());
     } catch (error) {
       console.error("Error fetching daily stats:", error);
+      setDailyStats(null);
+      setChartData([]);
     }
   };
 
