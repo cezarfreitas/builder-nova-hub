@@ -94,6 +94,40 @@ export async function initializeDatabase() {
       )
     `);
 
+    // Create hero_settings table if it doesn't exist
+    await connection.execute(`
+      CREATE TABLE IF NOT EXISTS hero_settings (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        logo_url VARCHAR(500),
+        main_title TEXT NOT NULL,
+        subtitle TEXT,
+        description TEXT,
+        background_image_url VARCHAR(500),
+        cta_text VARCHAR(255) DEFAULT 'Descubra Como Funciona',
+        is_active BOOLEAN DEFAULT TRUE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+      )
+    `);
+
+    // Insert default hero settings if none exist
+    const [heroRows] = await connection.execute(
+      "SELECT COUNT(*) as count FROM hero_settings WHERE is_active = TRUE",
+    );
+    const heroCount = (heroRows as any)[0].count;
+
+    if (heroCount === 0) {
+      await connection.execute(`
+        INSERT INTO hero_settings (main_title, subtitle, description, cta_text) VALUES (
+          'TRANSFORME SUA\nPAIXÃO\nEM LUCRO',
+          'Programa de Revendedores',
+          'Seja um revendedor oficial da marca de streetwear mais desejada do Brasil e multiplique suas vendas!',
+          'Descubra Como Funciona'
+        )
+      `);
+      console.log("✅ Default hero settings created");
+    }
+
     console.log("✅ Database tables initialized and updated");
     connection.release();
     return true;
