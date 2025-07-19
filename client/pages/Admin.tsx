@@ -428,6 +428,12 @@ export default function Admin() {
                 Gerenciar Galeria
               </Button>
             </Link>
+            <Link to="/admin/seo">
+              <Button className="bg-indigo-600 hover:bg-indigo-700 text-white">
+                <Globe className="w-4 h-4 mr-2" />
+                Configurações SEO
+              </Button>
+            </Link>
             <Button
               onClick={checkDuplicates}
               className="bg-orange-600 hover:bg-orange-700 text-white"
