@@ -667,6 +667,92 @@ export default function Index() {
         </div>
       </section>
 
+      {/* Gallery Section */}
+      <section className="py-20 bg-gray-900 relative overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-ecko-red/10 via-transparent to-ecko-red/10"></div>
+          <div className="absolute top-1/4 left-1/3 w-72 h-72 bg-ecko-red/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-1/4 right-1/3 w-72 h-72 bg-ecko-red/10 rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="container mx-auto px-6 max-w-7xl relative z-10">
+          {/* Section Header */}
+          <div className="text-center mb-16">
+            <Badge className="bg-ecko-red text-white px-6 py-2 text-sm font-semibold uppercase tracking-widest mb-6">
+              Nossa Galeria
+            </Badge>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 uppercase tracking-tight">
+              PRODUTOS EM DESTAQUE
+              <span className="block text-2xl md:text-3xl text-ecko-red mt-2">
+                Veja a qualidade Ecko
+              </span>
+            </h2>
+            <p className="text-gray-300 text-lg max-w-3xl mx-auto leading-relaxed">
+              Conheça alguns dos produtos mais vendidos da nossa coleção e
+              descubra por que a Ecko é a marca preferida dos consumidores de
+              streetwear
+            </p>
+          </div>
+
+          {/* Gallery Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {galleryImages.map((image, index) => (
+              <div
+                key={image.id || index}
+                className="group relative bg-black rounded-2xl overflow-hidden border-2 border-gray-700 hover:border-ecko-red transition-all duration-500 transform hover:-translate-y-2 hover:scale-105"
+              >
+                <div className="aspect-square overflow-hidden">
+                  <img
+                    src={image.image_url}
+                    alt={image.alt_text || image.title}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
+                </div>
+
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <h3 className="text-xl font-bold text-white mb-2 uppercase tracking-wide">
+                      {image.title}
+                    </h3>
+                    {image.description && (
+                      <p className="text-gray-300 text-sm leading-relaxed">
+                        {image.description}
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Border Glow Effect */}
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-ecko-red/20 via-transparent to-ecko-red/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+              </div>
+            ))}
+          </div>
+
+          {/* Load More Button */}
+          {galleryImages.length === 0 && (
+            <div className="text-center mt-12">
+              <p className="text-gray-400 text-lg">
+                Em breve nossa galeria estará repleta de produtos incríveis!
+              </p>
+            </div>
+          )}
+
+          {galleryImages.length > 0 && (
+            <div className="text-center mt-16">
+              <Button
+                variant="outline"
+                className="border-ecko-red text-ecko-red hover:bg-ecko-red hover:text-white px-8 py-3 text-lg font-semibold uppercase tracking-wider transition-all duration-300"
+              >
+                Ver Mais Produtos
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </Button>
+            </div>
+          )}
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="py-20 bg-ecko-red">
         <div className="container mx-auto px-6 max-w-4xl text-center">
