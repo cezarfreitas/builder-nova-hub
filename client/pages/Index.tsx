@@ -1123,6 +1123,16 @@ export default function Index() {
         {/* Background overlay on hover */}
         <div className="fixed inset-0 bg-black/5 opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
       </div>
+
+      {/* Footer */}
+      <footer className="bg-black py-8 border-t border-gray-800">
+        <div className="container mx-auto px-6 text-center">
+          <p className="text-gray-400 text-sm">
+            © 2024 Ecko Unlimited. Todos os direitos reservados. | Uma marca de
+            streetwear que transforma paixão em lucro.
+          </p>
+        </div>
+      </footer>
     </div>
   );
 }
