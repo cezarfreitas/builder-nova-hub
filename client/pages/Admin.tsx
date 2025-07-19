@@ -527,7 +527,7 @@ export default function Admin() {
 
               <div className="flex space-x-3 pt-4 border-t">
                 <Button
-                  className="bg-ecko-blue hover:bg-ecko-blue-dark"
+                  className="bg-ecko-red hover:bg-ecko-red-dark"
                   onClick={() =>
                     window.open(`mailto:${selectedLead.email}`, "_blank")
                   }
