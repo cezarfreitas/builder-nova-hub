@@ -23,5 +23,11 @@ export function createServer() {
 
   app.get("/api/demo", handleDemo);
 
+  // Leads API routes
+  app.post("/api/leads", submitLead);
+  app.get("/api/leads", getLeads);
+  app.put("/api/leads/:id", updateLeadStatus);
+  app.delete("/api/leads/:id", deleteLead);
+
   return app;
 }
