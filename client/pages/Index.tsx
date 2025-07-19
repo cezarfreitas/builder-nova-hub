@@ -464,7 +464,20 @@ export default function Index() {
                 </div>
 
                 {/* Indicators */}
-                <div className="hidden md:flex items-center space-x-2">
+                <div className="hidden md:flex items-center space-x-4">
+                  <div className="flex space-x-2">
+                    {scrollSnaps.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => scrollTo(index)}
+                        className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                          index === selectedIndex
+                            ? "bg-ecko-red scale-125"
+                            : "bg-gray-300 hover:bg-gray-400"
+                        }`}
+                      />
+                    ))}
+                  </div>
                   <div className="text-sm text-gray-500">
                     {testimonials.length} depoimentos
                   </div>
