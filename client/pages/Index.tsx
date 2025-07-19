@@ -59,9 +59,15 @@ export default function Index() {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
 
-    // Limpar erro de CNPJ quando mudar a seleção
+    // Validar CNPJ imediatamente
     if (name === "hasCnpj") {
-      setCnpjError("");
+      if (value === "nao") {
+        setCnpjError(
+          "Para ser um revendedor oficial da Ecko é necessário ter CNPJ.",
+        );
+      } else {
+        setCnpjError("");
+      }
     }
   };
 
