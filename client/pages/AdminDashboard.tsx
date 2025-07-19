@@ -122,7 +122,7 @@ export default function AdminDashboard() {
   const recentStats = dailyStats?.stats.slice(0, 7) || [];
   const today = recentStats[0];
 
-    return (
+  return (
     <AdminLayout>
       <div className="space-y-8">
         {/* Header */}
@@ -147,237 +147,250 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-      {/* Stats Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">
-                  Total de Leads
-                </p>
-                <p className="text-3xl font-bold text-blue-600">
-                  {loading ? "..." : dailyStats?.summary.total_leads || 0}
-                </p>
-                <p className="text-xs text-gray-500 mt-1">
-                  {loading
-                    ? "..."
-                    : `+${dailyStats?.summary.today_leads || 0} hoje`}
-                </p>
+        {/* Stats Overview */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">
+                    Total de Leads
+                  </p>
+                  <p className="text-3xl font-bold text-blue-600">
+                    {loading ? "..." : dailyStats?.summary.total_leads || 0}
+                  </p>
+                  <p className="text-xs text-gray-500 mt-1">
+                    {loading
+                      ? "..."
+                      : `+${dailyStats?.summary.today_leads || 0} hoje`}
+                  </p>
+                </div>
+                <Users className="w-8 h-8 text-blue-600" />
               </div>
-              <Users className="w-8 h-8 text-blue-600" />
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
 
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">
-                  Taxa de Conversão
-                </p>
-                <p className="text-3xl font-bold text-green-600">15%</p>
-                <p className="text-xs text-gray-500 mt-1">
-                  Baseado nos últimos 30 dias
-                </p>
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">
+                    Taxa de Conversão
+                  </p>
+                  <p className="text-3xl font-bold text-green-600">15%</p>
+                  <p className="text-xs text-gray-500 mt-1">
+                    Baseado nos últimos 30 dias
+                  </p>
+                </div>
+                <TrendingUp className="w-8 h-8 text-green-600" />
               </div>
-              <TrendingUp className="w-8 h-8 text-green-600" />
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
 
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">
-                  Webhooks Pendentes
-                </p>
-                <p className="text-3xl font-bold text-orange-600">
-                  {loading ? "..." : dailyStats?.summary.webhooks_pending || 0}
-                </p>
-                <p className="text-xs text-gray-500 mt-1">Necessitam reenvio</p>
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">
+                    Webhooks Pendentes
+                  </p>
+                  <p className="text-3xl font-bold text-orange-600">
+                    {loading
+                      ? "..."
+                      : dailyStats?.summary.webhooks_pending || 0}
+                  </p>
+                  <p className="text-xs text-gray-500 mt-1">
+                    Necessitam reenvio
+                  </p>
+                </div>
+                <AlertTriangle className="w-8 h-8 text-orange-600" />
               </div>
-              <AlertTriangle className="w-8 h-8 text-orange-600" />
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
 
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">
-                  Leads Duplicados
-                </p>
-                <p className="text-3xl font-bold text-red-600">
-                  {loading ? "..." : dailyStats?.summary.duplicates_today || 0}
-                </p>
-                <p className="text-xs text-gray-500 mt-1">Detectados hoje</p>
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">
+                    Leads Duplicados
+                  </p>
+                  <p className="text-3xl font-bold text-red-600">
+                    {loading
+                      ? "..."
+                      : dailyStats?.summary.duplicates_today || 0}
+                  </p>
+                  <p className="text-xs text-gray-500 mt-1">Detectados hoje</p>
+                </div>
+                <Activity className="w-8 h-8 text-red-600" />
               </div>
-              <Activity className="w-8 h-8 text-red-600" />
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+            </CardContent>
+          </Card>
+        </div>
 
-      {/* Quick Actions */}
-      <div>
-        <h2 className="text-xl font-bold text-gray-900 mb-4">Ações Rápidas</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {quickActions.map((action, index) => (
-            <Link key={index} to={action.href}>
-              <Card className="h-full hover:shadow-lg transition-shadow cursor-pointer group">
-                <CardContent className="p-6">
-                  <div className="flex items-start space-x-4">
-                    <div
-                      className={`p-3 rounded-lg ${action.color} transition-colors`}
-                    >
-                      <action.icon className="w-6 h-6 text-white" />
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
-                        {action.title}
-                      </h3>
-                      <p className="text-sm text-gray-600 mt-1">
-                        {action.description}
-                      </p>
-                      <div className="flex items-center mt-3 text-sm text-blue-600 group-hover:text-blue-700">
-                        Acessar
-                        <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+        {/* Quick Actions */}
+        <div>
+          <h2 className="text-xl font-bold text-gray-900 mb-4">
+            Ações Rápidas
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {quickActions.map((action, index) => (
+              <Link key={index} to={action.href}>
+                <Card className="h-full hover:shadow-lg transition-shadow cursor-pointer group">
+                  <CardContent className="p-6">
+                    <div className="flex items-start space-x-4">
+                      <div
+                        className={`p-3 rounded-lg ${action.color} transition-colors`}
+                      >
+                        <action.icon className="w-6 h-6 text-white" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+                          {action.title}
+                        </h3>
+                        <p className="text-sm text-gray-600 mt-1">
+                          {action.description}
+                        </p>
+                        <div className="flex items-center mt-3 text-sm text-blue-600 group-hover:text-blue-700">
+                          Acessar
+                          <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
-          ))}
+                  </CardContent>
+                </Card>
+              </Link>
+            ))}
+          </div>
         </div>
-      </div>
 
-      {/* Settings Quick Access */}
-      <div>
-        <h2 className="text-xl font-bold text-gray-900 mb-4">
-          Configurações Rápidas
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {settingsCards.map((setting, index) => (
-            <Link key={index} to={setting.href}>
-              <Card className="hover:shadow-md transition-shadow cursor-pointer group">
-                <CardContent className="p-6">
-                  <div className="flex items-center space-x-3">
-                    <setting.icon className={`w-8 h-8 ${setting.color}`} />
-                    <div>
-                      <h3 className="font-medium text-gray-900 group-hover:text-blue-600 transition-colors">
-                        {setting.title}
-                      </h3>
-                      <p className="text-sm text-gray-600">
-                        {setting.description}
-                      </p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
-          ))}
-        </div>
-      </div>
-
-      {/* Recent Activity */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Calendar className="w-5 h-5 text-blue-600" />
-              Leads dos Últimos 7 Dias
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {loading ? (
-              <div className="flex justify-center py-8">
-                <RefreshCw className="w-6 h-6 animate-spin text-gray-400" />
-              </div>
-            ) : recentStats.length > 0 ? (
-              <div className="space-y-3">
-                {recentStats.map((stat, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
-                  >
+        {/* Settings Quick Access */}
+        <div>
+          <h2 className="text-xl font-bold text-gray-900 mb-4">
+            Configurações Rápidas
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {settingsCards.map((setting, index) => (
+              <Link key={index} to={setting.href}>
+                <Card className="hover:shadow-md transition-shadow cursor-pointer group">
+                  <CardContent className="p-6">
                     <div className="flex items-center space-x-3">
-                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                      <span className="text-sm font-medium">
-                        {new Date(stat.date).toLocaleDateString("pt-BR", {
-                          weekday: "short",
-                          day: "2-digit",
-                          month: "2-digit",
-                        })}
-                      </span>
+                      <setting.icon className={`w-8 h-8 ${setting.color}`} />
+                      <div>
+                        <h3 className="font-medium text-gray-900 group-hover:text-blue-600 transition-colors">
+                          {setting.title}
+                        </h3>
+                        <p className="text-sm text-gray-600">
+                          {setting.description}
+                        </p>
+                      </div>
                     </div>
-                    <div className="flex items-center space-x-4">
-                      <Badge variant="outline">{stat.total_leads} leads</Badge>
-                      <Badge
-                        variant={
-                          stat.webhook_sent > 0 ? "default" : "secondary"
-                        }
-                        className={
-                          stat.webhook_sent > 0
-                            ? "bg-green-100 text-green-800"
-                            : "bg-gray-100 text-gray-800"
-                        }
-                      >
-                        {stat.webhook_sent} webhooks
-                      </Badge>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className="text-gray-600 text-center py-8">
-                Nenhum dado encontrado
-              </p>
-            )}
-          </CardContent>
-        </Card>
+                  </CardContent>
+                </Card>
+              </Link>
+            ))}
+          </div>
+        </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Activity className="w-5 h-5 text-green-600" />
-              Status do Sistema
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">Database</span>
-                <Badge className="bg-green-100 text-green-800">Online</Badge>
+        {/* Recent Activity */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Calendar className="w-5 h-5 text-blue-600" />
+                Leads dos Últimos 7 Dias
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {loading ? (
+                <div className="flex justify-center py-8">
+                  <RefreshCw className="w-6 h-6 animate-spin text-gray-400" />
+                </div>
+              ) : recentStats.length > 0 ? (
+                <div className="space-y-3">
+                  {recentStats.map((stat, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+                    >
+                      <div className="flex items-center space-x-3">
+                        <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                        <span className="text-sm font-medium">
+                          {new Date(stat.date).toLocaleDateString("pt-BR", {
+                            weekday: "short",
+                            day: "2-digit",
+                            month: "2-digit",
+                          })}
+                        </span>
+                      </div>
+                      <div className="flex items-center space-x-4">
+                        <Badge variant="outline">
+                          {stat.total_leads} leads
+                        </Badge>
+                        <Badge
+                          variant={
+                            stat.webhook_sent > 0 ? "default" : "secondary"
+                          }
+                          className={
+                            stat.webhook_sent > 0
+                              ? "bg-green-100 text-green-800"
+                              : "bg-gray-100 text-gray-800"
+                          }
+                        >
+                          {stat.webhook_sent} webhooks
+                        </Badge>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-gray-600 text-center py-8">
+                  Nenhum dado encontrado
+                </p>
+              )}
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Activity className="w-5 h-5 text-green-600" />
+                Status do Sistema
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium">Database</span>
+                  <Badge className="bg-green-100 text-green-800">Online</Badge>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium">Landing Page</span>
+                  <Badge className="bg-green-100 text-green-800">Ativa</Badge>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium">Webhook Service</span>
+                  <Badge className="bg-green-100 text-green-800">
+                    Funcionando
+                  </Badge>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium">Analytics</span>
+                  <Badge className="bg-green-100 text-green-800">
+                    Coletando
+                  </Badge>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium">Backup</span>
+                  <Badge variant="outline">
+                    Último: {new Date().toLocaleDateString("pt-BR")}
+                  </Badge>
+                </div>
               </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">Landing Page</span>
-                <Badge className="bg-green-100 text-green-800">Ativa</Badge>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">Webhook Service</span>
-                <Badge className="bg-green-100 text-green-800">
-                  Funcionando
-                </Badge>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">Analytics</span>
-                <Badge className="bg-green-100 text-green-800">Coletando</Badge>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">Backup</span>
-                <Badge variant="outline">
-                  Último: {new Date().toLocaleDateString("pt-BR")}
-                </Badge>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </div>
       </div>
-    </div>
+    </AdminLayout>
   );
 }
