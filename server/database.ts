@@ -114,6 +114,25 @@ export async function initializeDatabase() {
       )
     `);
 
+    // Add new columns to hero_settings if they don't exist
+    try {
+      await connection.execute(`
+        ALTER TABLE hero_settings
+        ADD COLUMN logo_width INT DEFAULT 200,
+        ADD COLUMN logo_height INT DEFAULT 80,
+        ADD COLUMN background_overlay_opacity INT DEFAULT 50,
+        ADD COLUMN background_overlay_color VARCHAR(7) DEFAULT '#000000'
+      `);
+    } catch (error: any) {
+      if (error.errno !== 1060) {
+        // Ignore "column already exists" error
+        console.log(
+          "Hero settings columns already exist or other error:",
+          error.message,
+        );
+      }
+    }
+
     // Insert default hero settings if none exist
     const [heroRows] = await connection.execute(
       "SELECT COUNT(*) as count FROM hero_settings WHERE is_active = TRUE",
