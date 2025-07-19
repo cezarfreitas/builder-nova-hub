@@ -364,7 +364,7 @@ export default function Admin() {
             {/* Chart Area */}
             <Card>
               <CardHeader>
-                <CardTitle>Últimos 7 Dias</CardTitle>
+                <CardTitle>��ltimos 7 Dias</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">
@@ -433,6 +433,12 @@ export default function Admin() {
               <Button className="bg-indigo-600 hover:bg-indigo-700 text-white">
                 <Globe className="w-4 h-4 mr-2" />
                 Configurações SEO
+              </Button>
+            </Link>
+            <Link to="/admin/theme">
+              <Button className="bg-purple-600 hover:bg-purple-700 text-white">
+                <Palette className="w-4 h-4 mr-2" />
+                Gerenciar Tema
               </Button>
             </Link>
             <Button
