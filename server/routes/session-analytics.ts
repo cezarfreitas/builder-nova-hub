@@ -204,17 +204,17 @@ export const trackEvent: RequestHandler = async (req, res) => {
         event_value, page_url, page_title, element_id, element_class, element_text)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
-        sessionId,
-        eventType,
-        eventCategory,
-        eventAction,
-        eventLabel,
-        eventValue,
-        pageUrl,
-        pageTitle,
-        elementId,
-        elementClass,
-        elementText,
+        sessionId || null,
+        eventType || "unknown",
+        eventCategory || null,
+        eventAction || null,
+        eventLabel || null,
+        eventValue || null,
+        pageUrl || "",
+        pageTitle || "",
+        elementId || null,
+        elementClass || null,
+        elementText || null,
       ],
     );
 
