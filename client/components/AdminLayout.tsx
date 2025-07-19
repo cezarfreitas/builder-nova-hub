@@ -68,6 +68,7 @@ const navigation = [
 export default function AdminLayout({ children }: AdminLayoutProps) {
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { logout, user } = useAuth();
 
   const isActivePath = (href: string) => {
     if (href === "/admin") {
