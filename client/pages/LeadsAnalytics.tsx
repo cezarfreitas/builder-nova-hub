@@ -110,6 +110,7 @@ export default function LeadsAnalytics() {
   const [showWebhookLogs, setShowWebhookLogs] = useState(false);
   const [selectedLeadId, setSelectedLeadId] = useState<number | null>(null);
   const [sendingWebhook, setSendingWebhook] = useState<number | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     fetchLeads();
