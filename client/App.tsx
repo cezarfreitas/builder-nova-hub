@@ -23,6 +23,11 @@ import { initAnalytics } from "./lib/analytics";
 
 const queryClient = new QueryClient();
 
+// Initialize analytics when app starts
+if (typeof window !== "undefined") {
+  initAnalytics();
+}
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
@@ -34,6 +39,7 @@ const App = () => (
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/old" element={<Admin />} />
           <Route path="/admin/analytics" element={<LeadsAnalytics />} />
+          <Route path="/admin/sessions" element={<SessionAnalytics />} />
           <Route path="/admin/settings" element={<Settings />} />
           <Route path="/admin/testimonials" element={<Testimonials />} />
           <Route path="/admin/hero" element={<HeroManagement />} />
