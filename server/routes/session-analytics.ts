@@ -248,7 +248,14 @@ export const trackConversion: RequestHandler = async (req, res) => {
       `INSERT INTO conversions 
        (session_id, lead_id, conversion_type, conversion_value, form_data, page_url)
        VALUES (?, ?, ?, ?, ?, ?)`,
-      [sessionId, leadId, conversionType, conversionValue, formData, pageUrl],
+      [
+        sessionId || null,
+        leadId || null,
+        conversionType || "unknown",
+        conversionValue || null,
+        formData || null,
+        pageUrl || "",
+      ],
     );
 
     // Update session to mark as converted
