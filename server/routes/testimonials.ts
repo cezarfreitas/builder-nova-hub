@@ -50,14 +50,16 @@ export const getTestimonials: RequestHandler = async (req, res) => {
       query += " WHERE is_active = TRUE";
     }
 
-    query += " ORDER BY created_at DESC LIMIT ?";
-    queryParams.push(limitNum);
+    query += " ORDER BY created_at DESC";
 
-    // Execute query
-    const [testimonials] = await pool.execute<TestimonialRow[]>(
+    // Execute query without LIMIT for now (apply pagination in memory)
+    const [allTestimonials] = await pool.execute<TestimonialRow[]>(
       query,
       queryParams,
     );
+
+    // Apply limit in memory
+    const testimonials = allTestimonials.slice(0, limitNum);
 
     // Get total count
     let countQuery = "SELECT COUNT(*) as total FROM testimonials";
