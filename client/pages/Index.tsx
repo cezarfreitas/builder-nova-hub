@@ -728,12 +728,35 @@ export default function Index() {
 
       {/* WhatsApp Float Button */}
       <div className="fixed bottom-6 right-6 z-50">
-        <Button
-          onClick={() => setShowForm(true)}
-          className="w-14 h-14 rounded-full bg-green-500 hover:bg-green-600 text-white shadow-2xl hover:shadow-green-500/25 transition-all duration-300 group animate-pulse hover:animate-none"
-        >
-          <MessageCircle className="w-6 h-6 group-hover:scale-110 transition-transform" />
-        </Button>
+        <div className="relative">
+          {/* Ripple Effect */}
+          <div className="absolute inset-0 rounded-full bg-green-500 animate-ping opacity-75"></div>
+          <div className="absolute inset-0 rounded-full bg-green-500 animate-pulse opacity-50"></div>
+
+          {/* Main Button */}
+          <Button
+            onClick={() => setShowForm(true)}
+            className="relative w-16 h-16 rounded-full bg-gradient-to-br from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-2xl hover:shadow-green-500/40 transition-all duration-300 group border-4 border-white hover:scale-110"
+          >
+            <MessageCircle className="w-7 h-7 group-hover:scale-125 transition-transform duration-300" />
+          </Button>
+
+          {/* Tooltip */}
+          <div className="absolute bottom-full right-0 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+            <div className="bg-gray-900 text-white text-sm py-2 px-3 rounded-lg whitespace-nowrap shadow-xl">
+              Fazer Cadastro
+              <div className="absolute top-full right-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
+            </div>
+          </div>
+
+          {/* Pulse Notification */}
+          <div className="absolute -top-2 -right-2 w-5 h-5 bg-ecko-red rounded-full flex items-center justify-center text-white text-xs font-bold animate-bounce">
+            !
+          </div>
+        </div>
+
+        {/* Background overlay on hover */}
+        <div className="fixed inset-0 bg-black/5 opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
       </div>
     </div>
   );
