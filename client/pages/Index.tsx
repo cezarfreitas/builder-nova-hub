@@ -34,6 +34,8 @@ export default function Index() {
   const [heroSettings, setHeroSettings] = useState<HeroSettings | null>(null);
   const [isLoadingHero, setIsLoadingHero] = useState(true);
   const [cnpjError, setCnpjError] = useState("");
+  const [faqs, setFaqs] = useState<FAQ[]>([]);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   useEffect(() => {
     fetchHeroSettings();
