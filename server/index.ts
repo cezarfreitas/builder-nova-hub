@@ -42,6 +42,7 @@ import faqRoutes from "./routes/faqs";
 import galleryRoutes from "./routes/gallery";
 import seoRoutes from "./routes/seo";
 import themeRoutes from "./routes/theme";
+import authRoutes from "./routes/auth";
 import { testConnection, initializeDatabase } from "./database";
 
 export function createServer() {
