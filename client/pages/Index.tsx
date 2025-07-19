@@ -28,12 +28,9 @@ import {
 
 interface LeadFormData {
   name: string;
-  email: string;
-  phone: string;
-  company: string;
-  city: string;
-  experience: string;
-  message: string;
+  whatsapp: string;
+  hasCnpj: string;
+  storeType: string;
 }
 
 export default function Index() {
