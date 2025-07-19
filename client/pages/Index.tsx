@@ -384,22 +384,22 @@ export default function Index() {
               <img
                 src={heroSettings.logo_url}
                 alt="Logo"
-                className="object-contain mr-6"
+                className="object-contain"
                 style={{
-                  width: "500px",
-                  height: "120px",
-                  margin: "auto 24px 0 0",
+                  width: `${heroSettings.logo_width || 200}px`,
+                  height: `${heroSettings.logo_height || 80}px`,
+                  maxWidth: "100%",
                 }}
               />
             ) : (
               <img
                 src="https://www.ntktextil.com.br/wp-content/uploads/2022/08/Logo-Ecko.png"
                 alt="Logo"
-                className="object-contain mr-6"
+                className="object-contain"
                 style={{
-                  width: "500px",
-                  height: "120px",
-                  margin: "auto 24px 0 0",
+                  width: `${heroSettings?.logo_width || 200}px`,
+                  height: `${heroSettings?.logo_height || 80}px`,
+                  maxWidth: "100%",
                 }}
               />
             )}
