@@ -323,9 +323,9 @@ export default function Admin() {
                 <TableHeader>
                   <TableRow>
                     <TableHead>Nome</TableHead>
-                    <TableHead>Email</TableHead>
-                    <TableHead>Telefone</TableHead>
-                    <TableHead>Empresa</TableHead>
+                    <TableHead>WhatsApp</TableHead>
+                    <TableHead>CNPJ</TableHead>
+                    <TableHead>Tipo de Loja</TableHead>
                     <TableHead>Status</TableHead>
                     <TableHead>Data</TableHead>
                     <TableHead>Ações</TableHead>
