@@ -20,7 +20,14 @@ import {
   ChevronDown,
   HelpCircle,
 } from "lucide-react";
-import { HeroSettings, HeroResponse, FAQ, FAQsResponse } from "@shared/api";
+import {
+  HeroSettings,
+  HeroResponse,
+  FAQ,
+  FAQsResponse,
+  GalleryImage,
+  GalleryResponse,
+} from "@shared/api";
 
 interface LeadFormData {
   name: string;
