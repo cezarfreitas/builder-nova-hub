@@ -21,6 +21,7 @@ import {
 } from "./routes/testimonials";
 import heroRoutes from "./routes/hero";
 import faqRoutes from "./routes/faqs";
+import galleryRoutes from "./routes/gallery";
 import { testConnection, initializeDatabase } from "./database";
 
 export function createServer() {
