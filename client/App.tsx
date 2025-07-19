@@ -12,6 +12,7 @@ import Testimonials from "./pages/Testimonials";
 import HeroManagement from "./pages/HeroManagement";
 import FAQManagement from "./pages/FAQManagement";
 import GalleryManagement from "./pages/GalleryManagement";
+import SEOManagement from "./pages/SEOManagement";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
