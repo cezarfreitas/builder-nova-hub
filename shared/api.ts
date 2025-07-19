@@ -5,12 +5,9 @@ export interface DemoResponse {
 export interface Lead {
   id?: number;
   name: string;
-  email: string;
-  phone: string;
-  company?: string;
-  city?: string;
-  experience?: string;
-  message?: string;
+  whatsapp: string;
+  hasCnpj: string;
+  storeType: string;
   created_at?: string;
   status?: "new" | "contacted" | "qualified" | "converted";
 }
