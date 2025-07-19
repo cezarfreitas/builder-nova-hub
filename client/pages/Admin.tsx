@@ -47,6 +47,7 @@ import {
   Activity,
   Webhook,
   MessageSquare,
+  Settings,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
