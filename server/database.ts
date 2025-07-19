@@ -78,6 +78,22 @@ export async function initializeDatabase() {
       }
     }
 
+    // Create testimonials table if it doesn't exist
+    await connection.execute(`
+      CREATE TABLE IF NOT EXISTS testimonials (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(255) NOT NULL,
+        company VARCHAR(255),
+        role VARCHAR(255),
+        content TEXT NOT NULL,
+        avatar_url VARCHAR(500),
+        rating INT DEFAULT 5,
+        is_active BOOLEAN DEFAULT TRUE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+      )
+    `);
+
     console.log("✅ Database tables initialized and updated");
     connection.release();
     return true;
