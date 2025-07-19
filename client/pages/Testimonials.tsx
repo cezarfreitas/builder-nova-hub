@@ -195,9 +195,9 @@ export default function Testimonials() {
     });
   };
 
-  const activeTestimonials = testimonials.filter((t) => t.is_active).length;
+    const activeTestimonials = testimonials.filter((t) => t.is_active).length;
 
-    return (
+  return (
     <AdminLayout>
       <div className="space-y-6">
         {/* Header */}
@@ -512,7 +512,7 @@ export default function Testimonials() {
                   <option value={1}>1 ⭐</option>
                   <option value={2}>2 ⭐⭐</option>
                   <option value={3}>3 ⭐⭐⭐</option>
-                  <option value={4}>4 ⭐⭐⭐⭐</option>
+                  <option value={4}>4 ���⭐⭐⭐</option>
                   <option value={5}>5 ⭐⭐⭐⭐⭐</option>
                 </select>
               </div>
