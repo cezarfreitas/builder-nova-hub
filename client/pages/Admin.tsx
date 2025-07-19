@@ -87,8 +87,8 @@ export default function Admin() {
       const response = await fetch(`/api/leads?${params}`);
       const data: LeadsResponse = await response.json();
 
-      setLeads(data.leads);
-      setTotal(data.total);
+      setLeads(data.leads || []);
+      setTotal(data.total || 0);
     } catch (error) {
       console.error("Error fetching leads:", error);
     } finally {
