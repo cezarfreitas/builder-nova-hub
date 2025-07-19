@@ -13,6 +13,7 @@ import HeroManagement from "./pages/HeroManagement";
 import FAQManagement from "./pages/FAQManagement";
 import GalleryManagement from "./pages/GalleryManagement";
 import SEOManagement from "./pages/SEOManagement";
+import ThemeManagement from "./pages/ThemeManagement";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
