@@ -8,8 +8,8 @@ import {
   Truck,
   HeadphonesIcon,
   Monitor,
-  Star,
   ArrowRight,
+  MessageCircle,
 } from "lucide-react";
 
 interface LeadFormData {
@@ -68,25 +68,25 @@ export default function Index() {
 
   if (isSubmitted) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-        <Card className="max-w-md w-full text-center">
+      <div className="min-h-screen bg-black flex items-center justify-center p-4">
+        <Card className="max-w-md w-full text-center bg-gray-900 border-ecko-red border-2">
           <CardContent className="p-8">
-            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <CheckCircle className="w-8 h-8 text-green-600" />
+            <div className="w-16 h-16 bg-ecko-red/20 rounded-full flex items-center justify-center mx-auto mb-6">
+              <CheckCircle className="w-8 h-8 text-ecko-red" />
             </div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">
+            <h2 className="text-2xl font-bold text-white mb-4">
               Cadastro Enviado!
             </h2>
-            <p className="text-gray-600 mb-6">
+            <p className="text-gray-300 mb-6">
               Nossa equipe entrará em contato em até 24h para apresentar nossa
-              proposta exclusiva!
+              proposta exclusiva para se tornar um revendedor oficial!
             </p>
             <Button
               onClick={() => {
                 setIsSubmitted(false);
                 setShowForm(false);
               }}
-              className="bg-ecko-red hover:bg-ecko-red-dark text-white"
+              className="bg-ecko-red hover:bg-ecko-red-dark text-white font-bold"
             >
               Voltar ao Início
             </Button>
@@ -98,21 +98,29 @@ export default function Index() {
 
   if (showForm) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-        <Card className="max-w-lg w-full">
+      <div className="min-h-screen bg-black flex items-center justify-center p-4">
+        <Card className="max-w-lg w-full bg-gray-900 border-ecko-red border-2">
           <CardContent className="p-8">
             <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-gray-900 mb-2">
-                Cadastro de Lojista
+              <div className="flex items-center justify-center mb-4">
+                <div className="w-12 h-12 bg-ecko-red rounded-lg flex items-center justify-center">
+                  <span className="text-white font-black text-xl">🦏</span>
+                </div>
+                <h1 className="text-2xl font-black text-white ml-3">
+                  eckō unltd.
+                </h1>
+              </div>
+              <h2 className="text-2xl font-bold text-white mb-2">
+                Cadastro de Revendedor
               </h2>
-              <p className="text-gray-600">
-                Preencha seus dados para se tornar um revendedor oficial
+              <p className="text-gray-300">
+                Preencha seus dados para se tornar um lojista oficial
               </p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-gray-300 mb-2">
                   Nome Completo
                 </label>
                 <Input
@@ -121,12 +129,12 @@ export default function Index() {
                   onChange={handleInputChange}
                   placeholder="Digite seu nome completo"
                   required
-                  className="h-12 border-gray-300 focus:border-ecko-red focus:ring-ecko-red/20"
+                  className="h-12 bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-ecko-red focus:ring-ecko-red/20"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-gray-300 mb-2">
                   WhatsApp
                 </label>
                 <Input
@@ -136,12 +144,12 @@ export default function Index() {
                   onChange={handleInputChange}
                   placeholder="(11) 99999-9999"
                   required
-                  className="h-12 border-gray-300 focus:border-ecko-red focus:ring-ecko-red/20"
+                  className="h-12 bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-ecko-red focus:ring-ecko-red/20"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-gray-300 mb-2">
                   Possui CNPJ?
                 </label>
                 <select
@@ -149,7 +157,7 @@ export default function Index() {
                   value={formData.hasCnpj}
                   onChange={handleInputChange}
                   required
-                  className="w-full h-12 border border-gray-300 rounded-md px-4 bg-white text-gray-900 focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none"
+                  className="w-full h-12 bg-gray-800 border border-gray-700 rounded-md px-4 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none"
                 >
                   <option value="">Selecione uma opção</option>
                   <option value="sim">Sim, tenho CNPJ</option>
@@ -159,7 +167,7 @@ export default function Index() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-gray-300 mb-2">
                   Tipo de Negócio
                 </label>
                 <select
@@ -167,7 +175,7 @@ export default function Index() {
                   value={formData.storeType}
                   onChange={handleInputChange}
                   required
-                  className="w-full h-12 border border-gray-300 rounded-md px-4 bg-white text-gray-900 focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none"
+                  className="w-full h-12 bg-gray-800 border border-gray-700 rounded-md px-4 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none"
                 >
                   <option value="">Selecione o tipo</option>
                   <option value="fisica">Loja Física</option>
@@ -184,14 +192,14 @@ export default function Index() {
                   type="button"
                   variant="outline"
                   onClick={() => setShowForm(false)}
-                  className="flex-1 h-12 border-gray-300 hover:bg-gray-50"
+                  className="flex-1 h-12 border-gray-600 bg-transparent text-gray-300 hover:bg-gray-800 hover:text-white"
                 >
                   Voltar
                 </Button>
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="flex-1 h-12 bg-ecko-red hover:bg-ecko-red-dark text-white font-semibold"
+                  className="flex-1 h-12 bg-ecko-red hover:bg-ecko-red-dark text-white font-bold"
                 >
                   {isSubmitting ? (
                     <div className="flex items-center justify-center">
@@ -211,112 +219,143 @@ export default function Index() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Header */}
-      <header className="border-b border-gray-100">
-        <div className="container mx-auto px-4 py-6 max-w-6xl">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-black text-gray-900">ECKO</h1>
-              <p className="text-sm text-ecko-red font-medium">
-                PROGRAMA DE REVENDEDORES
-              </p>
+    <div className="min-h-screen bg-black">
+      {/* Hero Section with Background */}
+      <section className="relative min-h-screen flex flex-col">
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <div className="w-full h-full bg-gradient-to-r from-black via-black/80 to-transparent z-10 absolute"></div>
+          <div
+            className={
+              'w-full h-full bg-[url(\'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"%3E%3Cdefs%3E%3Cpattern id="streetwear" patternUnits="userSpaceOnUse" width="40" height="40"%3E%3Ccircle cx="20" cy="20" r="1" fill="%23dc2626" opacity="0.1"/%3E%3C/pattern%3E%3C/defs%3E%3Crect width="100%" height="100%" fill="%23111827"/%3E%3Crect width="100%" height="100%" fill="url(%23streetwear)"/%3E%3C/svg%3E\')] bg-cover bg-center'
+            }
+          ></div>
+        </div>
+
+        {/* Header */}
+        <header className="relative z-20 p-6">
+          <div className="container mx-auto max-w-6xl flex items-center justify-between">
+            <div className="flex items-center">
+              <div className="w-16 h-16 bg-ecko-red rounded-lg flex items-center justify-center mr-4">
+                <span className="text-white font-black text-2xl">🦏</span>
+              </div>
+              <div>
+                <h1 className="text-2xl font-black text-white">eckō unltd.</h1>
+                <p className="text-ecko-red text-sm font-bold uppercase tracking-wider">
+                  Programa de Revendedores
+                </p>
+              </div>
             </div>
             <a
               href="/admin"
-              className="text-sm text-gray-500 hover:text-ecko-red transition-colors"
+              className="text-gray-400 hover:text-ecko-red transition-colors text-sm"
             >
               Área Admin
             </a>
           </div>
-        </div>
-      </header>
+        </header>
 
-      {/* Hero Section */}
-      <section className="py-16 px-4">
-        <div className="container mx-auto max-w-4xl text-center">
-          <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-            Revenda Ecko: Seja um{" "}
-            <span className="text-ecko-red">Lojista Autorizado</span>
-          </h1>
+        {/* Hero Content */}
+        <div className="relative z-20 flex-1 flex items-center">
+          <div className="container mx-auto px-6 max-w-6xl">
+            <div className="max-w-3xl">
+              <h1 className="text-4xl lg:text-6xl font-black text-white mb-8 leading-tight">
+                REVENDA ECKO:
+                <br />
+                <span className="text-ecko-red">
+                  SEJA UM LOJISTA AUTORIZADO
+                </span>
+                <br />
+                <span className="text-ecko-red">
+                  E MULTIPLIQUE SUAS VENDAS!
+                </span>
+              </h1>
 
-          <div className="w-16 h-1 bg-ecko-red mx-auto mb-6"></div>
+              <p className="text-xl lg:text-2xl text-gray-300 mb-12 font-medium">
+                Venda uma das marcas mais desejadas do streetwear e aumente seus
+                lucros!
+              </p>
 
-          <h2 className="text-2xl lg:text-3xl font-bold text-ecko-red mb-6">
-            Multiplique Suas Vendas!
-          </h2>
-
-          <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">
-            Venda uma das marcas mais desejadas do streetwear e aumente seus
-            lucros!
-          </p>
+              <Button
+                onClick={() => setShowForm(true)}
+                className="bg-ecko-red hover:bg-ecko-red-dark text-white text-lg px-8 py-4 h-auto font-bold shadow-2xl hover:shadow-ecko-red/25 transition-all duration-300 group text-uppercase tracking-wider"
+              >
+                QUERO SER UM REVENDEDOR OFICIAL
+                <ArrowRight className="ml-3 w-6 h-6 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Benefits Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4 max-w-6xl">
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <section className="py-20 bg-black">
+        <div className="container mx-auto px-6 max-w-6xl">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Marca Internacional */}
-            <Card className="text-center border-0 shadow-lg hover:shadow-xl transition-shadow bg-white">
-              <CardContent className="p-8">
-                <div className="w-16 h-16 bg-ecko-red/10 rounded-full flex items-center justify-center mx-auto mb-6">
+            <Card className="bg-black border-2 border-ecko-red hover:bg-gray-900 transition-all duration-300 group">
+              <CardContent className="p-8 text-center">
+                <div className="w-16 h-16 bg-ecko-red/20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-ecko-red/30 transition-colors">
                   <Globe className="w-8 h-8 text-ecko-red" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-4">
+                <h3 className="text-xl font-bold text-ecko-red mb-4 uppercase tracking-wide">
                   MARCA INTERNACIONAL
                 </h3>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  A Ecko é uma marca reconhecida internacionalmente, com forte
-                  presença no Brasil e grande apelo junto ao público jovem.
+                <p className="text-gray-300 text-sm leading-relaxed">
+                  A Ecko é uma marca reconhecida mundialmente, com forte
+                  presença no Brasil e grande apelo junto ao público jovem. Uma
+                  marca que só o nome vende sozinho.
                 </p>
               </CardContent>
             </Card>
 
             {/* Pronta Entrega */}
-            <Card className="text-center border-0 shadow-lg hover:shadow-xl transition-shadow bg-white">
-              <CardContent className="p-8">
-                <div className="w-16 h-16 bg-ecko-red/10 rounded-full flex items-center justify-center mx-auto mb-6">
+            <Card className="bg-black border-2 border-ecko-red hover:bg-gray-900 transition-all duration-300 group">
+              <CardContent className="p-8 text-center">
+                <div className="w-16 h-16 bg-ecko-red/20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-ecko-red/30 transition-colors">
                   <Truck className="w-8 h-8 text-ecko-red" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-4">
+                <h3 className="text-xl font-bold text-ecko-red mb-4 uppercase tracking-wide">
                   PRONTA ENTREGA
                 </h3>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  Mais de 100.000 produtos prontos para entrega, com excelentes
-                  margens de lucro e prazo giro de estoque.
+                <p className="text-gray-300 text-sm leading-relaxed">
+                  Disponibilizamos mais de 100.000 produtos prontos para
+                  entrega, para impulsionar suas vendas com excelentes margens
+                  de lucro e um ótimo rápido giro de estoque.
                 </p>
               </CardContent>
             </Card>
 
             {/* Suporte ao Lojista */}
-            <Card className="text-center border-0 shadow-lg hover:shadow-xl transition-shadow bg-white">
-              <CardContent className="p-8">
-                <div className="w-16 h-16 bg-ecko-red/10 rounded-full flex items-center justify-center mx-auto mb-6">
+            <Card className="bg-black border-2 border-ecko-red hover:bg-gray-900 transition-all duration-300 group">
+              <CardContent className="p-8 text-center">
+                <div className="w-16 h-16 bg-ecko-red/20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-ecko-red/30 transition-colors">
                   <HeadphonesIcon className="w-8 h-8 text-ecko-red" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-4">
+                <h3 className="text-xl font-bold text-ecko-red mb-4 uppercase tracking-wide">
                   SUPORTE AO LOJISTA
                 </h3>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  Equipe de especialistas sempre à disposição para garantir a
-                  melhor experiência na compra e venda.
+                <p className="text-gray-300 text-sm leading-relaxed">
+                  Nossa equipe de especialistas está sempre à disposição para
+                  garantir que você tenha a melhor experiência, tanto na compra
+                  quanto na venda do produto em sua loja.
                 </p>
               </CardContent>
             </Card>
 
             {/* Totalmente Online */}
-            <Card className="text-center border-0 shadow-lg hover:shadow-xl transition-shadow bg-white">
-              <CardContent className="p-8">
-                <div className="w-16 h-16 bg-ecko-red/10 rounded-full flex items-center justify-center mx-auto mb-6">
+            <Card className="bg-black border-2 border-ecko-red hover:bg-gray-900 transition-all duration-300 group">
+              <CardContent className="p-8 text-center">
+                <div className="w-16 h-16 bg-ecko-red/20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-ecko-red/30 transition-colors">
                   <Monitor className="w-8 h-8 text-ecko-red" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-4">
+                <h3 className="text-xl font-bold text-ecko-red mb-4 uppercase tracking-wide">
                   TOTALMENTE ONLINE
                 </h3>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  Plataforma exclusiva com preços de lojista para todo o Brasil,
-                  facilitando compra e reabastecimento.
+                <p className="text-gray-300 text-sm leading-relaxed">
+                  Oferecemos uma plataforma exclusiva de compras online, com
+                  preços de atacado destinados aos lojistas de todo o Brasil
+                  para facilitar a sua compra e reabastecimento.
                 </p>
               </CardContent>
             </Card>
@@ -325,89 +364,135 @@ export default function Index() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 px-4">
-        <div className="container mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6">
-            Pronto para fazer parte da família Ecko?
+      <section className="py-20 bg-ecko-red">
+        <div className="container mx-auto px-6 max-w-4xl text-center">
+          <h2 className="text-3xl lg:text-4xl font-black text-white mb-6 uppercase tracking-wide">
+            PRONTO PARA FAZER PARTE DA FAMÍLIA ECKO?
           </h2>
+          <p className="text-xl text-white/90 mb-8">
+            Junte-se aos milhares de revendedores que já transformaram seus
+            negócios com a marca mais desejada do streetwear brasileiro!
+          </p>
 
           <Button
             onClick={() => setShowForm(true)}
-            className="bg-ecko-red hover:bg-ecko-red-dark text-white text-lg px-8 py-4 h-auto font-bold shadow-lg hover:shadow-xl transition-all duration-300 group"
+            className="bg-white hover:bg-gray-100 text-ecko-red text-lg px-8 py-4 h-auto font-black shadow-2xl hover:shadow-black/25 transition-all duration-300 group uppercase tracking-wider"
           >
-            Quero Ser um Lojista Autorizado
-            <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            QUERO SER UM LOJISTA AUTORIZADO
+            <ArrowRight className="ml-3 w-6 h-6 group-hover:translate-x-1 transition-transform" />
           </Button>
-
-          <p className="text-sm text-gray-500 mt-4">
-            🔒 Cadastro 100% seguro e gratuito
-          </p>
         </div>
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-gray-900 text-white">
-        <div className="container mx-auto px-4 max-w-4xl">
+      <section className="py-20 bg-gray-900">
+        <div className="container mx-auto px-6 max-w-6xl">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div>
-              <div className="text-3xl lg:text-4xl font-black text-ecko-red mb-2">
+            <div className="group hover:transform hover:scale-105 transition-all duration-300">
+              <div className="text-4xl lg:text-5xl font-black text-ecko-red mb-2 group-hover:text-white">
                 25+
               </div>
-              <div className="text-gray-300 font-medium">Anos de História</div>
+              <div className="text-gray-400 font-bold uppercase tracking-wide text-sm">
+                Anos de História
+              </div>
             </div>
-            <div>
-              <div className="text-3xl lg:text-4xl font-black text-ecko-red mb-2">
+            <div className="group hover:transform hover:scale-105 transition-all duration-300">
+              <div className="text-4xl lg:text-5xl font-black text-ecko-red mb-2 group-hover:text-white">
                 500+
               </div>
-              <div className="text-gray-300 font-medium">Lojistas Ativos</div>
+              <div className="text-gray-400 font-bold uppercase tracking-wide text-sm">
+                Lojistas Ativos
+              </div>
             </div>
-            <div>
-              <div className="text-3xl lg:text-4xl font-black text-ecko-red mb-2">
+            <div className="group hover:transform hover:scale-105 transition-all duration-300">
+              <div className="text-4xl lg:text-5xl font-black text-ecko-red mb-2 group-hover:text-white">
                 100K+
               </div>
-              <div className="text-gray-300 font-medium">Produtos</div>
+              <div className="text-gray-400 font-bold uppercase tracking-wide text-sm">
+                Produtos
+              </div>
             </div>
-            <div>
-              <div className="text-3xl lg:text-4xl font-black text-ecko-red mb-2">
+            <div className="group hover:transform hover:scale-105 transition-all duration-300">
+              <div className="text-4xl lg:text-5xl font-black text-ecko-red mb-2 group-hover:text-white">
                 1M+
               </div>
-              <div className="text-gray-300 font-medium">Clientes</div>
+              <div className="text-gray-400 font-bold uppercase tracking-wide text-sm">
+                Clientes
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-12 bg-gray-50 border-t">
-        <div className="container mx-auto px-4 max-w-4xl text-center">
-          <div className="mb-8">
-            <h3 className="text-2xl font-black text-gray-900 mb-2">ECKO</h3>
-            <p className="text-ecko-red font-semibold">UNLIMITED POTENTIAL</p>
+      <footer className="py-16 bg-black border-t border-gray-800">
+        <div className="container mx-auto px-6 max-w-6xl">
+          <div className="grid md:grid-cols-4 gap-8">
+            <div className="md:col-span-2">
+              <div className="flex items-center mb-6">
+                <div className="w-12 h-12 bg-ecko-red rounded-lg flex items-center justify-center mr-4">
+                  <span className="text-white font-black text-xl">🦏</span>
+                </div>
+                <div>
+                  <h3 className="text-2xl font-black text-white">
+                    eckō unltd.
+                  </h3>
+                  <p className="text-ecko-red text-sm font-bold uppercase tracking-wider">
+                    Unlimited Potential
+                  </p>
+                </div>
+              </div>
+              <p className="text-gray-400 text-sm leading-relaxed mb-6">
+                Há mais de 25 anos criando tendências no streetwear mundial.
+                Junte-se a nós e faça parte desta história de sucesso que
+                continua crescendo!
+              </p>
+            </div>
+
+            <div>
+              <h4 className="font-bold text-white mb-4 uppercase tracking-wide text-sm">
+                Contato
+              </h4>
+              <div className="space-y-2 text-gray-400 text-sm">
+                <p>(11) 4000-2000</p>
+                <p>lojistas@ecko.com.br</p>
+                <p>São Paulo, SP - Brasil</p>
+              </div>
+            </div>
+
+            <div>
+              <h4 className="font-bold text-white mb-4 uppercase tracking-wide text-sm">
+                Suporte
+              </h4>
+              <div className="space-y-2 text-gray-400 text-sm">
+                <p className="hover:text-ecko-red cursor-pointer transition-colors">
+                  Central de Ajuda
+                </p>
+                <p className="hover:text-ecko-red cursor-pointer transition-colors">
+                  Política de Trocas
+                </p>
+                <p className="hover:text-ecko-red cursor-pointer transition-colors">
+                  Entrega e Logística
+                </p>
+              </div>
+            </div>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 text-sm text-gray-600">
-            <div>
-              <h4 className="font-bold text-gray-900 mb-3">Contato</h4>
-              <p>(11) 4000-2000</p>
-              <p>lojistas@ecko.com.br</p>
-            </div>
-            <div>
-              <h4 className="font-bold text-gray-900 mb-3">Suporte</h4>
-              <p>Central de Ajuda</p>
-              <p>Política de Trocas</p>
-            </div>
-            <div>
-              <h4 className="font-bold text-gray-900 mb-3">Empresa</h4>
-              <p>São Paulo, SP</p>
-              <p>CNPJ: 00.000.000/0001-00</p>
-            </div>
-          </div>
-
-          <div className="border-t border-gray-200 mt-8 pt-8 text-xs text-gray-500">
+          <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500 text-xs">
             <p>&copy; 2024 Ecko Unlimited. Todos os direitos reservados.</p>
           </div>
         </div>
       </footer>
+
+      {/* WhatsApp Float Button */}
+      <div className="fixed bottom-6 right-6 z-50">
+        <Button
+          onClick={() => setShowForm(true)}
+          className="w-14 h-14 rounded-full bg-green-500 hover:bg-green-600 text-white shadow-2xl hover:shadow-green-500/25 transition-all duration-300 group animate-pulse hover:animate-none"
+        >
+          <MessageCircle className="w-6 h-6 group-hover:scale-110 transition-transform" />
+        </Button>
+      </div>
     </div>
   );
 }
