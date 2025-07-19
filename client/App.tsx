@@ -29,7 +29,10 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/admin" element={<Admin />} />
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/old" element={<Admin />} />
+          <Route path="/admin/analytics" element={<LeadsAnalytics />} />
+          <Route path="/admin/settings" element={<Settings />} />
           <Route path="/admin/testimonials" element={<Testimonials />} />
           <Route path="/admin/hero" element={<HeroManagement />} />
           <Route path="/admin/faqs" element={<FAQManagement />} />
