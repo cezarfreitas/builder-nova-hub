@@ -149,17 +149,27 @@ export default function ImageUpload({
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
   };
 
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    setIsDragging(false);
 
     const files = Array.from(e.dataTransfer.files);
     const imageFile = files.find((file) => file.type.startsWith("image/"));
 
     if (imageFile) {
       uploadFile(imageFile);
+    } else {
+      setError("Apenas arquivos de imagem são permitidos.");
     }
   };
 
