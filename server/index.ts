@@ -78,5 +78,8 @@ export function createServer() {
   // SEO API routes
   app.use("/api/seo", seoRoutes);
 
+  // Theme API routes
+  app.use("/api/theme", themeRoutes);
+
   return app;
 }
