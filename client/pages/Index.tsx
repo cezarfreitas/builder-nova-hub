@@ -108,6 +108,18 @@ export default function Index() {
     }
   };
 
+  const fetchTestimonials = async () => {
+    try {
+      const response = await fetch("/api/testimonials?active_only=true");
+      if (response.ok) {
+        const data: TestimonialsResponse = await response.json();
+        setTestimonials(data.testimonials || []);
+      }
+    } catch (error) {
+      console.error("Error fetching testimonials:", error);
+    }
+  };
+
   const fetchThemeSettings = async () => {
     try {
       const response = await fetch("/api/theme");
