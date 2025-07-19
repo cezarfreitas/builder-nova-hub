@@ -49,6 +49,7 @@ import {
   MessageSquare,
   Settings,
   HelpCircle,
+  Image,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
