@@ -35,6 +35,30 @@ export interface DailyStatsResponse {
   };
 }
 
+export interface Testimonial {
+  id?: number;
+  name: string;
+  company?: string;
+  role?: string;
+  content: string;
+  avatar_url?: string;
+  rating: number;
+  is_active: boolean;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface TestimonialsResponse {
+  testimonials: Testimonial[];
+  total: number;
+}
+
+export interface TestimonialSubmissionResponse {
+  success: boolean;
+  message: string;
+  testimonial?: Testimonial;
+}
+
 export interface LeadsResponse {
   leads: Lead[];
   total: number;
