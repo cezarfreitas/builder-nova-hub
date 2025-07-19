@@ -48,6 +48,7 @@ import {
   Webhook,
   MessageSquare,
   Settings,
+  HelpCircle,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
