@@ -129,11 +129,18 @@ export default function LeadsAnalytics() {
       }
 
       const response = await fetch(`/api/leads?${params}`);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
       const data: LeadsResponse = await response.json();
       setLeads(data.leads || []);
       setTotal(data.total || 0);
     } catch (error) {
       console.error("Error fetching leads:", error);
+      setLeads([]);
+      setTotal(0);
     } finally {
       setLoading(false);
     }
