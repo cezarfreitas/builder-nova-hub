@@ -73,6 +73,19 @@ export default function ImageUpload({
   const uploadFile = async (file: File) => {
     try {
       setIsUploading(true);
+      setError(null);
+
+      // Validate file size (5MB limit)
+      if (file.size > 5 * 1024 * 1024) {
+        setError("Arquivo muito grande. Máximo 5MB permitido.");
+        return;
+      }
+
+      // Validate file type
+      if (!file.type.startsWith("image/")) {
+        setError("Apenas arquivos de imagem são permitidos.");
+        return;
+      }
 
       const formData = new FormData();
       formData.append("image", file);
@@ -89,12 +102,13 @@ export default function ImageUpload({
       if (data.success) {
         onChange(data.url);
         setUrlInput(data.url);
+        setError(null);
       } else {
-        alert(`Erro no upload: ${data.message}`);
+        setError(data.message || "Erro no upload da imagem");
       }
     } catch (error) {
       console.error("Error uploading file:", error);
-      alert("Erro ao fazer upload da imagem");
+      setError("Erro ao fazer upload da imagem");
     } finally {
       setIsUploading(false);
       if (fileInputRef.current) {
