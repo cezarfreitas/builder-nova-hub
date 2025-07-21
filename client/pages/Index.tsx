@@ -602,7 +602,7 @@ export default function Index() {
                       <Button
                         type="submit"
                         disabled={isSubmitting || formData.hasCnpj === "nao"}
-                        className={`w-full py-3 text-lg font-bold shadow-lg hover:shadow-xl transition-all duration-300 ${
+                        className={`w-full py-3 sm:py-4 text-sm sm:text-base lg:text-lg font-bold shadow-lg hover:shadow-xl transition-all duration-300 h-auto min-h-[44px] ${
                           formData.hasCnpj === "nao"
                             ? "bg-gray-600 cursor-not-allowed"
                             : "bg-gradient-to-r from-ecko-red to-ecko-red-dark hover:from-ecko-red-dark hover:to-ecko-red"
