@@ -469,7 +469,7 @@ export default function Index() {
       {/* Content Section */}
       <section
         id="content-section"
-        className="relative min-h-screen flex flex-col py-8 sm:py-12 lg:py-0"
+        className="relative min-h-[70vh] flex flex-col py-6 sm:py-8 lg:py-0"
       >
         {/* Background Pattern */}
         <div className="absolute inset-0">
@@ -482,12 +482,12 @@ export default function Index() {
         </div>
 
         {/* Hero Content */}
-        <div className="relative z-20 flex-1 flex items-center pt-5">
+        <div className="relative z-20 flex-1 flex items-center pt-3">
           <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
-            <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            <div className="grid lg:grid-cols-2 gap-6 lg:gap-8 items-center">
               {/* Left Content */}
               <div className="text-center lg:text-left">
-                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-white mb-6 sm:mb-8 leading-tight px-2 lg:px-0">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-white mb-4 sm:mb-6 leading-tight px-2 lg:px-0">
                   REVENDA ECKO:
                   <br />
                   <span className="text-ecko-red">
@@ -499,7 +499,7 @@ export default function Index() {
                   </span>
                 </h1>
 
-                <p className="text-lg sm:text-xl lg:text-2xl text-gray-300 mb-8 sm:mb-10 lg:mb-12 font-medium px-2 lg:px-0">
+                <p className="text-lg sm:text-xl lg:text-2xl text-gray-300 mb-6 sm:mb-7 lg:mb-8 font-medium px-2 lg:px-0">
                   Venda uma das marcas mais desejadas do streetwear e aumente
                   seus lucros!
                 </p>
@@ -508,7 +508,7 @@ export default function Index() {
               </div>
 
               {/* Right Form */}
-              <div className="relative mt-8 lg:mt-0">
+              <div className="relative mt-6 lg:mt-0">
                 <div className="absolute -inset-2 sm:-inset-4 bg-gradient-to-r from-ecko-red via-red-500 to-ecko-red-dark rounded-3xl opacity-20 blur-xl"></div>
                 <Card className="relative shadow-2xl border-2 border-ecko-red/30 bg-gray-900/95 backdrop-blur-lg">
                   <CardContent className="p-4 sm:p-6 lg:p-8">
