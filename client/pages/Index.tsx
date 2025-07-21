@@ -58,9 +58,6 @@ export default function Index() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [galleryImages, setGalleryImages] = useState<GalleryImage[]>([]);
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
-  const [themeSettings, setThemeSettings] = useState<ThemeSettings | null>(
-    null,
-  );
 
   // Dados estáticos - Gallery Images (Lifestyle)
   const staticGalleryImages: GalleryImage[] = [
