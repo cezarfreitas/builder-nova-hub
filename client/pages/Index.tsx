@@ -458,9 +458,12 @@ export default function Index() {
             </Button>
 
             {/* Scroll Indicator */}
-            <div className="flex flex-col items-center animate-bounce">
+            <div
+              onClick={scrollToContent}
+              className="flex flex-col items-center animate-bounce cursor-pointer hover:scale-110 transition-transform duration-300"
+            >
               <div className="w-1 h-12 bg-gradient-to-b from-ecko-red to-transparent rounded-full mb-2"></div>
-              <ChevronDown className="w-6 h-6 text-ecko-red animate-pulse" />
+              <ChevronDown className="w-6 h-6 text-ecko-red animate-pulse hover:text-white transition-colors" />
             </div>
           </div>
         </div>
