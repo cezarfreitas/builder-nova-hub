@@ -1156,7 +1156,7 @@ export default function Index() {
           {/* Main Button */}
           <Button
             onClick={() => setShowForm(true)}
-            className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-2xl hover:shadow-green-500/40 transition-all duration-300 group border-2 sm:border-4 border-white hover:scale-110"
+            className="relative w-16 h-16 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-2xl hover:shadow-green-500/40 transition-all duration-300 group border-2 sm:border-4 border-white hover:scale-110 touch-manipulation"
           >
             <svg
               className="w-6 h-6 sm:w-7 sm:h-7 group-hover:scale-125 transition-transform duration-300"
