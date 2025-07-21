@@ -614,7 +614,10 @@ export default function Index() {
                             Enviando...
                           </div>
                         ) : (
-                          "QUERO SER REVENDEDOR AGORA"
+                          <>
+                            <span className="hidden sm:inline">QUERO SER REVENDEDOR AGORA</span>
+                            <span className="sm:hidden">QUERO SER REVENDEDOR</span>
+                          </>
                         )}
                       </Button>
                     </form>
