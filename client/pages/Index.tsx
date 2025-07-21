@@ -468,28 +468,11 @@ export default function Index() {
 
           {/* Main Message */}
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-white mb-4 sm:mb-6 leading-tight px-2">
-            {heroSettings?.main_title ? (
-              heroSettings.main_title.split("\n").map((line, index) => (
-                <div key={index}>
-                  {index === 0 ? (
-                    line
-                  ) : (
-                    <span className="text-ecko-red">{line}</span>
-                  )}
-                  {index < heroSettings.main_title.split("\n").length - 1 && (
-                    <br />
-                  )}
-                </div>
-              ))
-            ) : (
-              <>
-                TRANSFORME SUA
-                <br />
-                <span className="text-ecko-red">PAIXÃO</span>
-                <br />
-                EM <span className="text-ecko-red">LUCRO</span>
-              </>
-            )}
+            TRANSFORME SUA
+            <br />
+            <span className="text-ecko-red">PAIXÃO</span>
+            <br />
+            EM <span className="text-ecko-red">LUCRO</span>
           </h2>
 
           <p className="text-lg sm:text-xl lg:text-2xl text-gray-300 mb-8 sm:mb-10 lg:mb-12 font-medium max-w-2xl mx-auto px-2">
