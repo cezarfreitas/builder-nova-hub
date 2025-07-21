@@ -269,7 +269,7 @@ export default function Index() {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     // Se não tem CNPJ, não prosseguir
@@ -279,29 +279,17 @@ export default function Index() {
 
     setIsSubmitting(true);
 
-    try {
-      const response = await fetch("/api/leads", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+    // Simular envio do formulário
+    setTimeout(() => {
+      setIsSubmitted(true);
+      setFormData({
+        name: "",
+        whatsapp: "",
+        hasCnpj: "",
+        storeType: "",
       });
-
-      if (response.ok) {
-        setIsSubmitted(true);
-        setFormData({
-          name: "",
-          whatsapp: "",
-          hasCnpj: "",
-          storeType: "",
-        });
-      }
-    } catch (error) {
-      console.error("Error submitting form:", error);
-    } finally {
       setIsSubmitting(false);
-    }
+    }, 1500);
   };
 
   const scrollToContent = () => {
