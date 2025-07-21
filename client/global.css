@@ -113,14 +113,24 @@
 
     --sidebar-ring: 217.2 91.2% 59.8%;
 
-    /* Ecko Brand Colors - Dynamic (will be updated by JavaScript) */
+    /* Ecko Brand Colors - Harmonized Palette */
     --ecko-red: #dc2626;
-    --ecko-red-light: #f87171;
-    --ecko-red-dark: #991b1b;
-    --ecko-secondary: #1f2937;
+    --ecko-red-light: #fecaca;
+    --ecko-red-dark: #7f1d1d;
+    --ecko-secondary: #111111;
     --ecko-background: #000000;
     --ecko-text: #ffffff;
-    --ecko-accent: #ef4444;
+    --ecko-accent: #dc2626;
+    --ecko-gray-50: #fafafa;
+    --ecko-gray-100: #f5f5f5;
+    --ecko-gray-200: #e5e5e5;
+    --ecko-gray-300: #d4d4d4;
+    --ecko-gray-400: #a3a3a3;
+    --ecko-gray-500: #737373;
+    --ecko-gray-600: #525252;
+    --ecko-gray-700: #404040;
+    --ecko-gray-800: #262626;
+    --ecko-gray-900: #171717;
   }
 
   .dark {
@@ -160,14 +170,24 @@
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
 
-    /* Ecko Brand Colors - Dynamic (will be updated by JavaScript) */
+    /* Ecko Brand Colors - Harmonized Palette */
     --ecko-red: #dc2626;
-    --ecko-red-light: #f87171;
-    --ecko-red-dark: #991b1b;
-    --ecko-secondary: #1f2937;
+    --ecko-red-light: #fecaca;
+    --ecko-red-dark: #7f1d1d;
+    --ecko-secondary: #111111;
     --ecko-background: #000000;
     --ecko-text: #ffffff;
-    --ecko-accent: #ef4444;
+    --ecko-accent: #dc2626;
+    --ecko-gray-50: #fafafa;
+    --ecko-gray-100: #f5f5f5;
+    --ecko-gray-200: #e5e5e5;
+    --ecko-gray-300: #d4d4d4;
+    --ecko-gray-400: #a3a3a3;
+    --ecko-gray-500: #737373;
+    --ecko-gray-600: #525252;
+    --ecko-gray-700: #404040;
+    --ecko-gray-800: #262626;
+    --ecko-gray-900: #171717;
   }
 }
 
