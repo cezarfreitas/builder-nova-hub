@@ -476,8 +476,7 @@ export default function Index() {
           </h2>
 
           <p className="text-lg sm:text-xl lg:text-2xl text-gray-300 mb-8 sm:mb-10 lg:mb-12 font-medium max-w-2xl mx-auto px-2">
-            {heroSettings?.description ||
-              "Seja um revendedor oficial da marca de streetwear mais desejada do Brasil e multiplique suas vendas!"}
+            Seja um revendedor oficial da marca de streetwear mais desejada do Brasil e multiplique suas vendas!
           </p>
 
           {/* Scroll Down Button */}
@@ -487,7 +486,7 @@ export default function Index() {
               variant="outline"
               className="mb-6 sm:mb-8 bg-transparent border-2 border-ecko-red text-ecko-red hover:bg-ecko-red hover:text-white font-bold px-6 sm:px-8 py-3 sm:py-4 h-auto text-base sm:text-lg uppercase tracking-wider transition-all duration-300"
             >
-              {heroSettings?.cta_text || "Descubra Como Funciona"}
+              Descubra Como Funciona
               <ChevronDown className="ml-2 w-6 h-6" />
             </Button>
 
