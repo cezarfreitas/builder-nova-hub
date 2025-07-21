@@ -537,7 +537,7 @@ export default function Index() {
                   </span>
                 </h1>
 
-                <p className="text-lg sm:text-xl lg:text-2xl text-gray-300 mb-6 sm:mb-7 lg:mb-8 font-medium px-2 lg:px-0">
+                <p className="text-lg sm:text-xl lg:text-2xl text-gray-100 mb-6 sm:mb-7 lg:mb-8 font-medium px-2 lg:px-0">
                   Venda uma das marcas mais desejadas do streetwear e aumente
                   seus lucros!
                 </p>
