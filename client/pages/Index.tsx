@@ -25,7 +25,7 @@ import {
   GalleryImage,
   Testimonial,
 } from "@shared/api";
-import { getAnalytics } from "../lib/analytics";
+
 
 interface LeadFormData {
   name: string;
