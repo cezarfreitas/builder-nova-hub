@@ -519,17 +519,17 @@ export default function Index() {
                 <Card className="relative shadow-2xl border-2 border-ecko-red/30 bg-gray-900/95 backdrop-blur-lg">
                   <CardContent className="p-4 sm:p-6 lg:p-8">
                     <div className="text-center mb-4 sm:mb-6">
-                      <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">
+                      <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-white mb-2">
                         Cadastro de Revendedor
                       </h2>
-                      <p className="text-gray-300">
+                      <p className="text-sm sm:text-base text-gray-300">
                         Preencha os dados para receber nossa proposta
                       </p>
                     </div>
 
                     <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
                       <div>
-                        <label className="block text-xs sm:text-sm font-semibold text-gray-300 mb-2">
+                        <label className="block text-sm font-semibold text-gray-300 mb-1 sm:mb-2">
                           Nome Completo
                         </label>
                         <Input
@@ -543,7 +543,7 @@ export default function Index() {
                       </div>
 
                       <div>
-                        <label className="block text-xs sm:text-sm font-semibold text-gray-300 mb-2">
+                        <label className="block text-sm font-semibold text-gray-300 mb-1 sm:mb-2">
                           WhatsApp
                         </label>
                         <Input
@@ -559,7 +559,7 @@ export default function Index() {
 
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-xs sm:text-sm font-semibold text-gray-300 mb-2">
+                          <label className="block text-sm font-semibold text-gray-300 mb-1 sm:mb-2">
                             Tem CNPJ?
                           </label>
                           <select
@@ -581,7 +581,7 @@ export default function Index() {
                         </div>
 
                         <div>
-                          <label className="block text-xs sm:text-sm font-semibold text-gray-300 mb-2">
+                          <label className="block text-sm font-semibold text-gray-300 mb-1 sm:mb-2">
                             Tipo de Loja
                           </label>
                           <select
