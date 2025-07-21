@@ -1068,15 +1068,15 @@ export default function Index() {
                           value={`faq-${faq.id}`}
                           className="group border-b border-gray-700 last:border-b-0 rounded-lg overflow-hidden hover:bg-gray-800/50 transition-all duration-300"
                         >
-                          <AccordionTrigger className="text-left text-lg font-bold text-white hover:text-ecko-red transition-colors py-6 px-4 group-hover:bg-gray-800/30 [&>svg]:text-ecko-red">
+                          <AccordionTrigger className="text-left text-base font-bold text-white hover:text-ecko-red transition-colors py-4 px-3 group-hover:bg-gray-800/30 [&>svg]:text-ecko-red">
                             <div className="flex items-center">
-                              <span className="bg-ecko-red/20 text-ecko-red font-black text-sm rounded-full w-8 h-8 flex items-center justify-center mr-4 group-hover:bg-ecko-red group-hover:text-white transition-all">
+                              <span className="bg-ecko-red/20 text-ecko-red font-black text-xs rounded-full w-7 h-7 flex items-center justify-center mr-3 group-hover:bg-ecko-red group-hover:text-white transition-all">
                                 {String(index + 1).padStart(2, "0")}
                               </span>
                               {faq.question}
                             </div>
                           </AccordionTrigger>
-                          <AccordionContent className="text-gray-300 text-base leading-relaxed pb-6 px-4 pl-16">
+                          <AccordionContent className="text-gray-300 text-sm leading-relaxed pb-4 px-3 pl-12">
                             {faq.answer}
                           </AccordionContent>
                         </AccordionItem>
