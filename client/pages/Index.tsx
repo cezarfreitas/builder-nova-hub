@@ -1147,7 +1147,7 @@ export default function Index() {
       )}
 
       {/* WhatsApp Float Button */}
-      <div className="fixed bottom-6 right-4 sm:bottom-6 sm:right-6 z-[9999]">
+      <div className="fixed bottom-20 right-4 sm:bottom-6 sm:right-6 z-[9999]">
         <div className="relative">
           {/* Ripple Effect */}
           <div className="absolute inset-0 rounded-full bg-green-500 animate-ping opacity-75"></div>
