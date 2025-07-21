@@ -548,7 +548,7 @@ export default function Index() {
               {/* Right Form */}
               <div className="relative mt-6 lg:mt-0">
                 <div className="absolute -inset-2 sm:-inset-4 bg-gradient-to-r from-ecko-red via-red-500 to-ecko-red-dark rounded-3xl opacity-20 blur-xl"></div>
-                <Card className="relative shadow-2xl border-2 border-ecko-red/30 bg-gray-900/95 backdrop-blur-lg">
+                <Card className="relative shadow-2xl border-2 border-ecko-red/40 bg-gray-900/90 backdrop-blur-lg">
                   <CardContent className="p-4 sm:p-6 lg:p-8">
                     <div className="text-center mb-4 sm:mb-6">
                       <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-white mb-2">
