@@ -62,51 +62,192 @@ export default function Index() {
     null,
   );
 
+  // Dados estáticos - Gallery Images (Lifestyle)
+  const staticGalleryImages: GalleryImage[] = [
+    {
+      id: 1,
+      title: 'Street Style Urbano',
+      description: 'Coleção lifestyle Ecko - visual urbano autêntico com atitude',
+      image_url: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=500&h=500&fit=crop&crop=center',
+      alt_text: 'Lifestyle urbano Ecko - street style',
+      display_order: 1,
+      is_active: true
+    },
+    {
+      id: 2,
+      title: 'Estilo Casual Premium',
+      description: 'Looks casuais que refletem a essência streetwear da marca',
+      image_url: 'https://images.unsplash.com/photo-1506629905607-21e4ab4ea3d4?w=500&h=500&fit=crop&crop=center',
+      alt_text: 'Estilo casual premium Ecko',
+      display_order: 2,
+      is_active: true
+    },
+    {
+      id: 3,
+      title: 'Atitude Streetwear',
+      description: 'Visual jovem e descolado que representa a cultura urbana',
+      image_url: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=500&h=500&fit=crop&crop=center',
+      alt_text: 'Atitude streetwear Ecko lifestyle',
+      display_order: 3,
+      is_active: true
+    },
+    {
+      id: 4,
+      title: 'Moda Urbana Feminina',
+      description: 'Coleção feminina com pegada street e muita personalidade',
+      image_url: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=500&h=500&fit=crop&crop=center',
+      alt_text: 'Moda urbana feminina Ecko',
+      display_order: 4,
+      is_active: true
+    },
+    {
+      id: 5,
+      title: 'Look Esportivo Chic',
+      description: 'Combinação perfeita entre conforto e estilo urbano',
+      image_url: 'https://images.unsplash.com/photo-1558618047-fcd95c85cd64?w=500&h=500&fit=crop&crop=center',
+      alt_text: 'Look esportivo chic Ecko',
+      display_order: 5,
+      is_active: true
+    },
+    {
+      id: 6,
+      title: 'Estilo Hip Hop Culture',
+      description: 'Raízes da cultura hip hop com toque contemporâneo',
+      image_url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=500&fit=crop&crop=center',
+      alt_text: 'Hip hop culture Ecko lifestyle',
+      display_order: 6,
+      is_active: true
+    },
+    {
+      id: 7,
+      title: 'Urban Fashion Trends',
+      description: 'Tendências da moda urbana que definem gerações',
+      image_url: 'https://images.unsplash.com/photo-1533973403183-b2952e4b971e?w=500&h=500&fit=crop&crop=center',
+      alt_text: 'Urban fashion trends Ecko',
+      display_order: 7,
+      is_active: true
+    },
+    {
+      id: 8,
+      title: 'Lifestyle Autêntico',
+      description: 'Autenticidade e originalidade em cada visual',
+      image_url: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=500&h=500&fit=crop&crop=center',
+      alt_text: 'Lifestyle autêntico Ecko',
+      display_order: 8,
+      is_active: true
+    }
+  ];
+
+  // Dados estáticos - FAQs
+  const staticFAQs: FAQ[] = [
+    {
+      id: 1,
+      question: 'Como me tornar um revendedor oficial da Ecko?',
+      answer: 'Para se tornar um revendedor oficial, você precisa ter CNPJ ativo e preencher nosso formulário de cadastro. Nossa equipe entrará em contato em até 24h para apresentar as condições comerciais e processo de aprovação.',
+      display_order: 1,
+      is_active: true
+    },
+    {
+      id: 2,
+      question: 'Qual o investimento mínimo para começar?',
+      answer: 'O investimento inicial varia conforme o tipo de loja e região. Oferecemos condições especiais para novos parceiros, incluindo facilidades de pagamento e lotes mínimos acessíveis. Consulte nossa equipe para uma proposta personalizada.',
+      display_order: 2,
+      is_active: true
+    },
+    {
+      id: 3,
+      question: 'Vocês oferecem exclusividade territorial?',
+      answer: 'Sim! Dependendo da região e do perfil do parceiro, oferecemos proteção territorial para garantir que você tenha espaço para crescer sem concorrência direta de outros revendedores oficiais.',
+      display_order: 3,
+      is_active: true
+    },
+    {
+      id: 4,
+      question: 'Como funciona o suporte pós-venda?',
+      answer: 'Nossa equipe oferece suporte completo: treinamento de produto, materiais de marketing, orientação sobre displays e estratégias de venda. Além disso, você terá um consultor dedicado para acompanhar seu desenvolvimento.',
+      display_order: 4,
+      is_active: true
+    },
+    {
+      id: 5,
+      question: 'Qual o prazo de entrega dos produtos?',
+      answer: 'Trabalhamos com estoque disponível para pronta entrega. O prazo médio é de 5 a 10 dias úteis, dependendo da localização. Para pedidos maiores, o prazo pode ser negociado conforme a necessidade.',
+      display_order: 5,
+      is_active: true
+    }
+  ];
+
+  // Dados estáticos - Testimonials
+  const staticTestimonials: Testimonial[] = [
+    {
+      id: 1,
+      name: 'Ricardo Silva',
+      company: 'Silva Streetwear',
+      role: 'Proprietário',
+      content: 'Trabalhar com a Ecko mudou completamente meu negócio. As vendas triplicaram em apenas 6 meses e os clientes sempre voltam para comprar mais. A qualidade dos produtos é excepcional!',
+      avatar_url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
+      rating: 5,
+      is_active: true
+    },
+    {
+      id: 2,
+      name: 'Ana Carolina',
+      company: 'Street Style Store',
+      role: 'CEO',
+      content: 'Como mulher empreendedora, encontrei na Ecko o parceiro ideal. O suporte é incrível e os produtos vendem sozinhos. Minha loja cresceu 400% desde que me tornei revendedora oficial.',
+      avatar_url: 'https://images.unsplash.com/photo-1494790108755-2616b612b647?w=150&h=150&fit=crop&crop=face',
+      rating: 5,
+      is_active: true
+    },
+    {
+      id: 3,
+      name: 'Marcus Santos',
+      company: 'Urban Fashion',
+      role: 'Diretor Comercial',
+      content: 'A Ecko não é só uma marca, é um estilo de vida. Nossos clientes são apaixonados pelos produtos e isso reflete diretamente nas nossas vendas. Melhor decisão que já tomei!',
+      avatar_url: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
+      rating: 5,
+      is_active: true
+    },
+    {
+      id: 4,
+      name: 'Fernanda Costa',
+      company: 'FC Moda Urbana',
+      role: 'Fundadora',
+      content: 'Em 2 anos como revendedora Ecko, consegui abrir mais 3 lojas. A marca tem uma força incrível no mercado e os jovens amam. O retorno sobre investimento é fantástico!',
+      avatar_url: 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=150&h=150&fit=crop&crop=face',
+      rating: 5,
+      is_active: true
+    },
+    {
+      id: 5,
+      name: 'Rafael Oliveira',
+      company: 'Street Kings',
+      role: 'Sócio-Proprietário',
+      content: 'A Ecko sempre foi referência em streetwear. Desde que me tornei revendedor oficial, minha margem de lucro aumentou significativamente. A qualidade justifica cada centavo.',
+      avatar_url: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face',
+      rating: 5,
+      is_active: true
+    },
+    {
+      id: 6,
+      name: 'Juliana Mendes',
+      company: 'JM Fashion',
+      role: 'Proprietária',
+      content: 'Comecei pequena e hoje tenho uma das maiores lojas de streetwear da região. A Ecko me deu credibilidade no mercado e produtos que realmente vendem. Recomendo de olhos fechados!',
+      avatar_url: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face',
+      rating: 5,
+      is_active: true
+    }
+  ];
+
   useEffect(() => {
-    fetchHeroSettings();
-    fetchFAQs();
-    fetchGalleryImages();
-    fetchTestimonials();
-    fetchThemeSettings();
+    // Definir dados estáticos no carregamento
+    setGalleryImages(staticGalleryImages);
+    setFaqs(staticFAQs);
+    setTestimonials(staticTestimonials);
+    setIsLoadingHero(false);
   }, []);
-
-  const fetchHeroSettings = async () => {
-    try {
-      const response = await fetch("/api/hero");
-      if (response.ok) {
-        const data: HeroResponse = await response.json();
-        setHeroSettings(data.hero);
-      }
-    } catch (error) {
-      console.error("Error fetching hero settings:", error);
-    } finally {
-      setIsLoadingHero(false);
-    }
-  };
-
-  const fetchFAQs = async () => {
-    try {
-      const response = await fetch("/api/faqs?active_only=true");
-      if (response.ok) {
-        const data: FAQsResponse = await response.json();
-        setFaqs(data.faqs || []);
-      }
-    } catch (error) {
-      console.error("Error fetching FAQs:", error);
-    }
-  };
-
-  const fetchGalleryImages = async () => {
-    try {
-      const response = await fetch("/api/gallery?active_only=true");
-      if (response.ok) {
-        const data: GalleryResponse = await response.json();
-        setGalleryImages(data.images || []);
-      }
-    } catch (error) {
-      console.error("Error fetching gallery images:", error);
-    }
-  };
 
   const fetchTestimonials = async () => {
     try {
