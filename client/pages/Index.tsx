@@ -355,21 +355,8 @@ export default function Index() {
       <div className="min-h-screen bg-black flex items-center justify-center p-4">
         <Card className="max-w-lg w-full bg-gray-900 border-ecko-red border-2">
           <CardContent className="p-8">
-            <div className="text-center mb-8">
-              <div className="flex items-center justify-center mb-4">
-                <div className="w-12 h-12 bg-ecko-red rounded-lg flex items-center justify-center">
-                  <span className="text-white font-black text-xl">🦏</span>
-                </div>
-                <h1 className="text-2xl font-black text-white ml-3">
-                  eckō unltd.
-                </h1>
-              </div>
-              <h2 className="text-2xl font-bold text-white mb-2">
-                Cadastro de Revendedor
-              </h2>
-              <p className="text-gray-300">
-                Preencha seus dados para se tornar um lojista oficial
-              </p>
+            <div className="text-center mb-8 text-gray-200">
+              Preencha seus dados para se tornar um lojista oficial
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
