@@ -869,7 +869,7 @@ export default function Index() {
             {galleryImages.slice(0, 8).map((image, index) => (
               <div
                 key={image.id || index}
-                className="group relative bg-black rounded-2xl overflow-hidden border-2 border-gray-700 hover:border-ecko-red transition-all duration-500 transform hover:-translate-y-2 hover:scale-105"
+                className="group relative bg-black rounded-xl md:rounded-2xl overflow-hidden border border-gray-700 hover:border-ecko-red transition-all duration-500 transform hover:-translate-y-1 hover:scale-105"
               >
                 <div className="aspect-square overflow-hidden">
                   <img
@@ -881,12 +881,12 @@ export default function Index() {
 
                 {/* Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                  <div className="absolute bottom-0 left-0 right-0 p-6">
-                    <h3 className="text-xl font-bold text-white mb-2 uppercase tracking-wide">
+                  <div className="absolute bottom-0 left-0 right-0 p-3 md:p-4">
+                    <h3 className="text-sm md:text-lg font-bold text-white mb-1 md:mb-2 uppercase tracking-wide line-clamp-1">
                       {image.title}
                     </h3>
                     {image.description && (
-                      <p className="text-gray-300 text-sm leading-relaxed">
+                      <p className="text-gray-300 text-xs md:text-sm leading-relaxed line-clamp-2 hidden md:block">
                         {image.description}
                       </p>
                     )}
@@ -894,7 +894,7 @@ export default function Index() {
                 </div>
 
                 {/* Border Glow Effect */}
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-ecko-red/20 via-transparent to-ecko-red/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                <div className="absolute inset-0 rounded-xl md:rounded-2xl bg-gradient-to-r from-ecko-red/20 via-transparent to-ecko-red/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
               </div>
             ))}
           </div>
