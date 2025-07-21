@@ -864,9 +864,9 @@ export default function Index() {
             </p>
           </div>
 
-          {/* Gallery Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {galleryImages.map((image, index) => (
+          {/* Gallery Grid - 4x2 mobile, 4x4 desktop */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+            {galleryImages.slice(0, 8).map((image, index) => (
               <div
                 key={image.id || index}
                 className="group relative bg-black rounded-2xl overflow-hidden border-2 border-gray-700 hover:border-ecko-red transition-all duration-500 transform hover:-translate-y-2 hover:scale-105"
