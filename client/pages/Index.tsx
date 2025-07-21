@@ -444,8 +444,8 @@ export default function Index() {
         <div className="absolute inset-0">
           {/* Hero Background Image */}
           <img
-            src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?q=80&w=1926&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            alt="Streetwear Background"
+            src="https://estyle.vteximg.com.br/arquivos/ecko_mosaic5.png?v=638421392678800000"
+            alt="Ecko Mosaic Background"
             className="w-full h-full object-cover"
           />
 
