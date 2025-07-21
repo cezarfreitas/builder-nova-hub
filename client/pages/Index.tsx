@@ -373,23 +373,17 @@ export default function Index() {
       <section className="h-screen relative flex flex-col justify-center items-center overflow-hidden">
         {/* Background Image */}
         <div className="absolute inset-0">
-          {/* Dynamic overlay based on hero settings */}
-          <div
-            className="absolute inset-0 z-10"
-            style={{
-              backgroundColor:
-                heroSettings?.background_overlay_color || "#000000",
-              opacity: (heroSettings?.background_overlay_opacity || 50) / 100,
-            }}
-          ></div>
-          <div
-            className="w-full h-full bg-cover bg-center"
-            style={{
-              backgroundImage: heroSettings?.background_image_url
-                ? `url(${heroSettings.background_image_url})`
-                : `url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080"%3E%3Cdefs%3E%3ClinearGradient id="hero-bg" x1="0%" y1="0%" x2="100%" y2="100%"%3E%3Cstop offset="0%" style="stop-color:%23000000;stop-opacity:1" /%3E%3Cstop offset="50%" style="stop-color:%23dc2626;stop-opacity:0.1" /%3E%3Cstop offset="100%" style="stop-color:%23000000;stop-opacity:1" /%3E%3C/linearGradient%3E%3Cpattern id="streetwear-pattern" patternUnits="userSpaceOnUse" width="100" height="100"%3E%3Ccircle cx="50" cy="50" r="2" fill="%23dc2626" opacity="0.1"/%3E%3Ccircle cx="25" cy="25" r="1" fill="%23dc2626" opacity="0.05"/%3E%3Ccircle cx="75" cy="75" r="1" fill="%23dc2626" opacity="0.05"/%3E%3C/pattern%3E%3C/defs%3E%3Crect width="100%" height="100%" fill="url(%23hero-bg)"/%3E%3Crect width="100%" height="100%" fill="url(%23streetwear-pattern)"/%3E%3C/svg%3E')`,
-            }}
-          ></div>
+          {/* Hero Background Image */}
+          <img
+            src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?q=80&w=1926&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt="Streetwear Background"
+            className="w-full h-full object-cover"
+          />
+
+          {/* Multiple Overlay Layers for Better Effect */}
+          <div className="absolute inset-0 bg-black/60 z-10"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/80 z-10"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-ecko-red/10 via-transparent to-ecko-red/10 z-10"></div>
         </div>
 
         {/* Content */}
