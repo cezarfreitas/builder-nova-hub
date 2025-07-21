@@ -50,7 +50,7 @@ export default function Index() {
   const [galleryImages, setGalleryImages] = useState<GalleryImage[]>([]);
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
 
-  // Dados est��ticos - Gallery Images (Lifestyle)
+  // Dados estáticos - Gallery Images (Lifestyle)
   const staticGalleryImages: GalleryImage[] = [
     {
       id: 1,
