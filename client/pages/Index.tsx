@@ -377,11 +377,15 @@ export default function Index() {
                   required
                   className="w-full h-12 bg-gray-800 border border-gray-700 rounded-md px-4 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none"
                 >
-                  <option value="">Selecione uma opção</option>
-                  <option value="sim">Sim, tenho CNPJ</option>
-                  <option value="nao">Não tenho CNPJ</option>
-                  <option value="processo">Em processo de abertura</option>
+                  <option value="">Selecione</option>
+                  <option value="sim">Sim</option>
+                  <option value="nao">Não</option>
                 </select>
+                {cnpjError && (
+                  <p className="text-ecko-red text-sm mt-2 font-medium leading-tight">
+                    {cnpjError}
+                  </p>
+                )}
               </div>
 
               <div>
