@@ -692,11 +692,11 @@ export default function Index() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Marca Internacional */}
             <Card className="bg-gray-900/50 backdrop-blur-sm border-2 border-gray-700 hover:border-ecko-red hover:bg-gray-800/70 transition-all duration-500 group transform hover:-translate-y-2 hover:scale-105">
-              <CardContent className="p-8 text-center relative">
-                <div className="w-20 h-20 bg-gradient-to-br from-ecko-red/30 to-ecko-red/10 rounded-2xl flex items-center justify-center mx-auto mb-8 group-hover:from-ecko-red/50 group-hover:to-ecko-red/20 transition-all duration-500 group-hover:rotate-6">
+              <CardContent className="p-6 text-center relative">
+                <div className="w-20 h-20 bg-gradient-to-br from-ecko-red/30 to-ecko-red/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:from-ecko-red/50 group-hover:to-ecko-red/20 transition-all duration-500 group-hover:rotate-6">
                   <Globe className="w-10 h-10 text-ecko-red group-hover:scale-110 transition-transform duration-300" />
                 </div>
-                <h3 className="text-xl font-bold text-white mb-4 uppercase tracking-wide group-hover:text-ecko-red transition-colors duration-300">
+                <h3 className="text-xl font-bold text-white mb-3 uppercase tracking-wide group-hover:text-ecko-red transition-colors duration-300">
                   MARCA INTERNACIONAL
                 </h3>
                 <p className="text-gray-300 text-sm leading-relaxed">
@@ -710,11 +710,11 @@ export default function Index() {
 
             {/* Pronta Entrega */}
             <Card className="bg-gray-900/50 backdrop-blur-sm border-2 border-gray-700 hover:border-ecko-red hover:bg-gray-800/70 transition-all duration-500 group transform hover:-translate-y-2 hover:scale-105">
-              <CardContent className="p-8 text-center relative">
-                <div className="w-20 h-20 bg-gradient-to-br from-ecko-red/30 to-ecko-red/10 rounded-2xl flex items-center justify-center mx-auto mb-8 group-hover:from-ecko-red/50 group-hover:to-ecko-red/20 transition-all duration-500 group-hover:rotate-6">
+              <CardContent className="p-6 text-center relative">
+                <div className="w-20 h-20 bg-gradient-to-br from-ecko-red/30 to-ecko-red/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:from-ecko-red/50 group-hover:to-ecko-red/20 transition-all duration-500 group-hover:rotate-6">
                   <Truck className="w-10 h-10 text-ecko-red group-hover:scale-110 transition-transform duration-300" />
                 </div>
-                <h3 className="text-xl font-bold text-white mb-4 uppercase tracking-wide group-hover:text-ecko-red transition-colors duration-300">
+                <h3 className="text-xl font-bold text-white mb-3 uppercase tracking-wide group-hover:text-ecko-red transition-colors duration-300">
                   PRONTA ENTREGA
                 </h3>
                 <p className="text-gray-300 text-sm leading-relaxed">
@@ -728,11 +728,11 @@ export default function Index() {
 
             {/* Suporte ao Lojista */}
             <Card className="bg-gray-900/50 backdrop-blur-sm border-2 border-gray-700 hover:border-ecko-red hover:bg-gray-800/70 transition-all duration-500 group transform hover:-translate-y-2 hover:scale-105">
-              <CardContent className="p-8 text-center relative">
-                <div className="w-20 h-20 bg-gradient-to-br from-ecko-red/30 to-ecko-red/10 rounded-2xl flex items-center justify-center mx-auto mb-8 group-hover:from-ecko-red/50 group-hover:to-ecko-red/20 transition-all duration-500 group-hover:rotate-6">
+              <CardContent className="p-6 text-center relative">
+                <div className="w-20 h-20 bg-gradient-to-br from-ecko-red/30 to-ecko-red/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:from-ecko-red/50 group-hover:to-ecko-red/20 transition-all duration-500 group-hover:rotate-6">
                   <HeadphonesIcon className="w-10 h-10 text-ecko-red group-hover:scale-110 transition-transform duration-300" />
                 </div>
-                <h3 className="text-xl font-bold text-white mb-4 uppercase tracking-wide group-hover:text-ecko-red transition-colors duration-300">
+                <h3 className="text-xl font-bold text-white mb-3 uppercase tracking-wide group-hover:text-ecko-red transition-colors duration-300">
                   SUPORTE AO LOJISTA
                 </h3>
                 <p className="text-gray-300 text-sm leading-relaxed">
@@ -746,11 +746,11 @@ export default function Index() {
 
             {/* Totalmente Online */}
             <Card className="bg-gray-900/50 backdrop-blur-sm border-2 border-gray-700 hover:border-ecko-red hover:bg-gray-800/70 transition-all duration-500 group transform hover:-translate-y-2 hover:scale-105">
-              <CardContent className="p-8 text-center relative">
-                <div className="w-20 h-20 bg-gradient-to-br from-ecko-red/30 to-ecko-red/10 rounded-2xl flex items-center justify-center mx-auto mb-8 group-hover:from-ecko-red/50 group-hover:to-ecko-red/20 transition-all duration-500 group-hover:rotate-6">
+              <CardContent className="p-6 text-center relative">
+                <div className="w-20 h-20 bg-gradient-to-br from-ecko-red/30 to-ecko-red/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:from-ecko-red/50 group-hover:to-ecko-red/20 transition-all duration-500 group-hover:rotate-6">
                   <Monitor className="w-10 h-10 text-ecko-red group-hover:scale-110 transition-transform duration-300" />
                 </div>
-                <h3 className="text-xl font-bold text-white mb-4 uppercase tracking-wide group-hover:text-ecko-red transition-colors duration-300">
+                <h3 className="text-xl font-bold text-white mb-3 uppercase tracking-wide group-hover:text-ecko-red transition-colors duration-300">
                   TOTALMENTE ONLINE
                 </h3>
                 <p className="text-gray-300 text-sm leading-relaxed">
@@ -897,7 +897,7 @@ export default function Index() {
             </h2>
             <p className="text-gray-300 text-lg max-w-3xl mx-auto leading-relaxed">
               Descubra o lifestyle autêntico da Ecko através de looks que
-              representam a essência do streetwear e a cultura urbana que define nossa marca
+              representam a ess��ncia do streetwear e a cultura urbana que define nossa marca
             </p>
           </div>
 
