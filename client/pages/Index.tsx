@@ -929,22 +929,24 @@ export default function Index() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-ecko-red">
-        <div className="container mx-auto px-6 max-w-4xl text-center">
-          <h2 className="text-3xl lg:text-4xl font-black text-white mb-6 uppercase tracking-wide">
-            PRONTO PARA FAZER PARTE DA FAMÍLIA ECKO?
+      <section className="py-12 sm:py-16 lg:py-20 bg-ecko-red">
+        <div className="container mx-auto px-4 sm:px-6 max-w-4xl text-center">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white mb-4 sm:mb-6 uppercase tracking-wide leading-tight">
+            <span className="block sm:inline">PRONTO PARA FAZER PARTE</span>
+            <span className="block sm:inline"> DA FAMÍLIA ECKO?</span>
           </h2>
-          <p className="text-xl text-white/90 mb-8">
+          <p className="text-lg sm:text-xl text-white/90 mb-6 sm:mb-8 px-2 leading-relaxed">
             Junte-se aos milhares de revendedores que já transformaram seus
             negócios com a marca mais desejada do streetwear brasileiro!
           </p>
 
           <Button
             onClick={() => setShowForm(true)}
-            className="bg-white hover:bg-gray-100 text-ecko-red text-lg px-8 py-4 h-auto font-black shadow-2xl hover:shadow-black/25 transition-all duration-300 group uppercase tracking-wider"
+            className="bg-white hover:bg-gray-100 text-ecko-red text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 h-auto font-black shadow-2xl hover:shadow-black/25 transition-all duration-300 group uppercase tracking-wider w-full sm:w-auto max-w-sm sm:max-w-none mx-auto"
           >
-            QUERO SER UM LOJISTA AUTORIZADO
-            <ArrowRight className="ml-3 w-6 h-6 group-hover:translate-x-1 transition-transform" />
+            <span className="hidden sm:inline">QUERO SER UM LOJISTA AUTORIZADO</span>
+            <span className="sm:hidden">QUERO SER LOJISTA</span>
+            <ArrowRight className="ml-2 sm:ml-3 w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-1 transition-transform" />
           </Button>
         </div>
       </section>
@@ -1073,7 +1075,7 @@ export default function Index() {
       )}
 
       {/* WhatsApp Float Button */}
-      <div className="fixed bottom-6 right-6 z-50">
+      <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50">
         <div className="relative">
           {/* Ripple Effect */}
           <div className="absolute inset-0 rounded-full bg-green-500 animate-ping opacity-75"></div>
@@ -1082,10 +1084,10 @@ export default function Index() {
           {/* Main Button */}
           <Button
             onClick={() => setShowForm(true)}
-            className="relative w-16 h-16 rounded-full bg-gradient-to-br from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-2xl hover:shadow-green-500/40 transition-all duration-300 group border-4 border-white hover:scale-110"
+            className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-2xl hover:shadow-green-500/40 transition-all duration-300 group border-2 sm:border-4 border-white hover:scale-110"
           >
             <svg
-              className="w-7 h-7 group-hover:scale-125 transition-transform duration-300"
+              className="w-6 h-6 sm:w-7 sm:h-7 group-hover:scale-125 transition-transform duration-300"
               fill="currentColor"
               viewBox="0 0 24 24"
             >
@@ -1093,8 +1095,8 @@ export default function Index() {
             </svg>
           </Button>
 
-          {/* Tooltip */}
-          <div className="absolute bottom-full right-0 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+          {/* Tooltip - Hidden on mobile, visible on larger screens */}
+          <div className="hidden sm:block absolute bottom-full right-0 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
             <div className="bg-gray-900 text-white text-sm py-2 px-3 rounded-lg whitespace-nowrap shadow-xl">
               Fazer Cadastro
               <div className="absolute top-full right-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
@@ -1102,7 +1104,7 @@ export default function Index() {
           </div>
 
           {/* Pulse Notification */}
-          <div className="absolute -top-2 -right-2 w-5 h-5 bg-ecko-red rounded-full flex items-center justify-center text-white text-xs font-bold animate-bounce">
+          <div className="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 w-4 h-4 sm:w-5 sm:h-5 bg-ecko-red rounded-full flex items-center justify-center text-white text-xs font-bold animate-bounce">
             !
           </div>
         </div>
