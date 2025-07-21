@@ -234,7 +234,6 @@ export default function Index() {
     setGalleryImages(staticGalleryImages);
     setFaqs(staticFAQs);
     setTestimonials(staticTestimonials);
-    setIsLoadingHero(false);
   }, []);
 
 
@@ -322,7 +321,7 @@ export default function Index() {
               Cadastro Enviado!
             </h2>
             <p className="text-gray-300 mb-6">
-              Nossa equipe entrará em contato em at�� 24h para apresentar nossa
+              Nossa equipe entrará em contato em até 24h para apresentar nossa
               proposta exclusiva para se tornar um revendedor oficial!
             </p>
             <Button
