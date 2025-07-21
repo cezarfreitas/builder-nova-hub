@@ -399,13 +399,10 @@ export default function Index() {
                   required
                   className="w-full h-12 bg-gray-800 border border-gray-700 rounded-md px-4 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none"
                 >
-                  <option value="">Selecione o tipo</option>
-                  <option value="fisica">Loja Física</option>
-                  <option value="online">Loja Online</option>
+                  <option value="">Selecione</option>
+                  <option value="fisica">Física</option>
+                  <option value="online">Online</option>
                   <option value="ambas">Física + Online</option>
-                  <option value="vendedor">Vendedor/Representante</option>
-                  <option value="marketplace">Marketplace</option>
-                  <option value="ainda-nao-tenho">Ainda não tenho loja</option>
                 </select>
               </div>
 
