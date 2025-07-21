@@ -906,7 +906,7 @@ export default function Index() {
             {galleryImages.slice(0, 8).map((image, index) => (
               <div
                 key={image.id || index}
-                className="group relative bg-black rounded-xl md:rounded-2xl overflow-hidden border border-gray-700 hover:border-ecko-red transition-all duration-500 transform hover:-translate-y-1 hover:scale-105"
+                className="group relative bg-gray-900 rounded-xl md:rounded-2xl overflow-hidden border border-gray-600 hover:border-ecko-red transition-all duration-500 transform hover:-translate-y-1 hover:scale-105"
               >
                 <div className="aspect-square overflow-hidden">
                   <img
