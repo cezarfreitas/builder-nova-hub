@@ -725,7 +725,7 @@ export default function Index() {
                 <p className="text-gray-300 text-sm leading-relaxed">
                   Disponibilizamos mais de 100.000 produtos prontos para
                   entrega, para impulsionar suas vendas com excelentes margens
-                  de lucro e um ��timo rápido giro de estoque.
+                  de lucro e um ótimo rápido giro de estoque.
                 </p>
                 <div className="absolute inset-0 bg-gradient-to-t from-ecko-red/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg"></div>
               </CardContent>
@@ -1058,8 +1058,8 @@ export default function Index() {
 
             <div className="max-w-4xl mx-auto">
               <Card className="shadow-2xl border-2 border-ecko-red/30 bg-gray-900/95 backdrop-blur-lg">
-                <CardContent className="p-8">
-                  <Accordion type="single" collapsible className="space-y-2">
+                <CardContent className="p-6">
+                  <Accordion type="single" collapsible className="space-y-1">
                     {faqs
                       .sort((a, b) => a.display_order - b.display_order)
                       .map((faq, index) => (
