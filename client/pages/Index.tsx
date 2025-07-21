@@ -482,7 +482,7 @@ export default function Index() {
         </div>
 
         {/* Hero Content */}
-        <div className="relative z-20 flex-1 flex items-center py-4 sm:py-8 lg:py-5">
+        <div className="relative z-20 flex-1 flex items-center pt-5">
           <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
             <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               {/* Left Content */}
