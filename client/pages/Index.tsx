@@ -21,16 +21,9 @@ import {
   HelpCircle,
 } from "lucide-react";
 import {
-  HeroSettings,
-  HeroResponse,
   FAQ,
-  FAQsResponse,
   GalleryImage,
-  GalleryResponse,
-  ThemeSettings,
-  ThemeResponse,
   Testimonial,
-  TestimonialsResponse,
 } from "@shared/api";
 import { getAnalytics } from "../lib/analytics";
 
