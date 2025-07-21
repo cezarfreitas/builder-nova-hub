@@ -1176,7 +1176,7 @@ export default function Index() {
           </div>
 
           {/* Pulse Notification */}
-          <div className="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 w-4 h-4 sm:w-5 sm:h-5 bg-ecko-red rounded-full flex items-center justify-center text-white text-xs font-bold animate-bounce">
+          <div className="absolute -top-2 -right-2 w-5 h-5 bg-ecko-red rounded-full flex items-center justify-center text-white text-xs font-bold animate-bounce">
             !
           </div>
         </div>
