@@ -725,7 +725,7 @@ export default function Index() {
                 <p className="text-gray-300 text-sm leading-relaxed">
                   Disponibilizamos mais de 100.000 produtos prontos para
                   entrega, para impulsionar suas vendas com excelentes margens
-                  de lucro e um ótimo rápido giro de estoque.
+                  de lucro e um ��timo rápido giro de estoque.
                 </p>
                 <div className="absolute inset-0 bg-gradient-to-t from-ecko-red/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg"></div>
               </CardContent>
@@ -1041,16 +1041,16 @@ export default function Index() {
 
           <div className="container mx-auto px-6 max-w-6xl relative z-10">
             <div className="text-center mb-12">
-              <div className="inline-flex items-center bg-ecko-red/20 backdrop-blur-sm border border-ecko-red/30 rounded-full px-6 py-3 mb-6">
-                <HelpCircle className="w-5 h-5 text-ecko-red mr-2" />
-                <span className="text-ecko-red font-bold uppercase tracking-wider">
+              <div className="inline-flex items-center bg-ecko-red/20 backdrop-blur-sm border border-ecko-red/30 rounded-full px-5 py-2 mb-5">
+                <HelpCircle className="w-4 h-4 text-ecko-red mr-2" />
+                <span className="text-ecko-red font-bold uppercase tracking-wider text-sm">
                   Perguntas Frequentes
                 </span>
               </div>
-              <h2 className="text-4xl lg:text-6xl font-black text-white mb-6 leading-tight">
+              <h2 className="text-3xl lg:text-5xl font-black text-white mb-5 leading-tight">
                 DÚVIDAS <span className="text-ecko-red">RESPONDIDAS</span>
               </h2>
-              <p className="text-xl lg:text-2xl text-gray-300 max-w-3xl mx-auto font-medium">
+              <p className="text-lg lg:text-xl text-gray-300 max-w-3xl mx-auto font-medium">
                 Encontre respostas para as principais dúvidas sobre nosso
                 programa de revendedores
               </p>
