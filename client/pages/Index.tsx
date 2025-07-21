@@ -469,7 +469,7 @@ export default function Index() {
       {/* Content Section */}
       <section
         id="content-section"
-        className="relative min-h-screen flex flex-col"
+        className="relative min-h-screen flex flex-col py-8 sm:py-12 lg:py-0"
       >
         {/* Background Pattern */}
         <div className="absolute inset-0">
@@ -482,12 +482,12 @@ export default function Index() {
         </div>
 
         {/* Hero Content */}
-        <div className="relative z-20 flex-1 flex items-center py-5">
-          <div className="container mx-auto px-6 max-w-7xl">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="relative z-20 flex-1 flex items-center py-4 sm:py-8 lg:py-5">
+          <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
+            <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               {/* Left Content */}
-              <div>
-                <h1 className="text-4xl lg:text-6xl font-black text-white mb-8 leading-tight">
+              <div className="text-center lg:text-left">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-white mb-6 sm:mb-8 leading-tight px-2 lg:px-0">
                   REVENDA ECKO:
                   <br />
                   <span className="text-ecko-red">
@@ -499,14 +499,14 @@ export default function Index() {
                   </span>
                 </h1>
 
-                <p className="text-xl lg:text-2xl text-gray-300 mb-12 font-medium">
+                <p className="text-lg sm:text-xl lg:text-2xl text-gray-300 mb-8 sm:mb-10 lg:mb-12 font-medium px-2 lg:px-0">
                   Venda uma das marcas mais desejadas do streetwear e aumente
                   seus lucros!
                 </p>
 
                 <Button
                   onClick={() => setShowForm(true)}
-                  className="bg-ecko-red hover:bg-ecko-red-dark text-white text-lg px-8 py-4 h-auto font-bold shadow-2xl hover:shadow-ecko-red/25 transition-all duration-300 group text-uppercase tracking-wider lg:hidden"
+                  className="bg-ecko-red hover:bg-ecko-red-dark text-white text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 h-auto font-bold shadow-2xl hover:shadow-ecko-red/25 transition-all duration-300 group text-uppercase tracking-wider lg:hidden w-full sm:w-auto"
                 >
                   QUERO SER UM REVENDEDOR OFICIAL
                   <ArrowRight className="ml-3 w-6 h-6 group-hover:translate-x-1 transition-transform" />
@@ -514,12 +514,12 @@ export default function Index() {
               </div>
 
               {/* Right Form */}
-              <div className="relative">
-                <div className="absolute -inset-4 bg-gradient-to-r from-ecko-red via-red-500 to-ecko-red-dark rounded-3xl opacity-20 blur-xl"></div>
+              <div className="relative mt-8 lg:mt-0">
+                <div className="absolute -inset-2 sm:-inset-4 bg-gradient-to-r from-ecko-red via-red-500 to-ecko-red-dark rounded-3xl opacity-20 blur-xl"></div>
                 <Card className="relative shadow-2xl border-2 border-ecko-red/30 bg-gray-900/95 backdrop-blur-lg">
-                  <CardContent className="p-8">
-                    <div className="text-center mb-6">
-                      <h2 className="text-2xl font-bold text-white mb-2">
+                  <CardContent className="p-4 sm:p-6 lg:p-8">
+                    <div className="text-center mb-4 sm:mb-6">
+                      <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">
                         Cadastro de Revendedor
                       </h2>
                       <p className="text-gray-300">
@@ -527,9 +527,9 @@ export default function Index() {
                       </p>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="space-y-5">
+                    <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
                       <div>
-                        <label className="block text-sm font-semibold text-gray-300 mb-2">
+                        <label className="block text-xs sm:text-sm font-semibold text-gray-300 mb-2">
                           Nome Completo
                         </label>
                         <Input
@@ -543,7 +543,7 @@ export default function Index() {
                       </div>
 
                       <div>
-                        <label className="block text-sm font-semibold text-gray-300 mb-2">
+                        <label className="block text-xs sm:text-sm font-semibold text-gray-300 mb-2">
                           WhatsApp
                         </label>
                         <Input
@@ -557,9 +557,9 @@ export default function Index() {
                         />
                       </div>
 
-                      <div className="grid grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-sm font-semibold text-gray-300 mb-2">
+                          <label className="block text-xs sm:text-sm font-semibold text-gray-300 mb-2">
                             Tem CNPJ?
                           </label>
                           <select
@@ -581,7 +581,7 @@ export default function Index() {
                         </div>
 
                         <div>
-                          <label className="block text-sm font-semibold text-gray-300 mb-2">
+                          <label className="block text-xs sm:text-sm font-semibold text-gray-300 mb-2">
                             Tipo de Loja
                           </label>
                           <select
