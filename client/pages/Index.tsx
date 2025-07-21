@@ -804,8 +804,8 @@ export default function Index() {
             </div>
 
             {/* Testimonials Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {testimonials.slice(0, 6).map((testimonial, index) => (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {testimonials.slice(0, 4).map((testimonial, index) => (
                 <div
                   key={testimonial.id}
                   className="bg-gray-900/70 backdrop-blur-sm rounded-2xl p-6 border border-gray-600/50 hover:border-ecko-red/60 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-ecko-red/20 group"
