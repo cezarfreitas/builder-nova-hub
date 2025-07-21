@@ -123,6 +123,42 @@ export default function Index() {
       alt_text: 'Lifestyle autêntico Ecko',
       display_order: 8,
       is_active: true
+    },
+    {
+      id: 9,
+      title: 'Street Culture Vibe',
+      description: 'A essência da cultura de rua em looks únicos',
+      image_url: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&h=500&fit=crop&crop=center',
+      alt_text: 'Street culture vibe Ecko',
+      display_order: 9,
+      is_active: true
+    },
+    {
+      id: 10,
+      title: 'Movimento Urbano',
+      description: 'Movimento e energia da vida urbana moderna',
+      image_url: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f74?w=500&h=500&fit=crop&crop=center',
+      alt_text: 'Movimento urbano Ecko lifestyle',
+      display_order: 10,
+      is_active: true
+    },
+    {
+      id: 11,
+      title: 'Modern Streetwear',
+      description: 'Modernidade e inovação no streetwear contemporâneo',
+      image_url: 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=500&h=500&fit=crop&crop=center',
+      alt_text: 'Modern streetwear Ecko',
+      display_order: 11,
+      is_active: true
+    },
+    {
+      id: 12,
+      title: 'Ecko Generation',
+      description: 'Nova geração do streetwear com atitude Ecko',
+      image_url: 'https://images.unsplash.com/photo-1550928431-ee0ec6db30d3?w=500&h=500&fit=crop&crop=center',
+      alt_text: 'Ecko generation lifestyle',
+      display_order: 12,
+      is_active: true
     }
   ];
 
