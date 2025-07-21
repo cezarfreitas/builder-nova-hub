@@ -17,7 +17,7 @@ COPY . .
 RUN npm run build
 
 # Remover devDependencies após build para reduzir tamanho
-RUN npm ci --only=production && npm cache clean --force
+RUN npm ci --only=production --legacy-peer-deps && npm cache clean --force
 
 # Expor a porta
 EXPOSE 8080
