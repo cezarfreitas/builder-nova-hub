@@ -249,41 +249,7 @@ export default function Index() {
     setIsLoadingHero(false);
   }, []);
 
-  const fetchTestimonials = async () => {
-    try {
-      const response = await fetch("/api/testimonials?active_only=true");
-      if (response.ok) {
-        const data: TestimonialsResponse = await response.json();
-        setTestimonials(data.testimonials || []);
-      }
-    } catch (error) {
-      console.error("Error fetching testimonials:", error);
-    }
-  };
 
-  const fetchThemeSettings = async () => {
-    try {
-      const response = await fetch("/api/theme");
-      if (response.ok) {
-        const data: ThemeResponse = await response.json();
-        setThemeSettings(data.theme);
-        applyThemeToCSS(data.theme);
-      }
-    } catch (error) {
-      console.error("Error fetching theme settings:", error);
-    }
-  };
-
-  const applyThemeToCSS = (theme: ThemeSettings) => {
-    const root = document.documentElement;
-    root.style.setProperty("--ecko-red", theme.primary_color);
-    root.style.setProperty("--ecko-red-light", theme.primary_light);
-    root.style.setProperty("--ecko-red-dark", theme.primary_dark);
-    root.style.setProperty("--ecko-secondary", theme.secondary_color);
-    root.style.setProperty("--ecko-background", theme.background_color);
-    root.style.setProperty("--ecko-text", theme.text_color);
-    root.style.setProperty("--ecko-accent", theme.accent_color);
-  };
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
