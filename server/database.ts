@@ -199,28 +199,25 @@ export async function initializeDatabase() {
       )
     `);
 
-    // Insert sample gallery images if none exist
-    const [galleryRows] = await connection.execute(
-      "SELECT COUNT(*) as count FROM gallery",
-    );
-    const galleryCount = (galleryRows as any)[0].count;
+    // Clear and insert new lifestyle gallery images
+    await connection.execute("DELETE FROM gallery");
+    console.log("🔄 Cleared existing gallery data");
 
-    if (galleryCount === 0) {
-      await connection.execute(`
-        INSERT INTO gallery (title, description, image_url, alt_text, display_order, is_active) VALUES
-        ('Street Style Urbano', 'Coleção lifestyle Ecko - visual urbano autêntico com atitude', 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=500&h=500&fit=crop&crop=center', 'Lifestyle urbano Ecko - street style', 1, TRUE),
-        ('Estilo Casual Premium', 'Looks casuais que refletem a essência streetwear da marca', 'https://images.unsplash.com/photo-1506629905607-21e4ab4ea3d4?w=500&h=500&fit=crop&crop=center', 'Estilo casual premium Ecko', 2, TRUE),
-        ('Atitude Streetwear', 'Visual jovem e descolado que representa a cultura urbana', 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=500&h=500&fit=crop&crop=center', 'Atitude streetwear Ecko lifestyle', 3, TRUE),
-        ('Moda Urbana Feminina', 'Coleção feminina com pegada street e muita personalidade', 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=500&h=500&fit=crop&crop=center', 'Moda urbana feminina Ecko', 4, TRUE),
-        ('Look Esportivo Chic', 'Combinação perfeita entre conforto e estilo urbano', 'https://images.unsplash.com/photo-1558618047-fcd95c85cd64?w=500&h=500&fit=crop&crop=center', 'Look esportivo chic Ecko', 5, TRUE),
-        ('Estilo Hip Hop Culture', 'Raízes da cultura hip hop com toque contemporâneo', 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=500&fit=crop&crop=center', 'Hip hop culture Ecko lifestyle', 6, TRUE),
-        ('Urban Fashion Trends', 'Tendências da moda urbana que definem gerações', 'https://images.unsplash.com/photo-1533973403183-b2952e4b971e?w=500&h=500&fit=crop&crop=center', 'Urban fashion trends Ecko', 7, TRUE),
-        ('Lifestyle Autêntico', 'Autenticidade e originalidade em cada visual', 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=500&h=500&fit=crop&crop=center', 'Lifestyle autêntico Ecko', 8, TRUE),
-        ('Street Culture Vibe', 'A essência da cultura de rua em looks únicos', 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&h=500&fit=crop&crop=center', 'Street culture vibe Ecko', 9, TRUE),
-        ('Movimento Urbano', 'Movimento e energia da vida urbana moderna', 'https://images.unsplash.com/photo-1506794778202-cad84cf45f74?w=500&h=500&fit=crop&crop=center', 'Movimento urbano Ecko lifestyle', 10, TRUE)
-      `);
-      console.log("✅ Sample gallery images created");
-    }
+    // Insert new lifestyle gallery images
+    await connection.execute(`
+      INSERT INTO gallery (title, description, image_url, alt_text, display_order, is_active) VALUES
+      ('Street Style Urbano', 'Coleção lifestyle Ecko - visual urbano autêntico com atitude', 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=500&h=500&fit=crop&crop=center', 'Lifestyle urbano Ecko - street style', 1, TRUE),
+      ('Estilo Casual Premium', 'Looks casuais que refletem a essência streetwear da marca', 'https://images.unsplash.com/photo-1506629905607-21e4ab4ea3d4?w=500&h=500&fit=crop&crop=center', 'Estilo casual premium Ecko', 2, TRUE),
+      ('Atitude Streetwear', 'Visual jovem e descolado que representa a cultura urbana', 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=500&h=500&fit=crop&crop=center', 'Atitude streetwear Ecko lifestyle', 3, TRUE),
+      ('Moda Urbana Feminina', 'Coleção feminina com pegada street e muita personalidade', 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=500&h=500&fit=crop&crop=center', 'Moda urbana feminina Ecko', 4, TRUE),
+      ('Look Esportivo Chic', 'Combinação perfeita entre conforto e estilo urbano', 'https://images.unsplash.com/photo-1558618047-fcd95c85cd64?w=500&h=500&fit=crop&crop=center', 'Look esportivo chic Ecko', 5, TRUE),
+      ('Estilo Hip Hop Culture', 'Raízes da cultura hip hop com toque contemporâneo', 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=500&fit=crop&crop=center', 'Hip hop culture Ecko lifestyle', 6, TRUE),
+      ('Urban Fashion Trends', 'Tendências da moda urbana que definem gerações', 'https://images.unsplash.com/photo-1533973403183-b2952e4b971e?w=500&h=500&fit=crop&crop=center', 'Urban fashion trends Ecko', 7, TRUE),
+      ('Lifestyle Autêntico', 'Autenticidade e originalidade em cada visual', 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=500&h=500&fit=crop&crop=center', 'Lifestyle autêntico Ecko', 8, TRUE),
+      ('Street Culture Vibe', 'A essência da cultura de rua em looks únicos', 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&h=500&fit=crop&crop=center', 'Street culture vibe Ecko', 9, TRUE),
+      ('Movimento Urbano', 'Movimento e energia da vida urbana moderna', 'https://images.unsplash.com/photo-1506794778202-cad84cf45f74?w=500&h=500&fit=crop&crop=center', 'Movimento urbano Ecko lifestyle', 10, TRUE)
+    `);
+    console.log("✅ New lifestyle gallery images created");
 
     // Insert sample testimonials if none exist
     const [testimonialRows] = await connection.execute(
