@@ -506,10 +506,11 @@ export default function Index() {
 
                 <Button
                   onClick={() => setShowForm(true)}
-                  className="bg-ecko-red hover:bg-ecko-red-dark text-white text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 h-auto font-bold shadow-2xl hover:shadow-ecko-red/25 transition-all duration-300 group text-uppercase tracking-wider lg:hidden w-full sm:w-auto"
+                  className="bg-ecko-red hover:bg-ecko-red-dark text-white text-sm sm:text-base lg:text-lg px-4 sm:px-6 lg:px-8 py-3 sm:py-4 h-auto font-bold shadow-2xl hover:shadow-ecko-red/25 transition-all duration-300 group text-uppercase tracking-wider lg:hidden w-full sm:w-auto min-h-[48px] rounded-lg"
                 >
-                  QUERO SER UM REVENDEDOR OFICIAL
-                  <ArrowRight className="ml-3 w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                  <span className="hidden sm:inline">QUERO SER UM REVENDEDOR OFICIAL</span>
+                  <span className="sm:hidden text-center leading-tight">QUERO SER<br />REVENDEDOR</span>
+                  <ArrowRight className="ml-2 sm:ml-3 w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-1 transition-transform flex-shrink-0" />
                 </Button>
               </div>
 
