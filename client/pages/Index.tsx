@@ -567,14 +567,14 @@ export default function Index() {
                             value={formData.hasCnpj}
                             onChange={handleInputChange}
                             required
-                            className="w-full h-12 border border-gray-700 rounded-md px-4 bg-gray-800 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none"
+                            className="w-full h-10 sm:h-12 border border-gray-700 rounded-md px-3 sm:px-4 bg-gray-800 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-sm sm:text-base"
                           >
                             <option value="">Selecione</option>
                             <option value="sim">Sim</option>
                             <option value="nao">Não</option>
                           </select>
                           {cnpjError && (
-                            <p className="text-ecko-red text-sm mt-2 font-medium">
+                            <p className="text-ecko-red text-xs sm:text-sm mt-1 sm:mt-2 font-medium leading-tight">
                               {cnpjError}
                             </p>
                           )}
@@ -589,7 +589,7 @@ export default function Index() {
                             value={formData.storeType}
                             onChange={handleInputChange}
                             required
-                            className="w-full h-12 border border-gray-700 rounded-md px-4 bg-gray-800 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none"
+                            className="w-full h-10 sm:h-12 border border-gray-700 rounded-md px-3 sm:px-4 bg-gray-800 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-sm sm:text-base"
                           >
                             <option value="">Selecione</option>
                             <option value="fisica">Física</option>
