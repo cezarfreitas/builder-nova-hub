@@ -250,19 +250,6 @@ export default function Index() {
         setCnpjError(
           "Para ser um revendedor oficial da Ecko é necessário ter CNPJ.",
         );
-
-        // Track analytics when user indicates they don't have CNPJ/store
-        const analytics = getAnalytics();
-        if (analytics) {
-          analytics.trackConversion({
-            conversionType: "no_store_indication",
-            conversionValue: "user_indicated_no_cnpj",
-            formData: JSON.stringify({
-              hasCnpj: value,
-              currentFormData: formData,
-            }),
-          });
-        }
       } else {
         setCnpjError("");
       }
