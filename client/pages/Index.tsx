@@ -471,15 +471,7 @@ export default function Index() {
           </div>
         </div>
 
-        {/* Admin Link */}
-        <div className="absolute top-6 right-6 z-30">
-          <a
-            href="/admin"
-            className="text-gray-400 hover:text-ecko-red transition-colors text-sm"
-          >
-            Área Admin
-          </a>
-        </div>
+
       </section>
 
       {/* Content Section */}
@@ -1120,7 +1112,7 @@ export default function Index() {
           </div>
         </div>
 
-        {/* Background overlay on hover */}
+                {/* Background overlay on hover */}
         <div className="fixed inset-0 bg-black/5 opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
       </div>
 
@@ -1128,8 +1120,7 @@ export default function Index() {
       <footer className="bg-black py-8 border-t border-gray-800">
         <div className="container mx-auto px-6 text-center">
           <p className="text-gray-400 text-sm">
-            © 2024 Ecko Unlimited. Todos os direitos reservados. | Uma marca de
-            streetwear que transforma paixão em lucro.
+            © 2024 Ecko Unlimited. Todos os direitos reservados. | Uma marca de streetwear que transforma paixão em lucro.
           </p>
         </div>
       </footer>
