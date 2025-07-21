@@ -803,7 +803,7 @@ export default function Index() {
               {testimonials.slice(0, 6).map((testimonial, index) => (
                 <div
                   key={testimonial.id}
-                  className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50 hover:border-ecko-red/50 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-ecko-red/10 group"
+                  className="bg-gray-900/70 backdrop-blur-sm rounded-2xl p-6 border border-gray-600/50 hover:border-ecko-red/60 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-ecko-red/20 group"
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
                   {/* Rating Stars */}
