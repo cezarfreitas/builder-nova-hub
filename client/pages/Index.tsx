@@ -908,14 +908,14 @@ export default function Index() {
             </div>
           )}
 
-          {galleryImages.length > 0 && (
-            <div className="text-center mt-16">
+          {galleryImages.length > 8 && (
+            <div className="text-center mt-12 md:mt-16">
               <Button
                 variant="outline"
-                className="border-ecko-red text-ecko-red hover:bg-ecko-red hover:text-white px-8 py-3 text-lg font-semibold uppercase tracking-wider transition-all duration-300"
+                className="border-ecko-red text-ecko-red hover:bg-ecko-red hover:text-white px-6 md:px-8 py-3 text-base md:text-lg font-semibold uppercase tracking-wider transition-all duration-300"
               >
                 Ver Mais Produtos
-                <ArrowRight className="ml-2 w-5 h-5" />
+                <ArrowRight className="ml-2 w-4 h-4 md:w-5 md:h-5" />
               </Button>
             </div>
           )}
