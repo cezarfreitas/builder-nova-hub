@@ -50,7 +50,7 @@ export default function Index() {
   const [galleryImages, setGalleryImages] = useState<GalleryImage[]>([]);
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
 
-  // Dados estáticos - Gallery Images (Lifestyle)
+  // Dados est��ticos - Gallery Images (Lifestyle)
   const staticGalleryImages: GalleryImage[] = [
     {
       id: 1,
@@ -417,8 +417,12 @@ export default function Index() {
                 </Button>
                 <Button
                   type="submit"
-                  disabled={isSubmitting}
-                  className="flex-1 h-12 bg-ecko-red hover:bg-ecko-red-dark text-white font-bold"
+                  disabled={isSubmitting || formData.hasCnpj === "nao"}
+                  className={`flex-1 h-12 font-bold transition-all duration-300 ${
+                    formData.hasCnpj === "nao"
+                      ? "bg-gray-600 cursor-not-allowed"
+                      : "bg-ecko-red hover:bg-ecko-red-dark"
+                  } text-white`}
                 >
                   {isSubmitting ? (
                     <div className="flex items-center justify-center">
