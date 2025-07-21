@@ -475,7 +475,7 @@ export default function Index() {
             EM <span className="text-ecko-red">LUCRO</span>
           </h2>
 
-          <p className="text-lg sm:text-xl lg:text-2xl text-gray-300 mb-8 sm:mb-10 lg:mb-12 font-medium max-w-2xl mx-auto px-2">
+          <p className="text-lg sm:text-xl lg:text-2xl text-gray-100 mb-8 sm:mb-10 lg:mb-12 font-medium max-w-2xl mx-auto px-2">
             Seja um revendedor oficial da marca de streetwear mais desejada do Brasil e multiplique suas vendas!
           </p>
 
