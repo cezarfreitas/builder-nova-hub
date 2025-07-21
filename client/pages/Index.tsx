@@ -459,24 +459,11 @@ export default function Index() {
         <div className="relative z-20 text-center px-4 sm:px-6 max-w-4xl mx-auto">
           {/* Logo */}
           <div className="flex items-center justify-center mt-8 sm:mt-12 lg:mt-20 mb-6 sm:mb-8">
-            {heroSettings?.logo_url ? (
-              <img
-                src={heroSettings.logo_url}
-                alt="Logo"
-                className="object-contain w-32 h-12 sm:w-40 sm:h-16 lg:w-48 lg:h-20 xl:w-56 xl:h-24"
-              />
-            ) : (
-              <img
-                src="https://www.ntktextil.com.br/wp-content/uploads/2022/08/Logo-Ecko.png"
-                alt="Logo"
-                className="object-contain"
-                style={{
-                  width: `${heroSettings?.logo_width || 200}px`,
-                  height: `${heroSettings?.logo_height || 80}px`,
-                  maxWidth: "100%",
-                }}
-              />
-            )}
+            <img
+              src="https://www.ntktextil.com.br/wp-content/uploads/2022/08/Logo-Ecko.png"
+              alt="Logo Ecko"
+              className="object-contain w-32 h-12 sm:w-40 sm:h-16 lg:w-48 lg:h-20 xl:w-56 xl:h-24"
+            />
           </div>
 
           {/* Main Message */}
