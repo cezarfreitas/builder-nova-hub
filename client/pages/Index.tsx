@@ -450,9 +450,9 @@ export default function Index() {
           />
 
           {/* Multiple Overlay Layers for Better Effect */}
-          <div className="absolute inset-0 bg-black/60 z-10"></div>
-          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/80 z-10"></div>
-          <div className="absolute inset-0 bg-gradient-to-r from-ecko-red/10 via-transparent to-ecko-red/10 z-10"></div>
+          <div className="absolute inset-0 bg-black/70 z-10"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/90 z-10"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-ecko-red/15 via-transparent to-ecko-red/15 z-10"></div>
         </div>
 
         {/* Content */}
