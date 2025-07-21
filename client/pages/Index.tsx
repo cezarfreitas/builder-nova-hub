@@ -1040,7 +1040,7 @@ export default function Index() {
           </div>
 
           <div className="container mx-auto px-6 max-w-6xl relative z-10">
-            <div className="text-center mb-16">
+            <div className="text-center mb-12">
               <div className="inline-flex items-center bg-ecko-red/20 backdrop-blur-sm border border-ecko-red/30 rounded-full px-6 py-3 mb-6">
                 <HelpCircle className="w-5 h-5 text-ecko-red mr-2" />
                 <span className="text-ecko-red font-bold uppercase tracking-wider">
