@@ -387,19 +387,14 @@ export default function Index() {
         </div>
 
         {/* Content */}
-        <div className="relative z-20 text-center px-6 max-w-4xl mx-auto">
+        <div className="relative z-20 text-center px-4 sm:px-6 max-w-4xl mx-auto">
           {/* Logo */}
-          <div className="flex items-center justify-center mt-20 mb-8">
+          <div className="flex items-center justify-center mt-8 sm:mt-12 lg:mt-20 mb-6 sm:mb-8">
             {heroSettings?.logo_url ? (
               <img
                 src={heroSettings.logo_url}
                 alt="Logo"
-                className="object-contain"
-                style={{
-                  width: `${heroSettings.logo_width || 200}px`,
-                  height: `${heroSettings.logo_height || 80}px`,
-                  maxWidth: "100%",
-                }}
+                className="object-contain w-32 h-12 sm:w-40 sm:h-16 lg:w-48 lg:h-20 xl:w-56 xl:h-24"
               />
             ) : (
               <img
@@ -416,7 +411,7 @@ export default function Index() {
           </div>
 
           {/* Main Message */}
-          <h2 className="text-4xl lg:text-7xl font-black text-white mb-6 leading-tight">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-white mb-4 sm:mb-6 leading-tight px-2">
             {heroSettings?.main_title ? (
               heroSettings.main_title.split("\n").map((line, index) => (
                 <div key={index}>
@@ -441,7 +436,7 @@ export default function Index() {
             )}
           </h2>
 
-          <p className="text-xl lg:text-2xl text-gray-300 mb-12 font-medium max-w-2xl mx-auto">
+          <p className="text-lg sm:text-xl lg:text-2xl text-gray-300 mb-8 sm:mb-10 lg:mb-12 font-medium max-w-2xl mx-auto px-2">
             {heroSettings?.description ||
               "Seja um revendedor oficial da marca de streetwear mais desejada do Brasil e multiplique suas vendas!"}
           </p>
@@ -451,7 +446,7 @@ export default function Index() {
             <Button
               onClick={scrollToContent}
               variant="outline"
-              className="mb-8 bg-transparent border-2 border-ecko-red text-ecko-red hover:bg-ecko-red hover:text-white font-bold px-8 py-4 h-auto text-lg uppercase tracking-wider transition-all duration-300"
+              className="mb-6 sm:mb-8 bg-transparent border-2 border-ecko-red text-ecko-red hover:bg-ecko-red hover:text-white font-bold px-6 sm:px-8 py-3 sm:py-4 h-auto text-base sm:text-lg uppercase tracking-wider transition-all duration-300"
             >
               {heroSettings?.cta_text || "Descubra Como Funciona"}
               <ChevronDown className="ml-2 w-6 h-6" />
