@@ -1110,7 +1110,7 @@ export default function Index() {
 
               {/* CTA Section */}
               <div className="text-center mt-12">
-                <div className="bg-gradient-to-r from-ecko-red/10 to-ecko-red-dark/10 rounded-2xl p-8 border border-ecko-red/20 backdrop-blur-sm">
+                <div className="bg-gradient-to-r from-ecko-red/10 to-ecko-red-dark/10 rounded-2xl p-4 sm:p-8 border border-ecko-red/20 backdrop-blur-sm">
                   <h3 className="text-2xl font-bold text-white mb-4">
                     Ainda tem dúvidas?
                   </h3>
