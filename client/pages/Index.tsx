@@ -536,9 +536,9 @@ export default function Index() {
                           name="name"
                           value={formData.name}
                           onChange={handleInputChange}
-                          placeholder="Digite seu nome"
+                          placeholder="Seu nome"
                           required
-                          className="h-12 bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-ecko-red focus:ring-ecko-red/20"
+                          className="h-10 sm:h-12 text-sm sm:text-base bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-ecko-red focus:ring-ecko-red/20"
                         />
                       </div>
 
@@ -551,9 +551,9 @@ export default function Index() {
                           type="tel"
                           value={formData.whatsapp}
                           onChange={handleInputChange}
-                          placeholder="(11) 99999-9999"
+                          placeholder="WhatsApp"
                           required
-                          className="h-12 bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-ecko-red focus:ring-ecko-red/20"
+                          className="h-10 sm:h-12 text-sm sm:text-base bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-ecko-red focus:ring-ecko-red/20"
                         />
                       </div>
 
