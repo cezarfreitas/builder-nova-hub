@@ -950,7 +950,7 @@ export default function Index() {
             </div>
           )}
 
-          {galleryImages.length > 8 && (
+          {galleryImages.length > 12 && (
             <div className="text-center mt-12 md:mt-16">
               <Button
                 variant="outline"
