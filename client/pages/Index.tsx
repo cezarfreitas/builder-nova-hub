@@ -54,7 +54,8 @@ export default function Index() {
         "Coleção lifestyle Ecko - visual urbano autêntico com atitude",
       image_url:
         "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=500&h=500&fit=crop&crop=center",
-      alt_text: "Ecko streetwear - homem jovem com roupa urbana da marca líder em moda street no Brasil",
+      alt_text:
+        "Ecko streetwear - homem jovem com roupa urbana da marca líder em moda street no Brasil",
       display_order: 1,
       is_active: true,
     },
@@ -64,7 +65,8 @@ export default function Index() {
       description: "Looks casuais que refletem a essência streetwear da marca",
       image_url:
         "https://images.unsplash.com/photo-1506629905607-21e4ab4ea3d4?w=500&h=500&fit=crop&crop=center",
-      alt_text: "Moda casual Ecko - looks premium streetwear brasileiro para o dia a dia urbano",
+      alt_text:
+        "Moda casual Ecko - looks premium streetwear brasileiro para o dia a dia urbano",
       display_order: 2,
       is_active: true,
     },
@@ -74,7 +76,8 @@ export default function Index() {
       description: "Visual jovem e descolado que representa a cultura urbana",
       image_url:
         "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=500&h=500&fit=crop&crop=center",
-      alt_text: "Jovem estiloso com roupas Ecko representando a cultura streetwear urbana brasileira",
+      alt_text:
+        "Jovem estiloso com roupas Ecko representando a cultura streetwear urbana brasileira",
       display_order: 3,
       is_active: true,
     },
@@ -84,7 +87,8 @@ export default function Index() {
       description: "Coleção feminina com pegada street e muita personalidade",
       image_url:
         "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=500&h=500&fit=crop&crop=center",
-      alt_text: "Mulher jovem com estilo streetwear Ecko - moda urbana feminina brasileira",
+      alt_text:
+        "Mulher jovem com estilo streetwear Ecko - moda urbana feminina brasileira",
       display_order: 4,
       is_active: true,
     },
@@ -94,7 +98,8 @@ export default function Index() {
       description: "Combinação perfeita entre conforto e estilo urbano",
       image_url:
         "https://images.unsplash.com/photo-1558618047-fcd95c85cd64?w=500&h=500&fit=crop&crop=center",
-      alt_text: "Combinação perfeita de conforto e estilo urbano com roupas esportivas Ecko",
+      alt_text:
+        "Combinação perfeita de conforto e estilo urbano com roupas esportivas Ecko",
       display_order: 5,
       is_active: true,
     },
@@ -717,7 +722,10 @@ export default function Index() {
       </section>
 
       {/* Benefits Section */}
-      <section className="py-20 bg-gray-900 relative overflow-hidden" aria-labelledby="vantagens-heading">
+      <section
+        className="py-20 bg-gray-900 relative overflow-hidden"
+        aria-labelledby="vantagens-heading"
+      >
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0 bg-gradient-to-r from-ecko-red/20 via-transparent to-ecko-red/20"></div>
@@ -731,7 +739,10 @@ export default function Index() {
             <Badge className="bg-ecko-red text-white px-6 py-2 text-sm font-semibold uppercase tracking-widest mb-6">
               Por que escolher a Ecko?
             </Badge>
-            <h2 id="vantagens-heading" className="text-4xl md:text-5xl font-bold text-white mb-6 uppercase tracking-tight">
+            <h2
+              id="vantagens-heading"
+              className="text-4xl md:text-5xl font-bold text-white mb-6 uppercase tracking-tight"
+            >
               VANTAGENS EXCLUSIVAS
               <span className="block text-2xl md:text-3xl text-ecko-red mt-2">
                 para nossos parceiros

@@ -24,12 +24,13 @@ export const submitLead: RequestHandler = async (req, res) => {
     });
 
     // Simulate processing time
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await new Promise((resolve) => setTimeout(resolve, 500));
 
     // Return success response
     res.status(201).json({
       success: true,
-      message: "Cadastro enviado com sucesso! Nossa equipe entrará em contato em até 24h.",
+      message:
+        "Cadastro enviado com sucesso! Nossa equipe entrará em contato em até 24h.",
       lead: {
         id: Math.floor(Math.random() * 1000),
         name: validatedData.name,
