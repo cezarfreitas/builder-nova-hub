@@ -731,7 +731,7 @@ export default function Index() {
             <Badge className="bg-ecko-red text-white px-6 py-2 text-sm font-semibold uppercase tracking-widest mb-6">
               Por que escolher a Ecko?
             </Badge>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 uppercase tracking-tight">
+            <h2 id="vantagens-heading" className="text-4xl md:text-5xl font-bold text-white mb-6 uppercase tracking-tight">
               VANTAGENS EXCLUSIVAS
               <span className="block text-2xl md:text-3xl text-ecko-red mt-2">
                 para nossos parceiros
