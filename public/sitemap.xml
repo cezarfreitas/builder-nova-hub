@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" 
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  
+  <!-- Homepage -->
+  <url>
+    <loc>https://revendedores.ecko.com.br/</loc>
+    <lastmod>2024-01-01T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    
+    <!-- Hero Image -->
+    <image:image>
+      <image:loc>https://estyle.vteximg.com.br/arquivos/ecko_mosaic5.png?v=638421392678800000</image:loc>
+      <image:title>Ecko Unlimited - Marca de streetwear líder no Brasil</image:title>
+      <image:caption>Produtos urbanos e estilo jovem da marca Ecko</image:caption>
+    </image:image>
+    
+    <!-- Gallery Images -->
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=500&amp;h=500&amp;fit=crop&amp;crop=center</image:loc>
+      <image:title>Street Style Urbano Ecko</image:title>
+      <image:caption>Coleção lifestyle Ecko - visual urbano autêntico com atitude</image:caption>
+    </image:image>
+    
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1506629905607-21e4ab4ea3d4?w=500&amp;h=500&amp;fit=crop&amp;crop=center</image:loc>
+      <image:title>Estilo Casual Premium Ecko</image:title>
+      <image:caption>Looks casuais que refletem a essência streetwear da marca</image:caption>
+    </image:image>
+    
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=500&amp;h=500&amp;fit=crop&amp;crop=center</image:loc>
+      <image:title>Atitude Streetwear Ecko</image:title>
+      <image:caption>Visual jovem e descolado que representa a cultura urbana</image:caption>
+    </image:image>
+    
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=500&amp;h=500&amp;fit=crop&amp;crop=center</image:loc>
+      <image:title>Moda Urbana Feminina Ecko</image:title>
+      <image:caption>Coleção feminina com pegada street e muita personalidade</image:caption>
+    </image:image>
+    
+  </url>
+</urlset>
