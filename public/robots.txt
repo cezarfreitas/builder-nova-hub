@@ -1,14 +1,27 @@
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
-
 User-agent: *
 Allow: /
+
+# Sitemap location
+Sitemap: https://revendedores.ecko.com.br/sitemap.xml
+
+# Block access to API routes and admin areas
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dist/
+Disallow: /*.json$
+
+# Allow search engines to crawl images
+Allow: /uploads/
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.png$
+Allow: /*.gif$
+Allow: /*.webp$
+Allow: /*.svg$
+
+# Crawl-delay for specific bots
+User-agent: Bingbot
+Crawl-delay: 1
+
+User-agent: Slurp
+Crawl-delay: 1
