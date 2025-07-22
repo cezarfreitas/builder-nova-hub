@@ -884,7 +884,7 @@ export default function Index() {
                     {testimonial.avatar_url ? (
                       <img
                         src={testimonial.avatar_url}
-                        alt={testimonial.name}
+                        alt={`${testimonial.name}, ${testimonial.role} da ${testimonial.company} - Revendedor oficial Ecko satisfeito`}
                         className="w-12 h-12 rounded-full object-cover border-2 border-ecko-red/20"
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;
