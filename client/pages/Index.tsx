@@ -488,7 +488,7 @@ export default function Index() {
   }
 
   return (
-    <div className="bg-black">
+    <main className="bg-black">
       {/* Hero Full Screen Section */}
       <section className="h-screen relative flex flex-col justify-center items-center overflow-hidden">
         {/* Background Image */}
@@ -1213,6 +1213,6 @@ export default function Index() {
           </p>
         </div>
       </footer>
-    </div>
+    </main>
   );
 }
