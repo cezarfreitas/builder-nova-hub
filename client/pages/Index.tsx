@@ -717,7 +717,7 @@ export default function Index() {
       </section>
 
       {/* Benefits Section */}
-      <section className="py-20 bg-gray-900 relative overflow-hidden">
+      <section className="py-20 bg-gray-900 relative overflow-hidden" aria-labelledby="vantagens-heading">
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0 bg-gradient-to-r from-ecko-red/20 via-transparent to-ecko-red/20"></div>
