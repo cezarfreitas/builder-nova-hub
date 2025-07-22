@@ -496,7 +496,7 @@ export default function Index() {
           {/* Hero Background Image */}
           <img
             src="https://estyle.vteximg.com.br/arquivos/ecko_mosaic5.png?v=638421392678800000"
-            alt="Ecko Mosaic Background"
+            alt="Ecko Unlimited - Marca de streetwear líder no Brasil com produtos urbanos e estilo jovem"
             className="w-full h-full object-cover"
           />
 
