@@ -54,7 +54,7 @@ export default function Index() {
         "Coleção lifestyle Ecko - visual urbano autêntico com atitude",
       image_url:
         "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=500&h=500&fit=crop&crop=center",
-      alt_text: "Lifestyle urbano Ecko - street style",
+      alt_text: "Ecko streetwear - homem jovem com roupa urbana da marca líder em moda street no Brasil",
       display_order: 1,
       is_active: true,
     },
@@ -64,7 +64,7 @@ export default function Index() {
       description: "Looks casuais que refletem a essência streetwear da marca",
       image_url:
         "https://images.unsplash.com/photo-1506629905607-21e4ab4ea3d4?w=500&h=500&fit=crop&crop=center",
-      alt_text: "Estilo casual premium Ecko",
+      alt_text: "Moda casual Ecko - looks premium streetwear brasileiro para o dia a dia urbano",
       display_order: 2,
       is_active: true,
     },
@@ -74,7 +74,7 @@ export default function Index() {
       description: "Visual jovem e descolado que representa a cultura urbana",
       image_url:
         "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=500&h=500&fit=crop&crop=center",
-      alt_text: "Atitude streetwear Ecko lifestyle",
+      alt_text: "Jovem estiloso com roupas Ecko representando a cultura streetwear urbana brasileira",
       display_order: 3,
       is_active: true,
     },
@@ -84,7 +84,7 @@ export default function Index() {
       description: "Coleção feminina com pegada street e muita personalidade",
       image_url:
         "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=500&h=500&fit=crop&crop=center",
-      alt_text: "Moda urbana feminina Ecko",
+      alt_text: "Mulher jovem com estilo streetwear Ecko - moda urbana feminina brasileira",
       display_order: 4,
       is_active: true,
     },
@@ -94,7 +94,7 @@ export default function Index() {
       description: "Combinação perfeita entre conforto e estilo urbano",
       image_url:
         "https://images.unsplash.com/photo-1558618047-fcd95c85cd64?w=500&h=500&fit=crop&crop=center",
-      alt_text: "Look esportivo chic Ecko",
+      alt_text: "Combinação perfeita de conforto e estilo urbano com roupas esportivas Ecko",
       display_order: 5,
       is_active: true,
     },
