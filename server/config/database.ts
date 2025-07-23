@@ -25,12 +25,10 @@ export function getDatabase(): mysql.Pool {
     pool = mysql.createPool({
       ...dbConfig,
       waitForConnections: true,
-      connectionLimit: 5,
+      connectionLimit: 10,
       queueLimit: 0,
-      acquireTimeout: 60000,  // 60 segundos
-      idleTimeout: 900000,    // 15 minutos
-      enableKeepAlive: true,
-      keepAliveInitialDelay: 0
+      reconnect: true,
+      idleTimeout: 900000
     });
   }
   return pool;
