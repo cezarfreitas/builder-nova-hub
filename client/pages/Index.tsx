@@ -779,7 +779,7 @@ export default function Index() {
                   presença no Brasil e grande apelo junto ao público jovem. Uma
                   marca que só o nome vende sozinho.
                 </p>
-                <div className="absolute inset-0 bg-gradient-to-t from-ecko-red/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg"></div>
+
               </CardContent>
             </Card>
 
@@ -797,7 +797,7 @@ export default function Index() {
                   entrega, para impulsionar suas vendas com excelentes margens
                   de lucro e um ótimo rápido giro de estoque.
                 </p>
-                <div className="absolute inset-0 bg-gradient-to-t from-ecko-red/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg"></div>
+
               </CardContent>
             </Card>
 
@@ -815,7 +815,7 @@ export default function Index() {
                   garantir que você tenha a melhor experiência, tanto na compra
                   quanto na venda do produto em sua loja.
                 </p>
-                <div className="absolute inset-0 bg-gradient-to-t from-ecko-red/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg"></div>
+
               </CardContent>
             </Card>
 
@@ -833,7 +833,7 @@ export default function Index() {
                   preços de atacado destinados aos lojistas de todo o Brasil
                   para facilitar a sua compra e reabastecimento.
                 </p>
-                <div className="absolute inset-0 bg-gradient-to-t from-ecko-red/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg"></div>
+
               </CardContent>
             </Card>
           </div>
