@@ -160,25 +160,24 @@ export default function AdminLayout() {
     <div className="min-h-screen bg-gray-50 flex">
       {/* Sidebar Desktop */}
       <div className="hidden lg:flex lg:flex-shrink-0">
-        <div className="flex flex-col w-80">
-          <div className="flex flex-col flex-grow bg-white border-r border-gray-200 pt-5 pb-4 overflow-y-auto">
+        <div className="flex flex-col w-64">
+          <div className="flex flex-col flex-grow bg-white border-r border-gray-200 pt-4 pb-3 overflow-y-auto">
             {/* Logo/Header */}
-            <div className="flex items-center flex-shrink-0 px-6">
+            <div className="flex items-center flex-shrink-0 px-4">
               <div className="flex items-center">
-                <div className="w-10 h-10 bg-gradient-to-br from-ecko-red to-red-700 rounded-xl flex items-center justify-center shadow-lg">
-                  <span className="text-white font-bold text-lg">E</span>
+                <div className="w-8 h-8 bg-gradient-to-br from-ecko-red to-red-700 rounded-lg flex items-center justify-center">
+                  <span className="text-white font-bold text-sm">E</span>
                 </div>
-                <div className="ml-3">
-                  <h1 className="text-xl font-bold text-gray-900">
+                <div className="ml-2">
+                  <h1 className="text-lg font-bold text-gray-900">
                     Ecko Admin
                   </h1>
-                  <p className="text-sm text-gray-500">Painel de Controle</p>
                 </div>
               </div>
             </div>
 
             {/* Navigation */}
-            <div className="mt-8 flex-grow flex flex-col px-6">
+            <div className="mt-6 flex-grow flex flex-col px-4">
               {renderSidebarGroup(
                 "Principal",
                 getItemsByCategory("main"),
