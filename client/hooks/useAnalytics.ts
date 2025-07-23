@@ -19,8 +19,12 @@ export interface AnalyticsOverview {
   };
   traffic: {
     total_sessions: number;
+    unique_users: number;
     total_page_views: number;
     period_page_views: number;
+    avg_session_duration: number;
+    pages_per_session: number;
+    bounce_rate: number;
   };
   conversion: {
     rate: number;
