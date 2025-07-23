@@ -600,7 +600,8 @@ export async function exportAnalyticsData(req: Request, res: Response) {
         events,
         hourly_stats: hourlyStats,
         export_date: new Date().toISOString(),
-        period_days: Number(days)
+        period_days: yesterday === 'true' ? 0 : Number(days),
+        period_label: yesterday === 'true' ? 'ontem' : `últimos ${days} dias`
       }
     });
   } catch (error) {
