@@ -29,7 +29,9 @@ import {
   RefreshCw,
   ChevronDown,
   Download,
-  MessageCircle
+  MessageCircle,
+  MapPin,
+  BarChart3
 } from "lucide-react";
 
 // Registrar componentes do Chart.js
