@@ -181,7 +181,7 @@ export default function Index() {
       id: 1,
       question: "Como me tornar um revendedor oficial da Ecko?",
       answer:
-        "Para se tornar um revendedor oficial, você precisa ter CNPJ ativo e preencher nosso formul��rio de cadastro. Nossa equipe entrará em contato em até 24h para apresentar as condições comerciais e processo de aprovação.",
+        "Para se tornar um revendedor oficial, você precisa ter CNPJ ativo e preencher nosso formulário de cadastro. Nossa equipe entrará em contato em até 24h para apresentar as condições comerciais e processo de aprovação.",
       display_order: 1,
       is_active: true,
     },
@@ -1260,25 +1260,25 @@ export default function Index() {
               </Card>
 
               {/* CTA Section */}
-              <div className="text-center mt-12">
-                <div className="bg-gradient-to-r from-ecko-red/10 to-ecko-red-dark/10 rounded-2xl p-4 sm:p-8 border border-ecko-red/20 backdrop-blur-sm">
-                  <h3 className="text-2xl font-bold text-white mb-4">
+              <div className="text-center mt-16">
+                <div className="bg-gradient-to-r from-ecko-red/10 to-ecko-red-dark/10 rounded-2xl p-6 border border-ecko-red/20 backdrop-blur-sm max-w-2xl mx-auto">
+                  <h3 className="text-xl font-bold text-white mb-3">
                     Ainda tem dúvidas?
                   </h3>
-                  <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
+                  <p className="text-gray-300 mb-4">
                     Nossa equipe está pronta para ajudar você a se tornar um
                     revendedor oficial da marca de streetwear mais desejada do
                     Brasil
                   </p>
                   <Button
                     onClick={() => setShowForm(true)}
-                    className="bg-ecko-red hover:bg-ecko-red-dark text-white px-4 sm:px-8 py-3 sm:py-4 font-bold text-sm sm:text-lg shadow-2xl hover:shadow-ecko-red/25 transition-all duration-300 group uppercase tracking-wider w-full sm:w-auto"
+                    className="bg-ecko-red hover:bg-ecko-red-dark text-white px-6 py-3 font-bold text-base shadow-lg hover:shadow-ecko-red/25 transition-all duration-300 group uppercase tracking-wider"
                   >
                     <span className="hidden sm:inline">
                       FALE COM NOSSA EQUIPE
                     </span>
                     <span className="sm:hidden">FALAR COM EQUIPE</span>
-                    <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </div>
               </div>
