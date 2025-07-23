@@ -683,7 +683,7 @@ export default function Index() {
             <div
               className="w-32 h-12 sm:w-40 sm:h-16 lg:w-48 lg:h-20 xl:w-56 xl:h-24 bg-no-repeat bg-center bg-contain"
               style={{
-                backgroundImage: `url(${heroSettings?.logo_url || "https://www.ntktextil.com.br/wp-content/uploads/2022/08/Logo-Ecko.png"})`
+                backgroundImage: `url(${logoUrl})`
               }}
               role="img"
               aria-label="Logo Ecko"
