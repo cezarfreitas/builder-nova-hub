@@ -357,6 +357,88 @@ export async function resendWebhook(req: Request, res: Response) {
   }
 }
 
+// DELETE /api/leads/:id - Deletar um lead
+export async function deleteLead(req: Request, res: Response) {
+  try {
+    const { id } = req.params;
+    const db = getDatabase();
+
+    // Verificar se o lead existe
+    const [leadResult] = await db.execute(
+      `SELECT id FROM leads WHERE id = ?`,
+      [id]
+    );
+
+    if ((leadResult as any[]).length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'Lead não encontrado'
+      });
+    }
+
+    // Deletar o lead
+    await db.execute(
+      `DELETE FROM leads WHERE id = ?`,
+      [id]
+    );
+
+    res.json({
+      success: true,
+      message: 'Lead excluído com sucesso'
+    });
+  } catch (error) {
+    console.error('Erro ao deletar lead:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Erro interno do servidor'
+    });
+  }
+}
+
+// GET /api/leads/stats - Buscar estatísticas de leads
+export async function getLeadStats(req: Request, res: Response) {
+  try {
+    const db = getDatabase();
+
+    const [statsResult] = await db.execute(`
+      SELECT
+        COUNT(*) as total,
+        COUNT(CASE WHEN is_duplicate = FALSE THEN 1 END) as unique_leads,
+        COUNT(CASE WHEN is_duplicate = TRUE THEN 1 END) as duplicate_leads,
+        COUNT(CASE WHEN webhook_status = 'error' THEN 1 END) as webhook_errors,
+        COUNT(CASE WHEN webhook_status = 'success' THEN 1 END) as webhook_success,
+        COUNT(CASE WHEN webhook_status = 'pending' THEN 1 END) as webhook_pending,
+        COUNT(CASE WHEN DATE(created_at) = CURDATE() THEN 1 END) as today_leads,
+        COUNT(CASE WHEN DATE(created_at) >= DATE_SUB(CURDATE(), INTERVAL 7 DAY) THEN 1 END) as week_leads,
+        COUNT(CASE WHEN DATE(created_at) >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) THEN 1 END) as month_leads
+      FROM leads
+    `);
+
+    const stats = (statsResult as any[])[0];
+
+    res.json({
+      success: true,
+      data: {
+        total: stats.total,
+        unique: stats.unique_leads,
+        duplicates: stats.duplicate_leads,
+        webhook_errors: stats.webhook_errors,
+        webhook_success: stats.webhook_success,
+        webhook_pending: stats.webhook_pending,
+        today: stats.today_leads,
+        week: stats.week_leads,
+        month: stats.month_leads
+      }
+    });
+  } catch (error) {
+    console.error('Erro ao buscar estatísticas:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Erro interno do servidor'
+    });
+  }
+}
+
 // Função auxiliar para enviar webhook
 async function sendWebhook(url: string, payload: any, secret?: string): Promise<any> {
   const headers: Record<string, string> = {
