@@ -678,20 +678,28 @@ export default function Index() {
           {/* Logo */}
           <div className="flex items-center justify-center mt-8 sm:mt-12 lg:mt-20 mb-6 sm:mb-8">
             {heroLoading ? (
-              // Logo padrão durante loading
-              <img
-                src="https://www.ntktextil.com.br/wp-content/uploads/2022/08/Logo-Ecko.png"
-                alt="Logo Ecko"
-                className="object-contain w-32 h-12 sm:w-40 sm:h-16 lg:w-48 lg:h-20 xl:w-56 xl:h-24"
-                loading="eager"
-                fetchPriority="high"
-              />
+              // Logo padrão durante loading com skeleton
+              <div className="relative">
+                <div className="w-32 h-12 sm:w-40 sm:h-16 lg:w-48 lg:h-20 xl:w-56 xl:h-24 bg-white/10 rounded-lg animate-pulse absolute"></div>
+                <img
+                  src="https://www.ntktextil.com.br/wp-content/uploads/2022/08/Logo-Ecko.png"
+                  alt="Logo Ecko"
+                  className="object-contain w-32 h-12 sm:w-40 sm:h-16 lg:w-48 lg:h-20 xl:w-56 xl:h-24 relative z-10"
+                  loading="eager"
+                  fetchPriority="high"
+                  onLoad={(e) => {
+                    // Remove skeleton quando logo carrega
+                    const skeleton = e.currentTarget.previousElementSibling;
+                    if (skeleton) skeleton.remove();
+                  }}
+                />
+              </div>
             ) : (
               // Logo dinâmico após loading
               <img
                 src={heroSettings?.logo_url || "https://www.ntktextil.com.br/wp-content/uploads/2022/08/Logo-Ecko.png"}
                 alt="Logo Ecko"
-                className="object-contain w-32 h-12 sm:w-40 sm:h-16 lg:w-48 lg:h-20 xl:w-56 xl:h-24 transition-opacity duration-300"
+                className="object-contain w-32 h-12 sm:w-40 sm:h-16 lg:w-48 lg:h-20 xl:w-56 xl:h-24 transition-all duration-500 ease-in-out"
                 loading="eager"
                 fetchPriority="high"
                 onError={(e) => {
