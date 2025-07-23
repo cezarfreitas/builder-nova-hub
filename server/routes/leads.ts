@@ -47,8 +47,8 @@ export const submitLead: RequestHandler = async (req, res) => {
         nome, email, telefone, cidade, empresa,
         experiencia_revenda, is_duplicate, source,
         utm_source, utm_medium, utm_campaign,
-        ip_address, user_agent, tipo_loja
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        ip_address, user_agent, tipo_loja, form_origin
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         validatedData.name,
         email, // Email temporário para compatibilidade
@@ -63,7 +63,8 @@ export const submitLead: RequestHandler = async (req, res) => {
         utm_campaign,
         ip_address,
         user_agent,
-        validatedData.storeType
+        validatedData.storeType,
+        validatedData.formOrigin || null
       ]
     );
 
