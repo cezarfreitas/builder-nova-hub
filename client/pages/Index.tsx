@@ -200,7 +200,7 @@ export default function Index() {
       id: 1,
       question: "Como me tornar um revendedor oficial da Ecko?",
       answer:
-        "Para se tornar um revendedor oficial, você precisa ter CNPJ ativo e preencher nosso formulário de cadastro. Nossa equipe entrará em contato em até 24h para apresentar as condições comerciais e processo de aprova��ão.",
+        "Para se tornar um revendedor oficial, você precisa ter CNPJ ativo e preencher nosso formulário de cadastro. Nossa equipe entrará em contato em até 24h para apresentar as condições comerciais e processo de aprovação.",
       display_order: 1,
       is_active: true,
     },
@@ -425,9 +425,9 @@ export default function Index() {
 
     // Atualizar duração quando o usuário sair da página
     const handleBeforeUnload = () => {
-      // Usar try/catch para evitar erros durante navegação
+      // Usar sendBeacon para unload (mais confiável)
       try {
-        updateDuration();
+        updateDuration(true);
       } catch (error) {
         // Silenciar erros durante beforeunload
       }
@@ -436,7 +436,7 @@ export default function Index() {
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'hidden') {
         try {
-          updateDuration();
+          updateDuration(true);
         } catch (error) {
           // Silenciar erros durante visibilitychange
         }
