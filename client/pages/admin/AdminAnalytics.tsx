@@ -394,7 +394,17 @@ export default function AdminAnalytics() {
             </CardHeader>
             <CardContent>
               <div style={{ height: '250px' }}>
-                {weekdayData && <Doughnut data={weekdayData} options={doughnutOptions} />}
+                {weekdayData ? (
+                  <Doughnut data={weekdayData} options={doughnutOptions} />
+                ) : (
+                  <div className="flex items-center justify-center h-full text-gray-500">
+                    <div className="text-center">
+                      <Calendar className="w-12 h-12 mx-auto mb-2 text-gray-300" />
+                      <p>Sem dados suficientes para análise por dia da semana</p>
+                      <p className="text-sm">Aguarde mais leads serem coletados</p>
+                    </div>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>
