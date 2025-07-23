@@ -740,36 +740,44 @@ export default function Index() {
             </div>
           )}
 
-          {/* Scroll Down Button */}
-          <div className="flex flex-col items-center">
-            <Button
-              onClick={scrollToContent}
-              variant="outline"
-              className="mb-6 sm:mb-8 group relative overflow-hidden bg-transparent border-2 border-ecko-red text-ecko-red hover:text-white font-bold px-8 sm:px-10 py-4 sm:py-5 h-auto text-base sm:text-lg uppercase tracking-wider transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-ecko-red/40 rounded-lg"
-              style={{
-                borderColor: heroSettings?.cta_color || '#dc2626',
-                color: heroSettings?.cta_color || '#dc2626'
-              }}
-            >
-              <span
-                className="absolute inset-0 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"
-                style={{ backgroundColor: heroSettings?.cta_color || '#dc2626' }}
-              ></span>
-              <span className="relative z-10 flex items-center">
-                {heroSettings?.cta_secondary_text || "Descubra Como Funciona"}
-                <ChevronDown className="ml-2 w-6 h-6 group-hover:animate-bounce" />
-              </span>
-            </Button>
+          {/* CTA Buttons - Only if configured in database */}
+          {heroSettings?.cta_secondary_text && (
+            <div className="flex flex-col items-center">
+              <Button
+                onClick={scrollToContent}
+                variant="outline"
+                className="mb-6 sm:mb-8 group relative overflow-hidden bg-transparent border-2 font-bold px-8 sm:px-10 py-4 sm:py-5 h-auto text-base sm:text-lg uppercase tracking-wider transition-all duration-300 hover:scale-105 hover:shadow-2xl rounded-lg"
+                style={{
+                  borderColor: heroSettings.cta_color || '#dc2626',
+                  color: heroSettings.cta_color || '#dc2626'
+                }}
+              >
+                <span
+                  className="absolute inset-0 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"
+                  style={{ backgroundColor: heroSettings.cta_color || '#dc2626' }}
+                ></span>
+                <span className="relative z-10 flex items-center">
+                  {heroSettings.cta_secondary_text}
+                  <ChevronDown className="ml-2 w-6 h-6 group-hover:animate-bounce" />
+                </span>
+              </Button>
 
-            {/* Scroll Indicator */}
-            <div
-              onClick={scrollToContent}
-              className="flex flex-col items-center animate-bounce cursor-pointer hover:scale-110 transition-transform duration-300"
-            >
-              <div className="w-1 h-12 bg-gradient-to-b from-ecko-red to-transparent rounded-full mb-2"></div>
-              <ChevronDown className="w-6 h-6 text-ecko-red animate-pulse hover:text-white transition-colors" />
+              {/* Scroll Indicator */}
+              <div
+                onClick={scrollToContent}
+                className="flex flex-col items-center animate-bounce cursor-pointer hover:scale-110 transition-transform duration-300"
+              >
+                <div
+                  className="w-1 h-12 bg-gradient-to-b to-transparent rounded-full mb-2"
+                  style={{ background: `linear-gradient(to bottom, ${heroSettings.cta_color || '#dc2626'}, transparent)` }}
+                ></div>
+                <ChevronDown
+                  className="w-6 h-6 animate-pulse hover:text-white transition-colors"
+                  style={{ color: heroSettings.cta_color || '#dc2626' }}
+                />
+              </div>
             </div>
-          </div>
+          )}
         </div>
         </section>
       )}
