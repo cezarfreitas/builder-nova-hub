@@ -412,16 +412,16 @@ export async function getTrafficSources(req: Request, res: Response) {
 
     // Análise por UTM source
     const [utmSources] = await db.execute(`
-      SELECT 
+      SELECT
         COALESCE(NULLIF(utm_source, ''), 'Direct') as source,
         COUNT(*) as total_leads,
         COUNT(CASE WHEN is_duplicate = FALSE THEN 1 END) as unique_leads,
         COUNT(CASE WHEN webhook_status = 'success' THEN 1 END) as successful_webhooks
-      FROM leads 
-      WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
+      FROM leads
+      WHERE ${dateCondition}
       GROUP BY utm_source
       ORDER BY total_leads DESC
-    `, [Number(days)]);
+    `, queryParams);
 
     // Análise por UTM medium
     const [utmMediums] = await db.execute(`
