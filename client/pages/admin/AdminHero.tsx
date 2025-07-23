@@ -108,7 +108,7 @@ export default function AdminHero() {
         throw new Error('Erro na requisição');
       }
     } catch (error) {
-      console.error('Erro ao salvar configurações:', error);
+      console.error('Erro ao salvar configura��ões:', error);
       toast({
         title: "Erro",
         description: "Erro ao salvar configurações do hero",
@@ -248,15 +248,15 @@ export default function AdminHero() {
                 )}
                 
                 <h2 className="text-sm font-semibold mb-2 opacity-90">
-                  {settings.subtitle}
+                  {renderTextWithColorTokens(settings.subtitle)}
                 </h2>
-                
+
                 <h1 className="text-4xl font-bold mb-4">
-                  {settings.title}
+                  {renderTextWithColorTokens(settings.title)}
                 </h1>
-                
+
                 <p className="text-lg mb-8 opacity-90">
-                  {settings.description}
+                  {renderTextWithColorTokens(settings.description)}
                 </p>
                 
                 <div className="flex gap-4 justify-center">
