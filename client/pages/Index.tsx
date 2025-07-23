@@ -358,9 +358,10 @@ export default function Index() {
 
       if (useBeacon && navigator.sendBeacon) {
         // Usar sendBeacon para envios durante unload (mais confiável)
-        const formData = new FormData();
-        formData.append('data', JSON.stringify(payload));
-        navigator.sendBeacon('/api/analytics/track-duration', formData);
+        const params = new URLSearchParams();
+        params.append('session_id', sessionId);
+        params.append('duration_seconds', duration.toString());
+        navigator.sendBeacon('/api/analytics/track-duration', params);
       } else {
         // Usar fetch normal
         const response = await fetch('/api/analytics/track-duration', {
