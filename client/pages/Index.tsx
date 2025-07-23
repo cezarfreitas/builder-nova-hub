@@ -38,9 +38,6 @@ export default function Index() {
   const { toast } = useToast();
   const sessionId = useSessionId();
   const { settings: heroSettings, loading: heroLoading } = useHeroSettings();
-
-  // Logo management - sempre usa o padrão como fallback imediato
-  const logoUrl = heroSettings?.logo_url || "https://www.ntktextil.com.br/wp-content/uploads/2022/08/Logo-Ecko.png";
   const [formData, setFormData] = useState<LeadFormData>({
     name: "",
     whatsapp: "",
@@ -1244,7 +1241,7 @@ export default function Index() {
             </h2>
             <p className="text-gray-300 text-lg max-w-3xl mx-auto leading-relaxed">
               Descubra o lifestyle autêntico da Ecko através de looks que
-              representam a ess��ncia do streetwear e a cultura urbana que
+              representam a ess���ncia do streetwear e a cultura urbana que
               define nossa marca
             </p>
           </div>
