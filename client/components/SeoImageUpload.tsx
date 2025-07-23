@@ -10,15 +10,16 @@ interface SeoImageUploadProps {
   description?: string;
 }
 
-export function SeoImageUpload({ 
-  currentImage, 
-  onImageChange, 
+export function SeoImageUpload({
+  currentImage,
+  onImageChange,
   label = "Imagem SEO",
   description = "Tamanho recomendado: 1200x630px"
 }: SeoImageUploadProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [dragActive, setDragActive] = useState(false);
   const { uploading, error, uploadImage, deleteImage, clearError } = useImageUpload();
+  const { toast } = useToast();
 
   const handleFile = async (file: File) => {
     const result = await uploadImage(file);
