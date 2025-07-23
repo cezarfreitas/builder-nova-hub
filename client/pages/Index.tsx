@@ -486,6 +486,55 @@ export default function Index() {
     setShowForm(true);
   };
 
+  // Função para formatar WhatsApp
+  const formatWhatsApp = (value: string): string => {
+    // Remove tudo que não é número
+    const numbers = value.replace(/\D/g, '');
+
+    // Limita a 11 dígitos (DDD + 9 dígitos)
+    const limited = numbers.slice(0, 11);
+
+    // Aplica formatação
+    if (limited.length <= 2) {
+      return limited;
+    } else if (limited.length <= 7) {
+      return `(${limited.slice(0, 2)}) ${limited.slice(2)}`;
+    } else if (limited.length <= 11) {
+      return `(${limited.slice(0, 2)}) ${limited.slice(2, 7)}-${limited.slice(7)}`;
+    }
+
+    return limited;
+  };
+
+  // Função para validar WhatsApp
+  const validateWhatsApp = (whatsapp: string): boolean => {
+    // Remove formatação
+    const numbers = whatsapp.replace(/\D/g, '');
+
+    // Verifica se tem 10 ou 11 dígitos (com DDD)
+    if (numbers.length < 10 || numbers.length > 11) {
+      return false;
+    }
+
+    // Verifica se o DDD é válido (11-99)
+    const ddd = parseInt(numbers.slice(0, 2));
+    if (ddd < 11 || ddd > 99) {
+      return false;
+    }
+
+    // Se tem 11 dígitos, o 3º dígito deve ser 9 (celular)
+    if (numbers.length === 11 && numbers[2] !== '9') {
+      return false;
+    }
+
+    // Se tem 10 dígitos, não deve começar com 9 (fixo)
+    if (numbers.length === 10 && numbers[2] === '9') {
+      return false;
+    }
+
+    return true;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
