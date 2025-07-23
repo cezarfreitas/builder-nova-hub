@@ -285,7 +285,7 @@ export default function Index() {
       company: "Urban Fashion",
       role: "Diretor Comercial",
       content:
-        "A Ecko não é só uma marca, é um estilo de vida. Nossos clientes s����o apaixonados pelos produtos e isso reflete diretamente nas nossas vendas. Melhor decisão que já tomei!",
+        "A Ecko não é só uma marca, é um estilo de vida. Nossos clientes s��o apaixonados pelos produtos e isso reflete diretamente nas nossas vendas. Melhor decisão que já tomei!",
       avatar_url:
         "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
       rating: 5,
@@ -482,7 +482,7 @@ export default function Index() {
     const { name, value } = e.target;
 
     if (name === "whatsapp") {
-      // Formataç��o do WhatsApp
+      // Formatação do WhatsApp
       const formattedValue = formatWhatsApp(value);
       setFormData((prev) => ({ ...prev, [name]: formattedValue }));
 
@@ -795,7 +795,7 @@ export default function Index() {
                   onChange={handleInputChange}
                   placeholder="Digite seu nome completo"
                   required
-                  className="h-12 bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-ecko-red focus:ring-ecko-red/20"
+                  className="h-12 text-base bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-ecko-red focus:ring-ecko-red/20"
                 />
               </div>
 
