@@ -226,6 +226,26 @@ export default function Admin() {
     }
   };
 
+  // Função para testar conexão do banco
+  const handleTestDatabaseConnection = async () => {
+    setSaving(true);
+    try {
+      const response = await fetch('/api/test-db');
+      const result = await response.json();
+
+      if (result.success) {
+        alert(`✅ Conexão bem-sucedida!\n\nHost: ${result.data.config.host}\nPorta: ${result.data.config.port}\nBanco: ${result.data.config.database}\nTabelas encontradas: ${result.data.tables.length}`);
+      } else {
+        alert(`❌ Falha na conexão:\n${result.message}\n\nDetalhes: ${result.error?.message || 'Erro desconhecido'}`);
+      }
+    } catch (error) {
+      console.error('Erro ao testar conexão:', error);
+      alert('❌ Erro ao testar conexão com o banco de dados');
+    } finally {
+      setSaving(false);
+    }
+  };
+
   // Dados para preview (atualizados com dados reais)
   const seoData = {
     title: seoFormData.seo_title || "Título da página",
