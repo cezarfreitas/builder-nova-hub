@@ -195,7 +195,7 @@ export default function Admin() {
         toast({
           title: "✅ Sucesso!",
           description: "Configurações de SEO salvas com sucesso!",
-          variant: "default",
+          variant: "success",
         });
       } else {
         toast({
