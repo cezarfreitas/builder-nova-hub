@@ -643,348 +643,437 @@ export default function Admin() {
       case "analytics":
         return (
           <div className="space-y-6">
-            {/* Header Premium com Insights */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <div className="lg:col-span-2">
-                <Card className="bg-gradient-to-br from-ecko-red to-red-600 text-white shadow-lg border-0">
-                  <CardHeader>
-                    <CardTitle className="text-2xl flex items-center text-white">
-                      <BarChart3 className="w-6 h-6 mr-2" />
-                      Analytics Dashboard
-                    </CardTitle>
+            {/* Header Principal - Design Elegante */}
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+              <div className="lg:col-span-3">
+                <Card className="overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white shadow-2xl border-0">
+                  <CardHeader className="pb-4">
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-2xl font-bold flex items-center text-white">
+                        <BarChart3 className="w-7 h-7 mr-3" />
+                        Dashboard Analytics
+                      </CardTitle>
+                      <div className="text-right">
+                        <p className="text-white/60 text-sm">Últimos 30 dias</p>
+                        <p className="text-white/90 text-xs font-medium">Atualizado há 5 min</p>
+                      </div>
+                    </div>
                   </CardHeader>
                   <CardContent>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <p className="text-white/80 text-sm">Performance Geral</p>
-                        <div className="flex items-center mt-1">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
+                        <p className="text-white/70 text-sm mb-1">Performance Geral</p>
+                        <div className="flex items-center">
                           <span className="text-3xl font-bold text-white">97.2%</span>
-                          <div className="ml-2 px-2 py-1 bg-white/20 rounded-full">
-                            <span className="text-xs text-white">+5.3%</span>
+                          <div className="ml-2 px-2 py-1 bg-green-500/20 rounded-full">
+                            <span className="text-xs text-green-300">+5.3%</span>
                           </div>
                         </div>
+                        <p className="text-white/50 text-xs mt-1">Comparado ao mês anterior</p>
                       </div>
-                      <div>
-                        <p className="text-white/80 text-sm">ROI Estimado</p>
-                        <div className="flex items-center mt-1">
-                          <span className="text-3xl font-bold text-white">324%</span>
-                          <div className="ml-2 px-2 py-1 bg-white/20 rounded-full">
-                            <span className="text-xs text-white">+12%</span>
+                      <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
+                        <p className="text-white/70 text-sm mb-1">Qualidade do Tráfego</p>
+                        <div className="flex items-center">
+                          <span className="text-3xl font-bold text-white">A+</span>
+                          <div className="ml-2 px-2 py-1 bg-blue-500/20 rounded-full">
+                            <span className="text-xs text-blue-300">Excelente</span>
                           </div>
                         </div>
+                        <p className="text-white/50 text-xs mt-1">Baseado em engajamento</p>
+                      </div>
+                      <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
+                        <p className="text-white/70 text-sm mb-1">Score de Conversão</p>
+                        <div className="flex items-center">
+                          <span className="text-3xl font-bold text-white">8.7</span>
+                          <div className="ml-2 px-2 py-1 bg-yellow-500/20 rounded-full">
+                            <span className="text-xs text-yellow-300">+1.2</span>
+                          </div>
+                        </div>
+                        <p className="text-white/50 text-xs mt-1">De 10 pontos possíveis</p>
                       </div>
                     </div>
                   </CardContent>
                 </Card>
               </div>
 
-              <Card className="bg-white shadow-sm border border-gray-200">
+              <Card className="bg-white shadow-lg border border-gray-100">
                 <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="text-lg text-gray-900">Filtros Avançados</CardTitle>
-                  </div>
+                  <CardTitle className="text-lg text-gray-900 flex items-center">
+                    <svg className="w-5 h-5 mr-2 text-ecko-red" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.414A1 1 0 013 6.707V4z" />
+                    </svg>
+                    Filtros
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Período</label>
-                    <select className="w-full p-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-ecko-red focus:border-ecko-red">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Período</label>
+                    <select className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-ecko-red focus:border-ecko-red bg-white">
                       <option value="today">Hoje</option>
                       <option value="7">Últimos 7 dias</option>
-                      <option value="30" selected>Últimos 30 dias</option>
+                      <option value="30">Últimos 30 dias</option>
                       <option value="90">Últimos 90 dias</option>
-                      <option value="custom">Período personalizado</option>
+                      <option value="custom">Personalizado</option>
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Dispositivo</label>
-                    <select className="w-full p-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-ecko-red focus:border-ecko-red">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Dispositivo</label>
+                    <select className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-ecko-red focus:border-ecko-red bg-white">
                       <option value="all">Todos</option>
                       <option value="mobile">Mobile</option>
                       <option value="desktop">Desktop</option>
                       <option value="tablet">Tablet</option>
                     </select>
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Fonte</label>
-                    <select className="w-full p-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-ecko-red focus:border-ecko-red">
-                      <option value="all">Todas</option>
-                      <option value="organic">Orgânico</option>
-                      <option value="paid">Pago</option>
-                      <option value="social">Social</option>
-                      <option value="direct">Direto</option>
-                    </select>
-                  </div>
+                  <Button className="w-full bg-ecko-red hover:bg-ecko-red-dark text-white">
+                    Aplicar Filtros
+                  </Button>
                 </CardContent>
               </Card>
             </div>
 
-            {/* Métricas Principais */}
+            {/* Métricas Principais - Design Melhorado */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <Card className="bg-white shadow-sm border border-gray-200">
+              <Card className="bg-white shadow-lg border-l-4 border-l-blue-500 hover:shadow-xl transition-shadow">
                 <CardContent className="p-6">
-                  <div className="flex items-center">
-                    <div className="p-2 bg-blue-100 rounded-lg">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-gray-600 mb-1">Visitantes Únicos</p>
+                      <p className="text-3xl font-bold text-gray-900">3,547</p>
+                      <div className="flex items-center mt-2">
+                        <svg className="w-4 h-4 text-green-500 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                        </svg>
+                        <span className="text-sm text-green-600 font-medium">+12.5% vs mês passado</span>
+                      </div>
+                    </div>
+                    <div className="p-3 bg-blue-100 rounded-full">
                       <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                       </svg>
                     </div>
-                    <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-600">Visitantes Únicos</p>
-                      <div className="flex items-center">
-                        <p className="text-2xl font-bold text-gray-900">3,547</p>
-                        <p className="ml-2 text-sm text-green-600">+12.5%</p>
-                      </div>
-                    </div>
                   </div>
                 </CardContent>
               </Card>
 
-              <Card className="bg-white shadow-sm border border-gray-200">
+              <Card className="bg-white shadow-lg border-l-4 border-l-green-500 hover:shadow-xl transition-shadow">
                 <CardContent className="p-6">
-                  <div className="flex items-center">
-                    <div className="p-2 bg-green-100 rounded-lg">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-gray-600 mb-1">Leads Convertidos</p>
+                      <p className="text-3xl font-bold text-gray-900">127</p>
+                      <div className="flex items-center mt-2">
+                        <svg className="w-4 h-4 text-green-500 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                        </svg>
+                        <span className="text-sm text-green-600 font-medium">+8.3% vs mês passado</span>
+                      </div>
+                    </div>
+                    <div className="p-3 bg-green-100 rounded-full">
                       <Users className="w-6 h-6 text-green-600" />
                     </div>
-                    <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-600">Leads Convertidos</p>
-                      <div className="flex items-center">
-                        <p className="text-2xl font-bold text-gray-900">127</p>
-                        <p className="ml-2 text-sm text-green-600">+8.3%</p>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-white shadow-lg border-l-4 border-l-ecko-red hover:shadow-xl transition-shadow">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-gray-600 mb-1">Taxa de Conversão</p>
+                      <p className="text-3xl font-bold text-gray-900">3.58%</p>
+                      <div className="flex items-center mt-2">
+                        <svg className="w-4 h-4 text-green-500 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                        </svg>
+                        <span className="text-sm text-green-600 font-medium">+0.4% vs mês passado</span>
                       </div>
+                    </div>
+                    <div className="p-3 bg-red-100 rounded-full">
+                      <TrendingUp className="w-6 h-6 text-ecko-red" />
                     </div>
                   </div>
                 </CardContent>
               </Card>
 
-              <Card className="bg-white shadow-sm border border-gray-200">
+              <Card className="bg-white shadow-lg border-l-4 border-l-purple-500 hover:shadow-xl transition-shadow">
                 <CardContent className="p-6">
-                  <div className="flex items-center">
-                    <div className="p-2 bg-yellow-100 rounded-lg">
-                      <TrendingUp className="w-6 h-6 text-yellow-600" />
-                    </div>
-                    <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-600">Taxa de Conversão</p>
-                      <div className="flex items-center">
-                        <p className="text-2xl font-bold text-gray-900">3.58%</p>
-                        <p className="ml-2 text-sm text-green-600">+0.4%</p>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-gray-600 mb-1">Tempo na Página</p>
+                      <p className="text-3xl font-bold text-gray-900">4:32</p>
+                      <div className="flex items-center mt-2">
+                        <svg className="w-4 h-4 text-green-500 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                        </svg>
+                        <span className="text-sm text-green-600 font-medium">+15s vs mês passado</span>
                       </div>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-white shadow-sm border border-gray-200">
-                <CardContent className="p-6">
-                  <div className="flex items-center">
-                    <div className="p-2 bg-purple-100 rounded-lg">
+                    <div className="p-3 bg-purple-100 rounded-full">
                       <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                     </div>
-                    <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-600">Tempo Médio</p>
-                      <div className="flex items-center">
-                        <p className="text-2xl font-bold text-gray-900">4:32</p>
-                        <p className="ml-2 text-sm text-green-600">+15s</p>
-                      </div>
-                    </div>
                   </div>
                 </CardContent>
               </Card>
             </div>
 
-            {/* Gráficos */}
+            {/* Gráficos Melhorados */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Conversões por Dia */}
-              <Card className="bg-white shadow-sm border border-gray-200">
+              {/* Performance por Dia */}
+              <Card className="bg-white shadow-lg border border-gray-100">
                 <CardHeader>
-                  <CardTitle className="text-lg text-gray-900">Conversões dos Últimos 7 Dias</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {[
-                      { day: 'Seg', leads: 18, visits: 520 },
-                      { day: 'Ter', leads: 22, visits: 645 },
-                      { day: 'Qua', leads: 15, visits: 498 },
-                      { day: 'Qui', leads: 28, visits: 712 },
-                      { day: 'Sex', leads: 25, visits: 689 },
-                      { day: 'Sáb', leads: 12, visits: 345 },
-                      { day: 'Dom', leads: 8, visits: 287 }
-                    ].map((item, index) => (
-                      <div key={index} className="flex items-center justify-between">
-                        <div className="flex items-center">
-                          <span className="text-sm font-medium text-gray-900 w-8">{item.day}</span>
-                          <div className="ml-4 flex-1">
-                            <div className="flex items-center">
-                              <div className="w-full bg-gray-200 rounded-full h-2 mr-4">
-                                <div
-                                  className="bg-ecko-red h-2 rounded-full"
-                                  style={{ width: `${(item.leads / 30) * 100}%` }}
-                                ></div>
-                              </div>
-                              <span className="text-sm text-gray-600 min-w-[3rem]">{item.leads} leads</span>
-                            </div>
-                            <div className="flex items-center mt-1">
-                              <div className="w-full bg-gray-200 rounded-full h-1 mr-4">
-                                <div
-                                  className="bg-gray-400 h-1 rounded-full"
-                                  style={{ width: `${(item.visits / 800) * 100}%` }}
-                                ></div>
-                              </div>
-                              <span className="text-xs text-gray-500 min-w-[3rem]">{item.visits} visitas</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Fontes de Tráfego */}
-              <Card className="bg-white shadow-sm border border-gray-200">
-                <CardHeader>
-                  <CardTitle className="text-lg text-gray-900">Fontes de Tráfego</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {[
-                      { source: 'Google Orgânico', visits: 1423, percentage: 40.1, color: 'bg-blue-500' },
-                      { source: 'Google Ads', visits: 891, percentage: 25.1, color: 'bg-green-500' },
-                      { source: 'Facebook', visits: 567, percentage: 16.0, color: 'bg-blue-600' },
-                      { source: 'Instagram', visits: 445, percentage: 12.5, color: 'bg-pink-500' },
-                      { source: 'Direto', visits: 221, percentage: 6.3, color: 'bg-gray-500' }
-                    ].map((item, index) => (
-                      <div key={index} className="flex items-center justify-between">
-                        <div className="flex items-center flex-1">
-                          <div className={`w-3 h-3 rounded-full ${item.color} mr-3`}></div>
-                          <span className="text-sm font-medium text-gray-900 flex-1">{item.source}</span>
-                          <span className="text-sm text-gray-600 mr-4">{item.visits}</span>
-                          <span className="text-sm font-medium text-gray-900 min-w-[3rem]">{item.percentage}%</span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Dispositivos e Performance */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              {/* Dispositivos */}
-              <Card className="bg-white shadow-sm border border-gray-200">
-                <CardHeader>
-                  <CardTitle className="text-lg text-gray-900">Dispositivos</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center">
-                        <svg className="w-5 h-5 text-gray-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                        </svg>
-                        <span className="text-sm text-gray-900">Mobile</span>
-                      </div>
-                      <span className="text-sm font-medium text-gray-900">68.5%</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center">
-                        <svg className="w-5 h-5 text-gray-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                        </svg>
-                        <span className="text-sm text-gray-900">Desktop</span>
-                      </div>
-                      <span className="text-sm font-medium text-gray-900">26.8%</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center">
-                        <svg className="w-5 h-5 text-gray-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
-                        </svg>
-                        <span className="text-sm text-gray-900">Tablet</span>
-                      </div>
-                      <span className="text-sm font-medium text-gray-900">4.7%</span>
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="text-lg text-gray-900 flex items-center">
+                      <svg className="w-5 h-5 mr-2 text-ecko-red" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                    Performance Semanal
+                    </CardTitle>
+                    <div className="text-right">
+                      <p className="text-sm text-gray-500">Últimos 7 dias</p>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
-
-              {/* Formulário */}
-              <Card className="bg-white shadow-sm border border-gray-200">
-                <CardHeader>
-                  <CardTitle className="text-lg text-gray-900">Performance do Formulário</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-600">Formulários iniciados</span>
-                      <span className="text-sm font-medium text-gray-900">412</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-600">Formulários abandonados</span>
-                      <span className="text-sm font-medium text-red-600">285</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-600">Formulários concluídos</span>
-                      <span className="text-sm font-medium text-green-600">127</span>
-                    </div>
-                    <div className="pt-2 border-t border-gray-200">
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm font-medium text-gray-900">Taxa de conclusão</span>
-                        <span className="text-sm font-bold text-ecko-red">30.8%</span>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Top Páginas */}
-              <Card className="bg-white shadow-sm border border-gray-200">
-                <CardHeader>
-                  <CardTitle className="text-lg text-gray-900">Seções Mais Visitadas</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-900">Hero/Formulário</span>
-                      <span className="text-sm font-medium text-gray-900">100%</span>
+                    {[
+                      { day: 'Segunda', leads: 18, visits: 520, conversion: 3.5 },
+                      { day: 'Terça', leads: 22, visits: 645, conversion: 3.4 },
+                      { day: 'Quarta', leads: 15, visits: 498, conversion: 3.0 },
+                      { day: 'Quinta', leads: 28, visits: 712, conversion: 3.9 },
+                      { day: 'Sexta', leads: 25, visits: 689, conversion: 3.6 },
+                      { day: 'Sábado', leads: 12, visits: 345, conversion: 3.5 },
+                      { day: 'Domingo', leads: 8, visits: 287, conversion: 2.8 }
+                    ].map((item, index) => (
+                      <div key={index} className="p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-sm font-medium text-gray-900">{item.day}</span>
+                          <div className="flex items-center space-x-4">
+                            <span className="text-sm text-gray-600">{item.leads} leads</span>
+                            <span className="text-xs text-gray-500">{item.conversion}%</span>
+                          </div>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <div className="flex-1 bg-gray-200 rounded-full h-2">
+                            <div
+                              className="bg-gradient-to-r from-ecko-red to-red-600 h-2 rounded-full transition-all duration-500"
+                              style={{ width: `${(item.leads / 30) * 100}%` }}
+                            ></div>
+                          </div>
+                          <span className="text-xs text-gray-400 min-w-[4rem]">{item.visits} visitas</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Fontes de Tráfego Melhorado */}
+              <Card className="bg-white shadow-lg border border-gray-100">
+                <CardHeader>
+                  <CardTitle className="text-lg text-gray-900 flex items-center">
+                    <svg className="w-5 h-5 mr-2 text-ecko-red" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                    </svg>
+                    Fontes de Tráfego
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {[
+                      { source: 'Google Orgânico', visits: 1423, percentage: 40.1, color: 'bg-blue-500', growth: '+12%' },
+                      { source: 'Google Ads', visits: 891, percentage: 25.1, color: 'bg-green-500', growth: '+8%' },
+                      { source: 'Facebook Ads', visits: 567, percentage: 16.0, color: 'bg-blue-600', growth: '+15%' },
+                      { source: 'Instagram', visits: 445, percentage: 12.5, color: 'bg-pink-500', growth: '+20%' },
+                      { source: 'Tráfego Direto', visits: 221, percentage: 6.3, color: 'bg-gray-500', growth: '+3%' }
+                    ].map((item, index) => (
+                      <div key={index} className="p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center">
+                            <div className={`w-3 h-3 rounded-full ${item.color} mr-3`}></div>
+                            <span className="text-sm font-medium text-gray-900">{item.source}</span>
+                          </div>
+                          <div className="flex items-center space-x-3">
+                            <span className="text-sm text-gray-600">{item.visits.toLocaleString()}</span>
+                            <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">{item.growth}</span>
+                            <span className="text-sm font-medium text-gray-900">{item.percentage}%</span>
+                          </div>
+                        </div>
+                        <div className="w-full bg-gray-200 rounded-full h-2">
+                          <div
+                            className={`${item.color} h-2 rounded-full transition-all duration-500`}
+                            style={{ width: `${item.percentage}%` }}
+                          ></div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Informações Detalhadas */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Performance do Formulário */}
+              <Card className="bg-white shadow-lg border border-gray-100">
+                <CardHeader>
+                  <CardTitle className="text-lg text-gray-900 flex items-center">
+                    <svg className="w-5 h-5 mr-2 text-ecko-red" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    Formulário de Leads
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="p-3 bg-blue-50 rounded-lg">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-medium text-blue-900">Formulários iniciados</span>
+                        <span className="text-lg font-bold text-blue-900">412</span>
+                      </div>
                     </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-900">Vantagens</span>
-                      <span className="text-sm font-medium text-gray-900">78.2%</span>
+                    <div className="p-3 bg-red-50 rounded-lg">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-medium text-red-900">Abandonos</span>
+                        <span className="text-lg font-bold text-red-900">285</span>
+                      </div>
                     </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-900">Depoimentos</span>
-                      <span className="text-sm font-medium text-gray-900">65.4%</span>
+                    <div className="p-3 bg-green-50 rounded-lg">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-medium text-green-900">Concluídos</span>
+                        <span className="text-lg font-bold text-green-900">127</span>
+                      </div>
                     </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-900">FAQ</span>
-                      <span className="text-sm font-medium text-gray-900">42.1%</span>
+                    <div className="pt-3 border-t border-gray-200">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-medium text-gray-900">Taxa de conversão</span>
+                        <span className="text-xl font-bold text-ecko-red">30.8%</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
+                        <div className="bg-ecko-red h-2 rounded-full" style={{ width: '30.8%' }}></div>
+                      </div>
                     </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-900">Galeria</span>
-                      <span className="text-sm font-medium text-gray-900">38.9%</span>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Dispositivos */}
+              <Card className="bg-white shadow-lg border border-gray-100">
+                <CardHeader>
+                  <CardTitle className="text-lg text-gray-900 flex items-center">
+                    <svg className="w-5 h-5 mr-2 text-ecko-red" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                    </svg>
+                    Acesso por Dispositivo
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="p-3 bg-gray-50 rounded-lg">
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center">
+                          <svg className="w-5 h-5 text-gray-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                          </svg>
+                          <span className="text-sm font-medium text-gray-900">Mobile</span>
+                        </div>
+                        <span className="text-lg font-bold text-gray-900">68.5%</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div className="bg-blue-500 h-2 rounded-full" style={{ width: '68.5%' }}></div>
+                      </div>
                     </div>
+                    <div className="p-3 bg-gray-50 rounded-lg">
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center">
+                          <svg className="w-5 h-5 text-gray-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                          </svg>
+                          <span className="text-sm font-medium text-gray-900">Desktop</span>
+                        </div>
+                        <span className="text-lg font-bold text-gray-900">26.8%</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div className="bg-green-500 h-2 rounded-full" style={{ width: '26.8%' }}></div>
+                      </div>
+                    </div>
+                    <div className="p-3 bg-gray-50 rounded-lg">
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center">
+                          <svg className="w-5 h-5 text-gray-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5z" />
+                          </svg>
+                          <span className="text-sm font-medium text-gray-900">Tablet</span>
+                        </div>
+                        <span className="text-lg font-bold text-gray-900">4.7%</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div className="bg-purple-500 h-2 rounded-full" style={{ width: '4.7%' }}></div>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Engajamento por Seção */}
+              <Card className="bg-white shadow-lg border border-gray-100">
+                <CardHeader>
+                  <CardTitle className="text-lg text-gray-900 flex items-center">
+                    <svg className="w-5 h-5 mr-2 text-ecko-red" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                    Engajamento por Seção
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    {[
+                      { section: 'Hero/Formulário', percentage: 100, time: '2:15' },
+                      { section: 'Vantagens', percentage: 78.2, time: '1:45' },
+                      { section: 'Depoimentos', percentage: 65.4, time: '1:20' },
+                      { section: 'FAQ', percentage: 42.1, time: '0:55' },
+                      { section: 'Galeria', percentage: 38.9, time: '0:45' }
+                    ].map((item, index) => (
+                      <div key={index} className="p-2 bg-gray-50 rounded-lg">
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-sm font-medium text-gray-900">{item.section}</span>
+                          <div className="flex items-center space-x-2">
+                            <span className="text-xs text-gray-500">{item.time}</span>
+                            <span className="text-sm font-bold text-gray-900">{item.percentage}%</span>
+                          </div>
+                        </div>
+                        <div className="w-full bg-gray-200 rounded-full h-1.5">
+                          <div
+                            className="bg-gradient-to-r from-ecko-red to-red-600 h-1.5 rounded-full"
+                            style={{ width: `${item.percentage}%` }}
+                          ></div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </CardContent>
               </Card>
             </div>
 
             {/* Ações */}
-            <Card className="bg-white shadow-sm border border-gray-200">
+            <Card className="bg-white shadow-lg border border-gray-100">
               <CardContent className="p-6">
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <Button className="bg-ecko-red hover:bg-ecko-red-dark text-white px-6 py-3">
-                    Exportar Relatório
+                <div className="flex flex-col sm:flex-row gap-4 items-center">
+                  <Button className="bg-ecko-red hover:bg-ecko-red-dark text-white px-8 py-3 text-base font-medium">
+                    Exportar Relatório PDF
                   </Button>
                   <Button variant="outline" className="border-gray-300 text-gray-700 hover:bg-gray-50 px-6 py-3">
-                    Configurar Google Analytics
+                    Conectar Google Analytics
                   </Button>
                   <Button variant="outline" className="border-blue-300 text-blue-700 hover:bg-blue-50 px-6 py-3">
-                    Atualizar Dados
+                    Configurar Meta Pixel
                   </Button>
+                  <div className="sm:ml-auto text-sm text-gray-500">
+                    Última atualização: há 5 minutos
+                  </div>
                 </div>
               </CardContent>
             </Card>
