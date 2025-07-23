@@ -5,6 +5,7 @@ import { SeoImageUpload } from "../components/SeoImageUpload";
 import { SeoPreviewModal } from "../components/SeoPreviewModal";
 import { useSettings } from "../hooks/useSettings";
 import { useToast } from "../hooks/use-toast";
+import { useLeads } from "../hooks/useLeads";
 import {
   Settings,
   Users,
