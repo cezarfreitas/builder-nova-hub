@@ -29,13 +29,13 @@ export const submitLead: RequestHandler = async (req, res) => {
     const utm_medium = req.body.utm_medium || '';
     const utm_campaign = req.body.utm_campaign || '';
 
-    // Verificar se é um lead duplicado (mesmo email ou telefone)
-    const email = validatedData.email || `${validatedData.whatsapp}@temp.com`;
+    // Verificar se é um lead duplicado (mesmo telefone)
     const telefone = validatedData.whatsapp;
+    const email = `${validatedData.whatsapp}@temp.com`; // Email temporário para compatibilidade
 
     const [existingLeads] = await db.execute(
-      `SELECT id FROM leads WHERE email = ? OR telefone = ? LIMIT 1`,
-      [email, telefone]
+      `SELECT id FROM leads WHERE telefone = ? LIMIT 1`,
+      [telefone]
     );
 
     const is_duplicate = (existingLeads as any[]).length > 0;
