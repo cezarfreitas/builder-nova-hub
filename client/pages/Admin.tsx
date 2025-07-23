@@ -260,13 +260,25 @@ export default function Admin() {
       const result = await response.json();
 
       if (result.success) {
-        alert(`✅ Conexão bem-sucedida!\n\nHost: ${result.data.config.host}\nPorta: ${result.data.config.port}\nBanco: ${result.data.config.database}\nTabelas encontradas: ${result.data.tables.length}`);
+        toast({
+          title: "✅ Conexão bem-sucedida!",
+          description: `Host: ${result.data.config.host} | Porta: ${result.data.config.port} | Banco: ${result.data.config.database} | Tabelas: ${result.data.tables.length}`,
+          variant: "default",
+        });
       } else {
-        alert(`❌ Falha na conexão:\n${result.message}\n\nDetalhes: ${result.error?.message || 'Erro desconhecido'}`);
+        toast({
+          title: "❌ Falha na conexão",
+          description: `${result.message}. Detalhes: ${result.error?.message || 'Erro desconhecido'}`,
+          variant: "destructive",
+        });
       }
     } catch (error) {
       console.error('Erro ao testar conexão:', error);
-      alert('❌ Erro ao testar conexão com o banco de dados');
+      toast({
+        title: "❌ Erro",
+        description: "Erro ao testar conexão com o banco de dados",
+        variant: "destructive",
+      });
     } finally {
       setSaving(false);
     }
