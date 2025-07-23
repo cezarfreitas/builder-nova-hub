@@ -896,16 +896,6 @@ export default function Admin() {
                     </div>
                   </div>
                 )}
-
-                {/* Ações Globais */}
-                <div className="flex gap-4 pt-6 border-t border-gray-200">
-                  <Button className="bg-ecko-red hover:bg-ecko-red-dark text-white px-6 py-3">
-                    Salvar Configurações
-                  </Button>
-                  <Button variant="outline" className="border-gray-300 text-gray-700 hover:bg-gray-50 px-6 py-3">
-                    Cancelar
-                  </Button>
-                </div>
               </CardContent>
             </Card>
           </div>
