@@ -98,7 +98,9 @@ export function useAnalytics(days: number = 30) {
 
   const fetchOverview = async () => {
     try {
-      const response = await fetch(`/api/analytics/overview?days=${days}`);
+      const url = `/api/analytics/overview?days=${days}`;
+      console.log('Fetching overview from:', url);
+      const response = await fetch(url);
 
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
