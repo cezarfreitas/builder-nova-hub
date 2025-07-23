@@ -458,18 +458,18 @@ export default function AdminAnalytics() {
           </CardContent>
         </Card>
 
-        {/* Taxa de Rejeição */}
-        <Card className="bg-gradient-to-br from-red-50 to-red-100 border-red-200">
+        {/* Visualizações Únicas */}
+        <Card className="bg-gradient-to-br from-indigo-50 to-indigo-100 border-indigo-200">
           <CardContent className="p-6">
             <div className="flex items-center">
-              <div className="p-2 bg-red-500 rounded-lg">
-                <TrendingUp className="w-6 h-6 text-white rotate-180" />
+              <div className="p-2 bg-indigo-500 rounded-lg">
+                <Eye className="w-6 h-6 text-white" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-red-600">Taxa de Rejeição</p>
-                <p className="text-2xl font-bold text-red-900">{overview.traffic.bounce_rate}%</p>
-                <p className="text-xs text-red-600">
-                  Visitantes que saem rapidamente
+                <p className="text-sm font-medium text-indigo-600">Visualizações Únicas</p>
+                <p className="text-2xl font-bold text-indigo-900">{overview.traffic.unique_page_views}</p>
+                <p className="text-xs text-indigo-600">
+                  Visualizações da página por usuário único
                 </p>
               </div>
             </div>
@@ -554,7 +554,7 @@ export default function AdminAnalytics() {
             <CardHeader>
               <CardTitle className="flex items-center">
                 <Clock className="w-5 h-5 mr-2 text-blue-600" />
-                Análise por Hor��rio
+                Análise por Horário
               </CardTitle>
               <div className="flex items-center gap-4 mt-2">
                 <Badge className="bg-blue-100 text-blue-800">
