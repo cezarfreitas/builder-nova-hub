@@ -67,14 +67,56 @@ export async function uploadSeoImage(req: Request, res: Response) {
       path: file.path
     });
 
+    // Otimizar imagem com Sharp
+    let finalFilename = file.filename;
+    let finalSize = file.size;
+
+    try {
+      const optimizedFilename = `optimized-${file.filename}`;
+      const optimizedPath = path.join(path.dirname(file.path), optimizedFilename);
+
+      // Otimizar e comprimir imagem
+      await sharp(file.path)
+        .resize(2000, 2000, {
+          fit: 'inside',
+          withoutEnlargement: true
+        })
+        .jpeg({
+          quality: 85,
+          progressive: true,
+          mozjpeg: true
+        })
+        .toFile(optimizedPath);
+
+      // Verificar se a otimização reduziu o tamanho
+      const optimizedStats = fs.statSync(optimizedPath);
+      if (optimizedStats.size < file.size) {
+        // Usar versão otimizada
+        fs.unlinkSync(file.path); // Remover original
+        finalFilename = optimizedFilename;
+        finalSize = optimizedStats.size;
+        console.log('Image optimized:', {
+          originalSize: file.size,
+          optimizedSize: optimizedStats.size,
+          reduction: `${((1 - optimizedStats.size / file.size) * 100).toFixed(1)}%`
+        });
+      } else {
+        // Manter original se não houve melhoria
+        fs.unlinkSync(optimizedPath);
+        console.log('Original image kept (no size improvement)');
+      }
+    } catch (error) {
+      console.error('Image optimization failed, using original:', error);
+    }
+
     // Usar URL relativa para evitar problemas de CORS/URL
-    const imageUrl = `/uploads/${file.filename}`;
+    const imageUrl = `/uploads/${finalFilename}`;
 
     // Metadados da imagem
     const imageInfo = {
-      filename: file.filename,
+      filename: finalFilename,
       originalName: file.originalname,
-      size: file.size,
+      size: finalSize,
       mimetype: file.mimetype,
       url: imageUrl,
       path: file.path
