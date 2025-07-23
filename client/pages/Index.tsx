@@ -373,7 +373,7 @@ export default function Index() {
   // Função para rastrear clique no WhatsApp
   const trackWhatsAppClick = async () => {
     try {
-      await fetch('/api/analytics/track-visit', {
+      const response = await fetch('/api/analytics/track-visit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -391,8 +391,13 @@ export default function Index() {
           event_type: 'whatsapp_click'
         })
       });
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
     } catch (error) {
-      console.error('Erro ao rastrear clique WhatsApp:', error);
+      // Silenciar erros de analytics para não quebrar a aplicação
+      // console.error('Erro ao rastrear clique WhatsApp:', error);
     }
   };
 
