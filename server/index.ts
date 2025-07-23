@@ -8,6 +8,7 @@ import { getSettings, getSetting, updateSetting, updateSettings, deleteSetting, 
 import { upload, uploadSeoImage, deleteUploadedImage, listUploadedImages } from "./routes/uploads";
 import { testDatabaseConnection, getDatabaseInfo } from "./routes/database-test";
 import { getAnalyticsOverview, getDailyStats, getTimeAnalysis, getTrafficSources, getFormOrigins, trackVisit, trackDuration, exportAnalyticsData, getConversionByLocation, getConversionByGeography } from "./routes/analytics";
+import { getTestimonials, getTestimonial, createTestimonial, updateTestimonial, deleteTestimonial, toggleTestimonial, reorderTestimonials } from "./routes/testimonials";
 import { initializeDatabase, testConnection } from "./config/database";
 
 export function createServer() {
