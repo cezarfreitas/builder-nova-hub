@@ -677,14 +677,28 @@ export default function Index() {
         <div className="relative z-20 text-center px-4 sm:px-6 max-w-4xl mx-auto">
           {/* Logo */}
           <div className="flex items-center justify-center mt-8 sm:mt-12 lg:mt-20 mb-6 sm:mb-8">
-            <img
-              src={heroSettings?.logo_url || "https://www.ntktextil.com.br/wp-content/uploads/2022/08/Logo-Ecko.png"}
-              alt="Logo Ecko"
-              className="object-contain w-32 h-12 sm:w-40 sm:h-16 lg:w-48 lg:h-20 xl:w-56 xl:h-24"
-              onError={(e) => {
-                e.currentTarget.src = "https://www.ntktextil.com.br/wp-content/uploads/2022/08/Logo-Ecko.png";
-              }}
-            />
+            {heroLoading ? (
+              // Logo padrão durante loading
+              <img
+                src="https://www.ntktextil.com.br/wp-content/uploads/2022/08/Logo-Ecko.png"
+                alt="Logo Ecko"
+                className="object-contain w-32 h-12 sm:w-40 sm:h-16 lg:w-48 lg:h-20 xl:w-56 xl:h-24"
+                loading="eager"
+                fetchPriority="high"
+              />
+            ) : (
+              // Logo dinâmico após loading
+              <img
+                src={heroSettings?.logo_url || "https://www.ntktextil.com.br/wp-content/uploads/2022/08/Logo-Ecko.png"}
+                alt="Logo Ecko"
+                className="object-contain w-32 h-12 sm:w-40 sm:h-16 lg:w-48 lg:h-20 xl:w-56 xl:h-24 transition-opacity duration-300"
+                loading="eager"
+                fetchPriority="high"
+                onError={(e) => {
+                  e.currentTarget.src = "https://www.ntktextil.com.br/wp-content/uploads/2022/08/Logo-Ecko.png";
+                }}
+              />
+            )}
           </div>
 
           {/* Subtitle */}
