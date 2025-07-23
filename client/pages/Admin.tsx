@@ -708,8 +708,7 @@ export default function Admin() {
                         variant="outline"
                         className="border-blue-300 text-blue-700 hover:bg-blue-50 px-6 py-3"
                         onClick={() => {
-                          // Preview das meta tags
-                          console.log('Visualizando preview...');
+                          setShowSeoPreview(true);
                         }}
                       >
                         Visualizar Preview
