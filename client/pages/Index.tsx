@@ -264,7 +264,7 @@ export default function Index() {
       company: "Urban Fashion",
       role: "Diretor Comercial",
       content:
-        "A Ecko não é só uma marca, é um estilo de vida. Nossos clientes s��o apaixonados pelos produtos e isso reflete diretamente nas nossas vendas. Melhor decisão que já tomei!",
+        "A Ecko não é s�� uma marca, é um estilo de vida. Nossos clientes s��o apaixonados pelos produtos e isso reflete diretamente nas nossas vendas. Melhor decisão que já tomei!",
       avatar_url:
         "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
       rating: 5,
@@ -726,10 +726,17 @@ export default function Index() {
               onClick={scrollToContent}
               variant="outline"
               className="mb-6 sm:mb-8 group relative overflow-hidden bg-transparent border-2 border-ecko-red text-ecko-red hover:text-white font-bold px-8 sm:px-10 py-4 sm:py-5 h-auto text-base sm:text-lg uppercase tracking-wider transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-ecko-red/40 rounded-lg"
+              style={{
+                borderColor: heroSettings?.cta_color || '#dc2626',
+                color: heroSettings?.cta_color || '#dc2626'
+              }}
             >
-              <span className="absolute inset-0 bg-ecko-red transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+              <span
+                className="absolute inset-0 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"
+                style={{ backgroundColor: heroSettings?.cta_color || '#dc2626' }}
+              ></span>
               <span className="relative z-10 flex items-center">
-                Descubra Como Funciona
+                {heroSettings?.cta_secondary_text || "Descubra Como Funciona"}
                 <ChevronDown className="ml-2 w-6 h-6 group-hover:animate-bounce" />
               </span>
             </Button>
