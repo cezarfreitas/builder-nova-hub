@@ -108,7 +108,7 @@ export default function AdminHero() {
         throw new Error('Erro na requisição');
       }
     } catch (error) {
-      console.error('Erro ao salvar configura��ões:', error);
+      console.error('Erro ao salvar configurações:', error);
       toast({
         title: "Erro",
         description: "Erro ao salvar configurações do hero",
@@ -459,7 +459,7 @@ export default function AdminHero() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-blue-700">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-blue-700">
             <div>
               <h4 className="font-semibold mb-2">📝 Texto</h4>
               <ul className="space-y-1 text-blue-600">
@@ -474,6 +474,15 @@ export default function AdminHero() {
                 <li>• Use imagens de alta qualidade (min 1920x1080)</li>
                 <li>• Contraste adequado entre texto e fundo</li>
                 <li>• Cores que reflitam a identidade da marca</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-2">🏷️ Tokens de Cor</h4>
+              <ul className="space-y-1 text-blue-600">
+                <li>• Use <code className="px-1 bg-blue-100 rounded text-xs">{`{ecko}texto{/ecko}`}</code> para palavras importantes</li>
+                <li>• Selecione texto e clique em uma cor para aplicar</li>
+                <li>• Use <code className="px-1 bg-blue-100 rounded text-xs">{`{red}{/red}`}</code>, <code className="px-1 bg-blue-100 rounded text-xs">{`{blue}{/blue}`}</code>, etc.</li>
+                <li>• Cores destacam palavras-chave automaticamente</li>
               </ul>
             </div>
           </div>
