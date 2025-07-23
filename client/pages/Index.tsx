@@ -368,9 +368,12 @@ export default function Index() {
                 setIsSubmitted(false);
                 setShowForm(false);
               }}
-              className="bg-ecko-red hover:bg-ecko-red-dark text-white font-bold"
+              className="group relative overflow-hidden bg-gradient-to-r from-ecko-red to-ecko-red-dark hover:from-ecko-red-dark hover:to-red-700 text-white font-bold px-8 py-3 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-ecko-red/40 rounded-lg"
             >
-              Voltar ao Início
+              <span className="absolute inset-0 bg-gradient-to-r from-red-600 to-red-800 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+              <span className="relative z-10">
+                Voltar ao Início
+              </span>
             </Button>
           </CardContent>
         </Card>
