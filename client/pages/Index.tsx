@@ -565,7 +565,7 @@ export default function Index() {
     // Se não tem CNPJ, não prosseguir
     if (formData.hasCnpj === "nao") {
       toast({
-        title: "⚠️ CNPJ Obrigatório",
+        title: "⚠��� CNPJ Obrigatório",
         description: "É necessário ter CNPJ para se tornar um revendedor autorizado.",
         variant: "destructive",
       });
@@ -603,6 +603,8 @@ export default function Index() {
           hasCnpj: "",
           storeType: "",
         });
+        setWhatsappError("");
+        setCnpjError("");
       } else {
         toast({
           title: "❌ Erro no envio",
