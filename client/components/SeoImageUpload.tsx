@@ -25,6 +25,17 @@ export function SeoImageUpload({
     const result = await uploadImage(file);
     if (result) {
       onImageChange(result.url);
+      toast({
+        title: "✅ Upload concluído!",
+        description: `Imagem ${result.originalName} enviada com sucesso`,
+        variant: "success",
+      });
+    } else if (error) {
+      toast({
+        title: "❌ Erro no upload",
+        description: error,
+        variant: "destructive",
+      });
     }
   };
 
