@@ -498,7 +498,9 @@ export default function Index() {
   }
 
   return (
-    <main className="bg-black pb-4">
+    <>
+      <DynamicHead />
+      <main className="bg-black pb-4">
       {/* Hero Full Screen Section */}
       <section className="h-screen relative flex flex-col justify-center items-center overflow-hidden">
         {/* Background Image */}
@@ -1350,5 +1352,6 @@ export default function Index() {
         </div>
       </footer>
     </main>
+    </>
   );
 }
