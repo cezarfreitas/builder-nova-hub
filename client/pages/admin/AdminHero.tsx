@@ -290,14 +290,12 @@ export default function AdminHero() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Título Principal
-              </label>
-              <Input
+              <TokenColorEditor
+                label="Título Principal"
                 value={settings.title}
-                onChange={(e) => setSettings(prev => ({ ...prev, title: e.target.value }))}
-                placeholder="Torne-se um Revendedor Ecko"
-                className="w-full"
+                onChange={(value) => setSettings(prev => ({ ...prev, title: value }))}
+                placeholder="Torne-se um {ecko}Revendedor Ecko{/ecko}"
+                rows={3}
               />
             </div>
 
