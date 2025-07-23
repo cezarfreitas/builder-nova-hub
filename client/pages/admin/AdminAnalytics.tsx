@@ -330,7 +330,18 @@ export default function AdminAnalytics() {
             <option value={90}>Últimos 90 dias</option>
           </select>
           
-          <Button 
+          <Button
+            onClick={exportToExcel}
+            variant="outline"
+            size="sm"
+            className="border-green-300 text-green-700 hover:bg-green-50"
+            disabled={loading || !overview}
+          >
+            <Download className="w-4 h-4 mr-2" />
+            Exportar Excel
+          </Button>
+
+          <Button
             onClick={refreshData}
             variant="outline"
             size="sm"
