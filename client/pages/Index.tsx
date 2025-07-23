@@ -699,7 +699,7 @@ export default function Index() {
               alt="Background do Hero"
               className="w-full h-full object-cover transition-opacity duration-500"
               loading="eager"
-              fetchPriority="high"
+              fetchpriority="high"
             />
           ) : (
             <div
