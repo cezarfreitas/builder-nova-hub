@@ -86,6 +86,8 @@ export default function AdminHero() {
   const saveSettings = async () => {
     try {
       setSaving(true);
+      console.log('Salvando configurações do hero:', settings);
+
       const response = await fetch('/api/settings/hero', {
         method: 'POST',
         headers: {
@@ -94,8 +96,12 @@ export default function AdminHero() {
         body: JSON.stringify(settings),
       });
 
+      console.log('Response status:', response.status);
+
       if (response.ok) {
         const result = await response.json();
+        console.log('Response result:', result);
+
         if (result.success) {
           toast({
             title: "Sucesso",
@@ -105,13 +111,21 @@ export default function AdminHero() {
           throw new Error(result.message || 'Erro ao salvar');
         }
       } else {
-        throw new Error('Erro na requisição');
+        const errorText = await response.text();
+        console.error('Response error:', errorText);
+
+        try {
+          const errorJson = JSON.parse(errorText);
+          throw new Error(errorJson.message || `HTTP ${response.status}: ${response.statusText}`);
+        } catch {
+          throw new Error(`HTTP ${response.status}: ${errorText || response.statusText}`);
+        }
       }
     } catch (error) {
       console.error('Erro ao salvar configurações:', error);
       toast({
         title: "Erro",
-        description: "Erro ao salvar configurações do hero",
+        description: error instanceof Error ? error.message : "Erro ao salvar configurações do hero",
         variant: "destructive",
       });
     } finally {
