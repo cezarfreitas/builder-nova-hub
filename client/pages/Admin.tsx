@@ -263,7 +263,7 @@ export default function Admin() {
         toast({
           title: "✅ Conexão bem-sucedida!",
           description: `Host: ${result.data.config.host} | Porta: ${result.data.config.port} | Banco: ${result.data.config.database} | Tabelas: ${result.data.tables.length}`,
-          variant: "default",
+          variant: "success",
         });
       } else {
         toast({
