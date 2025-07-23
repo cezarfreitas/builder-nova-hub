@@ -134,6 +134,7 @@ export default function Admin() {
     pagination,
     fetchLeads,
     resendWebhook,
+    deleteLead,
     exportLeads,
     refreshStats
   } = useLeads();
