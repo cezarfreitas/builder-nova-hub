@@ -402,7 +402,13 @@ export async function getTimeAnalysis(req: Request, res: Response) {
 export async function getTrafficSources(req: Request, res: Response) {
   try {
     const db = getDatabase();
-    const { days = 30 } = req.query;
+    const { days = 30, yesterday } = req.query;
+
+    // Determinar data para consulta
+    const dateCondition = yesterday === 'true'
+      ? 'DATE(created_at) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)'
+      : 'created_at >= DATE_SUB(CURDATE(), INTERVAL ? DAY)';
+    const queryParams = yesterday === 'true' ? [] : [Number(days)];
 
     // Análise por UTM source
     const [utmSources] = await db.execute(`
