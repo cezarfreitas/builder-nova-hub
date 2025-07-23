@@ -394,65 +394,326 @@ export default function Admin() {
 
                 {/* Conteúdo das Abas */}
                 {activeConfigTab === "seo" && (
-                  <div className="space-y-6">
+                  <div className="space-y-8">
                     <h3 className="text-lg font-semibold text-gray-900">Configurações de SEO</h3>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Título da Página (Title Tag)
-                        </label>
-                        <input
-                          type="text"
-                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
-                          defaultValue="Seja uma Revenda Autorizada da Ecko | Tenha os Melhores Produtos"
-                        />
-                        <p className="text-xs text-gray-500 mt-1">Máximo 60 caracteres</p>
-                      </div>
+                    {/* SEO Básico */}
+                    <div className="bg-gray-50 p-6 rounded-lg">
+                      <h4 className="text-md font-semibold text-gray-900 mb-4 flex items-center">
+                        <svg className="w-5 h-5 mr-2 text-ecko-red" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                        SEO Básico
+                      </h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Título da Página (Title Tag)
+                          </label>
+                          <input
+                            type="text"
+                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+                            defaultValue="Seja uma Revenda Autorizada da Ecko | Tenha os Melhores Produtos"
+                            maxLength={60}
+                          />
+                          <div className="flex justify-between mt-1">
+                            <p className="text-xs text-gray-500">Máximo 60 caracteres</p>
+                            <p className="text-xs text-gray-400">56/60</p>
+                          </div>
+                        </div>
 
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Meta Keywords
-                        </label>
-                        <input
-                          type="text"
-                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
-                          defaultValue="revenda autorizada ecko, melhores produtos streetwear, lojista autorizado"
-                        />
-                        <p className="text-xs text-gray-500 mt-1">Separadas por vírgula</p>
-                      </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Meta Keywords
+                          </label>
+                          <input
+                            type="text"
+                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+                            defaultValue="revenda autorizada ecko, melhores produtos streetwear, lojista autorizado"
+                            placeholder="palavra1, palavra2, palavra3"
+                          />
+                          <p className="text-xs text-gray-500 mt-1">Separadas por vírgula</p>
+                        </div>
 
-                      <div className="md:col-span-2">
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Meta Description
-                        </label>
-                        <textarea
-                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red h-20"
-                          defaultValue="Seja uma revenda autorizada da Ecko e tenha os melhores produtos de streetwear em sua loja. Transforme sua paixão em lucro com exclusividade territorial e suporte completo."
-                        />
-                        <p className="text-xs text-gray-500 mt-1">Máximo 160 caracteres</p>
-                      </div>
+                        <div className="md:col-span-2">
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Meta Description
+                          </label>
+                          <textarea
+                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red h-20 resize-none"
+                            defaultValue="Seja uma revenda autorizada da Ecko e tenha os melhores produtos de streetwear em sua loja. Transforme sua paixão em lucro com exclusividade territorial e suporte completo."
+                            maxLength={160}
+                          />
+                          <div className="flex justify-between mt-1">
+                            <p className="text-xs text-gray-500">Máximo 160 caracteres</p>
+                            <p className="text-xs text-gray-400">156/160</p>
+                          </div>
+                        </div>
 
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          URL Canônica
-                        </label>
-                        <input
-                          type="url"
-                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
-                          defaultValue="https://revendedores.ecko.com.br/"
-                        />
-                      </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            URL Canônica
+                          </label>
+                          <input
+                            type="url"
+                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+                            defaultValue="https://revendedores.ecko.com.br/"
+                            placeholder="https://exemplo.com/"
+                          />
+                        </div>
 
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Imagem Open Graph
-                        </label>
-                        <input
-                          type="url"
-                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
-                          defaultValue="https://estyle.vteximg.com.br/arquivos/ecko_mosaic5.png"
-                        />
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Robots Meta Tag
+                          </label>
+                          <select className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red">
+                            <option value="index,follow">Index, Follow (Padrão)</option>
+                            <option value="noindex,follow">No Index, Follow</option>
+                            <option value="index,nofollow">Index, No Follow</option>
+                            <option value="noindex,nofollow">No Index, No Follow</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Open Graph / Facebook */}
+                    <div className="bg-blue-50 p-6 rounded-lg">
+                      <h4 className="text-md font-semibold text-gray-900 mb-4 flex items-center">
+                        <svg className="w-5 h-5 mr-2 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                        </svg>
+                        Facebook / Open Graph
+                      </h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Título Open Graph
+                          </label>
+                          <input
+                            type="text"
+                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+                            defaultValue="Seja uma Revenda Autorizada da Ecko"
+                            placeholder="Título para redes sociais"
+                          />
+                          <p className="text-xs text-gray-500 mt-1">Pode ser diferente do title da página</p>
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Tipo de Conteúdo
+                          </label>
+                          <select className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red">
+                            <option value="website">Website</option>
+                            <option value="article">Artigo</option>
+                            <option value="product">Produto</option>
+                            <option value="business.business">Negócio</option>
+                          </select>
+                        </div>
+
+                        <div className="md:col-span-2">
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Descrição Open Graph
+                          </label>
+                          <textarea
+                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red h-20 resize-none"
+                            defaultValue="Transforme sua paixão em lucro! Seja um revendedor autorizado Ecko e tenha acesso aos melhores produtos de streetwear do mercado."
+                            placeholder="Descrição para redes sociais"
+                          />
+                          <p className="text-xs text-gray-500 mt-1">Pode ser diferente da meta description</p>
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Site Name
+                          </label>
+                          <input
+                            type="text"
+                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+                            defaultValue="Ecko Revendedores"
+                            placeholder="Nome do seu site"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Facebook App ID
+                          </label>
+                          <input
+                            type="text"
+                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+                            placeholder="1234567890123456"
+                          />
+                          <p className="text-xs text-gray-500 mt-1">ID do aplicativo Facebook</p>
+                        </div>
+
+                        {/* Upload de Imagem Open Graph */}
+                        <div className="md:col-span-2">
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Imagem Open Graph
+                          </label>
+                          <div className="space-y-4">
+                            {/* Preview da imagem atual */}
+                            <div className="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg bg-white">
+                              <img
+                                src="https://estyle.vteximg.com.br/arquivos/ecko_mosaic5.png"
+                                alt="Preview"
+                                className="w-20 h-20 object-cover rounded-lg border border-gray-200"
+                              />
+                              <div className="flex-1">
+                                <p className="text-sm font-medium text-gray-900">ecko_mosaic5.png</p>
+                                <p className="text-xs text-gray-500">1200x630px • Recomendado para redes sociais</p>
+                                <input
+                                  type="url"
+                                  className="w-full mt-2 p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+                                  defaultValue="https://estyle.vteximg.com.br/arquivos/ecko_mosaic5.png"
+                                  placeholder="URL da imagem"
+                                />
+                              </div>
+                              <Button variant="outline" className="text-red-600 border-red-300 hover:bg-red-50">
+                                Remover
+                              </Button>
+                            </div>
+
+                            {/* Upload de nova imagem */}
+                            <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-ecko-red transition-colors">
+                              <svg className="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                                <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+                              </svg>
+                              <div className="mt-4">
+                                <label htmlFor="og-image-upload" className="cursor-pointer">
+                                  <span className="mt-2 block text-sm font-medium text-gray-900">
+                                    Clique para fazer upload ou arraste a imagem
+                                  </span>
+                                  <span className="mt-1 block text-xs text-gray-500">
+                                    PNG, JPG, WebP até 5MB • Tamanho recomendado: 1200x630px
+                                  </span>
+                                </label>
+                                <input
+                                  id="og-image-upload"
+                                  name="og-image-upload"
+                                  type="file"
+                                  className="sr-only"
+                                  accept="image/jpeg,image/jpg,image/png,image/webp"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Twitter Cards */}
+                    <div className="bg-gray-50 p-6 rounded-lg">
+                      <h4 className="text-md font-semibold text-gray-900 mb-4 flex items-center">
+                        <svg className="w-5 h-5 mr-2 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                        </svg>
+                        Twitter Cards
+                      </h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Tipo de Card
+                          </label>
+                          <select className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red">
+                            <option value="summary_large_image">Summary Large Image</option>
+                            <option value="summary">Summary</option>
+                            <option value="app">App</option>
+                            <option value="player">Player</option>
+                          </select>
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Twitter Handle (@)
+                          </label>
+                          <input
+                            type="text"
+                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+                            placeholder="@eckooficial"
+                            defaultValue="@eckooficial"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Título Twitter
+                          </label>
+                          <input
+                            type="text"
+                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+                            defaultValue="Seja uma Revenda Autorizada da Ecko"
+                            placeholder="Título para Twitter"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Criador (@)
+                          </label>
+                          <input
+                            type="text"
+                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+                            placeholder="@criadordoconteudo"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Schema.org / Dados Estruturados */}
+                    <div className="bg-green-50 p-6 rounded-lg">
+                      <h4 className="text-md font-semibold text-gray-900 mb-4 flex items-center">
+                        <svg className="w-5 h-5 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        Dados Estruturados (Schema.org)
+                      </h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Tipo de Organização
+                          </label>
+                          <select className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red">
+                            <option value="Organization">Organização</option>
+                            <option value="Corporation">Corporação</option>
+                            <option value="LocalBusiness">Negócio Local</option>
+                            <option value="Store">Loja</option>
+                          </select>
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Nome da Empresa
+                          </label>
+                          <input
+                            type="text"
+                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+                            defaultValue="Ecko Unlimited"
+                            placeholder="Nome oficial da empresa"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Logo da Empresa (URL)
+                          </label>
+                          <input
+                            type="url"
+                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+                            placeholder="https://exemplo.com/logo.png"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Telefone Principal
+                          </label>
+                          <input
+                            type="tel"
+                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+                            placeholder="+55 11 1234-5678"
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
