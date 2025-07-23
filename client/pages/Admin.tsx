@@ -52,6 +52,43 @@ export default function Admin() {
 
   const renderContent = () => {
     switch (activeSection) {
+      case "dashboard":
+        return (
+          <div className="space-y-6">
+            <Card className="bg-white shadow-sm border border-gray-200">
+              <CardHeader>
+                <CardTitle className="text-2xl text-gray-900 flex items-center">
+                  <Layout className="w-6 h-6 mr-2 text-ecko-red" />
+                  Dashboard
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600 mb-6">
+                  Visão geral da sua plataforma Ecko.
+                </p>
+
+                {/* Quick Stats */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-1">Total de Leads</h3>
+                    <p className="text-3xl font-bold text-ecko-red">127</p>
+                    <p className="text-sm text-gray-500">+12% este mês</p>
+                  </div>
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-1">Taxa de Conversão</h3>
+                    <p className="text-3xl font-bold text-ecko-red">8.4%</p>
+                    <p className="text-sm text-gray-500">+2.1% este mês</p>
+                  </div>
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-1">Leads Hoje</h3>
+                    <p className="text-3xl font-bold text-ecko-red">8</p>
+                    <p className="text-sm text-gray-500">Meta: 10/dia</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        );
       case "configuracoes":
         return (
           <Card className="bg-white shadow-sm border border-gray-200">
