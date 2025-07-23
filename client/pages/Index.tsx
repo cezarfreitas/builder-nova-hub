@@ -695,8 +695,24 @@ export default function Index() {
                   onChange={handleInputChange}
                   placeholder="(11) 99999-9999"
                   required
-                  className="h-12 bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-ecko-red focus:ring-ecko-red/20"
+                  className={`h-12 bg-gray-800 text-white placeholder-gray-400 focus:ring-ecko-red/20 ${
+                    whatsappError
+                      ? 'border-red-500 focus:border-red-500'
+                      : formData.whatsapp && validateWhatsApp(formData.whatsapp)
+                        ? 'border-green-500 focus:border-green-500'
+                        : 'border-gray-700 focus:border-ecko-red'
+                  }`}
                 />
+                {whatsappError && (
+                  <p className="text-red-400 text-sm mt-2 font-medium leading-tight">
+                    {whatsappError}
+                  </p>
+                )}
+                {formData.whatsapp && !whatsappError && validateWhatsApp(formData.whatsapp) && (
+                  <p className="text-green-400 text-sm mt-2 font-medium leading-tight">
+                    ✅ WhatsApp válido
+                  </p>
+                )}
               </div>
 
               <div>
