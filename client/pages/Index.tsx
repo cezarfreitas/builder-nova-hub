@@ -921,10 +921,10 @@ export default function Index() {
                         ) : (
                           <>
                             <span className="hidden sm:inline">
-                              {currentHero.cta_text.toUpperCase()}
+                              {currentHero && currentHero.cta_text ? currentHero.cta_text.toUpperCase() : "QUERO SER REVENDEDOR"}
                             </span>
                             <span className="sm:hidden">
-                              {currentHero.cta_text.toUpperCase()}
+                              {currentHero && currentHero.cta_text ? currentHero.cta_text.toUpperCase() : "SER REVENDEDOR"}
                             </span>
                           </>
                         )}
