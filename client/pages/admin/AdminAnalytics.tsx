@@ -52,6 +52,113 @@ export default function AdminAnalytics() {
     setSelectedPeriod(days);
   };
 
+  const exportToExcel = () => {
+    try {
+      // Criar workbook
+      const wb = XLSX.utils.book_new();
+
+      // Aba 1: Overview Geral
+      const overviewData = [
+        ['Métrica', 'Valor', 'Período'],
+        ['Total de Leads', overview?.leads.total || 0, `${selectedPeriod} dias`],
+        ['Leads Únicos', overview?.leads.unique || 0, `${selectedPeriod} dias`],
+        ['Leads Duplicados', overview?.leads.duplicates || 0, `${selectedPeriod} dias`],
+        ['Leads com CNPJ', overview?.leads.with_cnpj || 0, `${selectedPeriod} dias`],
+        ['Total de Sessões', overview?.traffic.total_sessions || 0, `${selectedPeriod} dias`],
+        ['Usuários Únicos', overview?.traffic.unique_users || 0, `${selectedPeriod} dias`],
+        ['Páginas por Sessão', overview?.traffic.pages_per_session || 0, `${selectedPeriod} dias`],
+        ['Tempo Médio de Sessão (segundos)', overview?.traffic.avg_session_duration || 0, `${selectedPeriod} dias`],
+        ['Taxa de Conversão (%)', overview?.conversion.rate || 0, `${selectedPeriod} dias`],
+        ['Taxa de Rejeição (%)', overview?.traffic.bounce_rate || 0, `${selectedPeriod} dias`],
+        ['Lojas Físicas', overview?.store_types.fisica || 0, `${selectedPeriod} dias`],
+        ['Lojas Online', overview?.store_types.online || 0, `${selectedPeriod} dias`],
+        ['Lojas Ambas', overview?.store_types.ambas || 0, `${selectedPeriod} dias`],
+      ];
+      const ws1 = XLSX.utils.aoa_to_sheet(overviewData);
+      XLSX.utils.book_append_sheet(wb, ws1, 'Resumo Geral');
+
+      // Aba 2: Estatísticas Diárias
+      if (dailyStats && dailyStats.length > 0) {
+        const dailyData = [
+          ['Data', 'Total Leads', 'Leads Únicos', 'Duplicados', 'Webhooks Sucesso', 'Com CNPJ', 'Sessões', 'Page Views', 'Taxa Conversão (%)']
+        ];
+        dailyStats.forEach(stat => {
+          dailyData.push([
+            new Date(stat.date).toLocaleDateString('pt-BR'),
+            stat.total_leads,
+            stat.unique_leads,
+            stat.duplicates,
+            stat.webhook_success,
+            stat.with_cnpj,
+            stat.sessions,
+            stat.page_views,
+            stat.conversion_rate
+          ]);
+        });
+        const ws2 = XLSX.utils.aoa_to_sheet(dailyData);
+        XLSX.utils.book_append_sheet(wb, ws2, 'Estatísticas Diárias');
+      }
+
+      // Aba 3: Análise por Horário
+      if (timeAnalysis?.hourly_stats && timeAnalysis.hourly_stats.length > 0) {
+        const hourlyData = [
+          ['Hora', 'Total Leads', 'Leads Únicos']
+        ];
+        timeAnalysis.hourly_stats.forEach(stat => {
+          hourlyData.push([
+            `${stat.hour}:00`,
+            stat.total_leads,
+            stat.unique_leads
+          ]);
+        });
+        const ws3 = XLSX.utils.aoa_to_sheet(hourlyData);
+        XLSX.utils.book_append_sheet(wb, ws3, 'Análise por Horário');
+      }
+
+      // Aba 4: Análise por Dia da Semana
+      if (timeAnalysis?.weekday_stats && timeAnalysis.weekday_stats.length > 0) {
+        const weekdayData = [
+          ['Dia da Semana', 'Total Leads', 'Leads Únicos']
+        ];
+        timeAnalysis.weekday_stats.forEach(stat => {
+          weekdayData.push([
+            stat.weekday_name,
+            stat.total_leads,
+            stat.unique_leads
+          ]);
+        });
+        const ws4 = XLSX.utils.aoa_to_sheet(weekdayData);
+        XLSX.utils.book_append_sheet(wb, ws4, 'Análise por Dia');
+      }
+
+      // Aba 5: Fontes de Tráfego
+      if (trafficSources?.utm_sources && trafficSources.utm_sources.length > 0) {
+        const trafficData = [
+          ['Fonte UTM', 'Total Leads', 'Leads Únicos', 'Webhooks Sucesso']
+        ];
+        trafficSources.utm_sources.forEach(source => {
+          trafficData.push([
+            source.source,
+            source.total_leads,
+            source.unique_leads,
+            source.successful_webhooks
+          ]);
+        });
+        const ws5 = XLSX.utils.aoa_to_sheet(trafficData);
+        XLSX.utils.book_append_sheet(wb, ws5, 'Fontes de Tráfego');
+      }
+
+      // Gerar e baixar arquivo
+      const periodText = selectedPeriod === 1 ? 'hoje' : `ultimos_${selectedPeriod}_dias`;
+      const fileName = `analytics_ecko_${periodText}_${new Date().toISOString().split('T')[0]}.xlsx`;
+      XLSX.writeFile(wb, fileName);
+
+    } catch (error) {
+      console.error('Erro ao exportar Excel:', error);
+      alert('Erro ao gerar arquivo Excel. Tente novamente.');
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
