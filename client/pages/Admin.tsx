@@ -140,6 +140,200 @@ export default function Admin() {
             </Card>
           </div>
         );
+      case "hero":
+        return (
+          <Card className="bg-white shadow-sm border border-gray-200">
+            <CardHeader>
+              <CardTitle className="text-2xl text-gray-900 flex items-center">
+                <Star className="w-6 h-6 mr-2 text-ecko-red" />
+                Seção Hero
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-gray-600 mb-4">
+                Gerencie o cabeçalho principal da landing page.
+              </p>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Título Principal
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full p-3 border border-gray-300 rounded-lg"
+                    defaultValue="TRANSFORME SUA PAIXÃO EM LUCRO"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Subtítulo
+                  </label>
+                  <textarea
+                    className="w-full p-3 border border-gray-300 rounded-lg h-20"
+                    defaultValue="Seja uma revenda autorizada da Ecko e tenha os melhores produtos de streetwear em sua loja!"
+                  />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        );
+      case "benefits":
+        return (
+          <Card className="bg-white shadow-sm border border-gray-200">
+            <CardHeader>
+              <CardTitle className="text-2xl text-gray-900 flex items-center">
+                <Award className="w-6 h-6 mr-2 text-ecko-red" />
+                Vantagens Exclusivas
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-gray-600 mb-4">
+                Configure as vantagens apresentadas aos potenciais revendedores.
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="p-4 border border-gray-200 rounded-lg">
+                  <h3 className="font-semibold text-gray-900 mb-2">Marca Internacional</h3>
+                  <p className="text-sm text-gray-600">Reconhecimento mundial</p>
+                </div>
+                <div className="p-4 border border-gray-200 rounded-lg">
+                  <h3 className="font-semibold text-gray-900 mb-2">Pronta Entrega</h3>
+                  <p className="text-sm text-gray-600">100k+ produtos disponíveis</p>
+                </div>
+                <div className="p-4 border border-gray-200 rounded-lg">
+                  <h3 className="font-semibold text-gray-900 mb-2">Suporte ao Lojista</h3>
+                  <p className="text-sm text-gray-600">Equipe especializada</p>
+                </div>
+                <div className="p-4 border border-gray-200 rounded-lg">
+                  <h3 className="font-semibold text-gray-900 mb-2">Totalmente Online</h3>
+                  <p className="text-sm text-gray-600">Plataforma de compras</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        );
+      case "testimonials":
+        return (
+          <Card className="bg-white shadow-sm border border-gray-200">
+            <CardHeader>
+              <CardTitle className="text-2xl text-gray-900 flex items-center">
+                <MessageSquare className="w-6 h-6 mr-2 text-ecko-red" />
+                Depoimentos
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-gray-600 mb-4">
+                Gerencie os depoimentos de revendedores satisfeitos.
+              </p>
+              <div className="space-y-4">
+                <div className="p-4 border border-gray-200 rounded-lg">
+                  <div className="flex items-center mb-2">
+                    <div className="w-10 h-10 bg-ecko-red rounded-full flex items-center justify-center mr-3">
+                      <span className="text-white font-bold text-sm">R</span>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-gray-900">Ricardo Silva</h4>
+                      <p className="text-sm text-gray-500">Silva Streetwear</p>
+                    </div>
+                  </div>
+                  <p className="text-sm text-gray-600">
+                    "Trabalhar com a Ecko mudou completamente meu negócio. As vendas triplicaram..."
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        );
+      case "gallery":
+        return (
+          <Card className="bg-white shadow-sm border border-gray-200">
+            <CardHeader>
+              <CardTitle className="text-2xl text-gray-900 flex items-center">
+                <Image className="w-6 h-6 mr-2 text-ecko-red" />
+                Galeria de Produtos
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-gray-600 mb-4">
+                Gerencie as imagens dos produtos exibidas na galeria.
+              </p>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {[1,2,3,4,5,6,7,8].map((i) => (
+                  <div key={i} className="aspect-square bg-gray-100 rounded-lg border border-gray-200 flex items-center justify-center">
+                    <Image className="w-8 h-8 text-gray-400" />
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        );
+      case "stats":
+        return (
+          <Card className="bg-white shadow-sm border border-gray-200">
+            <CardHeader>
+              <CardTitle className="text-2xl text-gray-900 flex items-center">
+                <TrendingUp className="w-6 h-6 mr-2 text-ecko-red" />
+                Estatísticas
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-gray-600 mb-4">
+                Configure os números de credibilidade da marca.
+              </p>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="text-center p-4 border border-gray-200 rounded-lg">
+                  <div className="text-3xl font-bold text-ecko-red mb-1">25+</div>
+                  <div className="text-sm text-gray-600">Anos de História</div>
+                </div>
+                <div className="text-center p-4 border border-gray-200 rounded-lg">
+                  <div className="text-3xl font-bold text-ecko-red mb-1">500+</div>
+                  <div className="text-sm text-gray-600">Lojistas Ativos</div>
+                </div>
+                <div className="text-center p-4 border border-gray-200 rounded-lg">
+                  <div className="text-3xl font-bold text-ecko-red mb-1">100K+</div>
+                  <div className="text-sm text-gray-600">Produtos</div>
+                </div>
+                <div className="text-center p-4 border border-gray-200 rounded-lg">
+                  <div className="text-3xl font-bold text-ecko-red mb-1">1M+</div>
+                  <div className="text-sm text-gray-600">Clientes</div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        );
+      case "faq":
+        return (
+          <Card className="bg-white shadow-sm border border-gray-200">
+            <CardHeader>
+              <CardTitle className="text-2xl text-gray-900 flex items-center">
+                <HelpCircle className="w-6 h-6 mr-2 text-ecko-red" />
+                Perguntas Frequentes
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-gray-600 mb-4">
+                Gerencie as perguntas e respostas mais comuns.
+              </p>
+              <div className="space-y-3">
+                <div className="p-4 border border-gray-200 rounded-lg">
+                  <h4 className="font-semibold text-gray-900 mb-2">
+                    Como me tornar um revendedor oficial da Ecko?
+                  </h4>
+                  <p className="text-sm text-gray-600">
+                    Para se tornar um revendedor oficial, você precisa ter CNPJ ativo...
+                  </p>
+                </div>
+                <div className="p-4 border border-gray-200 rounded-lg">
+                  <h4 className="font-semibold text-gray-900 mb-2">
+                    Qual o investimento mínimo para começar?
+                  </h4>
+                  <p className="text-sm text-gray-600">
+                    O investimento inicial varia conforme o tipo de loja e região...
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        );
       case "configuracoes":
         return (
           <Card className="bg-white shadow-sm border border-gray-200">
