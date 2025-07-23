@@ -5,12 +5,25 @@ import { getDatabase } from '../config/database';
 export async function getAnalyticsOverview(req: Request, res: Response) {
   try {
     const db = getDatabase();
-    const { days = 30 } = req.query;
-    
-    // Data de início para o período
-    const dateFrom = new Date();
-    dateFrom.setDate(dateFrom.getDate() - Number(days));
-    const dateFromStr = dateFrom.toISOString().split('T')[0];
+    const { days = 30, yesterday } = req.query;
+
+    let dateFromStr: string;
+    let dateToStr: string;
+
+    if (yesterday === 'true') {
+      // Para ontem: de ontem 00:00:00 até ontem 23:59:59
+      const yesterday_date = new Date();
+      yesterday_date.setDate(yesterday_date.getDate() - 1);
+      dateFromStr = yesterday_date.toISOString().split('T')[0];
+      dateToStr = dateFromStr + ' 23:59:59';
+      dateFromStr = dateFromStr + ' 00:00:00';
+    } else {
+      // Data de início para o período normal
+      const dateFrom = new Date();
+      dateFrom.setDate(dateFrom.getDate() - Number(days));
+      dateFromStr = dateFrom.toISOString().split('T')[0];
+      dateToStr = new Date().toISOString();
+    }
 
     // Buscar métricas gerais
     const [overview] = await db.execute(`
