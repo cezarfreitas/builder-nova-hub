@@ -344,7 +344,7 @@ export default function AdminAnalytics() {
             disabled={loading || !overview}
           >
             <Download className="w-4 h-4 mr-2" />
-            Exportar Excel
+            Exportar Dados Brutos
           </Button>
 
           <Button
