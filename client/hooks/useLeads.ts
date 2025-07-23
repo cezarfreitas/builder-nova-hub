@@ -135,7 +135,18 @@ export function useLeads(): UseLeadsReturn {
   const refreshStats = useCallback(async () => {
     try {
       const response = await fetch('/api/leads/stats');
-      const result = await response.json();
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`HTTP ${response.status}: ${errorText}`);
+      }
+
+      let result;
+      try {
+        result = await response.json();
+      } catch (parseError) {
+        throw new Error('Resposta inválida do servidor');
+      }
 
       if (result.success) {
         setStats({
