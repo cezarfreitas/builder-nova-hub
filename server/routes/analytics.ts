@@ -577,9 +577,9 @@ export async function exportAnalyticsData(req: Request, res: Response) {
         session_id, user_id, event_type, ip_address,
         referrer, page_url, duration_seconds, created_at
       FROM analytics_events
-      WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
+      WHERE ${dateCondition}
       ORDER BY created_at DESC
-    `, [Number(days)]);
+    `, queryParams);
 
     // Buscar estatísticas por hora
     const [hourlyStats] = await db.execute(`
@@ -618,7 +618,7 @@ export async function trackDuration(req: Request, res: Response) {
     const db = getDatabase();
     const { session_id, duration_seconds } = req.body;
 
-    // Atualizar duração da última visita desta sessão
+    // Atualizar duração da ��ltima visita desta sessão
     await db.execute(`
       UPDATE analytics_events
       SET duration_seconds = ?
