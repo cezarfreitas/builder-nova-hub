@@ -222,12 +222,16 @@ export async function getTimeAnalysis(req: Request, res: Response) {
       ORDER BY WEEKDAY(created_at)
     `, [Number(days)]);
 
-    // Encontrar melhor hora e dia
-    const bestHour = (hourlyStats as any[]).reduce((prev, current) => 
-      (prev.total_leads > current.total_leads) ? prev : current, { hour: 0, total_leads: 0 });
+    // Encontrar melhor hora e dia - com proteção contra arrays vazios
+    const bestHour = (hourlyStats as any[]).length > 0
+      ? (hourlyStats as any[]).reduce((prev, current) =>
+          (prev.total_leads > current.total_leads) ? prev : current)
+      : { hour: 0, total_leads: 0 };
 
-    const bestWeekday = (weekdayStats as any[]).reduce((prev, current) => 
-      (prev.total_leads > current.total_leads) ? prev : current, { weekday_name: 'N/A', total_leads: 0 });
+    const bestWeekday = (weekdayStats as any[]).length > 0
+      ? (weekdayStats as any[]).reduce((prev, current) =>
+          (prev.total_leads > current.total_leads) ? prev : current)
+      : { weekday_name: 'N/A', total_leads: 0 };
 
     res.json({
       success: true,
