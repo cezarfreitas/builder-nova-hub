@@ -702,13 +702,13 @@ export default function Index() {
 
         {/* Content */}
         <div className="relative z-20 text-center px-4 sm:px-6 max-w-4xl mx-auto">
-          {/* Logo - Only from database */}
-          {heroSettings?.logo_url && (
+          {/* Logo */}
+          {currentHero.logo_url && (
             <div className="flex items-center justify-center mt-8 sm:mt-12 lg:mt-20 mb-6 sm:mb-8">
               <div
-                className="w-32 h-12 sm:w-40 sm:h-16 lg:w-48 lg:h-20 xl:w-56 xl:h-24 bg-no-repeat bg-center bg-contain"
+                className="w-32 h-12 sm:w-40 sm:h-16 lg:w-48 lg:h-20 xl:w-56 xl:h-24 bg-no-repeat bg-center bg-contain transition-all duration-500"
                 style={{
-                  backgroundImage: `url(${heroSettings.logo_url})`
+                  backgroundImage: `url(${currentHero.logo_url})`
                 }}
                 role="img"
                 aria-label="Logo da Empresa"
@@ -716,33 +716,33 @@ export default function Index() {
             </div>
           )}
 
-          {/* Subtitle - Only from database */}
-          {heroSettings?.subtitle && (
+          {/* Subtitle */}
+          {currentHero.subtitle && (
             <div
-              className="text-lg sm:text-xl lg:text-2xl mb-2 sm:mb-4 font-medium opacity-90 px-2"
-              style={{ color: heroSettings?.text_color || '#ffffff' }}
+              className="text-lg sm:text-xl lg:text-2xl mb-2 sm:mb-4 font-medium opacity-90 px-2 transition-all duration-500"
+              style={{ color: currentHero.text_color }}
             >
-              {renderTextWithColorTokens(heroSettings.subtitle)}
+              {renderTextWithColorTokens(currentHero.subtitle)}
             </div>
           )}
 
-          {/* Main Message - Only from database */}
-          {heroSettings?.title && (
+          {/* Main Message */}
+          {currentHero.title && (
             <div
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black mb-4 sm:mb-6 leading-tight px-2"
-              style={{ color: heroSettings?.text_color || '#ffffff' }}
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black mb-4 sm:mb-6 leading-tight px-2 transition-all duration-500"
+              style={{ color: currentHero.text_color }}
             >
-              {renderTextWithColorTokens(heroSettings.title)}
+              {renderTextWithColorTokens(currentHero.title)}
             </div>
           )}
 
-          {/* Description - Only from database */}
-          {heroSettings?.description && (
+          {/* Description */}
+          {currentHero.description && (
             <div
-              className="text-lg sm:text-xl lg:text-2xl mb-8 sm:mb-10 lg:mb-12 font-medium max-w-2xl mx-auto px-2 opacity-90"
-              style={{ color: heroSettings?.text_color || '#ffffff' }}
+              className="text-lg sm:text-xl lg:text-2xl mb-8 sm:mb-10 lg:mb-12 font-medium max-w-2xl mx-auto px-2 opacity-90 transition-all duration-500"
+              style={{ color: currentHero.text_color }}
             >
-              {renderTextWithColorTokens(heroSettings.description)}
+              {renderTextWithColorTokens(currentHero.description)}
             </div>
           )}
 
