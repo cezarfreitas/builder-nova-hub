@@ -462,17 +462,18 @@ export default function Index() {
                   type="button"
                   variant="outline"
                   onClick={() => setShowForm(false)}
-                  className="flex-1 h-12 border-gray-600 bg-transparent text-gray-300 hover:bg-gray-800 hover:text-white"
+                  className="group relative overflow-hidden flex-1 h-12 border-2 border-gray-600 bg-transparent text-gray-300 hover:text-white transition-all duration-300 hover:scale-105 hover:shadow-lg rounded-lg"
                 >
-                  Voltar
+                  <span className="absolute inset-0 bg-gray-800 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                  <span className="relative z-10">Voltar</span>
                 </Button>
                 <Button
                   type="submit"
                   disabled={isSubmitting || formData.hasCnpj === "nao"}
-                  className={`flex-1 h-12 font-bold transition-all duration-300 ${
+                  className={`group relative overflow-hidden flex-1 h-12 font-bold transition-all duration-300 rounded-lg ${
                     formData.hasCnpj === "nao"
                       ? "bg-gray-600 cursor-not-allowed"
-                      : "bg-ecko-red hover:bg-ecko-red-dark"
+                      : "bg-gradient-to-r from-ecko-red to-ecko-red-dark hover:from-ecko-red-dark hover:to-red-700 hover:scale-105 hover:shadow-lg hover:shadow-ecko-red/40"
                   } text-white`}
                 >
                   {isSubmitting ? (
