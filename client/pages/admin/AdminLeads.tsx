@@ -467,7 +467,7 @@ export default function AdminLeads() {
                           {lead.tipo_loja ? (
                             <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800">
                               {lead.tipo_loja === 'fisica' ? '🏪 Física' :
-                               lead.tipo_loja === 'online' ? '��� Online' :
+                               lead.tipo_loja === 'online' ? '💻 Online' :
                                lead.tipo_loja === 'ambas' ? '🏪💻 Ambas' :
                                lead.tipo_loja}
                             </span>
@@ -481,15 +481,24 @@ export default function AdminLeads() {
                       <td className="px-3 py-2 whitespace-nowrap">
                         <div className="text-sm text-gray-900">
                           {lead.cidade && lead.estado ? (
-                            <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">
+                            <span
+                              className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800 cursor-help"
+                              title={`Endereço completo: ${[lead.endereco, lead.bairro, lead.cidade, lead.estado].filter(Boolean).join(', ')}${lead.cep ? ` - CEP: ${lead.cep}` : ''}`}
+                            >
                               📍 {lead.cidade} - {lead.estado}
                             </span>
                           ) : lead.cidade ? (
-                            <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800">
+                            <span
+                              className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800 cursor-help"
+                              title={`Endereço: ${[lead.endereco, lead.bairro, lead.cidade].filter(Boolean).join(', ')}${lead.cep ? ` - CEP: ${lead.cep}` : ''}`}
+                            >
                               🏙️ {lead.cidade}
                             </span>
                           ) : lead.estado ? (
-                            <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800">
+                            <span
+                              className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 cursor-help"
+                              title={`Estado: ${lead.estado}${lead.cep ? ` - CEP: ${lead.cep}` : ''}`}
+                            >
                               📍 {lead.estado}
                             </span>
                           ) : (
