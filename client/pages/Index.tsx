@@ -798,7 +798,7 @@ export default function Index() {
                 </h1>
 
                 <p className="text-lg sm:text-xl lg:text-2xl text-gray-100 mb-6 sm:mb-7 lg:mb-8 font-medium px-2 lg:px-0">
-                  Produtos de alta qualidade que seus clientes vão amar e que garantem excelente margem de lucro!
+                  {heroSettings?.description || "Produtos de alta qualidade que seus clientes vão amar e que garantem excelente margem de lucro!"}
                 </p>
 
 
