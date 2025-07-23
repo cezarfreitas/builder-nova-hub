@@ -41,6 +41,8 @@ export function createServer() {
 
   // Settings routes
   app.get("/api/settings", getSettings);
+  app.get("/api/settings/hero", getHeroSettings);
+  app.post("/api/settings/hero", updateHeroSettings);
   app.get("/api/settings/:key", getSetting);
   app.put("/api/settings/:key", updateSetting);
   app.put("/api/settings", updateSettings);
