@@ -202,11 +202,12 @@ export async function getTimeAnalysis(req: Request, res: Response) {
 
     // Análise por dia da semana (1=Segunda, 7=Domingo)
     const [weekdayStats] = await db.execute(`
-      SELECT 
+      SELECT
+        WEEKDAY(created_at) as weekday_num,
         WEEKDAY(created_at) + 1 as weekday,
         CASE WEEKDAY(created_at)
           WHEN 0 THEN 'Segunda-feira'
-          WHEN 1 THEN 'Terça-feira' 
+          WHEN 1 THEN 'Terça-feira'
           WHEN 2 THEN 'Quarta-feira'
           WHEN 3 THEN 'Quinta-feira'
           WHEN 4 THEN 'Sexta-feira'
@@ -214,12 +215,11 @@ export async function getTimeAnalysis(req: Request, res: Response) {
           WHEN 6 THEN 'Domingo'
         END as weekday_name,
         COUNT(*) as total_leads,
-        COUNT(CASE WHEN is_duplicate = FALSE THEN 1 END) as unique_leads,
-        AVG(COUNT(*)) OVER() as avg_leads
-      FROM leads 
+        COUNT(CASE WHEN is_duplicate = FALSE THEN 1 END) as unique_leads
+      FROM leads
       WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
-      GROUP BY WEEKDAY(created_at), weekday_name
-      ORDER BY weekday
+      GROUP BY WEEKDAY(created_at)
+      ORDER BY WEEKDAY(created_at)
     `, [Number(days)]);
 
     // Encontrar melhor hora e dia
