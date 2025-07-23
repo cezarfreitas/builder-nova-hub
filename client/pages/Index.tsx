@@ -967,7 +967,8 @@ export default function Index() {
                 >
                   <span className="absolute inset-0 bg-gradient-to-r from-red-600 to-red-800 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
                   <span className="relative z-10 flex items-center">
-                    QUERO SER UM CASE DE SUCESSO
+                    <span className="hidden sm:inline">QUERO SER UM CASE DE SUCESSO</span>
+                    <span className="sm:hidden">QUERO SER UM CASE</span>
                     <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </Button>
