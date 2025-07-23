@@ -654,13 +654,14 @@ export default function Admin() {
                         </div>
 
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Logo da Empresa (URL)
-                          </label>
-                          <input
-                            type="url"
-                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
-                            placeholder="https://exemplo.com/logo.png"
+                          <SeoImageUpload
+                            currentImage=""
+                            onImageChange={(imageUrl) => {
+                              console.log('Nova logo da empresa:', imageUrl);
+                              // Aqui você salvaria a configuração
+                            }}
+                            label="Logo da Empresa"
+                            description="Formato quadrado recomendado (ex: 500x500px)"
                           />
                         </div>
 
