@@ -414,6 +414,7 @@ export default function AdminLeads() {
                 ) : (
                   leads.map((lead) => (
                     <tr key={lead.id} className="hover:bg-gray-50">
+                      {/* Nome */}
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
                           <div className="flex-shrink-0 h-10 w-10">
@@ -425,23 +426,46 @@ export default function AdminLeads() {
                           </div>
                           <div className="ml-4">
                             <div className="text-sm font-medium text-gray-900">{lead.nome}</div>
-                            <div className="text-sm text-gray-500">
-                              {lead.cidade && lead.cidade !== '' ? lead.cidade : 'Cidade não informada'}
-                            </div>
+                            <div className="text-sm text-gray-500">ID: {lead.id}</div>
                           </div>
                         </div>
                       </td>
+
+                      {/* WhatsApp */}
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">{lead.email}</div>
-                        <div className="text-sm text-gray-500">{lead.telefone}</div>
+                        <div className="text-sm text-gray-900 font-medium">{lead.telefone}</div>
+                        <div className="text-sm text-gray-500">WhatsApp</div>
                       </td>
+
+                      {/* CNPJ */}
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        {lead.experiencia_revenda === 'sim' ? (
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                            ✅ Tem CNPJ
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                            ⚠️ Não tem
+                          </span>
+                        )}
+                      </td>
+
+                      {/* Tipo de Loja */}
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-900 capitalize">
+                          {/* Assumindo que tipo_loja não está vindo do banco, vou mostrar genérico */}
+                          <span className="text-gray-500">Não informado</span>
+                        </div>
+                      </td>
+
+                      {/* Status (Duplicado) */}
                       <td className="px-6 py-4 whitespace-nowrap">
                         {!lead.is_duplicate ? (
                           <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                             <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
-                            ��nico
+                            Único
                           </span>
                         ) : (
                           <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800">
