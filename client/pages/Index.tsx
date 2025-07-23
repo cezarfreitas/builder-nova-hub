@@ -440,7 +440,13 @@ export default function Index() {
       clearInterval(durationInterval);
       window.removeEventListener('beforeunload', handleBeforeUnload);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
-      updateDuration(); // Última atualização ao desmontar
+
+      // Última atualização ao desmontar (com proteção)
+      try {
+        updateDuration();
+      } catch (error) {
+        // Silenciar erros durante unmount
+      }
     };
   }, []);
 
