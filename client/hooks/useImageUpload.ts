@@ -30,6 +30,8 @@ export function useImageUpload(): UseImageUploadReturn {
     setError(null);
 
     try {
+      console.log('Starting upload for file:', file.name, file.type, file.size);
+
       // Validar arquivo
       const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'];
       if (!allowedTypes.includes(file.type)) {
@@ -44,20 +46,33 @@ export function useImageUpload(): UseImageUploadReturn {
       const formData = new FormData();
       formData.append('image', file);
 
+      console.log('FormData created, making request to /api/uploads/seo-image');
+
       // Fazer upload
       const response = await fetch('/api/uploads/seo-image', {
         method: 'POST',
         body: formData,
       });
 
+      console.log('Upload response status:', response.status);
+      console.log('Upload response headers:', response.headers);
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Upload failed with status:', response.status, 'Error:', errorText);
+        throw new Error(`HTTP ${response.status}: ${errorText}`);
+      }
+
       const result = await response.json();
+      console.log('Upload result:', result);
 
       if (!result.success) {
-        throw new Error(result.message || 'Erro ao fazer upload');
+        throw new Error(result.message || result.error || 'Erro ao fazer upload');
       }
 
       return result.data;
     } catch (err) {
+      console.error('Upload error:', err);
       const errorMessage = err instanceof Error ? err.message : 'Erro desconhecido';
       setError(errorMessage);
       return null;
