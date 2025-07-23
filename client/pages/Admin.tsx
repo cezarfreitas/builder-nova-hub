@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card"
 import { SeoImageUpload } from "../components/SeoImageUpload";
 import { SeoPreviewModal } from "../components/SeoPreviewModal";
 import { useSettings } from "../hooks/useSettings";
+import { useToast } from "../hooks/use-toast";
 import {
   Settings,
   Users,
