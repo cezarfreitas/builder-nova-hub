@@ -172,7 +172,7 @@ export default function Admin() {
       <aside
         className={`${
           isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
-        } lg:translate-x-0 fixed lg:relative z-40 w-64 h-full bg-white border-r border-gray-200 shadow-lg transition-transform duration-300 ease-in-out`}
+        } lg:translate-x-0 fixed lg:relative z-40 w-64 h-screen lg:h-auto lg:min-h-screen bg-white border-r border-gray-200 shadow-lg transition-transform duration-300 ease-in-out flex flex-col`}
       >
         {/* Logo/Header */}
         <div className="p-6 border-b border-gray-200">
