@@ -503,7 +503,7 @@ export default function AdminLeads() {
                             onClick={() => {
                               toast({
                                 title: "📋 Detalhes do Lead",
-                                description: `${lead.nome} - ${lead.email} - Empresa: ${lead.empresa || 'N/A'} - Fonte: ${lead.source}`,
+                                description: `${lead.nome} - WhatsApp: ${lead.telefone} - CNPJ: ${lead.experiencia_revenda === 'sim' ? 'Sim' : 'Não'} - Fonte: ${lead.source}`,
                                 variant: "default",
                               });
                             }}
