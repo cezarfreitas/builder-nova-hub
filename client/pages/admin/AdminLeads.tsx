@@ -435,18 +435,9 @@ export default function AdminLeads() {
                     <tr key={lead.id} className="hover:bg-gray-50">
                       {/* Nome */}
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="flex items-center">
-                          <div className="flex-shrink-0 h-10 w-10">
-                            <div className="h-10 w-10 rounded-full bg-ecko-red flex items-center justify-center">
-                              <span className="text-sm font-medium text-white">
-                                {lead.nome.split(' ').map(n => n[0]).join('').toUpperCase()}
-                              </span>
-                            </div>
-                          </div>
-                          <div className="ml-4">
-                            <div className="text-sm font-medium text-gray-900">{lead.nome}</div>
-                            <div className="text-sm text-gray-500">ID: {lead.id}</div>
-                          </div>
+                        <div>
+                          <div className="text-sm font-medium text-gray-900">{lead.nome}</div>
+                          <div className="text-sm text-gray-500">ID: {lead.id}</div>
                         </div>
                       </td>
 
