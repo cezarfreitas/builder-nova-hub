@@ -438,18 +438,18 @@ export default function AdminAnalytics() {
 
       {/* Segunda linha de métricas */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {/* Páginas por Sessão */}
-        <Card className="bg-gradient-to-br from-cyan-50 to-cyan-100 border-cyan-200">
+        {/* Cliques WhatsApp */}
+        <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200">
           <CardContent className="p-6">
             <div className="flex items-center">
-              <div className="p-2 bg-cyan-500 rounded-lg">
-                <Eye className="w-6 h-6 text-white" />
+              <div className="p-2 bg-green-500 rounded-lg">
+                <MessageCircle className="w-6 h-6 text-white" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-cyan-600">Páginas/Sessão</p>
-                <p className="text-2xl font-bold text-cyan-900">{overview.traffic.pages_per_session}</p>
-                <p className="text-xs text-cyan-600">
-                  {overview.traffic.total_page_views} visualizações totais
+                <p className="text-sm font-medium text-green-600">Cliques WhatsApp</p>
+                <p className="text-2xl font-bold text-green-900">{overview.traffic.whatsapp_clicks}</p>
+                <p className="text-xs text-green-600">
+                  Interesse demonstrado
                 </p>
               </div>
             </div>
