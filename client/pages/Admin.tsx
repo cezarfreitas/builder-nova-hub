@@ -14,7 +14,6 @@ import {
   Award,
   MessageSquare,
   Image,
-  Megaphone,
   TrendingUp,
   HelpCircle,
   FileText,
