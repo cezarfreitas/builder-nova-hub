@@ -282,7 +282,7 @@ export default function Index() {
       company: "FC Moda Urbana",
       role: "Fundadora",
       content:
-        "Em 2 anos como revendedora Ecko, consegui abrir mais 3 lojas. A marca tem uma força incrível no mercado e os jovens amam. O retorno sobre investimento é fantástico!",
+        "Em 2 anos como revendedora Ecko, consegui abrir mais 3 lojas. A marca tem uma força incrível no mercado e os jovens amam. O retorno sobre investimento é fant��stico!",
       avatar_url:
         "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=150&h=150&fit=crop&crop=face",
       rating: 5,
@@ -506,6 +506,7 @@ export default function Index() {
       const result = await response.json();
 
       if (result.success) {
+        console.log('✅ Lead enviado com sucesso:', result);
         toast({
           title: "✅ Cadastro enviado!",
           description: "Nossa equipe entrará em contato em até 24h. Obrigado pelo interesse!",
