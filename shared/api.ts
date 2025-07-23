@@ -8,6 +8,7 @@ export interface Lead {
   whatsapp: string;
   hasCnpj: string;
   storeType: string;
+  tipo_loja?: string;
   created_at?: string;
   status?: "new" | "contacted" | "qualified" | "converted";
   is_duplicate?: boolean;
