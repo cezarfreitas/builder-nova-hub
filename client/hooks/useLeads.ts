@@ -128,27 +128,19 @@ export function useLeads(): UseLeadsReturn {
 
   const refreshStats = useCallback(async () => {
     try {
-      // Buscar estatísticas de todos os leads
-      const [totalResponse, uniqueResponse, duplicatesResponse, webhookErrorsResponse] = await Promise.all([
-        fetch('/api/leads?limit=1&filter=all'),
-        fetch('/api/leads?limit=1&filter=unique'),
-        fetch('/api/leads?limit=1&filter=duplicate'),
-        fetch('/api/leads?limit=1&filter=webhook_error')
-      ]);
+      const response = await fetch('/api/leads/stats');
+      const result = await response.json();
 
-      const [totalResult, uniqueResult, duplicatesResult, webhookErrorsResult] = await Promise.all([
-        totalResponse.json(),
-        uniqueResponse.json(),
-        duplicatesResponse.json(),
-        webhookErrorsResponse.json()
-      ]);
-
-      setStats({
-        total: totalResult.success ? totalResult.data.pagination.total : 0,
-        unique: uniqueResult.success ? uniqueResult.data.pagination.total : 0,
-        duplicates: duplicatesResult.success ? duplicatesResult.data.pagination.total : 0,
-        webhook_errors: webhookErrorsResult.success ? webhookErrorsResult.data.pagination.total : 0
-      });
+      if (result.success) {
+        setStats({
+          total: result.data.total,
+          unique: result.data.unique,
+          duplicates: result.data.duplicates,
+          webhook_errors: result.data.webhook_errors
+        });
+      } else {
+        console.error('Erro ao carregar estatísticas:', result.message);
+      }
     } catch (err) {
       console.error('Erro ao carregar estatísticas:', err);
     }
