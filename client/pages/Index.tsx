@@ -213,7 +213,7 @@ export default function Index() {
       id: 5,
       question: "Qual o prazo de entrega dos produtos?",
       answer:
-        "Trabalhamos com estoque dispon��vel para pronta entrega. O prazo médio é de 5 a 10 dias úteis, dependendo da localização. Para pedidos maiores, o prazo pode ser negociado conforme a necessidade.",
+        "Trabalhamos com estoque disponível para pronta entrega. O prazo médio é de 5 a 10 dias úteis, dependendo da localização. Para pedidos maiores, o prazo pode ser negociado conforme a necessidade.",
       display_order: 5,
       is_active: true,
     },
@@ -1113,13 +1113,16 @@ export default function Index() {
 
           <Button
             onClick={() => setShowForm(true)}
-            className="bg-white hover:bg-gray-100 text-ecko-red text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 h-auto font-black shadow-2xl hover:shadow-black/25 transition-all duration-300 group uppercase tracking-wider w-full sm:w-auto max-w-sm sm:max-w-none mx-auto"
+            className="group relative overflow-hidden bg-white hover:bg-gray-50 text-ecko-red text-base sm:text-lg px-8 sm:px-10 py-4 sm:py-5 h-auto font-black shadow-2xl hover:shadow-black/40 transition-all duration-300 hover:scale-105 uppercase tracking-wider w-full sm:w-auto max-w-sm sm:max-w-none mx-auto rounded-lg border-2 border-white hover:border-gray-200"
           >
-            <span className="hidden sm:inline">
-              QUERO SER UM LOJISTA AUTORIZADO
+            <span className="absolute inset-0 bg-gradient-to-r from-gray-50 to-gray-100 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+            <span className="relative z-10 flex items-center">
+              <span className="hidden sm:inline">
+                QUERO SER UM LOJISTA AUTORIZADO
+              </span>
+              <span className="sm:hidden">QUERO SER LOJISTA</span>
+              <ArrowRight className="ml-2 sm:ml-3 w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-1 transition-transform" />
             </span>
-            <span className="sm:hidden">QUERO SER LOJISTA</span>
-            <ArrowRight className="ml-2 sm:ml-3 w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-1 transition-transform" />
           </Button>
         </div>
       </section>
