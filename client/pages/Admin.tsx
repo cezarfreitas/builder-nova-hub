@@ -483,8 +483,11 @@ export default function Admin() {
                       <label className="block text-sm font-medium text-gray-700 mb-2">
                         Fonte do Texto
                       </label>
-                      <select className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red">
-                        <option value="inter" selected>Inter (Padrão)</option>
+                      <select
+                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+                        defaultValue="inter"
+                      >
+                        <option value="inter">Inter (Padrão)</option>
                         <option value="roboto">Roboto</option>
                         <option value="open-sans">Open Sans</option>
                         <option value="source-sans">Source Sans Pro</option>
@@ -647,7 +650,7 @@ export default function Admin() {
               ))}
             </div>
 
-            {/* Seções da Landing Page */}
+            {/* Se��ões da Landing Page */}
             <div className="mb-4">
               <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 px-3">
                 Landing Page
