@@ -100,6 +100,7 @@ const sidebarItems: SidebarItem[] = [
 export default function Admin() {
   const [activeSection, setActiveSection] = useState("dashboard");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeConfigTab, setActiveConfigTab] = useState("seo");
 
   const renderContent = () => {
     switch (activeSection) {
@@ -650,7 +651,7 @@ export default function Admin() {
               ))}
             </div>
 
-            {/* Se��ões da Landing Page */}
+            {/* Seções da Landing Page */}
             <div className="mb-4">
               <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 px-3">
                 Landing Page
