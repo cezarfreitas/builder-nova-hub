@@ -9,6 +9,7 @@ export interface Lead {
   hasCnpj: string;
   storeType: string;
   tipo_loja?: string;
+  form_origin?: string;
   created_at?: string;
   status?: "new" | "contacted" | "qualified" | "converted";
   is_duplicate?: boolean;
