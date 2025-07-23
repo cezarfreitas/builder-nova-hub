@@ -833,6 +833,58 @@ export default function Index() {
                 )}
               </div>
 
+              {/* Campo CEP */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-300 mb-2">
+                  CEP
+                </label>
+                <Input
+                  name="cep"
+                  type="text"
+                  value={formData.cep}
+                  onChange={handleInputChange}
+                  placeholder="12345-678"
+                  required
+                  className={`h-12 bg-gray-800 text-white placeholder-gray-400 focus:ring-ecko-red/20 ${
+                    cepError
+                      ? 'border-red-500 focus:border-red-500'
+                      : formData.cep && validateCEP(formData.cep) && formData.cidade
+                        ? 'border-green-500 focus:border-green-500'
+                        : 'border-gray-700 focus:border-ecko-red'
+                  }`}
+                />
+                {cepLoading && (
+                  <p className="text-blue-400 text-sm mt-2 font-medium leading-tight">
+                    🔍 Buscando endereço...
+                  </p>
+                )}
+                {cepError && (
+                  <p className="text-red-400 text-sm mt-2 font-medium leading-tight">
+                    {cepError}
+                  </p>
+                )}
+                {formData.cep && !cepError && !cepLoading && formData.cidade && (
+                  <p className="text-green-400 text-sm mt-2 font-medium leading-tight">
+                    ✅ {formData.endereco}, {formData.bairro} - {formData.cidade}/{formData.estado}
+                  </p>
+                )}
+              </div>
+
+              {/* Campo Número */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-300 mb-2">
+                  Número
+                </label>
+                <Input
+                  name="numero"
+                  type="text"
+                  value={formData.numero}
+                  onChange={handleInputChange}
+                  placeholder="123"
+                  className="h-12 bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-ecko-red focus:ring-ecko-red/20"
+                />
+              </div>
+
               <div>
                 <label className="block text-sm font-semibold text-gray-300 mb-2">
                   Possui CNPJ?
