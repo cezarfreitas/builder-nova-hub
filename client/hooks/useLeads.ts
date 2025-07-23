@@ -22,6 +22,8 @@ export interface Lead {
   last_webhook_attempt?: string;
   created_at: string;
   updated_at: string;
+  tipo_loja?: string;
+  form_origin?: string;
 }
 
 export interface LeadStats {
