@@ -650,6 +650,26 @@ export default function Index() {
       return;
     }
 
+    // Validar CEP
+    if (!formData.cep || !validateCEP(formData.cep)) {
+      toast({
+        title: "⚠️ CEP Obrigatório",
+        description: "Digite um CEP válido para identificar sua localização.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Verificar se o endereço foi carregado
+    if (!formData.cidade || !formData.estado) {
+      toast({
+        title: "⚠️ Endereço Incompleto",
+        description: "Aguarde o carregamento do endereço ou verifique o CEP.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     // Se não tem CNPJ, não prosseguir
     if (formData.hasCnpj === "nao") {
       toast({
