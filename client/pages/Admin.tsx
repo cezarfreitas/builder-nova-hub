@@ -948,9 +948,18 @@ export default function Admin() {
                       <div className="p-4 bg-gray-50 rounded-lg">
                         <h4 className="font-medium text-gray-900 mb-2">Teste de Webhook</h4>
                         <p className="text-sm text-gray-600 mb-3">Envie um payload de teste para verificar a configuração</p>
-                        <Button variant="outline" className="border-ecko-red text-ecko-red hover:bg-ecko-red hover:text-white">
-                          Testar Webhook
-                        </Button>
+                        <div className="flex gap-3">
+                          <Button
+                            className="bg-ecko-red hover:bg-ecko-red-dark text-white"
+                            onClick={handleSaveWebhookSettings}
+                            disabled={saving}
+                          >
+                            {saving ? 'Salvando...' : 'Salvar Webhook'}
+                          </Button>
+                          <Button variant="outline" className="border-ecko-red text-ecko-red hover:bg-ecko-red hover:text-white">
+                            Testar Webhook
+                          </Button>
+                        </div>
                       </div>
                     </div>
                   </div>
