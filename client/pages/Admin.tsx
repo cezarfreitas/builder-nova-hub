@@ -231,7 +231,7 @@ export default function Admin() {
         toast({
           title: "✅ Sucesso!",
           description: "Configurações de Webhook salvas com sucesso!",
-          variant: "default",
+          variant: "success",
         });
       } else {
         toast({
