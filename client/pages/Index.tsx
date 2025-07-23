@@ -882,6 +882,7 @@ export default function Index() {
                     setFormOrigin("");
                     setWhatsappError("");
                     setCnpjError("");
+                    setCepError("");
                   }}
                   className="group relative overflow-hidden flex-1 h-12 border-2 border-gray-600 bg-transparent text-gray-300 hover:text-white transition-all duration-300 hover:scale-105 hover:shadow-lg rounded-lg"
                 >
