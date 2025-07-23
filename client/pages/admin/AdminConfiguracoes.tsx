@@ -194,43 +194,82 @@ export default function AdminConfiguracoes() {
 
     setSaving(true);
     try {
-      const testPayload = {
-        test: true,
-        message: "Teste de webhook enviado pelo admin",
-        timestamp: new Date().toISOString(),
-        lead_data: {
-          nome: "Teste Admin",
-          email: "teste@admin.com",
-          telefone: "(11) 99999-9999"
-        }
-      };
-
-      const response = await fetch(webhookFormData.webhook_url, {
+      const response = await fetch('/api/webhook/test', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'User-Agent': 'Ecko-LP-Webhook-Test/1.0'
         },
-        body: JSON.stringify(testPayload),
+        body: JSON.stringify({
+          webhook_url: webhookFormData.webhook_url,
+          webhook_secret: webhookFormData.webhook_secret
+        }),
       });
 
-      if (response.ok) {
-        toast({
-          title: "✅ Webhook testado!",
-          description: `Teste enviado com sucesso. Status: ${response.status}`,
-          variant: "success",
-        });
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`HTTP ${response.status}: ${errorText}`);
+      }
+
+      let result;
+      try {
+        result = await response.json();
+      } catch (parseError) {
+        throw new Error('Resposta inválida do servidor');
+      }
+
+      if (result.success) {
+        if (result.webhook_response) {
+          const status = result.webhook_response.status;
+          const statusText = result.webhook_response.statusText;
+
+          if (status >= 200 && status < 300) {
+            toast({
+              title: "✅ Webhook testado!",
+              description: `Teste enviado com sucesso. Status: ${status} ${statusText}`,
+              variant: "success",
+            });
+          } else {
+            toast({
+              title: "⚠️ Resposta não OK",
+              description: `Webhook retornou status ${status} ${statusText}. Verifique a configuração.`,
+              variant: "destructive",
+            });
+          }
+        } else {
+          toast({
+            title: "✅ Teste executado!",
+            description: "Teste de webhook executado com sucesso.",
+            variant: "success",
+          });
+        }
       } else {
-        toast({
-          title: "⚠️ Resposta não OK",
-          description: `Webhook recebeu status ${response.status}. Verifique a configuração.`,
-          variant: "destructive",
-        });
+        const errorMessage = result.message || 'Erro desconhecido';
+
+        if (result.error === 'TIMEOUT') {
+          toast({
+            title: "⏰ Timeout",
+            description: "O webhook não respondeu em 30 segundos. Verifique se a URL está funcionando.",
+            variant: "destructive",
+          });
+        } else if (result.error === 'CONNECTION_ERROR') {
+          toast({
+            title: "❌ Erro de conexão",
+            description: "Não foi possível conectar ao webhook. Verifique a URL.",
+            variant: "destructive",
+          });
+        } else {
+          toast({
+            title: "❌ Erro no teste",
+            description: errorMessage,
+            variant: "destructive",
+          });
+        }
       }
     } catch (error) {
+      console.error('Erro ao testar webhook:', error);
       toast({
-        title: "❌ Erro de conexão",
-        description: "Não foi possível conectar ao webhook. Verifique a URL.",
+        title: "❌ Erro",
+        description: "Erro ao executar teste de webhook. Tente novamente.",
         variant: "destructive",
       });
     } finally {
