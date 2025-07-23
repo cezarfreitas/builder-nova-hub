@@ -362,7 +362,7 @@ export default function Index() {
     }
   };
 
-  // Função para atualizar duração da visita
+  // Funç��o para atualizar duração da visita
   const updateDuration = async (useBeacon = false) => {
     try {
       const duration = Math.floor((Date.now() - startTime) / 1000);
@@ -1229,17 +1229,17 @@ export default function Index() {
                           }`}
                         />
                         {cepLoading && (
-                          <p className="text-blue-400 text-xs sm:text-sm mt-1 sm:mt-2 font-medium leading-tight">
+                          <p className="text-blue-400 text-xs mt-2 font-medium leading-tight">
                             🔍 Validando CEP...
                           </p>
                         )}
                         {cepError && (
-                          <p className="text-red-400 text-xs sm:text-sm mt-1 sm:mt-2 font-medium leading-tight">
+                          <p className="text-red-400 text-xs mt-2 font-medium leading-tight">
                             {cepError}
                           </p>
                         )}
                         {formData.cep && !cepError && !cepLoading && formData.cidade && (
-                          <p className="text-green-400 text-xs sm:text-sm mt-1 sm:mt-2 font-medium leading-tight">
+                          <p className="text-green-400 text-xs mt-2 font-medium leading-tight">
                             ✅ CEP válido
                           </p>
                         )}
