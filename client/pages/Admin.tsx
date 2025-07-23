@@ -113,6 +113,7 @@ export default function Admin() {
 
   // Hook para gerenciar configurações
   const { settings, loading, error, saveSetting, saveMultipleSettings, getSetting } = useSettings();
+  const { toast } = useToast();
 
   // Estados do formulário SEO
   const [seoFormData, setSeoFormData] = useState({
@@ -309,7 +310,7 @@ export default function Admin() {
             </CardHeader>
             <CardContent>
               <p className="text-gray-600 mb-4">
-                Gerencie o cabeçalho principal da landing page.
+                Gerencie o cabe��alho principal da landing page.
               </p>
               <div className="space-y-4">
                 <div>
