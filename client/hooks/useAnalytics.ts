@@ -317,7 +317,9 @@ export function useAnalytics(days: number = 30) {
         fetchOverview().catch(err => console.error('Erro overview:', err)),
         fetchDailyStats().catch(err => console.error('Erro daily stats:', err)),
         fetchTimeAnalysis().catch(err => console.error('Erro time analysis:', err)),
-        fetchTrafficSources().catch(err => console.error('Erro traffic sources:', err))
+        fetchTrafficSources().catch(err => console.error('Erro traffic sources:', err)),
+        fetchLocationConversion().catch(err => console.error('Erro location conversion:', err)),
+        fetchGeographyConversion().catch(err => console.error('Erro geography conversion:', err))
       ];
 
       await Promise.allSettled(promises);
