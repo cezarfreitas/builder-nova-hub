@@ -142,6 +142,8 @@ export function useAnalytics(days: number = 30) {
   const [dailyStats, setDailyStats] = useState<DailyStat[]>([]);
   const [timeAnalysis, setTimeAnalysis] = useState<TimeAnalysis | null>(null);
   const [trafficSources, setTrafficSources] = useState<TrafficSources | null>(null);
+  const [locationConversion, setLocationConversion] = useState<LocationConversion | null>(null);
+  const [geographyConversion, setGeographyConversion] = useState<GeographyConversion | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
