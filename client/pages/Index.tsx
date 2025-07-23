@@ -453,7 +453,7 @@ export default function Index() {
 
       // Última atualização ao desmontar (com proteção)
       try {
-        updateDuration();
+        updateDuration(true);
       } catch (error) {
         // Silenciar erros durante unmount
       }
