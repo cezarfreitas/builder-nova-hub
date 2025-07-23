@@ -710,15 +710,19 @@ export default function Index() {
           </div>
 
           {/* Subtitle */}
-          {heroSettings?.subtitle && (
+          {(heroSettings?.subtitle || heroLoading) && (
             <div className="text-lg sm:text-xl lg:text-2xl mb-2 sm:mb-4 font-medium opacity-90 px-2">
-              {renderTextWithColorTokens(heroSettings.subtitle)}
+              {heroLoading ? (
+                "Oportunidade única de negócio"
+              ) : (
+                renderTextWithColorTokens(heroSettings?.subtitle || "")
+              )}
             </div>
           )}
 
           {/* Main Message */}
           <div
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black mb-4 sm:mb-6 leading-tight px-2"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black mb-4 sm:mb-6 leading-tight px-2 transition-all duration-500"
             style={{ color: heroSettings?.text_color || '#ffffff' }}
           >
             {heroLoading ? (
@@ -735,7 +739,7 @@ export default function Index() {
           </div>
 
           <div
-            className="text-lg sm:text-xl lg:text-2xl mb-8 sm:mb-10 lg:mb-12 font-medium max-w-2xl mx-auto px-2 opacity-90"
+            className="text-lg sm:text-xl lg:text-2xl mb-8 sm:mb-10 lg:mb-12 font-medium max-w-2xl mx-auto px-2 opacity-90 transition-all duration-500"
             style={{ color: heroSettings?.text_color || '#ffffff' }}
           >
             {heroLoading
