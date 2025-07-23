@@ -419,6 +419,38 @@ export default function Admin() {
     }
   };
 
+  const handleDeleteLead = async (leadId: number, leadName: string) => {
+    if (!confirm(`Tem certeza que deseja excluir o lead "${leadName}"? Esta ação não pode ser desfeita.`)) {
+      return;
+    }
+
+    setSaving(true);
+    try {
+      const success = await deleteLead(leadId);
+      if (success) {
+        toast({
+          title: "✅ Lead excluído!",
+          description: `Lead "${leadName}" foi excluído com sucesso`,
+          variant: "success",
+        });
+      } else {
+        toast({
+          title: "❌ Erro",
+          description: "Erro ao excluir lead",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "❌ Erro",
+        description: "Erro ao excluir lead",
+        variant: "destructive",
+      });
+    } finally {
+      setSaving(false);
+    }
+  };
+
   const getDateFromFilter = (period: string): string => {
     const now = new Date();
     switch (period) {
