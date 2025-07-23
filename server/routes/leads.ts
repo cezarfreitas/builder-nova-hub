@@ -95,6 +95,7 @@ export const submitLead: RequestHandler = async (req, res) => {
             telefone: validatedData.whatsapp,
             tem_cnpj: validatedData.hasCnpj,
             tipo_loja: validatedData.storeType,
+            form_origin: validatedData.formOrigin || null,
             is_duplicate,
             source,
             utm_source: utm_source || '',
