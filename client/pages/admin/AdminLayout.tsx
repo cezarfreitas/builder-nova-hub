@@ -123,32 +123,32 @@ export default function AdminLayout() {
     className = ""
   ) => (
     <div className={className}>
-      <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
+      <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
         {title}
       </h3>
-      <nav className="space-y-1">
+      <nav className="space-y-0.5">
         {items.map((item) => (
           <Link
             key={item.id}
             to={item.path}
-            className={`group flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+            className={`group flex items-center px-2 py-1.5 text-sm font-medium rounded-md transition-all duration-200 ${
               activeSection === item.id
-                ? "bg-ecko-red text-white shadow-md transform scale-105"
+                ? "bg-ecko-red text-white"
                 : "text-gray-700 hover:bg-gray-100 hover:text-ecko-red"
             }`}
           >
             <span
-              className={`mr-3 transition-colors duration-200 ${
+              className={`mr-2 transition-colors duration-200 ${
                 activeSection === item.id
                   ? "text-white"
                   : "text-gray-400 group-hover:text-ecko-red"
               }`}
             >
-              {item.icon}
+              {React.cloneElement(item.icon, { className: "w-4 h-4" })}
             </span>
-            {item.label}
+            <span className="truncate">{item.label}</span>
             {activeSection === item.id && (
-              <div className="ml-auto w-1 h-6 bg-white rounded-full"></div>
+              <div className="ml-auto w-1 h-4 bg-white rounded-full"></div>
             )}
           </Link>
         ))}
