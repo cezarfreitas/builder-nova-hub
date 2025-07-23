@@ -1,7 +1,11 @@
 import express from "express";
 import cors from "cors";
+import path from "path";
 import { handleDemo } from "./routes/demo";
-import { submitLead } from "./routes/leads";
+import { submitLead, getLeads, resendWebhook } from "./routes/leads";
+import { getSettings, getSetting, updateSetting, updateSettings, deleteSetting } from "./routes/settings";
+import { upload, uploadSeoImage, deleteUploadedImage, listUploadedImages } from "./routes/uploads";
+import { initializeDatabase, testConnection } from "./config/database";
 
 export function createServer() {
   const app = express();
@@ -11,6 +15,9 @@ export function createServer() {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
+  // Servir arquivos estáticos da pasta uploads
+  app.use('/uploads', express.static(path.join(process.cwd(), 'public', 'uploads')));
+
   // Health check
   app.get("/api/ping", (_req, res) => {
     res.json({ message: "Ecko LP Server Running!" });
@@ -19,8 +26,26 @@ export function createServer() {
   // Demo route
   app.get("/api/demo", handleDemo);
 
-  // Lead submission for landing page form
+  // Lead routes
   app.post("/api/leads", submitLead);
+  app.get("/api/leads", getLeads);
+  app.put("/api/leads/:id/webhook", resendWebhook);
+
+  // Settings routes
+  app.get("/api/settings", getSettings);
+  app.get("/api/settings/:key", getSetting);
+  app.put("/api/settings/:key", updateSetting);
+  app.put("/api/settings", updateSettings);
+  app.delete("/api/settings/:key", deleteSetting);
+
+  // Upload routes
+  app.post("/api/uploads/seo-image", upload.single('image'), uploadSeoImage);
+  app.get("/api/uploads", listUploadedImages);
+  app.delete("/api/uploads/:filename", deleteUploadedImage);
+
+  // Initialize database
+  initializeDatabase().catch(console.error);
+  testConnection();
 
   return app;
 }
