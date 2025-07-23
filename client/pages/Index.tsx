@@ -930,12 +930,18 @@ export default function Index() {
                           </div>
                         ) : (
                           <>
-                            <span className="hidden sm:inline">
-                              {heroSettings?.cta_text?.toUpperCase() || "QUERO SER REVENDEDOR AGORA"}
-                            </span>
-                            <span className="sm:hidden">
-                              {heroSettings?.cta_text?.toUpperCase() || "QUERO SER REVENDEDOR"}
-                            </span>
+                            {heroSettings?.cta_text ? (
+                              <>
+                                <span className="hidden sm:inline">
+                                  {heroSettings.cta_text.toUpperCase()}
+                                </span>
+                                <span className="sm:hidden">
+                                  {heroSettings.cta_text.toUpperCase()}
+                                </span>
+                              </>
+                            ) : (
+                              <span>CADASTRAR</span>
+                            )}
                           </>
                         )}
                       </Button>
