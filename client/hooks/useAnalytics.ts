@@ -94,6 +94,49 @@ export interface TrafficSources {
   }>;
 }
 
+export interface LocationConversion {
+  location_conversion: Array<{
+    location: string;
+    location_label: string;
+    total_leads: number;
+    unique_leads: number;
+    successful_webhooks: number;
+    with_cnpj: number;
+    webhook_success_rate: number;
+  }>;
+  analytics_events: Array<{
+    event_type: string;
+    unique_sessions: number;
+    total_events: number;
+  }>;
+}
+
+export interface GeographyConversion {
+  state_conversion: Array<{
+    estado: string;
+    total_leads: number;
+    unique_leads: number;
+    successful_webhooks: number;
+    with_cnpj: number;
+    fisica_leads: number;
+    online_leads: number;
+    ambas_leads: number;
+    webhook_success_rate: number;
+  }>;
+  city_conversion: Array<{
+    cidade: string;
+    estado: string;
+    total_leads: number;
+    unique_leads: number;
+    successful_webhooks: number;
+    with_cnpj: number;
+    fisica_leads: number;
+    online_leads: number;
+    ambas_leads: number;
+    webhook_success_rate: number;
+  }>;
+}
+
 export function useAnalytics(days: number = 30) {
   const [overview, setOverview] = useState<AnalyticsOverview | null>(null);
   const [dailyStats, setDailyStats] = useState<DailyStat[]>([]);
