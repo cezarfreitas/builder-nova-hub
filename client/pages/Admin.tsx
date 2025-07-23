@@ -48,15 +48,15 @@ export default function Admin() {
     switch (activeSection) {
       case "configuracoes":
         return (
-          <Card>
+          <Card className="bg-white shadow-sm border border-gray-200">
             <CardHeader>
-              <CardTitle className="text-2xl text-white flex items-center">
+              <CardTitle className="text-2xl text-gray-900 flex items-center">
                 <Settings className="w-6 h-6 mr-2 text-ecko-red" />
                 Configurações
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-gray-300">
+              <p className="text-gray-600">
                 Aqui você poderá gerenciar as configurações do sistema.
               </p>
             </CardContent>
@@ -64,15 +64,15 @@ export default function Admin() {
         );
       case "leads":
         return (
-          <Card>
+          <Card className="bg-white shadow-sm border border-gray-200">
             <CardHeader>
-              <CardTitle className="text-2xl text-white flex items-center">
+              <CardTitle className="text-2xl text-gray-900 flex items-center">
                 <Users className="w-6 h-6 mr-2 text-ecko-red" />
                 Leads
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-gray-300">
+              <p className="text-gray-600">
                 Aqui você poderá visualizar e gerenciar os leads capturados.
               </p>
             </CardContent>
@@ -80,15 +80,15 @@ export default function Admin() {
         );
       case "analytics":
         return (
-          <Card>
+          <Card className="bg-white shadow-sm border border-gray-200">
             <CardHeader>
-              <CardTitle className="text-2xl text-white flex items-center">
+              <CardTitle className="text-2xl text-gray-900 flex items-center">
                 <BarChart3 className="w-6 h-6 mr-2 text-ecko-red" />
                 Analytics
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-gray-300">
+              <p className="text-gray-600">
                 Aqui você poderá visualizar métricas e relatórios.
               </p>
             </CardContent>
@@ -96,15 +96,15 @@ export default function Admin() {
         );
       case "design":
         return (
-          <Card>
+          <Card className="bg-white shadow-sm border border-gray-200">
             <CardHeader>
-              <CardTitle className="text-2xl text-white flex items-center">
+              <CardTitle className="text-2xl text-gray-900 flex items-center">
                 <Palette className="w-6 h-6 mr-2 text-ecko-red" />
                 Design
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-gray-300">
+              <p className="text-gray-600">
                 Aqui você poderá customizar o design da landing page.
               </p>
             </CardContent>
