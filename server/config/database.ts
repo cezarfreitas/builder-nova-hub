@@ -107,6 +107,19 @@ export async function initializeDatabase(): Promise<void> {
       }
     }
 
+    // Migração: Adicionar coluna form_origin para tracking da origem
+    try {
+      await db.execute(`
+        ALTER TABLE leads
+        ADD COLUMN form_origin VARCHAR(100) DEFAULT NULL
+      `);
+      console.log('✅ Coluna form_origin adicionada à tabela leads');
+    } catch (error: any) {
+      if (error.code !== 'ER_DUP_FIELDNAME') {
+        console.log('⚠️ Coluna form_origin já existe ou erro:', error.message);
+      }
+    }
+
     // Tabela de eventos do pixel/analytics
     await db.execute(`
       CREATE TABLE IF NOT EXISTS analytics_events (
