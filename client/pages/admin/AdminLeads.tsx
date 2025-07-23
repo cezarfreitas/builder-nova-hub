@@ -469,6 +469,19 @@ export default function AdminLeads() {
                         </div>
                       </td>
 
+                      {/* Origem do Formulário */}
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-900">
+                          {lead.form_origin ? (
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                              📍 {getOriginLabel(lead.form_origin)}
+                            </span>
+                          ) : (
+                            <span className="text-gray-500">Não identificado</span>
+                          )}
+                        </div>
+                      </td>
+
                       {/* Status (Duplicado) */}
                       <td className="px-6 py-4 whitespace-nowrap">
                         {!lead.is_duplicate ? (
