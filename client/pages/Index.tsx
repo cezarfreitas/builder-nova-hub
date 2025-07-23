@@ -38,6 +38,9 @@ export default function Index() {
   const { toast } = useToast();
   const sessionId = useSessionId();
   const { settings: heroSettings, loading: heroLoading } = useHeroSettings();
+
+  // Logo management - sempre usa o padrão como fallback imediato
+  const logoUrl = heroSettings?.logo_url || "https://www.ntktextil.com.br/wp-content/uploads/2022/08/Logo-Ecko.png";
   const [formData, setFormData] = useState<LeadFormData>({
     name: "",
     whatsapp: "",
