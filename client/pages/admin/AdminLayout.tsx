@@ -63,6 +63,13 @@ const sidebarItems: SidebarItem[] = [
     path: "/admin/benefits",
   },
   {
+    id: "testimonials",
+    label: "Depoimentos",
+    icon: <MessageSquare className="w-5 h-5" />,
+    category: "lp",
+    path: "/admin/testimonials",
+  },
+  {
     id: "gallery",
     label: "Galeria",
     icon: <Image className="w-5 h-5" />,
