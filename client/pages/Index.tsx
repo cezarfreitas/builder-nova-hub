@@ -698,13 +698,13 @@ export default function Index() {
 
           {/* Subtitle */}
           {heroSettings?.subtitle && (
-            <p className="text-lg sm:text-xl lg:text-2xl mb-2 sm:mb-4 font-medium opacity-90 px-2">
-              {heroSettings.subtitle}
-            </p>
+            <div className="text-lg sm:text-xl lg:text-2xl mb-2 sm:mb-4 font-medium opacity-90 px-2">
+              {renderTextWithColorTokens(heroSettings.subtitle)}
+            </div>
           )}
 
           {/* Main Message */}
-          <h2
+          <div
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black mb-4 sm:mb-6 leading-tight px-2"
             style={{ color: heroSettings?.text_color || '#ffffff' }}
           >
@@ -717,19 +717,19 @@ export default function Index() {
                 EM <span className="text-ecko-red">LUCRO</span>
               </>
             ) : (
-              heroSettings?.title || "Torne-se um Revendedor Ecko"
+              renderTextWithColorTokens(heroSettings?.title || "Torne-se um Revendedor Ecko")
             )}
-          </h2>
+          </div>
 
-          <p
+          <div
             className="text-lg sm:text-xl lg:text-2xl mb-8 sm:mb-10 lg:mb-12 font-medium max-w-2xl mx-auto px-2 opacity-90"
             style={{ color: heroSettings?.text_color || '#ffffff' }}
           >
             {heroLoading
               ? "Seja uma revenda autorizada da Ecko e tenha os melhores produtos de streetwear em sua loja!"
-              : (heroSettings?.description || "Junte-se à rede de revendedores Ecko e maximize seus lucros com produtos de alta qualidade e suporte completo.")
+              : renderTextWithColorTokens(heroSettings?.description || "Junte-se à rede de revendedores Ecko e maximize seus lucros com produtos de alta qualidade e suporte completo.")
             }
-          </p>
+          </div>
 
           {/* Scroll Down Button */}
           <div className="flex flex-col items-center">
