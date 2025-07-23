@@ -72,6 +72,7 @@ export async function initializeDatabase(): Promise<void> {
         cidade VARCHAR(100),
         empresa VARCHAR(255),
         experiencia_revenda ENUM('sim', 'nao', 'interessado') DEFAULT 'interessado',
+        tipo_loja ENUM('fisica', 'online', 'ambas') DEFAULT NULL,
         is_duplicate BOOLEAN DEFAULT FALSE,
         source VARCHAR(100),
         utm_source VARCHAR(100),
@@ -91,6 +92,20 @@ export async function initializeDatabase(): Promise<void> {
         INDEX idx_webhook_status (webhook_status)
       )
     `);
+
+    // Migração: Adicionar coluna tipo_loja se não existir
+    try {
+      await db.execute(`
+        ALTER TABLE leads
+        ADD COLUMN tipo_loja ENUM('fisica', 'online', 'ambas') DEFAULT NULL
+      `);
+      console.log('✅ Coluna tipo_loja adicionada à tabela leads');
+    } catch (error: any) {
+      // Se a coluna já existir, apenas log (não é erro)
+      if (error.code !== 'ER_DUP_FIELDNAME') {
+        console.log('⚠️ Coluna tipo_loja já existe ou erro:', error.message);
+      }
+    }
 
     // Tabela de eventos do pixel/analytics
     await db.execute(`
