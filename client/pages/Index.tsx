@@ -509,7 +509,7 @@ export default function Index() {
         toast({
           title: "✅ Cadastro enviado!",
           description: "Nossa equipe entrará em contato em até 24h. Obrigado pelo interesse!",
-          variant: "success",
+          duration: 8000,
         });
         setIsSubmitted(true);
         setFormData({
