@@ -329,6 +329,58 @@ export default function Index() {
     },
   ];
 
+  // Função para buscar depoimentos da API
+  const fetchTestimonials = async () => {
+    try {
+      const response = await fetch('/api/testimonials?active_only=true');
+      const result = await response.json();
+
+      if (result.success) {
+        setTestimonials(result.data.testimonials);
+      } else {
+        console.error('Erro ao carregar depoimentos:', result.message);
+        // Fallback para dados estáticos em caso de erro
+        setTestimonials([
+          {
+            id: 1,
+            name: "Ricardo Silva",
+            company: "Silva Streetwear",
+            role: "Proprietário",
+            content: "Trabalhar com a Ecko mudou completamente meu negócio. As vendas triplicaram em apenas 6 meses!",
+            avatar_url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+            rating: 5,
+            is_active: true,
+          },
+          {
+            id: 2,
+            name: "Ana Carolina",
+            company: "Street Style Store",
+            role: "CEO",
+            content: "Como mulher empreendedora, encontrei na Ecko o parceiro ideal. O suporte é incrível!",
+            avatar_url: "https://images.unsplash.com/photo-1494790108755-2616b612b647?w=150&h=150&fit=crop&crop=face",
+            rating: 5,
+            is_active: true,
+          }
+        ]);
+      }
+    } catch (error) {
+      console.error('Erro ao buscar depoimentos:', error);
+      // Fallback para dados estáticos em caso de erro
+      setTestimonials([
+        {
+          id: 1,
+          name: "Ricardo Silva",
+          company: "Silva Streetwear",
+          role: "Proprietário",
+          content: "Trabalhar com a Ecko mudou completamente meu negócio. As vendas triplicaram em apenas 6 meses!",
+          avatar_url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+          rating: 5,
+          is_active: true,
+        }
+      ]);
+    }
+  };
+
   // Função para rastrear visita
   const trackVisit = async () => {
     try {
