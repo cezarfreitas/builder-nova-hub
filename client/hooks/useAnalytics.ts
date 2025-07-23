@@ -149,7 +149,8 @@ export function useAnalytics(days: number = 30) {
 
   const fetchTimeAnalysis = async () => {
     try {
-      const response = await fetch(`/api/analytics/time-analysis?days=${days}`);
+      const queryParam = days === 0 ? 'yesterday=true' : `days=${days}`;
+      const response = await fetch(`/api/analytics/time-analysis?${queryParam}`);
 
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
