@@ -108,18 +108,135 @@ export default function Admin() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeConfigTab, setActiveConfigTab] = useState("seo");
   const [showSeoPreview, setShowSeoPreview] = useState(false);
+  const [saving, setSaving] = useState(false);
 
-  // Dados do SEO para preview (em produção viriam do estado do formulário)
-  const [seoData, setSeoData] = useState({
-    title: "Seja uma Revenda Autorizada da Ecko | Tenha os Melhores Produtos",
-    description: "Seja uma revenda autorizada da Ecko e tenha os melhores produtos de streetwear em sua loja. Transforme sua paixão em lucro com exclusividade territorial e suporte completo.",
-    ogTitle: "Seja uma Revenda Autorizada da Ecko",
-    ogDescription: "Transforme sua paixão em lucro! Seja um revendedor autorizado Ecko e tenha acesso aos melhores produtos de streetwear do mercado.",
-    ogImage: "https://estyle.vteximg.com.br/arquivos/ecko_mosaic5.png",
-    twitterTitle: "Seja uma Revenda Autorizada da Ecko",
-    siteName: "Ecko Revendedores",
-    canonicalUrl: "https://revendedores.ecko.com.br/"
+  // Hook para gerenciar configurações
+  const { settings, loading, error, saveSetting, saveMultipleSettings, getSetting } = useSettings();
+
+  // Estados do formulário SEO
+  const [seoFormData, setSeoFormData] = useState({
+    seo_title: "",
+    seo_description: "",
+    seo_keywords: "",
+    seo_canonical_url: "",
+    seo_robots: "index,follow",
+    og_title: "",
+    og_description: "",
+    og_image: "",
+    og_type: "website",
+    og_site_name: "",
+    facebook_app_id: "",
+    twitter_card: "summary_large_image",
+    twitter_site: "",
+    twitter_title: "",
+    twitter_creator: "",
+    schema_org_type: "Organization",
+    schema_org_name: "",
+    schema_org_logo: "",
+    schema_org_phone: ""
   });
+
+  // Estados do formulário Webhook
+  const [webhookFormData, setWebhookFormData] = useState({
+    webhook_url: "",
+    webhook_secret: "",
+    webhook_timeout: "30",
+    webhook_retries: "3"
+  });
+
+  // Carregar dados do banco quando settings mudarem
+  useEffect(() => {
+    if (Object.keys(settings).length > 0) {
+      setSeoFormData({
+        seo_title: getSetting('seo_title') || "",
+        seo_description: getSetting('seo_description') || "",
+        seo_keywords: getSetting('seo_keywords') || "",
+        seo_canonical_url: getSetting('seo_canonical_url') || "",
+        seo_robots: getSetting('seo_robots') || "index,follow",
+        og_title: getSetting('og_title') || "",
+        og_description: getSetting('og_description') || "",
+        og_image: getSetting('og_image') || "",
+        og_type: getSetting('og_type') || "website",
+        og_site_name: getSetting('og_site_name') || "",
+        facebook_app_id: getSetting('facebook_app_id') || "",
+        twitter_card: getSetting('twitter_card') || "summary_large_image",
+        twitter_site: getSetting('twitter_site') || "",
+        twitter_title: getSetting('twitter_title') || "",
+        twitter_creator: getSetting('twitter_creator') || "",
+        schema_org_type: getSetting('schema_org_type') || "Organization",
+        schema_org_name: getSetting('schema_org_name') || "",
+        schema_org_logo: getSetting('schema_org_logo') || "",
+        schema_org_phone: getSetting('schema_org_phone') || ""
+      });
+
+      setWebhookFormData({
+        webhook_url: getSetting('webhook_url') || "",
+        webhook_secret: getSetting('webhook_secret') || "",
+        webhook_timeout: getSetting('webhook_timeout') || "30",
+        webhook_retries: getSetting('webhook_retries') || "3"
+      });
+    }
+  }, [settings, getSetting]);
+
+  // Função para salvar configurações SEO
+  const handleSaveSeoSettings = async () => {
+    setSaving(true);
+    try {
+      const settingsToSave = Object.entries(seoFormData).map(([key, value]) => ({
+        key,
+        value: String(value),
+        type: 'text'
+      }));
+
+      const success = await saveMultipleSettings(settingsToSave);
+      if (success) {
+        alert('Configurações de SEO salvas com sucesso!');
+      } else {
+        alert('Erro ao salvar configurações. Tente novamente.');
+      }
+    } catch (error) {
+      console.error('Erro ao salvar:', error);
+      alert('Erro ao salvar configurações. Tente novamente.');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  // Função para salvar configurações Webhook
+  const handleSaveWebhookSettings = async () => {
+    setSaving(true);
+    try {
+      const settingsToSave = Object.entries(webhookFormData).map(([key, value]) => ({
+        key,
+        value: String(value),
+        type: key.includes('timeout') || key.includes('retries') ? 'number' : 'text'
+      }));
+
+      const success = await saveMultipleSettings(settingsToSave);
+      if (success) {
+        alert('Configurações de Webhook salvas com sucesso!');
+      } else {
+        alert('Erro ao salvar configurações. Tente novamente.');
+      }
+    } catch (error) {
+      console.error('Erro ao salvar:', error);
+      alert('Erro ao salvar configurações. Tente novamente.');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  // Dados para preview (atualizados com dados reais)
+  const seoData = {
+    title: seoFormData.seo_title || "Título da página",
+    description: seoFormData.seo_description || "Meta description",
+    ogTitle: seoFormData.og_title || seoFormData.seo_title || "Título OG",
+    ogDescription: seoFormData.og_description || seoFormData.seo_description || "Descrição OG",
+    ogImage: seoFormData.og_image || "URL da imagem",
+    twitterTitle: seoFormData.twitter_title || seoFormData.og_title || seoFormData.seo_title || "Título Twitter",
+    siteName: seoFormData.og_site_name || "Nome do site",
+    canonicalUrl: seoFormData.seo_canonical_url || "https://exemplo.com"
+  };
 
   const renderContent = () => {
     switch (activeSection) {
