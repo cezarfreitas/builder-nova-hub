@@ -561,7 +561,7 @@ export default function Index() {
       {/* Content Section */}
       <section
         id="content-section"
-        className="relative min-h-[70vh] flex flex-col py-6 sm:py-8 lg:py-0"
+        className="relative min-h-[70vh] flex flex-col py-20"
       >
         {/* Background Pattern */}
         <div className="absolute inset-0">
