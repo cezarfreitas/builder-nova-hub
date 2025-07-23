@@ -441,7 +441,7 @@ export default function Index() {
     // Atualizar duração periodicamente
     const durationInterval = setInterval(updateDuration, 30000); // A cada 30 segundos
 
-    // Atualizar duração quando o usuário sair da p��gina
+    // Atualizar duração quando o usuário sair da página
     const handleBeforeUnload = () => {
       // Usar sendBeacon para unload (mais confiável)
       try {
@@ -855,7 +855,7 @@ export default function Index() {
                 />
                 {cepLoading && (
                   <p className="text-blue-400 text-sm mt-2 font-medium leading-tight">
-                    🔍 Buscando endereço...
+                    🔍 Validando CEP...
                   </p>
                 )}
                 {cepError && (
@@ -865,24 +865,9 @@ export default function Index() {
                 )}
                 {formData.cep && !cepError && !cepLoading && formData.cidade && (
                   <p className="text-green-400 text-sm mt-2 font-medium leading-tight">
-                    ✅ {formData.endereco}, {formData.bairro} - {formData.cidade}/{formData.estado}
+                    ✅ CEP válido
                   </p>
                 )}
-              </div>
-
-              {/* Campo Número */}
-              <div>
-                <label className="block text-sm font-semibold text-gray-300 mb-2">
-                  Número
-                </label>
-                <Input
-                  name="numero"
-                  type="text"
-                  value={formData.numero}
-                  onChange={handleInputChange}
-                  placeholder="123"
-                  className="h-12 bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-ecko-red focus:ring-ecko-red/20"
-                />
               </div>
 
               <div>
