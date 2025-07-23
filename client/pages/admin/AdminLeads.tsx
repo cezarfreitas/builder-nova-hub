@@ -537,10 +537,10 @@ export default function AdminLeads() {
                           {lead.webhook_response && lead.webhook_response.length > 30 ? lead.webhook_response.substring(0, 30) + '...' : lead.webhook_response || '-'}
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-500">
                         {formatDate(lead.created_at)}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                      <td className="px-3 py-2 whitespace-nowrap text-sm font-medium">
                         <div className="flex space-x-2">
                           <button
                             onClick={() => handleResendWebhook(lead.id)}
