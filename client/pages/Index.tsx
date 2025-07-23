@@ -873,11 +873,18 @@ export default function Index() {
           <div className="max-w-7xl mx-auto px-6 relative z-10">
             {/* Section Header */}
             <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                O que nossos <span className="text-ecko-red">revendedores</span>{" "}
-                dizem
+              <div className="inline-flex items-center bg-ecko-red/20 backdrop-blur-sm border border-ecko-red/30 rounded-full px-6 py-3 mb-6">
+                <span className="text-ecko-red font-bold uppercase tracking-wider text-sm">
+                  Depoimentos
+                </span>
+              </div>
+              <h2 className="text-3xl md:text-5xl font-black text-white mb-6 leading-tight">
+                O que nossos <span className="text-ecko-red">revendedores</span> dizem
+                <span className="block text-xl md:text-2xl text-gray-300 mt-2 font-medium normal-case tracking-normal">
+                  casos reais de sucesso
+                </span>
               </h2>
-              <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+              <p className="text-gray-300 text-lg max-w-3xl mx-auto leading-relaxed">
                 Depoimentos reais de parceiros que transformaram suas paixões em
                 negócios lucrativos com a Ecko
               </p>
