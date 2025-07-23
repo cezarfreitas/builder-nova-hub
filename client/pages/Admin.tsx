@@ -17,6 +17,9 @@ import {
   TrendingUp,
   HelpCircle,
   FileText,
+  Search,
+  Webhook,
+  Database,
 } from "lucide-react";
 
 interface SidebarItem {
