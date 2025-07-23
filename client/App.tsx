@@ -24,6 +24,9 @@ const App = () => (
         <Route path="/admin/leads" element={<AdminLayout />}>
           <Route index element={<AdminLeads />} />
         </Route>
+        <Route path="/admin/analytics" element={<AdminLayout />}>
+          <Route index element={<AdminAnalytics />} />
+        </Route>
         <Route path="/admin/configuracoes" element={<AdminLayout />}>
           <Route index element={<AdminConfiguracoes />} />
         </Route>
