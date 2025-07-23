@@ -894,6 +894,8 @@ export default function Admin() {
                         <input
                           type="url"
                           className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+                          value={webhookFormData.webhook_url}
+                          onChange={(e) => setWebhookFormData(prev => ({ ...prev, webhook_url: e.target.value }))}
                           placeholder="https://seu-webhook.com/leads"
                         />
                         <p className="text-xs text-gray-500 mt-1">Será chamado quando um novo lead for capturado</p>
@@ -906,6 +908,8 @@ export default function Admin() {
                         <input
                           type="password"
                           className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+                          value={webhookFormData.webhook_secret}
+                          onChange={(e) => setWebhookFormData(prev => ({ ...prev, webhook_secret: e.target.value }))}
                           placeholder="Token de segurança"
                         />
                         <p className="text-xs text-gray-500 mt-1">Token para validar as requisições</p>
@@ -919,7 +923,10 @@ export default function Admin() {
                           <input
                             type="number"
                             className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
-                            defaultValue="30"
+                            value={webhookFormData.webhook_timeout}
+                            onChange={(e) => setWebhookFormData(prev => ({ ...prev, webhook_timeout: e.target.value }))}
+                            min="1"
+                            max="300"
                           />
                         </div>
 
@@ -930,7 +937,10 @@ export default function Admin() {
                           <input
                             type="number"
                             className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
-                            defaultValue="3"
+                            value={webhookFormData.webhook_retries}
+                            onChange={(e) => setWebhookFormData(prev => ({ ...prev, webhook_retries: e.target.value }))}
+                            min="1"
+                            max="10"
                           />
                         </div>
                       </div>
