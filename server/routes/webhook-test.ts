@@ -17,14 +17,18 @@ export async function testWebhook(req: Request, res: Response) {
     const testPayload = {
       test: true,
       message: "Teste de webhook enviado pelo admin",
-      timestamp: new Date().toISOString(),
-      lead_data: {
-        nome: "Teste Admin",
-        email: "teste@admin.com",
-        telefone: "(11) 99999-9999",
-        cidade: "São Paulo - SP",
-        empresa: "Teste LTDA"
-      }
+      lead_id: 999,
+      nome: "Teste Admin",
+      telefone: "(11) 99999-9999",
+      tem_cnpj: "sim",
+      tipo_loja: "fisica",
+      is_duplicate: false,
+      source: "admin_test",
+      utm_source: "",
+      utm_medium: "",
+      utm_campaign: "",
+      ip_address: "127.0.0.1",
+      timestamp: new Date().toISOString()
     };
 
     // Preparar headers
