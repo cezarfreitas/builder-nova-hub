@@ -72,12 +72,6 @@ const sidebarItems: SidebarItem[] = [
     category: "lp",
   },
   {
-    id: "cta",
-    label: "CTA Principal",
-    icon: <Megaphone className="w-5 h-5" />,
-    category: "lp",
-  },
-  {
     id: "stats",
     label: "Estatísticas",
     icon: <TrendingUp className="w-5 h-5" />,
