@@ -863,7 +863,7 @@ export default function Index() {
 
       {/* Testimonials Section */}
       {testimonials.length > 0 && (
-        <section className="py-20 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden">
+        <section className="py-16 md:py-20 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden">
           {/* Background Pattern */}
           <div className="absolute inset-0 opacity-10">
             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-ecko-red/5 via-transparent to-ecko-red/5"></div>
