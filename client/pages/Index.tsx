@@ -672,12 +672,21 @@ export default function Index() {
         >
         {/* Background Image */}
         <div className="absolute inset-0">
-          {/* Hero Background Image */}
-          <img
-            src={heroSettings?.background_image || "https://estyle.vteximg.com.br/arquivos/ecko_mosaic5.png?v=638421392678800000"}
-            alt="Ecko Unlimited - Marca de streetwear líder no Brasil com produtos urbanos e estilo jovem"
-            className="w-full h-full object-cover"
-          />
+          {/* Hero Background Image - Only from database */}
+          {heroSettings?.background_image ? (
+            <img
+              src={heroSettings.background_image}
+              alt="Background do Hero"
+              className="w-full h-full object-cover"
+              loading="eager"
+              fetchPriority="high"
+            />
+          ) : (
+            <div
+              className="w-full h-full"
+              style={{ backgroundColor: heroSettings?.background_color || '#dc2626' }}
+            />
+          )}
 
           {/* Multiple Overlay Layers for Better Effect */}
           <div className="absolute inset-0 bg-black/70 z-10"></div>
