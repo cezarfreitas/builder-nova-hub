@@ -116,7 +116,7 @@ export default function Index() {
     {
       id: 7,
       title: "Urban Fashion Trends",
-      description: "Tendências da moda urbana que definem gerações",
+      description: "Tendências da moda urbana que definem gera��ões",
       image_url:
         "https://images.unsplash.com/photo-1533973403183-b2952e4b971e?w=500&h=500&fit=crop&crop=center",
       alt_text: "Urban fashion trends Ecko",
@@ -251,7 +251,7 @@ export default function Index() {
       company: "Urban Fashion",
       role: "Diretor Comercial",
       content:
-        "A Ecko não é só uma marca, é um estilo de vida. Nossos clientes são apaixonados pelos produtos e isso reflete diretamente nas nossas vendas. Melhor decisão que já tomei!",
+        "A Ecko não é só uma marca, é um estilo de vida. Nossos clientes s��o apaixonados pelos produtos e isso reflete diretamente nas nossas vendas. Melhor decisão que já tomei!",
       avatar_url:
         "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
       rating: 5,
@@ -497,7 +497,7 @@ export default function Index() {
   }
 
   return (
-    <main className="bg-black">
+    <main className="bg-black pb-4">
       {/* Hero Full Screen Section */}
       <section className="h-screen relative flex flex-col justify-center items-center overflow-hidden">
         {/* Background Image */}
