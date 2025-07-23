@@ -9,6 +9,7 @@ import {
   Menu,
   X,
   Home,
+  Layout,
 } from "lucide-react";
 
 interface SidebarItem {
@@ -19,9 +20,9 @@ interface SidebarItem {
 
 const sidebarItems: SidebarItem[] = [
   {
-    id: "configuracoes",
-    label: "Configurações",
-    icon: <Settings className="w-5 h-5" />,
+    id: "dashboard",
+    label: "Dashboard",
+    icon: <Layout className="w-5 h-5" />,
   },
   {
     id: "leads",
@@ -38,10 +39,15 @@ const sidebarItems: SidebarItem[] = [
     label: "Design",
     icon: <Palette className="w-5 h-5" />,
   },
+  {
+    id: "configuracoes",
+    label: "Configurações",
+    icon: <Settings className="w-5 h-5" />,
+  },
 ];
 
 export default function Admin() {
-  const [activeSection, setActiveSection] = useState("configuracoes");
+  const [activeSection, setActiveSection] = useState("dashboard");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const renderContent = () => {
