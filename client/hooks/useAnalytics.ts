@@ -208,16 +208,19 @@ export function useAnalytics(days: number = 30) {
   const refreshData = async () => {
     setLoading(true);
     setError(null);
-    
+
     try {
-      await Promise.all([
-        fetchOverview(),
-        fetchDailyStats(),
-        fetchTimeAnalysis(),
-        fetchTrafficSources()
-      ]);
+      // Executar todas as requisições em paralelo, mas tratar erros individualmente
+      const promises = [
+        fetchOverview().catch(err => console.error('Erro overview:', err)),
+        fetchDailyStats().catch(err => console.error('Erro daily stats:', err)),
+        fetchTimeAnalysis().catch(err => console.error('Erro time analysis:', err)),
+        fetchTrafficSources().catch(err => console.error('Erro traffic sources:', err))
+      ];
+
+      await Promise.allSettled(promises);
     } catch (err) {
-      console.error('Erro ao atualizar dados:', err);
+      console.error('Erro geral ao atualizar dados:', err);
     } finally {
       setLoading(false);
     }
