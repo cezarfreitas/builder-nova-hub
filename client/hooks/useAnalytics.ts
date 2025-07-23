@@ -339,6 +339,8 @@ export function useAnalytics(days: number = 30) {
     dailyStats,
     timeAnalysis,
     trafficSources,
+    locationConversion,
+    geographyConversion,
     loading,
     error,
     refreshData,
