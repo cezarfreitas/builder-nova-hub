@@ -119,7 +119,7 @@ export default function AdminAnalytics() {
   };
 
   // Dados para gráfico de horários
-  const hourlyData = timeAnalysis ? {
+  const hourlyData = timeAnalysis && timeAnalysis.hourly_stats && timeAnalysis.hourly_stats.length > 0 ? {
     labels: timeAnalysis.hourly_stats.map(stat => `${stat.hour}:00`),
     datasets: [
       {
@@ -133,14 +133,14 @@ export default function AdminAnalytics() {
   } : null;
 
   // Dados para gráfico de dias da semana
-  const weekdayData = timeAnalysis ? {
+  const weekdayData = timeAnalysis && timeAnalysis.weekday_stats && timeAnalysis.weekday_stats.length > 0 ? {
     labels: timeAnalysis.weekday_stats.map(stat => stat.weekday_name),
     datasets: [
       {
         label: 'Leads por Dia da Semana',
         data: timeAnalysis.weekday_stats.map(stat => stat.total_leads),
         backgroundColor: [
-          '#dc2626', '#16a34a', '#2563eb', '#ca8a04', 
+          '#dc2626', '#16a34a', '#2563eb', '#ca8a04',
           '#7c3aed', '#dc2626', '#6b7280'
         ],
         borderWidth: 0,
