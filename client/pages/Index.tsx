@@ -300,11 +300,40 @@ export default function Index() {
     },
   ];
 
+  // Função para rastrear visita
+  const trackVisit = async () => {
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const visitData = {
+        session_id: sessionId,
+        page_url: window.location.href,
+        referrer: document.referrer,
+        utm_source: urlParams.get('utm_source') || '',
+        utm_medium: urlParams.get('utm_medium') || '',
+        utm_campaign: urlParams.get('utm_campaign') || '',
+        user_agent: navigator.userAgent
+      };
+
+      await fetch('/api/analytics/track-visit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(visitData)
+      });
+    } catch (error) {
+      console.error('Erro ao rastrear visita:', error);
+    }
+  };
+
   useEffect(() => {
     // Definir dados estáticos no carregamento
     setGalleryImages(staticGalleryImages);
     setFaqs(staticFAQs);
     setTestimonials(staticTestimonials);
+
+    // Rastrear visita da página
+    trackVisit();
   }, []);
 
   const handleInputChange = (
