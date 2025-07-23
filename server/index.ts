@@ -5,6 +5,7 @@ import { handleDemo } from "./routes/demo";
 import { submitLead, getLeads, resendWebhook } from "./routes/leads";
 import { getSettings, getSetting, updateSetting, updateSettings, deleteSetting } from "./routes/settings";
 import { upload, uploadSeoImage, deleteUploadedImage, listUploadedImages } from "./routes/uploads";
+import { testDatabaseConnection, getDatabaseInfo } from "./routes/database-test";
 import { initializeDatabase, testConnection } from "./config/database";
 
 export function createServer() {
