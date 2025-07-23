@@ -71,7 +71,14 @@ export function SeoImageUpload({
       // Extrair filename da URL se for upload local
       const filename = currentImage.split('/').pop();
       if (filename && currentImage.includes('/uploads/')) {
-        await deleteImage(filename);
+        const success = await deleteImage(filename);
+        if (success) {
+          toast({
+            title: "🗑️ Imagem removida",
+            description: "Imagem deletada com sucesso",
+            variant: "default",
+          });
+        }
       }
       onImageChange('');
     }
