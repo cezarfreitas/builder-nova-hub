@@ -302,10 +302,7 @@ export async function resendWebhook(req: Request, res: Response) {
     });
 
     if (!settings.webhook_url) {
-      return res.status(400).json({
-        success: false,
-        message: 'URL do webhook não configurada'
-      });
+      return sendErrorResponse(400, 'URL do webhook não configurada');
     }
 
     // Preparar payload do webhook
