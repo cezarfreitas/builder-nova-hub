@@ -238,6 +238,50 @@ export function useAnalytics(days: number = 30) {
     }
   };
 
+  const fetchLocationConversion = async () => {
+    try {
+      const queryParam = days === 0 ? 'yesterday=true' : `days=${days}`;
+      const response = await fetch(`/api/analytics/conversion-by-location?${queryParam}`);
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
+      const result = await response.json();
+
+      if (result.success) {
+        setLocationConversion(result.data);
+      } else {
+        throw new Error(result.message || result.error || 'Erro ao buscar conversão por localização');
+      }
+    } catch (err) {
+      console.error('Erro ao buscar conversão por localização:', err);
+      setError(`Erro ao carregar conversão por localização: ${err.message}`);
+    }
+  };
+
+  const fetchGeographyConversion = async () => {
+    try {
+      const queryParam = days === 0 ? 'yesterday=true' : `days=${days}`;
+      const response = await fetch(`/api/analytics/conversion-by-geography?${queryParam}`);
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
+      const result = await response.json();
+
+      if (result.success) {
+        setGeographyConversion(result.data);
+      } else {
+        throw new Error(result.message || result.error || 'Erro ao buscar conversão por geografia');
+      }
+    } catch (err) {
+      console.error('Erro ao buscar conversão por geografia:', err);
+      setError(`Erro ao carregar conversão por geografia: ${err.message}`);
+    }
+  };
+
   const trackVisit = async (sessionId: string) => {
     try {
       const urlParams = new URLSearchParams(window.location.search);
