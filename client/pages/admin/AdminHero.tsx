@@ -300,27 +300,22 @@ export default function AdminHero() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Subtítulo
-              </label>
-              <Input
+              <TokenColorEditor
+                label="Subtítulo"
                 value={settings.subtitle}
-                onChange={(e) => setSettings(prev => ({ ...prev, subtitle: e.target.value }))}
-                placeholder="Oportunidade única de negócio"
-                className="w-full"
+                onChange={(value) => setSettings(prev => ({ ...prev, subtitle: value }))}
+                placeholder="Oportunidade {ecko}única{/ecko} de negócio"
+                rows={2}
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Descrição
-              </label>
-              <Textarea
+              <TokenColorEditor
+                label="Descrição"
                 value={settings.description}
-                onChange={(e) => setSettings(prev => ({ ...prev, description: e.target.value }))}
-                placeholder="Descrição detalhada da oportunidade..."
+                onChange={(value) => setSettings(prev => ({ ...prev, description: value }))}
+                placeholder="Junte-se à rede de revendedores {ecko}Ecko{/ecko} e maximize seus {green}lucros{/green} com produtos de alta qualidade..."
                 rows={4}
-                className="w-full"
               />
             </div>
 
