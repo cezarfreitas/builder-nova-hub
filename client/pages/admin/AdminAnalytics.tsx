@@ -52,112 +52,115 @@ export default function AdminAnalytics() {
     setSelectedPeriod(days);
   };
 
-  const exportToExcel = () => {
+  const exportToExcel = async () => {
     try {
+      // Buscar dados brutos da API
+      const queryParam = selectedPeriod === 0 ? 'yesterday=true' : `days=${selectedPeriod}`;
+      const response = await fetch(`/api/analytics/export-data?${queryParam}`);
+
+      if (!response.ok) {
+        throw new Error('Erro ao buscar dados para exportação');
+      }
+
+      const result = await response.json();
+      if (!result.success) {
+        throw new Error(result.message || 'Erro ao buscar dados');
+      }
+
+      const { leads, events } = result.data;
+
       // Criar workbook
       const wb = XLSX.utils.book_new();
 
-      // Aba 1: Overview Geral
-      const overviewData = [
-        ['Métrica', 'Valor', 'Período'],
-        ['Total de Leads', overview?.leads.total || 0, `${selectedPeriod} dias`],
-        ['Leads Únicos', overview?.leads.unique || 0, `${selectedPeriod} dias`],
-        ['Leads Duplicados', overview?.leads.duplicates || 0, `${selectedPeriod} dias`],
-        ['Leads com CNPJ', overview?.leads.with_cnpj || 0, `${selectedPeriod} dias`],
-        ['Total de Sessões', overview?.traffic.total_sessions || 0, `${selectedPeriod} dias`],
-        ['Usuários Únicos', overview?.traffic.unique_users || 0, `${selectedPeriod} dias`],
-        ['Páginas por Sessão', overview?.traffic.pages_per_session || 0, `${selectedPeriod} dias`],
-        ['Tempo Médio de Sessão (segundos)', overview?.traffic.avg_session_duration || 0, `${selectedPeriod} dias`],
-        ['Taxa de Conversão (%)', overview?.conversion.rate || 0, `${selectedPeriod} dias`],
-        ['Taxa de Rejeição (%)', overview?.traffic.bounce_rate || 0, `${selectedPeriod} dias`],
-        ['Lojas Físicas', overview?.store_types.fisica || 0, `${selectedPeriod} dias`],
-        ['Lojas Online', overview?.store_types.online || 0, `${selectedPeriod} dias`],
-        ['Lojas Ambas', overview?.store_types.ambas || 0, `${selectedPeriod} dias`],
+      // Aba 1: Dados Brutos dos Leads
+      if (leads && leads.length > 0) {
+        const leadsData = [
+          [
+            'ID', 'Nome', 'Telefone/WhatsApp', 'Tem CNPJ', 'Tipo Loja',
+            'É Duplicado', 'Fonte', 'UTM Source', 'UTM Medium', 'UTM Campaign',
+            'Status Webhook', 'Resposta Webhook', 'Data/Hora Criação'
+          ]
+        ];
+
+        leads.forEach(lead => {
+          leadsData.push([
+            lead.id,
+            lead.nome,
+            lead.telefone,
+            lead.experiencia_revenda === 'sim' ? 'Sim' : 'Não',
+            lead.tipo_loja || 'Não informado',
+            lead.is_duplicate ? 'Sim' : 'Não',
+            lead.source || 'Direto',
+            lead.utm_source || '',
+            lead.utm_medium || '',
+            lead.utm_campaign || '',
+            lead.webhook_status || 'Pendente',
+            lead.webhook_response || '',
+            new Date(lead.created_at).toLocaleString('pt-BR')
+          ]);
+        });
+
+        const ws1 = XLSX.utils.aoa_to_sheet(leadsData);
+        XLSX.utils.book_append_sheet(wb, ws1, 'Leads (Dados Brutos)');
+      }
+
+      // Aba 2: Dados Brutos de Eventos/Visitas
+      if (events && events.length > 0) {
+        const eventsData = [
+          [
+            'Session ID', 'User ID', 'Tipo Evento', 'IP Address',
+            'Referrer', 'URL Página', 'Duração (segundos)', 'Data/Hora'
+          ]
+        ];
+
+        events.forEach(event => {
+          eventsData.push([
+            event.session_id,
+            event.user_id || '',
+            event.event_type,
+            event.ip_address || '',
+            event.referrer || 'Direto',
+            event.page_url || '',
+            event.duration_seconds || 0,
+            new Date(event.created_at).toLocaleString('pt-BR')
+          ]);
+        });
+
+        const ws2 = XLSX.utils.aoa_to_sheet(eventsData);
+        XLSX.utils.book_append_sheet(wb, ws2, 'Eventos (Dados Brutos)');
+      }
+
+      // Aba 3: Resumo Executivo (dados agregados para referência)
+      const summaryData = [
+        ['Métrica', 'Valor'],
+        ['Total de Leads', leads?.length || 0],
+        ['Leads Únicos', leads?.filter(l => !l.is_duplicate).length || 0],
+        ['Leads Duplicados', leads?.filter(l => l.is_duplicate).length || 0],
+        ['Leads com CNPJ', leads?.filter(l => l.experiencia_revenda === 'sim').length || 0],
+        ['Total de Eventos', events?.length || 0],
+        ['Sessões Únicas', new Set(events?.map(e => e.session_id) || []).size],
+        ['Usuários Únicos', new Set(events?.map(e => e.user_id) || []).size],
+        ['Loja Física', leads?.filter(l => l.tipo_loja === 'fisica').length || 0],
+        ['Loja Online', leads?.filter(l => l.tipo_loja === 'online').length || 0],
+        ['Ambas', leads?.filter(l => l.tipo_loja === 'ambas').length || 0],
+        ['', ''],
+        ['Período Exportado', selectedPeriod === 0 ? 'Ontem' : selectedPeriod === 1 ? 'Hoje' : `Últimos ${selectedPeriod} dias`],
+        ['Data da Exportação', new Date().toLocaleString('pt-BR')],
       ];
-      const ws1 = XLSX.utils.aoa_to_sheet(overviewData);
-      XLSX.utils.book_append_sheet(wb, ws1, 'Resumo Geral');
 
-      // Aba 2: Estatísticas Diárias
-      if (dailyStats && dailyStats.length > 0) {
-        const dailyData = [
-          ['Data', 'Total Leads', 'Leads Únicos', 'Duplicados', 'Webhooks Sucesso', 'Com CNPJ', 'Sessões', 'Page Views', 'Taxa Conversão (%)']
-        ];
-        dailyStats.forEach(stat => {
-          dailyData.push([
-            new Date(stat.date).toLocaleDateString('pt-BR'),
-            stat.total_leads,
-            stat.unique_leads,
-            stat.duplicates,
-            stat.webhook_success,
-            stat.with_cnpj,
-            stat.sessions,
-            stat.page_views,
-            stat.conversion_rate
-          ]);
-        });
-        const ws2 = XLSX.utils.aoa_to_sheet(dailyData);
-        XLSX.utils.book_append_sheet(wb, ws2, 'Estatísticas Diárias');
-      }
-
-      // Aba 3: Análise por Horário
-      if (timeAnalysis?.hourly_stats && timeAnalysis.hourly_stats.length > 0) {
-        const hourlyData = [
-          ['Hora', 'Total Leads', 'Leads Únicos']
-        ];
-        timeAnalysis.hourly_stats.forEach(stat => {
-          hourlyData.push([
-            `${stat.hour}:00`,
-            stat.total_leads,
-            stat.unique_leads
-          ]);
-        });
-        const ws3 = XLSX.utils.aoa_to_sheet(hourlyData);
-        XLSX.utils.book_append_sheet(wb, ws3, 'Análise por Horário');
-      }
-
-      // Aba 4: Análise por Dia da Semana
-      if (timeAnalysis?.weekday_stats && timeAnalysis.weekday_stats.length > 0) {
-        const weekdayData = [
-          ['Dia da Semana', 'Total Leads', 'Leads Únicos']
-        ];
-        timeAnalysis.weekday_stats.forEach(stat => {
-          weekdayData.push([
-            stat.weekday_name,
-            stat.total_leads,
-            stat.unique_leads
-          ]);
-        });
-        const ws4 = XLSX.utils.aoa_to_sheet(weekdayData);
-        XLSX.utils.book_append_sheet(wb, ws4, 'Análise por Dia');
-      }
-
-      // Aba 5: Fontes de Tráfego
-      if (trafficSources?.utm_sources && trafficSources.utm_sources.length > 0) {
-        const trafficData = [
-          ['Fonte UTM', 'Total Leads', 'Leads Únicos', 'Webhooks Sucesso']
-        ];
-        trafficSources.utm_sources.forEach(source => {
-          trafficData.push([
-            source.source,
-            source.total_leads,
-            source.unique_leads,
-            source.successful_webhooks
-          ]);
-        });
-        const ws5 = XLSX.utils.aoa_to_sheet(trafficData);
-        XLSX.utils.book_append_sheet(wb, ws5, 'Fontes de Tráfego');
-      }
+      const ws3 = XLSX.utils.aoa_to_sheet(summaryData);
+      XLSX.utils.book_append_sheet(wb, ws3, 'Resumo Executivo');
 
       // Gerar e baixar arquivo
       const periodText = selectedPeriod === 1 ? 'hoje' :
                          selectedPeriod === 0 ? 'ontem' :
                          `ultimos_${selectedPeriod}_dias`;
-      const fileName = `analytics_ecko_${periodText}_${new Date().toISOString().split('T')[0]}.xlsx`;
+      const fileName = `dados_brutos_ecko_${periodText}_${new Date().toISOString().split('T')[0]}.xlsx`;
       XLSX.writeFile(wb, fileName);
 
     } catch (error) {
-      console.error('Erro ao exportar Excel:', error);
-      alert('Erro ao gerar arquivo Excel. Tente novamente.');
+      console.error('Erro ao exportar dados brutos:', error);
+      alert('Erro ao gerar arquivo Excel com dados brutos. Tente novamente.');
     }
   };
 
