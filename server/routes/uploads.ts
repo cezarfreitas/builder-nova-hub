@@ -45,7 +45,12 @@ export const upload = multer({
 // POST /api/uploads/seo-image - Upload de imagem para SEO
 export async function uploadSeoImage(req: Request, res: Response) {
   try {
+    console.log('Upload request received');
+    console.log('Request file:', req.file);
+    console.log('Request body:', req.body);
+
     if (!req.file) {
+      console.log('No file in request');
       return res.status(400).json({
         success: false,
         message: 'Nenhum arquivo enviado'
@@ -53,8 +58,16 @@ export async function uploadSeoImage(req: Request, res: Response) {
     }
 
     const file = req.file;
-    const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
-    const imageUrl = `${baseUrl}/uploads/${file.filename}`;
+    console.log('File received:', {
+      filename: file.filename,
+      originalname: file.originalname,
+      size: file.size,
+      mimetype: file.mimetype,
+      path: file.path
+    });
+
+    // Usar URL relativa para evitar problemas de CORS/URL
+    const imageUrl = `/uploads/${file.filename}`;
 
     // Metadados da imagem
     const imageInfo = {
@@ -66,6 +79,8 @@ export async function uploadSeoImage(req: Request, res: Response) {
       path: file.path
     };
 
+    console.log('Upload successful, returning:', imageInfo);
+
     res.json({
       success: true,
       message: 'Imagem enviada com sucesso',
@@ -75,7 +90,8 @@ export async function uploadSeoImage(req: Request, res: Response) {
     console.error('Erro no upload:', error);
     res.status(500).json({
       success: false,
-      message: 'Erro interno do servidor'
+      message: 'Erro interno do servidor',
+      error: error instanceof Error ? error.message : 'Erro desconhecido'
     });
   }
 }
