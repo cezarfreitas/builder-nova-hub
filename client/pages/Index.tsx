@@ -3,6 +3,7 @@ import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Card, CardContent } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
+import { DynamicHead } from "../components/DynamicHead";
 import {
   Accordion,
   AccordionContent,
@@ -213,7 +214,7 @@ export default function Index() {
       id: 5,
       question: "Qual o prazo de entrega dos produtos?",
       answer:
-        "Trabalhamos com estoque disponível para pronta entrega. O prazo médio é de 5 a 10 dias úteis, dependendo da localização. Para pedidos maiores, o prazo pode ser negociado conforme a necessidade.",
+        "Trabalhamos com estoque disponível para pronta entrega. O prazo m��dio é de 5 a 10 dias úteis, dependendo da localização. Para pedidos maiores, o prazo pode ser negociado conforme a necessidade.",
       display_order: 5,
       is_active: true,
     },
