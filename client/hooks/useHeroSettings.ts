@@ -48,22 +48,7 @@ export function useHeroSettings(): UseHeroSettingsReturn {
     } catch (err) {
       console.error('Erro ao buscar configurações do hero:', err);
       setError(err instanceof Error ? err.message : 'Erro desconhecido');
-      
-      // Fallback para configurações padrão em caso de erro
-      setSettings({
-        title: "Torne-se um Revendedor Ecko",
-        subtitle: "Oportunidade única de negócio",
-        description: "Junte-se à rede de revendedores Ecko e maximize seus lucros com produtos de alta qualidade e suporte completo.",
-        cta_text: "Quero ser Revendedor",
-        cta_secondary_text: "Saiba Mais",
-        background_image: "",
-        background_color: "#dc2626",
-        text_color: "#ffffff",
-        cta_color: "#ffffff",
-        logo_url: "",
-        video_url: "",
-        enabled: true
-      });
+      setSettings(null); // Sem fallback - apenas dados salvos no banco
     } finally {
       setLoading(false);
     }
