@@ -494,6 +494,19 @@ export default function Index() {
       } else {
         setWhatsappError("");
       }
+    } else if (name === "cep") {
+      // Formatação do CEP
+      const formattedValue = formatCEP(value);
+      setFormData((prev) => ({ ...prev, [name]: formattedValue }));
+
+      // Validação e busca automática
+      if (validateCEP(formattedValue)) {
+        fetchAddressByCEP(formattedValue);
+      } else if (formattedValue) {
+        setCepError("Digite um CEP válido. Ex: 12345-678");
+      } else {
+        setCepError("");
+      }
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
