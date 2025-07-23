@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useSettings } from '../hooks/useSettings';
+import { useHeroSettings } from '../hooks/useHeroSettings';
 
 export function DynamicHead() {
   const { getSetting, loading } = useSettings();
