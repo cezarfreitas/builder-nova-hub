@@ -200,7 +200,7 @@ export default function Index() {
       id: 1,
       question: "Como me tornar um revendedor oficial da Ecko?",
       answer:
-        "Para se tornar um revendedor oficial, você precisa ter CNPJ ativo e preencher nosso formulário de cadastro. Nossa equipe entrará em contato em até 24h para apresentar as condições comerciais e processo de aprovação.",
+        "Para se tornar um revendedor oficial, você precisa ter CNPJ ativo e preencher nosso formulário de cadastro. Nossa equipe entrará em contato em até 24h para apresentar as condições comerciais e processo de aprova��ão.",
       display_order: 1,
       is_active: true,
     },
@@ -348,27 +348,35 @@ export default function Index() {
   };
 
   // Função para atualizar duração da visita
-  const updateDuration = async () => {
+  const updateDuration = async (useBeacon = false) => {
     try {
       const duration = Math.floor((Date.now() - startTime) / 1000);
-      const response = await fetch('/api/analytics/track-duration', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          session_id: sessionId,
-          duration_seconds: duration
-        })
-      });
+      const payload = {
+        session_id: sessionId,
+        duration_seconds: duration
+      };
 
-      // Verificar se a resposta foi bem-sucedida
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      if (useBeacon && navigator.sendBeacon) {
+        // Usar sendBeacon para envios durante unload (mais confiável)
+        const formData = new FormData();
+        formData.append('data', JSON.stringify(payload));
+        navigator.sendBeacon('/api/analytics/track-duration', formData);
+      } else {
+        // Usar fetch normal
+        const response = await fetch('/api/analytics/track-duration', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
       }
     } catch (error) {
       // Silenciar erros de analytics para não quebrar a aplicação
-      // console.error('Erro ao atualizar duração:', error);
     }
   };
 
