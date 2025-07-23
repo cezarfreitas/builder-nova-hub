@@ -1388,7 +1388,7 @@ export default function Index() {
           </p>
 
           <Button
-            onClick={() => setShowForm(true)}
+            onClick={() => openFormWithOrigin('main-cta')}
             className="group relative overflow-hidden bg-white hover:bg-gray-50 text-ecko-red text-base sm:text-lg px-8 sm:px-10 py-4 sm:py-5 h-auto font-black shadow-2xl hover:shadow-black/40 transition-all duration-300 hover:scale-105 uppercase tracking-wider w-full sm:w-auto max-w-sm sm:max-w-none mx-auto rounded-lg border-2 border-white hover:border-gray-200"
           >
             <span className="absolute inset-0 bg-gradient-to-r from-gray-50 to-gray-100 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
