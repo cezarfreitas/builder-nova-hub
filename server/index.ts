@@ -48,9 +48,17 @@ export function createServer() {
   app.get("/api/test-db", testDatabaseConnection);
   app.get("/api/database-info", getDatabaseInfo);
 
-  // Initialize database
-  initializeDatabase().catch(console.error);
-  testConnection();
+  // Initialize database (non-blocking)
+  setTimeout(async () => {
+    try {
+      console.log('🔄 Tentando conectar ao MySQL...');
+      await initializeDatabase();
+      console.log('✅ Banco de dados inicializado com sucesso!');
+    } catch (error) {
+      console.error('❌ Falha na inicialização do banco:', error);
+      console.log('⚠️  O servidor continuará funcionando sem banco de dados');
+    }
+  }, 1000);
 
   return app;
 }
