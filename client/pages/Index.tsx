@@ -181,7 +181,7 @@ export default function Index() {
       id: 1,
       question: "Como me tornar um revendedor oficial da Ecko?",
       answer:
-        "Para se tornar um revendedor oficial, você precisa ter CNPJ ativo e preencher nosso formulário de cadastro. Nossa equipe entrará em contato em até 24h para apresentar as condições comerciais e processo de aprovação.",
+        "Para se tornar um revendedor oficial, você precisa ter CNPJ ativo e preencher nosso formul��rio de cadastro. Nossa equipe entrará em contato em até 24h para apresentar as condições comerciais e processo de aprovação.",
       display_order: 1,
       is_active: true,
     },
@@ -1211,17 +1211,20 @@ export default function Index() {
           </div>
 
           <div className="container mx-auto px-6 max-w-6xl relative z-10">
-            <div className="text-center mb-12">
-              <div className="inline-flex items-center bg-ecko-red/20 backdrop-blur-sm border border-ecko-red/30 rounded-full px-5 py-2 mb-5">
+            <div className="text-center mb-16">
+              <div className="inline-flex items-center bg-ecko-red/20 backdrop-blur-sm border border-ecko-red/30 rounded-full px-6 py-3 mb-6">
                 <HelpCircle className="w-4 h-4 text-ecko-red mr-2" />
                 <span className="text-ecko-red font-bold uppercase tracking-wider text-sm">
                   Perguntas Frequentes
                 </span>
               </div>
-              <h2 className="text-3xl lg:text-5xl font-black text-white mb-5 leading-tight">
+              <h2 className="text-3xl md:text-5xl font-black text-white mb-6 leading-tight">
                 DÚVIDAS <span className="text-ecko-red">RESPONDIDAS</span>
+                <span className="block text-xl md:text-2xl text-gray-300 mt-2 font-medium normal-case tracking-normal">
+                  esclarecemos tudo para você
+                </span>
               </h2>
-              <p className="text-lg lg:text-xl text-gray-300 max-w-3xl mx-auto font-medium">
+              <p className="text-gray-300 text-lg max-w-3xl mx-auto leading-relaxed">
                 Encontre respostas para as principais dúvidas sobre nosso
                 programa de revendedores
               </p>
