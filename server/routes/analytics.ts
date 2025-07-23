@@ -319,7 +319,7 @@ export async function getDailyStats(req: Request, res: Response) {
 export async function getTimeAnalysis(req: Request, res: Response) {
   try {
     const db = getDatabase();
-    const { days = 30 } = req.query;
+    const { days = 30, yesterday } = req.query;
 
     // Análise por hora do dia
     const [hourlyStats] = await db.execute(`
@@ -497,7 +497,7 @@ export async function trackVisit(req: Request, res: Response) {
 
     const ip_address = req.ip || req.connection.remoteAddress || '';
 
-    // Gerar user_id baseado no IP + User Agent se n��o fornecido
+    // Gerar user_id baseado no IP + User Agent se não fornecido
     const computedUserId = user_id || Buffer.from(`${ip_address}-${user_agent || ''}`).toString('base64').slice(0, 50);
 
     // Inserir evento de visita
