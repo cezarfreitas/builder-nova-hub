@@ -89,8 +89,12 @@ export async function getAnalyticsOverview(req: Request, res: Response) {
         },
         traffic: {
           total_sessions: visitStats.total_sessions,
+          unique_users: visitStats.unique_users || 0,
           total_page_views: visitStats.total_page_views,
-          period_page_views: visitStats.period_page_views
+          period_page_views: visitStats.period_page_views,
+          avg_session_duration: Math.round(visitStats.avg_session_duration || 0),
+          pages_per_session: parseFloat((visitStats.pages_per_session || 0).toFixed(2)),
+          bounce_rate: parseFloat((bounceStats.bounce_rate || 0).toFixed(2))
         },
         conversion: {
           rate: parseFloat(conversionRate),
