@@ -415,12 +415,21 @@ export default function Index() {
 
     // Atualizar duração quando o usuário sair da página
     const handleBeforeUnload = () => {
-      updateDuration();
+      // Usar try/catch para evitar erros durante navegação
+      try {
+        updateDuration();
+      } catch (error) {
+        // Silenciar erros durante beforeunload
+      }
     };
 
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'hidden') {
-        updateDuration();
+        try {
+          updateDuration();
+        } catch (error) {
+          // Silenciar erros durante visibilitychange
+        }
       }
     };
 
