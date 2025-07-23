@@ -115,9 +115,9 @@ export async function getAnalyticsOverview(req: Request, res: Response) {
       whatsappQuery = `
         SELECT COUNT(*) as whatsapp_clicks
         FROM analytics_events
-        WHERE event_type = 'whatsapp_click' AND DATE(created_at) >= ?
+        WHERE event_type = 'whatsapp_click' AND created_at >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
       `;
-      whatsappParams = [dateFromStr];
+      whatsappParams = [Number(days)];
     }
 
     const [whatsappClicks] = await db.execute(whatsappQuery, whatsappParams);
