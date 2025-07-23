@@ -35,6 +35,9 @@ const App = () => (
         <Route path="/admin/hero" element={<AdminLayout />}>
           <Route index element={<AdminHero />} />
         </Route>
+        <Route path="/admin/testimonials" element={<AdminLayout />}>
+          <Route index element={<AdminTestimonials />} />
+        </Route>
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
       </Routes>
