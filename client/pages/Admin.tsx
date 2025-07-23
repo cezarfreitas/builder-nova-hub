@@ -116,11 +116,11 @@ export default function Admin() {
   };
 
   return (
-    <div className="min-h-screen bg-black flex">
+    <div className="min-h-screen bg-gray-50 flex">
       {/* Mobile Menu Button */}
       <Button
         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        className="lg:hidden fixed top-4 left-4 z-50 bg-ecko-red hover:bg-ecko-red-dark text-white p-2"
+        className="lg:hidden fixed top-4 left-4 z-50 bg-ecko-red hover:bg-ecko-red-dark text-white p-2 shadow-lg"
       >
         {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
       </Button>
@@ -129,17 +129,17 @@ export default function Admin() {
       <aside
         className={`${
           isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
-        } lg:translate-x-0 fixed lg:relative z-40 w-64 h-full bg-gray-900 border-r border-gray-800 transition-transform duration-300 ease-in-out`}
+        } lg:translate-x-0 fixed lg:relative z-40 w-64 h-full bg-white border-r border-gray-200 shadow-lg transition-transform duration-300 ease-in-out`}
       >
         {/* Logo/Header */}
-        <div className="p-6 border-b border-gray-800">
+        <div className="p-6 border-b border-gray-200">
           <div className="flex items-center space-x-2">
             <div className="w-8 h-8 bg-ecko-red rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-sm">E</span>
             </div>
             <div>
-              <h1 className="text-white font-bold text-lg">Ecko Admin</h1>
-              <p className="text-gray-400 text-xs">Painel de Controle</p>
+              <h1 className="text-gray-900 font-bold text-lg">Ecko Admin</h1>
+              <p className="text-gray-500 text-xs">Painel de Controle</p>
             </div>
           </div>
         </div>
@@ -150,13 +150,13 @@ export default function Admin() {
           <Button
             onClick={() => window.location.href = '/'}
             variant="ghost"
-            className="w-full justify-start text-gray-300 hover:text-white hover:bg-gray-800 transition-colors"
+            className="w-full justify-start text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors"
           >
             <Home className="w-5 h-5 mr-3" />
             Voltar para Home
           </Button>
 
-          <div className="border-t border-gray-800 pt-4 mt-4">
+          <div className="border-t border-gray-200 pt-4 mt-4">
             {sidebarItems.map((item) => (
               <Button
                 key={item.id}
@@ -167,8 +167,8 @@ export default function Admin() {
                 variant="ghost"
                 className={`w-full justify-start transition-all duration-200 ${
                   activeSection === item.id
-                    ? "bg-ecko-red/20 text-ecko-red border-r-2 border-ecko-red"
-                    : "text-gray-300 hover:text-white hover:bg-gray-800"
+                    ? "bg-ecko-red/10 text-ecko-red border-r-2 border-ecko-red font-semibold"
+                    : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
                 }`}
               >
                 {item.icon}
@@ -182,7 +182,7 @@ export default function Admin() {
       {/* Mobile Overlay */}
       {isMobileMenuOpen && (
         <div
-          className="lg:hidden fixed inset-0 bg-black/50 z-30"
+          className="lg:hidden fixed inset-0 bg-black/20 z-30"
           onClick={() => setIsMobileMenuOpen(false)}
         />
       )}
@@ -190,22 +190,22 @@ export default function Admin() {
       {/* Main Content */}
       <main className="flex-1 lg:ml-0 ml-0">
         {/* Header */}
-        <header className="bg-gray-900 border-b border-gray-800 p-4 lg:p-6">
+        <header className="bg-white border-b border-gray-200 p-4 lg:p-6 shadow-sm">
           <div className="flex items-center justify-between">
             <div className="lg:ml-0 ml-12">
-              <h2 className="text-xl lg:text-2xl font-bold text-white">
+              <h2 className="text-xl lg:text-2xl font-bold text-gray-900">
                 {sidebarItems.find(item => item.id === activeSection)?.label}
               </h2>
-              <p className="text-gray-400 text-sm">
+              <p className="text-gray-500 text-sm">
                 Gerencie sua plataforma Ecko
               </p>
             </div>
             <div className="flex items-center space-x-4">
               <div className="hidden sm:block text-right">
-                <p className="text-white font-medium">Admin</p>
-                <p className="text-gray-400 text-sm">Ecko Unlimited</p>
+                <p className="text-gray-900 font-medium">Admin</p>
+                <p className="text-gray-500 text-sm">Ecko Unlimited</p>
               </div>
-              <div className="w-10 h-10 bg-ecko-red rounded-full flex items-center justify-center">
+              <div className="w-10 h-10 bg-ecko-red rounded-full flex items-center justify-center shadow-md">
                 <span className="text-white font-bold">A</span>
               </div>
             </div>
@@ -213,7 +213,7 @@ export default function Admin() {
         </header>
 
         {/* Content Area */}
-        <div className="p-4 lg:p-6 space-y-6">
+        <div className="p-4 lg:p-6 space-y-6 bg-gray-50 min-h-[calc(100vh-80px)]">
           {renderContent()}
         </div>
       </main>
