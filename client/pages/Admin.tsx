@@ -643,29 +643,80 @@ export default function Admin() {
       case "analytics":
         return (
           <div className="space-y-6">
-            {/* Header com período */}
-            <Card className="bg-white shadow-sm border border-gray-200">
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-2xl text-gray-900 flex items-center">
-                    <BarChart3 className="w-6 h-6 mr-2 text-ecko-red" />
-                    Analytics da Landing Page
-                  </CardTitle>
-                  <div className="flex items-center space-x-2">
-                    <select className="p-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-ecko-red focus:border-ecko-red">
+            {/* Header Premium com Insights */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="lg:col-span-2">
+                <Card className="bg-gradient-to-br from-ecko-red to-red-600 text-white shadow-lg border-0">
+                  <CardHeader>
+                    <CardTitle className="text-2xl flex items-center text-white">
+                      <BarChart3 className="w-6 h-6 mr-2" />
+                      Analytics Dashboard
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <p className="text-white/80 text-sm">Performance Geral</p>
+                        <div className="flex items-center mt-1">
+                          <span className="text-3xl font-bold text-white">97.2%</span>
+                          <div className="ml-2 px-2 py-1 bg-white/20 rounded-full">
+                            <span className="text-xs text-white">+5.3%</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div>
+                        <p className="text-white/80 text-sm">ROI Estimado</p>
+                        <div className="flex items-center mt-1">
+                          <span className="text-3xl font-bold text-white">324%</span>
+                          <div className="ml-2 px-2 py-1 bg-white/20 rounded-full">
+                            <span className="text-xs text-white">+12%</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              <Card className="bg-white shadow-sm border border-gray-200">
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="text-lg text-gray-900">Filtros Avançados</CardTitle>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Período</label>
+                    <select className="w-full p-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-ecko-red focus:border-ecko-red">
+                      <option value="today">Hoje</option>
                       <option value="7">Últimos 7 dias</option>
                       <option value="30" selected>Últimos 30 dias</option>
                       <option value="90">Últimos 90 dias</option>
+                      <option value="custom">Período personalizado</option>
                     </select>
                   </div>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-600 mb-4">
-                  Acompanhe o desempenho da sua landing page de revendedores Ecko.
-                </p>
-              </CardContent>
-            </Card>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Dispositivo</label>
+                    <select className="w-full p-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-ecko-red focus:border-ecko-red">
+                      <option value="all">Todos</option>
+                      <option value="mobile">Mobile</option>
+                      <option value="desktop">Desktop</option>
+                      <option value="tablet">Tablet</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Fonte</label>
+                    <select className="w-full p-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-ecko-red focus:border-ecko-red">
+                      <option value="all">Todas</option>
+                      <option value="organic">Orgânico</option>
+                      <option value="paid">Pago</option>
+                      <option value="social">Social</option>
+                      <option value="direct">Direto</option>
+                    </select>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
 
             {/* Métricas Principais */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
