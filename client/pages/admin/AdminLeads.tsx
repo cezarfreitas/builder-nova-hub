@@ -440,14 +440,13 @@ export default function AdminLeads() {
                       <td className="px-3 py-2 whitespace-nowrap">
                         <div>
                           <div className="text-sm font-medium text-gray-900">{lead.nome}</div>
-                          <div className="text-sm text-gray-500">ID: {lead.id}</div>
+                          <div className="text-xs text-gray-400">#{lead.id}</div>
                         </div>
                       </td>
 
                       {/* WhatsApp */}
                       <td className="px-3 py-2 whitespace-nowrap">
                         <div className="text-sm text-gray-900 font-medium">{lead.telefone}</div>
-                        <div className="text-sm text-gray-500">WhatsApp</div>
                       </td>
 
                       {/* CNPJ */}
@@ -535,8 +534,8 @@ export default function AdminLeads() {
                         <div className="flex items-center space-x-2">
                           {getStatusBadge(lead.webhook_status)}
                         </div>
-                        <div className="text-xs text-gray-500 mt-1 max-w-xs truncate" title={lead.webhook_response}>
-                          {lead.webhook_response || 'Nenhuma resposta'}
+                        <div className="text-xs text-gray-400 mt-0.5 max-w-xs truncate" title={lead.webhook_response}>
+                          {lead.webhook_response && lead.webhook_response.length > 30 ? lead.webhook_response.substring(0, 30) + '...' : lead.webhook_response || '-'}
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
