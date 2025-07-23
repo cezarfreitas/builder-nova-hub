@@ -1070,8 +1070,13 @@ export default function Admin() {
                     </div>
 
                     <div className="flex gap-4">
-                      <Button variant="outline" className="border-blue-300 text-blue-700 hover:bg-blue-50">
-                        Testar Conexão
+                      <Button
+                        variant="outline"
+                        className="border-blue-300 text-blue-700 hover:bg-blue-50"
+                        onClick={handleTestDatabaseConnection}
+                        disabled={saving}
+                      >
+                        {saving ? 'Testando...' : 'Testar Conexão'}
                       </Button>
                       <Button variant="outline" className="border-green-300 text-green-700 hover:bg-green-50">
                         Fazer Backup
