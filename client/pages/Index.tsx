@@ -876,7 +876,7 @@ export default function Index() {
                   value={formData.hasCnpj}
                   onChange={handleInputChange}
                   required
-                  className="w-full h-12 bg-gray-800 border border-gray-700 rounded-md px-4 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none"
+                  className="w-full h-12 bg-gray-800 border border-gray-700 rounded-md px-4 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-base"
                 >
                   <option value="">Selecione</option>
                   <option value="sim">Sim</option>
