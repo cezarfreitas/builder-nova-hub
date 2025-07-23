@@ -9,6 +9,7 @@ import Index from "./pages/Index";
 import Admin from "./pages/Admin";
 import AdminLayout from "./pages/admin/AdminLayout";
 import AdminLeads from "./pages/admin/AdminLeads";
+import AdminConfiguracoes from "./pages/admin/AdminConfiguracoes";
 import NotFound from "./pages/NotFound";
 
 const App = () => (
