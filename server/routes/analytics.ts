@@ -588,10 +588,10 @@ export async function exportAnalyticsData(req: Request, res: Response) {
         COUNT(*) as total_leads,
         COUNT(CASE WHEN is_duplicate = FALSE THEN 1 END) as unique_leads
       FROM leads
-      WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
+      WHERE ${dateCondition}
       GROUP BY HOUR(created_at)
       ORDER BY hour
-    `, [Number(days)]);
+    `, queryParams);
 
     res.json({
       success: true,
@@ -618,7 +618,7 @@ export async function trackDuration(req: Request, res: Response) {
     const db = getDatabase();
     const { session_id, duration_seconds } = req.body;
 
-    // Atualizar duração da ��ltima visita desta sessão
+    // Atualizar duração da última visita desta sessão
     await db.execute(`
       UPDATE analytics_events
       SET duration_seconds = ?
