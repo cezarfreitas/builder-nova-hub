@@ -504,6 +504,7 @@ export default function Index() {
       });
 
       const result = await response.json();
+      console.log('📝 Resposta da API:', result);
 
       if (result.success) {
         console.log('✅ Lead enviado com sucesso:', result);
