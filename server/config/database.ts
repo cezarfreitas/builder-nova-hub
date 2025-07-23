@@ -119,12 +119,27 @@ export async function initializeDatabase(): Promise<void> {
         user_agent TEXT,
         referrer TEXT,
         page_url TEXT,
+        duration_seconds INT DEFAULT 0,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         INDEX idx_event_type (event_type),
         INDEX idx_session_id (session_id),
+        INDEX idx_user_id (user_id),
         INDEX idx_created_at (created_at)
       )
     `);
+
+    // Migração: Adicionar coluna duration_seconds se não existir
+    try {
+      await db.execute(`
+        ALTER TABLE analytics_events
+        ADD COLUMN duration_seconds INT DEFAULT 0
+      `);
+      console.log('✅ Coluna duration_seconds adicionada à tabela analytics_events');
+    } catch (error: any) {
+      if (error.code !== 'ER_DUP_FIELDNAME') {
+        console.log('⚠️ Coluna duration_seconds já existe ou erro:', error.message);
+      }
+    }
 
     // Inserir configurações padrão se não existirem
     await insertDefaultSettings(db);
