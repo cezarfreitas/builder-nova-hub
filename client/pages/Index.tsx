@@ -441,7 +441,7 @@ export default function Index() {
     // Atualizar duração periodicamente
     const durationInterval = setInterval(updateDuration, 30000); // A cada 30 segundos
 
-    // Atualizar duração quando o usuário sair da página
+    // Atualizar duração quando o usuário sair da p��gina
     const handleBeforeUnload = () => {
       // Usar sendBeacon para unload (mais confiável)
       try {
@@ -1248,7 +1248,7 @@ export default function Index() {
                         />
                         {cepLoading && (
                           <p className="text-blue-400 text-xs sm:text-sm mt-1 sm:mt-2 font-medium leading-tight">
-                            🔍 Buscando endereço...
+                            🔍 Validando CEP...
                           </p>
                         )}
                         {cepError && (
@@ -1258,24 +1258,9 @@ export default function Index() {
                         )}
                         {formData.cep && !cepError && !cepLoading && formData.cidade && (
                           <p className="text-green-400 text-xs sm:text-sm mt-1 sm:mt-2 font-medium leading-tight">
-                            ✅ {formData.endereco}, {formData.bairro} - {formData.cidade}/{formData.estado}
+                            ✅ CEP válido
                           </p>
                         )}
-                      </div>
-
-                      {/* Campo Número */}
-                      <div>
-                        <label className="block text-sm font-semibold text-gray-300 mb-1 sm:mb-2">
-                          Número
-                        </label>
-                        <Input
-                          name="numero"
-                          type="text"
-                          value={formData.numero}
-                          onChange={handleInputChange}
-                          placeholder="123"
-                          className="h-10 sm:h-12 text-sm sm:text-base bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-ecko-red focus:ring-ecko-red/20"
-                        />
                       </div>
 
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
