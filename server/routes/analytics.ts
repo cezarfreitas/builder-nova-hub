@@ -498,7 +498,8 @@ export async function trackVisit(req: Request, res: Response) {
       utm_medium,
       utm_campaign,
       user_agent,
-      duration_seconds
+      duration_seconds,
+      event_type
     } = req.body;
 
     const ip_address = req.ip || req.connection.remoteAddress || '';
