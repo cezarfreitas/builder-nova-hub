@@ -1337,7 +1337,7 @@ export default function Index() {
       </div>
 
       {/* Footer */}
-      <footer className="bg-black py-6 border-t border-gray-800">
+      <footer className="bg-black py-6 md:py-8 border-t border-gray-800">
         <div className="container mx-auto px-6 text-center">
           <p className="text-gray-400 text-sm">
             © 2024 Ecko Unlimited. Todos os direitos reservados.
