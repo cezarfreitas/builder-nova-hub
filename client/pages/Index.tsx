@@ -842,7 +842,7 @@ export default function Index() {
                   onChange={handleInputChange}
                   placeholder="12345-678"
                   required
-                  className={`h-12 bg-gray-800 text-white placeholder-gray-400 focus:ring-ecko-red/20 ${
+                  className={`h-12 text-base bg-gray-800 text-white placeholder-gray-400 focus:ring-ecko-red/20 ${
                     cepError
                       ? 'border-red-500 focus:border-red-500'
                       : formData.cep && validateCEP(formData.cep) && formData.cidade
