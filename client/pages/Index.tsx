@@ -1178,7 +1178,7 @@ export default function Index() {
                       </div>
 
                       <div>
-                        <label className="block text-sm font-semibold text-gray-300 mb-1 sm:mb-2">
+                        <label className="block text-sm font-semibold text-gray-300 mb-2">
                           WhatsApp
                         </label>
                         <Input
@@ -1188,7 +1188,7 @@ export default function Index() {
                           onChange={handleInputChange}
                           placeholder="(11) 99999-9999"
                           required
-                          className={`h-10 sm:h-12 text-sm sm:text-base bg-gray-800 text-white placeholder-gray-400 focus:ring-ecko-red/20 ${
+                          className={`h-12 text-base bg-gray-800 text-white placeholder-gray-400 focus:ring-ecko-red/20 ${
                             whatsappError
                               ? 'border-red-500 focus:border-red-500'
                               : formData.whatsapp && validateWhatsApp(formData.whatsapp)
