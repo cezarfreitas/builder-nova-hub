@@ -696,56 +696,49 @@ export default function Index() {
 
         {/* Content */}
         <div className="relative z-20 text-center px-4 sm:px-6 max-w-4xl mx-auto">
-          {/* Logo */}
-          <div className="flex items-center justify-center mt-8 sm:mt-12 lg:mt-20 mb-6 sm:mb-8">
-            <div
-              className="w-32 h-12 sm:w-40 sm:h-16 lg:w-48 lg:h-20 xl:w-56 xl:h-24 bg-no-repeat bg-center bg-contain"
-              style={{
-                backgroundImage: `url(${logoUrl})`
-              }}
-              role="img"
-              aria-label="Logo Ecko"
-            />
-          </div>
-
-          {/* Subtitle */}
-          {(heroSettings?.subtitle || heroLoading) && (
-            <div className="text-lg sm:text-xl lg:text-2xl mb-2 sm:mb-4 font-medium opacity-90 px-2">
-              {heroLoading ? (
-                "Oportunidade única de negócio"
-              ) : (
-                renderTextWithColorTokens(heroSettings?.subtitle || "")
-              )}
+          {/* Logo - Only from database */}
+          {heroSettings?.logo_url && (
+            <div className="flex items-center justify-center mt-8 sm:mt-12 lg:mt-20 mb-6 sm:mb-8">
+              <div
+                className="w-32 h-12 sm:w-40 sm:h-16 lg:w-48 lg:h-20 xl:w-56 xl:h-24 bg-no-repeat bg-center bg-contain"
+                style={{
+                  backgroundImage: `url(${heroSettings.logo_url})`
+                }}
+                role="img"
+                aria-label="Logo da Empresa"
+              />
             </div>
           )}
 
-          {/* Main Message */}
-          <div
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black mb-4 sm:mb-6 leading-tight px-2 transition-all duration-500"
-            style={{ color: heroSettings?.text_color || '#ffffff' }}
-          >
-            {heroLoading ? (
-              <>
-                TRANSFORME SUA
-                <br />
-                <span className="text-ecko-red">PAIXÃO</span>
-                <br />
-                EM <span className="text-ecko-red">LUCRO</span>
-              </>
-            ) : (
-              renderTextWithColorTokens(heroSettings?.title || "Torne-se um Revendedor Ecko")
-            )}
-          </div>
+          {/* Subtitle - Only from database */}
+          {heroSettings?.subtitle && (
+            <div
+              className="text-lg sm:text-xl lg:text-2xl mb-2 sm:mb-4 font-medium opacity-90 px-2"
+              style={{ color: heroSettings?.text_color || '#ffffff' }}
+            >
+              {renderTextWithColorTokens(heroSettings.subtitle)}
+            </div>
+          )}
 
-          <div
-            className="text-lg sm:text-xl lg:text-2xl mb-8 sm:mb-10 lg:mb-12 font-medium max-w-2xl mx-auto px-2 opacity-90 transition-all duration-500"
-            style={{ color: heroSettings?.text_color || '#ffffff' }}
-          >
-            {heroLoading
-              ? "Seja uma revenda autorizada da Ecko e tenha os melhores produtos de streetwear em sua loja!"
-              : renderTextWithColorTokens(heroSettings?.description || "Junte-se à rede de revendedores Ecko e maximize seus lucros com produtos de alta qualidade e suporte completo.")
-            }
-          </div>
+          {/* Main Message - Only from database */}
+          {heroSettings?.title && (
+            <div
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black mb-4 sm:mb-6 leading-tight px-2"
+              style={{ color: heroSettings?.text_color || '#ffffff' }}
+            >
+              {renderTextWithColorTokens(heroSettings.title)}
+            </div>
+          )}
+
+          {/* Description - Only from database */}
+          {heroSettings?.description && (
+            <div
+              className="text-lg sm:text-xl lg:text-2xl mb-8 sm:mb-10 lg:mb-12 font-medium max-w-2xl mx-auto px-2 opacity-90"
+              style={{ color: heroSettings?.text_color || '#ffffff' }}
+            >
+              {renderTextWithColorTokens(heroSettings.description)}
+            </div>
+          )}
 
           {/* Scroll Down Button */}
           <div className="flex flex-col items-center">
