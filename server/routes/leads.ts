@@ -151,7 +151,7 @@ export const submitLead: RequestHandler = async (req, res) => {
         hasCnpj: validatedData.hasCnpj,
         storeType: validatedData.storeType,
         is_duplicate,
-        webhook_status,
+        webhook_status: webhookStatus,
         status: "new",
         created_at: new Date().toISOString(),
       },
