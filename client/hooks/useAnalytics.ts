@@ -131,16 +131,21 @@ export function useAnalytics(days: number = 30) {
   const fetchTimeAnalysis = async () => {
     try {
       const response = await fetch(`/api/analytics/time-analysis?days=${days}`);
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
       const result = await response.json();
-      
+
       if (result.success) {
         setTimeAnalysis(result.data);
       } else {
-        throw new Error(result.message || 'Erro ao buscar análise temporal');
+        throw new Error(result.message || result.error || 'Erro ao buscar análise temporal');
       }
     } catch (err) {
       console.error('Erro ao buscar análise temporal:', err);
-      setError('Erro ao carregar análise temporal');
+      setError(`Erro ao carregar análise temporal: ${err.message}`);
     }
   };
 
