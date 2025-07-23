@@ -249,7 +249,8 @@ export async function getTimeAnalysis(req: Request, res: Response) {
     console.error('Erro ao buscar análise temporal:', error);
     res.status(500).json({
       success: false,
-      message: 'Erro interno do servidor'
+      message: 'Erro interno do servidor',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
     });
   }
 }
