@@ -22,6 +22,7 @@ export interface AnalyticsOverview {
     unique_users: number;
     total_page_views: number;
     period_page_views: number;
+    unique_page_views: number;
     avg_session_duration: number;
     pages_per_session: number;
     bounce_rate: number;
