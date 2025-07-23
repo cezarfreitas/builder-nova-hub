@@ -350,18 +350,17 @@ export async function resendWebhook(req: Request, res: Response) {
       [webhookResponse, webhookStatus, id]
     );
 
-    res.json({
-      success: true,
-      message: 'Webhook reenviado',
-      webhook_status: webhookStatus,
-      webhook_response: webhookResponse
-    });
+    if (!res.headersSent) {
+      res.json({
+        success: true,
+        message: 'Webhook reenviado',
+        webhook_status: webhookStatus,
+        webhook_response: webhookResponse
+      });
+    }
   } catch (error) {
     console.error('Erro ao reenviar webhook:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Erro interno do servidor'
-    });
+    return sendErrorResponse(500, 'Erro interno do servidor');
   }
 }
 
