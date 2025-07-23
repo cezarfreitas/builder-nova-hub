@@ -348,7 +348,7 @@ export async function getTimeAnalysis(req: Request, res: Response) {
     const db = getDatabase();
     const { days = 30, yesterday } = req.query;
 
-    // An��lise por hora do dia
+    // Análise por hora do dia
     const [hourlyStats] = await db.execute(`
       SELECT 
         HOUR(created_at) as hour,
@@ -709,19 +709,8 @@ export async function trackDuration(req: Request, res: Response) {
   try {
     const db = getDatabase();
 
-    // Suportar tanto JSON quanto FormData (sendBeacon)
-    let session_id, duration_seconds;
-
-    if (req.body.data) {
-      // Dados vindos do sendBeacon (FormData)
-      const data = JSON.parse(req.body.data);
-      session_id = data.session_id;
-      duration_seconds = data.duration_seconds;
-    } else {
-      // Dados vindos do fetch normal (JSON)
-      session_id = req.body.session_id;
-      duration_seconds = req.body.duration_seconds;
-    }
+    // Dados vindos do fetch normal (JSON) ou sendBeacon (URLSearchParams)
+    const { session_id, duration_seconds } = req.body;
 
     // Atualizar duração da última visita desta sessão
     await db.execute(`
