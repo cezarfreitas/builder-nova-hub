@@ -649,12 +649,18 @@ export default function Index() {
       <DynamicHead />
       <main className="bg-black pb-4">
       {/* Hero Full Screen Section */}
-      <section className="h-screen relative flex flex-col justify-center items-center overflow-hidden">
+      <section
+        className="h-screen relative flex flex-col justify-center items-center overflow-hidden"
+        style={{
+          backgroundColor: heroSettings?.background_color || '#dc2626',
+          color: heroSettings?.text_color || '#ffffff'
+        }}
+      >
         {/* Background Image */}
         <div className="absolute inset-0">
           {/* Hero Background Image */}
           <img
-            src="https://estyle.vteximg.com.br/arquivos/ecko_mosaic5.png?v=638421392678800000"
+            src={heroSettings?.background_image || "https://estyle.vteximg.com.br/arquivos/ecko_mosaic5.png?v=638421392678800000"}
             alt="Ecko Unlimited - Marca de streetwear líder no Brasil com produtos urbanos e estilo jovem"
             className="w-full h-full object-cover"
           />
@@ -670,23 +676,48 @@ export default function Index() {
           {/* Logo */}
           <div className="flex items-center justify-center mt-8 sm:mt-12 lg:mt-20 mb-6 sm:mb-8">
             <img
-              src="https://www.ntktextil.com.br/wp-content/uploads/2022/08/Logo-Ecko.png"
+              src={heroSettings?.logo_url || "https://www.ntktextil.com.br/wp-content/uploads/2022/08/Logo-Ecko.png"}
               alt="Logo Ecko"
               className="object-contain w-32 h-12 sm:w-40 sm:h-16 lg:w-48 lg:h-20 xl:w-56 xl:h-24"
+              onError={(e) => {
+                e.currentTarget.src = "https://www.ntktextil.com.br/wp-content/uploads/2022/08/Logo-Ecko.png";
+              }}
             />
           </div>
 
+          {/* Subtitle */}
+          {heroSettings?.subtitle && (
+            <p className="text-lg sm:text-xl lg:text-2xl mb-2 sm:mb-4 font-medium opacity-90 px-2">
+              {heroSettings.subtitle}
+            </p>
+          )}
+
           {/* Main Message */}
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-white mb-4 sm:mb-6 leading-tight px-2">
-            TRANSFORME SUA
-            <br />
-            <span className="text-ecko-red">PAIXÃO</span>
-            <br />
-            EM <span className="text-ecko-red">LUCRO</span>
+          <h2
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black mb-4 sm:mb-6 leading-tight px-2"
+            style={{ color: heroSettings?.text_color || '#ffffff' }}
+          >
+            {heroLoading ? (
+              <>
+                TRANSFORME SUA
+                <br />
+                <span className="text-ecko-red">PAIXÃO</span>
+                <br />
+                EM <span className="text-ecko-red">LUCRO</span>
+              </>
+            ) : (
+              heroSettings?.title || "Torne-se um Revendedor Ecko"
+            )}
           </h2>
 
-          <p className="text-lg sm:text-xl lg:text-2xl text-gray-100 mb-8 sm:mb-10 lg:mb-12 font-medium max-w-2xl mx-auto px-2">
-            Seja uma revenda autorizada da Ecko e tenha os melhores produtos de streetwear em sua loja!
+          <p
+            className="text-lg sm:text-xl lg:text-2xl mb-8 sm:mb-10 lg:mb-12 font-medium max-w-2xl mx-auto px-2 opacity-90"
+            style={{ color: heroSettings?.text_color || '#ffffff' }}
+          >
+            {heroLoading
+              ? "Seja uma revenda autorizada da Ecko e tenha os melhores produtos de streetwear em sua loja!"
+              : (heroSettings?.description || "Junte-se à rede de revendedores Ecko e maximize seus lucros com produtos de alta qualidade e suporte completo.")
+            }
           </p>
 
           {/* Scroll Down Button */}
