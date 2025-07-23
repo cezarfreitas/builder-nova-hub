@@ -1164,16 +1164,16 @@ export default function Index() {
                       className="space-y-6"
                     >
                       <div>
-                        <label className="block text-sm font-semibold text-gray-300 mb-1 sm:mb-2">
+                        <label className="block text-sm font-semibold text-gray-300 mb-2">
                           Nome Completo
                         </label>
                         <Input
                           name="name"
                           value={formData.name}
                           onChange={handleInputChange}
-                          placeholder="Seu nome"
+                          placeholder="Digite seu nome completo"
                           required
-                          className="h-10 sm:h-12 text-sm sm:text-base bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-ecko-red focus:ring-ecko-red/20"
+                          className="h-12 text-base bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-ecko-red focus:ring-ecko-red/20"
                         />
                       </div>
 
