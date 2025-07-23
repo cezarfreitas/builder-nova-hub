@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import path from "path";
 import { handleDemo } from "./routes/demo";
-import { submitLead, getLeads, resendWebhook } from "./routes/leads";
+import { submitLead, getLeads, resendWebhook, deleteLead, getLeadStats } from "./routes/leads";
 import { getSettings, getSetting, updateSetting, updateSettings, deleteSetting } from "./routes/settings";
 import { upload, uploadSeoImage, deleteUploadedImage, listUploadedImages } from "./routes/uploads";
 import { testDatabaseConnection, getDatabaseInfo } from "./routes/database-test";
