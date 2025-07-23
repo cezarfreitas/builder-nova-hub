@@ -257,25 +257,81 @@ export default function Admin() {
             Voltar para Home
           </Button>
 
-          <div className="border-t border-gray-200 pt-4 space-y-1 flex-1">
-            {sidebarItems.map((item) => (
-              <Button
-                key={item.id}
-                onClick={() => {
-                  setActiveSection(item.id);
-                  setIsMobileMenuOpen(false);
-                }}
-                variant="ghost"
-                className={`w-full justify-start transition-all duration-200 ${
-                  activeSection === item.id
-                    ? "bg-ecko-red/10 text-ecko-red border-r-2 border-ecko-red font-semibold"
-                    : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
-                }`}
-              >
-                {item.icon}
-                <span className="ml-3">{item.label}</span>
-              </Button>
-            ))}
+          <div className="border-t border-gray-200 pt-4 space-y-1 flex-1 overflow-y-auto">
+            {/* Seções Principais */}
+            <div className="mb-4">
+              <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 px-3">
+                Principal
+              </h3>
+              {sidebarItems.filter(item => item.category === "main").map((item) => (
+                <Button
+                  key={item.id}
+                  onClick={() => {
+                    setActiveSection(item.id);
+                    setIsMobileMenuOpen(false);
+                  }}
+                  variant="ghost"
+                  className={`w-full justify-start transition-all duration-200 ${
+                    activeSection === item.id
+                      ? "bg-ecko-red/10 text-ecko-red border-r-2 border-ecko-red font-semibold"
+                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                  }`}
+                >
+                  {item.icon}
+                  <span className="ml-3">{item.label}</span>
+                </Button>
+              ))}
+            </div>
+
+            {/* Seções da Landing Page */}
+            <div className="mb-4">
+              <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 px-3">
+                Landing Page
+              </h3>
+              {sidebarItems.filter(item => item.category === "lp").map((item) => (
+                <Button
+                  key={item.id}
+                  onClick={() => {
+                    setActiveSection(item.id);
+                    setIsMobileMenuOpen(false);
+                  }}
+                  variant="ghost"
+                  className={`w-full justify-start transition-all duration-200 ${
+                    activeSection === item.id
+                      ? "bg-ecko-red/10 text-ecko-red border-r-2 border-ecko-red font-semibold"
+                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                  }`}
+                >
+                  {item.icon}
+                  <span className="ml-3">{item.label}</span>
+                </Button>
+              ))}
+            </div>
+
+            {/* Configurações */}
+            <div>
+              <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 px-3">
+                Configurações
+              </h3>
+              {sidebarItems.filter(item => item.category === "config").map((item) => (
+                <Button
+                  key={item.id}
+                  onClick={() => {
+                    setActiveSection(item.id);
+                    setIsMobileMenuOpen(false);
+                  }}
+                  variant="ghost"
+                  className={`w-full justify-start transition-all duration-200 ${
+                    activeSection === item.id
+                      ? "bg-ecko-red/10 text-ecko-red border-r-2 border-ecko-red font-semibold"
+                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                  }`}
+                >
+                  {item.icon}
+                  <span className="ml-3">{item.label}</span>
+                </Button>
+              ))}
+            </div>
           </div>
 
           {/* Footer da sidebar */}
