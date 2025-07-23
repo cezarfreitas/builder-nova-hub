@@ -104,12 +104,18 @@ export function useLeads(): UseLeadsReturn {
       if (params.date_to) searchParams.set('date_to', params.date_to);
 
       const response = await fetch(`/api/leads?${searchParams.toString()}`);
-      
+
       if (!response.ok) {
-        throw new Error('Erro ao carregar leads');
+        const errorText = await response.text();
+        throw new Error(`HTTP ${response.status}: ${errorText}`);
       }
 
-      const result = await response.json();
+      let result;
+      try {
+        result = await response.json();
+      } catch (parseError) {
+        throw new Error('Resposta inválida do servidor');
+      }
 
       if (result.success) {
         setLeads(result.data.leads);
