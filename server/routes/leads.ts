@@ -50,11 +50,11 @@ export const submitLead: RequestHandler = async (req, res) => {
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         validatedData.name,
-        email,
+        email, // Email temporário para compatibilidade
         telefone,
-        validatedData.cidade || '',
-        validatedData.empresa || '',
-        validatedData.hasCnpj === 'sim' ? 'sim' : 'interessado',
+        '', // cidade - não capturada no formulário
+        '', // empresa - não capturada no formulário
+        validatedData.hasCnpj,
         is_duplicate,
         source,
         utm_source,
