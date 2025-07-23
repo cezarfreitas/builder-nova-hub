@@ -176,6 +176,7 @@ export async function getAnalyticsOverview(req: Request, res: Response) {
           unique_users: visitStats.unique_users || 0,
           total_page_views: visitStats.total_page_views,
           period_page_views: visitStats.period_page_views,
+          unique_page_views: visitStats.unique_page_views || 0,
           avg_session_duration: Math.round(visitStats.avg_session_duration || 0),
           pages_per_session: parseFloat((Number(visitStats.pages_per_session) || 0).toFixed(2)),
           bounce_rate: parseFloat((Number(bounceStats.bounce_rate) || 0).toFixed(2)),
