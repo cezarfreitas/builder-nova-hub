@@ -176,7 +176,8 @@ export async function getAnalyticsOverview(req: Request, res: Response) {
           period_page_views: visitStats.period_page_views,
           avg_session_duration: Math.round(visitStats.avg_session_duration || 0),
           pages_per_session: parseFloat((Number(visitStats.pages_per_session) || 0).toFixed(2)),
-          bounce_rate: parseFloat((Number(bounceStats.bounce_rate) || 0).toFixed(2))
+          bounce_rate: parseFloat((Number(bounceStats.bounce_rate) || 0).toFixed(2)),
+          whatsapp_clicks: whatsappStats.whatsapp_clicks || 0
         },
         conversion: {
           rate: parseFloat(conversionRate),
@@ -367,7 +368,7 @@ export async function getTimeAnalysis(req: Request, res: Response) {
           WHEN 2 THEN 'Quarta-feira'
           WHEN 3 THEN 'Quinta-feira'
           WHEN 4 THEN 'Sexta-feira'
-          WHEN 5 THEN 'S��bado'
+          WHEN 5 THEN 'Sábado'
           WHEN 6 THEN 'Domingo'
         END as weekday_name,
         total_leads,
