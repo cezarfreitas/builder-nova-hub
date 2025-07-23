@@ -35,6 +35,9 @@ export function createServer() {
   app.put("/api/leads/:id/webhook", resendWebhook);
   app.delete("/api/leads/:id", deleteLead);
 
+  // Webhook routes
+  app.post("/api/webhook/test", testWebhook);
+
   // Settings routes
   app.get("/api/settings", getSettings);
   app.get("/api/settings/:key", getSetting);
