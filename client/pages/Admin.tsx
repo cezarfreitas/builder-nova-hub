@@ -546,12 +546,14 @@ export default function Admin() {
                           <input
                             type="text"
                             className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
-                            defaultValue="Seja uma Revenda Autorizada da Ecko | Tenha os Melhores Produtos"
+                            value={seoFormData.seo_title}
+                            onChange={(e) => setSeoFormData(prev => ({ ...prev, seo_title: e.target.value }))}
                             maxLength={60}
+                            placeholder="Título da página para SEO"
                           />
                           <div className="flex justify-between mt-1">
                             <p className="text-xs text-gray-500">Máximo 60 caracteres</p>
-                            <p className="text-xs text-gray-400">56/60</p>
+                            <p className="text-xs text-gray-400">{seoFormData.seo_title.length}/60</p>
                           </div>
                         </div>
 
