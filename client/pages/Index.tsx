@@ -668,12 +668,12 @@ export default function Index() {
       <DynamicHead />
       <main className="bg-black pb-4">
       {/* Hero Full Screen Section */}
-      {(heroSettings?.enabled !== false) && (
+      {(currentHero.enabled !== false) && (
         <section
           className="h-screen relative flex flex-col justify-center items-center overflow-hidden"
           style={{
-            backgroundColor: heroSettings?.background_color || '#dc2626',
-            color: heroSettings?.text_color || '#ffffff'
+            backgroundColor: currentHero.background_color,
+            color: currentHero.text_color
           }}
         >
         {/* Background Image */}
