@@ -425,6 +425,64 @@ export async function trackVisit(req: Request, res: Response) {
   }
 }
 
+// GET /api/analytics/export-data - Exportar todos os dados para Excel
+export async function exportAnalyticsData(req: Request, res: Response) {
+  try {
+    const db = getDatabase();
+    const { days = 30 } = req.query;
+
+    // Buscar leads detalhados
+    const [leads] = await db.execute(`
+      SELECT
+        id, nome, telefone, experiencia_revenda, tipo_loja,
+        is_duplicate, source, utm_source, utm_medium, utm_campaign,
+        webhook_status, webhook_response, created_at
+      FROM leads
+      WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
+      ORDER BY created_at DESC
+    `, [Number(days)]);
+
+    // Buscar eventos de analytics
+    const [events] = await db.execute(`
+      SELECT
+        session_id, user_id, event_type, ip_address,
+        referrer, page_url, duration_seconds, created_at
+      FROM analytics_events
+      WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
+      ORDER BY created_at DESC
+    `, [Number(days)]);
+
+    // Buscar estatísticas por hora
+    const [hourlyStats] = await db.execute(`
+      SELECT
+        HOUR(created_at) as hour,
+        COUNT(*) as total_leads,
+        COUNT(CASE WHEN is_duplicate = FALSE THEN 1 END) as unique_leads
+      FROM leads
+      WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
+      GROUP BY HOUR(created_at)
+      ORDER BY hour
+    `, [Number(days)]);
+
+    res.json({
+      success: true,
+      data: {
+        leads,
+        events,
+        hourly_stats: hourlyStats,
+        export_date: new Date().toISOString(),
+        period_days: Number(days)
+      }
+    });
+  } catch (error) {
+    console.error('Erro ao exportar dados analytics:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Erro interno do servidor'
+    });
+  }
+}
+
 // POST /api/analytics/track-duration - Atualizar duração da sessão
 export async function trackDuration(req: Request, res: Response) {
   try {
