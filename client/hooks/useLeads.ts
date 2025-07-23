@@ -61,6 +61,7 @@ interface UseLeadsReturn {
     date_to?: string;
   }) => Promise<void>;
   resendWebhook: (leadId: number) => Promise<boolean>;
+  deleteLead: (leadId: number) => Promise<boolean>;
   exportLeads: (filter?: string) => Promise<void>;
   refreshStats: () => Promise<void>;
 }
