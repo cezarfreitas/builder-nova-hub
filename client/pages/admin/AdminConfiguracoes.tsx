@@ -494,11 +494,8 @@ export default function AdminConfiguracoes() {
 {`{
   "lead_id": 123,
   "nome": "João Silva",
-  "email": "joao@exemplo.com",
   "telefone": "(11) 99999-9999",
-  "cidade": "São Paulo - SP",
-  "empresa": "Empresa LTDA",
-  "experiencia_revenda": "sim",
+  "tem_cnpj": "sim",
   "tipo_loja": "fisica",
   "is_duplicate": false,
   "source": "direct",
