@@ -89,17 +89,14 @@ export const submitLead: RequestHandler = async (req, res) => {
           const webhookPayload = {
             lead_id: leadId,
             nome: validatedData.name,
-            email,
-            telefone,
-            cidade: validatedData.cidade || '',
-            empresa: validatedData.empresa || '',
-            experiencia_revenda: validatedData.hasCnpj === 'sim' ? 'sim' : 'interessado',
+            telefone: validatedData.whatsapp,
+            tem_cnpj: validatedData.hasCnpj,
             tipo_loja: validatedData.storeType,
             is_duplicate,
             source,
-            utm_source,
-            utm_medium,
-            utm_campaign,
+            utm_source: utm_source || '',
+            utm_medium: utm_medium || '',
+            utm_campaign: utm_campaign || '',
             ip_address,
             timestamp: new Date().toISOString()
           };
