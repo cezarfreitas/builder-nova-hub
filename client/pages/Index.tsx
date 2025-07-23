@@ -540,10 +540,13 @@ export default function Index() {
             <Button
               onClick={scrollToContent}
               variant="outline"
-              className="mb-6 sm:mb-8 bg-transparent border-2 border-ecko-red text-ecko-red hover:bg-ecko-red hover:text-white font-bold px-6 sm:px-8 py-3 sm:py-4 h-auto text-base sm:text-lg uppercase tracking-wider transition-all duration-300"
+              className="mb-6 sm:mb-8 group relative overflow-hidden bg-transparent border-2 border-ecko-red text-ecko-red hover:text-white font-bold px-8 sm:px-10 py-4 sm:py-5 h-auto text-base sm:text-lg uppercase tracking-wider transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-ecko-red/40 rounded-lg"
             >
-              Descubra Como Funciona
-              <ChevronDown className="ml-2 w-6 h-6" />
+              <span className="absolute inset-0 bg-ecko-red transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+              <span className="relative z-10 flex items-center">
+                Descubra Como Funciona
+                <ChevronDown className="ml-2 w-6 h-6 group-hover:animate-bounce" />
+              </span>
             </Button>
 
             {/* Scroll Indicator */}
