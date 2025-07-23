@@ -482,6 +482,32 @@ export default function AdminLeads() {
                         </div>
                       </td>
 
+                      {/* Cidade */}
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-900">
+                          {lead.cidade ? (
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                              🏙️ {lead.cidade}
+                            </span>
+                          ) : (
+                            <span className="text-gray-500">Não informado</span>
+                          )}
+                        </div>
+                      </td>
+
+                      {/* Estado */}
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-900">
+                          {lead.estado ? (
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                              📍 {lead.estado}
+                            </span>
+                          ) : (
+                            <span className="text-gray-500">Não informado</span>
+                          )}
+                        </div>
+                      </td>
+
                       {/* Origem do Formulário */}
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm text-gray-900">
