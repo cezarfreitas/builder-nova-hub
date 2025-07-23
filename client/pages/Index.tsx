@@ -54,6 +54,7 @@ export default function Index() {
   const [cnpjError, setCnpjError] = useState("");
   const [faqs, setFaqs] = useState<FAQ[]>([]);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [formOrigin, setFormOrigin] = useState<string>("");
   const [galleryImages, setGalleryImages] = useState<GalleryImage[]>([]);
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [startTime] = useState(Date.now());
