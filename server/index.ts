@@ -57,6 +57,7 @@ export function createServer() {
   app.get("/api/analytics/time-analysis", getTimeAnalysis);
   app.get("/api/analytics/traffic-sources", getTrafficSources);
   app.post("/api/analytics/track-visit", trackVisit);
+  app.post("/api/analytics/track-duration", trackDuration);
 
   // Database test routes
   app.get("/api/test-db", testDatabaseConnection);
