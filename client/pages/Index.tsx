@@ -466,7 +466,21 @@ export default function Index() {
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    if (name === "whatsapp") {
+      // Formatação do WhatsApp
+      const formattedValue = formatWhatsApp(value);
+      setFormData((prev) => ({ ...prev, [name]: formattedValue }));
+
+      // Validação do WhatsApp
+      if (formattedValue && !validateWhatsApp(formattedValue)) {
+        setWhatsappError("Digite um número de WhatsApp válido. Ex: (11) 99999-9999");
+      } else {
+        setWhatsappError("");
+      }
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
 
     // Validar CNPJ imediatamente
     if (name === "hasCnpj") {
