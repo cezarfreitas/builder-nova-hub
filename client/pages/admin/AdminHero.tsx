@@ -163,53 +163,6 @@ export default function AdminHero() {
         </div>
 
         <div className="flex items-center gap-3">
-          {/* Test Upload Button */}
-          <Button
-            onClick={async () => {
-              const input = document.createElement('input');
-              input.type = 'file';
-              input.accept = 'image/*';
-              input.onchange = async (e) => {
-                const file = (e.target as HTMLInputElement).files?.[0];
-                if (file) {
-                  try {
-                    const formData = new FormData();
-                    formData.append('image', file);
-                    console.log('Testing upload with file:', file);
-
-                    const response = await fetch('/api/test-upload', {
-                      method: 'POST',
-                      body: formData,
-                    });
-
-                    const result = await response.json();
-                    console.log('Test upload result:', result);
-
-                    toast({
-                      title: "Teste de Upload",
-                      description: result.success ? "Upload funcionando!" : "Erro no upload",
-                      variant: result.success ? "default" : "destructive",
-                    });
-                  } catch (error) {
-                    console.error('Test upload error:', error);
-                    toast({
-                      title: "Erro no teste",
-                      description: "Erro ao testar upload",
-                      variant: "destructive",
-                    });
-                  }
-                }
-              };
-              input.click();
-            }}
-            variant="outline"
-            size="sm"
-            className="border-green-300 text-green-700 hover:bg-green-50"
-          >
-            <Upload className="w-4 h-4 mr-2" />
-            Testar Upload
-          </Button>
-
           <Button
             onClick={() => setPreviewMode(!previewMode)}
             variant="outline"
