@@ -431,7 +431,7 @@ export default function Index() {
     // Definir dados estáticos no carregamento
     setGalleryImages(staticGalleryImages);
     setFaqs(staticFAQs);
-    setTestimonials(staticTestimonials);
+    fetchTestimonials();
 
     // Rastrear visita da página
     trackVisit();
