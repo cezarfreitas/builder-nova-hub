@@ -7,7 +7,7 @@ import { testWebhook } from "./routes/webhook-test";
 import { getSettings, getSetting, updateSetting, updateSettings, deleteSetting } from "./routes/settings";
 import { upload, uploadSeoImage, deleteUploadedImage, listUploadedImages } from "./routes/uploads";
 import { testDatabaseConnection, getDatabaseInfo } from "./routes/database-test";
-import { getAnalyticsOverview, getDailyStats, getTimeAnalysis, getTrafficSources, trackVisit, trackDuration } from "./routes/analytics";
+import { getAnalyticsOverview, getDailyStats, getTimeAnalysis, getTrafficSources, trackVisit, trackDuration, exportAnalyticsData } from "./routes/analytics";
 import { initializeDatabase, testConnection } from "./config/database";
 
 export function createServer() {
@@ -66,7 +66,7 @@ export function createServer() {
   // Initialize database (non-blocking)
   setTimeout(async () => {
     try {
-      console.log('🔄 Tentando conectar ao MySQL...');
+      console.log('��� Tentando conectar ao MySQL...');
       await initializeDatabase();
       console.log('✅ Banco de dados inicializado com sucesso!');
     } catch (error) {
