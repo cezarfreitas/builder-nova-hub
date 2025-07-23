@@ -1210,7 +1210,7 @@ export default function Index() {
 
                       {/* Campo CEP */}
                       <div>
-                        <label className="block text-sm font-semibold text-gray-300 mb-1 sm:mb-2">
+                        <label className="block text-sm font-semibold text-gray-300 mb-2">
                           CEP
                         </label>
                         <Input
@@ -1220,7 +1220,7 @@ export default function Index() {
                           onChange={handleInputChange}
                           placeholder="12345-678"
                           required
-                          className={`h-10 sm:h-12 text-sm sm:text-base bg-gray-800 text-white placeholder-gray-400 focus:ring-ecko-red/20 ${
+                          className={`h-12 text-base bg-gray-800 text-white placeholder-gray-400 focus:ring-ecko-red/20 ${
                             cepError
                               ? 'border-red-500 focus:border-red-500'
                               : formData.cep && validateCEP(formData.cep) && formData.cidade
