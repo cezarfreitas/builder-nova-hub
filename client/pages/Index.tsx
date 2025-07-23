@@ -811,7 +811,7 @@ export default function Index() {
           {currentHero.cta_secondary_text && (
             <div className="flex flex-col items-center">
               <Button
-                onClick={() => openFormWithOrigin('hero-cta-secondary')}
+                onClick={scrollToContent}
                 variant="outline"
                 className="mb-6 sm:mb-8 group relative overflow-hidden bg-transparent border-2 font-bold px-8 sm:px-10 py-4 sm:py-5 h-auto text-base sm:text-lg uppercase tracking-wider transition-all duration-500 hover:scale-105 hover:shadow-2xl rounded-lg"
                 style={{
