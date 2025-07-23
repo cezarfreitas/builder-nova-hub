@@ -26,7 +26,12 @@ export function getDatabase(): mysql.Pool {
       ...dbConfig,
       waitForConnections: true,
       connectionLimit: 5,
-      queueLimit: 0
+      queueLimit: 0,
+      acquireTimeout: 60000,  // 60 segundos
+      timeout: 60000,         // 60 segundos
+      reconnect: true,
+      idleTimeout: 900000,    // 15 minutos
+      maxLifetime: 1800000    // 30 minutos
     });
   }
   return pool;
