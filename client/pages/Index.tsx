@@ -653,7 +653,16 @@ export default function Index() {
       <DynamicHead />
       <main className="bg-black pb-4">
       {/* Hero Full Screen Section */}
-      {(heroSettings?.enabled !== false) && (
+      {heroLoading && (
+        <div className="h-screen flex items-center justify-center" style={{ backgroundColor: '#dc2626' }}>
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
+            <p className="text-white">Carregando configurações...</p>
+          </div>
+        </div>
+      )}
+
+      {!heroLoading && (heroSettings?.enabled !== false) && (
         <section
           className="h-screen relative flex flex-col justify-center items-center overflow-hidden"
           style={{
