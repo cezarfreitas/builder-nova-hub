@@ -653,7 +653,7 @@ export default function Index() {
       <DynamicHead />
       <main className="bg-black pb-4">
       {/* Hero Full Screen Section */}
-      {(currentHero.enabled !== false) && (
+      {(currentHero && currentHero.enabled !== false) && (
         <section
           className="h-screen relative flex flex-col justify-center items-center overflow-hidden"
           style={{
@@ -970,7 +970,7 @@ export default function Index() {
             </h2>
             <p className="text-gray-300 text-lg max-w-3xl mx-auto leading-relaxed">
               Descubra os benefícios únicos que fazem da Ecko a escolha certa
-              para impulsionar seu neg��cio no mundo da moda streetwear
+              para impulsionar seu negócio no mundo da moda streetwear
             </p>
           </div>
 
