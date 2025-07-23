@@ -1117,12 +1117,27 @@ export default function Index() {
 
       {/* Stats Section */}
       <section className="py-20 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden">
-        <div className="container mx-auto px-6 max-w-6xl">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Os <span className="text-ecko-red">Números</span> que Comprovam nosso Sucesso
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-ecko-red/10 via-transparent to-ecko-red/10"></div>
+          <div className="absolute top-1/4 left-1/3 w-72 h-72 bg-ecko-red/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-1/4 right-1/3 w-72 h-72 bg-ecko-red/10 rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="container mx-auto px-6 max-w-6xl relative z-10">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center bg-ecko-red/20 backdrop-blur-sm border border-ecko-red/30 rounded-full px-6 py-3 mb-6">
+              <span className="text-ecko-red font-bold uppercase tracking-wider text-sm">
+                Credibilidade
+              </span>
+            </div>
+            <h2 className="text-3xl md:text-5xl font-black text-white mb-6 leading-tight">
+              Os <span className="text-ecko-red">NÚMEROS</span> que Comprovam nosso Sucesso
+              <span className="block text-xl md:text-2xl text-gray-300 mt-2 font-medium normal-case tracking-normal">
+                estatísticas de uma marca sólida
+              </span>
             </h2>
-            <p className="text-gray-300 text-lg max-w-2xl mx-auto">
+            <p className="text-gray-300 text-lg max-w-3xl mx-auto leading-relaxed">
               Estatísticas que demonstram por que somos a escolha certa para seu negócio
             </p>
           </div>
