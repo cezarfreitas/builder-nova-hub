@@ -289,16 +289,16 @@ export async function getHeroSettings(req: Request, res: Response) {
 
     // Configurações padrão do hero
     const defaultSettings = {
-      title: "Torne-se um Revendedor Ecko",
-      subtitle: "Oportunidade única de negócio",
-      description: "Junte-se à rede de revendedores Ecko e maximize seus lucros com produtos de alta qualidade e suporte completo.",
+      title: "Transforme sua {ecko}PAIXÃO{/ecko} em {green}LUCRO{/green}",
+      subtitle: "Oportunidade {red}única{/red} de negócio",
+      description: "Junte-se à rede de revendedores {ecko}Ecko{/ecko} e maximize seus {green}lucros{/green} com produtos de alta qualidade e suporte completo.",
       cta_text: "Quero ser Revendedor",
-      cta_secondary_text: "Saiba Mais",
-      background_image: "",
+      cta_secondary_text: "Descubra Como Funciona",
+      background_image: "https://estyle.vteximg.com.br/arquivos/ecko_mosaic5.png?v=638421392678800000",
       background_color: "#dc2626",
       text_color: "#ffffff",
       cta_color: "#ffffff",
-      logo_url: "",
+      logo_url: "https://www.ntktextil.com.br/wp-content/uploads/2022/08/Logo-Ecko.png",
       video_url: "",
       enabled: true
     };
