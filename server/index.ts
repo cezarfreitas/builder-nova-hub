@@ -44,6 +44,10 @@ export function createServer() {
   app.get("/api/uploads", listUploadedImages);
   app.delete("/api/uploads/:filename", deleteUploadedImage);
 
+  // Database test routes
+  app.get("/api/test-db", testDatabaseConnection);
+  app.get("/api/database-info", getDatabaseInfo);
+
   // Initialize database
   initializeDatabase().catch(console.error);
   testConnection();
