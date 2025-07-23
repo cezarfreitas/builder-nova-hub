@@ -264,7 +264,7 @@ export default function Index() {
       company: "Urban Fashion",
       role: "Diretor Comercial",
       content:
-        "A Ecko não é s�� uma marca, é um estilo de vida. Nossos clientes s��o apaixonados pelos produtos e isso reflete diretamente nas nossas vendas. Melhor decisão que já tomei!",
+        "A Ecko não é só uma marca, é um estilo de vida. Nossos clientes s��o apaixonados pelos produtos e isso reflete diretamente nas nossas vendas. Melhor decisão que já tomei!",
       avatar_url:
         "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
       rating: 5,
@@ -899,10 +899,10 @@ export default function Index() {
                         ) : (
                           <>
                             <span className="hidden sm:inline">
-                              QUERO SER REVENDEDOR AGORA
+                              {heroSettings?.cta_text?.toUpperCase() || "QUERO SER REVENDEDOR AGORA"}
                             </span>
                             <span className="sm:hidden">
-                              QUERO SER REVENDEDOR
+                              {heroSettings?.cta_text?.toUpperCase() || "QUERO SER REVENDEDOR"}
                             </span>
                           </>
                         )}
