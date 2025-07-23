@@ -453,8 +453,16 @@ export default function AdminLeads() {
                       {/* Tipo de Loja */}
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm text-gray-900 capitalize">
-                          {/* Assumindo que tipo_loja não está vindo do banco, vou mostrar genérico */}
-                          <span className="text-gray-500">Não informado</span>
+                          {lead.tipo_loja ? (
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                              {lead.tipo_loja === 'fisica' ? '🏪 Física' :
+                               lead.tipo_loja === 'online' ? '💻 Online' :
+                               lead.tipo_loja === 'ambas' ? '🏪💻 Ambas' :
+                               lead.tipo_loja}
+                            </span>
+                          ) : (
+                            <span className="text-gray-500">Não informado</span>
+                          )}
                         </div>
                       </td>
 
