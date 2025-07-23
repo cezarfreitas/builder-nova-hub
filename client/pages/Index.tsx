@@ -806,12 +806,11 @@ export default function Index() {
                   E TENHA <span className="text-ecko-red">SUCESSO</span>
                 </h1>
 
-                <div className="text-lg sm:text-xl lg:text-2xl text-gray-100 mb-6 sm:mb-7 lg:mb-8 font-medium px-2 lg:px-0 transition-all duration-500">
-                  {currentHero.description ?
-                    renderTextWithColorTokens(currentHero.description) :
-                    "Produtos de alta qualidade que seus clientes vão amar e que garantem excelente margem de lucro!"
-                  }
-                </div>
+                {currentHero && currentHero.description && (
+                  <div className="text-lg sm:text-xl lg:text-2xl text-gray-100 mb-6 sm:mb-7 lg:mb-8 font-medium px-2 lg:px-0 transition-all duration-500">
+                    {renderTextWithColorTokens(currentHero.description)}
+                  </div>
+                )}
 
 
               </div>
