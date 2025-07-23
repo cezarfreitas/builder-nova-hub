@@ -532,8 +532,7 @@ export default function Index() {
           </h2>
 
           <p className="text-lg sm:text-xl lg:text-2xl text-gray-100 mb-8 sm:mb-10 lg:mb-12 font-medium max-w-2xl mx-auto px-2">
-            Seja um revendedor oficial da marca de streetwear mais desejada do
-            Brasil e multiplique suas vendas!
+            Seja uma revenda autorizada da Ecko e tenha os melhores produtos de streetwear em sua loja!
           </p>
 
           {/* Scroll Down Button */}
@@ -581,21 +580,31 @@ export default function Index() {
               {/* Left Content */}
               <div className="text-center lg:text-left">
                 <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-white mb-4 sm:mb-6 leading-tight px-2 lg:px-0">
-                  REVENDA ECKO:
-                  <br />
                   <span className="text-ecko-red">
-                    SEJA UM LOJISTA AUTORIZADO
+                    SEJA UMA REVENDA AUTORIZADA DA ECKO
                   </span>
                   <br />
+                  E TENHA OS
+                  <br />
                   <span className="text-ecko-red">
-                    E MULTIPLIQUE SUAS VENDAS!
+                    MELHORES PRODUTOS EM SUA LOJA!
                   </span>
                 </h1>
 
                 <p className="text-lg sm:text-xl lg:text-2xl text-gray-100 mb-6 sm:mb-7 lg:mb-8 font-medium px-2 lg:px-0">
-                  Venda uma das marcas mais desejadas do streetwear e aumente
-                  seus lucros!
+                  Produtos de alta qualidade que seus clientes vão amar e que garantem excelente margem de lucro!
                 </p>
+
+                {/* CTA Button para essa seção */}
+                <div className="lg:block hidden">
+                  <Button
+                    onClick={() => setShowForm(true)}
+                    className="bg-ecko-red hover:bg-ecko-red-dark text-white px-8 py-4 font-bold text-lg shadow-2xl hover:shadow-ecko-red/25 transition-all duration-300 group uppercase tracking-wider"
+                  >
+                    QUERO SER UMA REVENDA AUTORIZADA
+                    <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </div>
               </div>
 
               {/* Right Form */}
@@ -831,11 +840,19 @@ export default function Index() {
 
           {/* Bottom CTA */}
           <div className="text-center mt-16">
-            <div className="inline-flex items-center gap-2 text-ecko-red font-semibold text-lg">
-              <span>
-                Junte-se a milhares de parceiros que já confiam na Ecko
-              </span>
-              <ChevronDown className="w-5 h-5 animate-bounce" />
+            <div className="bg-gradient-to-r from-ecko-red/10 to-ecko-red-dark/10 rounded-2xl p-6 border border-ecko-red/20 backdrop-blur-sm max-w-2xl mx-auto">
+              <div className="inline-flex items-center gap-2 text-white font-semibold text-lg mb-4">
+                <span>
+                  Junte-se a milhares de parceiros que já confiam na Ecko
+                </span>
+              </div>
+              <Button
+                onClick={() => setShowForm(true)}
+                className="bg-ecko-red hover:bg-ecko-red-dark text-white px-6 py-3 font-bold text-base shadow-lg hover:shadow-ecko-red/25 transition-all duration-300 group uppercase tracking-wider"
+              >
+                QUERO FAZER PARTE AGORA
+                <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Button>
             </div>
           </div>
         </div>
@@ -925,17 +942,35 @@ export default function Index() {
               ))}
             </div>
 
-            {/* Show More Button */}
-            {testimonials.length > 6 && (
-              <div className="text-center mt-12">
+            {/* CTA Section for Testimonials */}
+            <div className="text-center mt-12">
+              <div className="bg-gradient-to-r from-ecko-red/10 to-ecko-red-dark/10 rounded-2xl p-6 border border-ecko-red/20 backdrop-blur-sm max-w-2xl mx-auto">
+                <h3 className="text-xl font-bold text-white mb-3">
+                  Seja o próximo case de sucesso!
+                </h3>
+                <p className="text-gray-300 mb-4">
+                  Junte-se aos revendedores que já transformaram seus negócios
+                </p>
                 <Button
-                  variant="outline"
-                  className="border-ecko-red text-ecko-red hover:bg-ecko-red hover:text-white transition-colors duration-300"
+                  onClick={() => setShowForm(true)}
+                  className="bg-ecko-red hover:bg-ecko-red-dark text-white px-6 py-3 font-bold text-base shadow-lg hover:shadow-ecko-red/25 transition-all duration-300 group uppercase tracking-wider"
                 >
-                  Ver Mais Depoimentos
+                  QUERO SER UM CASE DE SUCESSO
+                  <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </div>
-            )}
+
+              {testimonials.length > 6 && (
+                <div className="mt-6">
+                  <Button
+                    variant="outline"
+                    className="border-ecko-red text-ecko-red hover:bg-ecko-red hover:text-white transition-colors duration-300"
+                  >
+                    Ver Mais Depoimentos
+                  </Button>
+                </div>
+              )}
+            </div>
           </div>
         </section>
       )}
@@ -1003,26 +1038,44 @@ export default function Index() {
             ))}
           </div>
 
-          {/* Load More Button */}
-          {galleryImages.length === 0 && (
-            <div className="text-center mt-12">
-              <p className="text-gray-400 text-lg">
-                Em breve nossa galeria estará repleta de produtos incríveis!
+          {/* CTA Section for Gallery */}
+          <div className="text-center mt-12 md:mt-16">
+            <div className="bg-gradient-to-r from-ecko-red/10 to-ecko-red-dark/10 rounded-2xl p-6 border border-ecko-red/20 backdrop-blur-sm max-w-2xl mx-auto">
+              <h3 className="text-2xl font-bold text-white mb-3">
+                Tenha Estes Produtos em Sua Loja!
+              </h3>
+              <p className="text-gray-300 mb-6">
+                Produtos com alta demanda e excelente margem de lucro esperando por você
               </p>
-            </div>
-          )}
-
-          {galleryImages.length > 12 && (
-            <div className="text-center mt-12 md:mt-16">
               <Button
-                variant="outline"
-                className="border-ecko-red text-ecko-red hover:bg-ecko-red hover:text-white px-6 md:px-8 py-3 text-base md:text-lg font-semibold uppercase tracking-wider transition-all duration-300"
+                onClick={() => setShowForm(true)}
+                className="bg-ecko-red hover:bg-ecko-red-dark text-white px-6 py-3 font-bold text-base shadow-lg hover:shadow-ecko-red/25 transition-all duration-300 group uppercase tracking-wider"
               >
-                Ver Mais Produtos
-                <ArrowRight className="ml-2 w-4 h-4 md:w-5 md:h-5" />
+                QUERO ESSES PRODUTOS NA MINHA LOJA
+                <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Button>
             </div>
-          )}
+
+            {galleryImages.length === 0 && (
+              <div className="mt-6">
+                <p className="text-gray-400 text-lg">
+                  Em breve nossa galeria estará repleta de produtos incríveis!
+                </p>
+              </div>
+            )}
+
+            {galleryImages.length > 12 && (
+              <div className="mt-6">
+                <Button
+                  variant="outline"
+                  className="border-ecko-red text-ecko-red hover:bg-ecko-red hover:text-white px-6 md:px-8 py-3 text-base md:text-lg font-semibold uppercase tracking-wider transition-all duration-300"
+                >
+                  Ver Mais Produtos
+                  <ArrowRight className="ml-2 w-4 h-4 md:w-5 md:h-5" />
+                </Button>
+              </div>
+            )}
+          </div>
         </div>
       </section>
 
@@ -1054,7 +1107,16 @@ export default function Index() {
       {/* Stats Section */}
       <section className="py-20 bg-gray-900">
         <div className="container mx-auto px-6 max-w-6xl">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              Os <span className="text-ecko-red">Números</span> que Comprovam nosso Sucesso
+            </h2>
+            <p className="text-gray-300 text-lg max-w-2xl mx-auto">
+              Estatísticas que demonstram por que somos a escolha certa para seu negócio
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center mb-12">
             <div className="group hover:transform hover:scale-105 transition-all duration-300">
               <div className="text-4xl lg:text-5xl font-black text-ecko-red mb-2 group-hover:text-white">
                 25+
@@ -1086,6 +1148,25 @@ export default function Index() {
               <div className="text-gray-400 font-bold uppercase tracking-wide text-sm">
                 Clientes
               </div>
+            </div>
+          </div>
+
+          {/* CTA Section for Stats */}
+          <div className="text-center">
+            <div className="bg-gradient-to-r from-ecko-red/10 to-ecko-red-dark/10 rounded-2xl p-6 border border-ecko-red/20 backdrop-blur-sm max-w-2xl mx-auto">
+              <h3 className="text-xl font-bold text-white mb-3">
+                Faça Parte Desses Números de Sucesso!
+              </h3>
+              <p className="text-gray-300 mb-4">
+                Junte-se a uma marca com credibilidade comprovada no mercado
+              </p>
+              <Button
+                onClick={() => setShowForm(true)}
+                className="bg-ecko-red hover:bg-ecko-red-dark text-white px-6 py-3 font-bold text-base shadow-lg hover:shadow-ecko-red/25 transition-all duration-300 group uppercase tracking-wider"
+              >
+                QUERO FAZER PARTE AGORA
+                <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Button>
             </div>
           </div>
         </div>
