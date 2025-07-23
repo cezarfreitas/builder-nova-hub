@@ -138,6 +138,7 @@ export default function AdminAnalytics() {
         ['Leads Duplicados', leads?.filter(l => l.is_duplicate).length || 0],
         ['Leads com CNPJ', leads?.filter(l => l.experiencia_revenda === 'sim').length || 0],
         ['Total de Eventos', events?.length || 0],
+        ['Cliques WhatsApp', events?.filter(e => e.event_type === 'whatsapp_click').length || 0],
         ['Sessões Únicas', new Set(events?.map(e => e.session_id) || []).size],
         ['Usuários Únicos', new Set(events?.map(e => e.user_id) || []).size],
         ['Loja Física', leads?.filter(l => l.tipo_loja === 'fisica').length || 0],
