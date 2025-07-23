@@ -59,6 +59,8 @@ export function createServer() {
   app.get("/api/analytics/time-analysis", getTimeAnalysis);
   app.get("/api/analytics/traffic-sources", getTrafficSources);
   app.get("/api/analytics/form-origins", getFormOrigins);
+  app.get("/api/analytics/conversion-by-location", getConversionByLocation);
+  app.get("/api/analytics/conversion-by-geography", getConversionByGeography);
   app.get("/api/analytics/export-data", exportAnalyticsData);
   app.post("/api/analytics/track-visit", trackVisit);
   app.post("/api/analytics/track-duration", trackDuration);
