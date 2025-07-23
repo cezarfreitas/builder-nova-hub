@@ -50,16 +50,23 @@ export const submitLead: RequestHandler = async (req, res) => {
     // Inserir lead no banco
     const [result] = await db.execute(
       `INSERT INTO leads (
-        nome, email, telefone, cidade, empresa,
+        nome, email, telefone, cep, endereco, numero, complemento,
+        bairro, cidade, estado, empresa,
         experiencia_revenda, is_duplicate, source,
         utm_source, utm_medium, utm_campaign,
         ip_address, user_agent, tipo_loja, form_origin
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         validatedData.name,
         email, // Email temporário para compatibilidade
         telefone,
-        '', // cidade - não capturada no formulário
+        validatedData.cep,
+        validatedData.endereco || '',
+        validatedData.numero || '',
+        validatedData.complemento || '',
+        validatedData.bairro || '',
+        validatedData.cidade,
+        validatedData.estado,
         '', // empresa - não capturada no formulário
         validatedData.hasCnpj,
         is_duplicate,
