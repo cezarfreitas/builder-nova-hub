@@ -123,8 +123,6 @@ export function DynamicHead() {
 
   // Effect para preloading do logo e outras imagens importantes
   useEffect(() => {
-    // Preload do logo padrão imediatamente
-    const defaultLogo = "https://www.ntktextil.com.br/wp-content/uploads/2022/08/Logo-Ecko.png";
     const addPreloadLink = (href: string, as: string = 'image') => {
       // Verificar se já existe
       const existingLink = document.querySelector(`link[rel="preload"][href="${href}"]`);
@@ -140,24 +138,25 @@ export function DynamicHead() {
       document.head.appendChild(link);
     };
 
-    // Preload logo padrão sempre
+    // Preload do logo padrão imediatamente na inicialização
+    const defaultLogo = "https://www.ntktextil.com.br/wp-content/uploads/2022/08/Logo-Ecko.png";
     addPreloadLink(defaultLogo);
 
-    // Preload logo customizado se diferente do padrão
-    if (!heroLoading && heroSettings?.logo_url && heroSettings.logo_url !== defaultLogo) {
+    // Preload logo customizado apenas quando disponível e diferente
+    if (heroSettings?.logo_url && heroSettings.logo_url !== defaultLogo) {
       addPreloadLink(heroSettings.logo_url);
     }
 
-    // Preload imagem de fundo do hero se existir
-    if (!heroLoading && heroSettings?.background_image) {
+    // Preload imagem de fundo do hero
+    if (heroSettings?.background_image) {
       addPreloadLink(heroSettings.background_image);
+    } else {
+      // Preload imagem de fundo padrão
+      const defaultBackground = "https://estyle.vteximg.com.br/arquivos/ecko_mosaic5.png?v=638421392678800000";
+      addPreloadLink(defaultBackground);
     }
 
-    // Preload imagem de fundo padrão
-    const defaultBackground = "https://estyle.vteximg.com.br/arquivos/ecko_mosaic5.png?v=638421392678800000";
-    addPreloadLink(defaultBackground);
-
-  }, [heroSettings, heroLoading]);
+  }, [heroSettings]);
 
   return null; // Este componente não renderiza nada visível
 }
