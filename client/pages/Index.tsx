@@ -361,6 +361,30 @@ export default function Index() {
 
     // Rastrear visita da página
     trackVisit();
+
+    // Atualizar duração periodicamente
+    const durationInterval = setInterval(updateDuration, 30000); // A cada 30 segundos
+
+    // Atualizar duração quando o usuário sair da página
+    const handleBeforeUnload = () => {
+      updateDuration();
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') {
+        updateDuration();
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      clearInterval(durationInterval);
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      updateDuration(); // Última atualização ao desmontar
+    };
   }, []);
 
   const handleInputChange = (
