@@ -77,6 +77,7 @@ export async function getAnalyticsOverview(req: Request, res: Response) {
           COUNT(DISTINCT user_id) as unique_users,
           COUNT(*) as total_page_views,
           COUNT(*) as period_page_views,
+          COUNT(DISTINCT CONCAT(user_id, '-', DATE(created_at))) as unique_page_views,
           AVG(duration_seconds) as avg_session_duration,
           COUNT(*) / COUNT(DISTINCT session_id) as pages_per_session
         FROM analytics_events
@@ -90,6 +91,7 @@ export async function getAnalyticsOverview(req: Request, res: Response) {
           COUNT(DISTINCT user_id) as unique_users,
           COUNT(*) as total_page_views,
           COUNT(CASE WHEN DATE(created_at) >= ? THEN 1 END) as period_page_views,
+          COUNT(DISTINCT CONCAT(user_id, '-', DATE(created_at))) as unique_page_views,
           AVG(duration_seconds) as avg_session_duration,
           COUNT(*) / COUNT(DISTINCT session_id) as pages_per_session
         FROM analytics_events
