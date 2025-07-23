@@ -10,12 +10,21 @@ import {
   X,
   Home,
   Layout,
+  Star,
+  Award,
+  MessageSquare,
+  Image,
+  Megaphone,
+  TrendingUp,
+  HelpCircle,
+  FileText,
 } from "lucide-react";
 
 interface SidebarItem {
   id: string;
   label: string;
   icon: React.ReactNode;
+  category?: string;
 }
 
 const sidebarItems: SidebarItem[] = [
@@ -23,26 +32,75 @@ const sidebarItems: SidebarItem[] = [
     id: "dashboard",
     label: "Dashboard",
     icon: <Layout className="w-5 h-5" />,
+    category: "main",
   },
   {
     id: "leads",
     label: "Leads",
     icon: <Users className="w-5 h-5" />,
+    category: "main",
   },
   {
     id: "analytics",
     label: "Analytics",
     icon: <BarChart3 className="w-5 h-5" />,
+    category: "main",
+  },
+  // Seções da Landing Page
+  {
+    id: "hero",
+    label: "Seção Hero",
+    icon: <Star className="w-5 h-5" />,
+    category: "lp",
   },
   {
+    id: "benefits",
+    label: "Vantagens",
+    icon: <Award className="w-5 h-5" />,
+    category: "lp",
+  },
+  {
+    id: "testimonials",
+    label: "Depoimentos",
+    icon: <MessageSquare className="w-5 h-5" />,
+    category: "lp",
+  },
+  {
+    id: "gallery",
+    label: "Galeria",
+    icon: <Image className="w-5 h-5" />,
+    category: "lp",
+  },
+  {
+    id: "cta",
+    label: "CTA Principal",
+    icon: <Megaphone className="w-5 h-5" />,
+    category: "lp",
+  },
+  {
+    id: "stats",
+    label: "Estatísticas",
+    icon: <TrendingUp className="w-5 h-5" />,
+    category: "lp",
+  },
+  {
+    id: "faq",
+    label: "FAQ",
+    icon: <HelpCircle className="w-5 h-5" />,
+    category: "lp",
+  },
+  // Configurações
+  {
     id: "design",
-    label: "Design",
+    label: "Design Geral",
     icon: <Palette className="w-5 h-5" />,
+    category: "config",
   },
   {
     id: "configuracoes",
     label: "Configurações",
     icon: <Settings className="w-5 h-5" />,
+    category: "config",
   },
 ];
 
