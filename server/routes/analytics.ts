@@ -159,7 +159,8 @@ export async function getAnalyticsOverview(req: Request, res: Response) {
           rate: parseFloat(conversionRate),
           period_rate: parseFloat(periodConversionRate)
         },
-        period_days: Number(days)
+        period_days: yesterday === 'true' ? 0 : Number(days),
+        period_label: yesterday === 'true' ? 'ontem' : `últimos ${days} dias`
       }
     });
   } catch (error) {
