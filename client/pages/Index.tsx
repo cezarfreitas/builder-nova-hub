@@ -32,6 +32,7 @@ interface LeadFormData {
 }
 
 export default function Index() {
+  const { toast } = useToast();
   const [formData, setFormData] = useState<LeadFormData>({
     name: "",
     whatsapp: "",
