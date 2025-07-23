@@ -1985,6 +1985,13 @@ export default function Admin() {
           {renderContent()}
         </div>
       </main>
+
+      {/* Modal de Preview SEO */}
+      <SeoPreviewModal
+        isOpen={showSeoPreview}
+        onClose={() => setShowSeoPreview(false)}
+        seoData={seoData}
+      />
     </div>
   );
 }
