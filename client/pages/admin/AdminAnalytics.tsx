@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/ca
 import { Badge } from "../../components/ui/badge";
 import { Button } from "../../components/ui/button";
 import { useAnalytics } from "../../hooks/useAnalytics";
+import * as XLSX from 'xlsx';
 import {
   Chart as ChartJS,
   CategoryScale,
