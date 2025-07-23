@@ -99,16 +99,21 @@ export function useAnalytics(days: number = 30) {
   const fetchOverview = async () => {
     try {
       const response = await fetch(`/api/analytics/overview?days=${days}`);
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
       const result = await response.json();
-      
+
       if (result.success) {
         setOverview(result.data);
       } else {
-        throw new Error(result.message || 'Erro ao buscar overview');
+        throw new Error(result.message || result.error || 'Erro ao buscar overview');
       }
     } catch (err) {
       console.error('Erro ao buscar overview:', err);
-      setError('Erro ao carregar dados gerais');
+      setError(`Erro ao carregar dados gerais: ${err.message}`);
     }
   };
 
