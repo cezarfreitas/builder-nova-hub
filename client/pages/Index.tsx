@@ -7,6 +7,7 @@ import { DynamicHead } from "../components/DynamicHead";
 import { useToast } from "../hooks/use-toast";
 import { useSessionId } from "../hooks/useAnalytics";
 import { useHeroSettings } from "../hooks/useHeroSettings";
+import { renderTextWithColorTokens } from "../utils/colorTokens";
 import {
   Accordion,
   AccordionContent,
