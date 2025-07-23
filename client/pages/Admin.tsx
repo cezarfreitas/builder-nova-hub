@@ -564,7 +564,8 @@ export default function Admin() {
                           <input
                             type="text"
                             className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
-                            defaultValue="revenda autorizada ecko, melhores produtos streetwear, lojista autorizado"
+                            value={seoFormData.seo_keywords}
+                            onChange={(e) => setSeoFormData(prev => ({ ...prev, seo_keywords: e.target.value }))}
                             placeholder="palavra1, palavra2, palavra3"
                           />
                           <p className="text-xs text-gray-500 mt-1">Separadas por vírgula</p>
@@ -576,12 +577,14 @@ export default function Admin() {
                           </label>
                           <textarea
                             className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red h-20 resize-none"
-                            defaultValue="Seja uma revenda autorizada da Ecko e tenha os melhores produtos de streetwear em sua loja. Transforme sua paixão em lucro com exclusividade territorial e suporte completo."
+                            value={seoFormData.seo_description}
+                            onChange={(e) => setSeoFormData(prev => ({ ...prev, seo_description: e.target.value }))}
                             maxLength={160}
+                            placeholder="Descrição da página para motores de busca"
                           />
                           <div className="flex justify-between mt-1">
                             <p className="text-xs text-gray-500">Máximo 160 caracteres</p>
-                            <p className="text-xs text-gray-400">156/160</p>
+                            <p className="text-xs text-gray-400">{seoFormData.seo_description.length}/160</p>
                           </div>
                         </div>
 
@@ -592,7 +595,8 @@ export default function Admin() {
                           <input
                             type="url"
                             className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
-                            defaultValue="https://revendedores.ecko.com.br/"
+                            value={seoFormData.seo_canonical_url}
+                            onChange={(e) => setSeoFormData(prev => ({ ...prev, seo_canonical_url: e.target.value }))}
                             placeholder="https://exemplo.com/"
                           />
                         </div>
@@ -601,7 +605,11 @@ export default function Admin() {
                           <label className="block text-sm font-medium text-gray-700 mb-2">
                             Robots Meta Tag
                           </label>
-                          <select className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red">
+                          <select
+                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+                            value={seoFormData.seo_robots}
+                            onChange={(e) => setSeoFormData(prev => ({ ...prev, seo_robots: e.target.value }))}
+                          >
                             <option value="index,follow">Index, Follow (Padrão)</option>
                             <option value="noindex,follow">No Index, Follow</option>
                             <option value="index,nofollow">Index, No Follow</option>
