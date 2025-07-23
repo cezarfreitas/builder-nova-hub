@@ -278,3 +278,135 @@ export async function deleteSetting(req: Request, res: Response) {
     });
   }
 }
+
+// GET /api/settings/hero - Obter configurações do hero
+export async function getHeroSettings(req: Request, res: Response) {
+  try {
+    const db = getDatabase();
+    const [rows] = await db.execute(
+      `SELECT setting_key, setting_value, setting_type FROM lp_settings WHERE setting_key LIKE 'hero_%'`
+    );
+
+    // Configurações padrão do hero
+    const defaultSettings = {
+      title: "Torne-se um Revendedor Ecko",
+      subtitle: "Oportunidade única de negócio",
+      description: "Junte-se à rede de revendedores Ecko e maximize seus lucros com produtos de alta qualidade e suporte completo.",
+      cta_text: "Quero ser Revendedor",
+      cta_secondary_text: "Saiba Mais",
+      background_image: "",
+      background_color: "#dc2626",
+      text_color: "#ffffff",
+      cta_color: "#ffffff",
+      logo_url: "",
+      video_url: "",
+      enabled: true
+    };
+
+    // Aplicar configurações salvas sobre os padrões
+    const settings = { ...defaultSettings };
+    (rows as any[]).forEach(row => {
+      const key = row.setting_key.replace('hero_', '');
+      let value = row.setting_value;
+
+      // Converter tipos conforme necessário
+      switch (row.setting_type) {
+        case 'boolean':
+          value = value === 'true' || value === '1';
+          break;
+        case 'number':
+          value = parseFloat(value) || 0;
+          break;
+        case 'json':
+          try {
+            value = JSON.parse(value);
+          } catch {
+            value = {};
+          }
+          break;
+      }
+
+      if (key in settings) {
+        settings[key] = value;
+      }
+    });
+
+    res.json({
+      success: true,
+      data: settings
+    });
+  } catch (error) {
+    console.error('Erro ao buscar configurações do hero:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Erro interno do servidor'
+    });
+  }
+}
+
+// POST /api/settings/hero - Atualizar configurações do hero
+export async function updateHeroSettings(req: Request, res: Response) {
+  try {
+    // Validar dados de entrada
+    const validation = HeroSettingsSchema.safeParse(req.body);
+    if (!validation.success) {
+      return res.status(400).json({
+        success: false,
+        message: 'Dados inválidos',
+        errors: validation.error.errors
+      });
+    }
+
+    const settings = validation.data;
+    const db = getDatabase();
+    const connection = await db.getConnection();
+
+    try {
+      await connection.beginTransaction();
+
+      // Mapear configurações para o formato da tabela
+      const settingsToSave = [
+        { key: 'hero_title', value: settings.title, type: 'text' },
+        { key: 'hero_subtitle', value: settings.subtitle || '', type: 'text' },
+        { key: 'hero_description', value: settings.description || '', type: 'text' },
+        { key: 'hero_cta_text', value: settings.cta_text, type: 'text' },
+        { key: 'hero_cta_secondary_text', value: settings.cta_secondary_text || '', type: 'text' },
+        { key: 'hero_background_image', value: settings.background_image || '', type: 'text' },
+        { key: 'hero_background_color', value: settings.background_color, type: 'text' },
+        { key: 'hero_text_color', value: settings.text_color, type: 'text' },
+        { key: 'hero_cta_color', value: settings.cta_color, type: 'text' },
+        { key: 'hero_logo_url', value: settings.logo_url || '', type: 'text' },
+        { key: 'hero_video_url', value: settings.video_url || '', type: 'text' },
+        { key: 'hero_enabled', value: settings.enabled ? '1' : '0', type: 'boolean' }
+      ];
+
+      // Salvar cada configuração
+      for (const setting of settingsToSave) {
+        await connection.execute(
+          `INSERT INTO lp_settings (setting_key, setting_value, setting_type) VALUES (?, ?, ?)
+           ON DUPLICATE KEY UPDATE setting_value = VALUES(setting_value), setting_type = VALUES(setting_type)`,
+          [setting.key, setting.value, setting.type]
+        );
+      }
+
+      await connection.commit();
+
+      res.json({
+        success: true,
+        message: 'Configurações do hero atualizadas com sucesso',
+        data: settings
+      });
+    } catch (error) {
+      await connection.rollback();
+      throw error;
+    } finally {
+      connection.release();
+    }
+  } catch (error) {
+    console.error('Erro ao atualizar configurações do hero:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Erro interno do servidor'
+    });
+  }
+}
