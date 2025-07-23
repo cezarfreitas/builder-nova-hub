@@ -26,20 +26,45 @@ export async function getAnalyticsOverview(req: Request, res: Response) {
     }
 
     // Buscar métricas gerais
-    const [overview] = await db.execute(`
-      SELECT
-        COUNT(*) as total_leads,
-        COUNT(CASE WHEN is_duplicate = FALSE THEN 1 END) as unique_leads,
-        COUNT(CASE WHEN is_duplicate = TRUE THEN 1 END) as duplicate_leads,
-        COUNT(CASE WHEN webhook_status = 'success' THEN 1 END) as webhook_success,
-        COUNT(CASE WHEN webhook_status = 'error' THEN 1 END) as webhook_errors,
-        COUNT(CASE WHEN experiencia_revenda = 'sim' THEN 1 END) as leads_with_cnpj,
-        COUNT(CASE WHEN tipo_loja = 'fisica' THEN 1 END) as fisica_leads,
-        COUNT(CASE WHEN tipo_loja = 'online' THEN 1 END) as online_leads,
-        COUNT(CASE WHEN tipo_loja = 'ambas' THEN 1 END) as ambas_leads,
-        COUNT(CASE WHEN DATE(created_at) >= ? THEN 1 END) as period_leads
-      FROM leads
-    `, [dateFromStr]);
+    let overviewQuery: string;
+    let overviewParams: any[];
+
+    if (yesterday === 'true') {
+      overviewQuery = `
+        SELECT
+          COUNT(*) as total_leads,
+          COUNT(CASE WHEN is_duplicate = FALSE THEN 1 END) as unique_leads,
+          COUNT(CASE WHEN is_duplicate = TRUE THEN 1 END) as duplicate_leads,
+          COUNT(CASE WHEN webhook_status = 'success' THEN 1 END) as webhook_success,
+          COUNT(CASE WHEN webhook_status = 'error' THEN 1 END) as webhook_errors,
+          COUNT(CASE WHEN experiencia_revenda = 'sim' THEN 1 END) as leads_with_cnpj,
+          COUNT(CASE WHEN tipo_loja = 'fisica' THEN 1 END) as fisica_leads,
+          COUNT(CASE WHEN tipo_loja = 'online' THEN 1 END) as online_leads,
+          COUNT(CASE WHEN tipo_loja = 'ambas' THEN 1 END) as ambas_leads,
+          COUNT(*) as period_leads
+        FROM leads
+        WHERE created_at >= ? AND created_at <= ?
+      `;
+      overviewParams = [dateFromStr, dateToStr];
+    } else {
+      overviewQuery = `
+        SELECT
+          COUNT(*) as total_leads,
+          COUNT(CASE WHEN is_duplicate = FALSE THEN 1 END) as unique_leads,
+          COUNT(CASE WHEN is_duplicate = TRUE THEN 1 END) as duplicate_leads,
+          COUNT(CASE WHEN webhook_status = 'success' THEN 1 END) as webhook_success,
+          COUNT(CASE WHEN webhook_status = 'error' THEN 1 END) as webhook_errors,
+          COUNT(CASE WHEN experiencia_revenda = 'sim' THEN 1 END) as leads_with_cnpj,
+          COUNT(CASE WHEN tipo_loja = 'fisica' THEN 1 END) as fisica_leads,
+          COUNT(CASE WHEN tipo_loja = 'online' THEN 1 END) as online_leads,
+          COUNT(CASE WHEN tipo_loja = 'ambas' THEN 1 END) as ambas_leads,
+          COUNT(CASE WHEN DATE(created_at) >= ? THEN 1 END) as period_leads
+        FROM leads
+      `;
+      overviewParams = [dateFromStr];
+    }
+
+    const [overview] = await db.execute(overviewQuery, overviewParams);
 
     // Buscar visitas do analytics_events com métricas avançadas
     const [visits] = await db.execute(`
