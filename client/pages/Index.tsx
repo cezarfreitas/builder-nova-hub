@@ -116,7 +116,7 @@ export default function Index() {
     {
       id: 4,
       title: "Moda Urbana Feminina",
-      description: "Coleção feminina com pegada street e muita personalidade",
+      description: "Cole��ão feminina com pegada street e muita personalidade",
       image_url:
         "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=500&h=500&fit=crop&crop=center",
       alt_text:
@@ -936,18 +936,12 @@ export default function Index() {
                           </div>
                         ) : (
                           <>
-                            {heroSettings?.cta_text ? (
-                              <>
-                                <span className="hidden sm:inline">
-                                  {heroSettings.cta_text.toUpperCase()}
-                                </span>
-                                <span className="sm:hidden">
-                                  {heroSettings.cta_text.toUpperCase()}
-                                </span>
-                              </>
-                            ) : (
-                              <span>CADASTRAR</span>
-                            )}
+                            <span className="hidden sm:inline">
+                              {currentHero.cta_text.toUpperCase()}
+                            </span>
+                            <span className="sm:hidden">
+                              {currentHero.cta_text.toUpperCase()}
+                            </span>
                           </>
                         )}
                       </Button>
