@@ -182,6 +182,31 @@ export function useLeads(): UseLeadsReturn {
     }
   }, []);
 
+  const deleteLead = useCallback(async (leadId: number): Promise<boolean> => {
+    try {
+      const response = await fetch(`/api/leads/${leadId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        // Remover o lead da lista local
+        setLeads(prevLeads => prevLeads.filter(lead => lead.id !== leadId));
+        refreshStats();
+        return true;
+      } else {
+        throw new Error(result.message || 'Erro ao deletar lead');
+      }
+    } catch (err) {
+      console.error('Erro ao deletar lead:', err);
+      return false;
+    }
+  }, [refreshStats]);
+
   const exportLeads = useCallback(async (filter: string = 'all') => {
     try {
       const searchParams = new URLSearchParams();
