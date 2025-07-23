@@ -328,15 +328,20 @@ export default function Index() {
         duration_seconds: 0
       };
 
-      await fetch('/api/analytics/track-visit', {
+      const response = await fetch('/api/analytics/track-visit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(visitData)
       });
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
     } catch (error) {
-      console.error('Erro ao rastrear visita:', error);
+      // Silenciar erros de analytics para não quebrar a aplicação
+      // console.error('Erro ao rastrear visita:', error);
     }
   };
 
