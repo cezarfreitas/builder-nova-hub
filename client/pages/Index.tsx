@@ -312,12 +312,14 @@ export default function Index() {
       const urlParams = new URLSearchParams(window.location.search);
       const visitData = {
         session_id: sessionId,
+        user_id: userId,
         page_url: window.location.href,
         referrer: document.referrer,
         utm_source: urlParams.get('utm_source') || '',
         utm_medium: urlParams.get('utm_medium') || '',
         utm_campaign: urlParams.get('utm_campaign') || '',
-        user_agent: navigator.userAgent
+        user_agent: navigator.userAgent,
+        duration_seconds: 0
       };
 
       await fetch('/api/analytics/track-visit', {
@@ -329,6 +331,25 @@ export default function Index() {
       });
     } catch (error) {
       console.error('Erro ao rastrear visita:', error);
+    }
+  };
+
+  // Função para atualizar duração da visita
+  const updateDuration = async () => {
+    try {
+      const duration = Math.floor((Date.now() - startTime) / 1000);
+      await fetch('/api/analytics/track-duration', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          session_id: sessionId,
+          duration_seconds: duration
+        })
+      });
+    } catch (error) {
+      console.error('Erro ao atualizar duração:', error);
     }
   };
 
