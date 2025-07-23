@@ -362,7 +362,7 @@ export default function Index() {
     }
   };
 
-  // Funç��o para atualizar duração da visita
+  // Função para atualizar duração da visita
   const updateDuration = async (useBeacon = false) => {
     try {
       const duration = Math.floor((Date.now() - startTime) / 1000);
@@ -1247,7 +1247,7 @@ export default function Index() {
 
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-sm font-semibold text-gray-300 mb-1 sm:mb-2">
+                          <label className="block text-sm font-semibold text-gray-300 mb-2">
                             Tem CNPJ?
                           </label>
                           <select
@@ -1255,21 +1255,21 @@ export default function Index() {
                             value={formData.hasCnpj}
                             onChange={handleInputChange}
                             required
-                            className="w-full h-10 sm:h-12 border border-gray-700 rounded-md px-3 sm:px-4 bg-gray-800 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-sm sm:text-base"
+                            className="w-full h-12 border border-gray-700 rounded-md px-4 bg-gray-800 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-base"
                           >
                             <option value="">Selecione</option>
                             <option value="sim">Sim</option>
                             <option value="nao">Não</option>
                           </select>
                           {cnpjError && (
-                            <p className="text-ecko-red text-xs sm:text-sm mt-1 sm:mt-2 font-medium leading-tight">
+                            <p className="text-ecko-red text-xs mt-2 font-medium leading-tight">
                               {cnpjError}
                             </p>
                           )}
                         </div>
 
                         <div>
-                          <label className="block text-sm font-semibold text-gray-300 mb-1 sm:mb-2">
+                          <label className="block text-sm font-semibold text-gray-300 mb-2">
                             Tipo de Loja
                           </label>
                           <select
@@ -1277,7 +1277,7 @@ export default function Index() {
                             value={formData.storeType}
                             onChange={handleInputChange}
                             required
-                            className="w-full h-10 sm:h-12 border border-gray-700 rounded-md px-3 sm:px-4 bg-gray-800 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-sm sm:text-base"
+                            className="w-full h-12 border border-gray-700 rounded-md px-4 bg-gray-800 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-base"
                           >
                             <option value="">Selecione</option>
                             <option value="fisica">Física</option>
