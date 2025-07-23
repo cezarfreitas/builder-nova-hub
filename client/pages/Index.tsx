@@ -996,12 +996,14 @@ export default function Index() {
         <div className="container mx-auto px-6 max-w-7xl relative z-10">
           {/* Section Header */}
           <div className="text-center mb-16">
-            <Badge className="bg-ecko-red text-white px-6 py-2 text-sm font-semibold uppercase tracking-widest mb-6">
-              Lifestyle Gallery
-            </Badge>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 uppercase tracking-tight">
-              COLEÇÃO LIFESTYLE
-              <span className="block text-2xl md:text-3xl text-ecko-red mt-2">
+            <div className="inline-flex items-center bg-ecko-red/20 backdrop-blur-sm border border-ecko-red/30 rounded-full px-6 py-3 mb-6">
+              <span className="text-ecko-red font-bold uppercase tracking-wider text-sm">
+                Lifestyle Gallery
+              </span>
+            </div>
+            <h2 className="text-3xl md:text-5xl font-black text-white mb-6 uppercase tracking-tight leading-tight">
+              COLEÇÃO <span className="text-ecko-red">LIFESTYLE</span>
+              <span className="block text-xl md:text-2xl text-gray-300 mt-2 font-medium normal-case tracking-normal">
                 Viva o estilo Ecko
               </span>
             </h2>
