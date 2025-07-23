@@ -372,13 +372,12 @@ export default function AdminHero() {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                URL da Imagem de Fundo
+                Imagem de Fundo
               </label>
-              <Input
+              <CompactImageUpload
                 value={settings.background_image}
-                onChange={(e) => setSettings(prev => ({ ...prev, background_image: e.target.value }))}
-                placeholder="https://exemplo.com/background.jpg"
-                className="w-full"
+                onChange={(value) => setSettings(prev => ({ ...prev, background_image: value }))}
+                placeholder="URL da imagem de fundo ou faça upload"
               />
             </div>
 
@@ -479,7 +478,7 @@ export default function AdminHero() {
               <ul className="space-y-1 text-blue-600">
                 <li>• Use imagens de alta qualidade (min 1920x1080)</li>
                 <li>• Contraste adequado entre texto e fundo</li>
-                <li>��� Cores que reflitam a identidade da marca</li>
+                <li>• Cores que reflitam a identidade da marca</li>
               </ul>
             </div>
           </div>
