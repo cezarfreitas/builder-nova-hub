@@ -112,6 +112,11 @@ export default function Admin() {
   const [showSeoPreview, setShowSeoPreview] = useState(false);
   const [saving, setSaving] = useState(false);
 
+  // Estados para filtros de leads
+  const [leadFilter, setLeadFilter] = useState("all");
+  const [dateFilter, setDateFilter] = useState("30");
+  const [searchTerm, setSearchTerm] = useState("");
+
   // Hook para gerenciar configurações
   const { settings, loading, error, saveSetting, saveMultipleSettings, getSetting } = useSettings();
   const { toast } = useToast();
