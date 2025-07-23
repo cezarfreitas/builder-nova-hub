@@ -47,7 +47,7 @@ ChartJS.register(
 
 export default function AdminAnalytics() {
   const [selectedPeriod, setSelectedPeriod] = useState(30);
-  const { overview, dailyStats, timeAnalysis, trafficSources, loading, error, refreshData } = useAnalytics(selectedPeriod);
+  const { overview, dailyStats, timeAnalysis, trafficSources, locationConversion, geographyConversion, loading, error, refreshData } = useAnalytics(selectedPeriod);
 
   const handlePeriodChange = (days: number) => {
     setSelectedPeriod(days);
