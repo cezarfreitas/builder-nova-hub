@@ -992,7 +992,7 @@ export default function Index() {
       )}
 
       {/* Gallery Section */}
-      <section className="py-20 bg-gradient-to-b from-black to-gray-900 relative overflow-hidden">
+      <section className="py-16 md:py-20 bg-gradient-to-b from-black to-gray-900 relative overflow-hidden">
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-ecko-red/10 via-transparent to-ecko-red/10"></div>
