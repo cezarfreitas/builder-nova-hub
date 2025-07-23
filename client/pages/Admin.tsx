@@ -340,19 +340,289 @@ export default function Admin() {
         );
       case "configuracoes":
         return (
-          <Card className="bg-white shadow-sm border border-gray-200">
-            <CardHeader>
-              <CardTitle className="text-2xl text-gray-900 flex items-center">
-                <Settings className="w-6 h-6 mr-2 text-ecko-red" />
-                Configurações
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600">
-                Aqui você poderá gerenciar as configurações do sistema.
-              </p>
-            </CardContent>
-          </Card>
+          <div className="space-y-6">
+            <Card className="bg-white shadow-sm border border-gray-200">
+              <CardHeader>
+                <CardTitle className="text-2xl text-gray-900 flex items-center">
+                  <Settings className="w-6 h-6 mr-2 text-ecko-red" />
+                  Configurações
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600 mb-6">
+                  Gerencie as configurações avançadas da plataforma.
+                </p>
+
+                {/* Abas de Configuração */}
+                <div className="border-b border-gray-200 mb-6">
+                  <nav className="flex space-x-8">
+                    <button
+                      onClick={() => setActiveConfigTab("seo")}
+                      className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+                        activeConfigTab === "seo"
+                          ? "border-ecko-red text-ecko-red"
+                          : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                      }`}
+                    >
+                      <Search className="w-4 h-4 mr-2 inline" />
+                      SEO
+                    </button>
+                    <button
+                      onClick={() => setActiveConfigTab("webhook")}
+                      className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+                        activeConfigTab === "webhook"
+                          ? "border-ecko-red text-ecko-red"
+                          : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                      }`}
+                    >
+                      <Webhook className="w-4 h-4 mr-2 inline" />
+                      Webhook
+                    </button>
+                    <button
+                      onClick={() => setActiveConfigTab("database")}
+                      className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+                        activeConfigTab === "database"
+                          ? "border-ecko-red text-ecko-red"
+                          : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                      }`}
+                    >
+                      <Database className="w-4 h-4 mr-2 inline" />
+                      Banco de Dados
+                    </button>
+                  </nav>
+                </div>
+
+                {/* Conteúdo das Abas */}
+                {activeConfigTab === "seo" && (
+                  <div className="space-y-6">
+                    <h3 className="text-lg font-semibold text-gray-900">Configurações de SEO</h3>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Título da Página (Title Tag)
+                        </label>
+                        <input
+                          type="text"
+                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+                          defaultValue="Seja uma Revenda Autorizada da Ecko | Tenha os Melhores Produtos"
+                        />
+                        <p className="text-xs text-gray-500 mt-1">Máximo 60 caracteres</p>
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Meta Keywords
+                        </label>
+                        <input
+                          type="text"
+                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+                          defaultValue="revenda autorizada ecko, melhores produtos streetwear, lojista autorizado"
+                        />
+                        <p className="text-xs text-gray-500 mt-1">Separadas por vírgula</p>
+                      </div>
+
+                      <div className="md:col-span-2">
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Meta Description
+                        </label>
+                        <textarea
+                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red h-20"
+                          defaultValue="Seja uma revenda autorizada da Ecko e tenha os melhores produtos de streetwear em sua loja. Transforme sua paixão em lucro com exclusividade territorial e suporte completo."
+                        />
+                        <p className="text-xs text-gray-500 mt-1">Máximo 160 caracteres</p>
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          URL Canônica
+                        </label>
+                        <input
+                          type="url"
+                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+                          defaultValue="https://revendedores.ecko.com.br/"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Imagem Open Graph
+                        </label>
+                        <input
+                          type="url"
+                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+                          defaultValue="https://estyle.vteximg.com.br/arquivos/ecko_mosaic5.png"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {activeConfigTab === "webhook" && (
+                  <div className="space-y-6">
+                    <h3 className="text-lg font-semibold text-gray-900">Configurações de Webhook</h3>
+
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          URL do Webhook para Leads
+                        </label>
+                        <input
+                          type="url"
+                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+                          placeholder="https://seu-webhook.com/leads"
+                        />
+                        <p className="text-xs text-gray-500 mt-1">Será chamado quando um novo lead for capturado</p>
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Secret Token
+                        </label>
+                        <input
+                          type="password"
+                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+                          placeholder="Token de segurança"
+                        />
+                        <p className="text-xs text-gray-500 mt-1">Token para validar as requisições</p>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Timeout (segundos)
+                          </label>
+                          <input
+                            type="number"
+                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+                            defaultValue="30"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Tentativas
+                          </label>
+                          <input
+                            type="number"
+                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+                            defaultValue="3"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="p-4 bg-gray-50 rounded-lg">
+                        <h4 className="font-medium text-gray-900 mb-2">Teste de Webhook</h4>
+                        <p className="text-sm text-gray-600 mb-3">Envie um payload de teste para verificar a configuração</p>
+                        <Button variant="outline" className="border-ecko-red text-ecko-red hover:bg-ecko-red hover:text-white">
+                          Testar Webhook
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {activeConfigTab === "database" && (
+                  <div className="space-y-6">
+                    <h3 className="text-lg font-semibold text-gray-900">Configurações do Banco de Dados</h3>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Host do Banco
+                        </label>
+                        <input
+                          type="text"
+                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+                          defaultValue="localhost"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Porta
+                        </label>
+                        <input
+                          type="number"
+                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+                          defaultValue="5432"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Nome do Banco
+                        </label>
+                        <input
+                          type="text"
+                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+                          defaultValue="ecko_leads"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Usuário
+                        </label>
+                        <input
+                          type="text"
+                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+                          defaultValue="postgres"
+                        />
+                      </div>
+
+                      <div className="md:col-span-2">
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          String de Conexão
+                        </label>
+                        <input
+                          type="password"
+                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+                          placeholder="postgresql://user:password@host:port/database"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div className="p-4 bg-green-50 rounded-lg border border-green-200">
+                        <h4 className="font-medium text-green-900 mb-1">Status da Conexão</h4>
+                        <p className="text-sm text-green-700">✅ Conectado</p>
+                      </div>
+
+                      <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                        <h4 className="font-medium text-blue-900 mb-1">Leads Armazenados</h4>
+                        <p className="text-sm text-blue-700">127 registros</p>
+                      </div>
+
+                      <div className="p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+                        <h4 className="font-medium text-yellow-900 mb-1">Último Backup</h4>
+                        <p className="text-sm text-yellow-700">Hoje, 08:30</p>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-4">
+                      <Button variant="outline" className="border-blue-300 text-blue-700 hover:bg-blue-50">
+                        Testar Conexão
+                      </Button>
+                      <Button variant="outline" className="border-green-300 text-green-700 hover:bg-green-50">
+                        Fazer Backup
+                      </Button>
+                    </div>
+                  </div>
+                )}
+
+                {/* Ações Globais */}
+                <div className="flex gap-4 pt-6 border-t border-gray-200">
+                  <Button className="bg-ecko-red hover:bg-ecko-red-dark text-white px-6 py-3">
+                    Salvar Configurações
+                  </Button>
+                  <Button variant="outline" className="border-gray-300 text-gray-700 hover:bg-gray-50 px-6 py-3">
+                    Cancelar
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         );
       case "leads":
         return (
