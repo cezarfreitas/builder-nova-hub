@@ -10,7 +10,6 @@ const leadSchema = z.object({
   storeType: z.string().min(1, "Tipo de loja é obrigatório"),
   cep: z.string().min(8, "CEP é obrigatório"),
   endereco: z.string().optional(),
-  numero: z.string().optional(),
   complemento: z.string().optional(),
   bairro: z.string().optional(),
   cidade: z.string().min(1, "Cidade é obrigatória"),
