@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "../components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
+import { SeoImageUpload } from "../components/SeoImageUpload";
 import {
   Settings,
   Users,
@@ -863,7 +864,7 @@ export default function Admin() {
 
                     <div className="flex gap-4">
                       <Button variant="outline" className="border-blue-300 text-blue-700 hover:bg-blue-50">
-                        Testar Conexão
+                        Testar Conex��o
                       </Button>
                       <Button variant="outline" className="border-green-300 text-green-700 hover:bg-green-50">
                         Fazer Backup
