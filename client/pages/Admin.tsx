@@ -175,7 +175,7 @@ export default function Admin() {
         } lg:translate-x-0 fixed lg:relative z-40 w-64 h-screen lg:h-auto lg:min-h-screen bg-white border-r border-gray-200 shadow-lg transition-transform duration-300 ease-in-out flex flex-col`}
       >
         {/* Logo/Header */}
-        <div className="p-6 border-b border-gray-200">
+        <div className="p-6 border-b border-gray-200 flex-shrink-0">
           <div className="flex items-center space-x-2">
             <div className="w-8 h-8 bg-ecko-red rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-sm">E</span>
@@ -188,18 +188,18 @@ export default function Admin() {
         </div>
 
         {/* Navigation */}
-        <nav className="p-4 space-y-2">
+        <nav className="p-4 space-y-2 flex-1 flex flex-col">
           {/* Voltar para Home */}
           <Button
             onClick={() => window.location.href = '/'}
             variant="ghost"
-            className="w-full justify-start text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors"
+            className="w-full justify-start text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors mb-4"
           >
             <Home className="w-5 h-5 mr-3" />
             Voltar para Home
           </Button>
 
-          <div className="border-t border-gray-200 pt-4 mt-4">
+          <div className="border-t border-gray-200 pt-4 space-y-1 flex-1">
             {sidebarItems.map((item) => (
               <Button
                 key={item.id}
@@ -218,6 +218,14 @@ export default function Admin() {
                 <span className="ml-3">{item.label}</span>
               </Button>
             ))}
+          </div>
+
+          {/* Footer da sidebar */}
+          <div className="border-t border-gray-200 pt-4 mt-auto">
+            <div className="text-center text-xs text-gray-400">
+              <p>© 2024 Ecko Admin</p>
+              <p>v1.0.0</p>
+            </div>
           </div>
         </nav>
       </aside>
