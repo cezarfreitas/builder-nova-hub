@@ -155,15 +155,26 @@ export function useLeads(): UseLeadsReturn {
         },
       });
 
-      const result = await response.json();
+      // Verificar se a resposta é válida antes de tentar ler o body
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`HTTP ${response.status}: ${errorText}`);
+      }
+
+      let result;
+      try {
+        result = await response.json();
+      } catch (parseError) {
+        throw new Error('Resposta inválida do servidor');
+      }
 
       if (result.success) {
         // Atualizar o lead na lista local
-        setLeads(prevLeads => 
-          prevLeads.map(lead => 
-            lead.id === leadId 
-              ? { 
-                  ...lead, 
+        setLeads(prevLeads =>
+          prevLeads.map(lead =>
+            lead.id === leadId
+              ? {
+                  ...lead,
                   webhook_status: result.webhook_status,
                   webhook_response: result.webhook_response,
                   webhook_attempts: lead.webhook_attempts + 1,
