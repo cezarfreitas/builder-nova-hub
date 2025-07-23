@@ -361,13 +361,12 @@ export default function AdminHero() {
           <CardContent className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                URL da Logo
+                Logo da Empresa
               </label>
-              <Input
+              <CompactImageUpload
                 value={settings.logo_url}
-                onChange={(e) => setSettings(prev => ({ ...prev, logo_url: e.target.value }))}
-                placeholder="https://exemplo.com/logo.png"
-                className="w-full"
+                onChange={(value) => setSettings(prev => ({ ...prev, logo_url: value }))}
+                placeholder="URL da logo ou faça upload"
               />
             </div>
 
@@ -480,7 +479,7 @@ export default function AdminHero() {
               <ul className="space-y-1 text-blue-600">
                 <li>• Use imagens de alta qualidade (min 1920x1080)</li>
                 <li>• Contraste adequado entre texto e fundo</li>
-                <li>• Cores que reflitam a identidade da marca</li>
+                <li>��� Cores que reflitam a identidade da marca</li>
               </ul>
             </div>
           </div>
