@@ -149,7 +149,9 @@ export default function AdminAnalytics() {
       }
 
       // Gerar e baixar arquivo
-      const periodText = selectedPeriod === 1 ? 'hoje' : `ultimos_${selectedPeriod}_dias`;
+      const periodText = selectedPeriod === 1 ? 'hoje' :
+                         selectedPeriod === 0 ? 'ontem' :
+                         `ultimos_${selectedPeriod}_dias`;
       const fileName = `analytics_ecko_${periodText}_${new Date().toISOString().split('T')[0]}.xlsx`;
       XLSX.writeFile(wb, fileName);
 
