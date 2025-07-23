@@ -10,6 +10,7 @@ import Admin from "./pages/Admin";
 import AdminLayout from "./pages/admin/AdminLayout";
 import AdminLeads from "./pages/admin/AdminLeads";
 import AdminConfiguracoes from "./pages/admin/AdminConfiguracoes";
+import AdminAnalytics from "./pages/admin/AdminAnalytics";
 import NotFound from "./pages/NotFound";
 
 const App = () => (
