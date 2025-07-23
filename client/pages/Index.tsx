@@ -653,7 +653,36 @@ export default function Index() {
       <DynamicHead />
       <main className="bg-black pb-4">
       {/* Hero Full Screen Section */}
-      {(currentHero && currentHero.enabled !== false) && (
+      {heroLoading ? (
+        // Skeleton loading para manter o espaço reservado
+        <section className="h-screen relative flex flex-col justify-center items-center overflow-hidden bg-gray-900">
+          <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/90"></div>
+          <div className="relative z-20 text-center px-4 sm:px-6 max-w-4xl mx-auto">
+            {/* Logo skeleton */}
+            <div className="flex items-center justify-center mt-8 sm:mt-12 lg:mt-20 mb-6 sm:mb-8">
+              <div className="w-32 h-12 sm:w-40 sm:h-16 lg:w-48 lg:h-20 xl:w-56 xl:h-24 bg-gray-700 animate-pulse rounded"></div>
+            </div>
+
+            {/* Subtitle skeleton */}
+            <div className="w-64 h-6 bg-gray-700 animate-pulse rounded mx-auto mb-4"></div>
+
+            {/* Title skeleton */}
+            <div className="space-y-3 mb-6">
+              <div className="w-80 h-12 bg-gray-700 animate-pulse rounded mx-auto"></div>
+              <div className="w-96 h-12 bg-gray-700 animate-pulse rounded mx-auto"></div>
+            </div>
+
+            {/* Description skeleton */}
+            <div className="space-y-2 mb-8">
+              <div className="w-72 h-5 bg-gray-700 animate-pulse rounded mx-auto"></div>
+              <div className="w-64 h-5 bg-gray-700 animate-pulse rounded mx-auto"></div>
+            </div>
+
+            {/* CTA button skeleton */}
+            <div className="w-48 h-14 bg-gray-700 animate-pulse rounded mx-auto"></div>
+          </div>
+        </section>
+      ) : (currentHero && currentHero.enabled !== false) && (
         <section
           className="h-screen relative flex flex-col justify-center items-center overflow-hidden"
           style={{
