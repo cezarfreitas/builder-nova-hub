@@ -588,14 +588,14 @@ export default function Index() {
               <div className="text-center lg:text-left">
                 <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-white mb-4 sm:mb-6 leading-tight px-2 lg:px-0">
                   <span className="text-ecko-red">
-                    SEJA UMA REVENDA AUTORIZADA DA ECKO
+                    REVENDA AUTORIZADA
                   </span>
-                  <br />
-                  E TENHA OS
                   <br />
                   <span className="text-ecko-red">
-                    MELHORES PRODUTOS EM SUA LOJA!
+                    ECKO
                   </span>
+                  <br />
+                  OS <span className="text-ecko-red">MELHORES PRODUTOS</span>
                 </h1>
 
                 <p className="text-lg sm:text-xl lg:text-2xl text-gray-100 mb-6 sm:mb-7 lg:mb-8 font-medium px-2 lg:px-0">
