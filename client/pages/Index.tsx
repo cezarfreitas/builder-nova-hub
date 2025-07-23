@@ -39,23 +39,8 @@ export default function Index() {
   const sessionId = useSessionId();
   const { settings: heroSettings, loading: heroLoading } = useHeroSettings();
 
-  // Valores padrão que aparecem imediatamente
-  const defaultValues = {
-    title: "Transforme sua {ecko}PAIXÃO{/ecko} em {green}LUCRO{/green}",
-    subtitle: "Oportunidade {red}única{/red} de negócio",
-    description: "Junte-se à rede de revendedores {ecko}Ecko{/ecko} e maximize seus {green}lucros{/green} com produtos de alta qualidade e suporte completo.",
-    cta_text: "Quero ser Revendedor",
-    cta_secondary_text: "Descubra Como Funciona",
-    background_image: "https://estyle.vteximg.com.br/arquivos/ecko_mosaic5.png?v=638421392678800000",
-    background_color: "#dc2626",
-    text_color: "#ffffff",
-    cta_color: "#ffffff",
-    logo_url: "https://www.ntktextil.com.br/wp-content/uploads/2022/08/Logo-Ecko.png",
-    enabled: true
-  };
-
-  // Usar configurações do banco ou padrões
-  const currentHero = heroLoading ? defaultValues : (heroSettings || defaultValues);
+  // Usar apenas configurações salvas no banco - sem fallback
+  const currentHero = heroSettings;
   const [formData, setFormData] = useState<LeadFormData>({
     name: "",
     whatsapp: "",
@@ -985,7 +970,7 @@ export default function Index() {
             </h2>
             <p className="text-gray-300 text-lg max-w-3xl mx-auto leading-relaxed">
               Descubra os benefícios únicos que fazem da Ecko a escolha certa
-              para impulsionar seu negócio no mundo da moda streetwear
+              para impulsionar seu neg��cio no mundo da moda streetwear
             </p>
           </div>
 
