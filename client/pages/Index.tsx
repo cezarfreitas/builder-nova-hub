@@ -565,6 +565,65 @@ export default function Index() {
     return true;
   };
 
+  // Função para formatar CEP
+  const formatCEP = (value: string): string => {
+    // Remove tudo que não é número
+    const numbers = value.replace(/\D/g, '');
+
+    // Limita a 8 dígitos
+    const limited = numbers.slice(0, 8);
+
+    // Aplica formatação
+    if (limited.length <= 5) {
+      return limited;
+    } else {
+      return `${limited.slice(0, 5)}-${limited.slice(5)}`;
+    }
+  };
+
+  // Função para validar CEP
+  const validateCEP = (cep: string): boolean => {
+    const numbers = cep.replace(/\D/g, '');
+    return numbers.length === 8;
+  };
+
+  // Função para buscar endereço pelo CEP
+  const fetchAddressByCEP = async (cep: string) => {
+    const numbers = cep.replace(/\D/g, '');
+
+    if (numbers.length !== 8) {
+      return;
+    }
+
+    setCepLoading(true);
+    setCepError("");
+
+    try {
+      const response = await fetch(`https://viacep.com.br/ws/${numbers}/json/`);
+      const data = await response.json();
+
+      if (data.erro) {
+        setCepError("CEP não encontrado. Verifique se está correto.");
+        return;
+      }
+
+      // Atualizar dados do endereço
+      setFormData(prev => ({
+        ...prev,
+        endereco: data.logradouro || "",
+        bairro: data.bairro || "",
+        cidade: data.localidade || "",
+        estado: data.uf || ""
+      }));
+
+      setCepError("");
+    } catch (error) {
+      setCepError("Erro ao buscar CEP. Tente novamente.");
+    } finally {
+      setCepLoading(false);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
