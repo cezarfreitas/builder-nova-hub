@@ -989,9 +989,12 @@ export default function Index() {
                 <div className="mt-6">
                   <Button
                     variant="outline"
-                    className="border-ecko-red text-ecko-red hover:bg-ecko-red hover:text-white transition-colors duration-300"
+                    className="group relative overflow-hidden border-2 border-ecko-red text-ecko-red hover:text-white transition-all duration-300 px-6 py-3 font-semibold hover:scale-105 hover:shadow-lg hover:shadow-ecko-red/25 rounded-lg"
                   >
-                    Ver Mais Depoimentos
+                    <span className="absolute inset-0 bg-ecko-red transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                    <span className="relative z-10">
+                      Ver Mais Depoimentos
+                    </span>
                   </Button>
                 </div>
               )}
@@ -1114,7 +1117,7 @@ export default function Index() {
         <div className="container mx-auto px-4 sm:px-6 max-w-4xl text-center">
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white mb-4 sm:mb-6 uppercase tracking-wide leading-tight">
             <span className="block sm:inline">PRONTO PARA FAZER PARTE</span>
-            <span className="block sm:inline"> DA FAMÍLIA ECKO?</span>
+            <span className="block sm:inline"> DA FAM��LIA ECKO?</span>
           </h2>
           <p className="text-lg sm:text-xl text-white/90 mb-6 sm:mb-8 px-2 leading-relaxed">
             Junte-se aos milhares de revendedores que já transformaram seus
