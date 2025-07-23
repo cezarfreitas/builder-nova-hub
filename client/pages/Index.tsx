@@ -816,14 +816,14 @@ export default function Index() {
                 className="mb-6 sm:mb-8 group relative overflow-hidden bg-transparent border-2 font-bold px-8 sm:px-10 py-4 sm:py-5 h-auto text-base sm:text-lg uppercase tracking-wider transition-all duration-500 hover:scale-105 hover:shadow-2xl rounded-lg"
                 style={{
                   borderColor: currentHero.cta_color,
-                  color: currentHero.cta_color
+                  color: currentHero.text_color || '#ffffff'
                 }}
               >
                 <span
                   className="absolute inset-0 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"
                   style={{ backgroundColor: currentHero.cta_color }}
                 ></span>
-                <span className="relative z-10 flex items-center">
+                <span className="relative z-10 flex items-center group-hover:text-white transition-colors duration-300">
                   {currentHero.cta_secondary_text}
                   <ChevronDown className="ml-2 w-6 h-6 group-hover:animate-bounce" />
                 </span>
