@@ -116,6 +116,18 @@ export default function Admin() {
   const { settings, loading, error, saveSetting, saveMultipleSettings, getSetting } = useSettings();
   const { toast } = useToast();
 
+  // Hook para gerenciar leads
+  const {
+    leads,
+    stats,
+    loading: leadsLoading,
+    pagination,
+    fetchLeads,
+    resendWebhook,
+    exportLeads,
+    refreshStats
+  } = useLeads();
+
   // Estados do formulário SEO
   const [seoFormData, setSeoFormData] = useState({
     seo_title: "",
