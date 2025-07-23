@@ -171,7 +171,8 @@ export function useAnalytics(days: number = 30) {
 
   const fetchTrafficSources = async () => {
     try {
-      const response = await fetch(`/api/analytics/traffic-sources?days=${days}`);
+      const queryParam = days === 0 ? 'yesterday=true' : `days=${days}`;
+      const response = await fetch(`/api/analytics/traffic-sources?${queryParam}`);
 
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
