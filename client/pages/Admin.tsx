@@ -1140,7 +1140,7 @@ export default function Admin() {
                           onChange={(e) => setWebhookFormData(prev => ({ ...prev, webhook_secret: e.target.value }))}
                           placeholder="Token de segurança"
                         />
-                        <p className="text-xs text-gray-500 mt-1">Token para validar as requisições</p>
+                        <p className="text-xs text-gray-500 mt-1">Token para validar as requisiç��es</p>
                       </div>
 
                       <div className="grid grid-cols-2 gap-4">
@@ -1309,7 +1309,9 @@ export default function Admin() {
                     </div>
                     <div className="ml-4">
                       <p className="text-sm font-medium text-gray-600">Total de Leads</p>
-                      <p className="text-2xl font-bold text-gray-900">298</p>
+                      <p className="text-2xl font-bold text-gray-900">
+                        {leadsLoading ? '...' : stats.total}
+                      </p>
                     </div>
                   </div>
                 </CardContent>
@@ -1325,7 +1327,9 @@ export default function Admin() {
                     </div>
                     <div className="ml-4">
                       <p className="text-sm font-medium text-gray-600">Leads Únicos</p>
-                      <p className="text-2xl font-bold text-gray-900">245</p>
+                      <p className="text-2xl font-bold text-gray-900">
+                        {leadsLoading ? '...' : stats.unique}
+                      </p>
                     </div>
                   </div>
                 </CardContent>
@@ -1341,7 +1345,9 @@ export default function Admin() {
                     </div>
                     <div className="ml-4">
                       <p className="text-sm font-medium text-gray-600">Duplicados</p>
-                      <p className="text-2xl font-bold text-gray-900">53</p>
+                      <p className="text-2xl font-bold text-gray-900">
+                        {leadsLoading ? '...' : stats.duplicates}
+                      </p>
                     </div>
                   </div>
                 </CardContent>
@@ -1357,7 +1363,9 @@ export default function Admin() {
                     </div>
                     <div className="ml-4">
                       <p className="text-sm font-medium text-gray-600">Erros Webhook</p>
-                      <p className="text-2xl font-bold text-gray-900">8</p>
+                      <p className="text-2xl font-bold text-gray-900">
+                        {leadsLoading ? '...' : stats.webhook_errors}
+                      </p>
                     </div>
                   </div>
                 </CardContent>
@@ -1369,27 +1377,52 @@ export default function Admin() {
               <CardContent className="p-6">
                 <div className="flex flex-col sm:flex-row gap-4 items-center">
                   <div className="flex gap-3">
-                    <select className="p-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-ecko-red focus:border-ecko-red">
-                      <option>Todos os leads</option>
-                      <option>Leads únicos</option>
-                      <option>Leads duplicados</option>
-                      <option>Com erro no webhook</option>
+                    <select
+                      value={leadFilter}
+                      onChange={(e) => handleFilterChange(e.target.value)}
+                      className="p-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+                    >
+                      <option value="all">Todos os leads</option>
+                      <option value="unique">Leads únicos</option>
+                      <option value="duplicate">Leads duplicados</option>
+                      <option value="webhook_error">Com erro no webhook</option>
                     </select>
 
-                    <select className="p-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-ecko-red focus:border-ecko-red">
-                      <option>Últimos 30 dias</option>
-                      <option>Últimos 7 dias</option>
-                      <option>Hoje</option>
-                      <option>Este mês</option>
+                    <select
+                      value={dateFilter}
+                      onChange={(e) => handleDateFilterChange(e.target.value)}
+                      className="p-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+                    >
+                      <option value="30">Últimos 30 dias</option>
+                      <option value="7">Últimos 7 dias</option>
+                      <option value="1">Hoje</option>
+                      <option value="month">Este mês</option>
                     </select>
+
+                    <input
+                      type="text"
+                      placeholder="Buscar por nome, email ou telefone..."
+                      value={searchTerm}
+                      onChange={(e) => handleSearchChange(e.target.value)}
+                      className="p-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-ecko-red focus:border-ecko-red min-w-[250px]"
+                    />
                   </div>
 
                   <div className="flex gap-3 sm:ml-auto">
-                    <Button variant="outline" className="border-blue-300 text-blue-700 hover:bg-blue-50">
-                      Exportar CSV
+                    <Button
+                      variant="outline"
+                      className="border-blue-300 text-blue-700 hover:bg-blue-50"
+                      onClick={handleExportCSV}
+                      disabled={saving}
+                    >
+                      {saving ? 'Exportando...' : 'Exportar CSV'}
                     </Button>
-                    <Button className="bg-ecko-red hover:bg-ecko-red-dark text-white">
-                      Reenviar Todos Webhooks
+                    <Button
+                      className="bg-ecko-red hover:bg-ecko-red-dark text-white"
+                      onClick={handleResendAllWebhooks}
+                      disabled={saving || stats.webhook_errors === 0}
+                    >
+                      {saving ? 'Reenviando...' : 'Reenviar Todos Webhooks'}
                     </Button>
                   </div>
                 </div>
