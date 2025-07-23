@@ -737,6 +737,145 @@ export default function AdminAnalytics() {
           </CardContent>
         </Card>
       )}
+
+      {/* Conversão por Localização da Página */}
+      {locationConversion && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center">
+              <BarChart3 className="w-5 h-5 mr-2 text-violet-600" />
+              Conversão por Localização da Página
+            </CardTitle>
+            <p className="text-sm text-gray-600 mt-2">
+              Análise de conversão por seção da landing page onde o lead foi gerado
+            </p>
+          </CardHeader>
+          <CardContent>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b bg-gray-50">
+                    <th className="text-left p-3 font-medium text-gray-700">Localização</th>
+                    <th className="text-center p-3 font-medium text-gray-700">Total Leads</th>
+                    <th className="text-center p-3 font-medium text-gray-700">Leads Únicos</th>
+                    <th className="text-center p-3 font-medium text-gray-700">Com CNPJ</th>
+                    <th className="text-center p-3 font-medium text-gray-700">Webhook Success</th>
+                    <th className="text-center p-3 font-medium text-gray-700">Taxa Sucesso</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {locationConversion.location_conversion.map((location, index) => (
+                    <tr key={index} className="border-b hover:bg-gray-50">
+                      <td className="p-3">
+                        <div className="flex items-center">
+                          <div className="w-3 h-3 rounded-full bg-violet-500 mr-2"></div>
+                          <span className="font-medium">{location.location_label}</span>
+                        </div>
+                      </td>
+                      <td className="text-center p-3">
+                        <Badge className="bg-blue-100 text-blue-800">{location.total_leads}</Badge>
+                      </td>
+                      <td className="text-center p-3">
+                        <Badge className="bg-green-100 text-green-800">{location.unique_leads}</Badge>
+                      </td>
+                      <td className="text-center p-3">
+                        <Badge className="bg-purple-100 text-purple-800">{location.with_cnpj}</Badge>
+                      </td>
+                      <td className="text-center p-3">
+                        <Badge className="bg-emerald-100 text-emerald-800">{location.successful_webhooks}</Badge>
+                      </td>
+                      <td className="text-center p-3">
+                        <Badge className="bg-orange-100 text-orange-800">{location.webhook_success_rate}%</Badge>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Conversão por Geografia (Estados e Cidades) */}
+      {geographyConversion && (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Conversão por Estados */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <MapPin className="w-5 h-5 mr-2 text-red-600" />
+                Conversão por Estado
+              </CardTitle>
+              <p className="text-sm text-gray-600 mt-2">
+                Top {Math.min(10, geographyConversion.state_conversion.length)} estados com mais leads
+              </p>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {geographyConversion.state_conversion.slice(0, 10).map((state, index) => (
+                  <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div className="flex items-center">
+                      <div className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center mr-3">
+                        <span className="text-sm font-bold text-red-600">{state.estado}</span>
+                      </div>
+                      <div>
+                        <p className="font-medium">{state.estado}</p>
+                        <p className="text-xs text-gray-500">
+                          {state.with_cnpj} com CNPJ • {state.webhook_success_rate}% sucesso
+                        </p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <Badge className="bg-red-100 text-red-800 mb-1">{state.total_leads}</Badge>
+                      <div className="text-xs text-gray-500">
+                        {state.unique_leads} únicos
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Conversão por Cidades */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <MapPin className="w-5 h-5 mr-2 text-blue-600" />
+                Conversão por Cidade
+              </CardTitle>
+              <p className="text-sm text-gray-600 mt-2">
+                Top {Math.min(10, geographyConversion.city_conversion.length)} cidades com mais leads
+              </p>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {geographyConversion.city_conversion.slice(0, 10).map((city, index) => (
+                  <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div className="flex items-center">
+                      <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3">
+                        <span className="text-xs font-bold text-blue-600">#{index + 1}</span>
+                      </div>
+                      <div>
+                        <p className="font-medium">{city.cidade}</p>
+                        <p className="text-xs text-gray-500">
+                          {city.estado} • {city.with_cnpj} com CNPJ • {city.webhook_success_rate}% sucesso
+                        </p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <Badge className="bg-blue-100 text-blue-800 mb-1">{city.total_leads}</Badge>
+                      <div className="text-xs text-gray-500">
+                        {city.unique_leads} únicos
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
     </div>
   );
 }
