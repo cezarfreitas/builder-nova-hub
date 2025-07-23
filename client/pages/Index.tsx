@@ -497,7 +497,10 @@ export default function Index() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          formOrigin: formOrigin || 'form-inline'
+        }),
       });
 
       const result = await response.json();
