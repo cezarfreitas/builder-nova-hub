@@ -139,7 +139,7 @@ export default function AdminLayout() {
     <div className="min-h-screen bg-gray-50 flex">
       {/* Sidebar Desktop */}
       <div className="hidden lg:flex lg:flex-shrink-0">
-        <div className="flex flex-col w-64">
+        <div className="flex flex-col w-56">
           <div className="flex flex-col flex-grow bg-white border-r border-gray-200 pt-4 pb-3 overflow-y-auto">
             {/* Logo/Header */}
             <div className="flex items-center flex-shrink-0 px-4">
