@@ -733,3 +733,175 @@ export async function trackDuration(req: Request, res: Response) {
     });
   }
 }
+
+// GET /api/analytics/conversion-by-location - Conversão por localização da página
+export async function getConversionByLocation(req: Request, res: Response) {
+  try {
+    const db = getDatabase();
+    const { days = 30, yesterday } = req.query;
+
+    let dateFromStr: string;
+    let dateToStr: string;
+
+    if (yesterday === 'true') {
+      const yesterday_date = new Date();
+      yesterday_date.setDate(yesterday_date.getDate() - 1);
+      dateFromStr = yesterday_date.toISOString().split('T')[0] + ' 00:00:00';
+      dateToStr = yesterday_date.toISOString().split('T')[0] + ' 23:59:59';
+    } else {
+      const dateFrom = new Date();
+      dateFrom.setDate(dateFrom.getDate() - Number(days));
+      dateFromStr = dateFrom.toISOString().split('T')[0];
+      dateToStr = new Date().toISOString();
+    }
+
+    // Buscar conversão por origem da página (form_origin)
+    const [locationConversion] = await db.execute(`
+      SELECT
+        form_origin,
+        COUNT(*) as total_leads,
+        COUNT(CASE WHEN is_duplicate = FALSE THEN 1 END) as unique_leads,
+        COUNT(CASE WHEN webhook_status = 'success' THEN 1 END) as successful_webhooks,
+        COUNT(CASE WHEN experiencia_revenda = 'sim' THEN 1 END) as with_cnpj,
+        ROUND(AVG(CASE WHEN webhook_status = 'success' THEN 100 ELSE 0 END), 2) as webhook_success_rate
+      FROM leads
+      WHERE created_at >= ? AND created_at <= ?
+        AND form_origin IS NOT NULL
+        AND form_origin != ''
+      GROUP BY form_origin
+      ORDER BY total_leads DESC
+    `, [dateFromStr, dateToStr]);
+
+    // Buscar dados de analytics por evento para calcular conversão
+    const [analyticsEvents] = await db.execute(`
+      SELECT
+        event_type,
+        COUNT(DISTINCT session_id) as unique_sessions,
+        COUNT(*) as total_events
+      FROM analytics_events
+      WHERE created_at >= ? AND created_at <= ?
+      GROUP BY event_type
+      ORDER BY total_events DESC
+    `, [dateFromStr, dateToStr]);
+
+    // Mapear nomes amigáveis para as origens
+    const getOriginLabel = (origin: string): string => {
+      const originLabels: Record<string, string> = {
+        'hero-cta-secondary': 'Hero - Descubra',
+        'form-inline': 'Formulário Principal',
+        'benefits-cta': 'Seção Vantagens',
+        'testimonials-cta': 'Depoimentos',
+        'gallery-cta': 'Galeria Produtos',
+        'main-cta': 'CTA Principal',
+        'stats-cta': 'Seção Estatísticas',
+        'faq-cta': 'Seção FAQ',
+        'whatsapp-float': 'WhatsApp Flutuante'
+      };
+      return originLabels[origin] || origin;
+    };
+
+    const formattedLocationData = (locationConversion as any[]).map(row => ({
+      location: row.form_origin,
+      location_label: getOriginLabel(row.form_origin),
+      total_leads: row.total_leads,
+      unique_leads: row.unique_leads,
+      successful_webhooks: row.successful_webhooks,
+      with_cnpj: row.with_cnpj,
+      webhook_success_rate: row.webhook_success_rate
+    }));
+
+    res.json({
+      success: true,
+      data: {
+        location_conversion: formattedLocationData,
+        analytics_events: analyticsEvents
+      }
+    });
+  } catch (error) {
+    console.error('Erro ao buscar conversão por localização:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Erro interno do servidor'
+    });
+  }
+}
+
+// GET /api/analytics/conversion-by-geography - Conversão por cidades e estados
+export async function getConversionByGeography(req: Request, res: Response) {
+  try {
+    const db = getDatabase();
+    const { days = 30, yesterday } = req.query;
+
+    let dateFromStr: string;
+    let dateToStr: string;
+
+    if (yesterday === 'true') {
+      const yesterday_date = new Date();
+      yesterday_date.setDate(yesterday_date.getDate() - 1);
+      dateFromStr = yesterday_date.toISOString().split('T')[0] + ' 00:00:00';
+      dateToStr = yesterday_date.toISOString().split('T')[0] + ' 23:59:59';
+    } else {
+      const dateFrom = new Date();
+      dateFrom.setDate(dateFrom.getDate() - Number(days));
+      dateFromStr = dateFrom.toISOString().split('T')[0];
+      dateToStr = new Date().toISOString();
+    }
+
+    // Conversão por estados
+    const [stateConversion] = await db.execute(`
+      SELECT
+        estado,
+        COUNT(*) as total_leads,
+        COUNT(CASE WHEN is_duplicate = FALSE THEN 1 END) as unique_leads,
+        COUNT(CASE WHEN webhook_status = 'success' THEN 1 END) as successful_webhooks,
+        COUNT(CASE WHEN experiencia_revenda = 'sim' THEN 1 END) as with_cnpj,
+        COUNT(CASE WHEN tipo_loja = 'fisica' THEN 1 END) as fisica_leads,
+        COUNT(CASE WHEN tipo_loja = 'online' THEN 1 END) as online_leads,
+        COUNT(CASE WHEN tipo_loja = 'ambas' THEN 1 END) as ambas_leads,
+        ROUND(AVG(CASE WHEN webhook_status = 'success' THEN 100 ELSE 0 END), 2) as webhook_success_rate
+      FROM leads
+      WHERE created_at >= ? AND created_at <= ?
+        AND estado IS NOT NULL
+        AND estado != ''
+      GROUP BY estado
+      ORDER BY total_leads DESC
+      LIMIT 20
+    `, [dateFromStr, dateToStr]);
+
+    // Conversão por cidades (top 15)
+    const [cityConversion] = await db.execute(`
+      SELECT
+        cidade,
+        estado,
+        COUNT(*) as total_leads,
+        COUNT(CASE WHEN is_duplicate = FALSE THEN 1 END) as unique_leads,
+        COUNT(CASE WHEN webhook_status = 'success' THEN 1 END) as successful_webhooks,
+        COUNT(CASE WHEN experiencia_revenda = 'sim' THEN 1 END) as with_cnpj,
+        COUNT(CASE WHEN tipo_loja = 'fisica' THEN 1 END) as fisica_leads,
+        COUNT(CASE WHEN tipo_loja = 'online' THEN 1 END) as online_leads,
+        COUNT(CASE WHEN tipo_loja = 'ambas' THEN 1 END) as ambas_leads,
+        ROUND(AVG(CASE WHEN webhook_status = 'success' THEN 100 ELSE 0 END), 2) as webhook_success_rate
+      FROM leads
+      WHERE created_at >= ? AND created_at <= ?
+        AND cidade IS NOT NULL
+        AND cidade != ''
+      GROUP BY cidade, estado
+      ORDER BY total_leads DESC
+      LIMIT 15
+    `, [dateFromStr, dateToStr]);
+
+    res.json({
+      success: true,
+      data: {
+        state_conversion: stateConversion,
+        city_conversion: cityConversion
+      }
+    });
+  } catch (error) {
+    console.error('Erro ao buscar conversão por geografia:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Erro interno do servidor'
+    });
+  }
+}
