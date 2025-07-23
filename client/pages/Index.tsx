@@ -1092,7 +1092,7 @@ export default function Index() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-12 sm:py-16 lg:py-20 bg-ecko-red">
+      <section className="py-16 md:py-20 bg-ecko-red">
         <div className="container mx-auto px-4 sm:px-6 max-w-4xl text-center">
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white mb-4 sm:mb-6 uppercase tracking-wide leading-tight">
             <span className="block sm:inline">PRONTO PARA FAZER PARTE</span>
