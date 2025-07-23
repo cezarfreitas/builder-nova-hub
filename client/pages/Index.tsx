@@ -282,7 +282,7 @@ export default function Index() {
       company: "FC Moda Urbana",
       role: "Fundadora",
       content:
-        "Em 2 anos como revendedora Ecko, consegui abrir mais 3 lojas. A marca tem uma força incrível no mercado e os jovens amam. O retorno sobre investimento é fant��stico!",
+        "Em 2 anos como revendedora Ecko, consegui abrir mais 3 lojas. A marca tem uma força incrível no mercado e os jovens amam. O retorno sobre investimento é fantástico!",
       avatar_url:
         "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=150&h=150&fit=crop&crop=face",
       rating: 5,
@@ -527,7 +527,7 @@ export default function Index() {
         });
       }
     } catch (error) {
-      console.error('Erro ao enviar lead:', error);
+      console.error('❌ Erro ao enviar lead:', error);
       toast({
         title: "❌ Erro de conexão",
         description: "Erro ao conectar com o servidor. Verifique sua conexão e tente novamente.",
