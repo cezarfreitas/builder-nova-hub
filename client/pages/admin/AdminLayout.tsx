@@ -181,12 +181,12 @@ export default function AdminLayout() {
               {renderSidebarGroup(
                 "Principal",
                 getItemsByCategory("main"),
-                "mb-8"
+                "mb-4"
               )}
               {renderSidebarGroup(
                 "Landing Page",
                 getItemsByCategory("lp"),
-                "mb-8"
+                "mb-4"
               )}
               {renderSidebarGroup(
                 "Sistema",
@@ -195,18 +195,17 @@ export default function AdminLayout() {
             </div>
 
             {/* Footer */}
-            <div className="flex-shrink-0 px-6 py-4 border-t border-gray-200">
+            <div className="flex-shrink-0 px-4 py-3 border-t border-gray-200">
               <div className="flex items-center">
-                <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
+                <div className="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center">
                   <span className="text-xs font-medium text-gray-700">
                     CF
                   </span>
                 </div>
-                <div className="ml-3">
-                  <p className="text-sm font-medium text-gray-900">
+                <div className="ml-2">
+                  <p className="text-xs font-medium text-gray-900">
                     Cezar Freitas
                   </p>
-                  <p className="text-xs text-gray-500">Administrador</p>
                 </div>
               </div>
             </div>
