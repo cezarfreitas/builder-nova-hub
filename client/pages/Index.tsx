@@ -552,6 +552,16 @@ export default function Index() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Validar WhatsApp
+    if (!formData.whatsapp || !validateWhatsApp(formData.whatsapp)) {
+      toast({
+        title: "⚠️ WhatsApp Inválido",
+        description: "Digite um número de WhatsApp válido para contato.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     // Se não tem CNPJ, não prosseguir
     if (formData.hasCnpj === "nao") {
       toast({
