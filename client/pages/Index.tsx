@@ -37,7 +37,7 @@ interface LeadFormData {
 export default function Index() {
   const { toast } = useToast();
   const sessionId = useSessionId();
-  const { settings: heroSettings } = useHeroSettings();
+  const { settings: heroSettings, loading: heroLoading } = useHeroSettings();
 
   // Usar apenas configurações salvas no banco - sem fallback
   const currentHero = heroSettings;
