@@ -27,7 +27,8 @@ import {
   Globe,
   MousePointer,
   RefreshCw,
-  ChevronDown
+  ChevronDown,
+  Download
 } from "lucide-react";
 
 // Registrar componentes do Chart.js
