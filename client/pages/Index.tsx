@@ -678,19 +678,19 @@ export default function Index() {
         >
         {/* Background Image */}
         <div className="absolute inset-0">
-          {/* Hero Background Image - Only from database */}
-          {heroSettings?.background_image ? (
+          {/* Hero Background Image */}
+          {currentHero.background_image ? (
             <img
-              src={heroSettings.background_image}
+              src={currentHero.background_image}
               alt="Background do Hero"
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover transition-opacity duration-500"
               loading="eager"
               fetchPriority="high"
             />
           ) : (
             <div
               className="w-full h-full"
-              style={{ backgroundColor: heroSettings?.background_color || '#dc2626' }}
+              style={{ backgroundColor: currentHero.background_color }}
             />
           )}
 
