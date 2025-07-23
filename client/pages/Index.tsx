@@ -602,10 +602,13 @@ export default function Index() {
                 <div className="lg:block hidden">
                   <Button
                     onClick={() => setShowForm(true)}
-                    className="bg-ecko-red hover:bg-ecko-red-dark text-white px-8 py-4 font-bold text-lg shadow-2xl hover:shadow-ecko-red/25 transition-all duration-300 group uppercase tracking-wider"
+                    className="group relative overflow-hidden bg-gradient-to-r from-ecko-red to-ecko-red-dark hover:from-ecko-red-dark hover:to-red-700 text-white px-8 py-4 font-bold text-lg shadow-2xl hover:shadow-ecko-red/40 transition-all duration-300 hover:scale-105 uppercase tracking-wider rounded-lg"
                   >
-                    QUERO SER UMA REVENDA AUTORIZADA
-                    <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    <span className="absolute inset-0 bg-gradient-to-r from-red-600 to-red-800 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                    <span className="relative z-10 flex items-center">
+                      QUERO SER UMA REVENDA AUTORIZADA
+                      <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    </span>
                   </Button>
                 </div>
               </div>
