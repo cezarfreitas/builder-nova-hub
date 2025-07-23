@@ -1200,7 +1200,7 @@ export default function Index() {
 
       {/* FAQ Section */}
       {faqs.length > 0 && (
-        <section className="py-16 bg-black relative overflow-hidden">
+        <section className="py-20 bg-gradient-to-b from-black to-gray-900 relative overflow-hidden">
           {/* Background Pattern */}
           <div className="absolute inset-0">
             <div
