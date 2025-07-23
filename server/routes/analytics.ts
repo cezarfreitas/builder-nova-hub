@@ -546,7 +546,19 @@ export async function trackVisit(req: Request, res: Response) {
 export async function exportAnalyticsData(req: Request, res: Response) {
   try {
     const db = getDatabase();
-    const { days = 30 } = req.query;
+    const { days = 30, yesterday } = req.query;
+
+    // Determinar condição de data
+    let dateCondition: string;
+    let queryParams: any[];
+
+    if (yesterday === 'true') {
+      dateCondition = 'DATE(created_at) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)';
+      queryParams = [];
+    } else {
+      dateCondition = 'created_at >= DATE_SUB(CURDATE(), INTERVAL ? DAY)';
+      queryParams = [Number(days)];
+    }
 
     // Buscar leads detalhados
     const [leads] = await db.execute(`
@@ -555,9 +567,9 @@ export async function exportAnalyticsData(req: Request, res: Response) {
         is_duplicate, source, utm_source, utm_medium, utm_campaign,
         webhook_status, webhook_response, created_at
       FROM leads
-      WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
+      WHERE ${dateCondition}
       ORDER BY created_at DESC
-    `, [Number(days)]);
+    `, queryParams);
 
     // Buscar eventos de analytics
     const [events] = await db.execute(`
