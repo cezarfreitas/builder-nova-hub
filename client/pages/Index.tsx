@@ -710,9 +710,17 @@ export default function Index() {
           whatsapp: "",
           hasCnpj: "",
           storeType: "",
+          cep: "",
+          endereco: "",
+          numero: "",
+          complemento: "",
+          bairro: "",
+          cidade: "",
+          estado: "",
         });
         setWhatsappError("");
         setCnpjError("");
+        setCepError("");
       } else {
         toast({
           title: "❌ Erro no envio",
