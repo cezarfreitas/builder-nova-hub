@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Button } from './ui/button';
 import { useImageUpload, UploadedImage } from '../hooks/useImageUpload';
+import { useToast } from '../hooks/use-toast';
 
 interface SeoImageUploadProps {
   currentImage?: string;
