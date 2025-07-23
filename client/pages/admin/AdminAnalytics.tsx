@@ -324,6 +324,7 @@ export default function AdminAnalytics() {
             className="p-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
           >
             <option value={1}>Hoje</option>
+            <option value={0}>Ontem</option>
             <option value={7}>Últimos 7 dias</option>
             <option value={30}>Últimos 30 dias</option>
             <option value={60}>Últimos 60 dias</option>
