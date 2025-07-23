@@ -710,7 +710,6 @@ export default function Index() {
           storeType: "",
           cep: "",
           endereco: "",
-          numero: "",
           complemento: "",
           bairro: "",
           cidade: "",
