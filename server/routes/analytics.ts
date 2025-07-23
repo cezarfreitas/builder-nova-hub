@@ -512,6 +512,69 @@ export async function getTrafficSources(req: Request, res: Response) {
   }
 }
 
+// GET /api/analytics/form-origins - Análise de origem dos formulários
+export async function getFormOrigins(req: Request, res: Response) {
+  try {
+    const db = getDatabase();
+    const { days = 30, yesterday } = req.query;
+
+    // Determinar condição de data
+    let dateCondition: string;
+    let queryParams: any[];
+
+    if (yesterday === 'true') {
+      dateCondition = 'DATE(created_at) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)';
+      queryParams = [];
+    } else {
+      dateCondition = 'created_at >= DATE_SUB(CURDATE(), INTERVAL ? DAY)';
+      queryParams = [Number(days)];
+    }
+
+    // Buscar dados de origem do formulário
+    const [formOrigins] = await db.execute(`
+      SELECT
+        COALESCE(NULLIF(form_origin, ''), 'Não Identificado') as origin,
+        COUNT(*) as total_leads,
+        COUNT(CASE WHEN is_duplicate = FALSE THEN 1 END) as unique_leads,
+        COUNT(CASE WHEN experiencia_revenda = 'sim' THEN 1 END) as with_cnpj,
+        COUNT(CASE WHEN webhook_status = 'success' THEN 1 END) as successful_webhooks,
+        ROUND((COUNT(CASE WHEN experiencia_revenda = 'sim' THEN 1 END) / COUNT(*)) * 100, 2) as cnpj_rate
+      FROM leads
+      WHERE ${dateCondition}
+      GROUP BY form_origin
+      ORDER BY total_leads DESC
+    `, queryParams);
+
+    // Buscar conversão por origem no tempo
+    const [dailyByOrigin] = await db.execute(`
+      SELECT
+        DATE(created_at) as date,
+        COALESCE(NULLIF(form_origin, ''), 'Não Identificado') as origin,
+        COUNT(*) as leads_count
+      FROM leads
+      WHERE ${dateCondition}
+      GROUP BY DATE(created_at), form_origin
+      ORDER BY date DESC, leads_count DESC
+    `, queryParams);
+
+    res.json({
+      success: true,
+      data: {
+        form_origins: formOrigins,
+        daily_by_origin: dailyByOrigin,
+        period_days: yesterday === 'true' ? 0 : Number(days),
+        period_label: yesterday === 'true' ? 'ontem' : `últimos ${days} dias`
+      }
+    });
+  } catch (error) {
+    console.error('Erro ao buscar origens do formulário:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Erro interno do servidor'
+    });
+  }
+}
+
 // POST /api/analytics/track-visit - Rastrear visita na página
 export async function trackVisit(req: Request, res: Response) {
   try {
