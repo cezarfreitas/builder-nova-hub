@@ -242,6 +242,7 @@ export function useLeads(): UseLeadsReturn {
     pagination,
     fetchLeads,
     resendWebhook,
+    deleteLead,
     exportLeads,
     refreshStats,
   };
