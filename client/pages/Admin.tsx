@@ -192,13 +192,25 @@ export default function Admin() {
 
       const success = await saveMultipleSettings(settingsToSave);
       if (success) {
-        alert('Configurações de SEO salvas com sucesso!');
+        toast({
+          title: "✅ Sucesso!",
+          description: "Configurações de SEO salvas com sucesso!",
+          variant: "default",
+        });
       } else {
-        alert('Erro ao salvar configurações. Tente novamente.');
+        toast({
+          title: "❌ Erro",
+          description: "Erro ao salvar configurações. Tente novamente.",
+          variant: "destructive",
+        });
       }
     } catch (error) {
       console.error('Erro ao salvar:', error);
-      alert('Erro ao salvar configurações. Tente novamente.');
+      toast({
+        title: "❌ Erro",
+        description: "Erro ao salvar configurações. Tente novamente.",
+        variant: "destructive",
+      });
     } finally {
       setSaving(false);
     }
@@ -310,7 +322,7 @@ export default function Admin() {
             </CardHeader>
             <CardContent>
               <p className="text-gray-600 mb-4">
-                Gerencie o cabe��alho principal da landing page.
+                Gerencie o cabeçalho principal da landing page.
               </p>
               <div className="space-y-4">
                 <div>
