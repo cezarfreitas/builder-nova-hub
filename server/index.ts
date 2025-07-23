@@ -51,6 +51,13 @@ export function createServer() {
   app.get("/api/uploads", listUploadedImages);
   app.delete("/api/uploads/:filename", deleteUploadedImage);
 
+  // Analytics routes
+  app.get("/api/analytics/overview", getAnalyticsOverview);
+  app.get("/api/analytics/daily-stats", getDailyStats);
+  app.get("/api/analytics/time-analysis", getTimeAnalysis);
+  app.get("/api/analytics/traffic-sources", getTrafficSources);
+  app.post("/api/analytics/track-visit", trackVisit);
+
   // Database test routes
   app.get("/api/test-db", testDatabaseConnection);
   app.get("/api/database-info", getDatabaseInfo);
