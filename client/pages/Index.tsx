@@ -344,7 +344,7 @@ export default function Index() {
   const updateDuration = async () => {
     try {
       const duration = Math.floor((Date.now() - startTime) / 1000);
-      await fetch('/api/analytics/track-duration', {
+      const response = await fetch('/api/analytics/track-duration', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -354,8 +354,14 @@ export default function Index() {
           duration_seconds: duration
         })
       });
+
+      // Verificar se a resposta foi bem-sucedida
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
     } catch (error) {
-      console.error('Erro ao atualizar duração:', error);
+      // Silenciar erros de analytics para não quebrar a aplicação
+      // console.error('Erro ao atualizar duração:', error);
     }
   };
 
