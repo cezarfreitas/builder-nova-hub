@@ -52,6 +52,7 @@ export default function Index() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [cnpjError, setCnpjError] = useState("");
+  const [whatsappError, setWhatsappError] = useState("");
   const [faqs, setFaqs] = useState<FAQ[]>([]);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [formOrigin, setFormOrigin] = useState<string>("");
