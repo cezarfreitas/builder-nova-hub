@@ -514,7 +514,7 @@ export async function trackVisit(req: Request, res: Response) {
         user_agent, referrer, page_url, duration_seconds, created_at
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
     `, [
-      'page_view',
+      event_type || 'page_view',
       JSON.stringify({
         utm_source: utm_source || '',
         utm_medium: utm_medium || '',
