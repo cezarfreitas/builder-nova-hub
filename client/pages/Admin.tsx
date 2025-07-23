@@ -676,6 +676,70 @@ export default function Admin() {
                         </div>
                       </div>
                     </div>
+
+                    {/* Botões de ação */}
+                    <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-200">
+                      <Button
+                        className="bg-ecko-red hover:bg-ecko-red-dark text-white px-8 py-3 text-base font-medium"
+                        onClick={() => {
+                          // Aqui você coletaria todos os dados do formulário e salvaria
+                          console.log('Salvando configurações de SEO...');
+                          // Implementar chamada para API /api/settings
+                        }}
+                      >
+                        Salvar Configurações SEO
+                      </Button>
+                      <Button
+                        variant="outline"
+                        className="border-blue-300 text-blue-700 hover:bg-blue-50 px-6 py-3"
+                        onClick={() => {
+                          // Preview das meta tags
+                          console.log('Visualizando preview...');
+                        }}
+                      >
+                        Visualizar Preview
+                      </Button>
+                      <Button
+                        variant="outline"
+                        className="border-green-300 text-green-700 hover:bg-green-50 px-6 py-3"
+                        onClick={() => {
+                          // Teste das meta tags
+                          window.open('https://developers.facebook.com/tools/debug/', '_blank');
+                        }}
+                      >
+                        Testar no Facebook
+                      </Button>
+                      <Button
+                        variant="outline"
+                        className="border-orange-300 text-orange-700 hover:bg-orange-50 px-6 py-3 sm:ml-auto"
+                        onClick={() => {
+                          // Restaurar configurações padrão
+                          if (confirm('Tem certeza que deseja restaurar as configurações padrão de SEO?')) {
+                            console.log('Restaurando configurações padrão...');
+                          }
+                        }}
+                      >
+                        Restaurar Padrão
+                      </Button>
+                    </div>
+
+                    {/* Aviso sobre indexação */}
+                    <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                      <div className="flex">
+                        <svg className="h-5 w-5 text-yellow-400 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                        </svg>
+                        <div>
+                          <h3 className="text-sm font-medium text-yellow-800">
+                            Dica de SEO
+                          </h3>
+                          <p className="mt-1 text-sm text-yellow-700">
+                            Após salvar as configurações, pode levar algumas horas para que os motores de busca indexem as novas meta tags.
+                            Use as ferramentas de teste para verificar se tudo está configurado corretamente.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 )}
 
