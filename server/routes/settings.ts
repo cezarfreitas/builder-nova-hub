@@ -18,12 +18,12 @@ const HeroSettingsSchema = z.object({
   description: z.string().max(1000).optional(),
   cta_text: z.string().min(1).max(50),
   cta_secondary_text: z.string().max(50).optional(),
-  background_image: z.string().url().optional().or(z.literal('')),
+  background_image: z.string().optional().or(z.literal('')),
   background_color: z.string().min(4).max(9), // hex color
   text_color: z.string().min(4).max(9), // hex color
   cta_color: z.string().min(4).max(9), // hex color
-  logo_url: z.string().url().optional().or(z.literal('')),
-  video_url: z.string().url().optional().or(z.literal('')),
+  logo_url: z.string().optional().or(z.literal('')),
+  video_url: z.string().optional().or(z.literal('')),
   enabled: z.boolean().default(true)
 });
 
