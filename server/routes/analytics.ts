@@ -67,17 +67,38 @@ export async function getAnalyticsOverview(req: Request, res: Response) {
     const [overview] = await db.execute(overviewQuery, overviewParams);
 
     // Buscar visitas do analytics_events com métricas avançadas
-    const [visits] = await db.execute(`
-      SELECT
-        COUNT(DISTINCT session_id) as total_sessions,
-        COUNT(DISTINCT user_id) as unique_users,
-        COUNT(*) as total_page_views,
-        COUNT(CASE WHEN DATE(created_at) >= ? THEN 1 END) as period_page_views,
-        AVG(duration_seconds) as avg_session_duration,
-        COUNT(*) / COUNT(DISTINCT session_id) as pages_per_session
-      FROM analytics_events
-      WHERE event_type = 'page_view'
-    `, [dateFromStr]);
+    let visitsQuery: string;
+    let visitsParams: any[];
+
+    if (yesterday === 'true') {
+      visitsQuery = `
+        SELECT
+          COUNT(DISTINCT session_id) as total_sessions,
+          COUNT(DISTINCT user_id) as unique_users,
+          COUNT(*) as total_page_views,
+          COUNT(*) as period_page_views,
+          AVG(duration_seconds) as avg_session_duration,
+          COUNT(*) / COUNT(DISTINCT session_id) as pages_per_session
+        FROM analytics_events
+        WHERE event_type = 'page_view' AND created_at >= ? AND created_at <= ?
+      `;
+      visitsParams = [dateFromStr, dateToStr];
+    } else {
+      visitsQuery = `
+        SELECT
+          COUNT(DISTINCT session_id) as total_sessions,
+          COUNT(DISTINCT user_id) as unique_users,
+          COUNT(*) as total_page_views,
+          COUNT(CASE WHEN DATE(created_at) >= ? THEN 1 END) as period_page_views,
+          AVG(duration_seconds) as avg_session_duration,
+          COUNT(*) / COUNT(DISTINCT session_id) as pages_per_session
+        FROM analytics_events
+        WHERE event_type = 'page_view'
+      `;
+      visitsParams = [dateFromStr];
+    }
+
+    const [visits] = await db.execute(visitsQuery, visitsParams);
 
     // Buscar taxa de rejeição (sessões com apenas 1 page view)
     const [bounceRate] = await db.execute(`
