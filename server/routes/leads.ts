@@ -253,8 +253,25 @@ export async function getLeads(req: Request, res: Response) {
 
 // PUT /api/leads/:id/webhook - Reenviar webhook para um lead específico
 export async function resendWebhook(req: Request, res: Response) {
+  // Garantir que sempre enviamos uma resposta JSON válida
+  const sendErrorResponse = (status: number, message: string) => {
+    if (!res.headersSent) {
+      return res.status(status).json({
+        success: false,
+        message,
+        webhook_status: 'error',
+        webhook_response: message
+      });
+    }
+  };
+
   try {
     const { id } = req.params;
+
+    if (!id || isNaN(Number(id))) {
+      return sendErrorResponse(400, 'ID do lead inválido');
+    }
+
     const db = getDatabase();
 
     // Buscar o lead
@@ -264,10 +281,7 @@ export async function resendWebhook(req: Request, res: Response) {
     );
 
     if ((leadResult as any[]).length === 0) {
-      return res.status(404).json({
-        success: false,
-        message: 'Lead não encontrado'
-      });
+      return sendErrorResponse(404, 'Lead não encontrado');
     }
 
     const lead = (leadResult as any[])[0];
