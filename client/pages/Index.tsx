@@ -1197,12 +1197,12 @@ export default function Index() {
                           }`}
                         />
                         {whatsappError && (
-                          <p className="text-red-400 text-xs sm:text-sm mt-1 sm:mt-2 font-medium leading-tight">
+                          <p className="text-red-400 text-xs mt-2 font-medium leading-tight">
                             {whatsappError}
                           </p>
                         )}
                         {formData.whatsapp && !whatsappError && validateWhatsApp(formData.whatsapp) && (
-                          <p className="text-green-400 text-xs sm:text-sm mt-1 sm:mt-2 font-medium leading-tight">
+                          <p className="text-green-400 text-xs mt-2 font-medium leading-tight">
                             ✅ WhatsApp válido
                           </p>
                         )}
