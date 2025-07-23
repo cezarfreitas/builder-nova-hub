@@ -60,6 +60,8 @@ export default function Index() {
   const [showForm, setShowForm] = useState(false);
   const [cnpjError, setCnpjError] = useState("");
   const [whatsappError, setWhatsappError] = useState("");
+  const [cepError, setCepError] = useState("");
+  const [cepLoading, setCepLoading] = useState(false);
   const [faqs, setFaqs] = useState<FAQ[]>([]);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [formOrigin, setFormOrigin] = useState<string>("");
