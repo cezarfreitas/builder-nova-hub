@@ -347,9 +347,12 @@ export async function getHeroSettings(req: Request, res: Response) {
 // POST /api/settings/hero - Atualizar configurações do hero
 export async function updateHeroSettings(req: Request, res: Response) {
   try {
+    console.log('Recebendo configurações do hero:', req.body);
+
     // Validar dados de entrada
     const validation = HeroSettingsSchema.safeParse(req.body);
     if (!validation.success) {
+      console.error('Erro de validação:', validation.error.errors);
       return res.status(400).json({
         success: false,
         message: 'Dados inválidos',
