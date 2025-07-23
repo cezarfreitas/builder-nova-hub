@@ -1101,10 +1101,13 @@ export default function Index() {
               <div className="mt-6">
                 <Button
                   variant="outline"
-                  className="border-ecko-red text-ecko-red hover:bg-ecko-red hover:text-white px-6 md:px-8 py-3 text-base md:text-lg font-semibold uppercase tracking-wider transition-all duration-300"
+                  className="group relative overflow-hidden border-2 border-ecko-red text-ecko-red hover:text-white px-8 md:px-10 py-3 text-base md:text-lg font-semibold uppercase tracking-wider transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-ecko-red/25 rounded-lg"
                 >
-                  Ver Mais Produtos
-                  <ArrowRight className="ml-2 w-4 h-4 md:w-5 md:h-5" />
+                  <span className="absolute inset-0 bg-ecko-red transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                  <span className="relative z-10 flex items-center">
+                    Ver Mais Produtos
+                    <ArrowRight className="ml-2 w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform" />
+                  </span>
                 </Button>
               </div>
             )}
