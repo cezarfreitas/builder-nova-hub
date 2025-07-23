@@ -361,7 +361,17 @@ export default function AdminAnalytics() {
             </CardHeader>
             <CardContent>
               <div style={{ height: '250px' }}>
-                {hourlyData && <Bar data={hourlyData} options={chartOptions} />}
+                {hourlyData ? (
+                  <Bar data={hourlyData} options={chartOptions} />
+                ) : (
+                  <div className="flex items-center justify-center h-full text-gray-500">
+                    <div className="text-center">
+                      <Clock className="w-12 h-12 mx-auto mb-2 text-gray-300" />
+                      <p>Sem dados suficientes para análise por horário</p>
+                      <p className="text-sm">Aguarde mais leads serem coletados</p>
+                    </div>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>
