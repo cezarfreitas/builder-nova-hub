@@ -102,7 +102,9 @@ export function useAnalytics(days: number = 30) {
 
   const fetchOverview = async () => {
     try {
-      const url = `/api/analytics/overview?days=${days}`;
+      // Tratar caso especial para "ontem" (days = 0)
+      const queryParam = days === 0 ? 'yesterday=true' : `days=${days}`;
+      const url = `/api/analytics/overview?${queryParam}`;
       console.log('Fetching overview from:', url);
       const response = await fetch(url);
 
@@ -139,7 +141,7 @@ export function useAnalytics(days: number = 30) {
         throw new Error(result.message || result.error || 'Erro ao buscar estatísticas diárias');
       }
     } catch (err) {
-      console.error('Erro ao buscar estatísticas diárias:', err);
+      console.error('Erro ao buscar estat��sticas diárias:', err);
       setError(`Erro ao carregar estatísticas diárias: ${err.message}`);
     }
   };
