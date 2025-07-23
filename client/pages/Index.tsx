@@ -678,13 +678,9 @@ export default function Index() {
           {/* Logo */}
           <div className="flex items-center justify-center mt-8 sm:mt-12 lg:mt-20 mb-6 sm:mb-8">
             <div
-              className="w-32 h-12 sm:w-40 sm:h-16 lg:w-48 lg:h-20 xl:w-56 xl:h-24 bg-no-repeat bg-center bg-contain transition-all duration-300"
+              className="w-32 h-12 sm:w-40 sm:h-16 lg:w-48 lg:h-20 xl:w-56 xl:h-24 bg-no-repeat bg-center bg-contain"
               style={{
-                backgroundImage: `url(${
-                  heroLoading
-                    ? "https://www.ntktextil.com.br/wp-content/uploads/2022/08/Logo-Ecko.png"
-                    : (heroSettings?.logo_url || "https://www.ntktextil.com.br/wp-content/uploads/2022/08/Logo-Ecko.png")
-                })`
+                backgroundImage: `url(${heroSettings?.logo_url || "https://www.ntktextil.com.br/wp-content/uploads/2022/08/Logo-Ecko.png"})`
               }}
               role="img"
               aria-label="Logo Ecko"
