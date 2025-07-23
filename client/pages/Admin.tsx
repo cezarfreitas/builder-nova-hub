@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "../components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import { SeoImageUpload } from "../components/SeoImageUpload";
 import { SeoPreviewModal } from "../components/SeoPreviewModal";
+import { useSettings } from "../hooks/useSettings";
 import {
   Settings,
   Users,
