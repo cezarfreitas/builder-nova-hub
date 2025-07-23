@@ -323,27 +323,62 @@ export default function Index() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     // Se não tem CNPJ, não prosseguir
     if (formData.hasCnpj === "nao") {
+      toast({
+        title: "⚠️ CNPJ Obrigatório",
+        description: "É necessário ter CNPJ para se tornar um revendedor autorizado.",
+        variant: "destructive",
+      });
       return;
     }
 
     setIsSubmitting(true);
 
-    // Simular envio do formulário
-    setTimeout(() => {
-      setIsSubmitted(true);
-      setFormData({
-        name: "",
-        whatsapp: "",
-        hasCnpj: "",
-        storeType: "",
+    try {
+      const response = await fetch('/api/leads', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
       });
+
+      const result = await response.json();
+
+      if (result.success) {
+        toast({
+          title: "✅ Cadastro enviado!",
+          description: "Nossa equipe entrará em contato em até 24h. Obrigado pelo interesse!",
+          variant: "success",
+        });
+        setIsSubmitted(true);
+        setFormData({
+          name: "",
+          whatsapp: "",
+          hasCnpj: "",
+          storeType: "",
+        });
+      } else {
+        toast({
+          title: "❌ Erro no envio",
+          description: result.message || "Erro ao enviar cadastro. Tente novamente.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error('Erro ao enviar lead:', error);
+      toast({
+        title: "❌ Erro de conexão",
+        description: "Erro ao conectar com o servidor. Verifique sua conexão e tente novamente.",
+        variant: "destructive",
+      });
+    } finally {
       setIsSubmitting(false);
-    }, 1500);
+    }
   };
 
   const scrollToContent = () => {
