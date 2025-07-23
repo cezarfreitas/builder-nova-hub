@@ -53,18 +53,6 @@ export function createServer() {
   app.get("/api/uploads", listUploadedImages);
   app.delete("/api/uploads/:filename", deleteUploadedImage);
 
-  // Test upload endpoint
-  app.post("/api/test-upload", upload.single('image'), (req, res) => {
-    console.log('Test upload endpoint hit');
-    console.log('File:', req.file);
-    console.log('Body:', req.body);
-    res.json({
-      success: true,
-      file: req.file,
-      message: 'Test upload working'
-    });
-  });
-
   // Analytics routes
   app.get("/api/analytics/overview", getAnalyticsOverview);
   app.get("/api/analytics/daily-stats", getDailyStats);
