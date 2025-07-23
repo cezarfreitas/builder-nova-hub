@@ -7,6 +7,7 @@ import { testWebhook } from "./routes/webhook-test";
 import { getSettings, getSetting, updateSetting, updateSettings, deleteSetting } from "./routes/settings";
 import { upload, uploadSeoImage, deleteUploadedImage, listUploadedImages } from "./routes/uploads";
 import { testDatabaseConnection, getDatabaseInfo } from "./routes/database-test";
+import { getAnalyticsOverview, getDailyStats, getTimeAnalysis, getTrafficSources, trackVisit } from "./routes/analytics";
 import { initializeDatabase, testConnection } from "./config/database";
 
 export function createServer() {
