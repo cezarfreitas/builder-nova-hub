@@ -228,13 +228,25 @@ export default function Admin() {
 
       const success = await saveMultipleSettings(settingsToSave);
       if (success) {
-        alert('Configurações de Webhook salvas com sucesso!');
+        toast({
+          title: "✅ Sucesso!",
+          description: "Configurações de Webhook salvas com sucesso!",
+          variant: "default",
+        });
       } else {
-        alert('Erro ao salvar configurações. Tente novamente.');
+        toast({
+          title: "❌ Erro",
+          description: "Erro ao salvar configurações. Tente novamente.",
+          variant: "destructive",
+        });
       }
     } catch (error) {
       console.error('Erro ao salvar:', error);
-      alert('Erro ao salvar configurações. Tente novamente.');
+      toast({
+        title: "❌ Erro",
+        description: "Erro ao salvar configurações. Tente novamente.",
+        variant: "destructive",
+      });
     } finally {
       setSaving(false);
     }
