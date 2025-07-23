@@ -293,10 +293,7 @@ export async function resendWebhook(req: Request, res: Response) {
     );
 
     if ((webhookSettings as any[]).length === 0) {
-      return res.status(400).json({
-        success: false,
-        message: 'Webhook não configurado'
-      });
+      return sendErrorResponse(400, 'Webhook não configurado');
     }
 
     const settings: Record<string, string> = {};
