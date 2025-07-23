@@ -410,7 +410,7 @@ export default function Admin() {
                       </div>
                       <input
                         type="color"
-                        value="#dc2626"
+                        defaultValue="#dc2626"
                         className="w-full h-10 rounded border border-gray-300 cursor-pointer"
                       />
                     </div>
