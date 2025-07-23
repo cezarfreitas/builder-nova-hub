@@ -162,6 +162,26 @@ export async function initializeDatabase(): Promise<void> {
       )
     `);
 
+    // Tabela de depoimentos
+    await db.execute(`
+      CREATE TABLE IF NOT EXISTS testimonials (
+        id INT PRIMARY KEY AUTO_INCREMENT,
+        name VARCHAR(255) NOT NULL,
+        company VARCHAR(255),
+        role VARCHAR(255),
+        content TEXT NOT NULL,
+        avatar_url VARCHAR(500),
+        rating INT DEFAULT 5,
+        is_active BOOLEAN DEFAULT TRUE,
+        display_order INT DEFAULT 0,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        INDEX idx_is_active (is_active),
+        INDEX idx_display_order (display_order),
+        INDEX idx_created_at (created_at)
+      )
+    `);
+
     // Migração: Adicionar coluna duration_seconds se não existir
     try {
       await db.execute(`
