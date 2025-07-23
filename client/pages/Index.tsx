@@ -650,16 +650,7 @@ export default function Index() {
       <DynamicHead />
       <main className="bg-black pb-4">
       {/* Hero Full Screen Section */}
-      {heroLoading && (
-        <div className="h-screen flex items-center justify-center" style={{ backgroundColor: '#dc2626' }}>
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-            <p className="text-white">Carregando configurações...</p>
-          </div>
-        </div>
-      )}
-
-      {!heroLoading && (heroSettings?.enabled !== false) && (
+      {(heroSettings?.enabled !== false) && (
         <section
           className="h-screen relative flex flex-col justify-center items-center overflow-hidden"
           style={{
@@ -1241,7 +1232,7 @@ export default function Index() {
             </h2>
             <p className="text-gray-300 text-lg max-w-3xl mx-auto leading-relaxed">
               Descubra o lifestyle autêntico da Ecko através de looks que
-              representam a ess���ncia do streetwear e a cultura urbana que
+              representam a ess��ncia do streetwear e a cultura urbana que
               define nossa marca
             </p>
           </div>
