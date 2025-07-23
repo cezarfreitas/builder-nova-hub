@@ -226,8 +226,8 @@ export async function getLeads(req: Request, res: Response) {
     const [leads] = await db.execute(
       `SELECT * FROM leads ${whereClause}
        ORDER BY created_at DESC
-       LIMIT ? OFFSET ?`,
-      [...queryParams, Number(limit), offset]
+       LIMIT ${Number(limit)} OFFSET ${offset}`,
+      queryParams
     );
 
     res.json({
