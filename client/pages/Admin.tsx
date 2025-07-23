@@ -642,19 +642,302 @@ export default function Admin() {
         );
       case "analytics":
         return (
-          <Card className="bg-white shadow-sm border border-gray-200">
-            <CardHeader>
-              <CardTitle className="text-2xl text-gray-900 flex items-center">
-                <BarChart3 className="w-6 h-6 mr-2 text-ecko-red" />
-                Analytics
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600">
-                Aqui você poderá visualizar métricas e relatórios.
-              </p>
-            </CardContent>
-          </Card>
+          <div className="space-y-6">
+            {/* Header com período */}
+            <Card className="bg-white shadow-sm border border-gray-200">
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-2xl text-gray-900 flex items-center">
+                    <BarChart3 className="w-6 h-6 mr-2 text-ecko-red" />
+                    Analytics da Landing Page
+                  </CardTitle>
+                  <div className="flex items-center space-x-2">
+                    <select className="p-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-ecko-red focus:border-ecko-red">
+                      <option value="7">Últimos 7 dias</option>
+                      <option value="30" selected>Últimos 30 dias</option>
+                      <option value="90">Últimos 90 dias</option>
+                    </select>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600 mb-4">
+                  Acompanhe o desempenho da sua landing page de revendedores Ecko.
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* Métricas Principais */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <Card className="bg-white shadow-sm border border-gray-200">
+                <CardContent className="p-6">
+                  <div className="flex items-center">
+                    <div className="p-2 bg-blue-100 rounded-lg">
+                      <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                      </svg>
+                    </div>
+                    <div className="ml-4">
+                      <p className="text-sm font-medium text-gray-600">Visitantes Únicos</p>
+                      <div className="flex items-center">
+                        <p className="text-2xl font-bold text-gray-900">3,547</p>
+                        <p className="ml-2 text-sm text-green-600">+12.5%</p>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-white shadow-sm border border-gray-200">
+                <CardContent className="p-6">
+                  <div className="flex items-center">
+                    <div className="p-2 bg-green-100 rounded-lg">
+                      <Users className="w-6 h-6 text-green-600" />
+                    </div>
+                    <div className="ml-4">
+                      <p className="text-sm font-medium text-gray-600">Leads Convertidos</p>
+                      <div className="flex items-center">
+                        <p className="text-2xl font-bold text-gray-900">127</p>
+                        <p className="ml-2 text-sm text-green-600">+8.3%</p>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-white shadow-sm border border-gray-200">
+                <CardContent className="p-6">
+                  <div className="flex items-center">
+                    <div className="p-2 bg-yellow-100 rounded-lg">
+                      <TrendingUp className="w-6 h-6 text-yellow-600" />
+                    </div>
+                    <div className="ml-4">
+                      <p className="text-sm font-medium text-gray-600">Taxa de Conversão</p>
+                      <div className="flex items-center">
+                        <p className="text-2xl font-bold text-gray-900">3.58%</p>
+                        <p className="ml-2 text-sm text-green-600">+0.4%</p>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-white shadow-sm border border-gray-200">
+                <CardContent className="p-6">
+                  <div className="flex items-center">
+                    <div className="p-2 bg-purple-100 rounded-lg">
+                      <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <div className="ml-4">
+                      <p className="text-sm font-medium text-gray-600">Tempo Médio</p>
+                      <div className="flex items-center">
+                        <p className="text-2xl font-bold text-gray-900">4:32</p>
+                        <p className="ml-2 text-sm text-green-600">+15s</p>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Gráficos */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Conversões por Dia */}
+              <Card className="bg-white shadow-sm border border-gray-200">
+                <CardHeader>
+                  <CardTitle className="text-lg text-gray-900">Conversões dos Últimos 7 Dias</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {[
+                      { day: 'Seg', leads: 18, visits: 520 },
+                      { day: 'Ter', leads: 22, visits: 645 },
+                      { day: 'Qua', leads: 15, visits: 498 },
+                      { day: 'Qui', leads: 28, visits: 712 },
+                      { day: 'Sex', leads: 25, visits: 689 },
+                      { day: 'Sáb', leads: 12, visits: 345 },
+                      { day: 'Dom', leads: 8, visits: 287 }
+                    ].map((item, index) => (
+                      <div key={index} className="flex items-center justify-between">
+                        <div className="flex items-center">
+                          <span className="text-sm font-medium text-gray-900 w-8">{item.day}</span>
+                          <div className="ml-4 flex-1">
+                            <div className="flex items-center">
+                              <div className="w-full bg-gray-200 rounded-full h-2 mr-4">
+                                <div
+                                  className="bg-ecko-red h-2 rounded-full"
+                                  style={{ width: `${(item.leads / 30) * 100}%` }}
+                                ></div>
+                              </div>
+                              <span className="text-sm text-gray-600 min-w-[3rem]">{item.leads} leads</span>
+                            </div>
+                            <div className="flex items-center mt-1">
+                              <div className="w-full bg-gray-200 rounded-full h-1 mr-4">
+                                <div
+                                  className="bg-gray-400 h-1 rounded-full"
+                                  style={{ width: `${(item.visits / 800) * 100}%` }}
+                                ></div>
+                              </div>
+                              <span className="text-xs text-gray-500 min-w-[3rem]">{item.visits} visitas</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Fontes de Tráfego */}
+              <Card className="bg-white shadow-sm border border-gray-200">
+                <CardHeader>
+                  <CardTitle className="text-lg text-gray-900">Fontes de Tráfego</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {[
+                      { source: 'Google Orgânico', visits: 1423, percentage: 40.1, color: 'bg-blue-500' },
+                      { source: 'Google Ads', visits: 891, percentage: 25.1, color: 'bg-green-500' },
+                      { source: 'Facebook', visits: 567, percentage: 16.0, color: 'bg-blue-600' },
+                      { source: 'Instagram', visits: 445, percentage: 12.5, color: 'bg-pink-500' },
+                      { source: 'Direto', visits: 221, percentage: 6.3, color: 'bg-gray-500' }
+                    ].map((item, index) => (
+                      <div key={index} className="flex items-center justify-between">
+                        <div className="flex items-center flex-1">
+                          <div className={`w-3 h-3 rounded-full ${item.color} mr-3`}></div>
+                          <span className="text-sm font-medium text-gray-900 flex-1">{item.source}</span>
+                          <span className="text-sm text-gray-600 mr-4">{item.visits}</span>
+                          <span className="text-sm font-medium text-gray-900 min-w-[3rem]">{item.percentage}%</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Dispositivos e Performance */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Dispositivos */}
+              <Card className="bg-white shadow-sm border border-gray-200">
+                <CardHeader>
+                  <CardTitle className="text-lg text-gray-900">Dispositivos</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <svg className="w-5 h-5 text-gray-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                        </svg>
+                        <span className="text-sm text-gray-900">Mobile</span>
+                      </div>
+                      <span className="text-sm font-medium text-gray-900">68.5%</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <svg className="w-5 h-5 text-gray-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                        <span className="text-sm text-gray-900">Desktop</span>
+                      </div>
+                      <span className="text-sm font-medium text-gray-900">26.8%</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <svg className="w-5 h-5 text-gray-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+                        </svg>
+                        <span className="text-sm text-gray-900">Tablet</span>
+                      </div>
+                      <span className="text-sm font-medium text-gray-900">4.7%</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Formulário */}
+              <Card className="bg-white shadow-sm border border-gray-200">
+                <CardHeader>
+                  <CardTitle className="text-lg text-gray-900">Performance do Formulário</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-600">Formulários iniciados</span>
+                      <span className="text-sm font-medium text-gray-900">412</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-600">Formulários abandonados</span>
+                      <span className="text-sm font-medium text-red-600">285</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-600">Formulários concluídos</span>
+                      <span className="text-sm font-medium text-green-600">127</span>
+                    </div>
+                    <div className="pt-2 border-t border-gray-200">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-medium text-gray-900">Taxa de conclusão</span>
+                        <span className="text-sm font-bold text-ecko-red">30.8%</span>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Top Páginas */}
+              <Card className="bg-white shadow-sm border border-gray-200">
+                <CardHeader>
+                  <CardTitle className="text-lg text-gray-900">Seções Mais Visitadas</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-900">Hero/Formulário</span>
+                      <span className="text-sm font-medium text-gray-900">100%</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-900">Vantagens</span>
+                      <span className="text-sm font-medium text-gray-900">78.2%</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-900">Depoimentos</span>
+                      <span className="text-sm font-medium text-gray-900">65.4%</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-900">FAQ</span>
+                      <span className="text-sm font-medium text-gray-900">42.1%</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-900">Galeria</span>
+                      <span className="text-sm font-medium text-gray-900">38.9%</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Ações */}
+            <Card className="bg-white shadow-sm border border-gray-200">
+              <CardContent className="p-6">
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Button className="bg-ecko-red hover:bg-ecko-red-dark text-white px-6 py-3">
+                    Exportar Relatório
+                  </Button>
+                  <Button variant="outline" className="border-gray-300 text-gray-700 hover:bg-gray-50 px-6 py-3">
+                    Configurar Google Analytics
+                  </Button>
+                  <Button variant="outline" className="border-blue-300 text-blue-700 hover:bg-blue-50 px-6 py-3">
+                    Atualizar Dados
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         );
       case "design":
         return (
