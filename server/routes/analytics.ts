@@ -139,6 +139,7 @@ export async function getAnalyticsOverview(req: Request, res: Response) {
     const stats = (overview as any[])[0];
     const visitStats = (visits as any[])[0];
     const bounceStats = (bounceRate as any[])[0];
+    const whatsappStats = (whatsappClicks as any[])[0];
 
     // Calcular taxa de conversão
     const conversionRate = visitStats.total_sessions > 0
@@ -366,7 +367,7 @@ export async function getTimeAnalysis(req: Request, res: Response) {
           WHEN 2 THEN 'Quarta-feira'
           WHEN 3 THEN 'Quinta-feira'
           WHEN 4 THEN 'Sexta-feira'
-          WHEN 5 THEN 'Sábado'
+          WHEN 5 THEN 'S��bado'
           WHEN 6 THEN 'Domingo'
         END as weekday_name,
         total_leads,
