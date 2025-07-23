@@ -25,6 +25,7 @@ export interface AnalyticsOverview {
     avg_session_duration: number;
     pages_per_session: number;
     bounce_rate: number;
+    whatsapp_clicks: number;
   };
   conversion: {
     rate: number;
