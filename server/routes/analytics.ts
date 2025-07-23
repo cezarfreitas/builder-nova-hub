@@ -221,17 +221,41 @@ export async function getDailyStats(req: Request, res: Response) {
     const [dailyLeads] = await db.execute(dailyLeadsQuery, dailyLeadsParams);
 
     // Buscar visitas por dia
-    const [dailyVisits] = await db.execute(`
-      SELECT 
-        DATE(created_at) as date,
-        COUNT(DISTINCT session_id) as sessions,
-        COUNT(*) as page_views
-      FROM analytics_events 
-      WHERE event_type = 'page_view' 
-      AND created_at >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
-      GROUP BY DATE(created_at)
-      ORDER BY date DESC
-    `, [Number(days)]);
+    let dailyVisitsQuery: string;
+    let dailyVisitsParams: any[];
+
+    if (yesterday === 'true') {
+      const yesterday_date = new Date();
+      yesterday_date.setDate(yesterday_date.getDate() - 1);
+      const dateStr = yesterday_date.toISOString().split('T')[0];
+
+      dailyVisitsQuery = `
+        SELECT
+          DATE(created_at) as date,
+          COUNT(DISTINCT session_id) as sessions,
+          COUNT(*) as page_views
+        FROM analytics_events
+        WHERE event_type = 'page_view' AND DATE(created_at) = ?
+        GROUP BY DATE(created_at)
+        ORDER BY date DESC
+      `;
+      dailyVisitsParams = [dateStr];
+    } else {
+      dailyVisitsQuery = `
+        SELECT
+          DATE(created_at) as date,
+          COUNT(DISTINCT session_id) as sessions,
+          COUNT(*) as page_views
+        FROM analytics_events
+        WHERE event_type = 'page_view'
+        AND created_at >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
+        GROUP BY DATE(created_at)
+        ORDER BY date DESC
+      `;
+      dailyVisitsParams = [Number(days)];
+    }
+
+    const [dailyVisits] = await db.execute(dailyVisitsQuery, dailyVisitsParams);
 
     // Combinar dados de leads e visitas
     const dailyStatsMap = new Map();
@@ -473,7 +497,7 @@ export async function trackVisit(req: Request, res: Response) {
 
     const ip_address = req.ip || req.connection.remoteAddress || '';
 
-    // Gerar user_id baseado no IP + User Agent se não fornecido
+    // Gerar user_id baseado no IP + User Agent se n��o fornecido
     const computedUserId = user_id || Buffer.from(`${ip_address}-${user_agent || ''}`).toString('base64').slice(0, 50);
 
     // Inserir evento de visita
