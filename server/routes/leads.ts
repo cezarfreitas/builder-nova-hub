@@ -11,6 +11,7 @@ const leadSchema = z.object({
   email: z.string().email("Email inválido").optional(),
   cidade: z.string().optional(),
   empresa: z.string().optional(),
+  formOrigin: z.string().optional(),
 });
 
 // POST /api/leads - Submit a new lead
