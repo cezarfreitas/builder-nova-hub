@@ -176,7 +176,7 @@ export async function getAnalyticsOverview(req: Request, res: Response) {
 export async function getDailyStats(req: Request, res: Response) {
   try {
     const db = getDatabase();
-    const { days = 30 } = req.query;
+    const { days = 30, yesterday } = req.query;
 
     // Buscar leads por dia
     const [dailyLeads] = await db.execute(`
