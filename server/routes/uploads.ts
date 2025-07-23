@@ -67,46 +67,73 @@ export async function uploadSeoImage(req: Request, res: Response) {
       path: file.path
     });
 
-    // Otimizar imagem com Sharp
+    // Otimizar imagem com Sharp para SEO
     let finalFilename = file.filename;
     let finalSize = file.size;
+    let finalPath = file.path;
 
     try {
-      const optimizedFilename = `optimized-${file.filename}`;
+      // Gerar nome otimizado sem "optimized-" prefix para evitar 404s
+      const ext = path.extname(file.filename);
+      const nameWithoutExt = path.basename(file.filename, ext);
+      const optimizedFilename = `${nameWithoutExt}-opt${ext}`;
       const optimizedPath = path.join(path.dirname(file.path), optimizedFilename);
 
-      // Otimizar e comprimir imagem
-      await sharp(file.path)
-        .resize(2000, 2000, {
+      // Otimizar imagem mantendo formato original
+      const isJpeg = file.mimetype === 'image/jpeg' || file.mimetype === 'image/jpg';
+      const isPng = file.mimetype === 'image/png';
+      const isWebp = file.mimetype === 'image/webp';
+
+      let sharpInstance = sharp(file.path)
+        .resize(1920, 1920, {
           fit: 'inside',
           withoutEnlargement: true
-        })
-        .jpeg({
-          quality: 85,
+        });
+
+      if (isJpeg) {
+        sharpInstance = sharpInstance.jpeg({
+          quality: 90,
           progressive: true,
           mozjpeg: true
-        })
-        .toFile(optimizedPath);
+        });
+      } else if (isPng) {
+        sharpInstance = sharpInstance.png({
+          quality: 90,
+          compressionLevel: 9,
+          progressive: true
+        });
+      } else if (isWebp) {
+        sharpInstance = sharpInstance.webp({
+          quality: 90,
+          progressive: true
+        });
+      }
 
-      // Verificar se a otimização reduziu o tamanho
-      const optimizedStats = fs.statSync(optimizedPath);
-      if (optimizedStats.size < file.size) {
-        // Usar versão otimizada
+      // Salvar imagem otimizada
+      await sharpInstance.toFile(optimizedPath);
+
+      // Verificar se a otimização funcionou e reduziu o tamanho
+      if (fs.existsSync(optimizedPath)) {
+        const optimizedStats = fs.statSync(optimizedPath);
+
+        // Sempre usar a versão otimizada se ela existe (melhor para SEO)
         fs.unlinkSync(file.path); // Remover original
         finalFilename = optimizedFilename;
         finalSize = optimizedStats.size;
-        console.log('Image optimized:', {
+        finalPath = optimizedPath;
+
+        console.log('Image optimized for SEO:', {
           originalSize: file.size,
           optimizedSize: optimizedStats.size,
-          reduction: `${((1 - optimizedStats.size / file.size) * 100).toFixed(1)}%`
+          reduction: `${((1 - optimizedStats.size / file.size) * 100).toFixed(1)}%`,
+          filename: finalFilename
         });
       } else {
-        // Manter original se não houve melhoria
-        fs.unlinkSync(optimizedPath);
-        console.log('Original image kept (no size improvement)');
+        console.log('Optimization failed, keeping original');
       }
     } catch (error) {
       console.error('Image optimization failed, using original:', error);
+      // Em caso de erro, manter arquivo original
     }
 
     // Usar URL relativa para evitar problemas de CORS/URL
