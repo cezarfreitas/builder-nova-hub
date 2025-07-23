@@ -146,7 +146,7 @@ export async function uploadSeoImage(req: Request, res: Response) {
       size: finalSize,
       mimetype: file.mimetype,
       url: imageUrl,
-      path: file.path
+      path: finalPath
     };
 
     console.log('Upload successful, returning:', imageInfo);
