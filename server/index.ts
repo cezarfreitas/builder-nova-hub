@@ -30,7 +30,9 @@ export function createServer() {
   // Lead routes
   app.post("/api/leads", submitLead);
   app.get("/api/leads", getLeads);
+  app.get("/api/leads/stats", getLeadStats);
   app.put("/api/leads/:id/webhook", resendWebhook);
+  app.delete("/api/leads/:id", deleteLead);
 
   // Settings routes
   app.get("/api/settings", getSettings);
