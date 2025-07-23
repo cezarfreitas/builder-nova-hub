@@ -824,13 +824,10 @@ export default function Admin() {
                     <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-200">
                       <Button
                         className="bg-ecko-red hover:bg-ecko-red-dark text-white px-8 py-3 text-base font-medium"
-                        onClick={() => {
-                          // Aqui você coletaria todos os dados do formulário e salvaria
-                          console.log('Salvando configurações de SEO...');
-                          // Implementar chamada para API /api/settings
-                        }}
+                        onClick={handleSaveSeoSettings}
+                        disabled={saving}
                       >
-                        Salvar Configurações SEO
+                        {saving ? 'Salvando...' : 'Salvar Configurações SEO'}
                       </Button>
                       <Button
                         variant="outline"
