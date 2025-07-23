@@ -528,7 +528,7 @@ export default function Index() {
     } catch (error) {
       console.error('Erro ao enviar lead:', error);
       toast({
-        title: "�� Erro de conexão",
+        title: "❌ Erro de conexão",
         description: "Erro ao conectar com o servidor. Verifique sua conexão e tente novamente.",
         variant: "destructive",
       });
@@ -1128,7 +1128,7 @@ export default function Index() {
                 </span>
               </div>
               <Button
-                onClick={() => setShowForm(true)}
+                onClick={() => openFormWithOrigin('benefits-cta')}
                 className="group relative overflow-hidden bg-gradient-to-r from-ecko-red to-ecko-red-dark hover:from-ecko-red-dark hover:to-red-700 text-white px-8 py-4 font-bold text-base shadow-lg hover:shadow-2xl hover:shadow-ecko-red/40 transition-all duration-300 hover:scale-105 uppercase tracking-wider rounded-lg"
               >
                 <span className="absolute inset-0 bg-gradient-to-r from-red-600 to-red-800 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
