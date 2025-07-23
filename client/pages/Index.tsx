@@ -116,7 +116,7 @@ export default function Index() {
     {
       id: 4,
       title: "Moda Urbana Feminina",
-      description: "Cole��ão feminina com pegada street e muita personalidade",
+      description: "Coleção feminina com pegada street e muita personalidade",
       image_url:
         "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=500&h=500&fit=crop&crop=center",
       alt_text:
@@ -821,9 +821,9 @@ export default function Index() {
                   E TENHA <span className="text-ecko-red">SUCESSO</span>
                 </h1>
 
-                <div className="text-lg sm:text-xl lg:text-2xl text-gray-100 mb-6 sm:mb-7 lg:mb-8 font-medium px-2 lg:px-0">
-                  {heroSettings?.description ?
-                    renderTextWithColorTokens(heroSettings.description) :
+                <div className="text-lg sm:text-xl lg:text-2xl text-gray-100 mb-6 sm:mb-7 lg:mb-8 font-medium px-2 lg:px-0 transition-all duration-500">
+                  {currentHero.description ?
+                    renderTextWithColorTokens(currentHero.description) :
                     "Produtos de alta qualidade que seus clientes vão amar e que garantem excelente margem de lucro!"
                   }
                 </div>
