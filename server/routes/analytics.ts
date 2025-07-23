@@ -28,15 +28,32 @@ export async function getAnalyticsOverview(req: Request, res: Response) {
       FROM leads
     `, [dateFromStr]);
 
-    // Buscar visitas do analytics_events
+    // Buscar visitas do analytics_events com métricas avançadas
     const [visits] = await db.execute(`
-      SELECT 
+      SELECT
         COUNT(DISTINCT session_id) as total_sessions,
+        COUNT(DISTINCT user_id) as unique_users,
         COUNT(*) as total_page_views,
-        COUNT(CASE WHEN DATE(created_at) >= ? THEN 1 END) as period_page_views
-      FROM analytics_events 
+        COUNT(CASE WHEN DATE(created_at) >= ? THEN 1 END) as period_page_views,
+        AVG(duration_seconds) as avg_session_duration,
+        COUNT(*) / COUNT(DISTINCT session_id) as pages_per_session
+      FROM analytics_events
       WHERE event_type = 'page_view'
     `, [dateFromStr]);
+
+    // Buscar taxa de rejeição (sessões com apenas 1 page view)
+    const [bounceRate] = await db.execute(`
+      SELECT
+        COUNT(CASE WHEN page_count = 1 THEN 1 END) as bounced_sessions,
+        COUNT(*) as total_sessions_with_views,
+        (COUNT(CASE WHEN page_count = 1 THEN 1 END) / COUNT(*)) * 100 as bounce_rate
+      FROM (
+        SELECT session_id, COUNT(*) as page_count
+        FROM analytics_events
+        WHERE event_type = 'page_view'
+        GROUP BY session_id
+      ) as session_stats
+    `);
 
     const stats = (overview as any[])[0];
     const visitStats = (visits as any[])[0];
