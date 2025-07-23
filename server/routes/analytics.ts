@@ -57,9 +57,10 @@ export async function getAnalyticsOverview(req: Request, res: Response) {
 
     const stats = (overview as any[])[0];
     const visitStats = (visits as any[])[0];
+    const bounceStats = (bounceRate as any[])[0];
 
     // Calcular taxa de conversão
-    const conversionRate = visitStats.total_sessions > 0 
+    const conversionRate = visitStats.total_sessions > 0
       ? ((stats.total_leads / visitStats.total_sessions) * 100).toFixed(2)
       : '0.00';
 
