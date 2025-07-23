@@ -302,6 +302,158 @@ export default function Admin() {
     }
   };
 
+  // Funções para ações de leads
+  const handleFilterChange = (filter: string) => {
+    setLeadFilter(filter);
+    const dateFrom = getDateFromFilter(dateFilter);
+    fetchLeads({
+      page: 1,
+      filter,
+      search: searchTerm,
+      date_from: dateFrom
+    });
+  };
+
+  const handleDateFilterChange = (period: string) => {
+    setDateFilter(period);
+    const dateFrom = getDateFromFilter(period);
+    fetchLeads({
+      page: 1,
+      filter: leadFilter,
+      search: searchTerm,
+      date_from: dateFrom
+    });
+  };
+
+  const handleSearchChange = (search: string) => {
+    setSearchTerm(search);
+    fetchLeads({
+      page: 1,
+      filter: leadFilter,
+      search,
+      date_from: getDateFromFilter(dateFilter)
+    });
+  };
+
+  const handleResendWebhook = async (leadId: number) => {
+    setSaving(true);
+    try {
+      const success = await resendWebhook(leadId);
+      if (success) {
+        toast({
+          title: "✅ Webhook reenviado!",
+          description: "Webhook foi reenviado com sucesso",
+          variant: "success",
+        });
+        refreshStats();
+      } else {
+        toast({
+          title: "❌ Erro",
+          description: "Erro ao reenviar webhook",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "❌ Erro",
+        description: "Erro ao reenviar webhook",
+        variant: "destructive",
+      });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleExportCSV = async () => {
+    setSaving(true);
+    try {
+      await exportLeads(leadFilter);
+      toast({
+        title: "✅ Exportação concluída!",
+        description: "Arquivo CSV baixado com sucesso",
+        variant: "success",
+      });
+    } catch (error) {
+      toast({
+        title: "❌ Erro",
+        description: "Erro ao exportar leads",
+        variant: "destructive",
+      });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleResendAllWebhooks = async () => {
+    setSaving(true);
+    try {
+      const webhookErrorLeads = leads.filter(lead => lead.webhook_status === 'error');
+      let successCount = 0;
+
+      for (const lead of webhookErrorLeads) {
+        const success = await resendWebhook(lead.id);
+        if (success) successCount++;
+      }
+
+      toast({
+        title: "✅ Reenvio concluído!",
+        description: `${successCount} de ${webhookErrorLeads.length} webhooks reenviados com sucesso`,
+        variant: "success",
+      });
+
+      refreshStats();
+    } catch (error) {
+      toast({
+        title: "❌ Erro",
+        description: "Erro ao reenviar webhooks",
+        variant: "destructive",
+      });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const getDateFromFilter = (period: string): string => {
+    const now = new Date();
+    switch (period) {
+      case '1':
+        return now.toISOString().split('T')[0];
+      case '7':
+        const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+        return sevenDaysAgo.toISOString().split('T')[0];
+      case '30':
+        const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+        return thirtyDaysAgo.toISOString().split('T')[0];
+      case 'month':
+        return new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0];
+      default:
+        return '';
+    }
+  };
+
+  const formatDate = (dateString: string): string => {
+    return new Date(dateString).toLocaleString('pt-BR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case 'success':
+        return <Badge className="bg-green-100 text-green-800 border-green-200">✅ Sucesso</Badge>;
+      case 'error':
+        return <Badge className="bg-red-100 text-red-800 border-red-200">❌ Erro</Badge>;
+      case 'pending':
+        return <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200">⏳ Pendente</Badge>;
+      default:
+        return <Badge className="bg-gray-100 text-gray-800 border-gray-200">-</Badge>;
+    }
+  };
+
   // Dados para preview (atualizados com dados reais)
   const seoData = {
     title: seoFormData.seo_title || "Título da página",
