@@ -1161,7 +1161,7 @@ export default function Index() {
 
                     <form
                       onSubmit={handleSubmit}
-                      className="space-y-4 sm:space-y-5"
+                      className="space-y-6"
                     >
                       <div>
                         <label className="block text-sm font-semibold text-gray-300 mb-1 sm:mb-2">
