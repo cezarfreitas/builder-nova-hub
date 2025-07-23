@@ -34,13 +34,6 @@ interface SidebarItem {
 const sidebarItems: SidebarItem[] = [
   // Seções Principais
   {
-    id: "dashboard",
-    label: "Dashboard",
-    icon: <BarChart3 className="w-5 h-5" />,
-    category: "main",
-    path: "/admin/dashboard",
-  },
-  {
     id: "leads",
     label: "Leads",
     icon: <Users className="w-5 h-5" />,
@@ -57,7 +50,7 @@ const sidebarItems: SidebarItem[] = [
   // Seções da Landing Page
   {
     id: "hero",
-    label: "Seção Hero",
+    label: "Hero",
     icon: <Star className="w-5 h-5" />,
     category: "lp",
     path: "/admin/hero",
@@ -70,25 +63,11 @@ const sidebarItems: SidebarItem[] = [
     path: "/admin/benefits",
   },
   {
-    id: "testimonials",
-    label: "Depoimentos",
-    icon: <MessageSquare className="w-5 h-5" />,
-    category: "lp",
-    path: "/admin/testimonials",
-  },
-  {
     id: "gallery",
     label: "Galeria",
     icon: <Image className="w-5 h-5" />,
     category: "lp",
     path: "/admin/gallery",
-  },
-  {
-    id: "stats",
-    label: "Estatísticas",
-    icon: <TrendingUp className="w-5 h-5" />,
-    category: "lp",
-    path: "/admin/stats",
   },
   {
     id: "faq",
