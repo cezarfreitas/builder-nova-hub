@@ -32,6 +32,7 @@ interface LeadFormData {
   whatsapp: string;
   hasCnpj: string;
   storeType: string;
+  formOrigin?: string;
 }
 
 export default function Index() {
