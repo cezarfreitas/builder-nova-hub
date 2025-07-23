@@ -84,7 +84,7 @@ export default function Index() {
     {
       id: 4,
       title: "Moda Urbana Feminina",
-      description: "Cole��ão feminina com pegada street e muita personalidade",
+      description: "Coleção feminina com pegada street e muita personalidade",
       image_url:
         "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=500&h=500&fit=crop&crop=center",
       alt_text:
@@ -730,7 +730,7 @@ export default function Index() {
 
       {/* Benefits Section */}
       <section
-        className="py-20 bg-gradient-to-b from-black to-gray-900 relative overflow-hidden"
+        className="py-16 md:py-20 bg-gradient-to-b from-black to-gray-900 relative overflow-hidden"
         aria-labelledby="vantagens-heading"
       >
         {/* Background Pattern */}
