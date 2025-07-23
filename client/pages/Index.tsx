@@ -746,24 +746,24 @@ export default function Index() {
             </div>
           )}
 
-          {/* CTA Buttons - Only if configured in database */}
-          {heroSettings?.cta_secondary_text && (
+          {/* CTA Buttons */}
+          {currentHero.cta_secondary_text && (
             <div className="flex flex-col items-center">
               <Button
                 onClick={scrollToContent}
                 variant="outline"
-                className="mb-6 sm:mb-8 group relative overflow-hidden bg-transparent border-2 font-bold px-8 sm:px-10 py-4 sm:py-5 h-auto text-base sm:text-lg uppercase tracking-wider transition-all duration-300 hover:scale-105 hover:shadow-2xl rounded-lg"
+                className="mb-6 sm:mb-8 group relative overflow-hidden bg-transparent border-2 font-bold px-8 sm:px-10 py-4 sm:py-5 h-auto text-base sm:text-lg uppercase tracking-wider transition-all duration-500 hover:scale-105 hover:shadow-2xl rounded-lg"
                 style={{
-                  borderColor: heroSettings.cta_color || '#dc2626',
-                  color: heroSettings.cta_color || '#dc2626'
+                  borderColor: currentHero.cta_color,
+                  color: currentHero.cta_color
                 }}
               >
                 <span
                   className="absolute inset-0 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"
-                  style={{ backgroundColor: heroSettings.cta_color || '#dc2626' }}
+                  style={{ backgroundColor: currentHero.cta_color }}
                 ></span>
                 <span className="relative z-10 flex items-center">
-                  {heroSettings.cta_secondary_text}
+                  {currentHero.cta_secondary_text}
                   <ChevronDown className="ml-2 w-6 h-6 group-hover:animate-bounce" />
                 </span>
               </Button>
@@ -775,11 +775,11 @@ export default function Index() {
               >
                 <div
                   className="w-1 h-12 bg-gradient-to-b to-transparent rounded-full mb-2"
-                  style={{ background: `linear-gradient(to bottom, ${heroSettings.cta_color || '#dc2626'}, transparent)` }}
+                  style={{ background: `linear-gradient(to bottom, ${currentHero.cta_color}, transparent)` }}
                 ></div>
                 <ChevronDown
                   className="w-6 h-6 animate-pulse hover:text-white transition-colors"
-                  style={{ color: heroSettings.cta_color || '#dc2626' }}
+                  style={{ color: currentHero.cta_color }}
                 />
               </div>
             </div>
