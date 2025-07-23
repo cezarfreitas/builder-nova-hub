@@ -120,16 +120,21 @@ export function useAnalytics(days: number = 30) {
   const fetchDailyStats = async () => {
     try {
       const response = await fetch(`/api/analytics/daily-stats?days=${days}`);
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
       const result = await response.json();
-      
+
       if (result.success) {
         setDailyStats(result.data);
       } else {
-        throw new Error(result.message || 'Erro ao buscar estatísticas diárias');
+        throw new Error(result.message || result.error || 'Erro ao buscar estatísticas diárias');
       }
     } catch (err) {
       console.error('Erro ao buscar estatísticas diárias:', err);
-      setError('Erro ao carregar estatísticas diárias');
+      setError(`Erro ao carregar estatísticas diárias: ${err.message}`);
     }
   };
 
@@ -157,16 +162,21 @@ export function useAnalytics(days: number = 30) {
   const fetchTrafficSources = async () => {
     try {
       const response = await fetch(`/api/analytics/traffic-sources?days=${days}`);
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
       const result = await response.json();
-      
+
       if (result.success) {
         setTrafficSources(result.data);
       } else {
-        throw new Error(result.message || 'Erro ao buscar fontes de tráfego');
+        throw new Error(result.message || result.error || 'Erro ao buscar fontes de tráfego');
       }
     } catch (err) {
       console.error('Erro ao buscar fontes de tráfego:', err);
-      setError('Erro ao carregar fontes de tráfego');
+      setError(`Erro ao carregar fontes de tráfego: ${err.message}`);
     }
   };
 
