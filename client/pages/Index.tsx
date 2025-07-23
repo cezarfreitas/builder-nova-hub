@@ -705,10 +705,10 @@ export default function Index() {
                       <Button
                         type="submit"
                         disabled={isSubmitting || formData.hasCnpj === "nao"}
-                        className={`w-full py-3 sm:py-4 text-sm sm:text-base lg:text-lg font-bold shadow-lg hover:shadow-xl transition-all duration-300 h-auto min-h-[44px] ${
+                        className={`group relative overflow-hidden w-full py-4 sm:py-5 text-sm sm:text-base lg:text-lg font-bold shadow-lg hover:shadow-2xl transition-all duration-300 h-auto min-h-[52px] rounded-lg ${
                           formData.hasCnpj === "nao"
                             ? "bg-gray-600 cursor-not-allowed"
-                            : "bg-gradient-to-r from-ecko-red to-ecko-red-dark hover:from-ecko-red-dark hover:to-ecko-red"
+                            : "bg-gradient-to-r from-ecko-red to-ecko-red-dark hover:from-ecko-red-dark hover:to-red-700 hover:scale-[1.02] hover:shadow-ecko-red/40"
                         } text-white`}
                       >
                         {isSubmitting ? (
