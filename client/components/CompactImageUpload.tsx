@@ -25,9 +25,7 @@ export function CompactImageUpload({
   const { toast } = useToast();
 
   const handleFileSelect = async (file: File) => {
-    console.log('Iniciando upload:', file.name, file.type, file.size);
     const result = await uploadImage(file);
-    console.log('Resultado do upload:', result);
     if (result) {
       onChange(result.url);
       toast({
@@ -35,7 +33,6 @@ export function CompactImageUpload({
         description: `Imagem enviada com sucesso`,
       });
     } else if (error) {
-      console.error('Erro no upload:', error);
       toast({
         title: "Erro no upload",
         description: error,
