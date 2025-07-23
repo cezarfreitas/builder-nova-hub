@@ -459,7 +459,7 @@ export default function AdminAnalytics() {
           </CardContent>
         </Card>
 
-        {/* Visualizações Únicas */}
+        {/* Visualizações Únicas por Page view total */}
         <Card className="bg-gradient-to-br from-indigo-50 to-indigo-100 border-indigo-200">
           <CardContent className="p-6">
             <div className="flex items-center">
@@ -468,9 +468,14 @@ export default function AdminAnalytics() {
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-indigo-600">Visualizações Únicas</p>
-                <p className="text-2xl font-bold text-indigo-900">{overview.traffic.unique_page_views}</p>
+                <p className="text-2xl font-bold text-indigo-900">
+                  {overview.traffic.unique_page_views} / {overview.traffic.total_page_views}
+                </p>
                 <p className="text-xs text-indigo-600">
-                  Visualizações da página por usuário único
+                  {overview.traffic.total_page_views > 0
+                    ? `${((overview.traffic.unique_page_views / overview.traffic.total_page_views) * 100).toFixed(1)}% de unicidade`
+                    : 'Sem dados de página'
+                  }
                 </p>
               </div>
             </div>
