@@ -56,6 +56,7 @@ export function createServer() {
   app.get("/api/analytics/daily-stats", getDailyStats);
   app.get("/api/analytics/time-analysis", getTimeAnalysis);
   app.get("/api/analytics/traffic-sources", getTrafficSources);
+  app.get("/api/analytics/export-data", exportAnalyticsData);
   app.post("/api/analytics/track-visit", trackVisit);
   app.post("/api/analytics/track-duration", trackDuration);
 
@@ -66,7 +67,7 @@ export function createServer() {
   // Initialize database (non-blocking)
   setTimeout(async () => {
     try {
-      console.log('��� Tentando conectar ao MySQL...');
+      console.log('🔄 Tentando conectar ao MySQL...');
       await initializeDatabase();
       console.log('✅ Banco de dados inicializado com sucesso!');
     } catch (error) {
