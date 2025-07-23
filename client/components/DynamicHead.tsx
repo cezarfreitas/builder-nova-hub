@@ -4,6 +4,7 @@ import { useHeroSettings } from '../hooks/useHeroSettings';
 
 export function DynamicHead() {
   const { getSetting, loading } = useSettings();
+  const { settings: heroSettings, loading: heroLoading } = useHeroSettings();
 
   useEffect(() => {
     if (loading) return;
