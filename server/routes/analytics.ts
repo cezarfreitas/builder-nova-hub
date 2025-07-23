@@ -179,19 +179,46 @@ export async function getDailyStats(req: Request, res: Response) {
     const { days = 30, yesterday } = req.query;
 
     // Buscar leads por dia
-    const [dailyLeads] = await db.execute(`
-      SELECT 
-        DATE(created_at) as date,
-        COUNT(*) as total_leads,
-        COUNT(CASE WHEN is_duplicate = FALSE THEN 1 END) as unique_leads,
-        COUNT(CASE WHEN is_duplicate = TRUE THEN 1 END) as duplicates,
-        COUNT(CASE WHEN webhook_status = 'success' THEN 1 END) as webhook_success,
-        COUNT(CASE WHEN experiencia_revenda = 'sim' THEN 1 END) as with_cnpj
-      FROM leads 
-      WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
-      GROUP BY DATE(created_at)
-      ORDER BY date DESC
-    `, [Number(days)]);
+    let dailyLeadsQuery: string;
+    let dailyLeadsParams: any[];
+
+    if (yesterday === 'true') {
+      const yesterday_date = new Date();
+      yesterday_date.setDate(yesterday_date.getDate() - 1);
+      const dateStr = yesterday_date.toISOString().split('T')[0];
+
+      dailyLeadsQuery = `
+        SELECT
+          DATE(created_at) as date,
+          COUNT(*) as total_leads,
+          COUNT(CASE WHEN is_duplicate = FALSE THEN 1 END) as unique_leads,
+          COUNT(CASE WHEN is_duplicate = TRUE THEN 1 END) as duplicates,
+          COUNT(CASE WHEN webhook_status = 'success' THEN 1 END) as webhook_success,
+          COUNT(CASE WHEN experiencia_revenda = 'sim' THEN 1 END) as with_cnpj
+        FROM leads
+        WHERE DATE(created_at) = ?
+        GROUP BY DATE(created_at)
+        ORDER BY date DESC
+      `;
+      dailyLeadsParams = [dateStr];
+    } else {
+      dailyLeadsQuery = `
+        SELECT
+          DATE(created_at) as date,
+          COUNT(*) as total_leads,
+          COUNT(CASE WHEN is_duplicate = FALSE THEN 1 END) as unique_leads,
+          COUNT(CASE WHEN is_duplicate = TRUE THEN 1 END) as duplicates,
+          COUNT(CASE WHEN webhook_status = 'success' THEN 1 END) as webhook_success,
+          COUNT(CASE WHEN experiencia_revenda = 'sim' THEN 1 END) as with_cnpj
+        FROM leads
+        WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
+        GROUP BY DATE(created_at)
+        ORDER BY date DESC
+      `;
+      dailyLeadsParams = [Number(days)];
+    }
+
+    const [dailyLeads] = await db.execute(dailyLeadsQuery, dailyLeadsParams);
 
     // Buscar visitas por dia
     const [dailyVisits] = await db.execute(`
