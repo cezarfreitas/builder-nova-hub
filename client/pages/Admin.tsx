@@ -106,6 +106,19 @@ export default function Admin() {
   const [activeSection, setActiveSection] = useState("dashboard");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeConfigTab, setActiveConfigTab] = useState("seo");
+  const [showSeoPreview, setShowSeoPreview] = useState(false);
+
+  // Dados do SEO para preview (em produção viriam do estado do formulário)
+  const [seoData, setSeoData] = useState({
+    title: "Seja uma Revenda Autorizada da Ecko | Tenha os Melhores Produtos",
+    description: "Seja uma revenda autorizada da Ecko e tenha os melhores produtos de streetwear em sua loja. Transforme sua paixão em lucro com exclusividade territorial e suporte completo.",
+    ogTitle: "Seja uma Revenda Autorizada da Ecko",
+    ogDescription: "Transforme sua paixão em lucro! Seja um revendedor autorizado Ecko e tenha acesso aos melhores produtos de streetwear do mercado.",
+    ogImage: "https://estyle.vteximg.com.br/arquivos/ecko_mosaic5.png",
+    twitterTitle: "Seja uma Revenda Autorizada da Ecko",
+    siteName: "Ecko Revendedores",
+    canonicalUrl: "https://revendedores.ecko.com.br/"
+  });
 
   const renderContent = () => {
     switch (activeSection) {
