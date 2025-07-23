@@ -4,6 +4,7 @@ import { Input } from "../components/ui/input";
 import { Card, CardContent } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
 import { DynamicHead } from "../components/DynamicHead";
+import { useToast } from "../hooks/use-toast";
 import {
   Accordion,
   AccordionContent,
