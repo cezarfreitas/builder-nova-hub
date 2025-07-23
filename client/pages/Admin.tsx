@@ -384,19 +384,193 @@ export default function Admin() {
         );
       case "design":
         return (
-          <Card className="bg-white shadow-sm border border-gray-200">
-            <CardHeader>
-              <CardTitle className="text-2xl text-gray-900 flex items-center">
-                <Palette className="w-6 h-6 mr-2 text-ecko-red" />
-                Design
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600">
-                Aqui você poderá customizar o design da landing page.
-              </p>
-            </CardContent>
-          </Card>
+          <div className="space-y-6">
+            <Card className="bg-white shadow-sm border border-gray-200">
+              <CardHeader>
+                <CardTitle className="text-2xl text-gray-900 flex items-center">
+                  <Palette className="w-6 h-6 mr-2 text-ecko-red" />
+                  Design Geral
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600 mb-6">
+                  Customize as cores e tipografia da landing page.
+                </p>
+
+                {/* Cores da LP */}
+                <div className="mb-8">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Esquema de Cores</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                    {/* Cor Principal */}
+                    <div className="p-4 border border-gray-200 rounded-lg hover:border-ecko-red transition-colors cursor-pointer">
+                      <div className="flex items-center justify-between mb-3">
+                        <h4 className="font-medium text-gray-900">Cor Principal</h4>
+                        <div className="w-8 h-8 bg-ecko-red rounded-lg border-2 border-white shadow-sm"></div>
+                      </div>
+                      <input
+                        type="color"
+                        value="#dc2626"
+                        className="w-full h-10 rounded border border-gray-300 cursor-pointer"
+                      />
+                    </div>
+
+                    {/* Cor Secundária */}
+                    <div className="p-4 border border-gray-200 rounded-lg hover:border-ecko-red transition-colors cursor-pointer">
+                      <div className="flex items-center justify-between mb-3">
+                        <h4 className="font-medium text-gray-900">Cor Secundária</h4>
+                        <div className="w-8 h-8 bg-gray-900 rounded-lg border-2 border-white shadow-sm"></div>
+                      </div>
+                      <input
+                        type="color"
+                        value="#111827"
+                        className="w-full h-10 rounded border border-gray-300 cursor-pointer"
+                      />
+                    </div>
+
+                    {/* Cor de Fundo */}
+                    <div className="p-4 border border-gray-200 rounded-lg hover:border-ecko-red transition-colors cursor-pointer">
+                      <div className="flex items-center justify-between mb-3">
+                        <h4 className="font-medium text-gray-900">Cor de Fundo</h4>
+                        <div className="w-8 h-8 bg-black rounded-lg border-2 border-white shadow-sm"></div>
+                      </div>
+                      <input
+                        type="color"
+                        value="#000000"
+                        className="w-full h-10 rounded border border-gray-300 cursor-pointer"
+                      />
+                    </div>
+
+                    {/* Cor do Texto */}
+                    <div className="p-4 border border-gray-200 rounded-lg hover:border-ecko-red transition-colors cursor-pointer">
+                      <div className="flex items-center justify-between mb-3">
+                        <h4 className="font-medium text-gray-900">Cor do Texto</h4>
+                        <div className="w-8 h-8 bg-white rounded-lg border-2 border-gray-300 shadow-sm"></div>
+                      </div>
+                      <input
+                        type="color"
+                        value="#ffffff"
+                        className="w-full h-10 rounded border border-gray-300 cursor-pointer"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Tipografia */}
+                <div className="mb-8">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Tipografia</h3>
+                  <div className="space-y-4">
+
+                    {/* Fonte Principal */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Fonte dos Títulos
+                      </label>
+                      <select className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red">
+                        <option value="inter" selected>Inter (Padrão)</option>
+                        <option value="roboto">Roboto</option>
+                        <option value="open-sans">Open Sans</option>
+                        <option value="montserrat">Montserrat</option>
+                      </select>
+                      <p className="text-sm text-gray-500 mt-1">Fonte utilizada nos títulos e headings</p>
+                    </div>
+
+                    {/* Fonte do Corpo */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Fonte do Texto
+                      </label>
+                      <select className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red">
+                        <option value="inter" selected>Inter (Padrão)</option>
+                        <option value="roboto">Roboto</option>
+                        <option value="open-sans">Open Sans</option>
+                        <option value="source-sans">Source Sans Pro</option>
+                      </select>
+                      <p className="text-sm text-gray-500 mt-1">Fonte utilizada no texto do corpo</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Esquemas Predefinidos */}
+                <div className="mb-8">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Esquemas Predefinidos</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+
+                    {/* Esquema Ecko Original */}
+                    <div className="p-4 border-2 border-ecko-red rounded-lg bg-ecko-red/5 cursor-pointer hover:border-ecko-red-dark transition-colors">
+                      <div className="flex items-center justify-between mb-3">
+                        <h4 className="font-medium text-gray-900">Ecko Original</h4>
+                        <div className="flex space-x-1">
+                          <div className="w-4 h-4 bg-ecko-red rounded"></div>
+                          <div className="w-4 h-4 bg-black rounded"></div>
+                          <div className="w-4 h-4 bg-white border rounded"></div>
+                        </div>
+                      </div>
+                      <p className="text-xs text-gray-600">Vermelho vibrante com preto</p>
+                    </div>
+
+                    {/* Esquema Elegante */}
+                    <div className="p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-gray-400 transition-colors">
+                      <div className="flex items-center justify-between mb-3">
+                        <h4 className="font-medium text-gray-900">Elegante</h4>
+                        <div className="flex space-x-1">
+                          <div className="w-4 h-4 bg-gray-800 rounded"></div>
+                          <div className="w-4 h-4 bg-gray-600 rounded"></div>
+                          <div className="w-4 h-4 bg-gray-100 border rounded"></div>
+                        </div>
+                      </div>
+                      <p className="text-xs text-gray-600">Tons de cinza elegantes</p>
+                    </div>
+
+                    {/* Esquema Moderno */}
+                    <div className="p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-blue-400 transition-colors">
+                      <div className="flex items-center justify-between mb-3">
+                        <h4 className="font-medium text-gray-900">Moderno</h4>
+                        <div className="flex space-x-1">
+                          <div className="w-4 h-4 bg-blue-600 rounded"></div>
+                          <div className="w-4 h-4 bg-slate-800 rounded"></div>
+                          <div className="w-4 h-4 bg-white border rounded"></div>
+                        </div>
+                      </div>
+                      <p className="text-xs text-gray-600">Azul moderno com slate</p>
+                    </div>
+
+                    {/* Esquema Vibrante */}
+                    <div className="p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-orange-400 transition-colors">
+                      <div className="flex items-center justify-between mb-3">
+                        <h4 className="font-medium text-gray-900">Vibrante</h4>
+                        <div className="flex space-x-1">
+                          <div className="w-4 h-4 bg-orange-500 rounded"></div>
+                          <div className="w-4 h-4 bg-purple-700 rounded"></div>
+                          <div className="w-4 h-4 bg-white border rounded"></div>
+                        </div>
+                      </div>
+                      <p className="text-xs text-gray-600">Laranja e roxo energético</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Ações */}
+                <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-200">
+                  <Button className="bg-ecko-red hover:bg-ecko-red-dark text-white px-6 py-3 flex-1 sm:flex-none">
+                    Salvar Alterações
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="border-gray-300 text-gray-700 hover:bg-gray-50 px-6 py-3 flex-1 sm:flex-none"
+                  >
+                    Pré-visualizar
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="border-orange-300 text-orange-700 hover:bg-orange-50 px-6 py-3 flex-1 sm:flex-none ml-auto"
+                  >
+                    Restaurar Padrão
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         );
       default:
         return null;
