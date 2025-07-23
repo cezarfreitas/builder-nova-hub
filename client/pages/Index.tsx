@@ -1475,7 +1475,7 @@ export default function Index() {
                 Junte-se a uma marca com credibilidade comprovada no mercado
               </p>
               <Button
-                onClick={() => setShowForm(true)}
+                onClick={() => openFormWithOrigin('stats-cta')}
                 className="group relative overflow-hidden bg-gradient-to-r from-ecko-red to-ecko-red-dark hover:from-ecko-red-dark hover:to-red-700 text-white px-8 py-4 font-bold text-base shadow-lg hover:shadow-2xl hover:shadow-ecko-red/40 transition-all duration-300 hover:scale-105 uppercase tracking-wider rounded-lg"
               >
                 <span className="absolute inset-0 bg-gradient-to-r from-red-600 to-red-800 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
