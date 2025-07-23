@@ -49,6 +49,12 @@ export default function Index() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [galleryImages, setGalleryImages] = useState<GalleryImage[]>([]);
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const [startTime] = useState(Date.now());
+  const [userId] = useState(() => {
+    // Gerar user_id único baseado em dados do navegador
+    const fingerprint = `${navigator.userAgent}-${screen.width}x${screen.height}-${Intl.DateTimeFormat().resolvedOptions().timeZone}`;
+    return btoa(fingerprint).slice(0, 20);
+  });
 
   // Dados estáticos - Gallery Images (Lifestyle)
   const staticGalleryImages: GalleryImage[] = [
