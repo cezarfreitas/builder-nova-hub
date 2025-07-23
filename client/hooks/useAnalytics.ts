@@ -127,7 +127,8 @@ export function useAnalytics(days: number = 30) {
 
   const fetchDailyStats = async () => {
     try {
-      const response = await fetch(`/api/analytics/daily-stats?days=${days}`);
+      const queryParam = days === 0 ? 'yesterday=true' : `days=${days}`;
+      const response = await fetch(`/api/analytics/daily-stats?${queryParam}`);
 
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -141,7 +142,7 @@ export function useAnalytics(days: number = 30) {
         throw new Error(result.message || result.error || 'Erro ao buscar estatísticas diárias');
       }
     } catch (err) {
-      console.error('Erro ao buscar estat��sticas diárias:', err);
+      console.error('Erro ao buscar estatísticas diárias:', err);
       setError(`Erro ao carregar estatísticas diárias: ${err.message}`);
     }
   };
