@@ -311,54 +311,54 @@ export default function AdminAnalytics() {
 
       {/* Segunda linha de métricas */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {/* Total de Leads */}
-        <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
+        {/* Páginas por Sessão */}
+        <Card className="bg-gradient-to-br from-cyan-50 to-cyan-100 border-cyan-200">
           <CardContent className="p-6">
             <div className="flex items-center">
-              <div className="p-2 bg-blue-500 rounded-lg">
-                <Users className="w-6 h-6 text-white" />
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-blue-600">Total de Leads</p>
-                <p className="text-2xl font-bold text-blue-900">{overview.leads.total}</p>
-                <p className="text-xs text-blue-600">
-                  +{overview.leads.period} nos últimos {overview.period_days} dias
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Taxa de Conversão */}
-        <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200">
-          <CardContent className="p-6">
-            <div className="flex items-center">
-              <div className="p-2 bg-green-500 rounded-lg">
-                <Target className="w-6 h-6 text-white" />
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-green-600">Taxa de Conversão</p>
-                <p className="text-2xl font-bold text-green-900">{overview.conversion.rate}%</p>
-                <p className="text-xs text-green-600">
-                  {overview.conversion.period_rate}% no período
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Sessões/Visitas */}
-        <Card className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200">
-          <CardContent className="p-6">
-            <div className="flex items-center">
-              <div className="p-2 bg-purple-500 rounded-lg">
+              <div className="p-2 bg-cyan-500 rounded-lg">
                 <Eye className="w-6 h-6 text-white" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-purple-600">Total de Sessões</p>
-                <p className="text-2xl font-bold text-purple-900">{overview.traffic.total_sessions}</p>
-                <p className="text-xs text-purple-600">
-                  {overview.traffic.period_page_views} visualizações no período
+                <p className="text-sm font-medium text-cyan-600">Páginas/Sessão</p>
+                <p className="text-2xl font-bold text-cyan-900">{overview.traffic.pages_per_session}</p>
+                <p className="text-xs text-cyan-600">
+                  {overview.traffic.total_page_views} visualizações totais
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Taxa de Rejeição */}
+        <Card className="bg-gradient-to-br from-red-50 to-red-100 border-red-200">
+          <CardContent className="p-6">
+            <div className="flex items-center">
+              <div className="p-2 bg-red-500 rounded-lg">
+                <TrendingUp className="w-6 h-6 text-white rotate-180" />
+              </div>
+              <div className="ml-4">
+                <p className="text-sm font-medium text-red-600">Taxa de Rejeição</p>
+                <p className="text-2xl font-bold text-red-900">{overview.traffic.bounce_rate}%</p>
+                <p className="text-xs text-red-600">
+                  Visitantes que saem rapidamente
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Leads com CNPJ */}
+        <Card className="bg-gradient-to-br from-emerald-50 to-emerald-100 border-emerald-200">
+          <CardContent className="p-6">
+            <div className="flex items-center">
+              <div className="p-2 bg-emerald-500 rounded-lg">
+                <Target className="w-6 h-6 text-white" />
+              </div>
+              <div className="ml-4">
+                <p className="text-sm font-medium text-emerald-600">Leads com CNPJ</p>
+                <p className="text-2xl font-bold text-emerald-900">{overview.leads.with_cnpj}</p>
+                <p className="text-xs text-emerald-600">
+                  {((overview.leads.with_cnpj / overview.leads.total) * 100).toFixed(1)}% do total
                 </p>
               </div>
             </div>
@@ -370,7 +370,7 @@ export default function AdminAnalytics() {
           <CardContent className="p-6">
             <div className="flex items-center">
               <div className="p-2 bg-ecko-red rounded-lg">
-                <TrendingUp className="w-6 h-6 text-white" />
+                <Users className="w-6 h-6 text-white" />
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-ecko-red">Leads Únicos</p>
