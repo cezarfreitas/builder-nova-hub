@@ -100,6 +100,28 @@ export async function getAnalyticsOverview(req: Request, res: Response) {
 
     const [visits] = await db.execute(visitsQuery, visitsParams);
 
+    // Buscar cliques no WhatsApp
+    let whatsappQuery: string;
+    let whatsappParams: any[];
+
+    if (yesterday === 'true') {
+      whatsappQuery = `
+        SELECT COUNT(*) as whatsapp_clicks
+        FROM analytics_events
+        WHERE event_type = 'whatsapp_click' AND created_at >= ? AND created_at <= ?
+      `;
+      whatsappParams = [dateFromStr, dateToStr];
+    } else {
+      whatsappQuery = `
+        SELECT COUNT(*) as whatsapp_clicks
+        FROM analytics_events
+        WHERE event_type = 'whatsapp_click' AND DATE(created_at) >= ?
+      `;
+      whatsappParams = [dateFromStr];
+    }
+
+    const [whatsappClicks] = await db.execute(whatsappQuery, whatsappParams);
+
     // Buscar taxa de rejeição (sessões com apenas 1 page view)
     const [bounceRate] = await db.execute(`
       SELECT
