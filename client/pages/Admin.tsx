@@ -549,56 +549,15 @@ export default function Admin() {
 
                         {/* Upload de Imagem Open Graph */}
                         <div className="md:col-span-2">
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Imagem Open Graph
-                          </label>
-                          <div className="space-y-4">
-                            {/* Preview da imagem atual */}
-                            <div className="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg bg-white">
-                              <img
-                                src="https://estyle.vteximg.com.br/arquivos/ecko_mosaic5.png"
-                                alt="Preview"
-                                className="w-20 h-20 object-cover rounded-lg border border-gray-200"
-                              />
-                              <div className="flex-1">
-                                <p className="text-sm font-medium text-gray-900">ecko_mosaic5.png</p>
-                                <p className="text-xs text-gray-500">1200x630px • Recomendado para redes sociais</p>
-                                <input
-                                  type="url"
-                                  className="w-full mt-2 p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
-                                  defaultValue="https://estyle.vteximg.com.br/arquivos/ecko_mosaic5.png"
-                                  placeholder="URL da imagem"
-                                />
-                              </div>
-                              <Button variant="outline" className="text-red-600 border-red-300 hover:bg-red-50">
-                                Remover
-                              </Button>
-                            </div>
-
-                            {/* Upload de nova imagem */}
-                            <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-ecko-red transition-colors">
-                              <svg className="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
-                                <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
-                              </svg>
-                              <div className="mt-4">
-                                <label htmlFor="og-image-upload" className="cursor-pointer">
-                                  <span className="mt-2 block text-sm font-medium text-gray-900">
-                                    Clique para fazer upload ou arraste a imagem
-                                  </span>
-                                  <span className="mt-1 block text-xs text-gray-500">
-                                    PNG, JPG, WebP até 5MB • Tamanho recomendado: 1200x630px
-                                  </span>
-                                </label>
-                                <input
-                                  id="og-image-upload"
-                                  name="og-image-upload"
-                                  type="file"
-                                  className="sr-only"
-                                  accept="image/jpeg,image/jpg,image/png,image/webp"
-                                />
-                              </div>
-                            </div>
-                          </div>
+                          <SeoImageUpload
+                            currentImage="https://estyle.vteximg.com.br/arquivos/ecko_mosaic5.png"
+                            onImageChange={(imageUrl) => {
+                              console.log('Nova imagem OG:', imageUrl);
+                              // Aqui você salvaria a configuração
+                            }}
+                            label="Imagem Open Graph"
+                            description="1200x630px • Recomendado para redes sociais"
+                          />
                         </div>
                       </div>
                     </div>
@@ -864,7 +823,7 @@ export default function Admin() {
 
                     <div className="flex gap-4">
                       <Button variant="outline" className="border-blue-300 text-blue-700 hover:bg-blue-50">
-                        Testar Conex��o
+                        Testar Conexão
                       </Button>
                       <Button variant="outline" className="border-green-300 text-green-700 hover:bg-green-50">
                         Fazer Backup
