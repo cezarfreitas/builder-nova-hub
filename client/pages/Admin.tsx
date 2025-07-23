@@ -976,8 +976,9 @@ export default function Admin() {
                         </label>
                         <input
                           type="text"
-                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
-                          defaultValue="localhost"
+                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red bg-gray-100"
+                          value="5.161.52.206"
+                          readOnly
                         />
                       </div>
 
@@ -987,8 +988,9 @@ export default function Admin() {
                         </label>
                         <input
                           type="number"
-                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
-                          defaultValue="5432"
+                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red bg-gray-100"
+                          value="3040"
+                          readOnly
                         />
                       </div>
 
@@ -998,8 +1000,9 @@ export default function Admin() {
                         </label>
                         <input
                           type="text"
-                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
-                          defaultValue="ecko_leads"
+                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red bg-gray-100"
+                          value="lpdb"
+                          readOnly
                         />
                       </div>
 
@@ -1009,20 +1012,23 @@ export default function Admin() {
                         </label>
                         <input
                           type="text"
-                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
-                          defaultValue="postgres"
+                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red bg-gray-100"
+                          value="lpdb"
+                          readOnly
                         />
                       </div>
 
                       <div className="md:col-span-2">
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                          String de Conexão
+                          String de Conexão MySQL
                         </label>
                         <input
-                          type="password"
-                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
-                          placeholder="postgresql://user:password@host:port/database"
+                          type="text"
+                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red bg-gray-100 font-mono text-sm"
+                          value="mysql://lpdb:****@5.161.52.206:3040/lpdb"
+                          readOnly
                         />
+                        <p className="text-xs text-gray-500 mt-1">Configurado no servidor</p>
                       </div>
                     </div>
 
