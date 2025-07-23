@@ -199,6 +199,22 @@ export default function AdminLeads() {
     });
   };
 
+  // Função para traduzir códigos de origem para labels amigáveis
+  const getOriginLabel = (origin: string): string => {
+    const originLabels: Record<string, string> = {
+      'hero-cta-secondary': 'Hero - Descubra',
+      'form-inline': 'Formulário Principal',
+      'benefits-cta': 'Seção Vantagens',
+      'testimonials-cta': 'Depoimentos',
+      'gallery-cta': 'Galeria Produtos',
+      'main-cta': 'CTA Principal',
+      'stats-cta': 'Seção Estatísticas',
+      'faq-cta': 'Seção FAQ',
+      'whatsapp-float': 'WhatsApp Flutuante'
+    };
+    return originLabels[origin] || origin;
+  };
+
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'success':
