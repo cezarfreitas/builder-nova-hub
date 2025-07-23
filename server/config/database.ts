@@ -120,24 +120,26 @@ export async function initializeDatabase(): Promise<void> {
       }
     }
 
-    // Migração: Adicionar campos de endereço
-    try {
-      await db.execute(`
-        ALTER TABLE leads
-        ADD COLUMN cep VARCHAR(10) DEFAULT NULL,
-        ADD COLUMN endereco VARCHAR(255) DEFAULT NULL,
-        ADD COLUMN numero VARCHAR(10) DEFAULT NULL,
-        ADD COLUMN complemento VARCHAR(100) DEFAULT NULL,
-        ADD COLUMN bairro VARCHAR(100) DEFAULT NULL,
-        ADD COLUMN cidade VARCHAR(100) DEFAULT NULL,
-        ADD COLUMN estado VARCHAR(2) DEFAULT NULL
-      `);
-      console.log('✅ Colunas de endereço adicionadas à tabela leads');
-    } catch (error: any) {
-      if (error.code !== 'ER_DUP_FIELDNAME') {
-        console.log('⚠️ Colunas de endereço já existem ou erro:', error.message);
+    // Migração: Adicionar campos de endereço (exceto cidade que já existe)
+    const addressColumns = [
+      'ADD COLUMN cep VARCHAR(10) DEFAULT NULL',
+      'ADD COLUMN endereco VARCHAR(255) DEFAULT NULL',
+      'ADD COLUMN numero VARCHAR(10) DEFAULT NULL',
+      'ADD COLUMN complemento VARCHAR(100) DEFAULT NULL',
+      'ADD COLUMN bairro VARCHAR(100) DEFAULT NULL',
+      'ADD COLUMN estado VARCHAR(2) DEFAULT NULL'
+    ];
+
+    for (const column of addressColumns) {
+      try {
+        await db.execute(`ALTER TABLE leads ${column}`);
+      } catch (error: any) {
+        if (error.code !== 'ER_DUP_FIELDNAME') {
+          console.log(`⚠️ Erro ao adicionar coluna: ${error.message}`);
+        }
       }
     }
+    console.log('✅ Colunas de endereço verificadas/adicionadas à tabela leads');
 
     // Tabela de eventos do pixel/analytics
     await db.execute(`
