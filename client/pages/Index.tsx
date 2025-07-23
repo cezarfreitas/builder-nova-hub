@@ -125,7 +125,7 @@ export default function Index() {
     },
     {
       id: 8,
-      title: "Lifestyle Autêntico",
+      title: "Lifestyle Aut��ntico",
       description: "Autenticidade e originalidade em cada visual",
       image_url:
         "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=500&h=500&fit=crop&crop=center",
@@ -1210,10 +1210,13 @@ export default function Index() {
               </p>
               <Button
                 onClick={() => setShowForm(true)}
-                className="bg-ecko-red hover:bg-ecko-red-dark text-white px-6 py-3 font-bold text-base shadow-lg hover:shadow-ecko-red/25 transition-all duration-300 group uppercase tracking-wider"
+                className="group relative overflow-hidden bg-gradient-to-r from-ecko-red to-ecko-red-dark hover:from-ecko-red-dark hover:to-red-700 text-white px-8 py-4 font-bold text-base shadow-lg hover:shadow-2xl hover:shadow-ecko-red/40 transition-all duration-300 hover:scale-105 uppercase tracking-wider rounded-lg"
               >
-                QUERO FAZER PARTE AGORA
-                <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                <span className="absolute inset-0 bg-gradient-to-r from-red-600 to-red-800 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                <span className="relative z-10 flex items-center">
+                  QUERO FAZER PARTE AGORA
+                  <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </span>
               </Button>
             </div>
           </div>
