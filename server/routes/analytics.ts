@@ -374,22 +374,27 @@ export async function trackVisit(req: Request, res: Response) {
     const db = getDatabase();
     const {
       session_id,
+      user_id,
       page_url,
       referrer,
       utm_source,
       utm_medium,
       utm_campaign,
-      user_agent
+      user_agent,
+      duration_seconds
     } = req.body;
 
     const ip_address = req.ip || req.connection.remoteAddress || '';
 
+    // Gerar user_id baseado no IP + User Agent se não fornecido
+    const computedUserId = user_id || Buffer.from(`${ip_address}-${user_agent || ''}`).toString('base64').slice(0, 50);
+
     // Inserir evento de visita
     await db.execute(`
       INSERT INTO analytics_events (
-        event_type, event_data, session_id, ip_address, 
-        user_agent, referrer, page_url, created_at
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())
+        event_type, event_data, session_id, user_id, ip_address,
+        user_agent, referrer, page_url, duration_seconds, created_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
     `, [
       'page_view',
       JSON.stringify({
@@ -398,18 +403,49 @@ export async function trackVisit(req: Request, res: Response) {
         utm_campaign: utm_campaign || ''
       }),
       session_id,
+      computedUserId,
       ip_address,
       user_agent || '',
       referrer || '',
-      page_url || ''
+      page_url || '',
+      duration_seconds || 0
     ]);
 
     res.json({
       success: true,
-      message: 'Visita rastreada com sucesso'
+      message: 'Visita rastreada com sucesso',
+      user_id: computedUserId
     });
   } catch (error) {
     console.error('Erro ao rastrear visita:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Erro interno do servidor'
+    });
+  }
+}
+
+// POST /api/analytics/track-duration - Atualizar duração da sessão
+export async function trackDuration(req: Request, res: Response) {
+  try {
+    const db = getDatabase();
+    const { session_id, duration_seconds } = req.body;
+
+    // Atualizar duração da última visita desta sessão
+    await db.execute(`
+      UPDATE analytics_events
+      SET duration_seconds = ?
+      WHERE session_id = ? AND event_type = 'page_view'
+      ORDER BY created_at DESC
+      LIMIT 1
+    `, [duration_seconds, session_id]);
+
+    res.json({
+      success: true,
+      message: 'Duração atualizada com sucesso'
+    });
+  } catch (error) {
+    console.error('Erro ao atualizar duração:', error);
     res.status(500).json({
       success: false,
       message: 'Erro interno do servidor'
