@@ -1463,174 +1463,110 @@ export default function Admin() {
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                      {[
-                        {
-                          id: 1,
-                          nome: 'Carlos Silva',
-                          email: 'carlos.silva@email.com',
-                          telefone: '(11) 99999-9999',
-                          cidade: 'São Paulo - SP',
-                          tipo: 'unique',
-                          webhook: 'success',
-                          webhookResponse: '200 - OK',
-                          data: '2024-01-15 14:30'
-                        },
-                        {
-                          id: 2,
-                          nome: 'Maria Santos',
-                          email: 'maria.santos@email.com',
-                          telefone: '(21) 98888-8888',
-                          cidade: 'Rio de Janeiro - RJ',
-                          tipo: 'duplicate',
-                          webhook: 'success',
-                          webhookResponse: '200 - OK',
-                          data: '2024-01-15 13:20'
-                        },
-                        {
-                          id: 3,
-                          nome: 'João Oliveira',
-                          email: 'joao.oliveira@email.com',
-                          telefone: '(31) 97777-7777',
-                          cidade: 'Belo Horizonte - MG',
-                          tipo: 'unique',
-                          webhook: 'error',
-                          webhookResponse: '500 - Server Error',
-                          data: '2024-01-15 12:45'
-                        },
-                        {
-                          id: 4,
-                          nome: 'Ana Costa',
-                          email: 'ana.costa@email.com',
-                          telefone: '(51) 96666-6666',
-                          cidade: 'Porto Alegre - RS',
-                          tipo: 'unique',
-                          webhook: 'pending',
-                          webhookResponse: 'Aguardando...',
-                          data: '2024-01-15 11:15'
-                        },
-                        {
-                          id: 5,
-                          nome: 'Pedro Martins',
-                          email: 'pedro.martins@email.com',
-                          telefone: '(85) 95555-5555',
-                          cidade: 'Fortaleza - CE',
-                          tipo: 'duplicate',
-                          webhook: 'success',
-                          webhookResponse: '200 - OK',
-                          data: '2024-01-15 10:30'
-                        },
-                        {
-                          id: 6,
-                          nome: 'Lucia Ferreira',
-                          email: 'lucia.ferreira@email.com',
-                          telefone: '(62) 94444-4444',
-                          cidade: 'Goiânia - GO',
-                          tipo: 'unique',
-                          webhook: 'error',
-                          webhookResponse: '404 - Not Found',
-                          data: '2024-01-15 09:20'
-                        }
-                      ].map((lead) => (
-                        <tr key={lead.id} className="hover:bg-gray-50">
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="flex items-center">
-                              <div className="flex-shrink-0 h-10 w-10">
-                                <div className="h-10 w-10 rounded-full bg-ecko-red flex items-center justify-center">
-                                  <span className="text-sm font-medium text-white">
-                                    {lead.nome.split(' ').map(n => n[0]).join('').toUpperCase()}
-                                  </span>
-                                </div>
-                              </div>
-                              <div className="ml-4">
-                                <div className="text-sm font-medium text-gray-900">{lead.nome}</div>
-                                <div className="text-sm text-gray-500">{lead.cidade}</div>
-                              </div>
-                            </div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm text-gray-900">{lead.email}</div>
-                            <div className="text-sm text-gray-500">{lead.telefone}</div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            {lead.tipo === 'unique' ? (
-                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                                Único
-                              </span>
-                            ) : (
-                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800">
-                                <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                </svg>
-                                Duplicado
-                              </span>
-                            )}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="flex items-center space-x-2">
-                              {lead.webhook === 'success' && (
-                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                  <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                  </svg>
-                                  Sucesso
-                                </span>
-                              )}
-                              {lead.webhook === 'error' && (
-                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                                  <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                                  </svg>
-                                  Erro
-                                </span>
-                              )}
-                              {lead.webhook === 'pending' && (
-                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                                  <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                  </svg>
-                                  Pendente
-                                </span>
-                              )}
-                            </div>
-                            <div className="text-xs text-gray-500 mt-1">{lead.webhookResponse}</div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {lead.data}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <div className="flex space-x-2">
-                              <button
-                                className="text-blue-600 hover:text-blue-900 p-1 rounded hover:bg-blue-50"
-                                title="Reenviar Webhook"
-                              >
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                                </svg>
-                              </button>
-                              <button
-                                className="text-green-600 hover:text-green-900 p-1 rounded hover:bg-green-50"
-                                title="Ver Detalhes"
-                              >
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                </svg>
-                              </button>
-                              <button
-                                className="text-red-600 hover:text-red-900 p-1 rounded hover:bg-red-50"
-                                title="Excluir Lead"
-                              >
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                </svg>
-                              </button>
+                      {leadsLoading ? (
+                        <tr>
+                          <td colSpan={6} className="px-6 py-12 text-center">
+                            <div className="flex items-center justify-center">
+                              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-ecko-red"></div>
+                              <span className="ml-2 text-gray-600">Carregando leads...</span>
                             </div>
                           </td>
                         </tr>
-                      ))}
+                      ) : leads.length === 0 ? (
+                        <tr>
+                          <td colSpan={6} className="px-6 py-12 text-center">
+                            <div className="text-gray-500">
+                              <Users className="w-12 h-12 mx-auto mb-4 text-gray-300" />
+                              <p className="text-lg font-medium">Nenhum lead encontrado</p>
+                              <p className="text-sm">Tente ajustar os filtros ou aguarde novos leads.</p>
+                            </div>
+                          </td>
+                        </tr>
+                      ) : (
+                        leads.map((lead) => (
+                          <tr key={lead.id} className="hover:bg-gray-50">
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <div className="flex items-center">
+                                <div className="flex-shrink-0 h-10 w-10">
+                                  <div className="h-10 w-10 rounded-full bg-ecko-red flex items-center justify-center">
+                                    <span className="text-sm font-medium text-white">
+                                      {lead.nome.split(' ').map(n => n[0]).join('').toUpperCase()}
+                                    </span>
+                                  </div>
+                                </div>
+                                <div className="ml-4">
+                                  <div className="text-sm font-medium text-gray-900">{lead.nome}</div>
+                                  <div className="text-sm text-gray-500">
+                                    {lead.cidade && lead.cidade !== '' ? lead.cidade : 'Cidade não informada'}
+                                  </div>
+                                </div>
+                              </div>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <div className="text-sm text-gray-900">{lead.email}</div>
+                              <div className="text-sm text-gray-500">{lead.telefone}</div>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              {!lead.is_duplicate ? (
+                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                  <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                  </svg>
+                                  Único
+                                </span>
+                              ) : (
+                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800">
+                                  <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                  </svg>
+                                  Duplicado
+                                </span>
+                              )}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <div className="flex items-center space-x-2">
+                                {getStatusBadge(lead.webhook_status)}
+                              </div>
+                              <div className="text-xs text-gray-500 mt-1 max-w-xs truncate" title={lead.webhook_response}>
+                                {lead.webhook_response || 'Nenhuma resposta'}
+                              </div>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                              {formatDate(lead.created_at)}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                              <div className="flex space-x-2">
+                                <button
+                                  onClick={() => handleResendWebhook(lead.id)}
+                                  disabled={saving}
+                                  className="text-blue-600 hover:text-blue-900 p-1 rounded hover:bg-blue-50 disabled:opacity-50"
+                                  title="Reenviar Webhook"
+                                >
+                                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                  </svg>
+                                </button>
+                                <button
+                                  onClick={() => {
+                                    toast({
+                                      title: "📋 Detalhes do Lead",
+                                      description: `${lead.nome} - ${lead.email} - Empresa: ${lead.empresa || 'N/A'} - Fonte: ${lead.source}`,
+                                      variant: "default",
+                                    });
+                                  }}
+                                  className="text-green-600 hover:text-green-900 p-1 rounded hover:bg-green-50"
+                                  title="Ver Detalhes"
+                                >
+                                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                  </svg>
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))
+                      )}
                     </tbody>
                   </table>
                 </div>
@@ -1639,37 +1575,71 @@ export default function Admin() {
                 <div className="bg-white px-4 py-3 border-t border-gray-200 sm:px-6">
                   <div className="flex items-center justify-between">
                     <div className="flex-1 flex justify-between sm:hidden">
-                      <Button variant="outline" className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                      <Button
+                        variant="outline"
+                        onClick={() => fetchLeads({ page: Math.max(1, pagination.page - 1), filter: leadFilter, search: searchTerm, date_from: getDateFromFilter(dateFilter) })}
+                        disabled={pagination.page <= 1 || leadsLoading}
+                        className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                      >
                         Anterior
                       </Button>
-                      <Button variant="outline" className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                      <Button
+                        variant="outline"
+                        onClick={() => fetchLeads({ page: Math.min(pagination.total_pages, pagination.page + 1), filter: leadFilter, search: searchTerm, date_from: getDateFromFilter(dateFilter) })}
+                        disabled={pagination.page >= pagination.total_pages || leadsLoading}
+                        className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                      >
                         Próximo
                       </Button>
                     </div>
                     <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
                       <div>
                         <p className="text-sm text-gray-700">
-                          Mostrando <span className="font-medium">1</span> a <span className="font-medium">6</span> de{' '}
-                          <span className="font-medium">298</span> resultados
+                          Mostrando <span className="font-medium">{((pagination.page - 1) * pagination.limit) + 1}</span> a{' '}
+                          <span className="font-medium">{Math.min(pagination.page * pagination.limit, pagination.total)}</span> de{' '}
+                          <span className="font-medium">{pagination.total}</span> resultados
                         </p>
                       </div>
                       <div>
                         <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                          <Button variant="outline" className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                          <Button
+                            variant="outline"
+                            onClick={() => fetchLeads({ page: Math.max(1, pagination.page - 1), filter: leadFilter, search: searchTerm, date_from: getDateFromFilter(dateFilter) })}
+                            disabled={pagination.page <= 1 || leadsLoading}
+                            className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                          >
                             <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
                               <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
                             </svg>
                           </Button>
-                          <Button className="bg-ecko-red border-ecko-red text-white relative inline-flex items-center px-4 py-2 border text-sm font-medium">
-                            1
-                          </Button>
-                          <Button variant="outline" className="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
-                            2
-                          </Button>
-                          <Button variant="outline" className="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
-                            3
-                          </Button>
-                          <Button variant="outline" className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+
+                          {/* Páginas dinâmicas */}
+                          {[...Array(Math.min(5, pagination.total_pages))].map((_, i) => {
+                            const pageNum = Math.max(1, pagination.page - 2) + i;
+                            if (pageNum > pagination.total_pages) return null;
+
+                            return (
+                              <Button
+                                key={pageNum}
+                                variant={pageNum === pagination.page ? "default" : "outline"}
+                                onClick={() => fetchLeads({ page: pageNum, filter: leadFilter, search: searchTerm, date_from: getDateFromFilter(dateFilter) })}
+                                disabled={leadsLoading}
+                                className={pageNum === pagination.page
+                                  ? "bg-ecko-red border-ecko-red text-white relative inline-flex items-center px-4 py-2 border text-sm font-medium"
+                                  : "relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
+                                }
+                              >
+                                {pageNum}
+                              </Button>
+                            );
+                          })}
+
+                          <Button
+                            variant="outline"
+                            onClick={() => fetchLeads({ page: Math.min(pagination.total_pages, pagination.page + 1), filter: leadFilter, search: searchTerm, date_from: getDateFromFilter(dateFilter) })}
+                            disabled={pagination.page >= pagination.total_pages || leadsLoading}
+                            className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                          >
                             <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
                               <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
                             </svg>
