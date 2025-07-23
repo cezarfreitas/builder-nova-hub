@@ -66,6 +66,15 @@ export function createServer() {
   app.post("/api/analytics/track-visit", trackVisit);
   app.post("/api/analytics/track-duration", trackDuration);
 
+  // Testimonials routes
+  app.get("/api/testimonials", getTestimonials);
+  app.get("/api/testimonials/:id", getTestimonial);
+  app.post("/api/testimonials", createTestimonial);
+  app.put("/api/testimonials/:id", updateTestimonial);
+  app.delete("/api/testimonials/:id", deleteTestimonial);
+  app.put("/api/testimonials/:id/toggle", toggleTestimonial);
+  app.put("/api/testimonials/reorder", reorderTestimonials);
+
   // Database test routes
   app.get("/api/test-db", testDatabaseConnection);
   app.get("/api/database-info", getDatabaseInfo);
