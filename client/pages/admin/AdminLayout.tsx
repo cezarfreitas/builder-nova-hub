@@ -77,6 +77,13 @@ const sidebarItems: SidebarItem[] = [
     path: "/admin/gallery",
   },
   {
+    id: "content",
+    label: "Conteúdo",
+    icon: <FileText className="w-5 h-5" />,
+    category: "lp",
+    path: "/admin/content",
+  },
+  {
     id: "faq",
     label: "FAQ",
     icon: <HelpCircle className="w-5 h-5" />,
