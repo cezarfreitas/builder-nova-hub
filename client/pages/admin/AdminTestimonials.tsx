@@ -173,7 +173,7 @@ export default function AdminTestimonials() {
       } else {
         toast({
           title: "❌ Erro",
-          description: "Nenhuma configuraç��o foi salva",
+          description: "Nenhuma configuração foi salva",
           variant: "destructive",
         });
       }
@@ -370,13 +370,31 @@ export default function AdminTestimonials() {
           </p>
         </div>
 
-        <Button
-          onClick={() => setShowForm(true)}
-          className="bg-ecko-red hover:bg-ecko-red-dark text-white"
-        >
-          <Plus className="w-4 h-4 mr-2" />
-          Novo Depoimento
-        </Button>
+        {/* Abas */}
+        <div className="flex bg-gray-100 rounded-lg p-1">
+          <button
+            onClick={() => setActiveTab('depoimentos')}
+            className={`px-4 py-2 rounded-md font-medium transition-colors flex items-center gap-2 ${
+              activeTab === 'depoimentos'
+                ? 'bg-white text-gray-900 shadow-sm'
+                : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            <MessageSquare className="w-4 h-4" />
+            Depoimentos
+          </button>
+          <button
+            onClick={() => setActiveTab('textos')}
+            className={`px-4 py-2 rounded-md font-medium transition-colors flex items-center gap-2 ${
+              activeTab === 'textos'
+                ? 'bg-white text-gray-900 shadow-sm'
+                : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            <FileText className="w-4 h-4" />
+            Textos
+          </button>
+        </div>
       </div>
 
       {/* Formulário */}
