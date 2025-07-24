@@ -230,7 +230,7 @@ export default function Index() {
     // Remove formatação
     const numbers = whatsapp.replace(/\D/g, "");
 
-    // Verifica se tem 10 ou 11 dígitos (com DDD)
+    // Verifica se tem 10 ou 11 d��gitos (com DDD)
     if (numbers.length < 10 || numbers.length > 11) {
       return false;
     }
@@ -897,7 +897,7 @@ export default function Index() {
                           />
                           {cepLoading && (
                             <p className="text-blue-400 text-xs mt-2 font-medium leading-tight">
-                              🔍 Validando CEP...
+                              ��� Validando CEP...
                             </p>
                           )}
                           {cepError && (
@@ -1508,7 +1508,7 @@ export default function Index() {
                         onClick={() => scrollToSection("hero")}
                         className="bg-white hover:bg-gray-100 text-ecko-red px-8 py-4 text-lg font-bold group relative overflow-hidden transition-all duration-300 hover:scale-105 shadow-2xl"
                       >
-                        <span className="absolute inset-0 bg-gradient-to-r from-gray-50 to-gray-100 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                        <span className="absolute inset-0 bg-gradient-to-r from-gray-100 to-gray-200 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
                         <span className="relative z-10 flex items-center">
                           <span className="hidden sm:inline">
                             {content.final_cta.button_text}
