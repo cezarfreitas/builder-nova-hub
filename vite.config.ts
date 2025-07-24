@@ -84,9 +84,6 @@ export default defineConfig(({ mode }) => ({
   // CSS optimization
   css: {
     devSourcemap: false,
-    preprocessorOptions: {
-      // Inline critical CSS and defer the rest
-    },
   },
 }));
 
