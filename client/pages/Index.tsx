@@ -83,6 +83,15 @@ export default function Index() {
     cta_description: 'Produtos com alta demanda e excelente margem de lucro esperando por você',
     cta_button_text: 'QUERO ESSES PRODUTOS NA MINHA LOJA'
   });
+  const [testimonialsTexts, setTestimonialsTexts] = useState({
+    section_tag: 'Depoimentos',
+    section_title: 'O que nossos revendedores dizem',
+    section_subtitle: 'casos reais de sucesso',
+    section_description: 'Depoimentos reais de parceiros que transformaram suas paixões em negócios lucrativos com a Ecko',
+    cta_title: 'Seja o próximo case de sucesso!',
+    cta_description: 'Junte-se aos revendedores que já transformaram seus negócios',
+    cta_button_text: 'QUERO SER UM CASE DE SUCESSO'
+  });
   const [startTime] = useState(Date.now());
   const [userId] = useState(() => {
     // Gerar user_id único baseado em dados do navegador
