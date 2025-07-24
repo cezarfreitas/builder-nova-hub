@@ -1854,8 +1854,14 @@ export default function Index() {
           }}
         >
           {/* Tooltip/Message */}
-          <div className="bg-white text-gray-800 px-4 py-2 rounded-lg shadow-lg border border-gray-200 text-sm font-medium max-w-[200px] animate-pulse">
-            💬 Precisa de ajuda? Fale conosco!
+          <div className="bg-white text-gray-800 px-4 py-3 rounded-xl shadow-xl border border-gray-200 text-sm font-semibold max-w-[220px] relative">
+            <div className="flex items-center space-x-2">
+              <span className="text-green-500 text-lg">💬</span>
+              <span className="text-gray-800">
+                Quer ser um <span className="text-ecko-red font-bold">revendedor Ecko</span>?
+              </span>
+            </div>
+            <div className="absolute -bottom-2 right-6 w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-t-[8px] border-t-white"></div>
           </div>
 
           {/* Main WhatsApp Button */}
