@@ -1,5 +1,10 @@
 import { useState, useEffect, useCallback } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "../../components/ui/card";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { Textarea } from "../../components/ui/textarea";
@@ -24,7 +29,7 @@ import {
   CheckCircle,
   AlertCircle,
   Loader2,
-  Copy
+  Copy,
 } from "lucide-react";
 
 interface BenefitCard {
@@ -52,11 +57,13 @@ export default function AdminBenefits() {
   const [previewMode, setPreviewMode] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
-  const [validation, setValidation] = useState<{[key: string]: string}>({});
+  const [validation, setValidation] = useState<{ [key: string]: string }>({});
   const { toast } = useToast();
 
   // Debounced auto-save
-  const [autoSaveTimeout, setAutoSaveTimeout] = useState<NodeJS.Timeout | null>(null);
+  const [autoSaveTimeout, setAutoSaveTimeout] = useState<NodeJS.Timeout | null>(
+    null,
+  );
 
   // Sincronizar com o conteúdo JSON quando carregado
   useEffect(() => {
@@ -67,41 +74,42 @@ export default function AdminBenefits() {
 
   // Detectar mudanças e validar
   useEffect(() => {
-    const hasChanges = JSON.stringify(settings) !== JSON.stringify(content.benefits);
+    const hasChanges =
+      JSON.stringify(settings) !== JSON.stringify(content.benefits);
     setHasChanges(hasChanges);
-    
+
     // Validação em tempo real
-    const newValidation: {[key: string]: string} = {};
-    
+    const newValidation: { [key: string]: string } = {};
+
     if (!settings.section_title.trim()) {
       newValidation.section_title = "T��tulo da seção é obrigatório";
     } else if (settings.section_title.length > 100) {
       newValidation.section_title = "Título muito longo (máx. 100 caracteres)";
     }
-    
+
     if (!settings.section_tag.trim()) {
       newValidation.section_tag = "Tag da seção é obrigatória";
     }
-    
+
     if (!settings.cta_button_text.trim()) {
       newValidation.cta_button_text = "Texto do botão CTA é obrigatório";
     }
-    
+
     setValidation(newValidation);
-    
+
     // Auto-save após 3 segundos de inatividade
     if (hasChanges && Object.keys(newValidation).length === 0) {
       if (autoSaveTimeout) {
         clearTimeout(autoSaveTimeout);
       }
-      
+
       const timeout = setTimeout(() => {
         autoSaveSettings();
       }, 3000);
-      
+
       setAutoSaveTimeout(timeout);
     }
-    
+
     return () => {
       if (autoSaveTimeout) {
         clearTimeout(autoSaveTimeout);
@@ -112,20 +120,20 @@ export default function AdminBenefits() {
   // Auto-save silencioso
   const autoSaveSettings = useCallback(async () => {
     if (Object.keys(validation).length > 0) return;
-    
+
     try {
       setAutoSaving(true);
-      
+
       const updatedContent = {
         ...content,
-        benefits: settings
+        benefits: settings,
       };
 
       await saveContent(updatedContent);
       setHasChanges(false);
       setLastSaved(new Date());
     } catch (error) {
-      console.error('Erro no auto-save:', error);
+      console.error("Erro no auto-save:", error);
     } finally {
       setAutoSaving(false);
     }
@@ -135,14 +143,14 @@ export default function AdminBenefits() {
   const saveSettings = async () => {
     try {
       setSaving(true);
-      
+
       const updatedContent = {
         ...content,
-        benefits: settings
+        benefits: settings,
       };
 
       const result = await saveContent(updatedContent);
-      
+
       if (result.success) {
         toast({
           title: "Benefits atualizado!",
@@ -151,10 +159,10 @@ export default function AdminBenefits() {
         setHasChanges(false);
         setLastSaved(new Date());
       } else {
-        throw new Error('Falha ao salvar');
+        throw new Error("Falha ao salvar");
       }
     } catch (error) {
-      console.error('Erro ao salvar configurações de benefits:', error);
+      console.error("Erro ao salvar configurações de benefits:", error);
       toast({
         title: "Erro ao salvar",
         description: "Não foi possível salvar as configurações.",
@@ -177,19 +185,23 @@ export default function AdminBenefits() {
 
   // Atualizar campo específico
   const updateField = (field: keyof BenefitsSettings, value: string) => {
-    setSettings(prev => ({
+    setSettings((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
   // Atualizar card específico
-  const updateCard = (cardId: number, field: keyof BenefitCard, value: string) => {
-    setSettings(prev => ({
+  const updateCard = (
+    cardId: number,
+    field: keyof BenefitCard,
+    value: string,
+  ) => {
+    setSettings((prev) => ({
       ...prev,
-      cards: prev.cards.map(card =>
-        card.id === cardId ? { ...card, [field]: value } : card
-      )
+      cards: prev.cards.map((card) =>
+        card.id === cardId ? { ...card, [field]: value } : card,
+      ),
     }));
   };
 
@@ -219,7 +231,9 @@ export default function AdminBenefits() {
         <div className="text-center space-y-4">
           <div className="animate-spin rounded-full h-12 w-12 border-2 border-ecko-red border-t-transparent mx-auto"></div>
           <div className="space-y-2">
-            <p className="text-gray-900 font-medium">Carregando configurações</p>
+            <p className="text-gray-900 font-medium">
+              Carregando configurações
+            </p>
             <p className="text-gray-500 text-sm">Preparando a interface...</p>
           </div>
         </div>
@@ -232,43 +246,60 @@ export default function AdminBenefits() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Seção de Benefícios</h1>
+          <h1 className="text-3xl font-bold text-gray-900">
+            Seção de Benefícios
+          </h1>
           <p className="text-gray-600 mt-2">
             Configure os benefícios e vantagens apresentados na landing page
           </p>
         </div>
-        
+
         <div className="flex items-center space-x-3">
           {/* Status badges */}
           {autoSaving && (
-            <Badge variant="secondary" className="bg-blue-50 text-blue-700 border-blue-200">
+            <Badge
+              variant="secondary"
+              className="bg-blue-50 text-blue-700 border-blue-200"
+            >
               <Loader2 className="w-3 h-3 mr-1 animate-spin" />
               Auto-salvando...
             </Badge>
           )}
 
           {lastSaved && (
-            <Badge variant="secondary" className="bg-gray-50 text-gray-600 border-gray-200">
+            <Badge
+              variant="secondary"
+              className="bg-gray-50 text-gray-600 border-gray-200"
+            >
               <Clock className="w-3 h-3 mr-1" />
               Salvo {lastSaved.toLocaleTimeString()}
             </Badge>
           )}
 
           {hasChanges && !autoSaving && (
-            <Badge variant="secondary" className="bg-yellow-50 text-yellow-700 border-yellow-200">
+            <Badge
+              variant="secondary"
+              className="bg-yellow-50 text-yellow-700 border-yellow-200"
+            >
               <AlertCircle className="w-3 h-3 mr-1" />
               Alterações pendentes
             </Badge>
           )}
 
           {!hasChanges && !autoSaving && (
-            <Badge variant="secondary" className="bg-green-50 text-green-700 border-green-200">
+            <Badge
+              variant="secondary"
+              className="bg-green-50 text-green-700 border-green-200"
+            >
               <CheckCircle className="w-3 h-3 mr-1" />
               Tudo salvo
             </Badge>
           )}
 
-          <Badge variant="secondary" className="bg-blue-50 text-blue-700 border-blue-200">
+          <Badge
+            variant="secondary"
+            className="bg-blue-50 text-blue-700 border-blue-200"
+          >
             <FileText className="w-3 h-3 mr-1" />
             JSON
           </Badge>
@@ -283,10 +314,14 @@ export default function AdminBenefits() {
             variant="outline"
             className="border-gray-300"
           >
-            {previewMode ? <EyeOff className="w-4 h-4 mr-2" /> : <Eye className="w-4 h-4 mr-2" />}
-            {previewMode ? 'Ocultar Preview' : 'Mostrar Preview'}
+            {previewMode ? (
+              <EyeOff className="w-4 h-4 mr-2" />
+            ) : (
+              <Eye className="w-4 h-4 mr-2" />
+            )}
+            {previewMode ? "Ocultar Preview" : "Mostrar Preview"}
           </Button>
-          
+
           <Button
             onClick={copyConfig}
             variant="outline"
@@ -295,17 +330,17 @@ export default function AdminBenefits() {
             <Copy className="w-4 h-4 mr-2" />
             Copiar Config
           </Button>
-          
+
           <Button
             variant="outline"
             className="border-gray-300"
-            onClick={() => window.open('/', '_blank')}
+            onClick={() => window.open("/", "_blank")}
           >
             <ExternalLink className="w-4 h-4 mr-2" />
             Ver Landing Page
           </Button>
         </div>
-        
+
         <div className="flex items-center space-x-3">
           <Button
             onClick={resetSettings}
@@ -316,7 +351,7 @@ export default function AdminBenefits() {
             <RefreshCw className="w-4 h-4 mr-2" />
             Resetar
           </Button>
-          
+
           <Button
             onClick={saveSettings}
             disabled={saving || !hasChanges || hasErrors}
@@ -356,7 +391,7 @@ export default function AdminBenefits() {
                   </span>
                 </div>
               )}
-              
+
               {/* Title */}
               {settings.section_title && (
                 <h2 className="text-3xl md:text-5xl font-black text-white mb-6 uppercase tracking-tight leading-tight">
@@ -368,18 +403,21 @@ export default function AdminBenefits() {
                   )}
                 </h2>
               )}
-              
+
               {/* Description */}
               {settings.section_description && (
                 <p className="text-gray-300 text-lg max-w-3xl mx-auto leading-relaxed mb-8">
                   {renderTextWithColorTokens(settings.section_description)}
                 </p>
               )}
-              
+
               {/* Benefits Cards */}
               <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                 {settings.cards?.map((card) => (
-                  <div key={card.id} className="bg-gray-800/50 rounded-lg p-4 min-h-[200px] text-center">
+                  <div
+                    key={card.id}
+                    className="bg-gray-800/50 rounded-lg p-4 min-h-[200px] text-center"
+                  >
                     <div className="w-12 h-12 bg-ecko-red/20 rounded-lg flex items-center justify-center mx-auto mb-3">
                       <Award className="w-6 h-6 text-ecko-red" />
                     </div>
@@ -392,7 +430,7 @@ export default function AdminBenefits() {
                   </div>
                 ))}
               </div>
-              
+
               {/* CTA */}
               <div className="bg-gradient-to-r from-ecko-red/10 to-ecko-red-dark/10 rounded-2xl p-6 border border-ecko-red/20">
                 {settings.cta_title && (
@@ -428,11 +466,15 @@ export default function AdminBenefits() {
               </label>
               <TokenColorEditor
                 value={settings.section_tag}
-                onChange={(value) => updateField('section_tag', value)}
+                onChange={(value) => updateField("section_tag", value)}
                 placeholder="Ex: Por que escolher a Ecko?"
                 rows={2}
                 label=""
-                className={validation.section_tag ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : ''}
+                className={
+                  validation.section_tag
+                    ? "border-red-300 focus:border-red-500 focus:ring-red-500"
+                    : ""
+                }
               />
               {validation.section_tag && (
                 <p className="text-red-600 text-sm flex items-center">
@@ -448,11 +490,15 @@ export default function AdminBenefits() {
               </label>
               <TokenColorEditor
                 value={settings.section_title}
-                onChange={(value) => updateField('section_title', value)}
+                onChange={(value) => updateField("section_title", value)}
                 placeholder="Ex: VANTAGENS [EXCLUSIVAS]"
                 rows={2}
                 label=""
-                className={validation.section_title ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : ''}
+                className={
+                  validation.section_title
+                    ? "border-red-300 focus:border-red-500 focus:ring-red-500"
+                    : ""
+                }
               />
               {validation.section_title && (
                 <p className="text-red-600 text-sm flex items-center">
@@ -462,7 +508,7 @@ export default function AdminBenefits() {
               )}
               <p className="text-gray-500 text-sm flex items-center">
                 <Info className="w-4 h-4 mr-1" />
-                Use tokens de cor como {'{ecko}texto{/ecko}'} para destacar
+                Use tokens de cor como {"{ecko}texto{/ecko}"} para destacar
               </p>
             </div>
 
@@ -472,7 +518,7 @@ export default function AdminBenefits() {
               </label>
               <TokenColorEditor
                 value={settings.section_subtitle}
-                onChange={(value) => updateField('section_subtitle', value)}
+                onChange={(value) => updateField("section_subtitle", value)}
                 placeholder="Ex: para nossos parceiros"
                 rows={2}
                 label=""
@@ -485,7 +531,7 @@ export default function AdminBenefits() {
               </label>
               <TokenColorEditor
                 value={settings.section_description}
-                onChange={(value) => updateField('section_description', value)}
+                onChange={(value) => updateField("section_description", value)}
                 placeholder="Descreva os benefícios únicos da marca..."
                 rows={4}
                 label=""
@@ -504,12 +550,15 @@ export default function AdminBenefits() {
           </CardHeader>
           <CardContent className="space-y-6">
             {settings.cards?.map((card, index) => (
-              <div key={card.id} className="border border-gray-200 rounded-lg p-4 space-y-4">
+              <div
+                key={card.id}
+                className="border border-gray-200 rounded-lg p-4 space-y-4"
+              >
                 <div className="flex items-center justify-between">
-                  <h4 className="font-medium text-gray-900">Card {index + 1}</h4>
-                  <Badge variant="outline">
-                    Ícone: {card.icon}
-                  </Badge>
+                  <h4 className="font-medium text-gray-900">
+                    Card {index + 1}
+                  </h4>
+                  <Badge variant="outline">Ícone: {card.icon}</Badge>
                 </div>
 
                 <div className="space-y-2">
@@ -518,7 +567,7 @@ export default function AdminBenefits() {
                   </label>
                   <TokenColorEditor
                     value={card.title}
-                    onChange={(value) => updateCard(card.id, 'title', value)}
+                    onChange={(value) => updateCard(card.id, "title", value)}
                     placeholder="Ex: MARCA INTERNACIONAL"
                     rows={2}
                     label=""
@@ -531,7 +580,9 @@ export default function AdminBenefits() {
                   </label>
                   <TokenColorEditor
                     value={card.description}
-                    onChange={(value) => updateCard(card.id, 'description', value)}
+                    onChange={(value) =>
+                      updateCard(card.id, "description", value)
+                    }
                     placeholder="Descreva o benefício em detalhes..."
                     rows={4}
                     label=""
@@ -557,7 +608,7 @@ export default function AdminBenefits() {
               </label>
               <TokenColorEditor
                 value={settings.cta_title}
-                onChange={(value) => updateField('cta_title', value)}
+                onChange={(value) => updateField("cta_title", value)}
                 placeholder="Ex: Junte-se a milhares de parceiros..."
                 rows={3}
                 label=""
@@ -570,11 +621,15 @@ export default function AdminBenefits() {
               </label>
               <TokenColorEditor
                 value={settings.cta_button_text}
-                onChange={(value) => updateField('cta_button_text', value)}
+                onChange={(value) => updateField("cta_button_text", value)}
                 placeholder="Ex: QUERO FAZER PARTE AGORA"
                 rows={2}
                 label=""
-                className={validation.cta_button_text ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : ''}
+                className={
+                  validation.cta_button_text
+                    ? "border-red-300 focus:border-red-500 focus:ring-red-500"
+                    : ""
+                }
               />
               {validation.cta_button_text && (
                 <p className="text-red-600 text-sm flex items-center">
@@ -590,7 +645,9 @@ export default function AdminBenefits() {
                 <h4 className="font-medium text-blue-900">Informação</h4>
               </div>
               <p className="text-sm text-blue-700">
-                Esta seção gerencia tanto os textos principais quanto os cards de benefícios individuais. Você pode editar os títulos e descrições de cada card de benefício acima.
+                Esta seção gerencia tanto os textos principais quanto os cards
+                de benefícios individuais. Você pode editar os títulos e
+                descrições de cada card de benefício acima.
               </p>
             </div>
           </CardContent>

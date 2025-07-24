@@ -852,12 +852,14 @@ export default function Index() {
                   onError={(e) => {
                     // Fallback para logo de texto se a imagem falhar
                     const target = e.target as HTMLImageElement;
-                    target.style.display = 'none';
+                    target.style.display = "none";
                     const parent = target.parentElement;
-                    if (parent && !parent.querySelector('.text-logo')) {
-                      const textLogo = document.createElement('div');
-                      textLogo.className = 'text-logo text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-white text-center py-4';
-                      textLogo.innerHTML = '<span class="text-ecko-red">ECKO</span><span class="text-white"> UNLTD</span>';
+                    if (parent && !parent.querySelector(".text-logo")) {
+                      const textLogo = document.createElement("div");
+                      textLogo.className =
+                        "text-logo text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-white text-center py-4";
+                      textLogo.innerHTML =
+                        '<span class="text-ecko-red">ECKO</span><span class="text-white"> UNLTD</span>';
                       parent.appendChild(textLogo);
                     }
                   }}
@@ -1197,7 +1199,9 @@ export default function Index() {
                 </span>
               </h2>
               <p className="text-gray-300 text-lg max-w-3xl mx-auto leading-relaxed">
-                {renderTextWithColorTokens(content.benefits.section_description)}
+                {renderTextWithColorTokens(
+                  content.benefits.section_description,
+                )}
               </p>
             </div>
 
@@ -1209,7 +1213,7 @@ export default function Index() {
                   Globe,
                   Truck,
                   HeadphonesIcon,
-                  Monitor
+                  Monitor,
                 };
                 const IconComponent = iconMap[card.icon] || Globe;
 
@@ -1249,9 +1253,15 @@ export default function Index() {
                   <span className="absolute inset-0 bg-gradient-to-r from-red-600 to-red-800 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
                   <span className="relative z-10 flex items-center">
                     <span className="hidden sm:inline">
-                      {renderTextWithColorTokens(content.benefits.cta_button_text)}
+                      {renderTextWithColorTokens(
+                        content.benefits.cta_button_text,
+                      )}
                     </span>
-                    <span className="sm:hidden">{renderTextWithColorTokens(content.benefits.cta_button_text)}</span>
+                    <span className="sm:hidden">
+                      {renderTextWithColorTokens(
+                        content.benefits.cta_button_text,
+                      )}
+                    </span>
                     <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </Button>
