@@ -17,6 +17,8 @@ export interface ContentData {
     cta_text_color: string;
   };
   form: {
+    main_title: string;
+    main_description: string;
     title: string;
     subtitle: string;
     fields: {
