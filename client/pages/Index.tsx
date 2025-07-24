@@ -267,7 +267,7 @@ export default function Index() {
     return limited;
   };
 
-  // Funç��o para validar WhatsApp
+  // Funç����o para validar WhatsApp
   const validateWhatsApp = (whatsapp: string): boolean => {
     // Remove formatação
     const numbers = whatsapp.replace(/\D/g, "");
@@ -2058,7 +2058,7 @@ export default function Index() {
 
             {/* Notification Badge */}
             <div className="absolute -top-2 -right-2 bg-ecko-red text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold shadow-lg border-2 border-white animate-bounce">
-              1
+              {whatsappClickCount > 0 ? whatsappClickCount : 1}
             </div>
 
             {/* Main Button */}
