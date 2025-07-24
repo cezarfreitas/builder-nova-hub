@@ -92,17 +92,7 @@ export default function Index() {
   };
 
   // Static testimonials texts
-  const testimonialsTexts = {
-    section_tag: "Depoimentos",
-    section_title: "O que nossos revendedores dizem",
-    section_subtitle: "casos reais de sucesso",
-    section_description:
-      "Depoimentos reais de parceiros que transformaram suas paixões em negócios lucrativos com a Ecko",
-    cta_title: "Seja o próximo case de sucesso!",
-    cta_description:
-      "Junte-se aos revendedores que já transformaram seus negócios",
-    cta_button_text: "QUERO SER UM CASE DE SUCESSO",
-  };
+
 
   // Static gallery images
   const staticGalleryImages = [
@@ -523,7 +513,7 @@ export default function Index() {
       toast({
         title: "⚠️ CNPJ Obrigatório",
         description:
-          "É necessário ter CNPJ para se tornar um revendedor autorizado.",
+          "�� necessário ter CNPJ para se tornar um revendedor autorizado.",
         variant: "destructive",
       });
       return;
