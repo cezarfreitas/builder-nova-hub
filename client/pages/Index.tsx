@@ -1353,6 +1353,9 @@ export default function Index() {
             case 'faq':
               return (
                 <main key="faq">
+                  {/* Section Divider */}
+                  <div className="bg-gradient-to-r from-transparent via-gray-800/30 to-transparent h-px mx-auto max-w-4xl" />
+
                   {/* FAQ Section */}
                   <section className="py-16 md:py-20 bg-black relative overflow-hidden">
                     {/* Background Pattern */}
