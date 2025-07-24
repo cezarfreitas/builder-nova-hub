@@ -482,7 +482,7 @@ export default function Index() {
       toast({
         title: "❌ Erro de conexão",
         description:
-          "Erro ao conectar com o servidor. Verifique sua conexão e tente novamente.",
+          "Erro ao conectar com o servidor. Verifique sua conex��o e tente novamente.",
         variant: "destructive",
       });
     } finally {
@@ -2055,6 +2055,7 @@ export default function Index() {
                 onClick={() => {
                   setIsModalOpen(false);
                   setIsSubmitted(false);
+                  setFormOrigin("");
                   setFormData({
                     name: "",
                     whatsapp: "",
