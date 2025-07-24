@@ -24,22 +24,76 @@ const storage = multer.diskStorage({
   }
 });
 
-// Filtro para aceitar apenas imagens
+// Filtro para aceitar apenas imagens com validação de peso
 const fileFilter = (req: Express.Request, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
   const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'];
-  
-  if (allowedTypes.includes(file.mimetype)) {
-    cb(null, true);
-  } else {
-    cb(new Error('Tipo de arquivo não permitido. Use: JPEG, PNG, WebP ou GIF'));
+
+  if (!allowedTypes.includes(file.mimetype)) {
+    return cb(new Error('Tipo de arquivo não permitido. Use: JPEG, PNG, WebP ou GIF'));
   }
+
+  cb(null, true);
 };
 
+// Função para formatar tamanho de arquivo
+const formatFileSize = (bytes: number): string => {
+  if (bytes === 0) return '0 Bytes';
+  const k = 1024;
+  const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+};
+
+// Diferentes configurações de upload por tipo
 export const upload = multer({
   storage,
   fileFilter,
   limits: {
-    fileSize: 5 * 1024 * 1024, // 5MB máximo
+    fileSize: 10 * 1024 * 1024, // 10MB máximo
+  }
+});
+
+// Upload específico para avatares (menores)
+export const uploadAvatar = multer({
+  storage: multer.diskStorage({
+    destination: (req, file, cb) => {
+      const uploadPath = path.join(process.cwd(), 'public', 'uploads', 'avatars');
+      if (!fs.existsSync(uploadPath)) {
+        fs.mkdirSync(uploadPath, { recursive: true });
+      }
+      cb(null, uploadPath);
+    },
+    filename: (req, file, cb) => {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+      const ext = path.extname(file.originalname);
+      cb(null, `avatar-${uniqueSuffix}${ext}`);
+    }
+  }),
+  fileFilter,
+  limits: {
+    fileSize: 2 * 1024 * 1024, // 2MB para avatares
+  }
+});
+
+// Upload para hero/background (maiores mas com compressão)
+export const uploadHero = multer({
+  storage: multer.diskStorage({
+    destination: (req, file, cb) => {
+      const uploadPath = path.join(process.cwd(), 'public', 'uploads', 'hero');
+      if (!fs.existsSync(uploadPath)) {
+        fs.mkdirSync(uploadPath, { recursive: true });
+      }
+      cb(null, uploadPath);
+    },
+    filename: (req, file, cb) => {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+      const ext = path.extname(file.originalname);
+      cb(null, `hero-${uniqueSuffix}${ext}`);
+    }
+  }),
+  fileFilter,
+  limits: {
+    fileSize: 15 * 1024 * 1024, // 15MB para imagens de hero
   }
 });
 
