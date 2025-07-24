@@ -79,29 +79,7 @@ export default function Index() {
   const [formOrigin, setFormOrigin] = useState<string>("");
   const [startTime] = useState(Date.now());
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [showWhatsApp, setShowWhatsApp] = useState(false);
-  const [whatsappDismissed, setWhatsappDismissed] = useState(false);
-
-  // Mostrar WhatsApp flutuante após 5 segundos
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (!whatsappDismissed) {
-        setShowWhatsApp(true);
-      }
-    }, 5000);
-    return () => clearTimeout(timer);
-  }, [whatsappDismissed]);
-
-  // Reaparecer WhatsApp após 30 segundos se foi dismissado
-  useEffect(() => {
-    if (whatsappDismissed) {
-      const timer = setTimeout(() => {
-        setWhatsappDismissed(false);
-        setShowWhatsApp(true);
-      }, 30000);
-      return () => clearTimeout(timer);
-    }
-  }, [whatsappDismissed]);
+  const [showWhatsApp, setShowWhatsApp] = useState(true);
   const [userId] = useState(() => {
     // Gerar user_id único baseado em dados do navegador
     const fingerprint = `${navigator.userAgent}-${screen.width}x${screen.height}-${Intl.DateTimeFormat().resolvedOptions().timeZone}`;
@@ -1846,52 +1824,33 @@ export default function Index() {
       {/* WhatsApp Floating Button */}
       {showWhatsApp && (
         <div
-          className="fixed bottom-4 sm:bottom-6 right-4 sm:right-6 z-[9999] flex flex-col items-end space-y-3 animate-in slide-in-from-right-4 slide-in-from-bottom-4 duration-700"
+          className="fixed bottom-4 sm:bottom-6 right-4 sm:right-6 z-[9999] animate-in slide-in-from-right-4 slide-in-from-bottom-4 duration-700"
           style={{
             position: 'fixed',
             zIndex: 9999,
             pointerEvents: 'auto'
           }}
         >
-          {/* Tooltip/Message */}
-          <div className="bg-white text-gray-800 px-4 py-3 rounded-xl shadow-xl border border-gray-200 text-sm font-semibold max-w-[220px] relative">
-            <div className="flex items-center space-x-2">
-              <span className="text-green-500 text-lg">💬</span>
-              <span className="text-gray-800">
-                Quer ser um <span className="text-ecko-red font-bold">revendedor Ecko</span>?
-              </span>
-            </div>
-            <div className="absolute -bottom-2 right-6 w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-t-[8px] border-t-white"></div>
-          </div>
-
           {/* Main WhatsApp Button */}
           <div className="relative group">
             {/* Pulse Animation Ring */}
             <div className="absolute -inset-1 bg-green-400 rounded-full animate-ping opacity-75"></div>
             <div className="absolute -inset-2 bg-green-300 rounded-full animate-pulse opacity-50"></div>
 
+            {/* Notification Badge */}
+            <div className="absolute -top-2 -right-2 bg-ecko-red text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold shadow-lg border-2 border-white animate-bounce">
+              1
+            </div>
+
             {/* Main Button */}
             <Button
               onClick={() => {
                 openFormWithOrigin("whatsapp-float");
-                setShowWhatsApp(false);
               }}
               className="relative bg-green-500 hover:bg-green-600 text-white rounded-full w-16 h-16 shadow-2xl transition-all duration-300 hover:scale-110 group border-4 border-white"
-              title="Abrir formulário de contato"
+              title="💬 Nova mensagem - Clique para se tornar revendedor Ecko!"
             >
               <MessageCircle className="w-7 h-7" />
-            </Button>
-
-            {/* Close Button */}
-            <Button
-              onClick={() => {
-                setShowWhatsApp(false);
-                setWhatsappDismissed(true);
-              }}
-              className="absolute -top-1 -right-1 bg-red-500 hover:bg-red-600 text-white rounded-full w-6 h-6 p-0 shadow-lg transition-all duration-200 hover:scale-110"
-              title="Fechar"
-            >
-              <X className="w-3 h-3" />
             </Button>
           </div>
         </div>
