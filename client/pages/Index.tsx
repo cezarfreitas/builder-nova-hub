@@ -53,7 +53,7 @@ export default function Index() {
     cta_text: "QUERO SER REVENDEDOR",
     cta_secondary_text: "DESCUBRA AS VANTAGENS",
     logo_url: "/logo-ecko.png",
-    background_image: "",
+    background_image: "https://images.pexels.com/photos/7231215/pexels-photo-7231215.jpeg?auto=compress&cs=tinysrgb&w=1920",
     background_color: "#000000",
     text_color: "#ffffff",
     cta_color: "#dc2626",
