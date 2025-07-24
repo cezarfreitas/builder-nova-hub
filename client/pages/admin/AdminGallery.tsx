@@ -998,15 +998,18 @@ export default function AdminGallery() {
                 />
 
                 <div className="mt-8 p-6 bg-gradient-to-r from-red-600/10 to-red-800/10 rounded-lg border border-red-600/20">
-                  <h3 className="text-xl font-bold text-white mb-2">
-                    {textSettings.cta_title}
-                  </h3>
-                  <p className="text-gray-300 mb-4">
-                    {textSettings.cta_description}
-                  </p>
-                  <div className="bg-red-600 text-white px-6 py-2 rounded-lg font-bold text-sm inline-block">
-                    {textSettings.cta_button_text}
-                  </div>
+                  <h3
+                    className="text-xl font-bold text-white mb-2"
+                    dangerouslySetInnerHTML={{ __html: renderTokens(textSettings.cta_title) }}
+                  />
+                  <p
+                    className="text-gray-300 mb-4"
+                    dangerouslySetInnerHTML={{ __html: renderTokens(textSettings.cta_description) }}
+                  />
+                  <div
+                    className="bg-red-600 text-white px-6 py-2 rounded-lg font-bold text-sm inline-block"
+                    dangerouslySetInnerHTML={{ __html: renderTokens(textSettings.cta_button_text) }}
+                  />
                 </div>
 
                 <div className="mt-6 p-4 bg-gray-800 rounded-lg">
