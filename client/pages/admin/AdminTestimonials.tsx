@@ -2,10 +2,13 @@ import { useState, useEffect } from "react";
 import { Button } from "../../components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
 import { Badge } from "../../components/ui/badge";
+import { Input } from "../../components/ui/input";
+import { Textarea } from "../../components/ui/textarea";
 import { useToast } from "../../hooks/use-toast";
-import { Testimonial } from "@shared/api";
+import { useContent } from "../../hooks/useContent";
 import { SmartImageUpload } from "../../components/SmartImageUpload";
 import { TokenColorEditor } from "../../components/TokenColorEditor";
+import { renderTextWithColorTokens } from "../../utils/colorTokens";
 import {
   MessageSquare,
   Plus,
@@ -19,344 +22,197 @@ import {
   GripVertical,
   Save,
   X,
-  FileText
+  FileText,
+  Check,
+  AlertCircle,
+  Loader2
 } from "lucide-react";
 
+interface TestimonialItem {
+  id: number;
+  name: string;
+  company: string;
+  role: string;
+  content: string;
+  avatar_url: string;
+  rating: number;
+  is_active: boolean;
+  display_order: number;
+}
+
+interface TestimonialsSettings {
+  section_tag: string;
+  section_title: string;
+  section_subtitle: string;
+  section_description: string;
+  items: TestimonialItem[];
+  cta_title: string;
+  cta_description: string;
+  cta_button_text: string;
+}
+
 export default function AdminTestimonials() {
-  const { toast } = useToast();
-  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { content, loading: contentLoading, saveContent } = useContent();
+  const [settings, setSettings] = useState<TestimonialsSettings>(content.testimonials);
   const [saving, setSaving] = useState(false);
-  const [showForm, setShowForm] = useState(false);
-  const [editingTestimonial, setEditingTestimonial] = useState<Testimonial | null>(null);
   const [activeTab, setActiveTab] = useState<'depoimentos' | 'textos'>('depoimentos');
+  const [showForm, setShowForm] = useState(false);
+  const [editingTestimonial, setEditingTestimonial] = useState<TestimonialItem | null>(null);
+  const [hasChanges, setHasChanges] = useState(false);
+  const [validation, setValidation] = useState<{[key: string]: string}>({});
+  const { toast } = useToast();
 
-  // Estados para textos da seção de depoimentos
-  const [textSettings, setTextSettings] = useState({
-    section_tag: 'Depoimentos',
-    section_title: 'O que nossos revendedores dizem',
-    section_subtitle: 'casos reais de sucesso',
-    section_description: 'Depoimentos reais de parceiros que transformaram suas paixões em negócios lucrativos com a Ecko',
-    cta_title: 'Seja o próximo case de sucesso!',
-    cta_description: 'Junte-se aos revendedores que já transformaram seus negócios',
-    cta_button_text: 'QUERO SER UM CASE DE SUCESSO'
-  });
-  const [savingTexts, setSavingTexts] = useState(false);
-
-  // Função local para renderizar tokens de cor
-  const renderTokens = (text: string) => {
-    const colors = {
-      ecko: '#dc2626', red: '#dc2626', blue: '#2563eb', green: '#16a34a',
-      purple: '#7c3aed', orange: '#ea580c', yellow: '#ca8a04', white: '#ffffff',
-      black: '#000000', gray: '#6b7280'
-    };
-
-    return text.replace(/\{(\w+)\}(.*?)\{\/\1\}/g, (match, color, content) => {
-      const colorValue = colors[color as keyof typeof colors];
-      return colorValue ? `<span style="color: ${colorValue}; font-weight: bold;">${content}</span>` : content;
-    });
-  };
-
-  // Estados do formulário
-  const [formData, setFormData] = useState({
-    name: '',
-    company: '',
-    role: '',
-    content: '',
-    avatar_url: '',
-    rating: 5,
-    is_active: true,
-    display_order: 0
-  });
-
-  const fetchTestimonials = async () => {
-    try {
-      const response = await fetch('/api/testimonials');
-      const result = await response.json();
-
-      if (result.success) {
-        setTestimonials(result.data.testimonials);
-      } else {
-        toast({
-          title: "❌ Erro",
-          description: "Erro ao carregar depoimentos",
-          variant: "destructive",
-        });
-      }
-    } catch (error) {
-      console.error('Erro ao buscar depoimentos:', error);
-      toast({
-        title: "❌ Erro",
-        description: "Erro ao carregar depoimentos",
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const fetchTextSettings = async () => {
-    try {
-      const response = await fetch('/api/settings');
-      const result = await response.json();
-
-      if (result.success) {
-        const settings = result.data;
-
-        // Função para extrair valor da configuração
-        const getValue = (setting: any) => {
-          if (typeof setting === 'string') return setting;
-          if (setting && typeof setting === 'object' && setting.value) return setting.value;
-          return '';
-        };
-
-        const testimonialTexts = {
-          section_tag: getValue(settings.testimonials_section_tag) || 'Depoimentos',
-          section_title: getValue(settings.testimonials_section_title) || 'O que nossos revendedores dizem',
-          section_subtitle: getValue(settings.testimonials_section_subtitle) || 'casos reais de sucesso',
-          section_description: getValue(settings.testimonials_section_description) || 'Depoimentos reais de parceiros que transformaram suas paixões em negócios lucrativos com a Ecko',
-          cta_title: getValue(settings.testimonials_cta_title) || 'Seja o próximo case de sucesso!',
-          cta_description: getValue(settings.testimonials_cta_description) || 'Junte-se aos revendedores que já transformaram seus negócios',
-          cta_button_text: getValue(settings.testimonials_cta_button_text) || 'QUERO SER UM CASE DE SUCESSO'
-        };
-        setTextSettings(testimonialTexts);
-      }
-    } catch (error) {
-      console.error('Erro ao buscar configurações de texto:', error);
-    }
-  };
-
-  const saveTextSettings = async () => {
-    if (savingTexts) return;
-
-    setSavingTexts(true);
-    try {
-      const settings = [
-        { key: 'testimonials_section_tag', value: textSettings.section_tag },
-        { key: 'testimonials_section_title', value: textSettings.section_title },
-        { key: 'testimonials_section_subtitle', value: textSettings.section_subtitle },
-        { key: 'testimonials_section_description', value: textSettings.section_description },
-        { key: 'testimonials_cta_title', value: textSettings.cta_title },
-        { key: 'testimonials_cta_description', value: textSettings.cta_description },
-        { key: 'testimonials_cta_button_text', value: textSettings.cta_button_text }
-      ];
-
-      let successCount = 0;
-      let errorCount = 0;
-
-      for (const setting of settings) {
-        try {
-          const response = await fetch(`/api/settings/${setting.key}`, {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ value: setting.value, type: 'text' }),
-          });
-
-          const result = await response.json();
-          if (result.success) {
-            successCount++;
-          } else {
-            errorCount++;
-          }
-        } catch (error) {
-          console.error(`Erro ao salvar ${setting.key}:`, error);
-          errorCount++;
-        }
-      }
-
-      if (successCount > 0) {
-        toast({
-          title: "✅ Sucesso",
-          description: `${successCount} configurações salvas${errorCount > 0 ? ` (${errorCount} falharam)` : ''}`,
-          variant: "success",
-        });
-      } else {
-        toast({
-          title: "❌ Erro",
-          description: "Nenhuma configuração foi salva",
-          variant: "destructive",
-        });
-      }
-    } catch (error) {
-      console.error('Erro ao salvar textos:', error);
-      toast({
-        title: "❌ Erro",
-        description: "Erro inesperado ao salvar textos",
-        variant: "destructive",
-      });
-    } finally {
-      setSavingTexts(false);
-    }
-  };
-
+  // Sincronizar com o conteúdo JSON quando carregado
   useEffect(() => {
-    fetchTestimonials();
-    fetchTextSettings();
-  }, []);
+    if (content.testimonials) {
+      setSettings(content.testimonials);
+    }
+  }, [content.testimonials]);
 
-  const resetForm = () => {
-    setFormData({
-      name: '',
-      company: '',
-      role: '',
-      content: '',
-      avatar_url: '',
+  // Detectar mudanças
+  useEffect(() => {
+    const hasChanges = JSON.stringify(settings) !== JSON.stringify(content.testimonials);
+    setHasChanges(hasChanges);
+  }, [settings, content.testimonials]);
+
+  // Salvar configurações
+  const saveSettings = async () => {
+    try {
+      setSaving(true);
+
+      const updatedContent = {
+        ...content,
+        testimonials: settings,
+      };
+
+      const result = await saveContent(updatedContent);
+
+      if (result.success) {
+        toast({
+          title: "Depoimentos atualizados!",
+          description: "As configurações foram salvas com sucesso.",
+        });
+        setHasChanges(false);
+      } else {
+        throw new Error("Falha ao salvar");
+      }
+    } catch (error) {
+      console.error("Erro ao salvar depoimentos:", error);
+      toast({
+        title: "Erro ao salvar",
+        description: "Não foi possível salvar as configurações.",
+        variant: "destructive",
+      });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  // Atualizar campo de texto
+  const updateField = (field: keyof TestimonialsSettings, value: string) => {
+    setSettings(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  // Adicionar novo depoimento
+  const addTestimonial = () => {
+    const newId = Math.max(...settings.items.map(t => t.id), 0) + 1;
+    const newTestimonial: TestimonialItem = {
+      id: newId,
+      name: "",
+      company: "",
+      role: "",
+      content: "",
+      avatar_url: "",
       rating: 5,
       is_active: true,
-      display_order: 0
-    });
-    setEditingTestimonial(null);
-    setShowForm(false);
+      display_order: settings.items.length + 1
+    };
+
+    setSettings(prev => ({
+      ...prev,
+      items: [...prev.items, newTestimonial]
+    }));
+    setEditingTestimonial(newTestimonial);
+    setShowForm(true);
   };
 
-  const handleEdit = (testimonial: Testimonial) => {
-    setFormData({
-      name: testimonial.name,
-      company: testimonial.company || '',
-      role: testimonial.role || '',
-      content: testimonial.content,
-      avatar_url: testimonial.avatar_url || '',
-      rating: testimonial.rating,
-      is_active: testimonial.is_active,
-      display_order: testimonial.display_order || 0
-    });
+  // Editar depoimento
+  const editTestimonial = (testimonial: TestimonialItem) => {
     setEditingTestimonial(testimonial);
     setShowForm(true);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setSaving(true);
-
-    try {
-      const url = editingTestimonial 
-        ? `/api/testimonials/${editingTestimonial.id}`
-        : '/api/testimonials';
-      
-      const method = editingTestimonial ? 'PUT' : 'POST';
-
-      const response = await fetch(url, {
-        method,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const result = await response.json();
-
-      if (result.success) {
-        toast({
-          title: "✅ Sucesso",
-          description: editingTestimonial 
-            ? "Depoimento atualizado com sucesso"
-            : "Depoimento criado com sucesso",
-          variant: "success",
-        });
-        resetForm();
-        fetchTestimonials();
-      } else {
-        toast({
-          title: "❌ Erro",
-          description: result.message || "Erro ao salvar depoimento",
-          variant: "destructive",
-        });
-      }
-    } catch (error) {
-      console.error('Erro ao salvar depoimento:', error);
+  // Salvar depoimento editado
+  const saveTestimonial = (testimonial: TestimonialItem) => {
+    // Validação básica
+    if (!testimonial.name.trim() || !testimonial.content.trim()) {
       toast({
-        title: "❌ Erro",
-        description: "Erro ao salvar depoimento",
+        title: "Erro de validação",
+        description: "Nome e conteúdo são obrigatórios.",
         variant: "destructive",
       });
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  const handleDelete = async (testimonial: Testimonial) => {
-    if (!confirm(`Tem certeza que deseja excluir o depoimento de "${testimonial.name}"?`)) {
       return;
     }
 
-    setSaving(true);
-    try {
-      const response = await fetch(`/api/testimonials/${testimonial.id}`, {
-        method: 'DELETE',
-      });
+    setSettings(prev => ({
+      ...prev,
+      items: prev.items.map(item => 
+        item.id === testimonial.id ? testimonial : item
+      )
+    }));
+    setShowForm(false);
+    setEditingTestimonial(null);
+  };
 
-      const result = await response.json();
-
-      if (result.success) {
-        toast({
-          title: "✅ Sucesso",
-          description: "Depoimento excluído com sucesso",
-          variant: "success",
-        });
-        fetchTestimonials();
-      } else {
-        toast({
-          title: "❌ Erro",
-          description: result.message || "Erro ao excluir depoimento",
-          variant: "destructive",
-        });
-      }
-    } catch (error) {
-      console.error('Erro ao deletar depoimento:', error);
+  // Excluir depoimento
+  const deleteTestimonial = (id: number) => {
+    if (confirm("Tem certeza que deseja excluir este depoimento?")) {
+      setSettings(prev => ({
+        ...prev,
+        items: prev.items.filter(item => item.id !== id)
+      }));
       toast({
-        title: "❌ Erro",
-        description: "Erro ao excluir depoimento",
-        variant: "destructive",
+        title: "Depoimento excluído",
+        description: "O depoimento foi removido com sucesso.",
       });
-    } finally {
-      setSaving(false);
     }
   };
 
-  const handleToggleActive = async (testimonial: Testimonial) => {
-    setSaving(true);
-    try {
-      const response = await fetch(`/api/testimonials/${testimonial.id}/toggle`, {
-        method: 'PUT',
-      });
-
-      const result = await response.json();
-
-      if (result.success) {
-        toast({
-          title: "✅ Sucesso",
-          description: result.message,
-          variant: "success",
-        });
-        fetchTestimonials();
-      } else {
-        toast({
-          title: "❌ Erro",
-          description: result.message || "Erro ao alterar status",
-          variant: "destructive",
-        });
-      }
-    } catch (error) {
-      console.error('Erro ao toggle depoimento:', error);
-      toast({
-        title: "❌ Erro",
-        description: "Erro ao alterar status",
-        variant: "destructive",
-      });
-    } finally {
-      setSaving(false);
-    }
+  // Toggle ativo/inativo
+  const toggleTestimonial = (id: number) => {
+    setSettings(prev => ({
+      ...prev,
+      items: prev.items.map(item => 
+        item.id === id ? { ...item, is_active: !item.is_active } : item
+      )
+    }));
   };
 
-  if (loading) {
+  // Reordenar depoimentos
+  const reorderTestimonials = (fromIndex: number, toIndex: number) => {
+    const newItems = [...settings.items];
+    const [movedItem] = newItems.splice(fromIndex, 1);
+    newItems.splice(toIndex, 0, movedItem);
+    
+    // Atualizar display_order
+    const reorderedItems = newItems.map((item, index) => ({
+      ...item,
+      display_order: index + 1
+    }));
+
+    setSettings(prev => ({
+      ...prev,
+      items: reorderedItems
+    }));
+  };
+
+  if (contentLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-ecko-red mx-auto"></div>
-          <p className="mt-4 text-gray-600">Carregando depoimentos...</p>
-        </div>
+      <div className="flex items-center justify-center h-64">
+        <Loader2 className="h-8 w-8 animate-spin text-ecko-red" />
       </div>
     );
   }
@@ -364,493 +220,420 @@ export default function AdminTestimonials() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Gerenciar Seção Depoimentos</h1>
-          <p className="text-gray-600 mt-2">
-            Gerencie depoimentos e textos da seção \"Depoimentos\" da home.
-          </p>
+          <h1 className="text-2xl font-bold text-gray-900">Depoimentos</h1>
+          <p className="text-gray-600">Gerencie os depoimentos e textos da seção</p>
         </div>
+        
+        {hasChanges && (
+          <div className="flex items-center gap-4">
+            <Badge variant="outline" className="text-orange-600 border-orange-300">
+              <AlertCircle className="w-3 h-3 mr-1" />
+              Alterações pendentes
+            </Badge>
+            <Button 
+              onClick={saveSettings} 
+              disabled={saving}
+              className="bg-ecko-red hover:bg-ecko-red-dark"
+            >
+              {saving ? (
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              ) : (
+                <Save className="w-4 h-4 mr-2" />
+              )}
+              Salvar Alterações
+            </Button>
+          </div>
+        )}
+      </div>
 
-        {/* Abas */}
-        <div className="flex bg-gray-100 rounded-lg p-1">
+      {/* Tabs */}
+      <div className="border-b border-gray-200">
+        <nav className="-mb-px flex space-x-8">
           <button
             onClick={() => setActiveTab('depoimentos')}
-            className={`px-4 py-2 rounded-md font-medium transition-colors flex items-center gap-2 ${
+            className={`py-2 px-1 border-b-2 font-medium text-sm ${
               activeTab === 'depoimentos'
-                ? 'bg-white text-gray-900 shadow-sm'
-                : 'text-gray-600 hover:text-gray-900'
+                ? 'border-ecko-red text-ecko-red'
+                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
             }`}
           >
-            <MessageSquare className="w-4 h-4" />
+            <MessageSquare className="w-4 h-4 mr-2 inline" />
             Depoimentos
           </button>
           <button
             onClick={() => setActiveTab('textos')}
-            className={`px-4 py-2 rounded-md font-medium transition-colors flex items-center gap-2 ${
+            className={`py-2 px-1 border-b-2 font-medium text-sm ${
               activeTab === 'textos'
-                ? 'bg-white text-gray-900 shadow-sm'
-                : 'text-gray-600 hover:text-gray-900'
+                ? 'border-ecko-red text-ecko-red'
+                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
             }`}
           >
-            <FileText className="w-4 h-4" />
-            Textos
+            <FileText className="w-4 h-4 mr-2 inline" />
+            Textos da Seção
           </button>
-        </div>
+        </nav>
       </div>
 
-      {/* Conteúdo das Abas */}
+      {/* Content */}
       {activeTab === 'depoimentos' ? (
         <div className="space-y-6">
-          {/* Header dos Depoimentos */}
+          {/* Add Button */}
           <div className="flex justify-end">
-            <Button
-              onClick={() => setShowForm(true)}
-              className="bg-ecko-red hover:bg-ecko-red-dark text-white"
-            >
+            <Button onClick={addTestimonial} className="bg-ecko-red hover:bg-ecko-red-dark">
               <Plus className="w-4 h-4 mr-2" />
-              Novo Depoimento
+              Adicionar Depoimento
             </Button>
           </div>
 
-      {/* Formulário */}
-      {showForm && (
-        <Card className="bg-white shadow-sm border border-gray-200">
-          <CardHeader>
-            <CardTitle className="flex items-center justify-between">
-              <div className="flex items-center">
-                <MessageSquare className="w-6 h-6 mr-2 text-ecko-red" />
-                {editingTestimonial ? 'Editar Depoimento' : 'Novo Depoimento'}
-              </div>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={resetForm}
-              >
-                <X className="w-4 h-4" />
-              </Button>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Nome *
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
-                    placeholder="Nome completo do cliente"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Empresa
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.company}
-                    onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
-                    placeholder="Nome da empresa/loja"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Cargo/Função
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.role}
-                    onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
-                    placeholder="Ex: Proprietário, Gerente, etc."
-                  />
-                </div>
-
-                <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Avatar do Cliente
-                  </label>
-                  <SmartImageUpload
-                    value={formData.avatar_url}
-                    onChange={(url) => setFormData({ ...formData, avatar_url: url })}
-                    type="avatar"
-                    placeholder="Upload da foto do cliente (opcional)"
-                    className="w-full"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Avaliação
-                  </label>
-                  <select
-                    value={formData.rating}
-                    onChange={(e) => setFormData({ ...formData, rating: Number(e.target.value) })}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
-                  >
-                    <option value={5}>5 Estrelas</option>
-                    <option value={4}>4 Estrelas</option>
-                    <option value={3}>3 Estrelas</option>
-                    <option value={2}>2 Estrelas</option>
-                    <option value={1}>1 Estrela</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Ordem de Exibição
-                  </label>
-                  <input
-                    type="number"
-                    value={formData.display_order}
-                    onChange={(e) => setFormData({ ...formData, display_order: Number(e.target.value) })}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
-                    placeholder="0"
-                    min="0"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Depoimento *
-                </label>
-                <textarea
-                  value={formData.content}
-                  onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
-                  rows={4}
-                  placeholder="Escreva o depoimento aqui..."
-                  required
-                />
-              </div>
-
-              <div className="flex items-center">
-                <input
-                  type="checkbox"
-                  id="is_active"
-                  checked={formData.is_active}
-                  onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })}
-                  className="w-4 h-4 text-ecko-red bg-gray-100 border-gray-300 rounded focus:ring-ecko-red focus:ring-2"
-                />
-                <label htmlFor="is_active" className="ml-2 text-sm font-medium text-gray-700">
-                  Ativo (visível na landing page)
-                </label>
-              </div>
-
-              <div className="flex gap-3 pt-4">
-                <Button
-                  type="submit"
-                  disabled={saving}
-                  className="bg-ecko-red hover:bg-ecko-red-dark text-white"
-                >
-                  <Save className="w-4 h-4 mr-2" />
-                  {saving ? 'Salvando...' : editingTestimonial ? 'Atualizar' : 'Criar'}
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={resetForm}
-                  disabled={saving}
-                >
-                  Cancelar
-                </Button>
-              </div>
-            </form>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Lista de Depoimentos */}
-      <Card className="bg-white shadow-sm border border-gray-200">
-        <CardHeader>
-          <CardTitle className="flex items-center">
-            <MessageSquare className="w-6 h-6 mr-2 text-ecko-red" />
-            Lista de Depoimentos ({testimonials.length})
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          {testimonials.length === 0 ? (
-            <div className="text-center py-12">
-              <MessageSquare className="w-12 h-12 mx-auto mb-4 text-gray-300" />
-              <p className="text-lg font-medium text-gray-500">Nenhum depoimento encontrado</p>
-              <p className="text-sm text-gray-400">Clique em "Novo Depoimento" para começar.</p>
-            </div>
-          ) : (
-            <div className="space-y-4">
-              {testimonials.map((testimonial) => (
-                <div
-                  key={testimonial.id}
-                  className="border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow"
-                >
+          {/* Testimonials List */}
+          <div className="grid gap-4">
+            {settings.items
+              .sort((a, b) => a.display_order - b.display_order)
+              .map((testimonial, index) => (
+              <Card key={testimonial.id} className="bg-white border border-gray-200">
+                <CardContent className="p-4">
                   <div className="flex items-start justify-between">
-                    <div className="flex items-start space-x-4 flex-1">
-                      {/* Avatar */}
-                      <div className="flex-shrink-0">
-                        {testimonial.avatar_url ? (
-                          <img
-                            src={testimonial.avatar_url}
-                            alt={testimonial.name}
-                            className="w-12 h-12 rounded-full object-cover border-2 border-gray-200"
-                            onError={(e) => {
-                              const target = e.target as HTMLImageElement;
-                              target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(testimonial.name)}&background=dc2626&color=ffffff&size=48&bold=true`;
-                            }}
-                          />
-                        ) : (
-                          <div className="w-12 h-12 bg-ecko-red rounded-full flex items-center justify-center">
-                            <span className="text-white font-bold text-lg">
-                              {testimonial.name.charAt(0).toUpperCase()}
-                            </span>
-                          </div>
-                        )}
+                    <div className="flex items-start space-x-4">
+                      <div className="cursor-grab">
+                        <GripVertical className="w-5 h-5 text-gray-400" />
                       </div>
-
-                      {/* Conteúdo */}
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 mb-2">
+                      
+                      {testimonial.avatar_url && (
+                        <img
+                          src={testimonial.avatar_url}
+                          alt={testimonial.name}
+                          className="w-12 h-12 rounded-full object-cover"
+                        />
+                      )}
+                      
+                      <div className="flex-1">
+                        <div className="flex items-center space-x-2 mb-2">
                           <h3 className="font-semibold text-gray-900">{testimonial.name}</h3>
-                          {testimonial.company && (
-                            <>
-                              <span className="text-gray-400">•</span>
-                              <span className="text-sm text-gray-600">
-                                {testimonial.role && `${testimonial.role}, `}{testimonial.company}
-                              </span>
-                            </>
-                          )}
-                        </div>
-
-                        {/* Rating */}
-                        <div className="flex items-center gap-1 mb-3">
-                          {[...Array(testimonial.rating)].map((_, i) => (
-                            <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                          ))}
-                        </div>
-
-                        {/* Depoimento */}
-                        <p className="text-gray-700 text-sm leading-relaxed mb-3">
-                          "{testimonial.content}"
-                        </p>
-
-                        {/* Metadados */}
-                        <div className="flex items-center gap-4 text-xs text-gray-500">
-                          <span>Ordem: {testimonial.display_order || 0}</span>
-                          <span>•</span>
-                          <span>
-                            Criado em: {new Date(testimonial.created_at!).toLocaleDateString('pt-BR')}
-                          </span>
-                          <Badge
-                            className={testimonial.is_active 
-                              ? "bg-green-100 text-green-800" 
-                              : "bg-gray-100 text-gray-800"
-                            }
-                          >
-                            {testimonial.is_active ? 'Ativo' : 'Inativo'}
+                          <Badge variant={testimonial.is_active ? "default" : "secondary"}>
+                            {testimonial.is_active ? "Ativo" : "Inativo"}
                           </Badge>
+                          <div className="flex items-center">
+                            {[...Array(testimonial.rating)].map((_, i) => (
+                              <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                            ))}
+                          </div>
                         </div>
+                        
+                        <p className="text-sm text-gray-600 mb-1">
+                          {testimonial.role} - {testimonial.company}
+                        </p>
+                        
+                        <p className="text-gray-700 text-sm line-clamp-2">
+                          {testimonial.content}
+                        </p>
                       </div>
                     </div>
-
-                    {/* Ações */}
-                    <div className="flex items-center gap-2 ml-4">
+                    
+                    <div className="flex items-center space-x-2">
                       <Button
-                        variant="outline"
                         size="sm"
-                        onClick={() => handleToggleActive(testimonial)}
-                        disabled={saving}
-                        title={testimonial.is_active ? 'Desativar' : 'Ativar'}
+                        variant="outline"
+                        onClick={() => toggleTestimonial(testimonial.id)}
                       >
-                        {testimonial.is_active ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                        {testimonial.is_active ? (
+                          <EyeOff className="w-4 h-4" />
+                        ) : (
+                          <Eye className="w-4 h-4" />
+                        )}
                       </Button>
+                      
                       <Button
-                        variant="outline"
                         size="sm"
-                        onClick={() => handleEdit(testimonial)}
-                        disabled={saving}
-                        title="Editar"
+                        variant="outline"
+                        onClick={() => editTestimonial(testimonial)}
                       >
                         <Edit2 className="w-4 h-4" />
                       </Button>
+                      
                       <Button
-                        variant="outline"
                         size="sm"
-                        onClick={() => handleDelete(testimonial)}
-                        disabled={saving}
-                        className="text-red-600 hover:text-red-700 hover:bg-red-50"
-                        title="Excluir"
+                        variant="outline"
+                        onClick={() => deleteTestimonial(testimonial.id)}
+                        className="text-red-600 hover:text-red-700"
                       >
                         <Trash2 className="w-4 h-4" />
                       </Button>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </CardContent>
-      </Card>
+                </CardContent>
+              </Card>
+            ))}
+            
+            {settings.items.length === 0 && (
+              <div className="text-center py-12 text-gray-500">
+                <MessageSquare className="w-12 h-12 mx-auto mb-4 text-gray-300" />
+                <p>Nenhum depoimento cadastrado</p>
+                <p className="text-sm">Clique em "Adicionar Depoimento" para começar</p>
+              </div>
+            )}
+          </div>
         </div>
       ) : (
-        /* Aba de Textos */
+        // Textos da Seção
         <div className="space-y-6">
           <Card className="bg-white shadow-sm border border-gray-200">
             <CardHeader>
-              <CardTitle className="flex items-center">
-                <FileText className="w-6 h-6 mr-2 text-ecko-red" />
-                Textos da Seção Depoimentos
+              <CardTitle className="text-gray-900 flex items-center">
+                <FileText className="w-5 h-5 mr-2 text-ecko-red" />
+                Textos da Seção de Depoimentos
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Tag da Seção
-                    </label>
-                    <input
-                      type="text"
-                      value={textSettings.section_tag}
-                      onChange={(e) => setTextSettings({ ...textSettings, section_tag: e.target.value })}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
-                      placeholder="Ex: Depoimentos"
-                    />
-                  </div>
-
-                  <div>
-                    <TokenColorEditor
-                      label="Título Principal"
-                      value={textSettings.section_title}
-                      onChange={(value) => setTextSettings({ ...textSettings, section_title: value })}
-                      placeholder="Ex: O que nossos {ecko}revendedores{/ecko} dizem"
-                      rows={2}
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <TokenColorEditor
-                    label="Subtítulo"
-                    value={textSettings.section_subtitle}
-                    onChange={(value) => setTextSettings({ ...textSettings, section_subtitle: value })}
-                    placeholder="Ex: casos reais de {green}sucesso{/green}"
-                    rows={2}
-                  />
-                </div>
-
-                <div>
-                  <TokenColorEditor
-                    label="Descrição da Seção"
-                    value={textSettings.section_description}
-                    onChange={(value) => setTextSettings({ ...textSettings, section_description: value })}
-                    placeholder="Ex: Depoimentos {blue}reais{/blue} de parceiros que transformaram suas paixões em negócios {ecko}lucrativos{/ecko} com a Ecko"
-                    rows={3}
-                  />
-                </div>
-
-                <div className="border-t pt-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">CTA da Seção</h3>
-
-                  <div className="space-y-4">
-                    <div>
-                      <TokenColorEditor
-                        label="Título do CTA"
-                        value={textSettings.cta_title}
-                        onChange={(value) => setTextSettings({ ...textSettings, cta_title: value })}
-                        placeholder="Ex: Seja o próximo {ecko}case de sucesso{/ecko}!"
-                        rows={2}
-                      />
-                    </div>
-
-                    <div>
-                      <TokenColorEditor
-                        label="Descrição do CTA"
-                        value={textSettings.cta_description}
-                        onChange={(value) => setTextSettings({ ...textSettings, cta_description: value })}
-                        placeholder="Ex: Junte-se aos revendedores que já {green}transformaram{/green} seus negócios"
-                        rows={2}
-                      />
-                    </div>
-
-                    <div>
-                      <TokenColorEditor
-                        label="Texto do Botão"
-                        value={textSettings.cta_button_text}
-                        onChange={(value) => setTextSettings({ ...textSettings, cta_button_text: value })}
-                        placeholder="Ex: QUERO SER UM {white}CASE{/white} DE SUCESSO"
-                        rows={2}
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex gap-3 pt-4">
-                  <Button
-                    onClick={saveTextSettings}
-                    disabled={savingTexts}
-                    className="bg-ecko-red hover:bg-ecko-red-dark text-white"
-                  >
-                    <Save className="w-4 h-4 mr-2" />
-                    {savingTexts ? 'Salvando...' : 'Salvar Textos'}
-                  </Button>
-                </div>
+            <CardContent className="space-y-6">
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Tag da Seção
+                </label>
+                <TokenColorEditor
+                  value={settings.section_tag}
+                  onChange={(value) => updateField('section_tag', value)}
+                  placeholder="Ex: Depoimentos"
+                  rows={2}
+                  label=""
+                />
               </div>
-            </CardContent>
-          </Card>
 
-          {/* Preview dos Textos */}
-          <Card className="bg-gray-50 border-gray-200">
-            <CardHeader>
-              <CardTitle className="text-gray-800 flex items-center">
-                <Eye className="w-5 h-5 mr-2" />
-                Preview da Seção
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="bg-gradient-to-b from-gray-900 to-black rounded-lg p-8 text-center">
-                <span
-                  className="text-ecko-red font-bold uppercase tracking-wider text-sm"
-                  dangerouslySetInnerHTML={{ __html: renderTokens(textSettings.section_tag) }}
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Título Principal
+                </label>
+                <TokenColorEditor
+                  value={settings.section_title}
+                  onChange={(value) => updateField('section_title', value)}
+                  placeholder="Ex: O que nossos revendedores dizem"
+                  rows={2}
+                  label=""
                 />
-                <h2
-                  className="text-3xl md:text-4xl font-black text-white mb-4 leading-tight mt-2"
-                  dangerouslySetInnerHTML={{ __html: renderTokens(textSettings.section_title) }}
-                />
-                <span
-                  className="block text-lg text-gray-300 mb-4 font-medium"
-                  dangerouslySetInnerHTML={{ __html: renderTokens(textSettings.section_subtitle) }}
-                />
-                <p
-                  className="text-gray-300 text-base max-w-2xl mx-auto leading-relaxed"
-                  dangerouslySetInnerHTML={{ __html: renderTokens(textSettings.section_description) }}
-                />
+              </div>
 
-                <div className="mt-8 p-6 bg-gradient-to-r from-red-600/10 to-red-800/10 rounded-lg border border-red-600/20">
-                  <h3
-                    className="text-xl font-bold text-white mb-2"
-                    dangerouslySetInnerHTML={{ __html: renderTokens(textSettings.cta_title) }}
-                  />
-                  <p
-                    className="text-gray-300 mb-4"
-                    dangerouslySetInnerHTML={{ __html: renderTokens(textSettings.cta_description) }}
-                  />
-                  <div
-                    className="bg-red-600 text-white px-6 py-2 rounded-lg font-bold text-sm inline-block"
-                    dangerouslySetInnerHTML={{ __html: renderTokens(textSettings.cta_button_text) }}
-                  />
-                </div>
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Subtítulo
+                </label>
+                <TokenColorEditor
+                  value={settings.section_subtitle}
+                  onChange={(value) => updateField('section_subtitle', value)}
+                  placeholder="Ex: casos reais de sucesso"
+                  rows={2}
+                  label=""
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Descrição da Seção
+                </label>
+                <TokenColorEditor
+                  value={settings.section_description}
+                  onChange={(value) => updateField('section_description', value)}
+                  placeholder="Descreva a seção de depoimentos..."
+                  rows={3}
+                  label=""
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Título do CTA
+                </label>
+                <TokenColorEditor
+                  value={settings.cta_title}
+                  onChange={(value) => updateField('cta_title', value)}
+                  placeholder="Ex: Seja o próximo case de sucesso!"
+                  rows={2}
+                  label=""
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Descrição do CTA
+                </label>
+                <TokenColorEditor
+                  value={settings.cta_description}
+                  onChange={(value) => updateField('cta_description', value)}
+                  placeholder="Ex: Junte-se aos revendedores que já transformaram seus negócios"
+                  rows={2}
+                  label=""
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Texto do Botão CTA
+                </label>
+                <TokenColorEditor
+                  value={settings.cta_button_text}
+                  onChange={(value) => updateField('cta_button_text', value)}
+                  placeholder="Ex: QUERO SER UM CASE DE SUCESSO"
+                  rows={2}
+                  label=""
+                />
               </div>
             </CardContent>
           </Card>
         </div>
       )}
+
+      {/* Modal de Edição */}
+      {showForm && editingTestimonial && (
+        <TestimonialForm
+          testimonial={editingTestimonial}
+          onSave={saveTestimonial}
+          onClose={() => {
+            setShowForm(false);
+            setEditingTestimonial(null);
+          }}
+        />
+      )}
+    </div>
+  );
+}
+
+// Componente para formulário de depoimento
+function TestimonialForm({ 
+  testimonial, 
+  onSave, 
+  onClose 
+}: { 
+  testimonial: TestimonialItem;
+  onSave: (testimonial: TestimonialItem) => void;
+  onClose: () => void;
+}) {
+  const [formData, setFormData] = useState<TestimonialItem>(testimonial);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSave(formData);
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-xl font-bold text-gray-900">
+            {formData.id ? 'Editar Depoimento' : 'Novo Depoimento'}
+          </h2>
+          <Button variant="outline" size="sm" onClick={onClose}>
+            <X className="w-4 h-4" />
+          </Button>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
+                Nome *
+              </label>
+              <Input
+                value={formData.name}
+                onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                placeholder="Nome do cliente"
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
+                Empresa
+              </label>
+              <Input
+                value={formData.company}
+                onChange={(e) => setFormData(prev => ({ ...prev, company: e.target.value }))}
+                placeholder="Nome da empresa"
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700">
+              Cargo
+            </label>
+            <Input
+              value={formData.role}
+              onChange={(e) => setFormData(prev => ({ ...prev, role: e.target.value }))}
+              placeholder="Cargo ou função"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700">
+              Depoimento *
+            </label>
+            <Textarea
+              value={formData.content}
+              onChange={(e) => setFormData(prev => ({ ...prev, content: e.target.value }))}
+              placeholder="Escreva o depoimento aqui..."
+              rows={4}
+              required
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700">
+              Foto do Cliente
+            </label>
+            <SmartImageUpload
+              value={formData.avatar_url}
+              onChange={(url) => setFormData(prev => ({ ...prev, avatar_url: url }))}
+              uploadEndpoint="/api/uploads/avatar"
+              folder="avatars"
+              aspectRatio="1:1"
+              maxWidth={300}
+              maxHeight={300}
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
+                Avaliação
+              </label>
+              <select
+                value={formData.rating}
+                onChange={(e) => setFormData(prev => ({ ...prev, rating: parseInt(e.target.value) }))}
+                className="w-full border border-gray-300 rounded-md px-3 py-2"
+              >
+                {[1, 2, 3, 4, 5].map(rating => (
+                  <option key={rating} value={rating}>
+                    {rating} estrela{rating > 1 ? 's' : ''}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
+                Status
+              </label>
+              <select
+                value={formData.is_active ? 'true' : 'false'}
+                onChange={(e) => setFormData(prev => ({ ...prev, is_active: e.target.value === 'true' }))}
+                className="w-full border border-gray-300 rounded-md px-3 py-2"
+              >
+                <option value="true">Ativo</option>
+                <option value="false">Inativo</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="flex justify-end space-x-3 pt-6 border-t">
+            <Button type="button" variant="outline" onClick={onClose}>
+              Cancelar
+            </Button>
+            <Button type="submit" className="bg-ecko-red hover:bg-ecko-red-dark">
+              <Save className="w-4 h-4 mr-2" />
+              Salvar Depoimento
+            </Button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
