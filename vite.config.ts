@@ -17,7 +17,11 @@ export default defineConfig(({ mode }) => ({
         // Simplified manual chunks for reliable build
         manualChunks: {
           vendor: ["react", "react-dom"],
-          ui: ["lucide-react", "@radix-ui/react-dialog", "@radix-ui/react-toast"],
+          ui: [
+            "lucide-react",
+            "@radix-ui/react-dialog",
+            "@radix-ui/react-toast",
+          ],
         },
         chunkFileNames: "assets/[name]-[hash].js",
         entryFileNames: "assets/[name]-[hash].js",
