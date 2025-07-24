@@ -16,6 +16,40 @@ export interface ContentData {
     cta_color: string;
     cta_text_color: string;
   };
+  form: {
+    title: string;
+    subtitle: string;
+    fields: {
+      name_label: string;
+      name_placeholder: string;
+      whatsapp_label: string;
+      whatsapp_placeholder: string;
+      whatsapp_error: string;
+      whatsapp_success: string;
+      cep_label: string;
+      cep_placeholder: string;
+      endereco_label: string;
+      endereco_placeholder: string;
+      complemento_label: string;
+      complemento_placeholder: string;
+      bairro_label: string;
+      cidade_label: string;
+      estado_label: string;
+      cnpj_label: string;
+      cnpj_yes: string;
+      cnpj_no: string;
+      cnpj_error: string;
+      store_type_label: string;
+      store_type_placeholder: string;
+    };
+    submit_button: string;
+    submit_button_loading: string;
+    validation_messages: {
+      whatsapp_invalid: string;
+      address_incomplete: string;
+      cnpj_required: string;
+    };
+  };
   benefits: {
     section_tag: string;
     section_title: string;
