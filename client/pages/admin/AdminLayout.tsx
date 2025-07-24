@@ -56,6 +56,13 @@ const sidebarItems: SidebarItem[] = [
     path: "/admin/hero",
   },
   {
+    id: "form",
+    label: "Formulário",
+    icon: <FormInput className="w-5 h-5" />,
+    category: "lp",
+    path: "/admin/form",
+  },
+  {
     id: "benefits",
     label: "Vantagens",
     icon: <Award className="w-5 h-5" />,
