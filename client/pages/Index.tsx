@@ -1224,23 +1224,26 @@ export default function Index() {
             <div className="text-center mb-16">
               <div className="inline-flex items-center bg-ecko-red/20 backdrop-blur-sm border border-ecko-red/30 rounded-full px-6 py-3 mb-6">
                 <span className="text-ecko-red font-bold uppercase tracking-wider text-sm">
-                  {testimonialsTexts.section_tag}
+                  {renderTextWithColorTokens(content.testimonials.section_tag)}
                 </span>
               </div>
               <h2 className="text-3xl md:text-5xl font-black text-white mb-6 leading-tight">
-                {testimonialsTexts.section_title}
+                {renderTextWithColorTokens(content.testimonials.section_title)}
                 <span className="block text-xl md:text-2xl text-gray-300 mt-2 font-medium normal-case tracking-normal">
-                  {testimonialsTexts.section_subtitle}
+                  {renderTextWithColorTokens(content.testimonials.section_subtitle)}
                 </span>
               </h2>
               <p className="text-gray-300 text-lg max-w-3xl mx-auto leading-relaxed">
-                {testimonialsTexts.section_description}
+                {renderTextWithColorTokens(content.testimonials.section_description)}
               </p>
             </div>
 
             {/* Testimonials Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {staticTestimonials.slice(0, 4).map((testimonial, index) => (
+              {content.testimonials.items
+                ?.filter(testimonial => testimonial.is_active)
+                .slice(0, 4)
+                .map((testimonial, index) => (
                 <div
                   key={testimonial.id}
                   className="bg-gray-900/70 backdrop-blur-sm rounded-2xl p-6 border border-gray-600/50 hover:border-ecko-red/60 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-ecko-red/20 group"
