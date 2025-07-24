@@ -559,8 +559,8 @@ export default function AdminHero() {
                 <button
                   onClick={() => updateField('enabled', !settings.enabled)}
                   className={`flex items-center px-4 py-2 rounded-lg border transition-colors ${
-                    settings.enabled 
-                      ? 'bg-green-50 border-green-200 text-green-700' 
+                    settings.enabled
+                      ? 'bg-green-50 border-green-200 text-green-700'
                       : 'bg-gray-50 border-gray-200 text-gray-600'
                   }`}
                 >
@@ -611,31 +611,87 @@ export default function AdminHero() {
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-              <TokenColorEditor
-                label="Cor de Fundo"
-                value={settings.background_color}
-                onChange={(color) => updateField('background_color', color)}
-              />
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Cor de Fundo
+                </label>
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="color"
+                    value={settings.background_color}
+                    onChange={(e) => updateField('background_color', e.target.value)}
+                    className="w-12 h-10 border border-gray-300 rounded cursor-pointer"
+                  />
+                  <Input
+                    value={settings.background_color}
+                    onChange={(e) => updateField('background_color', e.target.value)}
+                    placeholder="#000000"
+                    className="flex-1"
+                  />
+                </div>
+              </div>
 
-              <TokenColorEditor
-                label="Cor do Texto"
-                value={settings.text_color}
-                onChange={(color) => updateField('text_color', color)}
-              />
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Cor do Texto
+                </label>
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="color"
+                    value={settings.text_color}
+                    onChange={(e) => updateField('text_color', e.target.value)}
+                    className="w-12 h-10 border border-gray-300 rounded cursor-pointer"
+                  />
+                  <Input
+                    value={settings.text_color}
+                    onChange={(e) => updateField('text_color', e.target.value)}
+                    placeholder="#ffffff"
+                    className="flex-1"
+                  />
+                </div>
+              </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-              <TokenColorEditor
-                label="Cor do CTA"
-                value={settings.cta_color}
-                onChange={(color) => updateField('cta_color', color)}
-              />
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Cor do CTA
+                </label>
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="color"
+                    value={settings.cta_color}
+                    onChange={(e) => updateField('cta_color', e.target.value)}
+                    className="w-12 h-10 border border-gray-300 rounded cursor-pointer"
+                  />
+                  <Input
+                    value={settings.cta_color}
+                    onChange={(e) => updateField('cta_color', e.target.value)}
+                    placeholder="#dc2626"
+                    className="flex-1"
+                  />
+                </div>
+              </div>
 
-              <TokenColorEditor
-                label="Texto do CTA"
-                value={settings.cta_text_color}
-                onChange={(color) => updateField('cta_text_color', color)}
-              />
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Cor do Texto do CTA
+                </label>
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="color"
+                    value={settings.cta_text_color}
+                    onChange={(e) => updateField('cta_text_color', e.target.value)}
+                    className="w-12 h-10 border border-gray-300 rounded cursor-pointer"
+                  />
+                  <Input
+                    value={settings.cta_text_color}
+                    onChange={(e) => updateField('cta_text_color', e.target.value)}
+                    placeholder="#ffffff"
+                    className="flex-1"
+                  />
+                </div>
+              </div>
             </div>
           </CardContent>
         </Card>
