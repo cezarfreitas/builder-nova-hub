@@ -98,6 +98,13 @@ const sidebarItems: SidebarItem[] = [
     category: "lp",
     path: "/admin/faq",
   },
+  {
+    id: "footer",
+    label: "Rodapé",
+    icon: <Layout className="w-5 h-5" />,
+    category: "lp",
+    path: "/admin/footer",
+  },
   // Configurações
   {
     id: "configuracoes",
