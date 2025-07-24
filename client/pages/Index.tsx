@@ -1769,13 +1769,19 @@ export default function Index() {
             </div>
 
             {/* Copyright */}
-            <div className="border-t border-gray-800 pt-6 w-full">
+            <div className="border-t border-gray-800 pt-6 w-full flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
               <p className="text-gray-500 text-sm">
                 {renderTextWithColorTokens(
                   content.footer?.copyright ||
                     "© 2024 Ecko. Todos os direitos reservados. Seja um revendedor oficial e transforme seu negócio.",
                 )}
               </p>
+              <a
+                href="/admin"
+                className="text-gray-600 hover:text-ecko-red text-xs transition-colors"
+              >
+                Admin
+              </a>
             </div>
           </div>
         </div>
