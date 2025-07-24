@@ -14,7 +14,9 @@ import {
   EyeOff,
   GripVertical,
   Save,
-  X
+  X,
+  Upload,
+  Images
 } from "lucide-react";
 
 export default function AdminGallery() {
@@ -23,7 +25,10 @@ export default function AdminGallery() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [showForm, setShowForm] = useState(false);
+  const [showMultiUpload, setShowMultiUpload] = useState(false);
   const [editingImage, setEditingImage] = useState<GalleryImage | null>(null);
+  const [uploadingImages, setUploadingImages] = useState<string[]>([]);
+  const [processingUploads, setProcessingUploads] = useState(false);
 
   // Estados do formulário
   const [formData, setFormData] = useState({
@@ -76,6 +81,96 @@ export default function AdminGallery() {
     });
     setEditingImage(null);
     setShowForm(false);
+  };
+
+  const resetMultiUpload = () => {
+    setShowMultiUpload(false);
+    setUploadingImages([]);
+    setProcessingUploads(false);
+  };
+
+  const handleMultiImageUpload = (imageUrl: string) => {
+    setUploadingImages(prev => [...prev, imageUrl]);
+  };
+
+  const removeUploadedImage = (imageUrl: string) => {
+    setUploadingImages(prev => prev.filter(url => url !== imageUrl));
+  };
+
+  const saveMultipleImages = async () => {
+    if (uploadingImages.length === 0) {
+      toast({
+        title: "❌ Erro",
+        description: "Nenhuma imagem foi selecionada",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setProcessingUploads(true);
+
+    try {
+      let successCount = 0;
+      let errorCount = 0;
+
+      // Processa cada imagem
+      for (let i = 0; i < uploadingImages.length; i++) {
+        const imageUrl = uploadingImages[i];
+        const nextOrder = Math.max(...images.map(img => img.display_order || 0), 0) + i + 1;
+
+        try {
+          const response = await fetch('/api/gallery', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              title: `Imagem ${i + 1}`,
+              description: '',
+              image_url: imageUrl,
+              alt_text: `Imagem da galeria lifestyle ${i + 1}`,
+              is_active: true,
+              display_order: nextOrder
+            }),
+          });
+
+          const result = await response.json();
+
+          if (result.success) {
+            successCount++;
+          } else {
+            errorCount++;
+          }
+        } catch (error) {
+          errorCount++;
+        }
+      }
+
+      if (successCount > 0) {
+        toast({
+          title: "✅ Sucesso",
+          description: `${successCount} ${successCount === 1 ? 'imagem adicionada' : 'imagens adicionadas'} com sucesso${errorCount > 0 ? ` (${errorCount} falharam)` : ''}`,
+          variant: "success",
+        });
+        resetMultiUpload();
+        fetchImages();
+      } else {
+        toast({
+          title: "❌ Erro",
+          description: "Não foi possível adicionar nenhuma imagem",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error('Erro no upload múltiplo:', error);
+      toast({
+        title: "❌ Erro",
+        description: "Erro inesperado no upload múltiplo",
+        variant: "destructive",
+      });
+    } finally {
+      setProcessingUploads(false);
+    }
   };
 
   const handleEdit = (image: GalleryImage) => {
@@ -247,14 +342,115 @@ export default function AdminGallery() {
           </p>
         </div>
 
-        <Button
-          onClick={() => setShowForm(true)}
-          className="bg-ecko-red hover:bg-ecko-red-dark text-white"
-        >
-          <Plus className="w-4 h-4 mr-2" />
-          Nova Imagem
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            onClick={() => setShowMultiUpload(true)}
+            className="bg-green-600 hover:bg-green-700 text-white"
+          >
+            <Images className="w-4 h-4 mr-2" />
+            Upload Múltiplo
+          </Button>
+          <Button
+            onClick={() => setShowForm(true)}
+            className="bg-ecko-red hover:bg-ecko-red-dark text-white"
+          >
+            <Plus className="w-4 h-4 mr-2" />
+            Nova Imagem
+          </Button>
+        </div>
       </div>
+
+      {/* Upload Múltiplo */}
+      {showMultiUpload && (
+        <Card className="bg-white shadow-sm border border-gray-200">
+          <CardHeader>
+            <CardTitle className="flex items-center justify-between">
+              <div className="flex items-center">
+                <Images className="w-6 h-6 mr-2 text-green-600" />
+                Upload Múltiplo de Imagens
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={resetMultiUpload}
+              >
+                <X className="w-4 h-4" />
+              </Button>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-6">
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <h4 className="font-medium text-blue-800 mb-2">📸 Upload Simplificado</h4>
+                <p className="text-sm text-blue-700">
+                  Faça upload de múltiplas imagens de uma vez. Títulos e descrições serão gerados automaticamente.
+                  Você pode editar os detalhes de cada imagem posteriormente se necessário.
+                </p>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Adicionar Imagens
+                </label>
+                <SmartImageUpload
+                  value=""
+                  onChange={handleMultiImageUpload}
+                  type="gallery"
+                  placeholder="Arraste múltiplas imagens ou clique para selecionar (max 5MB cada)"
+                />
+              </div>
+
+              {uploadingImages.length > 0 && (
+                <div>
+                  <h4 className="text-sm font-medium text-gray-700 mb-3">
+                    Imagens Selecionadas ({uploadingImages.length})
+                  </h4>
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {uploadingImages.map((imageUrl, index) => (
+                      <div key={imageUrl} className="relative">
+                        <img
+                          src={imageUrl}
+                          alt={`Upload ${index + 1}`}
+                          className="w-full h-24 object-cover rounded-lg border border-gray-200"
+                        />
+                        <button
+                          onClick={() => removeUploadedImage(imageUrl)}
+                          className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm hover:bg-red-600"
+                          type="button"
+                        >
+                          ×
+                        </button>
+                        <div className="absolute bottom-1 left-1 bg-black bg-opacity-60 text-white text-xs px-1 rounded">
+                          #{index + 1}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div className="flex gap-3 pt-4">
+                <Button
+                  onClick={saveMultipleImages}
+                  disabled={processingUploads || uploadingImages.length === 0}
+                  className="bg-green-600 hover:bg-green-700 text-white"
+                >
+                  <Upload className="w-4 h-4 mr-2" />
+                  {processingUploads ? 'Processando...' : `Salvar ${uploadingImages.length} ${uploadingImages.length === 1 ? 'Imagem' : 'Imagens'}`}
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={resetMultiUpload}
+                  disabled={processingUploads}
+                >
+                  Cancelar
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Formulário */}
       {showForm && (
