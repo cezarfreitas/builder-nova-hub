@@ -300,7 +300,7 @@ export default function Index() {
       const data = await response.json();
 
       if (data.erro) {
-        setCepError("CEP não encontrado. Verifique se está correto.");
+        setCepError("CEP não encontrado. Verifique se est�� correto.");
         return;
       }
 
@@ -567,7 +567,7 @@ export default function Index() {
                   value={formData.hasCnpj}
                   onChange={handleInputChange}
                   required
-                  className="w-full h-12 bg-black/90 border border-gray-800 rounded-md px-4 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-base"
+                  className="w-full h-12 bg-white border border-gray-300 rounded-md px-4 text-gray-900 focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-base"
                 >
                   <option value="">Selecione</option>
                   <option value="sim">Sim</option>
@@ -589,7 +589,7 @@ export default function Index() {
                   value={formData.storeType}
                   onChange={handleInputChange}
                   required
-                  className="w-full h-12 bg-black/90 border border-gray-800 rounded-md px-4 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-base"
+                  className="w-full h-12 bg-white border border-gray-300 rounded-md px-4 text-gray-900 focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-base"
                 >
                   <option value="">Selecione</option>
                   <option value="fisica">Física</option>
