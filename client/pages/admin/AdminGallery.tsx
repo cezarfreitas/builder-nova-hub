@@ -879,15 +879,12 @@ export default function AdminGallery() {
 
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Título do CTA
-                      </label>
-                      <input
-                        type="text"
+                      <TokenColorEditor
+                        label="Título do CTA"
                         value={textSettings.cta_title}
-                        onChange={(e) => setTextSettings({ ...textSettings, cta_title: e.target.value })}
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
-                        placeholder="Ex: Tenha Estes Produtos em Sua Loja!"
+                        onChange={(value) => setTextSettings({ ...textSettings, cta_title: value })}
+                        placeholder="Ex: Tenha Estes {ecko}Produtos{/ecko} em Sua Loja!"
+                        rows={2}
                       />
                     </div>
 
