@@ -83,11 +83,13 @@ export const useContent = () => {
             // Hero sempre do JSON
             hero: contentData.hero,
             // Outras seções podem vir do backup se válidas
-            benefits: parsed.benefits?.cards ? parsed.benefits : contentData.benefits,
+            benefits: parsed.benefits?.cards
+              ? parsed.benefits
+              : contentData.benefits,
             gallery: parsed.gallery || contentData.gallery,
             testimonials: parsed.testimonials || contentData.testimonials,
             faq: parsed.faq || contentData.faq,
-            final_cta: parsed.final_cta || contentData.final_cta
+            final_cta: parsed.final_cta || contentData.final_cta,
           };
         }
       }
