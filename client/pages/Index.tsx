@@ -1376,7 +1376,7 @@ export default function Index() {
                       {/* Gallery Grid */}
                       {content.gallery.items?.filter((item) => item.is_active)
                         ?.length > 0 ? (
-                        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+                        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-16">
                           {content.gallery.items
                             ?.filter((item) => item.is_active)
                             ?.sort((a, b) => a.display_order - b.display_order)
