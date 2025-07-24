@@ -31,7 +31,8 @@ import {
   Download,
   MessageCircle,
   MapPin,
-  BarChart3
+  BarChart3,
+  Loader2
 } from "lucide-react";
 
 // Registrar componentes do Chart.js
