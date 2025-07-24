@@ -35,6 +35,15 @@ export interface ContentData {
     section_title: string;
     section_subtitle: string;
     section_description: string;
+    items: {
+      id: number;
+      title: string;
+      description: string;
+      image_url: string;
+      alt_text: string;
+      is_active: boolean;
+      display_order: number;
+    }[];
     empty_state_title: string;
     empty_state_description: string;
     cta_title: string;
