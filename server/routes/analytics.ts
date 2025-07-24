@@ -143,6 +143,13 @@ export async function getAnalyticsOverview(req: Request, res: Response) {
     const bounceStats = (bounceRate as any[])[0];
     const whatsappStats = (whatsappClicks as any[])[0];
 
+    // Debug logs
+    console.log('📊 Analytics Overview Debug:');
+    console.log('- Leads:', stats);
+    console.log('- Visits:', visitStats);
+    console.log('- WhatsApp clicks:', whatsappStats);
+    console.log('- Bounce stats:', bounceStats);
+
     // Calcular taxa de conversão
     const conversionRate = visitStats.total_sessions > 0
       ? ((stats.total_leads / visitStats.total_sessions) * 100).toFixed(2)
