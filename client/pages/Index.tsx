@@ -84,7 +84,7 @@ export default function Index() {
       id: 1,
       question: "Como me tornar um revendedor oficial da Ecko?",
       answer:
-        "Para se tornar um revendedor oficial, você precisa ter CNPJ ativo e preencher nosso formulário de cadastro. Nossa equipe entrará em contato em até 24h para apresentar as condições comerciais e processo de aprovaç��o.",
+        "Para se tornar um revendedor oficial, você precisa ter CNPJ ativo e preencher nosso formulário de cadastro. Nossa equipe entrará em contato em até 24h para apresentar as condições comerciais e processo de aprovação.",
       display_order: 1,
       is_active: true,
     },
@@ -1122,7 +1122,7 @@ export default function Index() {
               return (
                 <main key="testimonials">
                   {/* Testimonials Section */}
-                  <section className="py-16 md:py-20 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden">
+                  <section className="py-16 md:py-20 bg-black relative overflow-hidden">
                     {/* Background Pattern */}
                     <div className="absolute inset-0 opacity-5">
                       <div className="absolute top-1/4 left-0 w-96 h-96 bg-ecko-red/20 rounded-full blur-3xl"></div>
@@ -1337,7 +1337,7 @@ export default function Index() {
               return (
                 <main key="faq">
                   {/* FAQ Section */}
-                  <section className="py-16 md:py-20 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden">
+                  <section className="py-16 md:py-20 bg-black relative overflow-hidden">
                     {/* Background Pattern */}
                     <div className="absolute inset-0 opacity-5">
                       <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-ecko-red/20 rounded-full blur-3xl"></div>
