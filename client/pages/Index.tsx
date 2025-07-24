@@ -1842,7 +1842,7 @@ export default function Index() {
 
             {/* Copyright */}
             <div className="border-t border-gray-800 pt-6 w-full flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
-              <p className="text-gray-500 text-sm">
+              <p className="text-gray-300 text-sm">
                 {renderTextWithColorTokens(
                   content.footer?.copyright ||
                     "© 2024 Ecko. Todos os direitos reservados. Seja um revendedor oficial e transforme seu negócio.",
