@@ -852,7 +852,7 @@ export default function Index() {
                   {/* Logo container */}
                   <div className="relative bg-white/5 backdrop-blur-sm rounded-2xl p-4 sm:p-6 lg:p-8 border border-white/10 hover:border-ecko-red/50 transition-all duration-500 hover:scale-105 shadow-2xl">
                     <img
-                      src={staticHero.logo_url}
+                      src={currentHero.logo_url}
                       alt="Logo Ecko - Marca líder em streetwear brasileiro"
                       className="w-40 h-16 sm:w-48 sm:h-20 lg:w-56 lg:h-24 xl:w-64 xl:h-28 object-contain transition-all duration-500 brightness-110 contrast-110"
                       onError={(e) => {
