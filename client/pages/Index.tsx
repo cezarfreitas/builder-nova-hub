@@ -888,12 +888,12 @@ export default function Index() {
             )}
 
             {/* Main Message */}
-            {staticHero.title && (
+            {currentHero.title && (
               <div
                 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black mb-4 sm:mb-6 leading-tight px-2 transition-all duration-500"
-                style={{ color: staticHero.text_color }}
+                style={{ color: currentHero.text_color }}
               >
-                {renderTextWithColorTokens(staticHero.title)}
+                {renderTextWithColorTokens(currentHero.title)}
               </div>
             )}
 
