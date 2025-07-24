@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 export interface HeroSettings {
   title: string;
@@ -36,8 +36,8 @@ export function useHeroSettings(): UseHeroSettingsReturn {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
 
-      const response = await fetch('/api/settings/hero', {
-        signal: controller.signal
+      const response = await fetch("/api/settings/hero", {
+        signal: controller.signal,
       });
 
       clearTimeout(timeoutId);
@@ -51,14 +51,18 @@ export function useHeroSettings(): UseHeroSettingsReturn {
       if (result.success) {
         setSettings(result.data);
       } else {
-        throw new Error(result.message || 'Erro ao buscar configurações do hero');
+        throw new Error(
+          result.message || "Erro ao buscar configurações do hero",
+        );
       }
     } catch (err) {
       // Silently fall back to defaults without throwing errors to console
-      if (err instanceof Error && err.name === 'AbortError') {
-        console.warn('⚠️ API timeout - usando configurações padrão do hero');
+      if (err instanceof Error && err.name === "AbortError") {
+        console.warn("⚠️ API timeout - usando configurações padrão do hero");
       } else {
-        console.warn('⚠️ API indisponível - usando configurações padrão do hero');
+        console.warn(
+          "⚠️ API indisponível - usando configurações padrão do hero",
+        );
       }
 
       // Set null error to prevent UI error states
@@ -67,8 +71,10 @@ export function useHeroSettings(): UseHeroSettingsReturn {
       // Usar configurações padrão em caso de erro
       setSettings({
         title: "SEJA PARCEIRO OFICIAL ECKO E TENHA SUCESSO",
-        subtitle: "Transforme sua paixão pelo streetwear em um negócio lucrativo",
-        description: "Junte-se aos milhares de revendedores que já transformaram seus negócios com a marca mais desejada do streetwear brasileiro",
+        subtitle:
+          "Transforme sua paixão pelo streetwear em um negócio lucrativo",
+        description:
+          "Junte-se aos milhares de revendedores que já transformaram seus negócios com a marca mais desejada do streetwear brasileiro",
         cta_text: "QUERO SER REVENDEDOR OFICIAL",
         cta_secondary_text: "CONHECER OS BENEFÍCIOS",
         background_image: "",
@@ -77,7 +83,7 @@ export function useHeroSettings(): UseHeroSettingsReturn {
         cta_color: "#dc2626",
         logo_url: "",
         video_url: "",
-        enabled: true
+        enabled: true,
       });
     } finally {
       setLoading(false);
@@ -101,6 +107,6 @@ export function useHeroSettings(): UseHeroSettingsReturn {
     settings,
     loading,
     error,
-    refreshSettings
+    refreshSettings,
   };
 }
