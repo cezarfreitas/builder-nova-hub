@@ -5,7 +5,7 @@ import { handleDemo } from "./routes/demo";
 import { submitLead, getLeads, resendWebhook, deleteLead, getLeadStats } from "./routes/leads";
 import { testWebhook } from "./routes/webhook-test";
 import { getSettings, getSetting, updateSetting, updateSettings, deleteSetting, getHeroSettings, updateHeroSettings } from "./routes/settings";
-import { upload, uploadSeoImage, deleteUploadedImage, listUploadedImages } from "./routes/uploads";
+import { upload, uploadAvatar, uploadHero, uploadSeoImage, deleteUploadedImage, listUploadedImages } from "./routes/uploads";
 import { testDatabaseConnection, getDatabaseInfo } from "./routes/database-test";
 import { getAnalyticsOverview, getDailyStats, getTimeAnalysis, getTrafficSources, getFormOrigins, trackVisit, trackDuration, exportAnalyticsData, getConversionByLocation, getConversionByGeography } from "./routes/analytics";
 import { getTestimonials, getTestimonial, createTestimonial, updateTestimonial, deleteTestimonial, toggleTestimonial, reorderTestimonials } from "./routes/testimonials";
