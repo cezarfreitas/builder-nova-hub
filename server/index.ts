@@ -51,6 +51,8 @@ export function createServer() {
 
   // Upload routes
   app.post("/api/uploads/seo-image", upload.single('image'), uploadSeoImage);
+  app.post("/api/uploads/avatar", uploadAvatar.single('image'), uploadSeoImage);
+  app.post("/api/uploads/hero", uploadHero.single('image'), uploadSeoImage);
   app.get("/api/uploads", listUploadedImages);
   app.delete("/api/uploads/:filename", deleteUploadedImage);
 
