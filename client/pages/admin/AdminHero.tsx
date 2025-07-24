@@ -468,7 +468,7 @@ export default function AdminHero() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Cor do Texto do Botão
+                  Cor do Texto (Mouse Hover)
                 </label>
                 <div className="flex items-center gap-2">
                   <input
