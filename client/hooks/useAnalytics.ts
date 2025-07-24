@@ -215,13 +215,17 @@ export function useAnalytics(selectedPeriod: number = 30) {
       const defaultOverview = {
         leads: { total: 0, unique: 0, duplicates: 0, with_cnpj: 0, period: 0 },
         conversion: { rate: 0, period_rate: 0 },
-        traffic: { 
-          unique_users: 0, 
-          total_sessions: 0, 
+        traffic: {
+          unique_users: 0,
+          new_users: 0,
+          returning_users: 0,
+          total_sessions: 0,
+          avg_sessions_per_user: 0,
           avg_session_duration: 0,
           whatsapp_clicks: 0,
           unique_page_views: 0,
-          total_page_views: 0
+          total_page_views: 0,
+          bounce_rate: 0
         },
         store_types: { fisica: 0, online: 0, ambas: 0 },
         period_days: selectedPeriod
