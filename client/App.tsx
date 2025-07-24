@@ -23,6 +23,7 @@ import AdminTestimonials from "./pages/admin/AdminTestimonials";
 import AdminGallery from "./pages/admin/AdminGallery";
 import AdminContent from "./pages/admin/AdminContent";
 import AdminBenefits from "./pages/admin/AdminBenefits";
+import AdminFAQ from "./pages/admin/AdminFAQ";
 import NotFound from "./pages/NotFound";
 
 const App = () => (
