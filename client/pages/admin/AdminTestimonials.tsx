@@ -93,8 +93,105 @@ export default function AdminTestimonials() {
     }
   };
 
+  const fetchTextSettings = async () => {
+    try {
+      const response = await fetch('/api/settings');
+      const result = await response.json();
+
+      if (result.success) {
+        const settings = result.data;
+
+        // Função para extrair valor da configuração
+        const getValue = (setting: any) => {
+          if (typeof setting === 'string') return setting;
+          if (setting && typeof setting === 'object' && setting.value) return setting.value;
+          return '';
+        };
+
+        const testimonialTexts = {
+          section_tag: getValue(settings.testimonials_section_tag) || 'Depoimentos',
+          section_title: getValue(settings.testimonials_section_title) || 'O que nossos revendedores dizem',
+          section_subtitle: getValue(settings.testimonials_section_subtitle) || 'casos reais de sucesso',
+          section_description: getValue(settings.testimonials_section_description) || 'Depoimentos reais de parceiros que transformaram suas paixões em negócios lucrativos com a Ecko',
+          cta_title: getValue(settings.testimonials_cta_title) || 'Seja o próximo case de sucesso!',
+          cta_description: getValue(settings.testimonials_cta_description) || 'Junte-se aos revendedores que já transformaram seus negócios',
+          cta_button_text: getValue(settings.testimonials_cta_button_text) || 'QUERO SER UM CASE DE SUCESSO'
+        };
+        setTextSettings(testimonialTexts);
+      }
+    } catch (error) {
+      console.error('Erro ao buscar configurações de texto:', error);
+    }
+  };
+
+  const saveTextSettings = async () => {
+    if (savingTexts) return;
+
+    setSavingTexts(true);
+    try {
+      const settings = [
+        { key: 'testimonials_section_tag', value: textSettings.section_tag },
+        { key: 'testimonials_section_title', value: textSettings.section_title },
+        { key: 'testimonials_section_subtitle', value: textSettings.section_subtitle },
+        { key: 'testimonials_section_description', value: textSettings.section_description },
+        { key: 'testimonials_cta_title', value: textSettings.cta_title },
+        { key: 'testimonials_cta_description', value: textSettings.cta_description },
+        { key: 'testimonials_cta_button_text', value: textSettings.cta_button_text }
+      ];
+
+      let successCount = 0;
+      let errorCount = 0;
+
+      for (const setting of settings) {
+        try {
+          const response = await fetch(`/api/settings/${setting.key}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ value: setting.value, type: 'text' }),
+          });
+
+          const result = await response.json();
+          if (result.success) {
+            successCount++;
+          } else {
+            errorCount++;
+          }
+        } catch (error) {
+          console.error(`Erro ao salvar ${setting.key}:`, error);
+          errorCount++;
+        }
+      }
+
+      if (successCount > 0) {
+        toast({
+          title: "✅ Sucesso",
+          description: `${successCount} configurações salvas${errorCount > 0 ? ` (${errorCount} falharam)` : ''}`,
+          variant: "success",
+        });
+      } else {
+        toast({
+          title: "❌ Erro",
+          description: "Nenhuma configuração foi salva",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error('Erro ao salvar textos:', error);
+      toast({
+        title: "❌ Erro",
+        description: "Erro inesperado ao salvar textos",
+        variant: "destructive",
+      });
+    } finally {
+      setSavingTexts(false);
+    }
+  };
+
   useEffect(() => {
     fetchTestimonials();
+    fetchTextSettings();
   }, []);
 
   const resetForm = () => {
