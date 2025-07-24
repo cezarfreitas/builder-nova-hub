@@ -1306,10 +1306,10 @@ export default function Index() {
             <div className="text-center mt-12">
               <div className="bg-gradient-to-r from-ecko-red/10 to-ecko-red-dark/10 rounded-2xl p-6 border border-ecko-red/20 backdrop-blur-sm max-w-2xl mx-auto">
                 <h3 className="text-xl font-bold text-white mb-3">
-                  {testimonialsTexts.cta_title}
+                  {renderTextWithColorTokens(content.testimonials.cta_title)}
                 </h3>
                 <p className="text-gray-300 mb-4">
-                  {testimonialsTexts.cta_description}
+                  {renderTextWithColorTokens(content.testimonials.cta_description)}
                 </p>
                 <Button
                   onClick={() => openFormWithOrigin("testimonials-cta")}
@@ -1318,9 +1318,11 @@ export default function Index() {
                   <span className="absolute inset-0 bg-gradient-to-r from-red-600 to-red-800 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
                   <span className="relative z-10 flex items-center">
                     <span className="hidden sm:inline">
-                      {testimonialsTexts.cta_button_text}
+                      {renderTextWithColorTokens(content.testimonials.cta_button_text)}
                     </span>
-                    <span className="sm:hidden">QUERO SER UM CASE</span>
+                    <span className="sm:hidden">
+                      {renderTextWithColorTokens(content.testimonials.cta_button_text)}
+                    </span>
                     <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </Button>
