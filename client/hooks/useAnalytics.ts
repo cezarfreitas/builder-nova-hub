@@ -183,25 +183,91 @@ export function useAnalytics(selectedPeriod: number = 30) {
     setOverview(realOverview);
     setDailyStats(dailyData);
 
-    // Set traffic sources
-    if (leads.length > 0) {
+    // Analyze traffic sources from localStorage data
+    if (trafficSourcesData.length > 0) {
       const sources = {};
-      leads.forEach(lead => {
-        const source = lead.form_origin || lead.source || 'Direto';
-        sources[source] = (sources[source] || 0) + 1;
+      const utmSources = {};
+      const utmMediums = {};
+      const utmCampaigns = {};
+      const referrers = {};
+
+      trafficSourcesData.forEach(traffic => {
+        // Count by source name
+        const sourceName = traffic.source_name || 'Direto';
+        sources[sourceName] = (sources[sourceName] || 0) + 1;
+
+        // Count UTM parameters
+        if (traffic.utm_source) {
+          utmSources[traffic.utm_source] = (utmSources[traffic.utm_source] || 0) + 1;
+        }
+        if (traffic.utm_medium) {
+          utmMediums[traffic.utm_medium] = (utmMediums[traffic.utm_medium] || 0) + 1;
+        }
+        if (traffic.utm_campaign) {
+          utmCampaigns[traffic.utm_campaign] = (utmCampaigns[traffic.utm_campaign] || 0) + 1;
+        }
+
+        // Count referrers
+        const referrer = traffic.referrer === 'Direto' ? 'Direto' : traffic.source_name;
+        referrers[referrer] = (referrers[referrer] || 0) + 1;
       });
 
       const sourceArray = Object.entries(sources).map(([name, count]) => ({
         source_name: name,
-        total_leads: count
-      })).sort((a, b) => b.total_leads - a.total_leads);
+        total_visits: count,
+        percentage: ((count / trafficSourcesData.length) * 100).toFixed(1)
+      })).sort((a, b) => b.total_visits - a.total_visits);
+
+      const utmSourceArray = Object.entries(utmSources).map(([source, count]) => ({
+        source,
+        total_visits: count
+      }));
+
+      const utmMediumArray = Object.entries(utmMediums).map(([medium, count]) => ({
+        medium,
+        total_visits: count
+      }));
+
+      const utmCampaignArray = Object.entries(utmCampaigns).map(([campaign, count]) => ({
+        campaign,
+        total_visits: count
+      }));
 
       setTrafficSources({
         sources: sourceArray,
-        utm_sources: [],
-        utm_mediums: [],
-        utm_campaigns: []
+        utm_sources: utmSourceArray,
+        utm_mediums: utmMediumArray,
+        utm_campaigns: utmCampaignArray,
+        total_visits: trafficSourcesData.length,
+        referrers: Object.entries(referrers).map(([ref, count]) => ({
+          referrer: ref,
+          visits: count
+        })).sort((a, b) => b.visits - a.visits)
       });
+    } else {
+      // Fallback to leads-based sources if no traffic data
+      if (leads.length > 0) {
+        const sources = {};
+        leads.forEach(lead => {
+          const source = lead.form_origin || lead.source || 'Direto';
+          sources[source] = (sources[source] || 0) + 1;
+        });
+
+        const sourceArray = Object.entries(sources).map(([name, count]) => ({
+          source_name: name,
+          total_visits: count,
+          percentage: ((count / leads.length) * 100).toFixed(1)
+        })).sort((a, b) => b.total_visits - a.total_visits);
+
+        setTrafficSources({
+          sources: sourceArray,
+          utm_sources: [],
+          utm_mediums: [],
+          utm_campaigns: [],
+          total_visits: leads.length,
+          referrers: []
+        });
+      }
     }
 
     setTimeAnalysis(null);
