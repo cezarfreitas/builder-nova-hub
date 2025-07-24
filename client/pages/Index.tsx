@@ -830,7 +830,7 @@ export default function Index() {
             ) : (
               <div
                 className="w-full h-full"
-                style={{ backgroundColor: staticHero.background_color }}
+                style={{ backgroundColor: currentHero.background_color }}
               />
             )}
 
