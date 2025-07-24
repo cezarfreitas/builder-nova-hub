@@ -384,12 +384,11 @@ export default function AdminHero() {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Imagem de Fundo
               </label>
-              <SmartImageUpload
+              <CompactImageUpload
                 value={settings.background_image}
                 onChange={(value) => setSettings(prev => ({ ...prev, background_image: value }))}
                 type="hero"
-                placeholder="Upload da imagem de fundo (max 15MB - será compactada automaticamente)"
-                className="w-full"
+                placeholder="Upload da imagem de fundo"
               />
             </div>
 
