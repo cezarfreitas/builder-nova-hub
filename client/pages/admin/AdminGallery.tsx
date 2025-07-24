@@ -6,6 +6,7 @@ import { useToast } from "../../hooks/use-toast";
 import { GalleryImage } from "@shared/api";
 import { SmartImageUpload } from "../../components/SmartImageUpload";
 import { MultiImageUpload } from "../../components/MultiImageUpload";
+import { TokenColorEditor } from "../../components/TokenColorEditor";
 import {
   Image,
   Plus,
