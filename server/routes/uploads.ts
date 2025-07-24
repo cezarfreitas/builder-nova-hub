@@ -113,13 +113,46 @@ export async function uploadSeoImage(req: Request, res: Response) {
     }
 
     const file = req.file;
+    const originalSizeFormatted = formatFileSize(file.size);
+
     console.log('File received:', {
       filename: file.filename,
       originalname: file.originalname,
       size: file.size,
+      sizeFormatted: originalSizeFormatted,
       mimetype: file.mimetype,
       path: file.path
     });
+
+    // Validação adicional de peso por tipo de uso
+    const maxSizes = {
+      avatar: 2 * 1024 * 1024,    // 2MB
+      hero: 15 * 1024 * 1024,     // 15MB
+      gallery: 5 * 1024 * 1024,   // 5MB
+      seo: 10 * 1024 * 1024       // 10MB
+    };
+
+    const uploadType = req.body.type || 'seo';
+    const maxSize = maxSizes[uploadType as keyof typeof maxSizes] || maxSizes.seo;
+
+    if (file.size > maxSize) {
+      // Remover arquivo que excede o limite
+      if (fs.existsSync(file.path)) {
+        fs.unlinkSync(file.path);
+      }
+
+      return res.status(400).json({
+        success: false,
+        message: `Arquivo muito grande. Tamanho atual: ${originalSizeFormatted}. Máximo permitido para ${uploadType}: ${formatFileSize(maxSize)}`,
+        details: {
+          currentSize: file.size,
+          currentSizeFormatted: originalSizeFormatted,
+          maxSize: maxSize,
+          maxSizeFormatted: formatFileSize(maxSize),
+          uploadType: uploadType
+        }
+      });
+    }
 
     // Otimizar imagem com Sharp para SEO
     let finalFilename = file.filename;
