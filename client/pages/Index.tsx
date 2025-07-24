@@ -1203,73 +1203,35 @@ export default function Index() {
 
             {/* Benefits Grid */}
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {/* Marca Internacional */}
-              <Card className="bg-gray-900/50 backdrop-blur-sm border-2 border-gray-700 hover:border-ecko-red hover:bg-gray-800/70 transition-all duration-500 group transform hover:-translate-y-2 hover:scale-105">
-                <CardContent className="p-6 text-center relative">
-                  <div className="w-20 h-20 bg-gradient-to-br from-ecko-red/30 to-ecko-red/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:from-ecko-red/50 group-hover:to-ecko-red/20 transition-all duration-500 group-hover:rotate-6">
-                    <Globe className="w-10 h-10 text-ecko-red group-hover:scale-110 transition-transform duration-300" />
-                  </div>
-                  <h3 className="text-xl font-bold text-white mb-3 uppercase tracking-wide group-hover:text-ecko-red transition-colors duration-300">
-                    MARCA INTERNACIONAL
-                  </h3>
-                  <p className="text-gray-300 text-sm leading-relaxed">
-                    A Ecko é uma marca reconhecida mundialmente, com forte
-                    presença no Brasil e grande apelo junto ao público jovem.
-                    Uma marca que só o nome vende sozinho.
-                  </p>
-                </CardContent>
-              </Card>
+              {content.benefits.cards?.map((card: any) => {
+                // Map icon names to actual icon components
+                const iconMap: { [key: string]: any } = {
+                  Globe,
+                  Truck,
+                  HeadphonesIcon,
+                  Monitor
+                };
+                const IconComponent = iconMap[card.icon] || Globe;
 
-              {/* Pronta Entrega */}
-              <Card className="bg-gray-900/50 backdrop-blur-sm border-2 border-gray-700 hover:border-ecko-red hover:bg-gray-800/70 transition-all duration-500 group transform hover:-translate-y-2 hover:scale-105">
-                <CardContent className="p-6 text-center relative">
-                  <div className="w-20 h-20 bg-gradient-to-br from-ecko-red/30 to-ecko-red/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:from-ecko-red/50 group-hover:to-ecko-red/20 transition-all duration-500 group-hover:rotate-6">
-                    <Truck className="w-10 h-10 text-ecko-red group-hover:scale-110 transition-transform duration-300" />
-                  </div>
-                  <h3 className="text-xl font-bold text-white mb-3 uppercase tracking-wide group-hover:text-ecko-red transition-colors duration-300">
-                    PRONTA ENTREGA
-                  </h3>
-                  <p className="text-gray-300 text-sm leading-relaxed">
-                    Disponibilizamos mais de 100.000 produtos prontos para
-                    entrega, para impulsionar suas vendas com excelentes margens
-                    de lucro e um ótimo rápido giro de estoque.
-                  </p>
-                </CardContent>
-              </Card>
-
-              {/* Suporte ao Lojista */}
-              <Card className="bg-gray-900/50 backdrop-blur-sm border-2 border-gray-700 hover:border-ecko-red hover:bg-gray-800/70 transition-all duration-500 group transform hover:-translate-y-2 hover:scale-105">
-                <CardContent className="p-6 text-center relative">
-                  <div className="w-20 h-20 bg-gradient-to-br from-ecko-red/30 to-ecko-red/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:from-ecko-red/50 group-hover:to-ecko-red/20 transition-all duration-500 group-hover:rotate-6">
-                    <HeadphonesIcon className="w-10 h-10 text-ecko-red group-hover:scale-110 transition-transform duration-300" />
-                  </div>
-                  <h3 className="text-xl font-bold text-white mb-3 uppercase tracking-wide group-hover:text-ecko-red transition-colors duration-300">
-                    SUPORTE AO LOJISTA
-                  </h3>
-                  <p className="text-gray-300 text-sm leading-relaxed">
-                    Nossa equipe de especialistas está sempre à disposição para
-                    garantir que você tenha a melhor experiência, tanto na
-                    compra quanto na venda do produto em sua loja.
-                  </p>
-                </CardContent>
-              </Card>
-
-              {/* Totalmente Online */}
-              <Card className="bg-gray-900/50 backdrop-blur-sm border-2 border-gray-700 hover:border-ecko-red hover:bg-gray-800/70 transition-all duration-500 group transform hover:-translate-y-2 hover:scale-105">
-                <CardContent className="p-6 text-center relative">
-                  <div className="w-20 h-20 bg-gradient-to-br from-ecko-red/30 to-ecko-red/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:from-ecko-red/50 group-hover:to-ecko-red/20 transition-all duration-500 group-hover:rotate-6">
-                    <Monitor className="w-10 h-10 text-ecko-red group-hover:scale-110 transition-transform duration-300" />
-                  </div>
-                  <h3 className="text-xl font-bold text-white mb-3 uppercase tracking-wide group-hover:text-ecko-red transition-colors duration-300">
-                    TOTALMENTE ONLINE
-                  </h3>
-                  <p className="text-gray-300 text-sm leading-relaxed">
-                    Oferecemos uma plataforma exclusiva de compras online, com
-                    preços de atacado destinados aos lojistas de todo o Brasil
-                    para facilitar a sua compra e reabastecimento.
-                  </p>
-                </CardContent>
-              </Card>
+                return (
+                  <Card
+                    key={card.id}
+                    className="bg-gray-900/50 backdrop-blur-sm border-2 border-gray-700 hover:border-ecko-red hover:bg-gray-800/70 transition-all duration-500 group transform hover:-translate-y-2 hover:scale-105"
+                  >
+                    <CardContent className="p-6 text-center relative">
+                      <div className="w-20 h-20 bg-gradient-to-br from-ecko-red/30 to-ecko-red/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:from-ecko-red/50 group-hover:to-ecko-red/20 transition-all duration-500 group-hover:rotate-6">
+                        <IconComponent className="w-10 h-10 text-ecko-red group-hover:scale-110 transition-transform duration-300" />
+                      </div>
+                      <h3 className="text-xl font-bold text-white mb-3 uppercase tracking-wide group-hover:text-ecko-red transition-colors duration-300">
+                        {renderTextWithColorTokens(card.title)}
+                      </h3>
+                      <p className="text-gray-300 text-sm leading-relaxed">
+                        {renderTextWithColorTokens(card.description)}
+                      </p>
+                    </CardContent>
+                  </Card>
+                );
+              })}
             </div>
 
             {/* Bottom CTA */}
