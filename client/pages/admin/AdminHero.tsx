@@ -459,13 +459,13 @@ export default function AdminHero() {
               <label className="block text-sm font-medium text-gray-700">
                 Título Principal *
               </label>
-              <Textarea
+              <TokenColorEditor
                 value={settings.title}
-                onChange={(e) => updateField('title', e.target.value)}
+                onChange={(value) => updateField('title', value)}
                 placeholder="Digite o título principal..."
-                className={`h-20 ${
-                  validation.title ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : ''
-                }`}
+                rows={3}
+                label=""
+                className={validation.title ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : ''}
               />
               {validation.title && (
                 <p className="text-red-600 text-sm flex items-center">
@@ -475,7 +475,7 @@ export default function AdminHero() {
               )}
               <p className="text-gray-500 text-sm flex items-center">
                 <Info className="w-4 h-4 mr-1" />
-                Use [texto] para destacar em vermelho
+                Use tokens de cor como {'{ecko}texto{/ecko}'} para destacar
               </p>
             </div>
 
@@ -483,10 +483,12 @@ export default function AdminHero() {
               <label className="block text-sm font-medium text-gray-700">
                 Subtítulo *
               </label>
-              <Input
+              <TokenColorEditor
                 value={settings.subtitle}
-                onChange={(e) => updateField('subtitle', e.target.value)}
+                onChange={(value) => updateField('subtitle', value)}
                 placeholder="Digite o subtítulo..."
+                rows={2}
+                label=""
                 className={validation.subtitle ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : ''}
               />
               {validation.subtitle && (
@@ -501,11 +503,12 @@ export default function AdminHero() {
               <label className="block text-sm font-medium text-gray-700">
                 Descrição
               </label>
-              <Textarea
+              <TokenColorEditor
                 value={settings.description}
-                onChange={(e) => updateField('description', e.target.value)}
+                onChange={(value) => updateField('description', value)}
                 placeholder="Digite a descrição..."
-                className="h-24"
+                rows={3}
+                label=""
               />
             </div>
 
