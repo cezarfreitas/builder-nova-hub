@@ -1634,7 +1634,7 @@ export default function Index() {
                     <div className="container mx-auto px-6">
                       {/* Header */}
                       <div className="text-center mb-16">
-                        <span className="inline-block px-4 py-2 bg-ecko-red/10 text-ecko-red text-sm font-semibold rounded-full mb-4">
+                        <span className="inline-block px-4 py-2 bg-ecko-red text-white text-sm font-semibold rounded-full mb-4">
                           {content.about?.section_tag || "Nossa História"}
                         </span>
                         <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
