@@ -384,6 +384,139 @@ export async function deleteUploadedImage(req: Request, res: Response) {
   }
 }
 
+// POST /api/upload/gallery - Upload específico para galeria
+export async function uploadGalleryImage(req: Request, res: Response) {
+  try {
+    const file = req.file;
+
+    if (!file) {
+      return res.status(400).json({
+        success: false,
+        message: 'Nenhum arquivo foi enviado'
+      });
+    }
+
+    const originalSizeFormatted = formatFileSize(file.size);
+    const maxSize = 5 * 1024 * 1024; // 5MB para galeria
+
+    if (file.size > maxSize) {
+      // Remover arquivo que excede o limite
+      if (fs.existsSync(file.path)) {
+        fs.unlinkSync(file.path);
+      }
+
+      return res.status(400).json({
+        success: false,
+        message: `Arquivo muito grande. Tamanho atual: ${originalSizeFormatted}. Máximo permitido: ${formatFileSize(maxSize)}`,
+        details: {
+          currentSize: file.size,
+          currentSizeFormatted: originalSizeFormatted,
+          maxSize: maxSize,
+          maxSizeFormatted: formatFileSize(maxSize)
+        }
+      });
+    }
+
+    // Compactação para galeria
+    let finalFilename = file.filename;
+    let finalSize = file.size;
+    let compressionInfo = null;
+
+    try {
+      const ext = path.extname(file.filename);
+      const nameWithoutExt = path.basename(file.filename, ext);
+      const compressedFilename = `${nameWithoutExt}-compressed${ext}`;
+      const compressedPath = path.join(path.dirname(file.path), compressedFilename);
+
+      // Configurações de compactação para galeria
+      const quality = file.size > 2 * 1024 * 1024 ? 85 : 90;
+      const maxWidth = 800;
+      const maxHeight = 800;
+
+      let sharpInstance = sharp(file.path)
+        .resize(maxWidth, maxHeight, {
+          fit: 'inside',
+          withoutEnlargement: true
+        });
+
+      if (file.mimetype.includes('jpeg') || file.mimetype.includes('jpg')) {
+        sharpInstance = sharpInstance.jpeg({
+          quality: quality,
+          progressive: true,
+          mozjpeg: true
+        });
+      } else if (file.mimetype.includes('png')) {
+        sharpInstance = sharpInstance.png({
+          quality: Math.min(quality, 90),
+          compressionLevel: 6,
+          progressive: true
+        });
+      } else if (file.mimetype.includes('webp')) {
+        sharpInstance = sharpInstance.webp({
+          quality: quality,
+          progressive: true
+        });
+      }
+
+      await sharpInstance.toFile(compressedPath);
+
+      if (fs.existsSync(compressedPath)) {
+        const compressedStats = fs.statSync(compressedPath);
+
+        if (compressedStats.size < file.size) {
+          fs.unlinkSync(file.path);
+          finalFilename = compressedFilename;
+          finalSize = compressedStats.size;
+
+          compressionInfo = {
+            originalSize: file.size,
+            compressedSize: compressedStats.size,
+            reduction: `${(((file.size - compressedStats.size) / file.size) * 100).toFixed(1)}%`,
+            quality: quality,
+            wasCompressed: true
+          };
+        } else {
+          fs.unlinkSync(compressedPath);
+          compressionInfo = { wasCompressed: false };
+        }
+      }
+    } catch (error) {
+      console.error('Compression failed for gallery image:', error);
+      compressionInfo = { wasCompressed: false };
+    }
+
+    const imageUrl = `/uploads/gallery/${finalFilename}`;
+
+    const imageInfo = {
+      filename: finalFilename,
+      originalName: file.originalname,
+      size: finalSize,
+      sizeFormatted: formatFileSize(finalSize),
+      mimetype: file.mimetype,
+      url: imageUrl,
+      compression: compressionInfo
+    };
+
+    let message = 'Imagem da galeria enviada com sucesso';
+    if (compressionInfo?.wasCompressed) {
+      message += ` e compactada (redução de ${compressionInfo.reduction})`;
+    }
+
+    res.json({
+      success: true,
+      message: message,
+      data: imageInfo
+    });
+  } catch (error) {
+    console.error('Erro no upload da galeria:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Erro interno do servidor',
+      error: error instanceof Error ? error.message : 'Erro desconhecido'
+    });
+  }
+}
+
 // GET /api/uploads - Listar imagens enviadas
 export async function listUploadedImages(req: Request, res: Response) {
   try {
