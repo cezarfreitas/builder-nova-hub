@@ -1616,6 +1616,239 @@ export default function Index() {
           </div>
         </div>
       </footer>
+
+      {/* Form Modal */}
+      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+        <DialogContent className="max-w-md mx-auto bg-black/95 border-2 border-ecko-red/40 text-white">
+          <DialogHeader>
+            <DialogTitle className="text-center text-xl font-bold text-white mb-4">
+              {renderTextWithColorTokens(content.form.title)}
+            </DialogTitle>
+          </DialogHeader>
+
+          {!isSubmitted ? (
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label className="block text-sm font-semibold text-gray-300 mb-2">
+                  {content.form.fields.name_label}
+                </label>
+                <Input
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  placeholder={content.form.fields.name_placeholder}
+                  required
+                  className="h-12 text-base bg-black/90 border-gray-800 text-white placeholder-gray-400 focus:border-ecko-red focus:ring-ecko-red/20"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-300 mb-2">
+                  {content.form.fields.whatsapp_label}
+                </label>
+                <Input
+                  name="whatsapp"
+                  type="tel"
+                  value={formData.whatsapp}
+                  onChange={handleInputChange}
+                  placeholder={content.form.fields.whatsapp_placeholder}
+                  required
+                  className={`h-12 text-base bg-black/90 text-white placeholder-gray-400 focus:ring-ecko-red/20 ${
+                    whatsappError
+                      ? "border-red-500 focus:border-red-500"
+                      : validateWhatsApp(formData.whatsapp) && formData.whatsapp
+                        ? "border-green-500 focus:border-green-500"
+                        : "border-gray-800 focus:border-ecko-red"
+                  }`}
+                />
+                {whatsappError && (
+                  <p className="text-red-400 text-sm mt-2">{whatsappError}</p>
+                )}
+                {formData.whatsapp &&
+                  !whatsappError &&
+                  validateWhatsApp(formData.whatsapp) && (
+                    <p className="text-green-400 text-sm mt-2 font-medium">
+                      ✅ WhatsApp válido
+                    </p>
+                  )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-300 mb-2">
+                  {content.form.fields.cep_label}
+                </label>
+                <Input
+                  name="cep"
+                  type="text"
+                  value={formData.cep}
+                  onChange={handleInputChange}
+                  placeholder={content.form.fields.cep_placeholder}
+                  required
+                  className={`h-12 text-base bg-black/90 text-white placeholder-gray-400 focus:ring-ecko-red/20 ${
+                    cepError
+                      ? "border-red-500 focus:border-red-500"
+                      : cepLoading
+                        ? "border-yellow-500 focus:border-yellow-500"
+                        : formData.cidade && formData.estado
+                        ? "border-green-500 focus:border-green-500"
+                        : "border-gray-800 focus:border-ecko-red"
+                  }`}
+                  disabled={cepLoading}
+                />
+                {cepError && (
+                  <p className="text-red-400 text-sm mt-2">{cepError}</p>
+                )}
+                {cepLoading && (
+                  <p className="text-yellow-400 text-sm mt-2">Buscando CEP...</p>
+                )}
+              </div>
+
+              {formData.cidade && formData.estado && (
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-300 mb-2">
+                      {content.form.fields.cidade_label}
+                    </label>
+                    <Input
+                      value={formData.cidade}
+                      readOnly
+                      className="h-12 text-base bg-black/90 border-gray-800 text-white"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-300 mb-2">
+                      {content.form.fields.estado_label}
+                    </label>
+                    <Input
+                      value={formData.estado}
+                      readOnly
+                      className="h-12 text-base bg-black/90 border-gray-800 text-white"
+                    />
+                  </div>
+                </div>
+              )}
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-300 mb-2">
+                  {content.form.fields.cnpj_label}
+                </label>
+                <div className="flex gap-4">
+                  <label className="flex items-center cursor-pointer">
+                    <input
+                      type="radio"
+                      name="hasCnpj"
+                      value="sim"
+                      checked={formData.hasCnpj === "sim"}
+                      onChange={handleInputChange}
+                      className="mr-2 text-ecko-red"
+                    />
+                    <span className="text-white">{content.form.fields.cnpj_yes}</span>
+                  </label>
+                  <label className="flex items-center cursor-pointer">
+                    <input
+                      type="radio"
+                      name="hasCnpj"
+                      value="nao"
+                      checked={formData.hasCnpj === "nao"}
+                      onChange={handleInputChange}
+                      className="mr-2 text-ecko-red"
+                    />
+                    <span className="text-white">{content.form.fields.cnpj_no}</span>
+                  </label>
+                </div>
+                {cnpjError && (
+                  <p className="text-red-400 text-sm mt-2">{cnpjError}</p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-300 mb-2">
+                  {content.form.fields.store_type_label}
+                </label>
+                <Input
+                  name="storeType"
+                  value={formData.storeType}
+                  onChange={handleInputChange}
+                  placeholder={content.form.fields.store_type_placeholder}
+                  required
+                  className="h-12 text-base bg-black/90 border-gray-800 text-white placeholder-gray-400 focus:border-ecko-red focus:ring-ecko-red/20"
+                />
+              </div>
+
+              <Button
+                type="submit"
+                disabled={isSubmitting || formData.hasCnpj === "nao"}
+                className={`w-full h-12 font-bold text-base transition-all duration-300 ${
+                  formData.hasCnpj === "nao"
+                    ? "bg-black/70 cursor-not-allowed"
+                    : "bg-gradient-to-r from-ecko-red to-ecko-red-dark hover:from-ecko-red-dark hover:to-red-700 hover:scale-[1.02] hover:shadow-ecko-red/40"
+                } text-white shadow-lg`}
+              >
+                {isSubmitting ? (
+                  <div className="flex items-center justify-center">
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                    {content.form.submit_button_loading}
+                  </div>
+                ) : (
+                  content.form.submit_button
+                )}
+              </Button>
+            </form>
+          ) : (
+            <div className="text-center py-8">
+              <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
+              <h3 className="text-xl font-bold text-white mb-2">
+                Cadastro Realizado!
+              </h3>
+              <p className="text-gray-300 mb-6">
+                Obrigado pelo interesse! Nossa equipe entrará em contato em breve.
+              </p>
+              <Button
+                onClick={() => {
+                  setIsModalOpen(false);
+                  setIsSubmitted(false);
+                  setFormData({
+                    name: "",
+                    whatsapp: "",
+                    hasCnpj: "",
+                    storeType: "",
+                    cep: "",
+                    endereco: "",
+                    complemento: "",
+                    bairro: "",
+                    cidade: "",
+                    estado: "",
+                  });
+                }}
+                className="bg-ecko-red hover:bg-ecko-red-dark text-white"
+              >
+                Fechar
+              </Button>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* WhatsApp Floating Button */}
+      {showWhatsApp && (
+        <div className="fixed bottom-6 right-6 z-50">
+          <Button
+            onClick={() => {
+              openFormWithOrigin("whatsapp-float");
+            }}
+            className="bg-green-500 hover:bg-green-600 text-white rounded-full w-14 h-14 shadow-2xl animate-bounce"
+            title="Fale conosco no WhatsApp"
+          >
+            <MessageCircle className="w-6 h-6" />
+          </Button>
+          <Button
+            onClick={() => setShowWhatsApp(false)}
+            className="absolute -top-2 -right-2 bg-gray-600 hover:bg-gray-700 text-white rounded-full w-6 h-6 p-0"
+          >
+            <X className="w-3 h-3" />
+          </Button>
+        </div>
+      )}
     </>
   );
 }
