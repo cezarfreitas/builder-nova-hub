@@ -516,6 +516,7 @@ export default function AdminHero() {
                 <li>• Use imagens de alta qualidade (min 1920x1080)</li>
                 <li>• Imagens grandes são compactadas automaticamente</li>
                 <li>• Contraste adequado entre texto e fundo</li>
+                <li>• Configure cores de hover para interação visual</li>
                 <li>• Cores que reflitam a identidade da marca</li>
               </ul>
             </div>
