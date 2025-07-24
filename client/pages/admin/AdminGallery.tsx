@@ -855,15 +855,12 @@ export default function AdminGallery() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Subtítulo
-                  </label>
-                  <input
-                    type="text"
+                  <TokenColorEditor
+                    label="Subtítulo"
                     value={textSettings.section_subtitle}
-                    onChange={(e) => setTextSettings({ ...textSettings, section_subtitle: e.target.value })}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
-                    placeholder="Ex: Descubra o lifestyle autêntico da Ecko"
+                    onChange={(value) => setTextSettings({ ...textSettings, section_subtitle: value })}
+                    placeholder="Ex: Descubra o lifestyle {ecko}autêntico{/ecko} da Ecko"
+                    rows={2}
                   />
                 </div>
 
