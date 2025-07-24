@@ -54,6 +54,16 @@ export default function AdminAnalytics() {
 
   const isLoading = loading;
 
+  // Auto-refresh every 30 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      console.log('🔄 Auto-refresh dos dados de analytics...');
+      refreshData();
+    }, 30000);
+
+    return () => clearInterval(interval);
+  }, [refreshData]);
+
   const handlePeriodChange = (days: number) => {
     setSelectedPeriod(days);
   };
