@@ -84,7 +84,7 @@ export default function Index() {
       id: 1,
       question: "Como me tornar um revendedor oficial da Ecko?",
       answer:
-        "Para se tornar um revendedor oficial, você precisa ter CNPJ ativo e preencher nosso formulário de cadastro. Nossa equipe entrará em contato em até 24h para apresentar as condições comerciais e processo de aprovação.",
+        "Para se tornar um revendedor oficial, você precisa ter CNPJ ativo e preencher nosso formulário de cadastro. Nossa equipe entrará em contato em até 24h para apresentar as condições comerciais e processo de aprovaç��o.",
       display_order: 1,
       is_active: true,
     },
@@ -374,7 +374,7 @@ export default function Index() {
 
       if (result.success) {
         toast({
-          title: "��� Cadastro enviado!",
+          title: "✅ Cadastro enviado!",
           description:
             "Nossa equipe entrará em contato em até 24h. Obrigado pelo interesse!",
           duration: 8000,
@@ -1231,7 +1231,7 @@ export default function Index() {
               return (
                 <main key="gallery">
                   {/* Gallery Section */}
-                  <section className="py-16 md:py-20 bg-gradient-to-b from-black to-gray-900 relative overflow-hidden">
+                  <section className="py-16 md:py-20 bg-black relative overflow-hidden">
                     {/* Background Pattern */}
                     <div className="absolute inset-0 opacity-5">
                       <div className="absolute top-0 right-1/4 w-96 h-96 bg-ecko-red/20 rounded-full blur-3xl"></div>
