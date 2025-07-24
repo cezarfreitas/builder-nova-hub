@@ -1,3 +1,5 @@
+import { lazy, Suspense } from 'react';
+import { CriticalCSS } from "./components/CriticalCSS";
 import "./global.css";
 
 import { Toaster } from "@/components/ui/toaster";
@@ -12,23 +14,36 @@ declare global {
     _reactRootContainer?: Root;
   }
 }
-import Index from "./pages/Index";
-import AdminLayout from "./pages/admin/AdminLayout";
-import AdminDashboard from "./pages/admin/AdminDashboard";
-import AdminLeads from "./pages/admin/AdminLeads";
-import AdminConfiguracoes from "./pages/admin/AdminConfiguracoes";
-import AdminAnalytics from "./pages/admin/AdminAnalytics";
-import AdminHero from "./pages/admin/AdminHero";
-import AdminTestimonials from "./pages/admin/AdminTestimonials";
-import AdminGallery from "./pages/admin/AdminGallery";
 
-import AdminBenefits from "./pages/admin/AdminBenefits";
-import AdminFAQ from "./pages/admin/AdminFAQ";
-import AdminForm from "./pages/admin/AdminForm";
-import AdminFooter from "./pages/admin/AdminFooter";
-import AdminAbout from "./pages/admin/AdminAbout";
-import AdminOrder from "./pages/admin/AdminOrder";
-import NotFound from "./pages/NotFound";
+// Critical page (não lazy)
+import Index from "./pages/Index";
+
+// Lazy load admin pages para melhorar performance inicial
+const AdminLayout = lazy(() => import("./pages/admin/AdminLayout"));
+const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
+const AdminLeads = lazy(() => import("./pages/admin/AdminLeads"));
+const AdminConfiguracoes = lazy(() => import("./pages/admin/AdminConfiguracoes"));
+const AdminAnalytics = lazy(() => import("./pages/admin/AdminAnalytics"));
+const AdminHero = lazy(() => import("./pages/admin/AdminHero"));
+const AdminTestimonials = lazy(() => import("./pages/admin/AdminTestimonials"));
+const AdminGallery = lazy(() => import("./pages/admin/AdminGallery"));
+const AdminBenefits = lazy(() => import("./pages/admin/AdminBenefits"));
+const AdminFAQ = lazy(() => import("./pages/admin/AdminFAQ"));
+const AdminForm = lazy(() => import("./pages/admin/AdminForm"));
+const AdminFooter = lazy(() => import("./pages/admin/AdminFooter"));
+const AdminAbout = lazy(() => import("./pages/admin/AdminAbout"));
+const AdminOrder = lazy(() => import("./pages/admin/AdminOrder"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+
+// Loading component
+const PageLoading = () => (
+  <div className="min-h-screen bg-black flex items-center justify-center">
+    <div className="text-center">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto mb-4"></div>
+      <p className="text-white">Carregando...</p>
+    </div>
+  </div>
+);
 
 const App = () => (
   <BrowserRouter>
