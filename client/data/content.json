@@ -1,11 +1,11 @@
 {
   "hero": {
     "enabled": true,
-    "title": "SEJA PARCEIRO OFICIAL ECKO E TENHA [SUCESSO]",
-    "subtitle": "A marca mais desejada do streetwear brasileiro",
-    "description": "Junte-se aos milhares de revendedores que já transformaram seus negócios com produtos de alta qualidade e excelente margem de lucro",
-    "cta_text": "QUERO SER REVENDEDOR",
-    "cta_secondary_text": "DESCUBRA AS VANTAGENS",
+    "title": "SEJA PARCEIRO OFICIAL ECKO E TENHA SUCESSO",
+    "subtitle": "Transforme sua paixão pelo streetwear em um negócio lucrativo",
+    "description": "Junte-se aos milhares de revendedores que já transformaram seus negócios com a marca mais desejada do streetwear brasileiro",
+    "cta_text": "QUERO SER REVENDEDOR OFICIAL",
+    "cta_secondary_text": "CONHECER OS BENEFÍCIOS",
     "logo_url": "/logo-ecko.png",
     "background_image": "https://images.pexels.com/photos/7231215/pexels-photo-7231215.jpeg?auto=compress&cs=tinysrgb&w=1920",
     "background_color": "#000000",
