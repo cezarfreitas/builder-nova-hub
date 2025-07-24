@@ -32,14 +32,14 @@
         "order": 5
       },
       {
-        "id": "faq",
-        "name": "FAQ",
+        "id": "about",
+        "name": "Sobre a Ecko",
         "enabled": true,
         "order": 6
       },
       {
-        "id": "about",
-        "name": "Sobre a Ecko",
+        "id": "faq",
+        "name": "FAQ",
         "enabled": true,
         "order": 7
       },
