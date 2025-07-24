@@ -7,10 +7,13 @@ import {
   CardTitle,
 } from "../../components/ui/card";
 import { Badge } from "../../components/ui/badge";
+import { Input } from "../../components/ui/input";
+import { Textarea } from "../../components/ui/textarea";
 import { useToast } from "../../hooks/use-toast";
-import { GalleryImage } from "@shared/api";
+import { useContent } from "../../hooks/useContent";
 import { SmartImageUpload } from "../../components/SmartImageUpload";
-import { MultiImageUpload } from "../../components/MultiImageUpload";
+import { TokenColorEditor } from "../../components/TokenColorEditor";
+import { renderTextWithColorTokens } from "../../utils/colorTokens";
 import {
   Image,
   Plus,
@@ -25,445 +28,194 @@ import {
   Images,
   FileText,
   Settings,
+  Check,
+  AlertCircle,
+  Loader2
 } from "lucide-react";
 
+interface GalleryItem {
+  id: number;
+  title: string;
+  description: string;
+  image_url: string;
+  alt_text: string;
+  is_active: boolean;
+  display_order: number;
+}
+
+interface GallerySettings {
+  section_tag: string;
+  section_title: string;
+  section_subtitle: string;
+  section_description: string;
+  items: GalleryItem[];
+  empty_state_title: string;
+  empty_state_description: string;
+  cta_title: string;
+  cta_description: string;
+  cta_button_text: string;
+}
+
 export default function AdminGallery() {
-  const { toast } = useToast();
-  const [images, setImages] = useState<GalleryImage[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { content, loading: contentLoading, saveContent } = useContent();
+  const [settings, setSettings] = useState<GallerySettings>(content.gallery);
   const [saving, setSaving] = useState(false);
-  const [showForm, setShowForm] = useState(false);
-  const [showMultiUpload, setShowMultiUpload] = useState(false);
-  const [editingImage, setEditingImage] = useState<GalleryImage | null>(null);
-  const [multiUploadImages, setMultiUploadImages] = useState<string[]>([]);
-  const [processingUploads, setProcessingUploads] = useState(false);
   const [activeTab, setActiveTab] = useState<"galeria" | "textos">("galeria");
+  const [showForm, setShowForm] = useState(false);
+  const [editingImage, setEditingImage] = useState<GalleryItem | null>(null);
+  const [hasChanges, setHasChanges] = useState(false);
+  const [validation, setValidation] = useState<{[key: string]: string}>({});
+  const { toast } = useToast();
 
-  // Estados para textos da seção
-  const [textSettings, setTextSettings] = useState({
-    section_title: "COLEÇÃO LIFESTYLE",
-    section_subtitle: "Descubra o lifestyle autêntico da Ecko",
-    section_description:
-      "Descubra o lifestyle autêntico da Ecko através de looks que representam a essência do streetwear e a cultura urbana que move nossa marca.",
-    section_tag: "Lifestyle Gallery",
-    empty_state_title: "Galeria em Construção",
-    empty_state_description:
-      "Em breve nossa galeria estará repleta de produtos incríveis!",
-    cta_title: "Tenha Estes Produtos em Sua Loja!",
-    cta_description:
-      "Produtos com alta demanda e excelente margem de lucro esperando por você",
-    cta_button_text: "QUERO ESSES PRODUTOS NA MINHA LOJA",
-  });
-  const [savingTexts, setSavingTexts] = useState(false);
-
-  // Estados do formulário
-  const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    image_url: "",
-    alt_text: "",
-    is_active: true,
-    display_order: 0,
-  });
-
-  const fetchImages = async () => {
-    try {
-      const response = await fetch("/api/gallery");
-      const result = await response.json();
-
-      if (result.success) {
-        setImages(result.data.images);
-      } else {
-        toast({
-          title: "❌ Erro",
-          description: "Erro ao carregar imagens da galeria",
-          variant: "destructive",
-        });
-      }
-    } catch (error) {
-      console.error("Erro ao buscar imagens:", error);
-      toast({
-        title: "❌ Erro",
-        description: "Erro ao carregar imagens da galeria",
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  // Sincronizar com o conteúdo JSON quando carregado
   useEffect(() => {
-    fetchImages();
-    fetchTextSettings();
-  }, []);
+    if (content.gallery) {
+      setSettings(content.gallery);
+    }
+  }, [content.gallery]);
 
-  const fetchTextSettings = async () => {
+  // Detectar mudanças
+  useEffect(() => {
+    const hasChanges = JSON.stringify(settings) !== JSON.stringify(content.gallery);
+    setHasChanges(hasChanges);
+  }, [settings, content.gallery]);
+
+  // Salvar configurações
+  const saveSettings = async () => {
     try {
-      const response = await fetch("/api/settings");
-      const result = await response.json();
+      setSaving(true);
+
+      const updatedContent = {
+        ...content,
+        gallery: settings,
+      };
+
+      const result = await saveContent(updatedContent);
 
       if (result.success) {
-        const settings = result.data;
-        const galleryTexts = {
-          section_title:
-            settings.gallery_section_title?.value || "COLEÇÃO LIFESTYLE",
-          section_subtitle:
-            settings.gallery_section_subtitle?.value ||
-            "Descubra o lifestyle autêntico da Ecko",
-          section_description:
-            settings.gallery_section_description?.value ||
-            "Descubra o lifestyle autêntico da Ecko através de looks que representam a essência do streetwear e a cultura urbana que move nossa marca.",
-          section_tag:
-            settings.gallery_section_tag?.value || "Lifestyle Gallery",
-          empty_state_title:
-            settings.gallery_empty_title?.value || "Galeria em Construção",
-          empty_state_description:
-            settings.gallery_empty_description?.value ||
-            "Em breve nossa galeria estará repleta de produtos incríveis!",
-          cta_title:
-            settings.gallery_cta_title?.value ||
-            "Tenha Estes Produtos em Sua Loja!",
-          cta_description:
-            settings.gallery_cta_description?.value ||
-            "Produtos com alta demanda e excelente margem de lucro esperando por você",
-          cta_button_text:
-            settings.gallery_cta_button_text?.value ||
-            "QUERO ESSES PRODUTOS NA MINHA LOJA",
-        };
-        setTextSettings(galleryTexts);
-      }
-    } catch (error) {
-      console.error("Erro ao buscar configurações de texto:", error);
-    }
-  };
-
-  const saveTextSettings = async () => {
-    if (savingTexts) return; // Prevenir múltiplas chamadas
-
-    setSavingTexts(true);
-    try {
-      const settings = [
-        { key: "gallery_section_title", value: textSettings.section_title },
-        {
-          key: "gallery_section_subtitle",
-          value: textSettings.section_subtitle,
-        },
-        {
-          key: "gallery_section_description",
-          value: textSettings.section_description,
-        },
-        { key: "gallery_section_tag", value: textSettings.section_tag },
-        { key: "gallery_empty_title", value: textSettings.empty_state_title },
-        {
-          key: "gallery_empty_description",
-          value: textSettings.empty_state_description,
-        },
-        { key: "gallery_cta_title", value: textSettings.cta_title },
-        { key: "gallery_cta_description", value: textSettings.cta_description },
-        { key: "gallery_cta_button_text", value: textSettings.cta_button_text },
-      ];
-
-      let successCount = 0;
-      let errorCount = 0;
-
-      // Salvar cada configuração individualmente para evitar problemas de stream
-      for (const setting of settings) {
-        try {
-          const response = await fetch(`/api/settings/${setting.key}`, {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ value: setting.value, type: "text" }),
-          });
-
-          const result = await response.json();
-          if (result.success) {
-            successCount++;
-          } else {
-            errorCount++;
-          }
-        } catch (error) {
-          console.error(`Erro ao salvar ${setting.key}:`, error);
-          errorCount++;
-        }
-      }
-
-      if (successCount > 0) {
         toast({
-          title: "✅ Sucesso",
-          description: `${successCount} configurações salvas${errorCount > 0 ? ` (${errorCount} falharam)` : ""}`,
-          variant: "success",
+          title: "Galeria atualizada!",
+          description: "As configurações foram salvas com sucesso.",
         });
+        setHasChanges(false);
       } else {
-        toast({
-          title: "❌ Erro",
-          description: "Nenhuma configuração foi salva",
-          variant: "destructive",
-        });
+        throw new Error("Falha ao salvar");
       }
     } catch (error) {
-      console.error("Erro ao salvar textos:", error);
+      console.error("Erro ao salvar galeria:", error);
       toast({
-        title: "❌ Erro",
-        description: "Erro inesperado ao salvar textos",
+        title: "Erro ao salvar",
+        description: "Não foi possível salvar as configurações.",
         variant: "destructive",
       });
     } finally {
-      setSavingTexts(false);
+      setSaving(false);
     }
   };
 
-  const resetForm = () => {
-    setFormData({
+  // Atualizar campo de texto
+  const updateField = (field: keyof GallerySettings, value: string) => {
+    setSettings(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  // Adicionar nova imagem
+  const addImage = () => {
+    const newId = Math.max(...settings.items.map(img => img.id), 0) + 1;
+    const newImage: GalleryItem = {
+      id: newId,
       title: "",
       description: "",
       image_url: "",
       alt_text: "",
       is_active: true,
-      display_order: 0,
-    });
-    setEditingImage(null);
-    setShowForm(false);
+      display_order: settings.items.length + 1
+    };
+
+    setSettings(prev => ({
+      ...prev,
+      items: [...prev.items, newImage]
+    }));
+    setEditingImage(newImage);
+    setShowForm(true);
   };
 
-  const resetMultiUpload = () => {
-    setShowMultiUpload(false);
-    setMultiUploadImages([]);
-    setProcessingUploads(false);
-  };
-
-  const saveMultipleImages = async () => {
-    if (multiUploadImages.length === 0) {
-      toast({
-        title: "❌ Erro",
-        description: "Nenhuma imagem foi selecionada",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setProcessingUploads(true);
-
-    try {
-      let successCount = 0;
-      let errorCount = 0;
-
-      // Processa cada imagem
-      for (let i = 0; i < multiUploadImages.length; i++) {
-        const imageUrl = multiUploadImages[i];
-        const nextOrder =
-          Math.max(...images.map((img) => img.display_order || 0), 0) + i + 1;
-
-        try {
-          const response = await fetch("/api/gallery", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              title: `Lifestyle ${i + 1}`,
-              description: "",
-              image_url: imageUrl,
-              alt_text: `Imagem da galeria lifestyle ${i + 1}`,
-              is_active: true,
-              display_order: nextOrder,
-            }),
-          });
-
-          const result = await response.json();
-
-          if (result.success) {
-            successCount++;
-          } else {
-            errorCount++;
-          }
-        } catch (error) {
-          errorCount++;
-        }
-      }
-
-      if (successCount > 0) {
-        toast({
-          title: "✅ Sucesso",
-          description: `${successCount} ${successCount === 1 ? "imagem adicionada" : "imagens adicionadas"} com sucesso${errorCount > 0 ? ` (${errorCount} falharam)` : ""}`,
-          variant: "success",
-        });
-        resetMultiUpload();
-        fetchImages();
-      } else {
-        toast({
-          title: "❌ Erro",
-          description: "Não foi possível adicionar nenhuma imagem",
-          variant: "destructive",
-        });
-      }
-    } catch (error) {
-      console.error("Erro no upload múltiplo:", error);
-      toast({
-        title: "❌ Erro",
-        description: "Erro inesperado no upload múltiplo",
-        variant: "destructive",
-      });
-    } finally {
-      setProcessingUploads(false);
-    }
-  };
-
-  const handleEdit = (image: GalleryImage) => {
-    setFormData({
-      title: image.title,
-      description: image.description || "",
-      image_url: image.image_url,
-      alt_text: image.alt_text || "",
-      is_active: image.is_active,
-      display_order: image.display_order || 0,
-    });
+  // Editar imagem
+  const editImage = (image: GalleryItem) => {
     setEditingImage(image);
     setShowForm(true);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!formData.image_url) {
+  // Salvar imagem editada
+  const saveImage = (image: GalleryItem) => {
+    // Validação básica
+    if (!image.title.trim() || !image.image_url.trim()) {
       toast({
-        title: "❌ Erro",
-        description: "É necessário fazer upload de uma imagem",
+        title: "Erro de validação",
+        description: "Título e imagem são obrigatórios.",
         variant: "destructive",
       });
       return;
     }
 
-    setSaving(true);
+    setSettings(prev => ({
+      ...prev,
+      items: prev.items.map(item => 
+        item.id === image.id ? image : item
+      )
+    }));
+    setShowForm(false);
+    setEditingImage(null);
+  };
 
-    try {
-      const url = editingImage
-        ? `/api/gallery/${editingImage.id}`
-        : "/api/gallery";
-
-      const method = editingImage ? "PUT" : "POST";
-
-      const response = await fetch(url, {
-        method,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const result = await response.json();
-
-      if (result.success) {
-        toast({
-          title: "✅ Sucesso",
-          description: editingImage
-            ? "Imagem atualizada com sucesso"
-            : "Imagem adicionada com sucesso",
-          variant: "success",
-        });
-        resetForm();
-        fetchImages();
-      } else {
-        toast({
-          title: "❌ Erro",
-          description: result.message || "Erro ao salvar imagem",
-          variant: "destructive",
-        });
-      }
-    } catch (error) {
-      console.error("Erro ao salvar imagem:", error);
+  // Excluir imagem
+  const deleteImage = (id: number) => {
+    if (confirm("Tem certeza que deseja excluir esta imagem?")) {
+      setSettings(prev => ({
+        ...prev,
+        items: prev.items.filter(item => item.id !== id)
+      }));
       toast({
-        title: "❌ Erro",
-        description: "Erro ao salvar imagem",
-        variant: "destructive",
+        title: "Imagem excluída",
+        description: "A imagem foi removida com sucesso.",
       });
-    } finally {
-      setSaving(false);
     }
   };
 
-  const handleDelete = async (image: GalleryImage) => {
-    if (!confirm(`Tem certeza que deseja excluir a imagem "${image.title}"?`)) {
-      return;
-    }
-
-    setSaving(true);
-    try {
-      const response = await fetch(`/api/gallery/${image.id}`, {
-        method: "DELETE",
-      });
-
-      const result = await response.json();
-
-      if (result.success) {
-        toast({
-          title: "✅ Sucesso",
-          description: "Imagem excluída com sucesso",
-          variant: "success",
-        });
-        fetchImages();
-      } else {
-        toast({
-          title: "❌ Erro",
-          description: result.message || "Erro ao excluir imagem",
-          variant: "destructive",
-        });
-      }
-    } catch (error) {
-      console.error("Erro ao deletar imagem:", error);
-      toast({
-        title: "❌ Erro",
-        description: "Erro ao excluir imagem",
-        variant: "destructive",
-      });
-    } finally {
-      setSaving(false);
-    }
+  // Toggle ativo/inativo
+  const toggleImage = (id: number) => {
+    setSettings(prev => ({
+      ...prev,
+      items: prev.items.map(item => 
+        item.id === id ? { ...item, is_active: !item.is_active } : item
+      )
+    }));
   };
 
-  const handleToggleActive = async (image: GalleryImage) => {
-    setSaving(true);
-    try {
-      const response = await fetch(`/api/gallery/${image.id}/toggle`, {
-        method: "PUT",
-      });
+  // Reordenar imagens
+  const reorderImages = (fromIndex: number, toIndex: number) => {
+    const newItems = [...settings.items];
+    const [movedItem] = newItems.splice(fromIndex, 1);
+    newItems.splice(toIndex, 0, movedItem);
+    
+    // Atualizar display_order
+    const reorderedItems = newItems.map((item, index) => ({
+      ...item,
+      display_order: index + 1
+    }));
 
-      const result = await response.json();
-
-      if (result.success) {
-        toast({
-          title: "✅ Sucesso",
-          description: result.message,
-          variant: "success",
-        });
-        fetchImages();
-      } else {
-        toast({
-          title: "❌ Erro",
-          description: result.message || "Erro ao alterar status",
-          variant: "destructive",
-        });
-      }
-    } catch (error) {
-      console.error("Erro ao toggle imagem:", error);
-      toast({
-        title: "❌ Erro",
-        description: "Erro ao alterar status",
-        variant: "destructive",
-      });
-    } finally {
-      setSaving(false);
-    }
+    setSettings(prev => ({
+      ...prev,
+      items: reorderedItems
+    }));
   };
 
-  if (loading) {
+  if (contentLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-ecko-red mx-auto"></div>
-          <p className="mt-4 text-gray-600">Carregando galeria...</p>
-        </div>
+      <div className="flex items-center justify-center h-64">
+        <Loader2 className="h-8 w-8 animate-spin text-ecko-red" />
       </div>
     );
   }
@@ -471,680 +223,416 @@ export default function AdminGallery() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">
-            Gerenciar Seção Lifestyle
-          </h1>
-          <p className="text-gray-600 mt-2">
-            Gerencie imagens e textos da seção "Coleção Lifestyle" da home.
-          </p>
+          <h1 className="text-2xl font-bold text-gray-900">Galeria</h1>
+          <p className="text-gray-600">Gerencie as imagens e textos da galeria</p>
         </div>
-
-        {/* Abas */}
-        <div className="flex bg-gray-100 rounded-lg p-1">
-          <button
-            onClick={() => setActiveTab("galeria")}
-            className={`px-4 py-2 rounded-md font-medium transition-colors flex items-center gap-2 ${
-              activeTab === "galeria"
-                ? "bg-white text-gray-900 shadow-sm"
-                : "text-gray-600 hover:text-gray-900"
-            }`}
-          >
-            <Images className="w-4 h-4" />
-            Galeria
-          </button>
-          <button
-            onClick={() => setActiveTab("textos")}
-            className={`px-4 py-2 rounded-md font-medium transition-colors flex items-center gap-2 ${
-              activeTab === "textos"
-                ? "bg-white text-gray-900 shadow-sm"
-                : "text-gray-600 hover:text-gray-900"
-            }`}
-          >
-            <FileText className="w-4 h-4" />
-            Textos
-          </button>
-        </div>
+        
+        {hasChanges && (
+          <div className="flex items-center gap-4">
+            <Badge variant="outline" className="text-orange-600 border-orange-300">
+              <AlertCircle className="w-3 h-3 mr-1" />
+              Alterações pendentes
+            </Badge>
+            <Button 
+              onClick={saveSettings} 
+              disabled={saving}
+              className="bg-ecko-red hover:bg-ecko-red-dark"
+            >
+              {saving ? (
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              ) : (
+                <Save className="w-4 h-4 mr-2" />
+              )}
+              Salvar Alterações
+            </Button>
+          </div>
+        )}
       </div>
 
-      {/* Conteúdo das Abas */}
-      {activeTab === "galeria" ? (
+      {/* Tabs */}
+      <div className="border-b border-gray-200">
+        <nav className="-mb-px flex space-x-8">
+          <button
+            onClick={() => setActiveTab('galeria')}
+            className={`py-2 px-1 border-b-2 font-medium text-sm ${
+              activeTab === 'galeria'
+                ? 'border-ecko-red text-ecko-red'
+                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+            }`}
+          >
+            <Images className="w-4 h-4 mr-2 inline" />
+            Imagens
+          </button>
+          <button
+            onClick={() => setActiveTab('textos')}
+            className={`py-2 px-1 border-b-2 font-medium text-sm ${
+              activeTab === 'textos'
+                ? 'border-ecko-red text-ecko-red'
+                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+            }`}
+          >
+            <FileText className="w-4 h-4 mr-2 inline" />
+            Textos da Seção
+          </button>
+        </nav>
+      </div>
+
+      {/* Content */}
+      {activeTab === 'galeria' ? (
         <div className="space-y-6">
-          {/* Header da Galeria */}
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <div className="flex gap-2">
-              <Button
-                onClick={() => setShowMultiUpload(true)}
-                className="bg-green-600 hover:bg-green-700 text-white"
-              >
-                <Images className="w-4 h-4 mr-2" />
-                Upload Múltiplo
-              </Button>
-              <Button
-                onClick={() => setShowForm(true)}
-                className="bg-ecko-red hover:bg-ecko-red-dark text-white"
-              >
-                <Plus className="w-4 h-4 mr-2" />
-                Nova Imagem
-              </Button>
-            </div>
+          {/* Add Button */}
+          <div className="flex justify-end">
+            <Button onClick={addImage} className="bg-ecko-red hover:bg-ecko-red-dark">
+              <Plus className="w-4 h-4 mr-2" />
+              Adicionar Imagem
+            </Button>
           </div>
 
-          {/* Upload Múltiplo */}
-          {showMultiUpload && (
-            <Card className="bg-white shadow-sm border border-gray-200">
-              <CardHeader>
-                <CardTitle className="flex items-center justify-between">
-                  <div className="flex items-center">
-                    <Images className="w-6 h-6 mr-2 text-green-600" />
-                    Upload Múltiplo de Imagens
-                  </div>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={resetMultiUpload}
-                  >
-                    <X className="w-4 h-4" />
-                  </Button>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-6">
-                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                    <h4 className="font-medium text-blue-800 mb-2">
-                      📸 Upload Simplificado
-                    </h4>
-                    <p className="text-sm text-blue-700">
-                      Faça upload de múltiplas imagens de uma vez. Títulos e
-                      descrições serão gerados automaticamente. Você pode editar
-                      os detalhes de cada imagem posteriormente se necessário.
-                    </p>
+          {/* Images Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {settings.items
+              .sort((a, b) => a.display_order - b.display_order)
+              .map((image, index) => (
+              <Card key={image.id} className="bg-white border border-gray-200 overflow-hidden">
+                <div className="relative">
+                  {image.image_url ? (
+                    <img
+                      src={image.image_url}
+                      alt={image.alt_text}
+                      className="w-full h-48 object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-48 bg-gray-100 flex items-center justify-center">
+                      <Image className="w-12 h-12 text-gray-400" />
+                    </div>
+                  )}
+                  
+                  <div className="absolute top-2 left-2">
+                    <div className="cursor-grab bg-white/80 rounded p-1">
+                      <GripVertical className="w-4 h-4 text-gray-600" />
+                    </div>
                   </div>
 
-                  <MultiImageUpload
-                    images={multiUploadImages}
-                    onImagesChange={setMultiUploadImages}
-                    maxSizeMB={5}
-                    maxImages={20}
-                    disabled={processingUploads}
-                  />
-
-                  <div className="flex gap-3 pt-4">
-                    <Button
-                      onClick={saveMultipleImages}
-                      disabled={
-                        processingUploads || multiUploadImages.length === 0
-                      }
-                      className="bg-green-600 hover:bg-green-700 text-white"
-                    >
-                      <Upload className="w-4 h-4 mr-2" />
-                      {processingUploads
-                        ? "Processando..."
-                        : `Salvar ${multiUploadImages.length} ${multiUploadImages.length === 1 ? "Imagem" : "Imagens"}`}
-                    </Button>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={resetMultiUpload}
-                      disabled={processingUploads}
-                    >
-                      Cancelar
-                    </Button>
+                  <div className="absolute top-2 right-2">
+                    <Badge variant={image.is_active ? "default" : "secondary"}>
+                      {image.is_active ? "Ativo" : "Inativo"}
+                    </Badge>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          )}
-
-          {/* Formulário */}
-          {showForm && (
-            <Card className="bg-white shadow-sm border border-gray-200">
-              <CardHeader>
-                <CardTitle className="flex items-center justify-between">
-                  <div className="flex items-center">
-                    <Image className="w-6 h-6 mr-2 text-ecko-red" />
-                    {editingImage ? "Editar Imagem" : "Nova Imagem"}
-                  </div>
-                  <Button variant="outline" size="sm" onClick={resetForm}>
-                    <X className="w-4 h-4" />
-                  </Button>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Título *
-                      </label>
-                      <input
-                        type="text"
-                        value={formData.title}
-                        onChange={(e) =>
-                          setFormData({ ...formData, title: e.target.value })
-                        }
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
-                        placeholder="Título da imagem (ex: Streetwear Masculino)"
-                        required
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Texto Alternativo
-                      </label>
-                      <input
-                        type="text"
-                        value={formData.alt_text}
-                        onChange={(e) =>
-                          setFormData({ ...formData, alt_text: e.target.value })
-                        }
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
-                        placeholder="Descrição para acessibilidade"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Ordem de Exibição
-                      </label>
-                      <input
-                        type="number"
-                        value={formData.display_order}
-                        onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            display_order: Number(e.target.value),
-                          })
-                        }
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
-                        placeholder="0"
-                        min="0"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Descrição
-                    </label>
-                    <textarea
-                      value={formData.description}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          description: e.target.value,
-                        })
-                      }
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
-                      rows={3}
-                      placeholder="Descrição da imagem (opcional)"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Imagem da Galeria *
-                    </label>
-                    <SmartImageUpload
-                      value={formData.image_url}
-                      onChange={(url) =>
-                        setFormData({ ...formData, image_url: url })
-                      }
-                      type="gallery"
-                      placeholder="Upload da imagem para galeria lifestyle (max 5MB)"
-                    />
-                  </div>
-
-                  <div className="flex items-center">
-                    <input
-                      type="checkbox"
-                      id="is_active"
-                      checked={formData.is_active}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          is_active: e.target.checked,
-                        })
-                      }
-                      className="w-4 h-4 text-ecko-red bg-gray-100 border-gray-300 rounded focus:ring-ecko-red focus:ring-2"
-                    />
-                    <label
-                      htmlFor="is_active"
-                      className="ml-2 text-sm font-medium text-gray-700"
-                    >
-                      Ativo (visível na landing page)
-                    </label>
-                  </div>
-
-                  <div className="flex gap-3 pt-4">
-                    <Button
-                      type="submit"
-                      disabled={saving}
-                      className="bg-ecko-red hover:bg-ecko-red-dark text-white"
-                    >
-                      <Save className="w-4 h-4 mr-2" />
-                      {saving
-                        ? "Salvando..."
-                        : editingImage
-                          ? "Atualizar"
-                          : "Adicionar"}
-                    </Button>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={resetForm}
-                      disabled={saving}
-                    >
-                      Cancelar
-                    </Button>
-                  </div>
-                </form>
-              </CardContent>
-            </Card>
-          )}
-
-          {/* Grid de Imagens */}
-          <Card className="bg-white shadow-sm border border-gray-200">
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <Image className="w-6 h-6 mr-2 text-ecko-red" />
-                Galeria Lifestyle ({images.length} imagens)
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              {images.length === 0 ? (
-                <div className="text-center py-12">
-                  <Image className="w-12 h-12 mx-auto mb-4 text-gray-300" />
-                  <p className="text-lg font-medium text-gray-500">
-                    Nenhuma imagem encontrada
+                
+                <CardContent className="p-4">
+                  <h3 className="font-semibold text-gray-900 mb-1 truncate">
+                    {image.title || "Sem título"}
+                  </h3>
+                  <p className="text-sm text-gray-600 mb-3 line-clamp-2">
+                    {image.description || "Sem descrição"}
                   </p>
-                  <p className="text-sm text-gray-400">
-                    Clique em "Nova Imagem" para começar.
-                  </p>
-                </div>
-              ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                  {images.map((image) => (
-                    <div
-                      key={image.id}
-                      className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
-                    >
-                      {/* Imagem */}
-                      <div className="relative">
-                        <img
-                          src={image.image_url}
-                          alt={image.alt_text || image.title}
-                          className="w-full h-48 object-cover"
-                          onError={(e) => {
-                            const target = e.target as HTMLImageElement;
-                            target.src =
-                              "https://via.placeholder.com/400x300?text=Erro+ao+carregar";
-                          }}
-                        />
-
-                        {/* Status Badge */}
-                        <div className="absolute top-2 right-2">
-                          <Badge
-                            className={
-                              image.is_active
-                                ? "bg-green-100 text-green-800"
-                                : "bg-gray-100 text-gray-800"
-                            }
-                          >
-                            {image.is_active ? "Ativo" : "Inativo"}
-                          </Badge>
-                        </div>
-
-                        {/* Ordem */}
-                        <div className="absolute top-2 left-2">
-                          <Badge className="bg-blue-100 text-blue-800">
-                            #{image.display_order || 0}
-                          </Badge>
-                        </div>
-                      </div>
-
-                      {/* Conteúdo */}
-                      <div className="p-4">
-                        <h3 className="font-semibold text-gray-900 mb-2 truncate">
-                          {image.title}
-                        </h3>
-                        {image.description && (
-                          <p className="text-sm text-gray-600 mb-3 line-clamp-2">
-                            {image.description}
-                          </p>
+                  
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-gray-500">
+                      Ordem: {image.display_order}
+                    </span>
+                    
+                    <div className="flex items-center space-x-1">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => toggleImage(image.id)}
+                      >
+                        {image.is_active ? (
+                          <EyeOff className="w-4 h-4" />
+                        ) : (
+                          <Eye className="w-4 h-4" />
                         )}
-
-                        {/* Ações */}
-                        <div className="flex items-center gap-2">
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => handleToggleActive(image)}
-                            disabled={saving}
-                            title={image.is_active ? "Desativar" : "Ativar"}
-                          >
-                            {image.is_active ? (
-                              <EyeOff className="w-4 h-4" />
-                            ) : (
-                              <Eye className="w-4 h-4" />
-                            )}
-                          </Button>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => handleEdit(image)}
-                            disabled={saving}
-                            title="Editar"
-                          >
-                            <Edit2 className="w-4 h-4" />
-                          </Button>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => handleDelete(image)}
-                            disabled={saving}
-                            className="text-red-600 hover:text-red-700 hover:bg-red-50"
-                            title="Excluir"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </Button>
-                        </div>
-                      </div>
+                      </Button>
+                      
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => editImage(image)}
+                      >
+                        <Edit2 className="w-4 h-4" />
+                      </Button>
+                      
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => deleteImage(image.id)}
+                        className="text-red-600 hover:text-red-700"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
                     </div>
-                  ))}
-                </div>
-              )}
-            </CardContent>
-          </Card>
-
-          {/* Dicas */}
-          <Card className="bg-blue-50 border-blue-200">
-            <CardHeader>
-              <CardTitle className="text-blue-800 flex items-center">
-                <Image className="w-5 h-5 mr-2" />
-                Dicas para Galeria Lifestyle
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-blue-700">
-                <div>
-                  <h4 className="font-semibold mb-2">📷 Imagens</h4>
-                  <ul className="space-y-1 text-blue-600">
-                    <li>• Use imagens quadradas (500x500px ideal)</li>
-                    <li>• Máximo 5MB por imagem</li>
-                    <li>• Imagens são compactadas automaticamente</li>
-                    <li>• Prefira alta qualidade e boa iluminação</li>
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="font-semibold mb-2">🎯 Conteúdo</h4>
-                  <ul className="space-y-1 text-blue-600">
-                    <li>• Mostre produtos em uso real</li>
-                    <li>• Varie estilos: masculino, feminino, urbano</li>
-                    <li>• Use ordem para priorizar melhores fotos</li>
-                    <li>• Máximo 12 imagens são exibidas na home</li>
-                  </ul>
-                </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+            
+            {settings.items.length === 0 && (
+              <div className="col-span-full text-center py-12 text-gray-500">
+                <Images className="w-12 h-12 mx-auto mb-4 text-gray-300" />
+                <p>Nenhuma imagem na galeria</p>
+                <p className="text-sm">Clique em "Adicionar Imagem" para começar</p>
               </div>
-            </CardContent>
-          </Card>
+            )}
+          </div>
         </div>
       ) : (
-        /* Aba de Textos */
+        // Textos da Seção
         <div className="space-y-6">
           <Card className="bg-white shadow-sm border border-gray-200">
             <CardHeader>
-              <CardTitle className="flex items-center">
-                <FileText className="w-6 h-6 mr-2 text-ecko-red" />
-                Textos da Seção Lifestyle
+              <CardTitle className="text-gray-900 flex items-center">
+                <FileText className="w-5 h-5 mr-2 text-ecko-red" />
+                Textos da Seção de Galeria
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Tag da Seção
-                    </label>
-                    <input
-                      type="text"
-                      value={textSettings.section_tag}
-                      onChange={(e) =>
-                        setTextSettings({
-                          ...textSettings,
-                          section_tag: e.target.value,
-                        })
-                      }
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
-                      placeholder="Ex: Lifestyle Gallery"
-                    />
-                  </div>
+            <CardContent className="space-y-6">
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Tag da Seção
+                </label>
+                <TokenColorEditor
+                  value={settings.section_tag}
+                  onChange={(value) => updateField('section_tag', value)}
+                  placeholder="Ex: Lifestyle Gallery"
+                  rows={2}
+                  label=""
+                />
+              </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Título Principal
-                    </label>
-                    <input
-                      type="text"
-                      value={textSettings.section_title}
-                      onChange={(e) =>
-                        setTextSettings({
-                          ...textSettings,
-                          section_title: e.target.value,
-                        })
-                      }
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
-                      placeholder="Ex: COLEÇÃO LIFESTYLE"
-                    />
-                  </div>
-                </div>
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Título Principal
+                </label>
+                <TokenColorEditor
+                  value={settings.section_title}
+                  onChange={(value) => updateField('section_title', value)}
+                  placeholder="Ex: COLEÇÃO LIFESTYLE"
+                  rows={2}
+                  label=""
+                />
+              </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Subtítulo
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Subtítulo
+                </label>
+                <TokenColorEditor
+                  value={settings.section_subtitle}
+                  onChange={(value) => updateField('section_subtitle', value)}
+                  placeholder="Ex: Viva o estilo Ecko"
+                  rows={2}
+                  label=""
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Descrição da Seção
+                </label>
+                <TokenColorEditor
+                  value={settings.section_description}
+                  onChange={(value) => updateField('section_description', value)}
+                  placeholder="Descreva a galeria..."
+                  rows={3}
+                  label=""
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Título do Estado Vazio
                   </label>
-                  <input
-                    type="text"
-                    value={textSettings.section_subtitle}
-                    onChange={(e) =>
-                      setTextSettings({
-                        ...textSettings,
-                        section_subtitle: e.target.value,
-                      })
-                    }
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
-                    placeholder="Ex: Descubra o lifestyle autêntico da Ecko"
+                  <TokenColorEditor
+                    value={settings.empty_state_title}
+                    onChange={(value) => updateField('empty_state_title', value)}
+                    placeholder="Ex: Galeria em Construção"
+                    rows={2}
+                    label=""
                   />
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Descrição da Seção
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Descrição do Estado Vazio
                   </label>
-                  <textarea
-                    value={textSettings.section_description}
-                    onChange={(e) =>
-                      setTextSettings({
-                        ...textSettings,
-                        section_description: e.target.value,
-                      })
-                    }
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
-                    rows={3}
-                    placeholder="Descrição completa da seção lifestyle..."
+                  <TokenColorEditor
+                    value={settings.empty_state_description}
+                    onChange={(value) => updateField('empty_state_description', value)}
+                    placeholder="Ex: Em breve nossa galeria estará repleta..."
+                    rows={2}
+                    label=""
                   />
-                </div>
-
-                <div className="border-t pt-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                    CTA da Seção
-                  </h3>
-
-                  <div className="space-y-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Título do CTA
-                      </label>
-                      <input
-                        type="text"
-                        value={textSettings.cta_title}
-                        onChange={(e) =>
-                          setTextSettings({
-                            ...textSettings,
-                            cta_title: e.target.value,
-                          })
-                        }
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
-                        placeholder="Ex: Tenha Estes Produtos em Sua Loja!"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Descrição do CTA
-                      </label>
-                      <input
-                        type="text"
-                        value={textSettings.cta_description}
-                        onChange={(e) =>
-                          setTextSettings({
-                            ...textSettings,
-                            cta_description: e.target.value,
-                          })
-                        }
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
-                        placeholder="Ex: Produtos com alta demanda e excelente margem de lucro esperando por você"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Texto do Botão
-                      </label>
-                      <input
-                        type="text"
-                        value={textSettings.cta_button_text}
-                        onChange={(e) =>
-                          setTextSettings({
-                            ...textSettings,
-                            cta_button_text: e.target.value,
-                          })
-                        }
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
-                        placeholder="Ex: QUERO ESSES PRODUTOS NA MINHA LOJA"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="border-t pt-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                    Estado Vazio (quando não há imagens)
-                  </h3>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Título Estado Vazio
-                      </label>
-                      <input
-                        type="text"
-                        value={textSettings.empty_state_title}
-                        onChange={(e) =>
-                          setTextSettings({
-                            ...textSettings,
-                            empty_state_title: e.target.value,
-                          })
-                        }
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
-                        placeholder="Ex: Galeria em Construção"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Descrição Estado Vazio
-                      </label>
-                      <input
-                        type="text"
-                        value={textSettings.empty_state_description}
-                        onChange={(e) =>
-                          setTextSettings({
-                            ...textSettings,
-                            empty_state_description: e.target.value,
-                          })
-                        }
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
-                        placeholder="Ex: Em breve nossa galeria estará repleta de produtos incríveis!"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex gap-3 pt-4">
-                  <Button
-                    onClick={saveTextSettings}
-                    disabled={savingTexts}
-                    className="bg-ecko-red hover:bg-ecko-red-dark text-white"
-                  >
-                    <Save className="w-4 h-4 mr-2" />
-                    {savingTexts ? "Salvando..." : "Salvar Textos"}
-                  </Button>
                 </div>
               </div>
-            </CardContent>
-          </Card>
 
-          {/* Preview dos Textos */}
-          <Card className="bg-gray-50 border-gray-200">
-            <CardHeader>
-              <CardTitle className="text-gray-800 flex items-center">
-                <Eye className="w-5 h-5 mr-2" />
-                Preview da Seção
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="bg-black rounded-lg p-8 text-center">
-                <span className="text-ecko-red font-bold uppercase tracking-wider text-sm">
-                  {textSettings.section_tag}
-                </span>
-                <h2 className="text-3xl md:text-4xl font-black text-white mb-4 uppercase tracking-tight leading-tight mt-2">
-                  {textSettings.section_title}
-                </h2>
-                <span className="block text-lg text-gray-300 mb-4 font-medium">
-                  {textSettings.section_subtitle}
-                </span>
-                <p className="text-gray-300 text-base max-w-2xl mx-auto leading-relaxed">
-                  {textSettings.section_description}
-                </p>
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Título do CTA
+                </label>
+                <TokenColorEditor
+                  value={settings.cta_title}
+                  onChange={(value) => updateField('cta_title', value)}
+                  placeholder="Ex: Tenha Estes Produtos em Sua Loja!"
+                  rows={2}
+                  label=""
+                />
+              </div>
 
-                <div className="mt-8 p-6 bg-gradient-to-r from-red-600/10 to-red-800/10 rounded-lg border border-red-600/20">
-                  <h3 className="text-xl font-bold text-white mb-2">
-                    {textSettings.cta_title}
-                  </h3>
-                  <p className="text-gray-300 mb-4">
-                    {textSettings.cta_description}
-                  </p>
-                  <div className="bg-red-600 text-white px-6 py-2 rounded-lg font-bold text-sm inline-block">
-                    {textSettings.cta_button_text}
-                  </div>
-                </div>
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Descrição do CTA
+                </label>
+                <TokenColorEditor
+                  value={settings.cta_description}
+                  onChange={(value) => updateField('cta_description', value)}
+                  placeholder="Ex: Produtos com alta demanda e excelente margem..."
+                  rows={2}
+                  label=""
+                />
+              </div>
 
-                <div className="mt-6 p-4 bg-gray-800 rounded-lg">
-                  <h4 className="text-lg font-bold text-white mb-2">
-                    {textSettings.empty_state_title}
-                  </h4>
-                  <p className="text-gray-400 text-sm">
-                    {textSettings.empty_state_description}
-                  </p>
-                </div>
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Texto do Botão CTA
+                </label>
+                <TokenColorEditor
+                  value={settings.cta_button_text}
+                  onChange={(value) => updateField('cta_button_text', value)}
+                  placeholder="Ex: QUERO ESSES PRODUTOS NA MINHA LOJA"
+                  rows={2}
+                  label=""
+                />
               </div>
             </CardContent>
           </Card>
         </div>
       )}
+
+      {/* Modal de Edição */}
+      {showForm && editingImage && (
+        <ImageForm
+          image={editingImage}
+          onSave={saveImage}
+          onClose={() => {
+            setShowForm(false);
+            setEditingImage(null);
+          }}
+        />
+      )}
+    </div>
+  );
+}
+
+// Componente para formulário de imagem
+function ImageForm({ 
+  image, 
+  onSave, 
+  onClose 
+}: { 
+  image: GalleryItem;
+  onSave: (image: GalleryItem) => void;
+  onClose: () => void;
+}) {
+  const [formData, setFormData] = useState<GalleryItem>(image);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSave(formData);
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-xl font-bold text-gray-900">
+            {formData.id ? 'Editar Imagem' : 'Nova Imagem'}
+          </h2>
+          <Button variant="outline" size="sm" onClick={onClose}>
+            <X className="w-4 h-4" />
+          </Button>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700">
+              Título *
+            </label>
+            <Input
+              value={formData.title}
+              onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
+              placeholder="Título da imagem"
+              required
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700">
+              Descrição
+            </label>
+            <Textarea
+              value={formData.description}
+              onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+              placeholder="Descrição da imagem"
+              rows={3}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700">
+              Imagem *
+            </label>
+            <SmartImageUpload
+              value={formData.image_url}
+              onChange={(url) => setFormData(prev => ({ ...prev, image_url: url }))}
+              uploadEndpoint="/api/upload/gallery"
+              folder="gallery"
+              aspectRatio="1:1"
+              maxWidth={800}
+              maxHeight={800}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700">
+              Texto Alternativo (Alt Text)
+            </label>
+            <Input
+              value={formData.alt_text}
+              onChange={(e) => setFormData(prev => ({ ...prev, alt_text: e.target.value }))}
+              placeholder="Descrição para acessibilidade"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700">
+              Status
+            </label>
+            <select
+              value={formData.is_active ? 'true' : 'false'}
+              onChange={(e) => setFormData(prev => ({ ...prev, is_active: e.target.value === 'true' }))}
+              className="w-full border border-gray-300 rounded-md px-3 py-2"
+            >
+              <option value="true">Ativo</option>
+              <option value="false">Inativo</option>
+            </select>
+          </div>
+
+          <div className="flex justify-end space-x-3 pt-6 border-t">
+            <Button type="button" variant="outline" onClick={onClose}>
+              Cancelar
+            </Button>
+            <Button type="submit" className="bg-ecko-red hover:bg-ecko-red-dark">
+              <Save className="w-4 h-4 mr-2" />
+              Salvar Imagem
+            </Button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
