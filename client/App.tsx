@@ -13,6 +13,7 @@ import AdminConfiguracoes from "./pages/admin/AdminConfiguracoes";
 import AdminAnalytics from "./pages/admin/AdminAnalytics";
 import AdminHero from "./pages/admin/AdminHero";
 import AdminTestimonials from "./pages/admin/AdminTestimonials";
+import AdminGallery from "./pages/admin/AdminGallery";
 import NotFound from "./pages/NotFound";
 
 const App = () => (
