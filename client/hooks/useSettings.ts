@@ -28,7 +28,15 @@ export function useSettings(): UseSettingsReturn {
       setLoading(true);
       setError(null);
 
-      const response = await fetch('/api/settings');
+      // Create fetch with timeout
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+
+      const response = await fetch('/api/settings', {
+        signal: controller.signal
+      });
+
+      clearTimeout(timeoutId);
 
       if (response.status === 500) {
         // Banco não disponível, usar configurações padrão
@@ -45,7 +53,8 @@ export function useSettings(): UseSettingsReturn {
           webhook_url: { value: '', type: 'text', updated_at: new Date().toISOString() },
           webhook_secret: { value: '', type: 'text', updated_at: new Date().toISOString() }
         });
-        setError('Banco não disponível - usando configurações padrão');
+        // Don't set error to prevent UI error states
+        setError(null);
         return;
       }
 
@@ -57,9 +66,15 @@ export function useSettings(): UseSettingsReturn {
         throw new Error(result.message || 'Erro ao carregar configurações');
       }
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Erro desconhecido';
-      setError(errorMessage);
-      console.warn('Usando configurações padrão devido ao erro:', err);
+      // Silently fall back to defaults
+      if (err instanceof Error && err.name === 'AbortError') {
+        console.warn('⚠️ API timeout - usando configurações padrão');
+      } else {
+        console.warn('⚠️ API indisponível - usando configurações padrão');
+      }
+
+      // Don't set error to prevent UI error states
+      setError(null);
 
       // Usar configurações padrão em caso de erro
       setSettings({

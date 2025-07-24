@@ -123,7 +123,7 @@ export default function AdminAbout() {
   // Adicionar nova estatística
   const addStat = () => {
     const newStat = {
-      id: Math.max(...settings.stats.map(s => s.id), 0) + 1,
+      id: Math.max(...settings.stats.map((s) => s.id), 0) + 1,
       number: "0+",
       label: "Nova Estatística",
       description: "Descrição da estatística",
@@ -133,13 +133,16 @@ export default function AdminAbout() {
 
   // Remover estatística
   const removeStat = (id: number) => {
-    updateField("stats", settings.stats.filter(stat => stat.id !== id));
+    updateField(
+      "stats",
+      settings.stats.filter((stat) => stat.id !== id),
+    );
   };
 
   // Atualizar estatística específica
   const updateStat = (id: number, field: string, value: string) => {
-    const updatedStats = settings.stats.map(stat =>
-      stat.id === id ? { ...stat, [field]: value } : stat
+    const updatedStats = settings.stats.map((stat) =>
+      stat.id === id ? { ...stat, [field]: value } : stat,
     );
     updateField("stats", updatedStats);
   };
@@ -262,7 +265,9 @@ export default function AdminAbout() {
                 </label>
                 <Input
                   value={settings.section_subtitle}
-                  onChange={(e) => updateField("section_subtitle", e.target.value)}
+                  onChange={(e) =>
+                    updateField("section_subtitle", e.target.value)
+                  }
                   placeholder="mais de 20 anos de streetwear"
                 />
               </div>
@@ -273,7 +278,9 @@ export default function AdminAbout() {
                 </label>
                 <Textarea
                   value={settings.section_description}
-                  onChange={(e) => updateField("section_description", e.target.value)}
+                  onChange={(e) =>
+                    updateField("section_description", e.target.value)
+                  }
                   placeholder="Conheça a trajetória de uma das marcas..."
                   rows={2}
                 />
@@ -302,7 +309,8 @@ export default function AdminAbout() {
                   label=""
                 />
                 <p className="text-xs text-gray-500">
-                  Use quebras de linha duplas (Enter duas vezes) para separar parágrafos
+                  Use quebras de linha duplas (Enter duas vezes) para separar
+                  parágrafos
                 </p>
               </div>
             </CardContent>
@@ -329,7 +337,10 @@ export default function AdminAbout() {
             </CardHeader>
             <CardContent className="space-y-4">
               {settings.stats.map((stat) => (
-                <div key={stat.id} className="p-4 border border-gray-200 rounded-lg space-y-3">
+                <div
+                  key={stat.id}
+                  className="p-4 border border-gray-200 rounded-lg space-y-3"
+                >
                   <div className="flex items-center justify-between">
                     <span className="text-sm font-medium text-gray-700">
                       Estatística #{stat.id}
@@ -343,7 +354,7 @@ export default function AdminAbout() {
                       <Trash2 className="w-4 h-4" />
                     </Button>
                   </div>
-                  
+
                   <div className="grid grid-cols-2 gap-3">
                     <div className="space-y-1">
                       <label className="block text-xs font-medium text-gray-600">
@@ -351,7 +362,9 @@ export default function AdminAbout() {
                       </label>
                       <Input
                         value={stat.number}
-                        onChange={(e) => updateStat(stat.id, "number", e.target.value)}
+                        onChange={(e) =>
+                          updateStat(stat.id, "number", e.target.value)
+                        }
                         placeholder="30+"
                         size="sm"
                       />
@@ -362,20 +375,24 @@ export default function AdminAbout() {
                       </label>
                       <Input
                         value={stat.label}
-                        onChange={(e) => updateStat(stat.id, "label", e.target.value)}
+                        onChange={(e) =>
+                          updateStat(stat.id, "label", e.target.value)
+                        }
                         placeholder="Anos de História"
                         size="sm"
                       />
                     </div>
                   </div>
-                  
+
                   <div className="space-y-1">
                     <label className="block text-xs font-medium text-gray-600">
                       Descrição
                     </label>
                     <Textarea
                       value={stat.description}
-                      onChange={(e) => updateStat(stat.id, "description", e.target.value)}
+                      onChange={(e) =>
+                        updateStat(stat.id, "description", e.target.value)
+                      }
                       placeholder="Mais de três décadas construindo..."
                       rows={2}
                     />
@@ -413,7 +430,9 @@ export default function AdminAbout() {
                 </label>
                 <Textarea
                   value={settings.cta_description}
-                  onChange={(e) => updateField("cta_description", e.target.value)}
+                  onChange={(e) =>
+                    updateField("cta_description", e.target.value)
+                  }
                   placeholder="Torne-se um revendedor oficial..."
                   rows={2}
                 />
@@ -425,7 +444,9 @@ export default function AdminAbout() {
                 </label>
                 <Input
                   value={settings.cta_button_text}
-                  onChange={(e) => updateField("cta_button_text", e.target.value)}
+                  onChange={(e) =>
+                    updateField("cta_button_text", e.target.value)
+                  }
                   placeholder="QUERO SER PARTE DA ECKO"
                 />
               </div>
@@ -462,12 +483,18 @@ export default function AdminAbout() {
 
                 {/* Content Preview */}
                 <div className="space-y-3">
-                  {settings.content.split('\n\n').slice(0, 2).map((paragraph, index) => (
-                    <p key={index} className="text-xs text-gray-700 leading-relaxed">
-                      {renderTextWithColorTokens(paragraph)}
-                    </p>
-                  ))}
-                  {settings.content.split('\n\n').length > 2 && (
+                  {settings.content
+                    .split("\n\n")
+                    .slice(0, 2)
+                    .map((paragraph, index) => (
+                      <p
+                        key={index}
+                        className="text-xs text-gray-700 leading-relaxed"
+                      >
+                        {renderTextWithColorTokens(paragraph)}
+                      </p>
+                    ))}
+                  {settings.content.split("\n\n").length > 2 && (
                     <p className="text-xs text-gray-500 italic">...</p>
                   )}
                 </div>
@@ -475,7 +502,10 @@ export default function AdminAbout() {
                 {/* Stats Preview */}
                 <div className="grid grid-cols-2 gap-2">
                   {settings.stats.slice(0, 4).map((stat) => (
-                    <div key={stat.id} className="text-center p-3 bg-white rounded border border-gray-100">
+                    <div
+                      key={stat.id}
+                      className="text-center p-3 bg-white rounded border border-gray-100"
+                    >
                       <div className="text-lg font-bold text-ecko-red mb-1">
                         {stat.number}
                       </div>
@@ -483,10 +513,9 @@ export default function AdminAbout() {
                         {stat.label}
                       </div>
                       <div className="text-xs text-gray-600">
-                        {stat.description.length > 30 
+                        {stat.description.length > 30
                           ? stat.description.substring(0, 30) + "..."
-                          : stat.description
-                        }
+                          : stat.description}
                       </div>
                     </div>
                   ))}

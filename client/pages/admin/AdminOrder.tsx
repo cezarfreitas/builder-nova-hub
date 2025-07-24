@@ -35,7 +35,9 @@ interface SectionOrderSettings {
 
 export default function AdminOrder() {
   const { content, loading: contentLoading, saveContent } = useContent();
-  const [settings, setSettings] = useState<SectionOrderSettings>(content.section_order);
+  const [settings, setSettings] = useState<SectionOrderSettings>(
+    content.section_order,
+  );
   const [saving, setSaving] = useState(false);
   const [previewMode, setPreviewMode] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
@@ -103,38 +105,50 @@ export default function AdminOrder() {
   // Mover seção para cima
   const moveUp = (index: number) => {
     if (index === 0) return;
-    
+
     const newSections = [...settings.enabled_sections];
     const currentSection = newSections[index];
     const previousSection = newSections[index - 1];
-    
+
     // Trocar as ordens
-    [currentSection.order, previousSection.order] = [previousSection.order, currentSection.order];
-    
+    [currentSection.order, previousSection.order] = [
+      previousSection.order,
+      currentSection.order,
+    ];
+
     // Trocar as posições no array
-    [newSections[index], newSections[index - 1]] = [newSections[index - 1], newSections[index]];
-    
+    [newSections[index], newSections[index - 1]] = [
+      newSections[index - 1],
+      newSections[index],
+    ];
+
     setSettings({
-      enabled_sections: newSections
+      enabled_sections: newSections,
     });
   };
 
   // Mover seção para baixo
   const moveDown = (index: number) => {
     if (index === settings.enabled_sections.length - 1) return;
-    
+
     const newSections = [...settings.enabled_sections];
     const currentSection = newSections[index];
     const nextSection = newSections[index + 1];
-    
+
     // Trocar as ordens
-    [currentSection.order, nextSection.order] = [nextSection.order, currentSection.order];
-    
+    [currentSection.order, nextSection.order] = [
+      nextSection.order,
+      currentSection.order,
+    ];
+
     // Trocar as posições no array
-    [newSections[index], newSections[index + 1]] = [newSections[index + 1], newSections[index]];
-    
+    [newSections[index], newSections[index + 1]] = [
+      newSections[index + 1],
+      newSections[index],
+    ];
+
     setSettings({
-      enabled_sections: newSections
+      enabled_sections: newSections,
     });
   };
 
@@ -142,9 +156,9 @@ export default function AdminOrder() {
   const toggleSection = (index: number) => {
     const newSections = [...settings.enabled_sections];
     newSections[index].enabled = !newSections[index].enabled;
-    
+
     setSettings({
-      enabled_sections: newSections
+      enabled_sections: newSections,
     });
   };
 
@@ -158,7 +172,7 @@ export default function AdminOrder() {
       gallery: "🖼️",
       faq: "❓",
       about: "📚",
-      final_cta: "🎯"
+      final_cta: "🎯",
     };
     return icons[sectionId] || "📄";
   };
@@ -254,17 +268,19 @@ export default function AdminOrder() {
                 <div
                   key={section.id}
                   className={`flex items-center justify-between p-4 border rounded-lg transition-all ${
-                    section.enabled 
-                      ? 'border-gray-200 bg-white' 
-                      : 'border-gray-300 bg-gray-50'
+                    section.enabled
+                      ? "border-gray-200 bg-white"
+                      : "border-gray-300 bg-gray-50"
                   }`}
                 >
                   <div className="flex items-center space-x-3">
                     <div className="flex items-center space-x-2">
                       <GripVertical className="w-4 h-4 text-gray-400" />
-                      <span className="text-lg">{getSectionIcon(section.id)}</span>
+                      <span className="text-lg">
+                        {getSectionIcon(section.id)}
+                      </span>
                     </div>
-                    
+
                     <div>
                       <div className="font-medium text-gray-900">
                         {section.name}
@@ -282,8 +298,10 @@ export default function AdminOrder() {
                         checked={section.enabled}
                         onCheckedChange={() => toggleSection(index)}
                       />
-                      <span className={`text-xs ${section.enabled ? 'text-green-600' : 'text-gray-400'}`}>
-                        {section.enabled ? 'Visível' : 'Oculta'}
+                      <span
+                        className={`text-xs ${section.enabled ? "text-green-600" : "text-gray-400"}`}
+                      >
+                        {section.enabled ? "Visível" : "Oculta"}
                       </span>
                     </div>
 
@@ -302,7 +320,9 @@ export default function AdminOrder() {
                         variant="outline"
                         size="sm"
                         onClick={() => moveDown(index)}
-                        disabled={index === settings.enabled_sections.length - 1}
+                        disabled={
+                          index === settings.enabled_sections.length - 1
+                        }
                         className="h-8 w-8 p-0"
                       >
                         <ArrowDown className="w-3 h-3" />
@@ -347,9 +367,9 @@ export default function AdminOrder() {
                 <div className="text-sm text-gray-600 mb-4">
                   Ordem das seções na landing page:
                 </div>
-                
+
                 {settings.enabled_sections
-                  .filter(section => section.enabled)
+                  .filter((section) => section.enabled)
                   .sort((a, b) => a.order - b.order)
                   .map((section, index) => (
                     <div
@@ -360,25 +380,31 @@ export default function AdminOrder() {
                         <div className="w-6 h-6 bg-ecko-red text-white rounded-full flex items-center justify-center text-xs font-bold">
                           {index + 1}
                         </div>
-                        <span className="text-lg">{getSectionIcon(section.id)}</span>
+                        <span className="text-lg">
+                          {getSectionIcon(section.id)}
+                        </span>
                         <span className="font-medium text-gray-900">
                           {section.name}
                         </span>
                       </div>
-                      
-                      <Badge variant="outline" className="text-green-600 border-green-300">
+
+                      <Badge
+                        variant="outline"
+                        className="text-green-600 border-green-300"
+                      >
                         Ativa
                       </Badge>
                     </div>
                   ))}
 
-                {settings.enabled_sections.filter(s => !s.enabled).length > 0 && (
+                {settings.enabled_sections.filter((s) => !s.enabled).length >
+                  0 && (
                   <>
                     <div className="text-sm text-gray-500 mt-6 mb-2">
                       Seções ocultas:
                     </div>
                     {settings.enabled_sections
-                      .filter(section => !section.enabled)
+                      .filter((section) => !section.enabled)
                       .map((section) => (
                         <div
                           key={section.id}
@@ -388,13 +414,18 @@ export default function AdminOrder() {
                             <div className="w-6 h-6 bg-gray-400 text-white rounded-full flex items-center justify-center text-xs">
                               ×
                             </div>
-                            <span className="text-lg opacity-50">{getSectionIcon(section.id)}</span>
+                            <span className="text-lg opacity-50">
+                              {getSectionIcon(section.id)}
+                            </span>
                             <span className="text-gray-500">
                               {section.name}
                             </span>
                           </div>
-                          
-                          <Badge variant="outline" className="text-gray-500 border-gray-400">
+
+                          <Badge
+                            variant="outline"
+                            className="text-gray-500 border-gray-400"
+                          >
                             Oculta
                           </Badge>
                         </div>
