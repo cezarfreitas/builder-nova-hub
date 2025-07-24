@@ -19,6 +19,7 @@ import {
   HelpCircle,
   FileText,
   FormInput,
+  History,
   Search,
   Webhook,
   Database,
