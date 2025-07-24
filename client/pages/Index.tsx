@@ -1775,8 +1775,11 @@ export default function Index() {
 
             {galleryImages.length === 0 && (
               <div className="mt-6">
+                <h3 className="text-xl font-bold text-white mb-2">
+                  {galleryTexts.empty_state_title}
+                </h3>
                 <p className="text-gray-400 text-lg">
-                  Em breve nossa galeria estará repleta de produtos incríveis!
+                  {galleryTexts.empty_state_description}
                 </p>
               </div>
             )}
@@ -1807,7 +1810,7 @@ export default function Index() {
             <span className="block sm:inline"> DA FAM��LIA ECKO?</span>
           </h2>
           <p className="text-lg sm:text-xl text-white/90 mb-6 sm:mb-8 px-2 leading-relaxed">
-            Junte-se aos milhares de revendedores que já transformaram seus
+            Junte-se aos milhares de revendedores que j�� transformaram seus
             negócios com a marca mais desejada do streetwear brasileiro!
           </p>
 
