@@ -1354,15 +1354,13 @@ export default function Index() {
 
                                 {/* Author Info */}
                                 <div className="flex items-center">
-                                  <img
+                                  <OptimizedImage
                                     src={testimonial.avatar_url}
                                     alt={testimonial.name}
                                     className="w-12 h-12 rounded-full border-2 border-ecko-red/30 mr-4 object-cover"
-                                    onError={(e) => {
-                                      const target =
-                                        e.target as HTMLImageElement;
-                                      target.src = "/placeholder.svg";
-                                    }}
+                                    fallback="/placeholder.svg"
+                                    lazy={true}
+                                    aspectRatio="1:1"
                                   />
                                   <div>
                                     <div className="font-semibold text-white group-hover:text-ecko-red transition-colors duration-300">
