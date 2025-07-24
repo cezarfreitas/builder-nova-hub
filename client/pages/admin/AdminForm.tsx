@@ -230,7 +230,33 @@ export default function AdminForm() {
             <CardContent className="space-y-6">
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">
-                  Título do Formulário
+                  Título Principal (Coluna Esquerda)
+                </label>
+                <TokenColorEditor
+                  value={settings.main_title}
+                  onChange={(value) => updateField('main_title', value)}
+                  placeholder="Ex: SEJA PARCEIRO OFICIAL ECKO E TENHA SUCESSO"
+                  rows={3}
+                  label=""
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Descrição Principal (Coluna Esquerda)
+                </label>
+                <TokenColorEditor
+                  value={settings.main_description}
+                  onChange={(value) => updateField('main_description', value)}
+                  placeholder="Ex: Transforme sua paixão pelo streetwear em um negócio lucrativo"
+                  rows={2}
+                  label=""
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Título do Formulário (Coluna Direita)
                 </label>
                 <TokenColorEditor
                   value={settings.title}
@@ -243,7 +269,7 @@ export default function AdminForm() {
 
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">
-                  Subtítulo
+                  Subtítulo do Formulário (Coluna Direita)
                 </label>
                 <TokenColorEditor
                   value={settings.subtitle}
