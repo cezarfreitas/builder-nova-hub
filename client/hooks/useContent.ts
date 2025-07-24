@@ -101,33 +101,33 @@ export const useContent = () => {
   });
   const [loading, setLoading] = useState(false);
 
-  // Função para salvar conteúdo (atualiza estado local + futura API)
+  // Função para salvar conteúdo (atualiza estado local + arquivo JSON)
   const saveContent = async (newContent: ContentData) => {
     setLoading(true);
     try {
       // Atualiza o estado local imediatamente para UX responsiva
       setContent(newContent);
 
-      // Simula salvamento (em produção, implementar API para salvar JSON)
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      // Salva no arquivo JSON via API
+      const response = await fetch('/api/content', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newContent)
+      });
 
-      // TODO: Implementar API endpoint para salvar o arquivo JSON
-      // const response = await fetch('/api/content', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(newContent)
-      // });
-      //
-      // if (!response.ok) {
-      //   throw new Error('Falha ao salvar no servidor');
-      // }
+      if (!response.ok) {
+        throw new Error('Falha ao salvar no servidor');
+      }
 
-      // Por enquanto, salva no localStorage como backup
+      // Salva no localStorage como backup apenas se a API funcionou
       localStorage.setItem("ecko_content_backup", JSON.stringify(newContent));
 
+      console.log('✅ Conteúdo salvo no arquivo JSON com sucesso');
       return { success: true };
     } catch (error) {
       console.error("Erro ao salvar conteúdo:", error);
+      // Em caso de erro da API, ainda salva no localStorage
+      localStorage.setItem("ecko_content_backup", JSON.stringify(newContent));
       return { success: false, error };
     } finally {
       setLoading(false);
