@@ -844,15 +844,12 @@ export default function AdminGallery() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Título Principal
-                    </label>
-                    <input
-                      type="text"
+                    <TokenColorEditor
+                      label="Título Principal"
                       value={textSettings.section_title}
-                      onChange={(e) => setTextSettings({ ...textSettings, section_title: e.target.value })}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
-                      placeholder="Ex: COLEÇÃO LIFESTYLE"
+                      onChange={(value) => setTextSettings({ ...textSettings, section_title: value })}
+                      placeholder="Ex: COLEÇÃO {ecko}LIFESTYLE{/ecko}"
+                      rows={2}
                     />
                   </div>
                 </div>
