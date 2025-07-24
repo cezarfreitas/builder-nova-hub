@@ -105,11 +105,14 @@ export function useAnalytics(selectedPeriod: number = 30) {
     if (navigator.onLine) {
       try {
         const response = await Promise.race([
-          fetch('/api/leads?limit=500'),
+          fetch('/api/leads?limit=500').catch(err => {
+            console.warn('Fetch leads failed:', err);
+            return null;
+          }),
           new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 1500))
         ]);
 
-        if (response.ok) {
+        if (response && response.ok) {
           const result = await response.json();
           if (result.success && result.data.leads) {
             leads = result.data.leads;
@@ -120,7 +123,7 @@ export function useAnalytics(selectedPeriod: number = 30) {
           }
         }
       } catch (e) {
-        console.log('📡 API de leads indisponível');
+        console.log('📡 API de leads indisponível:', e.message);
       }
     }
 
