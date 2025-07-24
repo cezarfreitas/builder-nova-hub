@@ -97,13 +97,27 @@ export async function getDatabaseInfo(req: Request, res: Response) {
     try {
       const [leadsCount] = await db.execute('SELECT COUNT(*) as total FROM leads');
       const [leadsSample] = await db.execute('SELECT id, nome, email, created_at FROM leads ORDER BY created_at DESC LIMIT 5');
-      
+
       leadsInfo = {
         total_records: (leadsCount as any[])[0]?.total || 0,
         sample_data: leadsSample
       };
     } catch (err) {
       leadsInfo = { error: 'Tabela leads não existe ou não pode ser acessada' };
+    }
+
+    // Informações específicas da tabela traffic_sources
+    let trafficInfo = null;
+    try {
+      const [trafficCount] = await db.execute('SELECT COUNT(*) as total FROM traffic_sources');
+      const [trafficSample] = await db.execute('SELECT id, session_id, source_name, created_at FROM traffic_sources ORDER BY created_at DESC LIMIT 5');
+
+      trafficInfo = {
+        total_records: (trafficCount as any[])[0]?.total || 0,
+        sample_data: trafficSample
+      };
+    } catch (err) {
+      trafficInfo = { error: `Tabela traffic_sources não existe ou não pode ser acessada: ${err instanceof Error ? err.message : 'Erro desconhecido'}` };
     }
 
     res.json({
