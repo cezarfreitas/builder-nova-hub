@@ -366,6 +366,24 @@ export default function AdminAnalytics() {
           </Button>
 
           <Button
+            onClick={() => {
+              try {
+                const trafficData = JSON.parse(localStorage.getItem('traffic_sources') || '[]');
+                console.table(trafficData);
+                alert(`${trafficData.length} origens de tráfego encontradas. Veja o console para detalhes.`);
+              } catch (e) {
+                alert('Erro ao carregar dados de tráfego');
+              }
+            }}
+            variant="outline"
+            size="sm"
+            className="border-blue-300 text-blue-700 hover:bg-blue-50"
+          >
+            <Globe className="w-4 h-4 mr-2" />
+            Ver Origens
+          </Button>
+
+          <Button
             onClick={refreshData}
             variant="outline"
             size="sm"
