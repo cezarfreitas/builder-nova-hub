@@ -89,6 +89,16 @@ export default function Index() {
     return btoa(fingerprint).slice(0, 20);
   });
 
+  // Preload critical images
+  const criticalImages = [
+    '/logo-ecko.png',
+    content.gallery?.items?.[0]?.image_url || '',
+    content.gallery?.items?.[1]?.image_url || '',
+    content.gallery?.items?.[2]?.image_url || '',
+  ].filter(Boolean);
+
+  usePreloadImages(criticalImages);
+
   // Static testimonials texts
 
   const staticFAQs = [
@@ -277,7 +287,7 @@ export default function Index() {
     }
   };
 
-  // Função para abrir formulário com origem específica
+  // Função para abrir formulário com origem espec��fica
   const openFormWithOrigin = (origin: string) => {
     setFormOrigin(origin);
     setIsModalOpen(true);
