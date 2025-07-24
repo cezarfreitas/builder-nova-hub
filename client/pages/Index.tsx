@@ -132,19 +132,7 @@ export default function Index() {
   ];
 
   // Função para rastrear clique no WhatsApp
-  // Debug function to check clicks
-  const checkLocalClicks = () => {
-    try {
-      const clicks = JSON.parse(localStorage.getItem('whatsapp_clicks') || '[]');
-      console.log('📊 Total de cliques salvos localmente:', clicks.length);
-      console.table(clicks);
-    } catch (e) {
-      console.error('Erro ao verificar cliques locais:', e);
-    }
-  };
-
-  // Add to window for manual testing
-  (window as any).checkWhatsAppClicks = checkLocalClicks;
+  // Tracking WhatsApp clicks directly via API
 
   // Capturar informações de origem do tráfego
   useEffect(() => {
