@@ -9,11 +9,9 @@ export function DynamicHead() {
   useEffect(() => {
     if (loading) return;
 
-    // Atualizar title
-    const title = getSetting('seo_title');
-    if (title) {
-      document.title = title;
-    }
+    // Atualizar title com fallback
+    const title = getSetting('seo_title') || 'Seja uma Revenda Autorizada da Ecko | Tenha os Melhores Produtos';
+    document.title = title;
 
     // Função para atualizar ou criar meta tag
     const updateMetaTag = (name: string, content: string, property?: string) => {
