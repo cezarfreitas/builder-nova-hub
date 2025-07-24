@@ -105,9 +105,18 @@ export function useAnalytics(selectedPeriod: number = 30) {
           }
         }
       } catch (fetchError) {
-        console.warn('Failed to fetch analytics data, using estimated WhatsApp clicks');
-        // Fallback to estimation
-        whatsappClicks = Math.floor(stats.total * 0.4); // 40% estimated click rate
+        console.warn('Failed to fetch analytics data, trying localStorage backup');
+
+        // Try localStorage backup
+        try {
+          const localClicks = JSON.parse(localStorage.getItem('whatsapp_clicks') || '[]');
+          whatsappClicks = localClicks.length;
+          console.log(`📱 Usando ${whatsappClicks} cliques do localStorage`);
+        } catch (localError) {
+          console.warn('LocalStorage fallback failed, using estimation');
+          // Final fallback to estimation
+          whatsappClicks = Math.floor(stats.total * 0.4); // 40% estimated click rate
+        }
       }
 
       // Calculate real metrics
