@@ -145,6 +145,43 @@
     "section_title": "Perguntas [Frequentes]",
     "section_subtitle": "tire suas dúvidas",
     "section_description": "Encontre respostas para as principais dúvidas sobre como se tornar um parceiro oficial da Ecko",
+    "items": [
+      {
+        "id": 1,
+        "question": "Como me tornar um revendedor oficial da Ecko?",
+        "answer": "Para se tornar um revendedor oficial, você precisa ter CNPJ ativo e preencher nosso formulário de cadastro. Nossa equipe entrará em contato em até 24h para apresentar as condições comerciais e processo de aprovação.",
+        "is_active": true,
+        "display_order": 1
+      },
+      {
+        "id": 2,
+        "question": "Qual o investimento mínimo para começar?",
+        "answer": "O investimento inicial varia conforme o tipo de loja e região. Oferecemos condições especiais para novos parceiros, incluindo facilidades de pagamento e lotes mínimos acessíveis. Consulte nossa equipe para uma proposta personalizada.",
+        "is_active": true,
+        "display_order": 2
+      },
+      {
+        "id": 3,
+        "question": "Vocês oferecem exclusividade territorial?",
+        "answer": "Sim! Dependendo da região e do perfil do parceiro, oferecemos proteção territorial para garantir que você tenha espaço para crescer sem concorrência direta de outros revendedores oficiais.",
+        "is_active": true,
+        "display_order": 3
+      },
+      {
+        "id": 4,
+        "question": "Como funciona o suporte pós-venda?",
+        "answer": "Nossa equipe oferece suporte completo: treinamento de produto, materiais de marketing, orientação sobre displays e estratégias de venda. Além disso, você terá um consultor dedicado para acompanhar seu desenvolvimento.",
+        "is_active": true,
+        "display_order": 4
+      },
+      {
+        "id": 5,
+        "question": "Qual o prazo de entrega dos produtos?",
+        "answer": "Trabalhamos com estoque disponível para pronta entrega. O prazo médio é de 5 a 10 dias úteis, dependendo da localização. Para pedidos maiores, o prazo pode ser negociado conforme a necessidade.",
+        "is_active": true,
+        "display_order": 5
+      }
+    ],
     "cta_title": "Ainda tem dúvidas?",
     "cta_description": "Nossa equipe está pronta para esclarecer qualquer questão",
     "cta_button_text": "FALAR COM ESPECIALISTA"
