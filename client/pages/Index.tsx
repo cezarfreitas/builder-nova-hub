@@ -1247,9 +1247,9 @@ export default function Index() {
                 </span>
               </div>
               <h2 className="text-3xl md:text-5xl font-black text-white mb-6 uppercase tracking-tight leading-tight">
-                {galleryTexts.section_title}
+                {renderTextWithColorTokens(content.gallery.section_title)}
                 <span className="block text-xl md:text-2xl text-gray-300 mt-2 font-medium normal-case tracking-normal">
-                  {galleryTexts.section_subtitle}
+                  {renderTextWithColorTokens(content.gallery.section_subtitle)}
                 </span>
               </h2>
               <p className="text-gray-300 text-lg max-w-3xl mx-auto leading-relaxed">
