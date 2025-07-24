@@ -397,7 +397,7 @@ export default function Index() {
         setCepError("");
       } else {
         toast({
-          title: "❌ Erro no envio",
+          title: "�� Erro no envio",
           description:
             result.message || "Erro ao enviar cadastro. Tente novamente.",
           variant: "destructive",
@@ -471,7 +471,7 @@ export default function Index() {
                   onChange={handleInputChange}
                   placeholder="Digite seu nome completo"
                   required
-                  className="h-12 text-base bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-ecko-red focus:ring-ecko-red/20"
+                  className="h-12 text-base bg-black/90 border-gray-700 text-white placeholder-gray-400 focus:border-ecko-red focus:ring-ecko-red/20"
                 />
               </div>
 
@@ -486,7 +486,7 @@ export default function Index() {
                   onChange={handleInputChange}
                   placeholder="(11) 99999-9999"
                   required
-                  className={`h-12 text-base bg-gray-800 text-white placeholder-gray-400 focus:ring-ecko-red/20 ${
+                  className={`h-12 text-base bg-black/90 text-white placeholder-gray-400 focus:ring-ecko-red/20 ${
                     whatsappError
                       ? "border-red-500 focus:border-red-500"
                       : formData.whatsapp && validateWhatsApp(formData.whatsapp)
@@ -520,7 +520,7 @@ export default function Index() {
                   onChange={handleInputChange}
                   placeholder="12345-678"
                   required
-                  className={`h-12 text-base bg-gray-800 text-white placeholder-gray-400 focus:ring-ecko-red/20 ${
+                  className={`h-12 text-base bg-black/90 text-white placeholder-gray-400 focus:ring-ecko-red/20 ${
                     cepError
                       ? "border-red-500 focus:border-red-500"
                       : formData.cep &&
@@ -559,7 +559,7 @@ export default function Index() {
                   value={formData.hasCnpj}
                   onChange={handleInputChange}
                   required
-                  className="w-full h-12 bg-gray-800 border border-gray-700 rounded-md px-4 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-base"
+                  className="w-full h-12 bg-black/90 border border-gray-700 rounded-md px-4 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-base"
                 >
                   <option value="">Selecione</option>
                   <option value="sim">Sim</option>
@@ -581,7 +581,7 @@ export default function Index() {
                   value={formData.storeType}
                   onChange={handleInputChange}
                   required
-                  className="w-full h-12 bg-gray-800 border border-gray-700 rounded-md px-4 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-base"
+                  className="w-full h-12 bg-black/90 border border-gray-700 rounded-md px-4 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-base"
                 >
                   <option value="">Selecione</option>
                   <option value="fisica">Física</option>
@@ -603,7 +603,7 @@ export default function Index() {
                   }}
                   className="group relative overflow-hidden flex-1 h-12 border-2 border-gray-600 bg-transparent text-gray-300 hover:text-white transition-all duration-300 hover:scale-105 hover:shadow-lg rounded-lg"
                 >
-                  <span className="absolute inset-0 bg-gray-800 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                  <span className="absolute inset-0 bg-black/90 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
                   <span className="relative z-10">Voltar</span>
                 </Button>
                 <Button
@@ -833,7 +833,7 @@ export default function Index() {
                             onChange={handleInputChange}
                             placeholder={content.form.fields.name_placeholder}
                             required
-                            className="h-12 text-base bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-ecko-red focus:ring-ecko-red/20"
+                            className="h-12 text-base bg-black/90 border-gray-700 text-white placeholder-gray-400 focus:border-ecko-red focus:ring-ecko-red/20"
                           />
                         </div>
 
@@ -850,7 +850,7 @@ export default function Index() {
                               content.form.fields.whatsapp_placeholder
                             }
                             required
-                            className={`h-12 text-base bg-gray-800 text-white placeholder-gray-400 focus:ring-ecko-red/20 ${
+                            className={`h-12 text-base bg-black/90 text-white placeholder-gray-400 focus:ring-ecko-red/20 ${
                               whatsappError
                                 ? "border-red-500 focus:border-red-500"
                                 : formData.whatsapp &&
@@ -885,7 +885,7 @@ export default function Index() {
                             onChange={handleInputChange}
                             placeholder={content.form.fields.cep_placeholder}
                             required
-                            className={`h-12 text-base bg-gray-800 text-white placeholder-gray-400 focus:ring-ecko-red/20 ${
+                            className={`h-12 text-base bg-black/90 text-white placeholder-gray-400 focus:ring-ecko-red/20 ${
                               cepError
                                 ? "border-red-500 focus:border-red-500"
                                 : formData.cep &&
@@ -925,7 +925,7 @@ export default function Index() {
                               value={formData.hasCnpj}
                               onChange={handleInputChange}
                               required
-                              className="w-full h-12 border border-gray-700 rounded-md px-4 bg-gray-800 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-base"
+                              className="w-full h-12 border border-gray-700 rounded-md px-4 bg-black/90 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-base"
                             >
                               <option value="">Selecione</option>
                               <option value="sim">
@@ -951,7 +951,7 @@ export default function Index() {
                               value={formData.storeType}
                               onChange={handleInputChange}
                               required
-                              className="w-full h-12 border border-gray-700 rounded-md px-4 bg-gray-800 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-base"
+                              className="w-full h-12 border border-gray-700 rounded-md px-4 bg-black/90 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-base"
                             >
                               <option value="">Selecione</option>
                               <option value="fisica">Física</option>
@@ -1294,7 +1294,7 @@ export default function Index() {
                         </div>
                       ) : (
                         <div className="text-center py-16">
-                          <div className="w-24 h-24 mx-auto mb-6 bg-gray-800 rounded-full flex items-center justify-center">
+                          <div className="w-24 h-24 mx-auto mb-6 bg-black/90 rounded-full flex items-center justify-center">
                             <Image className="w-12 h-12 text-gray-600" />
                           </div>
                           <h3 className="text-2xl font-bold text-white mb-4">
