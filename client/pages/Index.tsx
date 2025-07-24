@@ -1761,10 +1761,10 @@ export default function Index() {
           <div className="text-center mt-12 md:mt-16">
             <div className="bg-gradient-to-r from-ecko-red/10 to-ecko-red-dark/10 rounded-2xl p-6 border border-ecko-red/20 backdrop-blur-sm max-w-2xl mx-auto">
               <h3 className="text-2xl font-bold text-white mb-3">
-                Tenha Estes Produtos em Sua Loja!
+                {galleryTexts.cta_title}
               </h3>
               <p className="text-gray-300 mb-6">
-                Produtos com alta demanda e excelente margem de lucro esperando por você
+                {galleryTexts.cta_description}
               </p>
               <Button
                 onClick={() => openFormWithOrigin('gallery-cta')}
@@ -1772,7 +1772,7 @@ export default function Index() {
               >
                 <span className="absolute inset-0 bg-gradient-to-r from-red-600 to-red-800 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
                 <span className="relative z-10 flex items-center">
-                  <span className="hidden sm:inline">QUERO ESSES PRODUTOS NA MINHA LOJA</span>
+                  <span className="hidden sm:inline">{galleryTexts.cta_button_text}</span>
                   <span className="sm:hidden">QUERO ESSES PRODUTOS</span>
                   <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </span>
