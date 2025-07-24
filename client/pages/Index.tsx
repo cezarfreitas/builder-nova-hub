@@ -494,7 +494,7 @@ export default function Index() {
                   onChange={handleInputChange}
                   placeholder="(11) 99999-9999"
                   required
-                  className={`h-12 text-base bg-black/90 text-white placeholder-gray-400 focus:ring-ecko-red/20 ${
+                  className={`h-12 text-base bg-white text-gray-900 placeholder-gray-500 focus:ring-ecko-red/20 ${
                     whatsappError
                       ? "border-red-500 focus:border-red-500"
                       : formData.whatsapp && validateWhatsApp(formData.whatsapp)
@@ -528,7 +528,7 @@ export default function Index() {
                   onChange={handleInputChange}
                   placeholder="12345-678"
                   required
-                  className={`h-12 text-base bg-black/90 text-white placeholder-gray-400 focus:ring-ecko-red/20 ${
+                  className={`h-12 text-base bg-white text-gray-900 placeholder-gray-500 focus:ring-ecko-red/20 ${
                     cepError
                       ? "border-red-500 focus:border-red-500"
                       : formData.cep &&
@@ -858,7 +858,7 @@ export default function Index() {
                               content.form.fields.whatsapp_placeholder
                             }
                             required
-                            className={`h-12 text-base bg-black/90 text-white placeholder-gray-400 focus:ring-ecko-red/20 ${
+                            className={`h-12 text-base bg-white text-gray-900 placeholder-gray-500 focus:ring-ecko-red/20 ${
                               whatsappError
                                 ? "border-red-500 focus:border-red-500"
                                 : formData.whatsapp &&
@@ -893,7 +893,7 @@ export default function Index() {
                             onChange={handleInputChange}
                             placeholder={content.form.fields.cep_placeholder}
                             required
-                            className={`h-12 text-base bg-black/90 text-white placeholder-gray-400 focus:ring-ecko-red/20 ${
+                            className={`h-12 text-base bg-white text-gray-900 placeholder-gray-500 focus:ring-ecko-red/20 ${
                               cepError
                                 ? "border-red-500 focus:border-red-500"
                                 : formData.cep &&
@@ -1826,7 +1826,7 @@ export default function Index() {
                   onChange={handleInputChange}
                   placeholder={content.form.fields.whatsapp_placeholder}
                   required
-                  className={`h-12 text-base bg-black/90 text-white placeholder-gray-400 focus:ring-ecko-red/20 ${
+                  className={`h-12 text-base bg-white text-gray-900 placeholder-gray-500 focus:ring-ecko-red/20 ${
                     whatsappError
                       ? "border-red-500 focus:border-red-500"
                       : validateWhatsApp(formData.whatsapp) && formData.whatsapp
@@ -1857,7 +1857,7 @@ export default function Index() {
                   onChange={handleInputChange}
                   placeholder={content.form.fields.cep_placeholder}
                   required
-                  className={`h-12 text-base bg-black/90 text-white placeholder-gray-400 focus:ring-ecko-red/20 ${
+                  className={`h-12 text-base bg-white text-gray-900 placeholder-gray-500 focus:ring-ecko-red/20 ${
                     cepError
                       ? "border-red-500 focus:border-red-500"
                       : cepLoading
