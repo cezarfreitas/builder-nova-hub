@@ -285,7 +285,7 @@ export default function Index() {
     return numbers.length === 8;
   };
 
-  // Fun��ão para buscar endereço pelo CEP
+  // Fun��ão para buscar endere��o pelo CEP
   const fetchAddressByCEP = async (cep: string) => {
     const numbers = cep.replace(/\D/g, "");
 
@@ -1344,7 +1344,10 @@ export default function Index() {
 
             {/* FAQ Accordion */}
             <Accordion type="single" collapsible className="space-y-4">
-              {staticFAQs.map((faq) => (
+              {content.faq.items
+                ?.filter(faq => faq.is_active)
+                .sort((a, b) => a.display_order - b.display_order)
+                .map((faq) => (
                 <AccordionItem
                   key={faq.id}
                   value={`item-${faq.id}`}
