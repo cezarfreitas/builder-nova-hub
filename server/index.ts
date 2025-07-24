@@ -63,6 +63,7 @@ import {
   toggleGalleryImage,
   reorderGalleryImages,
 } from "./routes/gallery";
+import contentRouter from "./routes/content";
 import { initializeDatabase, testConnection } from "./config/database";
 
 export function createServer() {
