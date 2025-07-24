@@ -2,14 +2,67 @@ import express from "express";
 import cors from "cors";
 import path from "path";
 import { handleDemo } from "./routes/demo";
-import { submitLead, getLeads, resendWebhook, deleteLead, getLeadStats } from "./routes/leads";
+import {
+  submitLead,
+  getLeads,
+  resendWebhook,
+  deleteLead,
+  getLeadStats,
+} from "./routes/leads";
 import { testWebhook } from "./routes/webhook-test";
-import { getSettings, getSetting, updateSetting, updateSettings, deleteSetting, getHeroSettings, updateHeroSettings } from "./routes/settings";
-import { upload, uploadAvatar, uploadHero, uploadGallery, uploadSeoImage, uploadGalleryImage, deleteUploadedImage, listUploadedImages } from "./routes/uploads";
-import { testDatabaseConnection, getDatabaseInfo } from "./routes/database-test";
-import { getAnalyticsOverview, getDailyStats, getTimeAnalysis, getTrafficSources, getFormOrigins, trackVisit, trackDuration, exportAnalyticsData, getConversionByLocation, getConversionByGeography } from "./routes/analytics";
-import { getTestimonials, getTestimonial, createTestimonial, updateTestimonial, deleteTestimonial, toggleTestimonial, reorderTestimonials } from "./routes/testimonials";
-import { getGalleryImages, getGalleryImage, createGalleryImage, updateGalleryImage, deleteGalleryImage, toggleGalleryImage, reorderGalleryImages } from "./routes/gallery";
+import {
+  getSettings,
+  getSetting,
+  updateSetting,
+  updateSettings,
+  deleteSetting,
+  getHeroSettings,
+  updateHeroSettings,
+} from "./routes/settings";
+import {
+  upload,
+  uploadAvatar,
+  uploadHero,
+  uploadGallery,
+  uploadSeoImage,
+  uploadGalleryImage,
+  deleteUploadedImage,
+  listUploadedImages,
+} from "./routes/uploads";
+import {
+  testDatabaseConnection,
+  getDatabaseInfo,
+} from "./routes/database-test";
+import {
+  getAnalyticsOverview,
+  getDailyStats,
+  getTimeAnalysis,
+  getTrafficSources,
+  getFormOrigins,
+  trackVisit,
+  trackDuration,
+  exportAnalyticsData,
+  getConversionByLocation,
+  getConversionByGeography,
+} from "./routes/analytics";
+import {
+  getTestimonials,
+  getTestimonial,
+  createTestimonial,
+  updateTestimonial,
+  deleteTestimonial,
+  toggleTestimonial,
+  reorderTestimonials,
+} from "./routes/testimonials";
+import {
+  getGalleryImages,
+  getGalleryImage,
+  createGalleryImage,
+  updateGalleryImage,
+  deleteGalleryImage,
+  toggleGalleryImage,
+  reorderGalleryImages,
+} from "./routes/gallery";
 import { initializeDatabase, testConnection } from "./config/database";
 
 export function createServer() {
@@ -17,11 +70,14 @@ export function createServer() {
 
   // Middleware
   app.use(cors());
-  app.use(express.json({ limit: '10mb' }));
-  app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+  app.use(express.json({ limit: "10mb" }));
+  app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
   // Servir arquivos estáticos da pasta uploads
-  app.use('/uploads', express.static(path.join(process.cwd(), 'public', 'uploads')));
+  app.use(
+    "/uploads",
+    express.static(path.join(process.cwd(), "public", "uploads")),
+  );
 
   // Health check
   app.get("/api/ping", (_req, res) => {
@@ -51,10 +107,14 @@ export function createServer() {
   app.delete("/api/settings/:key", deleteSetting);
 
   // Upload routes
-  app.post("/api/uploads/seo-image", upload.single('image'), uploadSeoImage);
-  app.post("/api/uploads/avatar", uploadAvatar.single('image'), uploadSeoImage);
-  app.post("/api/uploads/hero", uploadHero.single('image'), uploadSeoImage);
-  app.post("/api/upload/gallery", uploadGallery.single('image'), uploadGalleryImage);
+  app.post("/api/uploads/seo-image", upload.single("image"), uploadSeoImage);
+  app.post("/api/uploads/avatar", uploadAvatar.single("image"), uploadSeoImage);
+  app.post("/api/uploads/hero", uploadHero.single("image"), uploadSeoImage);
+  app.post(
+    "/api/upload/gallery",
+    uploadGallery.single("image"),
+    uploadGalleryImage,
+  );
   app.get("/api/uploads", listUploadedImages);
   app.delete("/api/uploads/:filename", deleteUploadedImage);
 
@@ -95,12 +155,12 @@ export function createServer() {
   // Initialize database (non-blocking)
   setTimeout(async () => {
     try {
-      console.log('🔄 Tentando conectar ao MySQL...');
+      console.log("🔄 Tentando conectar ao MySQL...");
       await initializeDatabase();
-      console.log('✅ Banco de dados inicializado com sucesso!');
+      console.log("✅ Banco de dados inicializado com sucesso!");
     } catch (error) {
-      console.error('❌ Falha na inicialização do banco:', error);
-      console.log('⚠️  O servidor continuará funcionando sem banco de dados');
+      console.error("❌ Falha na inicialização do banco:", error);
+      console.log("⚠️  O servidor continuará funcionando sem banco de dados");
     }
   }, 1000);
 
