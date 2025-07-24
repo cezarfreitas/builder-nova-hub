@@ -878,12 +878,12 @@ export default function Index() {
             )}
 
             {/* Subtitle */}
-            {staticHero.subtitle && (
+            {currentHero.subtitle && (
               <div
                 className="text-lg sm:text-xl lg:text-2xl mb-2 sm:mb-4 font-medium opacity-90 px-2 transition-all duration-500"
-                style={{ color: staticHero.text_color }}
+                style={{ color: currentHero.text_color }}
               >
-                {renderTextWithColorTokens(staticHero.subtitle)}
+                {renderTextWithColorTokens(currentHero.subtitle)}
               </div>
             )}
 
