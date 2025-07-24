@@ -8,20 +8,26 @@
         "order": 1
       },
       {
-        "id": "benefits",
-        "name": "Vantagens",
+        "id": "form",
+        "name": "Formulário",
         "enabled": true,
         "order": 2
       },
       {
-        "id": "testimonials",
-        "name": "Depoimentos",
+        "id": "benefits",
+        "name": "Vantagens",
         "enabled": true,
         "order": 3
       },
       {
         "id": "gallery",
         "name": "Galeria",
+        "enabled": true,
+        "order": 3
+      },
+      {
+        "id": "testimonials",
+        "name": "Depoimentos",
         "enabled": true,
         "order": 4
       },
