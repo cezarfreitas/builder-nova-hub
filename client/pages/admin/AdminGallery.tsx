@@ -123,7 +123,10 @@ export default function AdminGallery() {
         gallery_section_description: textSettings.section_description,
         gallery_section_tag: textSettings.section_tag,
         gallery_empty_title: textSettings.empty_state_title,
-        gallery_empty_description: textSettings.empty_state_description
+        gallery_empty_description: textSettings.empty_state_description,
+        gallery_cta_title: textSettings.cta_title,
+        gallery_cta_description: textSettings.cta_description,
+        gallery_cta_button_text: textSettings.cta_button_text
       };
 
       const response = await fetch('/api/settings', {
