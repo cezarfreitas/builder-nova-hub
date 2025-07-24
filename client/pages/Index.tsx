@@ -397,7 +397,7 @@ export default function Index() {
         setCepError("");
       } else {
         toast({
-          title: "�� Erro no envio",
+          title: "❌ Erro no envio",
           description:
             result.message || "Erro ao enviar cadastro. Tente novamente.",
           variant: "destructive",
@@ -471,7 +471,7 @@ export default function Index() {
                   onChange={handleInputChange}
                   placeholder="Digite seu nome completo"
                   required
-                  className="h-12 text-base bg-black/90 border-gray-700 text-white placeholder-gray-400 focus:border-ecko-red focus:ring-ecko-red/20"
+                  className="h-12 text-base bg-black/90 border-gray-800 text-white placeholder-gray-400 focus:border-ecko-red focus:ring-ecko-red/20"
                 />
               </div>
 
@@ -491,7 +491,7 @@ export default function Index() {
                       ? "border-red-500 focus:border-red-500"
                       : formData.whatsapp && validateWhatsApp(formData.whatsapp)
                         ? "border-green-500 focus:border-green-500"
-                        : "border-gray-700 focus:border-ecko-red"
+                        : "border-gray-800 focus:border-ecko-red"
                   }`}
                 />
                 {whatsappError && (
@@ -527,7 +527,7 @@ export default function Index() {
                           validateCEP(formData.cep) &&
                           formData.cidade
                         ? "border-green-500 focus:border-green-500"
-                        : "border-gray-700 focus:border-ecko-red"
+                        : "border-gray-800 focus:border-ecko-red"
                   }`}
                 />
                 {cepLoading && (
@@ -559,7 +559,7 @@ export default function Index() {
                   value={formData.hasCnpj}
                   onChange={handleInputChange}
                   required
-                  className="w-full h-12 bg-black/90 border border-gray-700 rounded-md px-4 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-base"
+                  className="w-full h-12 bg-black/90 border border-gray-800 rounded-md px-4 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-base"
                 >
                   <option value="">Selecione</option>
                   <option value="sim">Sim</option>
@@ -581,7 +581,7 @@ export default function Index() {
                   value={formData.storeType}
                   onChange={handleInputChange}
                   required
-                  className="w-full h-12 bg-black/90 border border-gray-700 rounded-md px-4 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-base"
+                  className="w-full h-12 bg-black/90 border border-gray-800 rounded-md px-4 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-base"
                 >
                   <option value="">Selecione</option>
                   <option value="fisica">Física</option>
@@ -833,7 +833,7 @@ export default function Index() {
                             onChange={handleInputChange}
                             placeholder={content.form.fields.name_placeholder}
                             required
-                            className="h-12 text-base bg-black/90 border-gray-700 text-white placeholder-gray-400 focus:border-ecko-red focus:ring-ecko-red/20"
+                            className="h-12 text-base bg-black/90 border-gray-800 text-white placeholder-gray-400 focus:border-ecko-red focus:ring-ecko-red/20"
                           />
                         </div>
 
@@ -856,7 +856,7 @@ export default function Index() {
                                 : formData.whatsapp &&
                                     validateWhatsApp(formData.whatsapp)
                                   ? "border-green-500 focus:border-green-500"
-                                  : "border-gray-700 focus:border-ecko-red"
+                                  : "border-gray-800 focus:border-ecko-red"
                             }`}
                           />
                           {whatsappError && (
@@ -892,7 +892,7 @@ export default function Index() {
                                     validateCEP(formData.cep) &&
                                     formData.cidade
                                   ? "border-green-500 focus:border-green-500"
-                                  : "border-gray-700 focus:border-ecko-red"
+                                  : "border-gray-800 focus:border-ecko-red"
                             }`}
                           />
                           {cepLoading && (
@@ -925,7 +925,7 @@ export default function Index() {
                               value={formData.hasCnpj}
                               onChange={handleInputChange}
                               required
-                              className="w-full h-12 border border-gray-700 rounded-md px-4 bg-black/90 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-base"
+                              className="w-full h-12 border border-gray-800 rounded-md px-4 bg-black/90 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-base"
                             >
                               <option value="">Selecione</option>
                               <option value="sim">
@@ -951,7 +951,7 @@ export default function Index() {
                               value={formData.storeType}
                               onChange={handleInputChange}
                               required
-                              className="w-full h-12 border border-gray-700 rounded-md px-4 bg-black/90 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-base"
+                              className="w-full h-12 border border-gray-800 rounded-md px-4 bg-black/90 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-base"
                             >
                               <option value="">Selecione</option>
                               <option value="fisica">Física</option>
@@ -1058,7 +1058,7 @@ export default function Index() {
                             className="group relative"
                             style={{ animationDelay: `${index * 100}ms` }}
                           >
-                            <div className="h-full bg-black/80 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-8 transition-all duration-500 hover:border-ecko-red/50 hover:shadow-2xl hover:shadow-ecko-red/10 hover:-translate-y-2">
+                            <div className="h-full bg-black/80 backdrop-blur-sm border border-gray-800/50 rounded-2xl p-8 transition-all duration-500 hover:border-ecko-red/50 hover:shadow-2xl hover:shadow-ecko-red/10 hover:-translate-y-2">
                               <div className="text-center">
                                 <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-br from-ecko-red to-ecko-red-dark rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
                                   {benefit.icon === "Globe" && (
@@ -1096,7 +1096,7 @@ export default function Index() {
 
                       {/* Call to Action */}
                       <div className="text-center">
-                        <div className="bg-black/80 backdrop-blur-sm border border-gray-700/50 rounded-3xl p-8 md:p-12 max-w-4xl mx-auto">
+                        <div className="bg-black/80 backdrop-blur-sm border border-gray-800/50 rounded-3xl p-8 md:p-12 max-w-4xl mx-auto">
                           <h3 className="text-2xl md:text-3xl font-bold text-white mb-6">
                             {renderTextWithColorTokens(content.benefits.cta_title)}
                           </h3>
@@ -1159,7 +1159,7 @@ export default function Index() {
                               className="group relative"
                               style={{ animationDelay: `${index * 150}ms` }}
                             >
-                              <div className="h-full bg-black/80 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-8 transition-all duration-500 hover:border-ecko-red/50 hover:shadow-2xl hover:shadow-ecko-red/10 hover:-translate-y-2">
+                              <div className="h-full bg-black/80 backdrop-blur-sm border border-gray-800/50 rounded-2xl p-8 transition-all duration-500 hover:border-ecko-red/50 hover:shadow-2xl hover:shadow-ecko-red/10 hover:-translate-y-2">
                                 {/* Rating Stars */}
                                 <div className="flex items-center mb-6">
                                   {[...Array(testimonial.rating)].map((_, i) => (
@@ -1202,7 +1202,7 @@ export default function Index() {
 
                       {/* Call to Action */}
                       <div className="text-center">
-                        <div className="bg-black/80 backdrop-blur-sm border border-gray-700/50 rounded-3xl p-8 md:p-12 max-w-4xl mx-auto">
+                        <div className="bg-black/80 backdrop-blur-sm border border-gray-800/50 rounded-3xl p-8 md:p-12 max-w-4xl mx-auto">
                           <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
                             {renderTextWithColorTokens(content.testimonials.cta_title)}
                           </h3>
@@ -1266,7 +1266,7 @@ export default function Index() {
                             ?.map((item, index) => (
                               <div
                                 key={item.id}
-                                className="group relative overflow-hidden rounded-2xl bg-black/80 backdrop-blur-sm border border-gray-700/50 transition-all duration-500 hover:border-ecko-red/50 hover:shadow-2xl hover:shadow-ecko-red/10 hover:-translate-y-2"
+                                className="group relative overflow-hidden rounded-2xl bg-black/80 backdrop-blur-sm border border-gray-800/50 transition-all duration-500 hover:border-ecko-red/50 hover:shadow-2xl hover:shadow-ecko-red/10 hover:-translate-y-2"
                                 style={{ animationDelay: `${index * 100}ms` }}
                               >
                                 <div className="aspect-square relative overflow-hidden">
@@ -1308,7 +1308,7 @@ export default function Index() {
 
                       {/* Call to Action */}
                       <div className="text-center">
-                        <div className="bg-black/80 backdrop-blur-sm border border-gray-700/50 rounded-3xl p-8 md:p-12 max-w-4xl mx-auto">
+                        <div className="bg-black/80 backdrop-blur-sm border border-gray-800/50 rounded-3xl p-8 md:p-12 max-w-4xl mx-auto">
                           <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
                             {renderTextWithColorTokens(content.gallery.cta_title)}
                           </h3>
@@ -1372,7 +1372,7 @@ export default function Index() {
                             <AccordionItem
                               key={item.id}
                               value={`item-${item.id}`}
-                              className="bg-black/80 backdrop-blur-sm border border-gray-700/50 rounded-2xl px-6 transition-all duration-300 hover:border-ecko-red/50"
+                              className="bg-black/80 backdrop-blur-sm border border-gray-800/50 rounded-2xl px-6 transition-all duration-300 hover:border-ecko-red/50"
                             >
                               <AccordionTrigger className="text-left text-white hover:text-ecko-red transition-colors duration-300 py-6 text-lg font-semibold hover:no-underline">
                                 {renderTextWithColorTokens(item.question)}
@@ -1386,7 +1386,7 @@ export default function Index() {
 
                       {/* Call to Action */}
                       <div className="text-center">
-                        <div className="bg-black/80 backdrop-blur-sm border border-gray-700/50 rounded-3xl p-8 md:p-12">
+                        <div className="bg-black/80 backdrop-blur-sm border border-gray-800/50 rounded-3xl p-8 md:p-12">
                           <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
                             {renderTextWithColorTokens(content.faq.cta_title)}
                           </h3>
@@ -1449,7 +1449,7 @@ export default function Index() {
                         {/* Stats */}
                         <div className="grid grid-cols-2 gap-6">
                           {(content.about?.stats || []).map((stat) => (
-                            <div key={stat.id} className="text-center p-6 bg-black/60 rounded-lg shadow-sm border border-gray-700">
+                            <div key={stat.id} className="text-center p-6 bg-black/60 rounded-lg shadow-sm border border-gray-800">
                               <div className="text-3xl md:text-4xl font-bold text-ecko-red mb-2">
                                 {stat.number}
                               </div>
