@@ -2070,14 +2070,19 @@ export default function Index() {
                 // Local backup for analytics
                 try {
                   const clicks = JSON.parse(localStorage.getItem('whatsapp_clicks') || '[]');
-                  clicks.push({
+                  const newClick = {
                     timestamp: new Date().toISOString(),
                     session_id: sessionId,
                     user_id: userId,
                     page_url: window.location.href
-                  });
+                  };
+                  clicks.push(newClick);
                   localStorage.setItem('whatsapp_clicks', JSON.stringify(clicks));
+                  setWhatsappClickCount(clicks.length);
                   console.log('💾 WhatsApp click salvo localmente:', clicks.length);
+
+                  // Show immediate feedback
+                  console.log('✅ Clique #' + clicks.length + ' registrado!');
                 } catch (e) {
                   console.warn('LocalStorage backup failed:', e);
                 }
