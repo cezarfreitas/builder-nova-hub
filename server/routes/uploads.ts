@@ -296,15 +296,15 @@ export async function uploadSeoImage(req: Request, res: Response) {
       url: imageUrl,
       path: finalPath,
       uploadType: uploadType,
-      optimization: optimizationInfo
+      compression: compressionInfo
     };
 
     console.log('Upload successful, returning:', imageInfo);
 
-    // Mensagem dinâmica baseada na otimização
+    // Mensagem dinâmica baseada na compactação
     let message = 'Imagem enviada com sucesso';
-    if (optimizationInfo?.wasOptimized) {
-      message += ` e otimizada (redução de ${optimizationInfo.reduction})`;
+    if (compressionInfo?.wasCompressed) {
+      message += ` e compactada (redução de ${compressionInfo.reduction})`;
     }
 
     res.json({
