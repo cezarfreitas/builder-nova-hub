@@ -494,6 +494,54 @@ export default function AdminBenefits() {
           </CardContent>
         </Card>
 
+        {/* Benefits Cards Section */}
+        <Card className="bg-white shadow-sm border border-gray-200">
+          <CardHeader>
+            <CardTitle className="text-gray-900 flex items-center">
+              <Award className="w-5 h-5 mr-2 text-ecko-red" />
+              Cards de Benefícios
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            {settings.cards?.map((card, index) => (
+              <div key={card.id} className="border border-gray-200 rounded-lg p-4 space-y-4">
+                <div className="flex items-center justify-between">
+                  <h4 className="font-medium text-gray-900">Card {index + 1}</h4>
+                  <Badge variant="outline">
+                    Ícone: {card.icon}
+                  </Badge>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Título do Card
+                  </label>
+                  <TokenColorEditor
+                    value={card.title}
+                    onChange={(value) => updateCard(card.id, 'title', value)}
+                    placeholder="Ex: MARCA INTERNACIONAL"
+                    rows={2}
+                    label=""
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Descrição do Card
+                  </label>
+                  <TokenColorEditor
+                    value={card.description}
+                    onChange={(value) => updateCard(card.id, 'description', value)}
+                    placeholder="Descreva o benefício em detalhes..."
+                    rows={4}
+                    label=""
+                  />
+                </div>
+              </div>
+            ))}
+          </CardContent>
+        </Card>
+
         {/* CTA Section */}
         <Card className="bg-white shadow-sm border border-gray-200">
           <CardHeader>
