@@ -980,18 +980,22 @@ export default function AdminGallery() {
             </CardHeader>
             <CardContent>
               <div className="bg-black rounded-lg p-8 text-center">
-                <span className="text-ecko-red font-bold uppercase tracking-wider text-sm">
-                  {textSettings.section_tag}
-                </span>
-                <h2 className="text-3xl md:text-4xl font-black text-white mb-4 uppercase tracking-tight leading-tight mt-2">
-                  {textSettings.section_title}
-                </h2>
-                <span className="block text-lg text-gray-300 mb-4 font-medium">
-                  {textSettings.section_subtitle}
-                </span>
-                <p className="text-gray-300 text-base max-w-2xl mx-auto leading-relaxed">
-                  {textSettings.section_description}
-                </p>
+                <span
+                  className="text-ecko-red font-bold uppercase tracking-wider text-sm"
+                  dangerouslySetInnerHTML={{ __html: renderTokens(textSettings.section_tag) }}
+                />
+                <h2
+                  className="text-3xl md:text-4xl font-black text-white mb-4 uppercase tracking-tight leading-tight mt-2"
+                  dangerouslySetInnerHTML={{ __html: renderTokens(textSettings.section_title) }}
+                />
+                <span
+                  className="block text-lg text-gray-300 mb-4 font-medium"
+                  dangerouslySetInnerHTML={{ __html: renderTokens(textSettings.section_subtitle) }}
+                />
+                <p
+                  className="text-gray-300 text-base max-w-2xl mx-auto leading-relaxed"
+                  dangerouslySetInnerHTML={{ __html: renderTokens(textSettings.section_description) }}
+                />
 
                 <div className="mt-8 p-6 bg-gradient-to-r from-red-600/10 to-red-800/10 rounded-lg border border-red-600/20">
                   <h3 className="text-xl font-bold text-white mb-2">
