@@ -1415,7 +1415,7 @@ export default function Index() {
               return (
                 <main key="about">
                   {/* About Section */}
-                  <section id="about" className="py-20 bg-gradient-to-b from-gray-50 to-white">
+                  <section id="about" className="py-20 bg-black">
                     <div className="container mx-auto px-6">
                       {/* Header */}
                       <div className="text-center mb-16">
