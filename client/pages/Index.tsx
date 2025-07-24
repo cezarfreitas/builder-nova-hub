@@ -1327,7 +1327,7 @@ export default function Index() {
             <div className="text-center mb-16">
               <div className="inline-flex items-center bg-ecko-red/20 backdrop-blur-sm border border-ecko-red/30 rounded-full px-6 py-3 mb-6">
                 <span className="text-ecko-red font-bold uppercase tracking-wider text-sm">
-                  Dúvidas Frequentes
+                  {renderTextWithColorTokens(content.faq.section_tag)}
                 </span>
               </div>
               <h2 className="text-3xl md:text-5xl font-black text-white mb-6 leading-tight">
