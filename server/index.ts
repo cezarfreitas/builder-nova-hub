@@ -78,6 +78,15 @@ export function createServer() {
   app.put("/api/testimonials/:id/toggle", toggleTestimonial);
   app.put("/api/testimonials/reorder", reorderTestimonials);
 
+  // Gallery routes
+  app.get("/api/gallery", getGalleryImages);
+  app.get("/api/gallery/:id", getGalleryImage);
+  app.post("/api/gallery", createGalleryImage);
+  app.put("/api/gallery/:id", updateGalleryImage);
+  app.delete("/api/gallery/:id", deleteGalleryImage);
+  app.put("/api/gallery/:id/toggle", toggleGalleryImage);
+  app.put("/api/gallery/reorder", reorderGalleryImages);
+
   // Database test routes
   app.get("/api/test-db", testDatabaseConnection);
   app.get("/api/database-info", getDatabaseInfo);
