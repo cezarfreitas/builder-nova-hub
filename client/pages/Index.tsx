@@ -929,7 +929,7 @@ export default function Index() {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                           <div>
                             <label className="block text-sm font-semibold text-gray-300 mb-2">
-                              Tem CNPJ?
+                              {content.form.fields.cnpj_label}
                             </label>
                             <select
                               name="hasCnpj"
@@ -939,8 +939,8 @@ export default function Index() {
                               className="w-full h-12 border border-gray-700 rounded-md px-4 bg-gray-800 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-base"
                             >
                               <option value="">Selecione</option>
-                              <option value="sim">Sim</option>
-                              <option value="nao">Não</option>
+                              <option value="sim">{content.form.fields.cnpj_yes}</option>
+                              <option value="nao">{content.form.fields.cnpj_no}</option>
                             </select>
                             {cnpjError && (
                               <p className="text-ecko-red text-xs mt-2 font-medium leading-tight">
