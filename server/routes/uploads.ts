@@ -154,44 +154,74 @@ export async function uploadSeoImage(req: Request, res: Response) {
       });
     }
 
-    // Otimizar imagem com Sharp para SEO
+    // Otimização inteligente baseada no peso da imagem
     let finalFilename = file.filename;
     let finalSize = file.size;
     let finalPath = file.path;
+    let optimizationInfo = null;
 
     try {
-      // Gerar nome otimizado sem "optimized-" prefix para evitar 404s
+      // Gerar nome otimizado
       const ext = path.extname(file.filename);
       const nameWithoutExt = path.basename(file.filename, ext);
       const optimizedFilename = `${nameWithoutExt}-opt${ext}`;
       const optimizedPath = path.join(path.dirname(file.path), optimizedFilename);
 
-      // Otimizar imagem mantendo formato original
+      // Determinar configurações de otimização baseadas no tamanho
+      const isLargeFile = file.size > 2 * 1024 * 1024; // > 2MB
+      const isVeryLargeFile = file.size > 5 * 1024 * 1024; // > 5MB
+
+      // Qualidade baseada no tamanho do arquivo
+      let quality = 95; // Alta qualidade por padrão
+      let maxWidth = 1920;
+      let maxHeight = 1920;
+
+      if (isVeryLargeFile) {
+        quality = 80; // Compressão maior para arquivos muito grandes
+        maxWidth = 1600;
+        maxHeight = 1600;
+      } else if (isLargeFile) {
+        quality = 85; // Compressão moderada
+        maxWidth = 1800;
+        maxHeight = 1800;
+      }
+
+      // Configurações específicas por tipo de upload
+      if (uploadType === 'avatar') {
+        quality = 90;
+        maxWidth = 400;
+        maxHeight = 400;
+      } else if (uploadType === 'hero') {
+        quality = isVeryLargeFile ? 75 : 85;
+        maxWidth = 1920;
+        maxHeight = 1080;
+      }
+
       const isJpeg = file.mimetype === 'image/jpeg' || file.mimetype === 'image/jpg';
       const isPng = file.mimetype === 'image/png';
       const isWebp = file.mimetype === 'image/webp';
 
       let sharpInstance = sharp(file.path)
-        .resize(1920, 1920, {
+        .resize(maxWidth, maxHeight, {
           fit: 'inside',
           withoutEnlargement: true
         });
 
       if (isJpeg) {
         sharpInstance = sharpInstance.jpeg({
-          quality: 90,
+          quality: quality,
           progressive: true,
           mozjpeg: true
         });
       } else if (isPng) {
         sharpInstance = sharpInstance.png({
-          quality: 90,
-          compressionLevel: 9,
+          quality: Math.min(quality, 90), // PNG qualidade máxima 90
+          compressionLevel: isLargeFile ? 9 : 6,
           progressive: true
         });
       } else if (isWebp) {
         sharpInstance = sharpInstance.webp({
-          quality: 90,
+          quality: quality,
           progressive: true
         });
       }
@@ -199,28 +229,58 @@ export async function uploadSeoImage(req: Request, res: Response) {
       // Salvar imagem otimizada
       await sharpInstance.toFile(optimizedPath);
 
-      // Verificar se a otimização funcionou e reduziu o tamanho
+      // Verificar se a otimização funcionou
       if (fs.existsSync(optimizedPath)) {
         const optimizedStats = fs.statSync(optimizedPath);
+        const reductionPercent = ((1 - optimizedStats.size / file.size) * 100);
 
-        // Sempre usar a versão otimizada se ela existe (melhor para SEO)
-        fs.unlinkSync(file.path); // Remover original
-        finalFilename = optimizedFilename;
-        finalSize = optimizedStats.size;
-        finalPath = optimizedPath;
+        // Usar versão otimizada se reduziu o tamanho ou se o arquivo original era muito grande
+        if (optimizedStats.size < file.size || isLargeFile) {
+          fs.unlinkSync(file.path); // Remover original
+          finalFilename = optimizedFilename;
+          finalSize = optimizedStats.size;
+          finalPath = optimizedPath;
 
-        console.log('Image optimized for SEO:', {
-          originalSize: file.size,
-          optimizedSize: optimizedStats.size,
-          reduction: `${((1 - optimizedStats.size / file.size) * 100).toFixed(1)}%`,
-          filename: finalFilename
-        });
+          optimizationInfo = {
+            originalSize: file.size,
+            originalSizeFormatted: originalSizeFormatted,
+            optimizedSize: optimizedStats.size,
+            optimizedSizeFormatted: formatFileSize(optimizedStats.size),
+            reduction: `${reductionPercent.toFixed(1)}%`,
+            quality: quality,
+            maxDimensions: `${maxWidth}x${maxHeight}`,
+            wasOptimized: true
+          };
+
+          console.log('Image optimized successfully:', optimizationInfo);
+        } else {
+          // Se a otimização não reduziu o tamanho, manter original
+          fs.unlinkSync(optimizedPath);
+          optimizationInfo = {
+            originalSize: file.size,
+            originalSizeFormatted: originalSizeFormatted,
+            wasOptimized: false,
+            reason: 'Original file was already optimized'
+          };
+          console.log('Keeping original file (already optimized)');
+        }
       } else {
         console.log('Optimization failed, keeping original');
+        optimizationInfo = {
+          originalSize: file.size,
+          originalSizeFormatted: originalSizeFormatted,
+          wasOptimized: false,
+          reason: 'Optimization process failed'
+        };
       }
     } catch (error) {
       console.error('Image optimization failed, using original:', error);
-      // Em caso de erro, manter arquivo original
+      optimizationInfo = {
+        originalSize: file.size,
+        originalSizeFormatted: originalSizeFormatted,
+        wasOptimized: false,
+        reason: `Optimization error: ${error.message}`
+      };
     }
 
     // Usar URL relativa para evitar problemas de CORS/URL
