@@ -542,7 +542,7 @@ export default function Index() {
                 />
                 {cepLoading && (
                   <p className="text-blue-400 text-sm mt-2 font-medium leading-tight">
-                    �� Validando CEP...
+                    🔍 Validando CEP...
                   </p>
                 )}
                 {cepError && (
@@ -879,7 +879,7 @@ export default function Index() {
                             !whatsappError &&
                             validateWhatsApp(formData.whatsapp) && (
                               <p className="text-green-400 text-xs mt-2 font-medium leading-tight">
-                                ✅ WhatsApp válido
+                                {content.form.fields.whatsapp_success}
                               </p>
                             )}
                         </div>
