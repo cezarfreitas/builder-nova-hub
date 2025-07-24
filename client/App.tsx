@@ -27,6 +27,7 @@ import AdminFAQ from "./pages/admin/AdminFAQ";
 import AdminForm from "./pages/admin/AdminForm";
 import AdminFooter from "./pages/admin/AdminFooter";
 import AdminAbout from "./pages/admin/AdminAbout";
+import AdminOrder from "./pages/admin/AdminOrder";
 import NotFound from "./pages/NotFound";
 
 const App = () => (
@@ -72,6 +73,9 @@ const App = () => (
         </Route>
         <Route path="/admin/about" element={<AdminLayout />}>
           <Route index element={<AdminAbout />} />
+        </Route>
+        <Route path="/admin/order" element={<AdminLayout />}>
+          <Route index element={<AdminOrder />} />
         </Route>
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
