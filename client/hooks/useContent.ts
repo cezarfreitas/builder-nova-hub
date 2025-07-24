@@ -140,8 +140,9 @@ export const useContent = () => {
         // Sempre usar dados do JSON para seções principais
         finalContent = {
           ...finalContent,
-          // Hero, Benefits, Testimonials, Gallery e FAQ sempre do JSON
+          // Hero, Form, Benefits, Testimonials, Gallery e FAQ sempre do JSON
           hero: contentData.hero,
+          form: contentData.form,
           benefits: contentData.benefits,
           testimonials: contentData.testimonials,
           gallery: contentData.gallery,
