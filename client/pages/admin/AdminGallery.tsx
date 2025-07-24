@@ -915,7 +915,7 @@ export default function AdminGallery() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        T��tulo Estado Vazio
+                        Título Estado Vazio
                       </label>
                       <input
                         type="text"
@@ -978,11 +978,23 @@ export default function AdminGallery() {
                   {textSettings.section_description}
                 </p>
 
-                <div className="mt-8 p-6 bg-gray-800 rounded-lg">
+                <div className="mt-8 p-6 bg-gradient-to-r from-red-600/10 to-red-800/10 rounded-lg border border-red-600/20">
                   <h3 className="text-xl font-bold text-white mb-2">
-                    {textSettings.empty_state_title}
+                    {textSettings.cta_title}
                   </h3>
-                  <p className="text-gray-400">
+                  <p className="text-gray-300 mb-4">
+                    {textSettings.cta_description}
+                  </p>
+                  <div className="bg-red-600 text-white px-6 py-2 rounded-lg font-bold text-sm inline-block">
+                    {textSettings.cta_button_text}
+                  </div>
+                </div>
+
+                <div className="mt-6 p-4 bg-gray-800 rounded-lg">
+                  <h4 className="text-lg font-bold text-white mb-2">
+                    {textSettings.empty_state_title}
+                  </h4>
+                  <p className="text-gray-400 text-sm">
                     {textSettings.empty_state_description}
                   </p>
                 </div>
