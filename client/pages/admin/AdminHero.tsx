@@ -277,8 +277,8 @@ export default function AdminHero() {
                 
                 <div className="flex gap-4 justify-center">
                   <button
-                    className="px-6 py-3 rounded-lg font-semibold"
-                    style={{ backgroundColor: settings.cta_color, color: settings.background_color }}
+                    className="px-6 py-3 rounded-lg font-semibold transition-colors"
+                    style={{ backgroundColor: settings.cta_color, color: settings.cta_text_color }}
                   >
                     {settings.cta_text}
                   </button>
