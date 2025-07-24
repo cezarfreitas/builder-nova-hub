@@ -79,6 +79,14 @@ export default function Index() {
   const [startTime] = useState(Date.now());
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showWhatsApp, setShowWhatsApp] = useState(true);
+  const [whatsappClickCount, setWhatsappClickCount] = useState(() => {
+    try {
+      const clicks = JSON.parse(localStorage.getItem('whatsapp_clicks') || '[]');
+      return clicks.length;
+    } catch {
+      return 0;
+    }
+  });
   const [userId] = useState(() => {
     // Gerar user_id único baseado em dados do navegador
     const fingerprint = `${navigator.userAgent}-${screen.width}x${screen.height}-${Intl.DateTimeFormat().resolvedOptions().timeZone}`;
@@ -364,7 +372,7 @@ export default function Index() {
     if (!formData.cep || !validateCEP(formData.cep)) {
       toast({
         title: "��️ CEP Obrigatório",
-        description: "Digite um CEP válido para identificar sua localizaç��o.",
+        description: "Digite um CEP válido para identificar sua localização.",
         variant: "destructive",
       });
       return;
