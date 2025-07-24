@@ -182,6 +182,24 @@ export async function initializeDatabase(): Promise<void> {
       )
     `);
 
+    // Tabela de galeria/lifestyle
+    await db.execute(`
+      CREATE TABLE IF NOT EXISTS gallery_images (
+        id INT PRIMARY KEY AUTO_INCREMENT,
+        title VARCHAR(255) NOT NULL,
+        description TEXT,
+        image_url VARCHAR(500) NOT NULL,
+        alt_text VARCHAR(255),
+        is_active BOOLEAN DEFAULT TRUE,
+        display_order INT DEFAULT 0,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        INDEX idx_is_active (is_active),
+        INDEX idx_display_order (display_order),
+        INDEX idx_created_at (created_at)
+      )
+    `);
+
     // Migração: Adicionar coluna duration_seconds se não existir
     try {
       await db.execute(`
