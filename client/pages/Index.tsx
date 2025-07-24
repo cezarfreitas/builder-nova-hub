@@ -887,14 +887,14 @@ export default function Index() {
                         {/* Campo CEP */}
                         <div>
                           <label className="block text-sm font-semibold text-gray-300 mb-2">
-                            CEP
+                            {content.form.fields.cep_label}
                           </label>
                           <Input
                             name="cep"
                             type="text"
                             value={formData.cep}
                             onChange={handleInputChange}
-                            placeholder="12345-678"
+                            placeholder={content.form.fields.cep_placeholder}
                             required
                             className={`h-12 text-base bg-gray-800 text-white placeholder-gray-400 focus:ring-ecko-red/20 ${
                               cepError
