@@ -413,27 +413,25 @@ export default function AdminAnalytics() {
                 <p className="text-sm font-medium text-purple-600">Usuários Únicos</p>
                 <p className="text-2xl font-bold text-purple-900">{overview.traffic.unique_users}</p>
                 <p className="text-xs text-purple-600">
-                  {overview.traffic.total_sessions} sessões
+                  {overview.traffic.avg_sessions_per_user} sessões/usuário
                 </p>
               </div>
             </div>
           </CardContent>
         </Card>
 
-        {/* Tempo Médio de Visita */}
+        {/* Total de Sessões */}
         <Card className="bg-gradient-to-br from-orange-50 to-orange-100 border-orange-200">
           <CardContent className="p-6">
             <div className="flex items-center">
               <div className="p-2 bg-orange-500 rounded-lg">
-                <Clock className="w-6 h-6 text-white" />
+                <Eye className="w-6 h-6 text-white" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-orange-600">Tempo Médio</p>
-                <p className="text-2xl font-bold text-orange-900">
-                  {Math.floor(overview.traffic.avg_session_duration / 60)}m {overview.traffic.avg_session_duration % 60}s
-                </p>
+                <p className="text-sm font-medium text-orange-600">Total Sessões</p>
+                <p className="text-2xl font-bold text-orange-900">{overview.traffic.total_sessions}</p>
                 <p className="text-xs text-orange-600">
-                  Por sessão
+                  {Math.floor(overview.traffic.avg_session_duration / 60)}m {overview.traffic.avg_session_duration % 60}s média
                 </p>
               </div>
             </div>
