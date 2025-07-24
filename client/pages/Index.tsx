@@ -78,7 +78,10 @@ export default function Index() {
     section_description: 'Descubra o lifestyle autêntico da Ecko através de looks que representam a essência do streetwear e a cultura urbana que define nossa marca',
     section_tag: 'Lifestyle Gallery',
     empty_state_title: 'Galeria em Construção',
-    empty_state_description: 'Em breve nossa galeria estará repleta de produtos incríveis!'
+    empty_state_description: 'Em breve nossa galeria estará repleta de produtos incríveis!',
+    cta_title: 'Tenha Estes Produtos em Sua Loja!',
+    cta_description: 'Produtos com alta demanda e excelente margem de lucro esperando por você',
+    cta_button_text: 'QUERO ESSES PRODUTOS NA MINHA LOJA'
   });
   const [startTime] = useState(Date.now());
   const [userId] = useState(() => {
@@ -1810,7 +1813,7 @@ export default function Index() {
             <span className="block sm:inline"> DA FAM��LIA ECKO?</span>
           </h2>
           <p className="text-lg sm:text-xl text-white/90 mb-6 sm:mb-8 px-2 leading-relaxed">
-            Junte-se aos milhares de revendedores que j�� transformaram seus
+            Junte-se aos milhares de revendedores que já transformaram seus
             negócios com a marca mais desejada do streetwear brasileiro!
           </p>
 
