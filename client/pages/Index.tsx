@@ -980,19 +980,15 @@ export default function Index() {
                           {isSubmitting ? (
                             <div className="flex items-center justify-center">
                               <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                              Enviando...
+                              {content.form.submit_button_loading}
                             </div>
                           ) : (
                             <>
                               <span className="hidden sm:inline">
-                                {currentHero.cta_text
-                                  ? currentHero.cta_text.toUpperCase()
-                                  : "QUERO SER REVENDEDOR"}
+                                {renderTextWithColorTokens(content.form.submit_button)}
                               </span>
                               <span className="sm:hidden">
-                                {currentHero.cta_text
-                                  ? currentHero.cta_text.toUpperCase()
-                                  : "SER REVENDEDOR"}
+                                {renderTextWithColorTokens(content.form.submit_button)}
                               </span>
                             </>
                           )}
