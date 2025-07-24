@@ -601,7 +601,7 @@ export default function Index() {
                     setCnpjError("");
                     setCepError("");
                   }}
-                  className="group relative overflow-hidden flex-1 h-12 border-2 border-gray-600 bg-transparent text-gray-300 hover:text-white transition-all duration-300 hover:scale-105 hover:shadow-lg rounded-lg"
+                  className="group relative overflow-hidden flex-1 h-12 border-2 border-gray-800 bg-transparent text-gray-300 hover:text-white transition-all duration-300 hover:scale-105 hover:shadow-lg rounded-lg"
                 >
                   <span className="absolute inset-0 bg-black/90 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
                   <span className="relative z-10">Voltar</span>
