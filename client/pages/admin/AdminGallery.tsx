@@ -17,7 +17,9 @@ import {
   Save,
   X,
   Upload,
-  Images
+  Images,
+  FileText,
+  Settings
 } from "lucide-react";
 
 export default function AdminGallery() {
@@ -30,6 +32,18 @@ export default function AdminGallery() {
   const [editingImage, setEditingImage] = useState<GalleryImage | null>(null);
   const [multiUploadImages, setMultiUploadImages] = useState<string[]>([]);
   const [processingUploads, setProcessingUploads] = useState(false);
+  const [activeTab, setActiveTab] = useState<'galeria' | 'textos'>('galeria');
+
+  // Estados para textos da seção
+  const [textSettings, setTextSettings] = useState({
+    section_title: 'COLEÇÃO LIFESTYLE',
+    section_subtitle: 'Descubra o lifestyle aut��ntico da Ecko',
+    section_description: 'Descubra o lifestyle autêntico da Ecko através de looks que representam a essência do streetwear e a cultura urbana que move nossa marca.',
+    section_tag: 'Lifestyle Gallery',
+    empty_state_title: 'Galeria em Construção',
+    empty_state_description: 'Em breve nossa galeria estará repleta de produtos incríveis!'
+  });
+  const [savingTexts, setSavingTexts] = useState(false);
 
   // Estados do formulário
   const [formData, setFormData] = useState({
@@ -69,7 +83,77 @@ export default function AdminGallery() {
 
   useEffect(() => {
     fetchImages();
+    fetchTextSettings();
   }, []);
+
+  const fetchTextSettings = async () => {
+    try {
+      const response = await fetch('/api/settings');
+      const result = await response.json();
+
+      if (result.success) {
+        const settings = result.data;
+        const galleryTexts = {
+          section_title: settings.gallery_section_title || 'COLEÇÃO LIFESTYLE',
+          section_subtitle: settings.gallery_section_subtitle || 'Descubra o lifestyle autêntico da Ecko',
+          section_description: settings.gallery_section_description || 'Descubra o lifestyle autêntico da Ecko através de looks que representam a essência do streetwear e a cultura urbana que move nossa marca.',
+          section_tag: settings.gallery_section_tag || 'Lifestyle Gallery',
+          empty_state_title: settings.gallery_empty_title || 'Galeria em Construção',
+          empty_state_description: settings.gallery_empty_description || 'Em breve nossa galeria estará repleta de produtos incríveis!'
+        };
+        setTextSettings(galleryTexts);
+      }
+    } catch (error) {
+      console.error('Erro ao buscar configurações de texto:', error);
+    }
+  };
+
+  const saveTextSettings = async () => {
+    setSavingTexts(true);
+    try {
+      const settingsToSave = {
+        gallery_section_title: textSettings.section_title,
+        gallery_section_subtitle: textSettings.section_subtitle,
+        gallery_section_description: textSettings.section_description,
+        gallery_section_tag: textSettings.section_tag,
+        gallery_empty_title: textSettings.empty_state_title,
+        gallery_empty_description: textSettings.empty_state_description
+      };
+
+      const response = await fetch('/api/settings', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(settingsToSave),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        toast({
+          title: "✅ Sucesso",
+          description: "Textos da seção atualizados com sucesso",
+          variant: "success",
+        });
+      } else {
+        toast({
+          title: "❌ Erro",
+          description: result.message || "Erro ao salvar textos",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error('Erro ao salvar textos:', error);
+      toast({
+        title: "❌ Erro",
+        description: "Erro ao salvar textos da seção",
+        variant: "destructive",
+      });
+    } finally {
+      setSavingTexts(false);
+    }
+  };
 
   const resetForm = () => {
     setFormData({
@@ -329,29 +413,62 @@ export default function AdminGallery() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Galeria Lifestyle</h1>
+          <h1 className="text-3xl font-bold text-gray-900">Gerenciar Seção Lifestyle</h1>
           <p className="text-gray-600 mt-2">
-            Gerencie as imagens que aparecem na seção "Coleção Lifestyle" da home.
+            Gerencie imagens e textos da seção "Coleção Lifestyle" da home.
           </p>
         </div>
 
-        <div className="flex gap-2">
-          <Button
-            onClick={() => setShowMultiUpload(true)}
-            className="bg-green-600 hover:bg-green-700 text-white"
+        {/* Abas */}
+        <div className="flex bg-gray-100 rounded-lg p-1">
+          <button
+            onClick={() => setActiveTab('galeria')}
+            className={`px-4 py-2 rounded-md font-medium transition-colors flex items-center gap-2 ${
+              activeTab === 'galeria'
+                ? 'bg-white text-gray-900 shadow-sm'
+                : 'text-gray-600 hover:text-gray-900'
+            }`}
           >
-            <Images className="w-4 h-4 mr-2" />
-            Upload Múltiplo
-          </Button>
-          <Button
-            onClick={() => setShowForm(true)}
-            className="bg-ecko-red hover:bg-ecko-red-dark text-white"
+            <Images className="w-4 h-4" />
+            Galeria
+          </button>
+          <button
+            onClick={() => setActiveTab('textos')}
+            className={`px-4 py-2 rounded-md font-medium transition-colors flex items-center gap-2 ${
+              activeTab === 'textos'
+                ? 'bg-white text-gray-900 shadow-sm'
+                : 'text-gray-600 hover:text-gray-900'
+            }`}
           >
-            <Plus className="w-4 h-4 mr-2" />
-            Nova Imagem
-          </Button>
+            <FileText className="w-4 h-4" />
+            Textos
+          </button>
         </div>
       </div>
+
+      {/* Conteúdo das Abas */}
+      {activeTab === 'galeria' ? (
+        <div className="space-y-6">
+          {/* Header da Galeria */}
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+
+            <div className="flex gap-2">
+              <Button
+                onClick={() => setShowMultiUpload(true)}
+                className="bg-green-600 hover:bg-green-700 text-white"
+              >
+                <Images className="w-4 h-4 mr-2" />
+                Upload Múltiplo
+              </Button>
+              <Button
+                onClick={() => setShowForm(true)}
+                className="bg-ecko-red hover:bg-ecko-red-dark text-white"
+              >
+                <Plus className="w-4 h-4 mr-2" />
+                Nova Imagem
+              </Button>
+            </div>
+          </div>
 
       {/* Upload Múltiplo */}
       {showMultiUpload && (
@@ -640,37 +757,186 @@ export default function AdminGallery() {
         </CardContent>
       </Card>
 
-      {/* Dicas */}
-      <Card className="bg-blue-50 border-blue-200">
-        <CardHeader>
-          <CardTitle className="text-blue-800 flex items-center">
-            <Image className="w-5 h-5 mr-2" />
-            Dicas para Galeria Lifestyle
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-blue-700">
-            <div>
-              <h4 className="font-semibold mb-2">📷 Imagens</h4>
-              <ul className="space-y-1 text-blue-600">
-                <li>• Use imagens quadradas (500x500px ideal)</li>
-                <li>• Máximo 5MB por imagem</li>
-                <li>• Imagens são compactadas automaticamente</li>
-                <li>• Prefira alta qualidade e boa iluminação</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-2">🎯 Conteúdo</h4>
-              <ul className="space-y-1 text-blue-600">
-                <li>• Mostre produtos em uso real</li>
-                <li>• Varie estilos: masculino, feminino, urbano</li>
-                <li>• Use ordem para priorizar melhores fotos</li>
-                <li>• Máximo 12 imagens são exibidas na home</li>
-              </ul>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+          {/* Dicas */}
+          <Card className="bg-blue-50 border-blue-200">
+            <CardHeader>
+              <CardTitle className="text-blue-800 flex items-center">
+                <Image className="w-5 h-5 mr-2" />
+                Dicas para Galeria Lifestyle
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-blue-700">
+                <div>
+                  <h4 className="font-semibold mb-2">📷 Imagens</h4>
+                  <ul className="space-y-1 text-blue-600">
+                    <li>• Use imagens quadradas (500x500px ideal)</li>
+                    <li>• Máximo 5MB por imagem</li>
+                    <li>• Imagens são compactadas automaticamente</li>
+                    <li>• Prefira alta qualidade e boa iluminação</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-semibold mb-2">🎯 Conteúdo</h4>
+                  <ul className="space-y-1 text-blue-600">
+                    <li>• Mostre produtos em uso real</li>
+                    <li>• Varie estilos: masculino, feminino, urbano</li>
+                    <li>• Use ordem para priorizar melhores fotos</li>
+                    <li>• Máximo 12 imagens são exibidas na home</li>
+                  </ul>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      ) : (
+        /* Aba de Textos */
+        <div className="space-y-6">
+          <Card className="bg-white shadow-sm border border-gray-200">
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <FileText className="w-6 h-6 mr-2 text-ecko-red" />
+                Textos da Seção Lifestyle
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Tag da Seção
+                    </label>
+                    <input
+                      type="text"
+                      value={textSettings.section_tag}
+                      onChange={(e) => setTextSettings({ ...textSettings, section_tag: e.target.value })}
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+                      placeholder="Ex: Lifestyle Gallery"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Título Principal
+                    </label>
+                    <input
+                      type="text"
+                      value={textSettings.section_title}
+                      onChange={(e) => setTextSettings({ ...textSettings, section_title: e.target.value })}
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+                      placeholder="Ex: COLEÇÃO LIFESTYLE"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Subtítulo
+                  </label>
+                  <input
+                    type="text"
+                    value={textSettings.section_subtitle}
+                    onChange={(e) => setTextSettings({ ...textSettings, section_subtitle: e.target.value })}
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+                    placeholder="Ex: Descubra o lifestyle autêntico da Ecko"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Descrição da Seção
+                  </label>
+                  <textarea
+                    value={textSettings.section_description}
+                    onChange={(e) => setTextSettings({ ...textSettings, section_description: e.target.value })}
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+                    rows={3}
+                    placeholder="Descrição completa da seção lifestyle..."
+                  />
+                </div>
+
+                <div className="border-t pt-6">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Estado Vazio (quando não há imagens)</h3>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Título Estado Vazio
+                      </label>
+                      <input
+                        type="text"
+                        value={textSettings.empty_state_title}
+                        onChange={(e) => setTextSettings({ ...textSettings, empty_state_title: e.target.value })}
+                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+                        placeholder="Ex: Galeria em Construção"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Descrição Estado Vazio
+                      </label>
+                      <input
+                        type="text"
+                        value={textSettings.empty_state_description}
+                        onChange={(e) => setTextSettings({ ...textSettings, empty_state_description: e.target.value })}
+                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+                        placeholder="Ex: Em breve nossa galeria estará repleta de produtos incríveis!"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex gap-3 pt-4">
+                  <Button
+                    onClick={saveTextSettings}
+                    disabled={savingTexts}
+                    className="bg-ecko-red hover:bg-ecko-red-dark text-white"
+                  >
+                    <Save className="w-4 h-4 mr-2" />
+                    {savingTexts ? 'Salvando...' : 'Salvar Textos'}
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Preview dos Textos */}
+          <Card className="bg-gray-50 border-gray-200">
+            <CardHeader>
+              <CardTitle className="text-gray-800 flex items-center">
+                <Eye className="w-5 h-5 mr-2" />
+                Preview da Seção
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="bg-black rounded-lg p-8 text-center">
+                <span className="text-ecko-red font-bold uppercase tracking-wider text-sm">
+                  {textSettings.section_tag}
+                </span>
+                <h2 className="text-3xl md:text-4xl font-black text-white mb-4 uppercase tracking-tight leading-tight mt-2">
+                  {textSettings.section_title}
+                </h2>
+                <span className="block text-lg text-gray-300 mb-4 font-medium">
+                  {textSettings.section_subtitle}
+                </span>
+                <p className="text-gray-300 text-base max-w-2xl mx-auto leading-relaxed">
+                  {textSettings.section_description}
+                </p>
+
+                <div className="mt-8 p-6 bg-gray-800 rounded-lg">
+                  <h3 className="text-xl font-bold text-white mb-2">
+                    {textSettings.empty_state_title}
+                  </h3>
+                  <p className="text-gray-400">
+                    {textSettings.empty_state_description}
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
     </div>
   );
 }
