@@ -87,6 +87,29 @@ export function useAnalytics(selectedPeriod: number = 30) {
         console.warn('Failed to fetch stats data, using default values');
       }
 
+      // Try to fetch WhatsApp clicks data
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 3000);
+
+        const analyticsResponse = await fetch('/api/analytics', {
+          signal: controller.signal
+        });
+
+        clearTimeout(timeoutId);
+
+        if (analyticsResponse.ok) {
+          const analyticsResult = await analyticsResponse.json();
+          if (analyticsResult.success && analyticsResult.data.traffic) {
+            whatsappClicks = analyticsResult.data.traffic.whatsapp_clicks || 0;
+          }
+        }
+      } catch (fetchError) {
+        console.warn('Failed to fetch analytics data, using estimated WhatsApp clicks');
+        // Fallback to estimation
+        whatsappClicks = Math.floor(stats.total * 0.4); // 40% estimated click rate
+      }
+
       // Calculate real metrics
       const today = new Date().toDateString();
       const leadsToday = leads.filter(lead => 
