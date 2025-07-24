@@ -43,23 +43,10 @@ interface LeadFormData {
 export default function Index() {
   const { toast } = useToast();
   const sessionId = useSessionId();
+  const { content, loading: contentLoading } = useContent();
 
-  // Static hero settings
-  const staticHero = {
-    enabled: true,
-    title: "SEJA PARCEIRO OFICIAL ECKO E TENHA SUCESSO",
-    subtitle: "Transforme sua paixão pelo streetwear em um negócio lucrativo",
-    description:
-      "Junte-se aos milhares de revendedores que já transformaram seus negócios com a marca mais desejada do streetwear brasileiro",
-    cta_text: "QUERO SER REVENDEDOR OFICIAL",
-    cta_secondary_text: "CONHECER OS BENEFÍCIOS",
-    logo_url: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Ecko_Unltd_logo.svg/320px-Ecko_Unltd_logo.svg.png",
-    background_image: "https://images.pexels.com/photos/7231215/pexels-photo-7231215.jpeg?auto=compress&cs=tinysrgb&w=1920",
-    background_color: "#000000",
-    text_color: "#ffffff",
-    cta_color: "#dc2626",
-    cta_text_color: "#ffffff",
-  };
+  // Dynamic hero settings from JSON
+  const currentHero = content.hero;
 
   const [formData, setFormData] = useState<LeadFormData>({
     name: "",
