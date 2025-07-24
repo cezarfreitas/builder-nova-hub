@@ -540,10 +540,35 @@ export default function AdminAnalytics() {
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-green-600">Cliques WhatsApp</p>
-                <p className="text-2xl font-bold text-green-900">{overview.traffic.whatsapp_clicks}</p>
+                <div className="flex items-baseline space-x-2">
+                  <p className="text-2xl font-bold text-green-900">{overview.traffic.whatsapp_clicks}</p>
+                  <button
+                    onClick={() => {
+                      console.log('🔄 Atualizando dados...');
+                      refreshData();
+                    }}
+                    className="text-xs text-green-600 underline hover:text-green-800"
+                  >
+                    Atualizar
+                  </button>
+                </div>
                 <p className="text-xs text-green-600">
                   Interesse demonstrado
                 </p>
+                <button
+                  onClick={() => {
+                    try {
+                      const clicks = JSON.parse(localStorage.getItem('whatsapp_clicks') || '[]');
+                      console.log('📱 Cliques locais:', clicks.length);
+                      alert(`Cliques salvos localmente: ${clicks.length}`);
+                    } catch (e) {
+                      alert('Erro ao verificar cliques locais');
+                    }
+                  }}
+                  className="text-xs text-blue-600 underline mt-1 block"
+                >
+                  Ver cliques locais
+                </button>
               </div>
             </div>
           </CardContent>
@@ -564,7 +589,7 @@ export default function AdminAnalytics() {
                 <p className="text-xs text-indigo-600">
                   {overview.traffic.total_page_views > 0
                     ? `${((overview.traffic.unique_page_views / overview.traffic.total_page_views) * 100).toFixed(1)}% de unicidade`
-                    : 'Sem dados de página'
+                    : 'Sem dados de p��gina'
                   }
                 </p>
               </div>
