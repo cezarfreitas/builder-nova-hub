@@ -97,15 +97,15 @@ export default function AdminGallery() {
       if (result.success) {
         const settings = result.data;
         const galleryTexts = {
-          section_title: settings.gallery_section_title || 'COLEÇÃO LIFESTYLE',
-          section_subtitle: settings.gallery_section_subtitle || 'Descubra o lifestyle autêntico da Ecko',
-          section_description: settings.gallery_section_description || 'Descubra o lifestyle autêntico da Ecko através de looks que representam a essência do streetwear e a cultura urbana que move nossa marca.',
-          section_tag: settings.gallery_section_tag || 'Lifestyle Gallery',
-          empty_state_title: settings.gallery_empty_title || 'Galeria em Construção',
-          empty_state_description: settings.gallery_empty_description || 'Em breve nossa galeria estará repleta de produtos incríveis!',
-          cta_title: settings.gallery_cta_title || 'Tenha Estes Produtos em Sua Loja!',
-          cta_description: settings.gallery_cta_description || 'Produtos com alta demanda e excelente margem de lucro esperando por você',
-          cta_button_text: settings.gallery_cta_button_text || 'QUERO ESSES PRODUTOS NA MINHA LOJA'
+          section_title: settings.gallery_section_title?.value || 'COLEÇÃO LIFESTYLE',
+          section_subtitle: settings.gallery_section_subtitle?.value || 'Descubra o lifestyle autêntico da Ecko',
+          section_description: settings.gallery_section_description?.value || 'Descubra o lifestyle autêntico da Ecko através de looks que representam a essência do streetwear e a cultura urbana que move nossa marca.',
+          section_tag: settings.gallery_section_tag?.value || 'Lifestyle Gallery',
+          empty_state_title: settings.gallery_empty_title?.value || 'Galeria em Construção',
+          empty_state_description: settings.gallery_empty_description?.value || 'Em breve nossa galeria estará repleta de produtos incríveis!',
+          cta_title: settings.gallery_cta_title?.value || 'Tenha Estes Produtos em Sua Loja!',
+          cta_description: settings.gallery_cta_description?.value || 'Produtos com alta demanda e excelente margem de lucro esperando por você',
+          cta_button_text: settings.gallery_cta_button_text?.value || 'QUERO ESSES PRODUTOS NA MINHA LOJA'
         };
         setTextSettings(galleryTexts);
       }
@@ -653,7 +653,7 @@ export default function AdminGallery() {
                   className="w-4 h-4 text-ecko-red bg-gray-100 border-gray-300 rounded focus:ring-ecko-red focus:ring-2"
                 />
                 <label htmlFor="is_active" className="ml-2 text-sm font-medium text-gray-700">
-                  Ativo (vis��vel na landing page)
+                  Ativo (visível na landing page)
                 </label>
               </div>
 
