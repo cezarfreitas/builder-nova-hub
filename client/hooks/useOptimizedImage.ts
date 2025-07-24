@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from "react";
 
 interface UseOptimizedImageProps {
   src: string;
@@ -9,9 +9,9 @@ interface UseOptimizedImageProps {
 
 export const useOptimizedImage = ({
   src,
-  fallback = '/placeholder.svg',
+  fallback = "/placeholder.svg",
   lazy = true,
-  quality = 80
+  quality = 80,
 }: UseOptimizedImageProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInView, setIsInView] = useState(!lazy);
@@ -30,10 +30,10 @@ export const useOptimizedImage = ({
           observer.disconnect();
         }
       },
-      { 
+      {
         threshold: 0.1,
-        rootMargin: '50px' // Carrega a imagem 50px antes de aparecer
-      }
+        rootMargin: "50px", // Carrega a imagem 50px antes de aparecer
+      },
     );
 
     observer.observe(imgRef.current);
@@ -46,12 +46,12 @@ export const useOptimizedImage = ({
     if (!isInView || hasError) return;
 
     const img = new Image();
-    
+
     img.onload = () => {
       setImageSrc(src);
       setIsLoaded(true);
     };
-    
+
     img.onerror = () => {
       setHasError(true);
       setImageSrc(fallback);
@@ -65,7 +65,7 @@ export const useOptimizedImage = ({
     src: imageSrc,
     isLoaded,
     hasError,
-    isInView
+    isInView,
   };
 };
 
@@ -78,7 +78,7 @@ export const usePreloadImages = (images: string[]) => {
       return new Promise<void>((resolve, reject) => {
         const img = new Image();
         img.onload = () => {
-          setLoadedImages(prev => new Set([...prev, src]));
+          setLoadedImages((prev) => new Set([...prev, src]));
           resolve();
         };
         img.onerror = reject;
@@ -88,18 +88,14 @@ export const usePreloadImages = (images: string[]) => {
 
     // Preload crítico de imagens importantes
     const criticalImages = images.slice(0, 3); // Apenas as 3 primeiras
-    
-    Promise.allSettled(
-      criticalImages.map(src => preloadImage(src))
-    );
+
+    Promise.allSettled(criticalImages.map((src) => preloadImage(src)));
 
     // Preload restante das imagens em idle
-    if ('requestIdleCallback' in window) {
+    if ("requestIdleCallback" in window) {
       requestIdleCallback(() => {
         const remainingImages = images.slice(3);
-        Promise.allSettled(
-          remainingImages.map(src => preloadImage(src))
-        );
+        Promise.allSettled(remainingImages.map((src) => preloadImage(src)));
       });
     }
   }, [images]);

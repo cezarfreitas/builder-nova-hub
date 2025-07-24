@@ -1,7 +1,8 @@
 export const CriticalCSS = () => {
   return (
-    <style dangerouslySetInnerHTML={{
-      __html: `
+    <style
+      dangerouslySetInnerHTML={{
+        __html: `
         /* Critical styles para LCP */
         body {
           margin: 0;
@@ -55,7 +56,8 @@ export const CriticalCSS = () => {
           0% { background-position: 200% 0; }
           100% { background-position: -200% 0; }
         }
-      `
-    }} />
+      `,
+      }}
+    />
   );
 };

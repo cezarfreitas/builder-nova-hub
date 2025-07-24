@@ -16,25 +16,29 @@ export default defineConfig(({ mode }) => ({
       output: {
         // Manual chunks to reduce bundle size
         manualChunks: {
-          vendor: ['react', 'react-dom'],
-          ui: ['lucide-react', '@radix-ui/react-dialog', '@radix-ui/react-toast'],
-          chart: ['chart.js', 'react-chartjs-2'],
-          utils: ['xlsx', 'date-fns']
+          vendor: ["react", "react-dom"],
+          ui: [
+            "lucide-react",
+            "@radix-ui/react-dialog",
+            "@radix-ui/react-toast",
+          ],
+          chart: ["chart.js", "react-chartjs-2"],
+          utils: ["xlsx", "date-fns"],
         },
         // Optimize chunk size
-        chunkFileNames: 'assets/[name]-[hash].js',
-        entryFileNames: 'assets/[name]-[hash].js',
-        assetFileNames: 'assets/[name]-[hash].[ext]'
-      }
+        chunkFileNames: "assets/[name]-[hash].js",
+        entryFileNames: "assets/[name]-[hash].js",
+        assetFileNames: "assets/[name]-[hash].[ext]",
+      },
     },
     // Enable minification
-    minify: 'terser',
+    minify: "terser",
     terserOptions: {
       compress: {
-        drop_console: mode === 'production',
-        drop_debugger: mode === 'production'
-      }
-    }
+        drop_console: mode === "production",
+        drop_debugger: mode === "production",
+      },
+    },
   },
   plugins: [react(), expressPlugin()],
   resolve: {
@@ -46,13 +50,13 @@ export default defineConfig(({ mode }) => ({
   // Optimize dependencies
   optimizeDeps: {
     include: [
-      'react',
-      'react-dom',
-      'lucide-react',
-      '@radix-ui/react-dialog',
-      '@radix-ui/react-toast'
-    ]
-  }
+      "react",
+      "react-dom",
+      "lucide-react",
+      "@radix-ui/react-dialog",
+      "@radix-ui/react-toast",
+    ],
+  },
 }));
 
 function expressPlugin(): Plugin {

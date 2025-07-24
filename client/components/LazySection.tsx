@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from "react";
 
 interface LazySectionProps {
   children: React.ReactNode;
@@ -7,11 +7,11 @@ interface LazySectionProps {
   className?: string;
 }
 
-export const LazySection = ({ 
-  children, 
-  threshold = 0.1, 
+export const LazySection = ({
+  children,
+  threshold = 0.1,
   fallback = <div className="skeleton h-32 w-full rounded" />,
-  className = ""
+  className = "",
 }: LazySectionProps) => {
   const [isVisible, setIsVisible] = useState(false);
   const [ref, setRef] = useState<HTMLDivElement | null>(null);
@@ -26,7 +26,7 @@ export const LazySection = ({
           observer.disconnect();
         }
       },
-      { threshold, rootMargin: '50px' }
+      { threshold, rootMargin: "50px" },
     );
 
     observer.observe(ref);
@@ -44,14 +44,14 @@ export const LazySection = ({
 // Hook para lazy loading de componentes pesados
 export const useLazyComponent = <T extends React.ComponentType<any>>(
   importFunc: () => Promise<{ default: T }>,
-  dependencies: any[] = []
+  dependencies: any[] = [],
 ) => {
   const [Component, setComponent] = useState<T | null>(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     let mounted = true;
-    
+
     const loadComponent = async () => {
       setLoading(true);
       try {
@@ -60,7 +60,7 @@ export const useLazyComponent = <T extends React.ComponentType<any>>(
           setComponent(() => LoadedComponent);
         }
       } catch (error) {
-        console.error('Error loading component:', error);
+        console.error("Error loading component:", error);
       } finally {
         if (mounted) {
           setLoading(false);
