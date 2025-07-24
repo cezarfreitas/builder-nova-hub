@@ -505,13 +505,25 @@ export default function Index() {
   };
 
   const scrollToContent = () => {
-    // Use requestAnimationFrame to avoid forced reflow
-    requestAnimationFrame(() => {
-      const element = document.getElementById("content-section");
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-    });
+    // Use batched DOM operations to prevent forced reflow
+    if ((window as any).batchDOMRead) {
+      (window as any).batchDOMRead(() => {
+        const element = document.getElementById("content-section");
+        if (element) {
+          (window as any).batchDOMWrite(() => {
+            element.scrollIntoView({ behavior: "smooth", block: "start" });
+          });
+        }
+      });
+    } else {
+      // Fallback for when optimizer isn't loaded yet
+      requestAnimationFrame(() => {
+        const element = document.getElementById("content-section");
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
+    }
   };
 
   if (isSubmitted) {
