@@ -83,11 +83,14 @@ export function useAnalytics(selectedPeriod: number = 30) {
     let realOverviewData = null;
     try {
       const overviewResponse = await Promise.race([
-        fetch(`/api/analytics/overview?days=${selectedPeriod}`),
+        fetch(`/api/analytics/overview?days=${selectedPeriod}`).catch(err => {
+          console.warn('Fetch overview failed:', err);
+          return null;
+        }),
         new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 2000))
       ]);
 
-      if (overviewResponse.ok) {
+      if (overviewResponse && overviewResponse.ok) {
         const overviewResult = await overviewResponse.json();
         if (overviewResult.success) {
           realOverviewData = overviewResult.data;
@@ -95,7 +98,7 @@ export function useAnalytics(selectedPeriod: number = 30) {
         }
       }
     } catch (e) {
-      console.warn('⚠️ Falha na API de overview');
+      console.warn('⚠️ Falha na API de overview:', e.message);
     }
 
     // Try to fetch leads data
