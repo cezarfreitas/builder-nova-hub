@@ -1058,7 +1058,7 @@ export default function Index() {
                             className="group relative"
                             style={{ animationDelay: `${index * 100}ms` }}
                           >
-                            <div className="h-full bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-8 transition-all duration-500 hover:border-ecko-red/50 hover:shadow-2xl hover:shadow-ecko-red/10 hover:-translate-y-2">
+                            <div className="h-full bg-black/80 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-8 transition-all duration-500 hover:border-ecko-red/50 hover:shadow-2xl hover:shadow-ecko-red/10 hover:-translate-y-2">
                               <div className="text-center">
                                 <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-br from-ecko-red to-ecko-red-dark rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
                                   {benefit.icon === "Globe" && (
@@ -1159,7 +1159,7 @@ export default function Index() {
                               className="group relative"
                               style={{ animationDelay: `${index * 150}ms` }}
                             >
-                              <div className="h-full bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-8 transition-all duration-500 hover:border-ecko-red/50 hover:shadow-2xl hover:shadow-ecko-red/10 hover:-translate-y-2">
+                              <div className="h-full bg-black/80 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-8 transition-all duration-500 hover:border-ecko-red/50 hover:shadow-2xl hover:shadow-ecko-red/10 hover:-translate-y-2">
                                 {/* Rating Stars */}
                                 <div className="flex items-center mb-6">
                                   {[...Array(testimonial.rating)].map((_, i) => (
@@ -1266,7 +1266,7 @@ export default function Index() {
                             ?.map((item, index) => (
                               <div
                                 key={item.id}
-                                className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 transition-all duration-500 hover:border-ecko-red/50 hover:shadow-2xl hover:shadow-ecko-red/10 hover:-translate-y-2"
+                                className="group relative overflow-hidden rounded-2xl bg-black/80 backdrop-blur-sm border border-gray-700/50 transition-all duration-500 hover:border-ecko-red/50 hover:shadow-2xl hover:shadow-ecko-red/10 hover:-translate-y-2"
                                 style={{ animationDelay: `${index * 100}ms` }}
                               >
                                 <div className="aspect-square relative overflow-hidden">
