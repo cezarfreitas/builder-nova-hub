@@ -448,7 +448,7 @@ export default function Index() {
     return numbers.length === 8;
   };
 
-  // Função para buscar endereço pelo CEP
+  // Fun��ão para buscar endereço pelo CEP
   const fetchAddressByCEP = async (cep: string) => {
     const numbers = cep.replace(/\D/g, "");
 
@@ -898,12 +898,12 @@ export default function Index() {
             )}
 
             {/* Description */}
-            {staticHero.description && (
+            {currentHero.description && (
               <div
                 className="text-lg sm:text-xl lg:text-2xl mb-8 sm:mb-10 lg:mb-12 font-medium max-w-2xl mx-auto px-2 opacity-90 transition-all duration-500"
-                style={{ color: staticHero.text_color }}
+                style={{ color: currentHero.text_color }}
               >
-                {renderTextWithColorTokens(staticHero.description)}
+                {renderTextWithColorTokens(currentHero.description)}
               </div>
             )}
 
