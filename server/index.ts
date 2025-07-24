@@ -46,6 +46,11 @@ import {
   getConversionByGeography,
 } from "./routes/analytics";
 import {
+  trackTrafficSource,
+  getTrafficSources as getTrafficSourcesApi,
+  getRecentTraffic,
+} from "./routes/traffic";
+import {
   getTestimonials,
   getTestimonial,
   createTestimonial,
