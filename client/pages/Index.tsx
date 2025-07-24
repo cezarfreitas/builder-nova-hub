@@ -1472,15 +1472,13 @@ export default function Index() {
                                 style={{ animationDelay: `${index * 100}ms` }}
                               >
                                 <div className="aspect-square relative overflow-hidden">
-                                  <img
+                                  <OptimizedImage
                                     src={item.image_url}
                                     alt={item.alt_text}
                                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                                    onError={(e) => {
-                                      const target =
-                                        e.target as HTMLImageElement;
-                                      target.src = "/placeholder.svg";
-                                    }}
+                                    fallback="/placeholder.svg"
+                                    lazy={index > 2}
+                                    aspectRatio="1:1"
                                   />
                                 </div>
                               </div>
