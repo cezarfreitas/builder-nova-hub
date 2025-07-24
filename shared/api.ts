@@ -84,6 +84,10 @@ export interface HeroSettings {
   background_overlay_opacity?: number;
   background_overlay_color?: string;
   cta_text?: string;
+  cta_color?: string;
+  cta_text_color?: string;
+  text_color?: string;
+  background_color?: string;
   is_active?: boolean;
   created_at?: string;
   updated_at?: string;
