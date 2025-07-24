@@ -329,7 +329,7 @@ export default function Index() {
     // Validar WhatsApp
     if (!formData.whatsapp || !validateWhatsApp(formData.whatsapp)) {
       toast({
-        title: "⚠�� WhatsApp Inválido",
+        title: "⚠���� WhatsApp Inválido",
         description: "Digite um número de WhatsApp válido para contato.",
         variant: "destructive",
       });
@@ -1257,25 +1257,39 @@ export default function Index() {
               </p>
             </div>
 
-            {/* Gallery Grid - 4x2 mobile, 4x4 desktop */}
+            {/* Gallery Grid */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-              {staticGalleryImages.slice(0, 8).map((image, index) => (
-                <div
-                  key={image.id || index}
-                  className="group relative bg-gray-900 rounded-xl md:rounded-2xl overflow-hidden border border-gray-600 hover:border-ecko-red transition-all duration-500 transform hover:-translate-y-1 hover:scale-105"
-                >
-                  <div className="aspect-square overflow-hidden">
-                    <img
-                      src={image.image_url}
-                      alt={image.alt_text || image.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                    />
-                  </div>
+              {content.gallery.items?.length > 0 ? (
+                content.gallery.items
+                  .filter(image => image.is_active)
+                  .slice(0, 8)
+                  .map((image, index) => (
+                    <div
+                      key={image.id || index}
+                      className="group relative bg-gray-900 rounded-xl md:rounded-2xl overflow-hidden border border-gray-600 hover:border-ecko-red transition-all duration-500 transform hover:-translate-y-1 hover:scale-105"
+                    >
+                      <div className="aspect-square overflow-hidden">
+                        <img
+                          src={image.image_url}
+                          alt={image.alt_text || image.title}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                        />
+                      </div>
 
-                  {/* Border Glow Effect */}
-                  <div className="absolute inset-0 rounded-xl md:rounded-2xl bg-gradient-to-r from-ecko-red/20 via-transparent to-ecko-red/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                      {/* Border Glow Effect */}
+                      <div className="absolute inset-0 rounded-xl md:rounded-2xl bg-gradient-to-r from-ecko-red/20 via-transparent to-ecko-red/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                    </div>
+                  ))
+              ) : (
+                <div className="col-span-full text-center py-12">
+                  <div className="text-gray-400 mb-4">
+                    <h3 className="text-xl font-bold mb-2">
+                      {renderTextWithColorTokens(content.gallery.empty_state_title)}
+                    </h3>
+                    <p>{renderTextWithColorTokens(content.gallery.empty_state_description)}</p>
+                  </div>
                 </div>
-              ))}
+              )}
             </div>
 
             {/* CTA Section for Gallery */}
