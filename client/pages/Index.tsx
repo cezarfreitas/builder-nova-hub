@@ -8,6 +8,9 @@ import { useToast } from "../hooks/use-toast";
 import { useSessionId } from "../hooks/useSessionId";
 import { useContent } from "../hooks/useContent";
 import { renderTextWithColorTokens } from "../utils/colorTokens";
+import { OptimizedImage, usePreloadImages } from "../hooks/useOptimizedImage";
+import { DeferredCSS, PreloadHeroImages } from "../components/DeferredCSS";
+import { LazySection } from "../components/LazySection";
 import {
   Accordion,
   AccordionContent,
