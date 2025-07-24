@@ -454,6 +454,37 @@ export default function Index() {
     }
   };
 
+  // Função para buscar textos da seção depoimentos
+  const fetchTestimonialsTexts = async () => {
+    try {
+      const response = await fetch('/api/settings');
+      const result = await response.json();
+
+      if (result.success) {
+        const settings = result.data;
+
+        // Função para extrair valor da configuração (pode ser string ou objeto)
+        const getValue = (setting: any) => {
+          if (typeof setting === 'string') return setting;
+          if (setting && typeof setting === 'object' && setting.value) return setting.value;
+          return '';
+        };
+
+        setTestimonialsTexts({
+          section_tag: getValue(settings.testimonials_section_tag) || 'Depoimentos',
+          section_title: getValue(settings.testimonials_section_title) || 'O que nossos revendedores dizem',
+          section_subtitle: getValue(settings.testimonials_section_subtitle) || 'casos reais de sucesso',
+          section_description: getValue(settings.testimonials_section_description) || 'Depoimentos reais de parceiros que transformaram suas paixões em negócios lucrativos com a Ecko',
+          cta_title: getValue(settings.testimonials_cta_title) || 'Seja o próximo case de sucesso!',
+          cta_description: getValue(settings.testimonials_cta_description) || 'Junte-se aos revendedores que já transformaram seus negócios',
+          cta_button_text: getValue(settings.testimonials_cta_button_text) || 'QUERO SER UM CASE DE SUCESSO'
+        });
+      }
+    } catch (error) {
+      console.error('Erro ao buscar textos dos depoimentos:', error);
+    }
+  };
+
   // Função para rastrear visita
   const trackVisit = async () => {
     try {
