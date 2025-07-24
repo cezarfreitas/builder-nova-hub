@@ -490,6 +490,7 @@ export default function AdminHero() {
               <h4 className="font-semibold mb-2">🎨 Visual</h4>
               <ul className="space-y-1 text-blue-600">
                 <li>• Use imagens de alta qualidade (min 1920x1080)</li>
+                <li>• Imagens grandes são compactadas automaticamente</li>
                 <li>• Contraste adequado entre texto e fundo</li>
                 <li>• Cores que reflitam a identidade da marca</li>
               </ul>
@@ -499,7 +500,7 @@ export default function AdminHero() {
               <ul className="space-y-1 text-blue-600">
                 <li>• Use <code className="px-1 bg-blue-100 rounded text-xs">{`{ecko}texto{/ecko}`}</code> para palavras importantes</li>
                 <li>• Selecione texto e clique em uma cor para aplicar</li>
-                <li>��� Use <code className="px-1 bg-blue-100 rounded text-xs">{`{red}{/red}`}</code>, <code className="px-1 bg-blue-100 rounded text-xs">{`{blue}{/blue}`}</code>, etc.</li>
+                <li>• Use <code className="px-1 bg-blue-100 rounded text-xs">{`{red}{/red}`}</code>, <code className="px-1 bg-blue-100 rounded text-xs">{`{blue}{/blue}`}</code>, etc.</li>
                 <li>• Cores destacam palavras-chave automaticamente</li>
               </ul>
             </div>
