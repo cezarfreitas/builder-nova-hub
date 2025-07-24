@@ -54,6 +54,7 @@ export function createServer() {
   app.post("/api/uploads/seo-image", upload.single('image'), uploadSeoImage);
   app.post("/api/uploads/avatar", uploadAvatar.single('image'), uploadSeoImage);
   app.post("/api/uploads/hero", uploadHero.single('image'), uploadSeoImage);
+  app.post("/api/upload/gallery", uploadGallery.single('image'), uploadGalleryImage);
   app.get("/api/uploads", listUploadedImages);
   app.delete("/api/uploads/:filename", deleteUploadedImage);
 
