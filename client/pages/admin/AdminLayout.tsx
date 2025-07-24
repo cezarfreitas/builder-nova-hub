@@ -20,6 +20,7 @@ import {
   FileText,
   FormInput,
   History,
+  ArrowUpDown,
   Search,
   Webhook,
   Database,
@@ -108,6 +109,13 @@ const sidebarItems: SidebarItem[] = [
     path: "/admin/footer",
   },
   // Configurações
+  {
+    id: "order",
+    label: "Ordem",
+    icon: <ArrowUpDown className="w-5 h-5" />,
+    category: "config",
+    path: "/admin/order",
+  },
   {
     id: "configuracoes",
     label: "Configurações",
