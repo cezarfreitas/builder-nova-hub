@@ -838,13 +838,13 @@ export default function Index() {
                       <form onSubmit={handleSubmit} className="space-y-6">
                         <div>
                           <label className="block text-sm font-semibold text-gray-300 mb-2">
-                            Nome Completo
+                            {content.form.fields.name_label}
                           </label>
                           <Input
                             name="name"
                             value={formData.name}
                             onChange={handleInputChange}
-                            placeholder="Digite seu nome completo"
+                            placeholder={content.form.fields.name_placeholder}
                             required
                             className="h-12 text-base bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-ecko-red focus:ring-ecko-red/20"
                           />
