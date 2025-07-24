@@ -218,7 +218,12 @@ export function useAnalytics(selectedPeriod: number = 30) {
       }
 
     } catch (err) {
-      console.warn('⚠️ Erro ao carregar analytics, usando dados padrão');
+      // Silently fall back to defaults
+      if (err instanceof Error && err.name === 'AbortError') {
+        console.warn('⚠️ API timeout - usando dados padrão de analytics');
+      } else {
+        console.warn('⚠�� API indisponível - usando dados padrão de analytics');
+      }
       setError(null);
 
       // Fallback to default empty data
