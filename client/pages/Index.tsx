@@ -908,13 +908,13 @@ export default function Index() {
             )}
 
             {/* CTA Buttons */}
-            {staticHero.cta_secondary_text && (
+            {currentHero.cta_secondary_text && (
               <div className="flex flex-col items-center">
                 <>
                   <style>
                     {`
                     .hero-cta-button:hover .hero-cta-text {
-                      color: ${staticHero.cta_text_color || "#dc2626"} !important;
+                      color: ${currentHero.cta_text_color || "#dc2626"} !important;
                     }
                   `}
                   </style>
@@ -922,19 +922,19 @@ export default function Index() {
                     className="hero-cta-button mb-6 sm:mb-8 group relative overflow-hidden bg-transparent border-2 font-bold px-8 sm:px-10 py-4 sm:py-5 h-auto text-base sm:text-lg uppercase tracking-wider transition-all duration-500 hover:scale-105 hover:shadow-2xl rounded-lg cursor-pointer"
                     onClick={scrollToContent}
                     style={{
-                      borderColor: staticHero.cta_color,
-                      color: staticHero.text_color || "#ffffff",
+                      borderColor: currentHero.cta_color,
+                      color: currentHero.text_color || "#ffffff",
                     }}
                   >
                     <span
                       className="absolute inset-0 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"
-                      style={{ backgroundColor: staticHero.cta_color }}
+                      style={{ backgroundColor: currentHero.cta_color }}
                     ></span>
                     <span
                       className="hero-cta-text relative z-10 flex items-center transition-colors duration-300"
-                      style={{ color: staticHero.text_color || "#ffffff" }}
+                      style={{ color: currentHero.text_color || "#ffffff" }}
                     >
-                      {staticHero.cta_secondary_text}
+                      {currentHero.cta_secondary_text}
                       <ChevronDown className="ml-2 w-6 h-6 group-hover:animate-bounce" />
                     </span>
                   </div>
