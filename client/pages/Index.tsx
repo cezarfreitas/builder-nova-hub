@@ -15,6 +15,12 @@ import {
   AccordionTrigger,
 } from "../components/ui/accordion";
 import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "../components/ui/dialog";
+import {
   CheckCircle,
   Globe,
   Truck,
@@ -26,6 +32,7 @@ import {
   HelpCircle,
   Star,
   Image,
+  X,
 } from "lucide-react";
 
 interface LeadFormData {
@@ -98,7 +105,7 @@ export default function Index() {
     },
     {
       id: 3,
-      question: "Vocês oferecem exclusividade territorial?",
+      question: "Voc��s oferecem exclusividade territorial?",
       answer:
         "Sim! Dependendo da região e do perfil do parceiro, oferecemos prote��ão territorial para garantir que você tenha espaço para crescer sem concorrência direta de outros revendedores oficiais.",
       display_order: 3,
