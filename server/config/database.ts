@@ -220,6 +220,32 @@ export async function initializeDatabase(): Promise<void> {
       }
     }
 
+    // Tabela de origens de tráfego
+    await db.execute(`
+      CREATE TABLE IF NOT EXISTS traffic_sources (
+        id INT PRIMARY KEY AUTO_INCREMENT,
+        session_id VARCHAR(100) NOT NULL,
+        user_id VARCHAR(100),
+        referrer TEXT,
+        source_name VARCHAR(100),
+        utm_source VARCHAR(100),
+        utm_medium VARCHAR(100),
+        utm_campaign VARCHAR(100),
+        utm_term VARCHAR(100),
+        utm_content VARCHAR(100),
+        current_url TEXT,
+        page_title VARCHAR(255),
+        ip_address VARCHAR(45),
+        user_agent TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        INDEX idx_session_id (session_id),
+        INDEX idx_source_name (source_name),
+        INDEX idx_utm_source (utm_source),
+        INDEX idx_created_at (created_at)
+      )
+    `);
+    console.log("✅ Tabela traffic_sources criada/verificada com sucesso!");
+
     // Inserir configurações padrão se não existirem
     await insertDefaultSettings(db);
 
