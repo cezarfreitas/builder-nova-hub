@@ -542,7 +542,7 @@ export default function Index() {
                 />
                 {cepLoading && (
                   <p className="text-blue-400 text-sm mt-2 font-medium leading-tight">
-                    🔍 Validando CEP...
+                    �� Validando CEP...
                   </p>
                 )}
                 {cepError && (
@@ -852,14 +852,14 @@ export default function Index() {
 
                         <div>
                           <label className="block text-sm font-semibold text-gray-300 mb-2">
-                            WhatsApp
+                            {content.form.fields.whatsapp_label}
                           </label>
                           <Input
                             name="whatsapp"
                             type="tel"
                             value={formData.whatsapp}
                             onChange={handleInputChange}
-                            placeholder="(11) 99999-9999"
+                            placeholder={content.form.fields.whatsapp_placeholder}
                             required
                             className={`h-12 text-base bg-gray-800 text-white placeholder-gray-400 focus:ring-ecko-red/20 ${
                               whatsappError
