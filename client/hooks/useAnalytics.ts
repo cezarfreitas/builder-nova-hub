@@ -181,7 +181,7 @@ export function useAnalytics(selectedPeriod: number = 30) {
           total_sessions: totalSessions,
           avg_sessions_per_user: parseFloat(avgSessionsPerUser),
           avg_session_duration: 125, // 2 minutes 5 seconds average
-          whatsapp_clicks: Math.floor(stats.total * 0.6), // 60% click WhatsApp
+          whatsapp_clicks: whatsappClicks, // Real WhatsApp clicks from analytics
           unique_page_views: Math.floor(estimatedPageViews * 0.7),
           total_page_views: estimatedPageViews,
           bounce_rate: 45.2 // Average bounce rate
