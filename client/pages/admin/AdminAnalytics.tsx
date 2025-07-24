@@ -622,20 +622,7 @@ export default function AdminAnalytics() {
                 <p className="text-xs text-green-600">
                   Interesse demonstrado
                 </p>
-                <button
-                  onClick={() => {
-                    try {
-                      const clicks = JSON.parse(localStorage.getItem('whatsapp_clicks') || '[]');
-                      console.log('📱 Cliques locais:', clicks.length);
-                      alert(`Cliques salvos localmente: ${clicks.length}`);
-                    } catch (e) {
-                      alert('Erro ao verificar cliques locais');
-                    }
-                  }}
-                  className="text-xs text-blue-600 underline mt-1 block"
-                >
-                  Ver cliques locais
-                </button>
+
               </div>
             </div>
           </CardContent>
