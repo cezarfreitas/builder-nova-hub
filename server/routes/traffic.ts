@@ -126,16 +126,19 @@ export async function getTrafficSources(req: Request, res: Response) {
 
     // Buscar referrers detalhados
     const [referrers] = await db.execute(`
-      SELECT 
-        CASE 
+      SELECT
+        CASE
           WHEN referrer = '' OR referrer IS NULL THEN 'Direto'
           ELSE source_name
         END as referrer,
         COUNT(*) as visits,
         COUNT(DISTINCT session_id) as unique_sessions
-      FROM traffic_sources 
+      FROM traffic_sources
       WHERE created_at >= DATE_SUB(NOW(), INTERVAL ? DAY)
-      GROUP BY referrer
+      GROUP BY CASE
+        WHEN referrer = '' OR referrer IS NULL THEN 'Direto'
+        ELSE source_name
+      END
       ORDER BY visits DESC
       LIMIT 15
     `, [Number(days)]);
