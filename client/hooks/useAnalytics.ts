@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 export interface AnalyticsData {
   totalLeads: number;
@@ -8,7 +8,7 @@ export interface AnalyticsData {
   leadsByDay: Array<{ date: string; count: number }>;
   recentActivity: Array<{
     id: string;
-    type: 'lead' | 'view';
+    type: "lead" | "view";
     message: string;
     timestamp: string;
   }>;
@@ -39,11 +39,11 @@ export function useAnalytics(): UseAnalyticsReturn {
       // Create fetch with timeout
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 5000);
-      
-      const response = await fetch('/api/analytics', {
-        signal: controller.signal
+
+      const response = await fetch("/api/analytics", {
+        signal: controller.signal,
       });
-      
+
       clearTimeout(timeoutId);
 
       if (!response.ok) {
@@ -55,16 +55,16 @@ export function useAnalytics(): UseAnalyticsReturn {
       if (result.success) {
         setAnalytics(result.data);
       } else {
-        throw new Error(result.message || 'Erro ao carregar analytics');
+        throw new Error(result.message || "Erro ao carregar analytics");
       }
     } catch (err) {
       // Silently fall back to mock data
-      if (err instanceof Error && err.name === 'AbortError') {
-        console.warn('⚠️ API timeout - usando dados mock de analytics');
+      if (err instanceof Error && err.name === "AbortError") {
+        console.warn("⚠️ API timeout - usando dados mock de analytics");
       } else {
-        console.warn('⚠️ API indisponível - usando dados mock de analytics');
+        console.warn("⚠️ API indisponível - usando dados mock de analytics");
       }
-      
+
       setError(null);
 
       // Mock data as fallback
@@ -79,8 +79,8 @@ export function useAnalytics(): UseAnalyticsReturn {
         trends: {
           leadsChange: 0,
           conversionChange: 0,
-          viewsChange: 0
-        }
+          viewsChange: 0,
+        },
       };
 
       setAnalytics(mockData);
@@ -98,7 +98,7 @@ export function useAnalytics(): UseAnalyticsReturn {
     const timer = setTimeout(() => {
       fetchAnalytics();
     }, 200);
-    
+
     return () => clearTimeout(timer);
   }, []);
 
@@ -106,6 +106,6 @@ export function useAnalytics(): UseAnalyticsReturn {
     analytics,
     loading,
     error,
-    refreshAnalytics
+    refreshAnalytics,
   };
 }

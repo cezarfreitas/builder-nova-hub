@@ -12,23 +12,27 @@ export default function AdminDashboard() {
   // Calculate real metrics from leads data
   const totalLeads = leads?.length || 0;
   const today = new Date().toDateString();
-  const leadsToday = leads?.filter(lead => 
-    new Date(lead.created_at).toDateString() === today
-  ).length || 0;
+  const leadsToday =
+    leads?.filter((lead) => new Date(lead.created_at).toDateString() === today)
+      .length || 0;
 
   // Simple conversion rate calculation (assuming 1000 views per day on average)
-  const conversionRate = totalLeads > 0 ? ((totalLeads / (totalLeads * 50)) * 100).toFixed(1) : "0.0";
-  
+  const conversionRate =
+    totalLeads > 0
+      ? ((totalLeads / (totalLeads * 50)) * 100).toFixed(1)
+      : "0.0";
+
   // Estimated page views (rough calculation)
   const pageViews = totalLeads * 45 + Math.floor(Math.random() * 200);
 
   // Recent activity from actual leads
-  const recentActivity = leads?.slice(0, 5).map(lead => ({
-    id: lead.id,
-    name: lead.name,
-    timestamp: new Date(lead.created_at).toLocaleDateString('pt-BR'),
-    whatsapp: lead.whatsapp
-  })) || [];
+  const recentActivity =
+    leads?.slice(0, 5).map((lead) => ({
+      id: lead.id,
+      name: lead.name,
+      timestamp: new Date(lead.created_at).toLocaleDateString("pt-BR"),
+      whatsapp: lead.whatsapp,
+    })) || [];
 
   return (
     <div className="space-y-6">
@@ -49,7 +53,9 @@ export default function AdminDashboard() {
                 <Users className="w-6 h-6 text-blue-600" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Total de Leads</p>
+                <p className="text-sm font-medium text-gray-600">
+                  Total de Leads
+                </p>
                 {isLoading ? (
                   <div className="flex items-center">
                     <Loader2 className="w-5 h-5 animate-spin text-gray-400 mr-2" />
@@ -57,7 +63,9 @@ export default function AdminDashboard() {
                   </div>
                 ) : (
                   <>
-                    <p className="text-2xl font-bold text-gray-900">{totalLeads}</p>
+                    <p className="text-2xl font-bold text-gray-900">
+                      {totalLeads}
+                    </p>
                     <p className="text-xs text-blue-600">Total acumulado</p>
                   </>
                 )}
@@ -73,7 +81,9 @@ export default function AdminDashboard() {
                 <TrendingUp className="w-6 h-6 text-green-600" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Taxa de Conversão</p>
+                <p className="text-sm font-medium text-gray-600">
+                  Taxa de Conversão
+                </p>
                 {isLoading ? (
                   <div className="flex items-center">
                     <Loader2 className="w-5 h-5 animate-spin text-gray-400 mr-2" />
@@ -81,8 +91,12 @@ export default function AdminDashboard() {
                   </div>
                 ) : (
                   <>
-                    <p className="text-2xl font-bold text-gray-900">{conversionRate}%</p>
-                    <p className="text-xs text-green-600">Estimativa baseada em leads</p>
+                    <p className="text-2xl font-bold text-gray-900">
+                      {conversionRate}%
+                    </p>
+                    <p className="text-xs text-green-600">
+                      Estimativa baseada em leads
+                    </p>
                   </>
                 )}
               </div>
@@ -97,7 +111,9 @@ export default function AdminDashboard() {
                 <Eye className="w-6 h-6 text-orange-600" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Visualizações Est.</p>
+                <p className="text-sm font-medium text-gray-600">
+                  Visualizações Est.
+                </p>
                 {isLoading ? (
                   <div className="flex items-center">
                     <Loader2 className="w-5 h-5 animate-spin text-gray-400 mr-2" />
@@ -105,8 +121,12 @@ export default function AdminDashboard() {
                   </div>
                 ) : (
                   <>
-                    <p className="text-2xl font-bold text-gray-900">{pageViews.toLocaleString()}</p>
-                    <p className="text-xs text-orange-600">Estimativa baseada em leads</p>
+                    <p className="text-2xl font-bold text-gray-900">
+                      {pageViews.toLocaleString()}
+                    </p>
+                    <p className="text-xs text-orange-600">
+                      Estimativa baseada em leads
+                    </p>
                   </>
                 )}
               </div>
@@ -129,7 +149,9 @@ export default function AdminDashboard() {
                   </div>
                 ) : (
                   <>
-                    <p className="text-2xl font-bold text-gray-900">{leadsToday}</p>
+                    <p className="text-2xl font-bold text-gray-900">
+                      {leadsToday}
+                    </p>
                     <p className="text-xs text-ecko-red">Desde hoje às 00h</p>
                   </>
                 )}
@@ -143,7 +165,9 @@ export default function AdminDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="bg-white shadow-sm border border-gray-200">
           <CardHeader>
-            <CardTitle className="text-xl text-gray-900">Distribuição de Leads</CardTitle>
+            <CardTitle className="text-xl text-gray-900">
+              Distribuição de Leads
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="h-64 flex flex-col justify-center items-center bg-gray-50 rounded-lg">
@@ -154,7 +178,9 @@ export default function AdminDashboard() {
                 </div>
               ) : totalLeads > 0 ? (
                 <div className="text-center">
-                  <div className="text-4xl font-bold text-ecko-red mb-2">{totalLeads}</div>
+                  <div className="text-4xl font-bold text-ecko-red mb-2">
+                    {totalLeads}
+                  </div>
                   <div className="text-gray-600">Leads coletados</div>
                   <div className="mt-4 text-sm text-gray-500">
                     {leadsToday} novos hoje
@@ -169,7 +195,9 @@ export default function AdminDashboard() {
 
         <Card className="bg-white shadow-sm border border-gray-200">
           <CardHeader>
-            <CardTitle className="text-xl text-gray-900">Atividade Recente</CardTitle>
+            <CardTitle className="text-xl text-gray-900">
+              Atividade Recente
+            </CardTitle>
           </CardHeader>
           <CardContent>
             {isLoading ? (
@@ -180,7 +208,10 @@ export default function AdminDashboard() {
             ) : recentActivity.length > 0 ? (
               <div className="space-y-4 max-h-64 overflow-y-auto">
                 {recentActivity.map((activity) => (
-                  <div key={activity.id} className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                  <div
+                    key={activity.id}
+                    className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg"
+                  >
                     <div className="w-2 h-2 bg-green-500 rounded-full flex-shrink-0"></div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-gray-900 truncate">
@@ -191,7 +222,9 @@ export default function AdminDashboard() {
                       </p>
                     </div>
                     <div className="flex-shrink-0">
-                      <p className="text-xs text-gray-500">{activity.timestamp}</p>
+                      <p className="text-xs text-gray-500">
+                        {activity.timestamp}
+                      </p>
                     </div>
                   </div>
                 ))}
@@ -216,8 +249,12 @@ export default function AdminDashboard() {
               <div className="flex items-center">
                 <Users className="w-8 h-8 text-blue-600 mr-4" />
                 <div>
-                  <h3 className="font-semibold text-gray-900">Gerenciar Leads</h3>
-                  <p className="text-sm text-gray-600">Visualizar e exportar leads</p>
+                  <h3 className="font-semibold text-gray-900">
+                    Gerenciar Leads
+                  </h3>
+                  <p className="text-sm text-gray-600">
+                    Visualizar e exportar leads
+                  </p>
                 </div>
               </div>
             </a>
@@ -234,7 +271,9 @@ export default function AdminDashboard() {
                 <TrendingUp className="w-8 h-8 text-green-600 mr-4" />
                 <div>
                   <h3 className="font-semibold text-gray-900">Configurações</h3>
-                  <p className="text-sm text-gray-600">Ajustar SEO e webhooks</p>
+                  <p className="text-sm text-gray-600">
+                    Ajustar SEO e webhooks
+                  </p>
                 </div>
               </div>
             </a>
@@ -251,7 +290,9 @@ export default function AdminDashboard() {
                 <BarChart3 className="w-8 h-8 text-ecko-red mr-4" />
                 <div>
                   <h3 className="font-semibold text-gray-900">Analytics</h3>
-                  <p className="text-sm text-gray-600">Ver relatórios detalhados</p>
+                  <p className="text-sm text-gray-600">
+                    Ver relatórios detalhados
+                  </p>
                 </div>
               </div>
             </a>
