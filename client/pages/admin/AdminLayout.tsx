@@ -18,6 +18,7 @@ import {
   TrendingUp,
   HelpCircle,
   FileText,
+  FormInput,
   Search,
   Webhook,
   Database,
