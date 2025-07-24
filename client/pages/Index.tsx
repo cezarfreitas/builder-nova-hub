@@ -1434,6 +1434,9 @@ export default function Index() {
             case 'about':
               return (
                 <main key="about">
+                  {/* Section Divider */}
+                  <div className="bg-gradient-to-r from-transparent via-gray-800/30 to-transparent h-px mx-auto max-w-4xl" />
+
                   {/* About Section */}
                   <section id="about" className="py-20 bg-black">
                     <div className="container mx-auto px-6">
