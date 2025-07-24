@@ -90,9 +90,15 @@ export function MultiImageUpload({
     setUploading(true);
 
     try {
-      const uploadPromises = validFiles.map(file => uploadImage(file));
-      const results = await Promise.all(uploadPromises);
-      
+      // Upload sequencial para evitar problemas de concorrência
+      const results: (string | null)[] = [];
+
+      for (let i = 0; i < validFiles.length; i++) {
+        const file = validFiles[i];
+        const result = await uploadImage(file);
+        results.push(result);
+      }
+
       const successfulUploads = results.filter(url => url !== null) as string[];
       const failedCount = results.length - successfulUploads.length;
 
