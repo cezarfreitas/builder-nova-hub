@@ -409,6 +409,28 @@ export default function Index() {
     }
   };
 
+  // Função para buscar textos da seção galeria
+  const fetchGalleryTexts = async () => {
+    try {
+      const response = await fetch('/api/settings');
+      const result = await response.json();
+
+      if (result.success) {
+        const settings = result.data;
+        setGalleryTexts({
+          section_title: settings.gallery_section_title || 'COLEÇÃO LIFESTYLE',
+          section_subtitle: settings.gallery_section_subtitle || 'Viva o estilo Ecko',
+          section_description: settings.gallery_section_description || 'Descubra o lifestyle autêntico da Ecko através de looks que representam a essência do streetwear e a cultura urbana que define nossa marca',
+          section_tag: settings.gallery_section_tag || 'Lifestyle Gallery',
+          empty_state_title: settings.gallery_empty_title || 'Galeria em Construção',
+          empty_state_description: settings.gallery_empty_description || 'Em breve nossa galeria estará repleta de produtos incríveis!'
+        });
+      }
+    } catch (error) {
+      console.error('Erro ao buscar textos da galeria:', error);
+    }
+  };
+
   // Função para rastrear visita
   const trackVisit = async () => {
     try {
