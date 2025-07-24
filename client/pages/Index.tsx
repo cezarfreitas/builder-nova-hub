@@ -451,7 +451,7 @@ export default function Index() {
         toast({
           title: "✅ Cadastro enviado!",
           description:
-            "Nossa equipe entrará em contato em até 24h. Obrigado pelo interesse!",
+            "Nossa equipe entrar�� em contato em até 24h. Obrigado pelo interesse!",
           duration: 8000,
         });
         setIsSubmitted(true);
@@ -491,8 +491,13 @@ export default function Index() {
   };
 
   const scrollToContent = () => {
-    const element = document.getElementById("content-section");
-    element?.scrollIntoView({ behavior: "smooth" });
+    // Use requestAnimationFrame to avoid forced reflow
+    requestAnimationFrame(() => {
+      const element = document.getElementById("content-section");
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    });
   };
 
   if (isSubmitted) {
