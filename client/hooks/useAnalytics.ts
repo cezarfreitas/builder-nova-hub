@@ -36,35 +36,49 @@ export function useAnalytics(selectedPeriod: number = 30) {
       setLoading(true);
       setError(null);
 
-      // Create fetch with timeout
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 5000);
-
-      // Fetch real leads data
-      const leadsResponse = await fetch('/api/leads?limit=1000', {
-        signal: controller.signal
-      });
-      const statsResponse = await fetch('/api/leads/stats', {
-        signal: controller.signal
-      });
-
-      clearTimeout(timeoutId);
-      
       let leads = [];
       let stats = { total: 0, unique: 0, duplicates: 0, webhook_errors: 0 };
-      
-      if (leadsResponse.ok) {
-        const leadsResult = await leadsResponse.json();
-        if (leadsResult.success) {
-          leads = leadsResult.data.leads || [];
+
+      // Try to fetch leads data with timeout
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 3000);
+
+        const leadsResponse = await fetch('/api/leads?limit=1000', {
+          signal: controller.signal
+        });
+
+        clearTimeout(timeoutId);
+
+        if (leadsResponse.ok) {
+          const leadsResult = await leadsResponse.json();
+          if (leadsResult.success) {
+            leads = leadsResult.data.leads || [];
+          }
         }
+      } catch (fetchError) {
+        console.warn('Failed to fetch leads data, using empty array');
       }
-      
-      if (statsResponse.ok) {
-        const statsResult = await statsResponse.json();
-        if (statsResult.success) {
-          stats = statsResult.data;
+
+      // Try to fetch stats data with timeout
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 3000);
+
+        const statsResponse = await fetch('/api/leads/stats', {
+          signal: controller.signal
+        });
+
+        clearTimeout(timeoutId);
+
+        if (statsResponse.ok) {
+          const statsResult = await statsResponse.json();
+          if (statsResult.success) {
+            stats = statsResult.data;
+          }
         }
+      } catch (fetchError) {
+        console.warn('Failed to fetch stats data, using default values');
       }
 
       // Calculate real metrics
@@ -222,7 +236,7 @@ export function useAnalytics(selectedPeriod: number = 30) {
       if (err instanceof Error && err.name === 'AbortError') {
         console.warn('⚠️ API timeout - usando dados padrão de analytics');
       } else {
-        console.warn('⚠�� API indisponível - usando dados padrão de analytics');
+        console.warn('⚠️ API indisponível - usando dados padrão de analytics');
       }
       setError(null);
 
