@@ -385,7 +385,7 @@ export default function Index() {
     // Limita a 11 dígitos (DDD + 9 dígitos)
     const limited = numbers.slice(0, 11);
 
-    // Aplica formatação
+    // Aplica formataç��o
     if (limited.length <= 2) {
       return limited;
     } else if (limited.length <= 7) {
@@ -1158,13 +1158,13 @@ export default function Index() {
                           ) : (
                             <>
                               <span className="hidden sm:inline">
-                                {staticHero.cta_text
-                                  ? staticHero.cta_text.toUpperCase()
+                                {currentHero.cta_text
+                                  ? currentHero.cta_text.toUpperCase()
                                   : "QUERO SER REVENDEDOR"}
                               </span>
                               <span className="sm:hidden">
-                                {staticHero.cta_text
-                                  ? staticHero.cta_text.toUpperCase()
+                                {currentHero.cta_text
+                                  ? currentHero.cta_text.toUpperCase()
                                   : "SER REVENDEDOR"}
                               </span>
                             </>
