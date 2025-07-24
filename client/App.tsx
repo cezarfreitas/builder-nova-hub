@@ -47,53 +47,161 @@ const PageLoading = () => (
 
 const App = () => (
   <BrowserRouter>
+    <CriticalCSS />
     <TooltipProvider>
       <Toaster />
       <Sonner />
       <Routes>
         <Route path="/" element={<Index />} />
-        <Route path="/admin" element={<AdminLayout />}>
-          <Route index element={<AdminDashboard />} />
+        <Route path="/admin" element={
+          <Suspense fallback={<PageLoading />}>
+            <AdminLayout />
+          </Suspense>
+        }>
+          <Route index element={
+            <Suspense fallback={<PageLoading />}>
+              <AdminDashboard />
+            </Suspense>
+          } />
         </Route>
-        <Route path="/admin/leads" element={<AdminLayout />}>
-          <Route index element={<AdminLeads />} />
+        <Route path="/admin/leads" element={
+          <Suspense fallback={<PageLoading />}>
+            <AdminLayout />
+          </Suspense>
+        }>
+          <Route index element={
+            <Suspense fallback={<PageLoading />}>
+              <AdminLeads />
+            </Suspense>
+          } />
         </Route>
-        <Route path="/admin/analytics" element={<AdminLayout />}>
-          <Route index element={<AdminAnalytics />} />
+        <Route path="/admin/analytics" element={
+          <Suspense fallback={<PageLoading />}>
+            <AdminLayout />
+          </Suspense>
+        }>
+          <Route index element={
+            <Suspense fallback={<PageLoading />}>
+              <AdminAnalytics />
+            </Suspense>
+          } />
         </Route>
-        <Route path="/admin/configuracoes" element={<AdminLayout />}>
-          <Route index element={<AdminConfiguracoes />} />
+        <Route path="/admin/configuracoes" element={
+          <Suspense fallback={<PageLoading />}>
+            <AdminLayout />
+          </Suspense>
+        }>
+          <Route index element={
+            <Suspense fallback={<PageLoading />}>
+              <AdminConfiguracoes />
+            </Suspense>
+          } />
         </Route>
-        <Route path="/admin/hero" element={<AdminLayout />}>
-          <Route index element={<AdminHero />} />
+        <Route path="/admin/hero" element={
+          <Suspense fallback={<PageLoading />}>
+            <AdminLayout />
+          </Suspense>
+        }>
+          <Route index element={
+            <Suspense fallback={<PageLoading />}>
+              <AdminHero />
+            </Suspense>
+          } />
         </Route>
-        <Route path="/admin/benefits" element={<AdminLayout />}>
-          <Route index element={<AdminBenefits />} />
+        <Route path="/admin/benefits" element={
+          <Suspense fallback={<PageLoading />}>
+            <AdminLayout />
+          </Suspense>
+        }>
+          <Route index element={
+            <Suspense fallback={<PageLoading />}>
+              <AdminBenefits />
+            </Suspense>
+          } />
         </Route>
-        <Route path="/admin/testimonials" element={<AdminLayout />}>
-          <Route index element={<AdminTestimonials />} />
+        <Route path="/admin/testimonials" element={
+          <Suspense fallback={<PageLoading />}>
+            <AdminLayout />
+          </Suspense>
+        }>
+          <Route index element={
+            <Suspense fallback={<PageLoading />}>
+              <AdminTestimonials />
+            </Suspense>
+          } />
         </Route>
-        <Route path="/admin/gallery" element={<AdminLayout />}>
-          <Route index element={<AdminGallery />} />
+        <Route path="/admin/gallery" element={
+          <Suspense fallback={<PageLoading />}>
+            <AdminLayout />
+          </Suspense>
+        }>
+          <Route index element={
+            <Suspense fallback={<PageLoading />}>
+              <AdminGallery />
+            </Suspense>
+          } />
         </Route>
-
-        <Route path="/admin/faq" element={<AdminLayout />}>
-          <Route index element={<AdminFAQ />} />
+        <Route path="/admin/faq" element={
+          <Suspense fallback={<PageLoading />}>
+            <AdminLayout />
+          </Suspense>
+        }>
+          <Route index element={
+            <Suspense fallback={<PageLoading />}>
+              <AdminFAQ />
+            </Suspense>
+          } />
         </Route>
-        <Route path="/admin/form" element={<AdminLayout />}>
-          <Route index element={<AdminForm />} />
+        <Route path="/admin/form" element={
+          <Suspense fallback={<PageLoading />}>
+            <AdminLayout />
+          </Suspense>
+        }>
+          <Route index element={
+            <Suspense fallback={<PageLoading />}>
+              <AdminForm />
+            </Suspense>
+          } />
         </Route>
-        <Route path="/admin/footer" element={<AdminLayout />}>
-          <Route index element={<AdminFooter />} />
+        <Route path="/admin/footer" element={
+          <Suspense fallback={<PageLoading />}>
+            <AdminLayout />
+          </Suspense>
+        }>
+          <Route index element={
+            <Suspense fallback={<PageLoading />}>
+              <AdminFooter />
+            </Suspense>
+          } />
         </Route>
-        <Route path="/admin/about" element={<AdminLayout />}>
-          <Route index element={<AdminAbout />} />
+        <Route path="/admin/about" element={
+          <Suspense fallback={<PageLoading />}>
+            <AdminLayout />
+          </Suspense>
+        }>
+          <Route index element={
+            <Suspense fallback={<PageLoading />}>
+              <AdminAbout />
+            </Suspense>
+          } />
         </Route>
-        <Route path="/admin/order" element={<AdminLayout />}>
-          <Route index element={<AdminOrder />} />
+        <Route path="/admin/order" element={
+          <Suspense fallback={<PageLoading />}>
+            <AdminLayout />
+          </Suspense>
+        }>
+          <Route index element={
+            <Suspense fallback={<PageLoading />}>
+              <AdminOrder />
+            </Suspense>
+          } />
         </Route>
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-        <Route path="*" element={<NotFound />} />
+        <Route path="*" element={
+          <Suspense fallback={<PageLoading />}>
+            <NotFound />
+          </Suspense>
+        } />
       </Routes>
     </TooltipProvider>
   </BrowserRouter>
