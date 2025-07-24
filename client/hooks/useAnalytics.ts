@@ -36,9 +36,19 @@ export function useAnalytics(selectedPeriod: number = 30) {
       setLoading(true);
       setError(null);
 
+      // Create fetch with timeout
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
+
       // Fetch real leads data
-      const leadsResponse = await fetch('/api/leads?limit=1000');
-      const statsResponse = await fetch('/api/leads/stats');
+      const leadsResponse = await fetch('/api/leads?limit=1000', {
+        signal: controller.signal
+      });
+      const statsResponse = await fetch('/api/leads/stats', {
+        signal: controller.signal
+      });
+
+      clearTimeout(timeoutId);
       
       let leads = [];
       let stats = { total: 0, unique: 0, duplicates: 0, webhook_errors: 0 };
