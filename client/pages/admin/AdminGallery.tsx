@@ -865,12 +865,57 @@ export default function AdminGallery() {
                 </div>
 
                 <div className="border-t pt-6">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">CTA da Seção</h3>
+
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Título do CTA
+                      </label>
+                      <input
+                        type="text"
+                        value={textSettings.cta_title}
+                        onChange={(e) => setTextSettings({ ...textSettings, cta_title: e.target.value })}
+                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+                        placeholder="Ex: Tenha Estes Produtos em Sua Loja!"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Descrição do CTA
+                      </label>
+                      <input
+                        type="text"
+                        value={textSettings.cta_description}
+                        onChange={(e) => setTextSettings({ ...textSettings, cta_description: e.target.value })}
+                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+                        placeholder="Ex: Produtos com alta demanda e excelente margem de lucro esperando por você"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Texto do Botão
+                      </label>
+                      <input
+                        type="text"
+                        value={textSettings.cta_button_text}
+                        onChange={(e) => setTextSettings({ ...textSettings, cta_button_text: e.target.value })}
+                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+                        placeholder="Ex: QUERO ESSES PRODUTOS NA MINHA LOJA"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="border-t pt-6">
                   <h3 className="text-lg font-semibold text-gray-900 mb-4">Estado Vazio (quando não há imagens)</h3>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Título Estado Vazio
+                        T��tulo Estado Vazio
                       </label>
                       <input
                         type="text"
