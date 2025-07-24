@@ -80,14 +80,28 @@ export default function Index() {
   const [startTime] = useState(Date.now());
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showWhatsApp, setShowWhatsApp] = useState(false);
+  const [whatsappDismissed, setWhatsappDismissed] = useState(false);
 
-  // Mostrar WhatsApp flutuante após 3 segundos
+  // Mostrar WhatsApp flutuante após 5 segundos
   useEffect(() => {
     const timer = setTimeout(() => {
-      setShowWhatsApp(true);
-    }, 3000);
+      if (!whatsappDismissed) {
+        setShowWhatsApp(true);
+      }
+    }, 5000);
     return () => clearTimeout(timer);
-  }, []);
+  }, [whatsappDismissed]);
+
+  // Reaparecer WhatsApp após 30 segundos se foi dismissado
+  useEffect(() => {
+    if (whatsappDismissed) {
+      const timer = setTimeout(() => {
+        setWhatsappDismissed(false);
+        setShowWhatsApp(true);
+      }, 30000);
+      return () => clearTimeout(timer);
+    }
+  }, [whatsappDismissed]);
   const [userId] = useState(() => {
     // Gerar user_id único baseado em dados do navegador
     const fingerprint = `${navigator.userAgent}-${screen.width}x${screen.height}-${Intl.DateTimeFormat().resolvedOptions().timeZone}`;
