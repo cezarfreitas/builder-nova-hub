@@ -1367,10 +1367,10 @@ export default function Index() {
             <div className="text-center mt-12">
               <div className="bg-gradient-to-r from-ecko-red/10 to-ecko-red-dark/10 rounded-2xl p-6 border border-ecko-red/20 backdrop-blur-sm">
                 <h3 className="text-xl font-bold text-white mb-3">
-                  Ainda tem dúvidas?
+                  {renderTextWithColorTokens(content.faq.cta_title)}
                 </h3>
                 <p className="text-gray-300 mb-4">
-                  Nossa equipe está pronta para esclarecer qualquer questão
+                  {renderTextWithColorTokens(content.faq.cta_description)}
                 </p>
                 <Button
                   onClick={() => openFormWithOrigin("faq-cta")}
