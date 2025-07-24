@@ -9,9 +9,9 @@ export interface DatabaseConfig {
 }
 
 // Configuração do banco de dados a partir da URL fornecida
-// mysql://lpdb:52ba0e00cff2c44683f2@main.idenegociosdigitais.com.br:3040/lpdb
+// mysql://lpdb:52ba0e00cff2c44683f2@5.161.52.206:3040/lpdb
 const dbConfig: DatabaseConfig = {
-  host: "main.idenegociosdigitais.com.br",
+  host: "5.161.52.206",
   port: 3040,
   user: "lpdb",
   password: "52ba0e00cff2c44683f2",
