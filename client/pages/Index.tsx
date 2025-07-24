@@ -1096,7 +1096,7 @@ export default function Index() {
 
                       {/* Call to Action */}
                       <div className="text-center">
-                        <div className="bg-gradient-to-r from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-3xl p-8 md:p-12 max-w-4xl mx-auto">
+                        <div className="bg-black/80 backdrop-blur-sm border border-gray-700/50 rounded-3xl p-8 md:p-12 max-w-4xl mx-auto">
                           <h3 className="text-2xl md:text-3xl font-bold text-white mb-6">
                             {renderTextWithColorTokens(content.benefits.cta_title)}
                           </h3>
@@ -1202,7 +1202,7 @@ export default function Index() {
 
                       {/* Call to Action */}
                       <div className="text-center">
-                        <div className="bg-gradient-to-r from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-3xl p-8 md:p-12 max-w-4xl mx-auto">
+                        <div className="bg-black/80 backdrop-blur-sm border border-gray-700/50 rounded-3xl p-8 md:p-12 max-w-4xl mx-auto">
                           <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
                             {renderTextWithColorTokens(content.testimonials.cta_title)}
                           </h3>
@@ -1308,7 +1308,7 @@ export default function Index() {
 
                       {/* Call to Action */}
                       <div className="text-center">
-                        <div className="bg-gradient-to-r from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-3xl p-8 md:p-12 max-w-4xl mx-auto">
+                        <div className="bg-black/80 backdrop-blur-sm border border-gray-700/50 rounded-3xl p-8 md:p-12 max-w-4xl mx-auto">
                           <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
                             {renderTextWithColorTokens(content.gallery.cta_title)}
                           </h3>
@@ -1372,7 +1372,7 @@ export default function Index() {
                             <AccordionItem
                               key={item.id}
                               value={`item-${item.id}`}
-                              className="bg-gradient-to-r from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl px-6 transition-all duration-300 hover:border-ecko-red/50"
+                              className="bg-black/80 backdrop-blur-sm border border-gray-700/50 rounded-2xl px-6 transition-all duration-300 hover:border-ecko-red/50"
                             >
                               <AccordionTrigger className="text-left text-white hover:text-ecko-red transition-colors duration-300 py-6 text-lg font-semibold hover:no-underline">
                                 {renderTextWithColorTokens(item.question)}
@@ -1386,7 +1386,7 @@ export default function Index() {
 
                       {/* Call to Action */}
                       <div className="text-center">
-                        <div className="bg-gradient-to-r from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-3xl p-8 md:p-12">
+                        <div className="bg-black/80 backdrop-blur-sm border border-gray-700/50 rounded-3xl p-8 md:p-12">
                           <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
                             {renderTextWithColorTokens(content.faq.cta_title)}
                           </h3>
