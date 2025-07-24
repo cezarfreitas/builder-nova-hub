@@ -228,57 +228,7 @@ export default function Index() {
     },
   ];
 
-  // Static testimonials
-  const staticTestimonials = [
-    {
-      id: 1,
-      name: "Ricardo Silva",
-      company: "Silva Streetwear",
-      role: "Proprietário",
-      content:
-        "Trabalhar com a Ecko mudou completamente meu negócio. As vendas triplicaram em apenas 6 meses e os clientes sempre voltam para comprar mais. A qualidade dos produtos é excepcional!",
-      avatar_url:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
-      rating: 5,
-      is_active: true,
-    },
-    {
-      id: 2,
-      name: "Ana Carolina",
-      company: "Street Style Store",
-      role: "CEO",
-      content:
-        "Como mulher empreendedora, encontrei na Ecko o parceiro ideal. O suporte é incrível e os produtos vendem sozinhos. Minha loja cresceu 400% desde que me tornei revendedora oficial.",
-      avatar_url:
-        "https://images.unsplash.com/photo-1494790108755-2616b612b647?w=150&h=150&fit=crop&crop=face",
-      rating: 5,
-      is_active: true,
-    },
-    {
-      id: 3,
-      name: "Marcus Santos",
-      company: "Urban Fashion",
-      role: "Diretor Comercial",
-      content:
-        "A Ecko não é só uma marca, é um estilo de vida. Nossos clientes são apaixonados pelos produtos e isso reflete diretamente nas nossas vendas. Melhor decisão que já tomei!",
-      avatar_url:
-        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-      rating: 5,
-      is_active: true,
-    },
-    {
-      id: 4,
-      name: "Fernanda Costa",
-      company: "FC Moda Urbana",
-      role: "Fundadora",
-      content:
-        "Em 2 anos como revendedora Ecko, consegui abrir mais 3 lojas. A marca tem uma força incrível no mercado e os jovens amam. O retorno sobre investimento é fantástico!",
-      avatar_url:
-        "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=150&h=150&fit=crop&crop=face",
-      rating: 5,
-      is_active: true,
-    },
-  ];
+
 
   // Função para rastrear clique no WhatsApp
   const trackWhatsAppClick = async () => {
@@ -513,7 +463,7 @@ export default function Index() {
       toast({
         title: "⚠️ CNPJ Obrigatório",
         description:
-          "�� necessário ter CNPJ para se tornar um revendedor autorizado.",
+          "É necessário ter CNPJ para se tornar um revendedor autorizado.",
         variant: "destructive",
       });
       return;
