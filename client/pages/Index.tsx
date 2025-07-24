@@ -1025,7 +1025,7 @@ export default function Index() {
               return (
                 <main key="benefits">
                   {/* Section Divider */}
-                  <div className="bg-gradient-to-r from-transparent via-gray-600/10 to-transparent h-px mx-auto max-w-4xl opacity-30 hover:opacity-60 transition-all duration-1000 animate-in fade-in slide-in-from-left-32 slide-in-from-right-32" />
+                  <div className="bg-gradient-to-r from-transparent via-gray-500/5 to-transparent h-px mx-auto max-w-6xl opacity-20 hover:opacity-40 transition-opacity duration-700" />
 
                   {/* Benefits Section */}
                   <section
@@ -1133,7 +1133,7 @@ export default function Index() {
               return (
                 <main key="testimonials">
                   {/* Section Divider */}
-                  <div className="bg-gradient-to-r from-transparent via-gray-600/10 to-transparent h-px mx-auto max-w-4xl opacity-30 hover:opacity-60 transition-all duration-1000 animate-in fade-in slide-in-from-left-32 slide-in-from-right-32" />
+                  <div className="bg-gradient-to-r from-transparent via-gray-500/5 to-transparent h-px mx-auto max-w-6xl opacity-20 hover:opacity-40 transition-opacity duration-700" />
 
                   {/* Testimonials Section */}
                   <section className="py-16 md:py-20 bg-black relative overflow-hidden">
@@ -1245,7 +1245,7 @@ export default function Index() {
               return (
                 <main key="gallery">
                   {/* Section Divider */}
-                  <div className="bg-gradient-to-r from-transparent via-gray-600/10 to-transparent h-px mx-auto max-w-4xl opacity-30 hover:opacity-60 transition-all duration-1000 animate-in fade-in slide-in-from-left-32 slide-in-from-right-32" />
+                  <div className="bg-gradient-to-r from-transparent via-gray-500/5 to-transparent h-px mx-auto max-w-6xl opacity-20 hover:opacity-40 transition-opacity duration-700" />
 
                   {/* Gallery Section */}
                   <section className="py-16 md:py-20 bg-black relative overflow-hidden">
@@ -1354,7 +1354,7 @@ export default function Index() {
               return (
                 <main key="faq">
                   {/* Section Divider */}
-                  <div className="bg-gradient-to-r from-transparent via-gray-600/10 to-transparent h-px mx-auto max-w-4xl opacity-30 hover:opacity-60 transition-all duration-1000 animate-in fade-in slide-in-from-left-32 slide-in-from-right-32" />
+                  <div className="bg-gradient-to-r from-transparent via-gray-500/5 to-transparent h-px mx-auto max-w-6xl opacity-20 hover:opacity-40 transition-opacity duration-700" />
 
                   {/* FAQ Section */}
                   <section className="py-16 md:py-20 bg-black relative overflow-hidden">
@@ -1435,7 +1435,7 @@ export default function Index() {
               return (
                 <main key="about">
                   {/* Section Divider */}
-                  <div className="bg-gradient-to-r from-transparent via-gray-600/10 to-transparent h-px mx-auto max-w-4xl opacity-30 hover:opacity-60 transition-all duration-1000 animate-in fade-in slide-in-from-left-32 slide-in-from-right-32" />
+                  <div className="bg-gradient-to-r from-transparent via-gray-500/5 to-transparent h-px mx-auto max-w-6xl opacity-20 hover:opacity-40 transition-opacity duration-700" />
 
                   {/* About Section */}
                   <section id="about" className="py-20 bg-black">
@@ -1518,7 +1518,7 @@ export default function Index() {
               return (
                 <main key="final_cta">
                   {/* Section Divider */}
-                  <div className="bg-gradient-to-r from-transparent via-gray-600/10 to-transparent h-px mx-auto max-w-4xl opacity-30 hover:opacity-60 transition-all duration-1000 animate-in fade-in slide-in-from-left-32 slide-in-from-right-32" />
+                  <div className="bg-gradient-to-r from-transparent via-gray-500/5 to-transparent h-px mx-auto max-w-6xl opacity-20 hover:opacity-40 transition-opacity duration-700" />
 
                   {/* Final CTA Section */}
                   <section className="py-16 md:py-20 bg-ecko-red">
