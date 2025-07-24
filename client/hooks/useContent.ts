@@ -74,7 +74,7 @@ export const useContent = () => {
       if (backup) {
         const parsed = JSON.parse(backup);
         // Valida se tem a estrutura correta
-        if (parsed.hero && parsed.gallery && parsed.testimonials) {
+        if (parsed.hero && parsed.gallery && parsed.testimonials && parsed.benefits?.cards) {
           return parsed;
         }
       }
