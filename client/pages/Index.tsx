@@ -1244,6 +1244,9 @@ export default function Index() {
             case 'gallery':
               return (
                 <main key="gallery">
+                  {/* Section Divider */}
+                  <div className="bg-gradient-to-r from-transparent via-gray-800/30 to-transparent h-px mx-auto max-w-4xl" />
+
                   {/* Gallery Section */}
                   <section className="py-16 md:py-20 bg-black relative overflow-hidden">
                     {/* Background Pattern */}
