@@ -442,7 +442,7 @@ export default function Index() {
               Cadastro Enviado!
             </h2>
             <p className="text-gray-300 mb-6">
-              Nossa equipe entrará em contato em até 24h para apresentar nossa
+              Nossa equipe entrará em contato em at�� 24h para apresentar nossa
               proposta exclusiva para se tornar um revendedor oficial!
             </p>
             <Button
@@ -596,7 +596,7 @@ export default function Index() {
                   <option value="">Selecione</option>
                   <option value="fisica">Física</option>
                   <option value="online">Online</option>
-                  <option value="ambas">Física + Online</option>
+                  <option value="ambas">F��sica + Online</option>
                 </select>
               </div>
 
@@ -1331,14 +1331,13 @@ export default function Index() {
                 </span>
               </div>
               <h2 className="text-3xl md:text-5xl font-black text-white mb-6 leading-tight">
-                Perguntas <span className="text-ecko-red">Frequentes</span>
+                {renderTextWithColorTokens(content.faq.section_title)}
                 <span className="block text-xl md:text-2xl text-gray-300 mt-2 font-medium normal-case tracking-normal">
-                  tire suas dúvidas
+                  {renderTextWithColorTokens(content.faq.section_subtitle)}
                 </span>
               </h2>
               <p className="text-gray-300 text-lg max-w-3xl mx-auto leading-relaxed">
-                Encontre respostas para as principais dúvidas sobre como se
-                tornar um parceiro oficial da Ecko
+                {renderTextWithColorTokens(content.faq.section_description)}
               </p>
             </div>
 
