@@ -446,22 +446,43 @@ export default function AdminHero() {
               </div>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Cor do Botão CTA
-              </label>
-              <div className="flex items-center gap-2">
-                <input
-                  type="color"
-                  value={settings.cta_color}
-                  onChange={(e) => setSettings(prev => ({ ...prev, cta_color: e.target.value }))}
-                  className="w-12 h-10 rounded border"
-                />
-                <Input
-                  value={settings.cta_color}
-                  onChange={(e) => setSettings(prev => ({ ...prev, cta_color: e.target.value }))}
-                  className="flex-1"
-                />
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Cor do Botão CTA
+                </label>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="color"
+                    value={settings.cta_color}
+                    onChange={(e) => setSettings(prev => ({ ...prev, cta_color: e.target.value }))}
+                    className="w-12 h-10 rounded border"
+                  />
+                  <Input
+                    value={settings.cta_color}
+                    onChange={(e) => setSettings(prev => ({ ...prev, cta_color: e.target.value }))}
+                    className="flex-1"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Cor do Texto do Botão
+                </label>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="color"
+                    value={settings.cta_text_color}
+                    onChange={(e) => setSettings(prev => ({ ...prev, cta_text_color: e.target.value }))}
+                    className="w-12 h-10 rounded border"
+                  />
+                  <Input
+                    value={settings.cta_text_color}
+                    onChange={(e) => setSettings(prev => ({ ...prev, cta_text_color: e.target.value }))}
+                    className="flex-1"
+                  />
+                </div>
               </div>
             </div>
           </CardContent>
