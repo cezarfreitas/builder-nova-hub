@@ -482,7 +482,7 @@ export default function Index() {
       toast({
         title: "❌ Erro de conexão",
         description:
-          "Erro ao conectar com o servidor. Verifique sua conex��o e tente novamente.",
+          "Erro ao conectar com o servidor. Verifique sua conexão e tente novamente.",
         variant: "destructive",
       });
     } finally {
@@ -1855,7 +1855,13 @@ export default function Index() {
       </footer>
 
       {/* Form Modal */}
-      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+      <Dialog open={isModalOpen} onOpenChange={(open) => {
+        setIsModalOpen(open);
+        if (!open) {
+          setFormOrigin("");
+          setIsSubmitted(false);
+        }
+      }}>
         <DialogContent className="max-w-md mx-auto bg-black/95 border-2 border-ecko-red/40 text-white">
           <DialogHeader>
             <DialogTitle className="text-center text-xl font-bold text-white mb-4">
