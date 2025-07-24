@@ -317,7 +317,7 @@ export function OptimizedImageUpload({
           <CardContent className="p-4">
             <div className="flex items-center justify-between text-sm">
               <div className="flex items-center">
-                <Compress className="w-4 h-4 text-blue-600 mr-2" />
+                <Minimize2 className="w-4 h-4 text-blue-600 mr-2" />
                 <span className="font-medium text-blue-800">Otimização aplicada</span>
               </div>
               <Badge variant="secondary" className="bg-blue-100 text-blue-800">
