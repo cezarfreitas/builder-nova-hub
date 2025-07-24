@@ -203,8 +203,23 @@ export function useAnalytics(selectedPeriod: number = 30) {
     setOverview(realOverview);
     setDailyStats(dailyData);
 
-    // Analyze traffic sources from localStorage data
-    if (trafficSourcesData.length > 0) {
+    // Analyze traffic sources from database or localStorage
+    if (dbTrafficSources && dbTrafficSources.sources.length > 0) {
+      // Use database data (preferred)
+      setTrafficSources({
+        sources: dbTrafficSources.sources.map(source => ({
+          source_name: source.source_name,
+          total_visits: source.total_visits,
+          percentage: source.percentage
+        })),
+        utm_sources: dbTrafficSources.utm_sources || [],
+        utm_mediums: dbTrafficSources.utm_mediums || [],
+        utm_campaigns: dbTrafficSources.utm_campaigns || [],
+        total_visits: dbTrafficSources.total_visits,
+        referrers: dbTrafficSources.referrers || []
+      });
+    } else if (trafficSourcesData.length > 0) {
+      // Fallback to localStorage data
       const sources = {};
       const utmSources = {};
       const utmMediums = {};
