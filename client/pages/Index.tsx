@@ -813,8 +813,8 @@ export default function Index() {
         <section
           className="h-screen relative flex flex-col justify-center items-center overflow-hidden"
           style={{
-            backgroundColor: staticHero.background_color,
-            color: staticHero.text_color,
+            backgroundColor: currentHero.background_color,
+            color: currentHero.text_color,
           }}
         >
           {/* Background Image */}
