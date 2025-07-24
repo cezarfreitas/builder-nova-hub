@@ -1440,7 +1440,7 @@ export default function Index() {
                         {/* Story Text */}
                         <div className="space-y-6">
                           {content.about?.content?.split('\n\n').map((paragraph, index) => (
-                            <p key={index} className="text-gray-700 leading-relaxed text-lg">
+                            <p key={index} className="text-gray-300 leading-relaxed text-lg">
                               {renderTextWithColorTokens(paragraph)}
                             </p>
                           ))}
@@ -1449,14 +1449,14 @@ export default function Index() {
                         {/* Stats */}
                         <div className="grid grid-cols-2 gap-6">
                           {(content.about?.stats || []).map((stat) => (
-                            <div key={stat.id} className="text-center p-6 bg-white rounded-lg shadow-sm border border-gray-100">
+                            <div key={stat.id} className="text-center p-6 bg-black/60 rounded-lg shadow-sm border border-gray-700">
                               <div className="text-3xl md:text-4xl font-bold text-ecko-red mb-2">
                                 {stat.number}
                               </div>
-                              <div className="text-gray-900 font-semibold mb-1">
+                              <div className="text-white font-semibold mb-1">
                                 {stat.label}
                               </div>
-                              <div className="text-sm text-gray-600">
+                              <div className="text-sm text-gray-300">
                                 {stat.description}
                               </div>
                             </div>
