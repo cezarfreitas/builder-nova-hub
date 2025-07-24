@@ -115,10 +115,17 @@ export function useAnalytics(selectedPeriod: number = 30) {
     return () => clearTimeout(timer);
   }, []);
 
+  const refreshData = refreshAnalytics;
+
   return {
-    analytics,
+    overview,
+    dailyStats,
+    timeAnalysis,
+    trafficSources,
+    locationConversion,
+    geographyConversion,
     loading,
     error,
-    refreshAnalytics
+    refreshData
   };
 }
