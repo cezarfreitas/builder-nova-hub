@@ -5,6 +5,7 @@ import { Badge } from "../../components/ui/badge";
 import { useToast } from "../../hooks/use-toast";
 import { Testimonial } from "@shared/api";
 import { SmartImageUpload } from "../../components/SmartImageUpload";
+import { TokenColorEditor } from "../../components/TokenColorEditor";
 import {
   MessageSquare,
   Plus,
@@ -397,6 +398,20 @@ export default function AdminTestimonials() {
         </div>
       </div>
 
+      {/* Conteúdo das Abas */}
+      {activeTab === 'depoimentos' ? (
+        <div className="space-y-6">
+          {/* Header dos Depoimentos */}
+          <div className="flex justify-end">
+            <Button
+              onClick={() => setShowForm(true)}
+              className="bg-ecko-red hover:bg-ecko-red-dark text-white"
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              Novo Depoimento
+            </Button>
+          </div>
+
       {/* Formulário */}
       {showForm && (
         <Card className="bg-white shadow-sm border border-gray-200">
@@ -681,6 +696,160 @@ export default function AdminTestimonials() {
           )}
         </CardContent>
       </Card>
+        </div>
+      ) : (
+        /* Aba de Textos */
+        <div className="space-y-6">
+          <Card className="bg-white shadow-sm border border-gray-200">
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <FileText className="w-6 h-6 mr-2 text-ecko-red" />
+                Textos da Seção Depoimentos
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Tag da Seção
+                    </label>
+                    <input
+                      type="text"
+                      value={textSettings.section_tag}
+                      onChange={(e) => setTextSettings({ ...textSettings, section_tag: e.target.value })}
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+                      placeholder="Ex: Depoimentos"
+                    />
+                  </div>
+
+                  <div>
+                    <TokenColorEditor
+                      label="Título Principal"
+                      value={textSettings.section_title}
+                      onChange={(value) => setTextSettings({ ...textSettings, section_title: value })}
+                      placeholder="Ex: O que nossos {ecko}revendedores{/ecko} dizem"
+                      rows={2}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <TokenColorEditor
+                    label="Subtítulo"
+                    value={textSettings.section_subtitle}
+                    onChange={(value) => setTextSettings({ ...textSettings, section_subtitle: value })}
+                    placeholder="Ex: casos reais de {green}sucesso{/green}"
+                    rows={2}
+                  />
+                </div>
+
+                <div>
+                  <TokenColorEditor
+                    label="Descrição da Seção"
+                    value={textSettings.section_description}
+                    onChange={(value) => setTextSettings({ ...textSettings, section_description: value })}
+                    placeholder="Ex: Depoimentos {blue}reais{/blue} de parceiros que transformaram suas paixões em negócios {ecko}lucrativos{/ecko} com a Ecko"
+                    rows={3}
+                  />
+                </div>
+
+                <div className="border-t pt-6">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">CTA da Seção</h3>
+
+                  <div className="space-y-4">
+                    <div>
+                      <TokenColorEditor
+                        label="Título do CTA"
+                        value={textSettings.cta_title}
+                        onChange={(value) => setTextSettings({ ...textSettings, cta_title: value })}
+                        placeholder="Ex: Seja o próximo {ecko}case de sucesso{/ecko}!"
+                        rows={2}
+                      />
+                    </div>
+
+                    <div>
+                      <TokenColorEditor
+                        label="Descrição do CTA"
+                        value={textSettings.cta_description}
+                        onChange={(value) => setTextSettings({ ...textSettings, cta_description: value })}
+                        placeholder="Ex: Junte-se aos revendedores que já {green}transformaram{/green} seus negócios"
+                        rows={2}
+                      />
+                    </div>
+
+                    <div>
+                      <TokenColorEditor
+                        label="Texto do Botão"
+                        value={textSettings.cta_button_text}
+                        onChange={(value) => setTextSettings({ ...textSettings, cta_button_text: value })}
+                        placeholder="Ex: QUERO SER UM {white}CASE{/white} DE SUCESSO"
+                        rows={2}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex gap-3 pt-4">
+                  <Button
+                    onClick={saveTextSettings}
+                    disabled={savingTexts}
+                    className="bg-ecko-red hover:bg-ecko-red-dark text-white"
+                  >
+                    <Save className="w-4 h-4 mr-2" />
+                    {savingTexts ? 'Salvando...' : 'Salvar Textos'}
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Preview dos Textos */}
+          <Card className="bg-gray-50 border-gray-200">
+            <CardHeader>
+              <CardTitle className="text-gray-800 flex items-center">
+                <Eye className="w-5 h-5 mr-2" />
+                Preview da Seção
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="bg-gradient-to-b from-gray-900 to-black rounded-lg p-8 text-center">
+                <span
+                  className="text-ecko-red font-bold uppercase tracking-wider text-sm"
+                  dangerouslySetInnerHTML={{ __html: renderTokens(textSettings.section_tag) }}
+                />
+                <h2
+                  className="text-3xl md:text-4xl font-black text-white mb-4 leading-tight mt-2"
+                  dangerouslySetInnerHTML={{ __html: renderTokens(textSettings.section_title) }}
+                />
+                <span
+                  className="block text-lg text-gray-300 mb-4 font-medium"
+                  dangerouslySetInnerHTML={{ __html: renderTokens(textSettings.section_subtitle) }}
+                />
+                <p
+                  className="text-gray-300 text-base max-w-2xl mx-auto leading-relaxed"
+                  dangerouslySetInnerHTML={{ __html: renderTokens(textSettings.section_description) }}
+                />
+
+                <div className="mt-8 p-6 bg-gradient-to-r from-red-600/10 to-red-800/10 rounded-lg border border-red-600/20">
+                  <h3
+                    className="text-xl font-bold text-white mb-2"
+                    dangerouslySetInnerHTML={{ __html: renderTokens(textSettings.cta_title) }}
+                  />
+                  <p
+                    className="text-gray-300 mb-4"
+                    dangerouslySetInnerHTML={{ __html: renderTokens(textSettings.cta_description) }}
+                  />
+                  <div
+                    className="bg-red-600 text-white px-6 py-2 rounded-lg font-bold text-sm inline-block"
+                    dangerouslySetInnerHTML={{ __html: renderTokens(textSettings.cta_button_text) }}
+                  />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
     </div>
   );
 }
