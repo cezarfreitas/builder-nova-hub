@@ -143,56 +143,55 @@ export default function Index() {
         const urlParams = new URLSearchParams(window.location.search);
 
         // Identificar fonte do tráfego
-        let sourceName = 'Direto';
+        let sourceName = "Direto";
         if (referrer) {
-          if (referrer.includes('google.com')) sourceName = 'Google';
-          else if (referrer.includes('facebook.com')) sourceName = 'Facebook';
-          else if (referrer.includes('instagram.com')) sourceName = 'Instagram';
-          else if (referrer.includes('whatsapp.com')) sourceName = 'WhatsApp';
-          else if (referrer.includes('youtube.com')) sourceName = 'YouTube';
-          else if (referrer.includes('tiktok.com')) sourceName = 'TikTok';
-          else if (referrer.includes('linkedin.com')) sourceName = 'LinkedIn';
+          if (referrer.includes("google.com")) sourceName = "Google";
+          else if (referrer.includes("facebook.com")) sourceName = "Facebook";
+          else if (referrer.includes("instagram.com")) sourceName = "Instagram";
+          else if (referrer.includes("whatsapp.com")) sourceName = "WhatsApp";
+          else if (referrer.includes("youtube.com")) sourceName = "YouTube";
+          else if (referrer.includes("tiktok.com")) sourceName = "TikTok";
+          else if (referrer.includes("linkedin.com")) sourceName = "LinkedIn";
           else sourceName = new URL(referrer).hostname;
         }
 
         const trafficSource = {
-          referrer: referrer || 'Direto',
+          referrer: referrer || "Direto",
           source_name: sourceName,
-          utm_source: urlParams.get('utm_source') || '',
-          utm_medium: urlParams.get('utm_medium') || '',
-          utm_campaign: urlParams.get('utm_campaign') || '',
-          utm_term: urlParams.get('utm_term') || '',
-          utm_content: urlParams.get('utm_content') || '',
+          utm_source: urlParams.get("utm_source") || "",
+          utm_medium: urlParams.get("utm_medium") || "",
+          utm_campaign: urlParams.get("utm_campaign") || "",
+          utm_term: urlParams.get("utm_term") || "",
+          utm_content: urlParams.get("utm_content") || "",
           current_url: currentUrl,
           timestamp: new Date().toISOString(),
           session_id: sessionId,
           user_id: userId,
-          page_title: document.title
+          page_title: document.title,
         };
 
         // Salvar no banco de dados MySQL
         try {
-          const response = await fetch('/api/traffic/track', {
-            method: 'POST',
+          const response = await fetch("/api/traffic/track", {
+            method: "POST",
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
-            body: JSON.stringify(trafficSource)
+            body: JSON.stringify(trafficSource),
           });
 
           if (response.ok) {
-            console.log('✅ Origem salva no banco:', sourceName);
+            console.log("✅ Origem salva no banco:", sourceName);
           } else {
-            throw new Error('Falha na API');
+            throw new Error("Falha na API");
           }
         } catch (apiError) {
-          console.warn('⚠️ Falha na API de tráfego:', apiError);
+          console.warn("⚠️ Falha na API de tráfego:", apiError);
         }
 
-        console.log('📊 Origem capturada:', sourceName, trafficSource);
-
+        console.log("📊 Origem capturada:", sourceName, trafficSource);
       } catch (error) {
-        console.warn('Erro ao capturar origem do tráfego:', error);
+        console.warn("Erro ao capturar origem do tráfego:", error);
       }
     };
 
@@ -204,35 +203,33 @@ export default function Index() {
   useEffect(() => {
     const trackPageView = async () => {
       try {
-        const response = await fetch('/api/analytics/track-visit', {
-          method: 'POST',
+        const response = await fetch("/api/analytics/track-visit", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            event_type: 'page_view',
+            event_type: "page_view",
             session_id: sessionId,
             user_id: userId,
             page_url: window.location.href,
             referrer: document.referrer,
-            duration_seconds: 0
-          })
+            duration_seconds: 0,
+          }),
         });
 
         if (response.ok) {
-          console.log('✅ Page view registrada no banco');
+          console.log("✅ Page view registrada no banco");
         } else {
-          console.warn('⚠️ Erro ao registrar page view');
+          console.warn("⚠️ Erro ao registrar page view");
         }
       } catch (e) {
-        console.warn('Erro ao rastrear page view:', e);
+        console.warn("Erro ao rastrear page view:", e);
       }
     };
 
     trackPageView();
   }, [sessionId, userId]);
-
-
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -2102,31 +2099,31 @@ export default function Index() {
               onClick={async () => {
                 // Track WhatsApp click via API only
                 try {
-                  const response = await fetch('/api/analytics/track-visit', {
-                    method: 'POST',
+                  const response = await fetch("/api/analytics/track-visit", {
+                    method: "POST",
                     headers: {
-                      'Content-Type': 'application/json',
+                      "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
-                      event_type: 'whatsapp_click',
+                      event_type: "whatsapp_click",
                       session_id: sessionId,
                       user_id: userId,
                       page_url: window.location.href,
                       event_data: {
-                        button_type: 'floating',
-                        timestamp: new Date().toISOString()
-                      }
-                    })
+                        button_type: "floating",
+                        timestamp: new Date().toISOString(),
+                      },
+                    }),
                   });
 
                   if (response.ok) {
-                    console.log('✅ WhatsApp click registrado no banco');
-                    setWhatsappClickCount(prev => prev + 1);
+                    console.log("✅ WhatsApp click registrado no banco");
+                    setWhatsappClickCount((prev) => prev + 1);
                   } else {
-                    console.warn('⚠️ Erro ao registrar click no banco');
+                    console.warn("⚠️ Erro ao registrar click no banco");
                   }
                 } catch (e) {
-                  console.warn('Erro ao rastrear click:', e);
+                  console.warn("Erro ao rastrear click:", e);
                 }
 
                 openFormWithOrigin("whatsapp-float");

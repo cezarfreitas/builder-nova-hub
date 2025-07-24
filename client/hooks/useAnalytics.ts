@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 export interface AnalyticsData {
   totalLeads: number;
@@ -8,7 +8,7 @@ export interface AnalyticsData {
   leadsByDay: Array<{ date: string; count: number }>;
   recentActivity: Array<{
     id: string;
-    type: 'lead' | 'view';
+    type: "lead" | "view";
     message: string;
     timestamp: string;
   }>;
@@ -22,7 +22,7 @@ export interface AnalyticsData {
 export function useAnalytics(selectedPeriod: number = 30) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  
+
   // Real data states
   const [overview, setOverview] = useState(null);
   const [dailyStats, setDailyStats] = useState([]);
@@ -34,24 +34,28 @@ export function useAnalytics(selectedPeriod: number = 30) {
   const fetchAnalytics = async () => {
     setLoading(true);
     setError(null);
-    
+
     try {
       // Fetch analytics overview data from database
-      const overviewResponse = await fetch(`/api/analytics/overview?days=${selectedPeriod}`);
+      const overviewResponse = await fetch(
+        `/api/analytics/overview?days=${selectedPeriod}`,
+      );
       if (!overviewResponse.ok) {
         throw new Error(`Erro ao buscar overview: ${overviewResponse.status}`);
       }
       const overviewResult = await overviewResponse.json();
-      
+
       if (!overviewResult.success) {
-        throw new Error(overviewResult.message || 'Erro na API de overview');
+        throw new Error(overviewResult.message || "Erro na API de overview");
       }
-      
-      console.log('✅ Dados do banco carregados:', overviewResult.data);
+
+      console.log("✅ Dados do banco carregados:", overviewResult.data);
       setOverview(overviewResult.data);
 
       // Fetch daily stats
-      const dailyResponse = await fetch(`/api/analytics/daily-stats?days=${selectedPeriod}`);
+      const dailyResponse = await fetch(
+        `/api/analytics/daily-stats?days=${selectedPeriod}`,
+      );
       if (dailyResponse.ok) {
         const dailyResult = await dailyResponse.json();
         if (dailyResult.success) {
@@ -60,7 +64,9 @@ export function useAnalytics(selectedPeriod: number = 30) {
       }
 
       // Fetch time analysis
-      const timeResponse = await fetch(`/api/analytics/time-analysis?days=${selectedPeriod}`);
+      const timeResponse = await fetch(
+        `/api/analytics/time-analysis?days=${selectedPeriod}`,
+      );
       if (timeResponse.ok) {
         const timeResult = await timeResponse.json();
         if (timeResult.success) {
@@ -69,7 +75,9 @@ export function useAnalytics(selectedPeriod: number = 30) {
       }
 
       // Fetch traffic sources
-      const trafficResponse = await fetch(`/api/traffic/sources?days=${selectedPeriod}`);
+      const trafficResponse = await fetch(
+        `/api/traffic/sources?days=${selectedPeriod}`,
+      );
       if (trafficResponse.ok) {
         const trafficResult = await trafficResponse.json();
         if (trafficResult.success) {
@@ -78,7 +86,9 @@ export function useAnalytics(selectedPeriod: number = 30) {
       }
 
       // Fetch location conversion
-      const locationResponse = await fetch(`/api/analytics/conversion-by-location?days=${selectedPeriod}`);
+      const locationResponse = await fetch(
+        `/api/analytics/conversion-by-location?days=${selectedPeriod}`,
+      );
       if (locationResponse.ok) {
         const locationResult = await locationResponse.json();
         if (locationResult.success) {
@@ -87,18 +97,19 @@ export function useAnalytics(selectedPeriod: number = 30) {
       }
 
       // Fetch geography conversion
-      const geographyResponse = await fetch(`/api/analytics/conversion-by-geography?days=${selectedPeriod}`);
+      const geographyResponse = await fetch(
+        `/api/analytics/conversion-by-geography?days=${selectedPeriod}`,
+      );
       if (geographyResponse.ok) {
         const geographyResult = await geographyResponse.json();
         if (geographyResult.success) {
           setGeographyConversion(geographyResult.data);
         }
       }
-
     } catch (error) {
-      console.error('❌ Erro ao carregar analytics:', error);
-      setError(error instanceof Error ? error.message : 'Erro desconhecido');
-      
+      console.error("❌ Erro ao carregar analytics:", error);
+      setError(error instanceof Error ? error.message : "Erro desconhecido");
+
       // Set empty/zero data instead of mock data
       setOverview({
         leads: { total: 0, unique: 0, duplicates: 0, with_cnpj: 0, period: 0 },
@@ -113,10 +124,10 @@ export function useAnalytics(selectedPeriod: number = 30) {
           whatsapp_clicks: 0,
           unique_page_views: 0,
           total_page_views: 0,
-          bounce_rate: 0
+          bounce_rate: 0,
         },
         store_types: { fisica: 0, online: 0, ambas: 0 },
-        period_days: selectedPeriod
+        period_days: selectedPeriod,
       });
       setDailyStats([]);
       setTimeAnalysis(null);
@@ -145,6 +156,6 @@ export function useAnalytics(selectedPeriod: number = 30) {
     geographyConversion,
     loading,
     error,
-    refreshData
+    refreshData,
   };
 }

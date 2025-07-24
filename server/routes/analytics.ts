@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { getDatabase } from '../config/database';
+import { getDatabase } from "../config/database";
 
 // GET /api/analytics/overview - Métricas gerais
 export async function getAnalyticsOverview(req: Request, res: Response) {
@@ -10,18 +10,18 @@ export async function getAnalyticsOverview(req: Request, res: Response) {
     let dateFromStr: string;
     let dateToStr: string;
 
-    if (yesterday === 'true') {
+    if (yesterday === "true") {
       // Para ontem: de ontem 00:00:00 até ontem 23:59:59
       const yesterday_date = new Date();
       yesterday_date.setDate(yesterday_date.getDate() - 1);
-      dateFromStr = yesterday_date.toISOString().split('T')[0];
-      dateToStr = dateFromStr + ' 23:59:59';
-      dateFromStr = dateFromStr + ' 00:00:00';
+      dateFromStr = yesterday_date.toISOString().split("T")[0];
+      dateToStr = dateFromStr + " 23:59:59";
+      dateFromStr = dateFromStr + " 00:00:00";
     } else {
       // Data de início para o período normal
       const dateFrom = new Date();
       dateFrom.setDate(dateFrom.getDate() - Number(days));
-      dateFromStr = dateFrom.toISOString().split('T')[0];
+      dateFromStr = dateFrom.toISOString().split("T")[0];
       dateToStr = new Date().toISOString();
     }
 
@@ -29,7 +29,7 @@ export async function getAnalyticsOverview(req: Request, res: Response) {
     let overviewQuery: string;
     let overviewParams: any[];
 
-    if (yesterday === 'true') {
+    if (yesterday === "true") {
       overviewQuery = `
         SELECT
           COUNT(*) as total_leads,
@@ -70,7 +70,7 @@ export async function getAnalyticsOverview(req: Request, res: Response) {
     let visitsQuery: string;
     let visitsParams: any[];
 
-    if (yesterday === 'true') {
+    if (yesterday === "true") {
       visitsQuery = `
         SELECT
           COUNT(DISTINCT session_id) as total_sessions,
@@ -106,7 +106,7 @@ export async function getAnalyticsOverview(req: Request, res: Response) {
     let whatsappQuery: string;
     let whatsappParams: any[];
 
-    if (yesterday === 'true') {
+    if (yesterday === "true") {
       whatsappQuery = `
         SELECT COUNT(*) as whatsapp_clicks
         FROM analytics_events
@@ -144,20 +144,22 @@ export async function getAnalyticsOverview(req: Request, res: Response) {
     const whatsappStats = (whatsappClicks as any[])[0];
 
     // Debug logs
-    console.log('📊 Analytics Overview Debug:');
-    console.log('- Leads:', stats);
-    console.log('- Visits:', visitStats);
-    console.log('- WhatsApp clicks:', whatsappStats);
-    console.log('- Bounce stats:', bounceStats);
+    console.log("📊 Analytics Overview Debug:");
+    console.log("- Leads:", stats);
+    console.log("- Visits:", visitStats);
+    console.log("- WhatsApp clicks:", whatsappStats);
+    console.log("- Bounce stats:", bounceStats);
 
     // Calcular taxa de conversão
-    const conversionRate = visitStats.total_sessions > 0
-      ? ((stats.total_leads / visitStats.total_sessions) * 100).toFixed(2)
-      : '0.00';
+    const conversionRate =
+      visitStats.total_sessions > 0
+        ? ((stats.total_leads / visitStats.total_sessions) * 100).toFixed(2)
+        : "0.00";
 
-    const periodConversionRate = visitStats.period_page_views > 0
-      ? ((stats.period_leads / visitStats.period_page_views) * 100).toFixed(2)
-      : '0.00';
+    const periodConversionRate =
+      visitStats.period_page_views > 0
+        ? ((stats.period_leads / visitStats.period_page_views) * 100).toFixed(2)
+        : "0.00";
 
     res.json({
       success: true,
@@ -167,16 +169,16 @@ export async function getAnalyticsOverview(req: Request, res: Response) {
           unique: stats.unique_leads,
           duplicates: stats.duplicate_leads,
           period: stats.period_leads,
-          with_cnpj: stats.leads_with_cnpj
+          with_cnpj: stats.leads_with_cnpj,
         },
         store_types: {
           fisica: stats.fisica_leads,
           online: stats.online_leads,
-          ambas: stats.ambas_leads
+          ambas: stats.ambas_leads,
         },
         webhooks: {
           success: stats.webhook_success,
-          errors: stats.webhook_errors
+          errors: stats.webhook_errors,
         },
         traffic: {
           total_sessions: visitStats.total_sessions,
@@ -184,24 +186,30 @@ export async function getAnalyticsOverview(req: Request, res: Response) {
           total_page_views: visitStats.total_page_views,
           period_page_views: visitStats.period_page_views,
           unique_page_views: visitStats.unique_page_views || 0,
-          avg_session_duration: Math.round(visitStats.avg_session_duration || 0),
-          pages_per_session: parseFloat((Number(visitStats.pages_per_session) || 0).toFixed(2)),
-          bounce_rate: parseFloat((Number(bounceStats.bounce_rate) || 0).toFixed(2)),
-          whatsapp_clicks: whatsappStats.whatsapp_clicks || 0
+          avg_session_duration: Math.round(
+            visitStats.avg_session_duration || 0,
+          ),
+          pages_per_session: parseFloat(
+            (Number(visitStats.pages_per_session) || 0).toFixed(2),
+          ),
+          bounce_rate: parseFloat(
+            (Number(bounceStats.bounce_rate) || 0).toFixed(2),
+          ),
+          whatsapp_clicks: whatsappStats.whatsapp_clicks || 0,
         },
         conversion: {
           rate: parseFloat(conversionRate),
-          period_rate: parseFloat(periodConversionRate)
+          period_rate: parseFloat(periodConversionRate),
         },
-        period_days: yesterday === 'true' ? 0 : Number(days),
-        period_label: yesterday === 'true' ? 'ontem' : `últimos ${days} dias`
-      }
+        period_days: yesterday === "true" ? 0 : Number(days),
+        period_label: yesterday === "true" ? "ontem" : `últimos ${days} dias`,
+      },
     });
   } catch (error) {
-    console.error('Erro ao buscar overview analytics:', error);
+    console.error("Erro ao buscar overview analytics:", error);
     res.status(500).json({
       success: false,
-      message: 'Erro interno do servidor'
+      message: "Erro interno do servidor",
     });
   }
 }
@@ -216,10 +224,10 @@ export async function getDailyStats(req: Request, res: Response) {
     let dailyLeadsQuery: string;
     let dailyLeadsParams: any[];
 
-    if (yesterday === 'true') {
+    if (yesterday === "true") {
       const yesterday_date = new Date();
       yesterday_date.setDate(yesterday_date.getDate() - 1);
-      const dateStr = yesterday_date.toISOString().split('T')[0];
+      const dateStr = yesterday_date.toISOString().split("T")[0];
 
       dailyLeadsQuery = `
         SELECT
@@ -258,10 +266,10 @@ export async function getDailyStats(req: Request, res: Response) {
     let dailyVisitsQuery: string;
     let dailyVisitsParams: any[];
 
-    if (yesterday === 'true') {
+    if (yesterday === "true") {
       const yesterday_date = new Date();
       yesterday_date.setDate(yesterday_date.getDate() - 1);
-      const dateStr = yesterday_date.toISOString().split('T')[0];
+      const dateStr = yesterday_date.toISOString().split("T")[0];
 
       dailyVisitsQuery = `
         SELECT
@@ -293,9 +301,9 @@ export async function getDailyStats(req: Request, res: Response) {
 
     // Combinar dados de leads e visitas
     const dailyStatsMap = new Map();
-    
+
     // Inicializar com dados de leads
-    (dailyLeads as any[]).forEach(lead => {
+    (dailyLeads as any[]).forEach((lead) => {
       dailyStatsMap.set(lead.date, {
         date: lead.date,
         total_leads: lead.total_leads,
@@ -305,12 +313,12 @@ export async function getDailyStats(req: Request, res: Response) {
         with_cnpj: lead.with_cnpj,
         sessions: 0,
         page_views: 0,
-        conversion_rate: 0
+        conversion_rate: 0,
       });
     });
 
     // Adicionar dados de visitas
-    (dailyVisits as any[]).forEach(visit => {
+    (dailyVisits as any[]).forEach((visit) => {
       const existing = dailyStatsMap.get(visit.date) || {
         date: visit.date,
         total_leads: 0,
@@ -320,31 +328,34 @@ export async function getDailyStats(req: Request, res: Response) {
         with_cnpj: 0,
         sessions: 0,
         page_views: 0,
-        conversion_rate: 0
+        conversion_rate: 0,
       };
-      
+
       existing.sessions = visit.sessions;
       existing.page_views = visit.page_views;
-      existing.conversion_rate = existing.sessions > 0 
-        ? parseFloat(((existing.total_leads / existing.sessions) * 100).toFixed(2))
-        : 0;
-      
+      existing.conversion_rate =
+        existing.sessions > 0
+          ? parseFloat(
+              ((existing.total_leads / existing.sessions) * 100).toFixed(2),
+            )
+          : 0;
+
       dailyStatsMap.set(visit.date, existing);
     });
 
-    const dailyStats = Array.from(dailyStatsMap.values()).sort((a, b) => 
-      new Date(a.date).getTime() - new Date(b.date).getTime()
+    const dailyStats = Array.from(dailyStatsMap.values()).sort(
+      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
     );
 
     res.json({
       success: true,
-      data: dailyStats
+      data: dailyStats,
     });
   } catch (error) {
-    console.error('Erro ao buscar estatísticas diárias:', error);
+    console.error("Erro ao buscar estatísticas diárias:", error);
     res.status(500).json({
       success: false,
-      message: 'Erro interno do servidor'
+      message: "Erro interno do servidor",
     });
   }
 }
@@ -356,7 +367,8 @@ export async function getTimeAnalysis(req: Request, res: Response) {
     const { days = 30, yesterday } = req.query;
 
     // Análise por hora do dia
-    const [hourlyStats] = await db.execute(`
+    const [hourlyStats] = await db.execute(
+      `
       SELECT 
         HOUR(created_at) as hour,
         COUNT(*) as total_leads,
@@ -365,10 +377,13 @@ export async function getTimeAnalysis(req: Request, res: Response) {
       WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
       GROUP BY HOUR(created_at)
       ORDER BY hour
-    `, [Number(days)]);
+    `,
+      [Number(days)],
+    );
 
     // Análise por dia da semana (1=Segunda, 7=Domingo)
-    const [weekdayStats] = await db.execute(`
+    const [weekdayStats] = await db.execute(
+      `
       SELECT
         weekday_num,
         weekday_num + 1 as weekday,
@@ -393,18 +408,24 @@ export async function getTimeAnalysis(req: Request, res: Response) {
         GROUP BY WEEKDAY(created_at)
       ) as weekday_data
       ORDER BY weekday_num
-    `, [Number(days)]);
+    `,
+      [Number(days)],
+    );
 
     // Encontrar melhor hora e dia - com proteção contra arrays vazios
-    const bestHour = (hourlyStats as any[]).length > 0
-      ? (hourlyStats as any[]).reduce((prev, current) =>
-          (prev.total_leads > current.total_leads) ? prev : current)
-      : { hour: 0, total_leads: 0 };
+    const bestHour =
+      (hourlyStats as any[]).length > 0
+        ? (hourlyStats as any[]).reduce((prev, current) =>
+            prev.total_leads > current.total_leads ? prev : current,
+          )
+        : { hour: 0, total_leads: 0 };
 
-    const bestWeekday = (weekdayStats as any[]).length > 0
-      ? (weekdayStats as any[]).reduce((prev, current) =>
-          (prev.total_leads > current.total_leads) ? prev : current)
-      : { weekday_name: 'N/A', total_leads: 0 };
+    const bestWeekday =
+      (weekdayStats as any[]).length > 0
+        ? (weekdayStats as any[]).reduce((prev, current) =>
+            prev.total_leads > current.total_leads ? prev : current,
+          )
+        : { weekday_name: "N/A", total_leads: 0 };
 
     res.json({
       success: true,
@@ -414,20 +435,20 @@ export async function getTimeAnalysis(req: Request, res: Response) {
         best_hour: {
           hour: bestHour.hour,
           total_leads: bestHour.total_leads,
-          formatted: `${bestHour.hour}:00 - ${bestHour.hour + 1}:00`
+          formatted: `${bestHour.hour}:00 - ${bestHour.hour + 1}:00`,
         },
         best_weekday: {
           name: bestWeekday.weekday_name,
-          total_leads: bestWeekday.total_leads
-        }
-      }
+          total_leads: bestWeekday.total_leads,
+        },
+      },
     });
   } catch (error) {
-    console.error('Erro ao buscar análise temporal:', error);
+    console.error("Erro ao buscar análise temporal:", error);
     res.status(500).json({
       success: false,
-      message: 'Erro interno do servidor',
-      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+      message: "Erro interno do servidor",
+      error: process.env.NODE_ENV === "development" ? error.message : undefined,
     });
   }
 }
@@ -439,13 +460,15 @@ export async function getTrafficSources(req: Request, res: Response) {
     const { days = 30, yesterday } = req.query;
 
     // Determinar data para consulta
-    const dateCondition = yesterday === 'true'
-      ? 'DATE(created_at) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)'
-      : 'created_at >= DATE_SUB(CURDATE(), INTERVAL ? DAY)';
-    const queryParams = yesterday === 'true' ? [] : [Number(days)];
+    const dateCondition =
+      yesterday === "true"
+        ? "DATE(created_at) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)"
+        : "created_at >= DATE_SUB(CURDATE(), INTERVAL ? DAY)";
+    const queryParams = yesterday === "true" ? [] : [Number(days)];
 
     // Análise por UTM source
-    const [utmSources] = await db.execute(`
+    const [utmSources] = await db.execute(
+      `
       SELECT
         COALESCE(NULLIF(utm_source, ''), 'Direct') as source,
         COUNT(*) as total_leads,
@@ -455,10 +478,13 @@ export async function getTrafficSources(req: Request, res: Response) {
       WHERE ${dateCondition}
       GROUP BY utm_source
       ORDER BY total_leads DESC
-    `, queryParams);
+    `,
+      queryParams,
+    );
 
     // Análise por UTM medium
-    const [utmMediums] = await db.execute(`
+    const [utmMediums] = await db.execute(
+      `
       SELECT 
         COALESCE(NULLIF(utm_medium, ''), 'Unknown') as medium,
         COUNT(*) as total_leads,
@@ -467,10 +493,13 @@ export async function getTrafficSources(req: Request, res: Response) {
       WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
       GROUP BY utm_medium
       ORDER BY total_leads DESC
-    `, [Number(days)]);
+    `,
+      [Number(days)],
+    );
 
     // Análise por UTM campaign
-    const [utmCampaigns] = await db.execute(`
+    const [utmCampaigns] = await db.execute(
+      `
       SELECT 
         COALESCE(NULLIF(utm_campaign, ''), 'No Campaign') as campaign,
         COUNT(*) as total_leads,
@@ -480,10 +509,13 @@ export async function getTrafficSources(req: Request, res: Response) {
       GROUP BY utm_campaign
       ORDER BY total_leads DESC
       LIMIT 10
-    `, [Number(days)]);
+    `,
+      [Number(days)],
+    );
 
     // Análise por source (referrer)
-    const [sources] = await db.execute(`
+    const [sources] = await db.execute(
+      `
       SELECT 
         CASE 
           WHEN source = 'direct' THEN 'Acesso Direto'
@@ -499,7 +531,9 @@ export async function getTrafficSources(req: Request, res: Response) {
       WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
       GROUP BY source_name
       ORDER BY total_leads DESC
-    `, [Number(days)]);
+    `,
+      [Number(days)],
+    );
 
     res.json({
       success: true,
@@ -507,14 +541,14 @@ export async function getTrafficSources(req: Request, res: Response) {
         utm_sources: utmSources,
         utm_mediums: utmMediums,
         utm_campaigns: utmCampaigns,
-        sources: sources
-      }
+        sources: sources,
+      },
     });
   } catch (error) {
-    console.error('Erro ao buscar fontes de tráfego:', error);
+    console.error("Erro ao buscar fontes de tráfego:", error);
     res.status(500).json({
       success: false,
-      message: 'Erro interno do servidor'
+      message: "Erro interno do servidor",
     });
   }
 }
@@ -529,16 +563,17 @@ export async function getFormOrigins(req: Request, res: Response) {
     let dateCondition: string;
     let queryParams: any[];
 
-    if (yesterday === 'true') {
-      dateCondition = 'DATE(created_at) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)';
+    if (yesterday === "true") {
+      dateCondition = "DATE(created_at) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)";
       queryParams = [];
     } else {
-      dateCondition = 'created_at >= DATE_SUB(CURDATE(), INTERVAL ? DAY)';
+      dateCondition = "created_at >= DATE_SUB(CURDATE(), INTERVAL ? DAY)";
       queryParams = [Number(days)];
     }
 
     // Buscar dados de origem do formulário
-    const [formOrigins] = await db.execute(`
+    const [formOrigins] = await db.execute(
+      `
       SELECT
         COALESCE(NULLIF(form_origin, ''), 'Não Identificado') as origin,
         COUNT(*) as total_leads,
@@ -550,10 +585,13 @@ export async function getFormOrigins(req: Request, res: Response) {
       WHERE ${dateCondition}
       GROUP BY form_origin
       ORDER BY total_leads DESC
-    `, queryParams);
+    `,
+      queryParams,
+    );
 
     // Buscar conversão por origem no tempo
-    const [dailyByOrigin] = await db.execute(`
+    const [dailyByOrigin] = await db.execute(
+      `
       SELECT
         DATE(created_at) as date,
         COALESCE(NULLIF(form_origin, ''), 'Não Identificado') as origin,
@@ -562,22 +600,24 @@ export async function getFormOrigins(req: Request, res: Response) {
       WHERE ${dateCondition}
       GROUP BY DATE(created_at), form_origin
       ORDER BY date DESC, leads_count DESC
-    `, queryParams);
+    `,
+      queryParams,
+    );
 
     res.json({
       success: true,
       data: {
         form_origins: formOrigins,
         daily_by_origin: dailyByOrigin,
-        period_days: yesterday === 'true' ? 0 : Number(days),
-        period_label: yesterday === 'true' ? 'ontem' : `últimos ${days} dias`
-      }
+        period_days: yesterday === "true" ? 0 : Number(days),
+        period_label: yesterday === "true" ? "ontem" : `últimos ${days} dias`,
+      },
     });
   } catch (error) {
-    console.error('Erro ao buscar origens do formulário:', error);
+    console.error("Erro ao buscar origens do formulário:", error);
     res.status(500).json({
       success: false,
-      message: 'Erro interno do servidor'
+      message: "Erro interno do servidor",
     });
   }
 }
@@ -596,51 +636,60 @@ export async function trackVisit(req: Request, res: Response) {
       utm_campaign,
       user_agent,
       duration_seconds,
-      event_type
+      event_type,
     } = req.body;
 
-    const ip_address = req.ip || req.connection.remoteAddress || '';
+    const ip_address = req.ip || req.connection.remoteAddress || "";
 
     // Gerar user_id baseado no IP + User Agent se não fornecido
-    const computedUserId = user_id || Buffer.from(`${ip_address}-${user_agent || ''}`).toString('base64').slice(0, 50);
+    const computedUserId =
+      user_id ||
+      Buffer.from(`${ip_address}-${user_agent || ""}`)
+        .toString("base64")
+        .slice(0, 50);
 
     // Debug log
-    console.log(`📊 Rastreando evento: ${event_type || 'page_view'} para session ${session_id}`);
+    console.log(
+      `📊 Rastreando evento: ${event_type || "page_view"} para session ${session_id}`,
+    );
 
     // Inserir evento de visita
-    await db.execute(`
+    await db.execute(
+      `
       INSERT INTO analytics_events (
         event_type, event_data, session_id, user_id, ip_address,
         user_agent, referrer, page_url, duration_seconds, created_at
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
-    `, [
-      event_type || 'page_view',
-      JSON.stringify({
-        utm_source: utm_source || '',
-        utm_medium: utm_medium || '',
-        utm_campaign: utm_campaign || ''
-      }),
-      session_id,
-      computedUserId,
-      ip_address,
-      user_agent || '',
-      referrer || '',
-      page_url || '',
-      duration_seconds || 0
-    ]);
+    `,
+      [
+        event_type || "page_view",
+        JSON.stringify({
+          utm_source: utm_source || "",
+          utm_medium: utm_medium || "",
+          utm_campaign: utm_campaign || "",
+        }),
+        session_id,
+        computedUserId,
+        ip_address,
+        user_agent || "",
+        referrer || "",
+        page_url || "",
+        duration_seconds || 0,
+      ],
+    );
 
-    console.log(`✅ Evento ${event_type || 'page_view'} registrado no banco`);
+    console.log(`✅ Evento ${event_type || "page_view"} registrado no banco`);
 
     res.json({
       success: true,
-      message: 'Visita rastreada com sucesso',
-      user_id: computedUserId
+      message: "Visita rastreada com sucesso",
+      user_id: computedUserId,
     });
   } catch (error) {
-    console.error('Erro ao rastrear visita:', error);
+    console.error("Erro ao rastrear visita:", error);
     res.status(500).json({
       success: false,
-      message: 'Erro interno do servidor'
+      message: "Erro interno do servidor",
     });
   }
 }
@@ -655,16 +704,17 @@ export async function exportAnalyticsData(req: Request, res: Response) {
     let dateCondition: string;
     let queryParams: any[];
 
-    if (yesterday === 'true') {
-      dateCondition = 'DATE(created_at) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)';
+    if (yesterday === "true") {
+      dateCondition = "DATE(created_at) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)";
       queryParams = [];
     } else {
-      dateCondition = 'created_at >= DATE_SUB(CURDATE(), INTERVAL ? DAY)';
+      dateCondition = "created_at >= DATE_SUB(CURDATE(), INTERVAL ? DAY)";
       queryParams = [Number(days)];
     }
 
     // Buscar leads detalhados
-    const [leads] = await db.execute(`
+    const [leads] = await db.execute(
+      `
       SELECT
         id, nome, telefone, experiencia_revenda, tipo_loja,
         is_duplicate, source, utm_source, utm_medium, utm_campaign,
@@ -672,20 +722,26 @@ export async function exportAnalyticsData(req: Request, res: Response) {
       FROM leads
       WHERE ${dateCondition}
       ORDER BY created_at DESC
-    `, queryParams);
+    `,
+      queryParams,
+    );
 
     // Buscar eventos de analytics
-    const [events] = await db.execute(`
+    const [events] = await db.execute(
+      `
       SELECT
         session_id, user_id, event_type, ip_address,
         referrer, page_url, duration_seconds, created_at
       FROM analytics_events
       WHERE ${dateCondition}
       ORDER BY created_at DESC
-    `, queryParams);
+    `,
+      queryParams,
+    );
 
     // Buscar estatísticas por hora
-    const [hourlyStats] = await db.execute(`
+    const [hourlyStats] = await db.execute(
+      `
       SELECT
         HOUR(created_at) as hour,
         COUNT(*) as total_leads,
@@ -694,7 +750,9 @@ export async function exportAnalyticsData(req: Request, res: Response) {
       WHERE ${dateCondition}
       GROUP BY HOUR(created_at)
       ORDER BY hour
-    `, queryParams);
+    `,
+      queryParams,
+    );
 
     res.json({
       success: true,
@@ -703,15 +761,15 @@ export async function exportAnalyticsData(req: Request, res: Response) {
         events,
         hourly_stats: hourlyStats,
         export_date: new Date().toISOString(),
-        period_days: yesterday === 'true' ? 0 : Number(days),
-        period_label: yesterday === 'true' ? 'ontem' : `últimos ${days} dias`
-      }
+        period_days: yesterday === "true" ? 0 : Number(days),
+        period_label: yesterday === "true" ? "ontem" : `últimos ${days} dias`,
+      },
     });
   } catch (error) {
-    console.error('Erro ao exportar dados analytics:', error);
+    console.error("Erro ao exportar dados analytics:", error);
     res.status(500).json({
       success: false,
-      message: 'Erro interno do servidor'
+      message: "Erro interno do servidor",
     });
   }
 }
@@ -725,23 +783,26 @@ export async function trackDuration(req: Request, res: Response) {
     const { session_id, duration_seconds } = req.body;
 
     // Atualizar duração da última visita desta sessão
-    await db.execute(`
+    await db.execute(
+      `
       UPDATE analytics_events
       SET duration_seconds = ?
       WHERE session_id = ? AND event_type = 'page_view'
       ORDER BY created_at DESC
       LIMIT 1
-    `, [duration_seconds, session_id]);
+    `,
+      [duration_seconds, session_id],
+    );
 
     res.json({
       success: true,
-      message: 'Duração atualizada com sucesso'
+      message: "Duração atualizada com sucesso",
     });
   } catch (error) {
-    console.error('Erro ao atualizar duração:', error);
+    console.error("Erro ao atualizar duração:", error);
     res.status(500).json({
       success: false,
-      message: 'Erro interno do servidor'
+      message: "Erro interno do servidor",
     });
   }
 }
@@ -755,20 +816,21 @@ export async function getConversionByLocation(req: Request, res: Response) {
     let dateFromStr: string;
     let dateToStr: string;
 
-    if (yesterday === 'true') {
+    if (yesterday === "true") {
       const yesterday_date = new Date();
       yesterday_date.setDate(yesterday_date.getDate() - 1);
-      dateFromStr = yesterday_date.toISOString().split('T')[0] + ' 00:00:00';
-      dateToStr = yesterday_date.toISOString().split('T')[0] + ' 23:59:59';
+      dateFromStr = yesterday_date.toISOString().split("T")[0] + " 00:00:00";
+      dateToStr = yesterday_date.toISOString().split("T")[0] + " 23:59:59";
     } else {
       const dateFrom = new Date();
       dateFrom.setDate(dateFrom.getDate() - Number(days));
-      dateFromStr = dateFrom.toISOString().split('T')[0];
+      dateFromStr = dateFrom.toISOString().split("T")[0];
       dateToStr = new Date().toISOString();
     }
 
     // Buscar conversão por origem da página (form_origin)
-    const [locationConversion] = await db.execute(`
+    const [locationConversion] = await db.execute(
+      `
       SELECT
         form_origin,
         COUNT(*) as total_leads,
@@ -782,10 +844,13 @@ export async function getConversionByLocation(req: Request, res: Response) {
         AND form_origin != ''
       GROUP BY form_origin
       ORDER BY total_leads DESC
-    `, [dateFromStr, dateToStr]);
+    `,
+      [dateFromStr, dateToStr],
+    );
 
     // Buscar dados de analytics por evento para calcular conversão
-    const [analyticsEvents] = await db.execute(`
+    const [analyticsEvents] = await db.execute(
+      `
       SELECT
         event_type,
         COUNT(DISTINCT session_id) as unique_sessions,
@@ -794,46 +859,48 @@ export async function getConversionByLocation(req: Request, res: Response) {
       WHERE created_at >= ? AND created_at <= ?
       GROUP BY event_type
       ORDER BY total_events DESC
-    `, [dateFromStr, dateToStr]);
+    `,
+      [dateFromStr, dateToStr],
+    );
 
     // Mapear nomes amigáveis para as origens
     const getOriginLabel = (origin: string): string => {
       const originLabels: Record<string, string> = {
-        'hero-cta-secondary': 'Hero - Descubra',
-        'form-inline': 'Formulário Principal',
-        'benefits-cta': 'Seção Vantagens',
-        'testimonials-cta': 'Depoimentos',
-        'gallery-cta': 'Galeria Produtos',
-        'main-cta': 'CTA Principal',
-        'stats-cta': 'Seção Estatísticas',
-        'faq-cta': 'Seção FAQ',
-        'whatsapp-float': 'WhatsApp Flutuante'
+        "hero-cta-secondary": "Hero - Descubra",
+        "form-inline": "Formulário Principal",
+        "benefits-cta": "Seção Vantagens",
+        "testimonials-cta": "Depoimentos",
+        "gallery-cta": "Galeria Produtos",
+        "main-cta": "CTA Principal",
+        "stats-cta": "Seção Estatísticas",
+        "faq-cta": "Seção FAQ",
+        "whatsapp-float": "WhatsApp Flutuante",
       };
       return originLabels[origin] || origin;
     };
 
-    const formattedLocationData = (locationConversion as any[]).map(row => ({
+    const formattedLocationData = (locationConversion as any[]).map((row) => ({
       location: row.form_origin,
       location_label: getOriginLabel(row.form_origin),
       total_leads: row.total_leads,
       unique_leads: row.unique_leads,
       successful_webhooks: row.successful_webhooks,
       with_cnpj: row.with_cnpj,
-      webhook_success_rate: row.webhook_success_rate
+      webhook_success_rate: row.webhook_success_rate,
     }));
 
     res.json({
       success: true,
       data: {
         location_conversion: formattedLocationData,
-        analytics_events: analyticsEvents
-      }
+        analytics_events: analyticsEvents,
+      },
     });
   } catch (error) {
-    console.error('Erro ao buscar conversão por localização:', error);
+    console.error("Erro ao buscar conversão por localização:", error);
     res.status(500).json({
       success: false,
-      message: 'Erro interno do servidor'
+      message: "Erro interno do servidor",
     });
   }
 }
@@ -847,20 +914,21 @@ export async function getConversionByGeography(req: Request, res: Response) {
     let dateFromStr: string;
     let dateToStr: string;
 
-    if (yesterday === 'true') {
+    if (yesterday === "true") {
       const yesterday_date = new Date();
       yesterday_date.setDate(yesterday_date.getDate() - 1);
-      dateFromStr = yesterday_date.toISOString().split('T')[0] + ' 00:00:00';
-      dateToStr = yesterday_date.toISOString().split('T')[0] + ' 23:59:59';
+      dateFromStr = yesterday_date.toISOString().split("T")[0] + " 00:00:00";
+      dateToStr = yesterday_date.toISOString().split("T")[0] + " 23:59:59";
     } else {
       const dateFrom = new Date();
       dateFrom.setDate(dateFrom.getDate() - Number(days));
-      dateFromStr = dateFrom.toISOString().split('T')[0];
+      dateFromStr = dateFrom.toISOString().split("T")[0];
       dateToStr = new Date().toISOString();
     }
 
     // Conversão por estados
-    const [stateConversion] = await db.execute(`
+    const [stateConversion] = await db.execute(
+      `
       SELECT
         estado,
         COUNT(*) as total_leads,
@@ -878,10 +946,13 @@ export async function getConversionByGeography(req: Request, res: Response) {
       GROUP BY estado
       ORDER BY total_leads DESC
       LIMIT 20
-    `, [dateFromStr, dateToStr]);
+    `,
+      [dateFromStr, dateToStr],
+    );
 
     // Conversão por cidades (top 15)
-    const [cityConversion] = await db.execute(`
+    const [cityConversion] = await db.execute(
+      `
       SELECT
         cidade,
         estado,
@@ -900,20 +971,22 @@ export async function getConversionByGeography(req: Request, res: Response) {
       GROUP BY cidade, estado
       ORDER BY total_leads DESC
       LIMIT 15
-    `, [dateFromStr, dateToStr]);
+    `,
+      [dateFromStr, dateToStr],
+    );
 
     res.json({
       success: true,
       data: {
         state_conversion: stateConversion,
-        city_conversion: cityConversion
-      }
+        city_conversion: cityConversion,
+      },
     });
   } catch (error) {
-    console.error('Erro ao buscar conversão por geografia:', error);
+    console.error("Erro ao buscar conversão por geografia:", error);
     res.status(500).json({
       success: false,
-      message: 'Erro interno do servidor'
+      message: "Erro interno do servidor",
     });
   }
 }
