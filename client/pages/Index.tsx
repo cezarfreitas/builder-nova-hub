@@ -1406,6 +1406,84 @@ export default function Index() {
           </div>
         </section>
       </main>
+
+      {/* Footer */}
+      <footer className="bg-black border-t border-gray-800">
+        <div className="container mx-auto px-6 py-12">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            {/* Logo e Descrição */}
+            <div className="md:col-span-2">
+              <div className="flex items-center mb-4">
+                <img
+                  src="/logo-ecko.png"
+                  alt="Ecko Logo"
+                  className="h-8 w-auto"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                  }}
+                />
+              </div>
+              <p className="text-gray-400 text-sm leading-relaxed mb-6 max-w-md">
+                {renderTextWithColorTokens(content.footer?.description || "Seja parte da maior rede de revendedores de streetwear do Brasil. A Ecko oferece produtos de qualidade, suporte completo e as melhores condições do mercado.")}
+              </p>
+              <div className="flex space-x-4">
+                <a href="#" className="text-gray-400 hover:text-ecko-red transition-colors">
+                  <span className="sr-only">Facebook</span>
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M20 10C20 4.477 15.523 0 10 0S0 4.477 0 10c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V10h2.54V7.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V10h2.773l-.443 2.89h-2.33v6.988C16.343 19.128 20 14.991 20 10z" clipRule="evenodd" />
+                  </svg>
+                </a>
+                <a href="#" className="text-gray-400 hover:text-ecko-red transition-colors">
+                  <span className="sr-only">Instagram</span>
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M12.017 0H7.983C3.577 0 0 3.577 0 7.983v4.034C0 16.423 3.577 20 7.983 20h4.034C16.423 20 20 16.423 20 12.017V7.983C20 3.577 16.423 0 12.017 0zM18.444 12.017c0 3.551-2.876 6.427-6.427 6.427H7.983c-3.551 0-6.427-2.876-6.427-6.427V7.983c0-3.551 2.876-6.427 6.427-6.427h4.034c3.551 0 6.427 2.876 6.427 6.427v4.034z" clipRule="evenodd" />
+                    <path d="M10 5c-2.761 0-5 2.239-5 5s2.239 5 5 5 5-2.239 5-5-2.239-5-5-5zm0 8.333c-1.841 0-3.333-1.492-3.333-3.333S8.159 6.667 10 6.667s3.333 1.492 3.333 3.333S11.841 13.333 10 13.333zm5.208-8.541c0 .69-.559 1.25-1.25 1.25s-1.25-.56-1.25-1.25.559-1.25 1.25-1.25 1.25.56 1.25 1.25z" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+
+            {/* Links Úteis */}
+            <div>
+              <h3 className="text-white font-semibold mb-4">
+                {content.footer?.links_title || "Links Úteis"}
+              </h3>
+              <ul className="space-y-2">
+                <li><a href="#benefits" className="text-gray-400 hover:text-white transition-colors text-sm">Vantagens</a></li>
+                <li><a href="#testimonials" className="text-gray-400 hover:text-white transition-colors text-sm">Depoimentos</a></li>
+                <li><a href="#gallery" className="text-gray-400 hover:text-white transition-colors text-sm">Galeria</a></li>
+                <li><a href="#faq" className="text-gray-400 hover:text-white transition-colors text-sm">FAQ</a></li>
+              </ul>
+            </div>
+
+            {/* Contato */}
+            <div>
+              <h3 className="text-white font-semibold mb-4">
+                {content.footer?.contact_title || "Contato"}
+              </h3>
+              <div className="space-y-2 text-sm">
+                <p className="text-gray-400">
+                  {content.footer?.phone || "0800 123 4567"}
+                </p>
+                <p className="text-gray-400">
+                  {content.footer?.email || "vendas@ecko.com.br"}
+                </p>
+                <p className="text-gray-400">
+                  {content.footer?.hours || "Seg - Sex: 8h às 18h"}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Copyright */}
+          <div className="border-t border-gray-800 mt-8 pt-6 text-center">
+            <p className="text-gray-500 text-sm">
+              {renderTextWithColorTokens(content.footer?.copyright || "© 2024 Ecko. Todos os direitos reservados. Seja um revendedor oficial e transforme seu negócio.")}
+            </p>
+          </div>
+        </div>
+      </footer>
     </>
   );
 }
