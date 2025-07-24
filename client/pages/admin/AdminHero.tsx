@@ -26,7 +26,8 @@ import {
   CheckCircle,
   AlertCircle,
   Loader2,
-  Copy
+  Copy,
+  Zap
 } from "lucide-react";
 
 interface HeroSettings {
