@@ -808,6 +808,84 @@ export default function AdminAnalytics() {
         </Card>
       </div>
 
+      {/* Análise Detalhada de Origens de Tráfego */}
+      {trafficSources && trafficSources.referrers && trafficSources.referrers.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center">
+              <Eye className="w-5 h-5 mr-2 text-cyan-600" />
+              Análise Detalhada de Origens
+            </CardTitle>
+            <p className="text-sm text-gray-600 mt-2">
+              Detalhamento completo de onde seus visitantes vieram
+            </p>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Referrers Principais */}
+              <div>
+                <h4 className="font-semibold text-gray-900 mb-4">🌐 Principais Referrers</h4>
+                <div className="space-y-3 max-h-64 overflow-y-auto">
+                  {trafficSources.referrers.slice(0, 10).map((ref, index) => (
+                    <div key={index} className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                      <div className="flex items-center min-w-0 flex-1">
+                        <span className="text-2xl mr-3">
+                          {ref.referrer === 'Direto' ? '🔗' :
+                           ref.referrer === 'Google' ? '🔍' :
+                           ref.referrer === 'Facebook' ? '📘' :
+                           ref.referrer === 'Instagram' ? '📷' :
+                           ref.referrer === 'WhatsApp' ? '💬' :
+                           ref.referrer === 'YouTube' ? '📺' : '🌐'}
+                        </span>
+                        <div className="min-w-0 flex-1">
+                          <p className="font-medium text-gray-900 truncate">
+                            {ref.referrer === 'Direto' ? 'Acesso Direto' : ref.referrer}
+                          </p>
+                          <p className="text-sm text-gray-500">
+                            {ref.referrer === 'Direto' ? 'URL digitada diretamente' : 'Referido por este site'}
+                          </p>
+                        </div>
+                      </div>
+                      <Badge className="bg-cyan-100 text-cyan-800 ml-2">
+                        {ref.visits}
+                      </Badge>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Resumo de Canais */}
+              <div>
+                <h4 className="font-semibold text-gray-900 mb-4">📊 Resumo por Canal</h4>
+                <div className="space-y-3">
+                  {trafficSources.sources.map((source, index) => {
+                    const percentage = parseFloat(source.percentage);
+                    return (
+                      <div key={index} className="space-y-2">
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm font-medium text-gray-700">{source.source_name}</span>
+                          <span className="text-sm font-bold text-gray-900">{source.percentage}%</span>
+                        </div>
+                        <div className="w-full bg-gray-200 rounded-full h-2">
+                          <div
+                            className="h-2 rounded-full transition-all duration-500"
+                            style={{
+                              width: `${percentage}%`,
+                              backgroundColor: ['#dc2626', '#16a34a', '#2563eb', '#ca8a04', '#7c3aed'][index] || '#6b7280'
+                            }}
+                          ></div>
+                        </div>
+                        <p className="text-xs text-gray-500">{source.total_visits} visitas</p>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Detalhes UTM e Campanhas */}
       {trafficSources && (
         <Card>
