@@ -37,7 +37,7 @@ export async function testDatabaseConnection(req: Request, res: Response) {
         tables: tables,
         config: {
           host: 'main.idenegociosdigitais.com.br',
-          port: 3036,
+          port: 3040,
           database: 'lpdb',
           user: 'lpdb'
         }
