@@ -349,7 +349,7 @@ export default function Index() {
     if (!formData.cidade || !formData.estado) {
       toast({
         title: "⚠️ Endereço Incompleto",
-        description: "Aguarde o carregamento do endereço ou verifique o CEP.",
+        description: content.form.validation_messages.address_incomplete,
         variant: "destructive",
       });
       return;
