@@ -2008,14 +2008,18 @@ export default function Index() {
                 <label className="block text-sm font-semibold text-gray-300 mb-2">
                   {content.form.fields.store_type_label}
                 </label>
-                <Input
+                <select
                   name="storeType"
                   value={formData.storeType}
                   onChange={handleInputChange}
-                  placeholder={content.form.fields.store_type_placeholder}
                   required
-                  className="h-12 text-base bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:border-ecko-red focus:ring-ecko-red/20"
-                />
+                  className="w-full h-12 border border-gray-300 rounded-md px-4 bg-white text-gray-900 focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-base"
+                >
+                  <option value="">Selecione</option>
+                  <option value="fisica">Física</option>
+                  <option value="online">Online</option>
+                  <option value="ambas">Física + Online</option>
+                </select>
               </div>
 
               <Button
