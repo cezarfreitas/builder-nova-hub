@@ -1129,7 +1129,18 @@ export default function Index() {
                   className="absolute inset-0 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"
                   style={{ backgroundColor: currentHero.cta_color }}
                 ></span>
-                <span className="relative z-10 flex items-center group-hover:text-white transition-colors duration-300">
+                <span
+                  className="relative z-10 flex items-center transition-colors duration-300"
+                  style={{
+                    '--hover-color': currentHero.cta_text_color || '#ffffff'
+                  } as React.CSSProperties}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = currentHero.cta_text_color || '#ffffff';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = '';
+                  }}
+                >
                   {currentHero.cta_secondary_text}
                   <ChevronDown className="ml-2 w-6 h-6 group-hover:animate-bounce" />
                 </span>
