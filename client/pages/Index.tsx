@@ -1845,7 +1845,14 @@ export default function Index() {
 
       {/* WhatsApp Floating Button */}
       {showWhatsApp && (
-        <div className="fixed bottom-6 right-6 z-[9999] flex flex-col items-end space-y-3">
+        <div
+          className="fixed bottom-4 sm:bottom-6 right-4 sm:right-6 z-[9999] flex flex-col items-end space-y-3"
+          style={{
+            position: 'fixed',
+            zIndex: 9999,
+            pointerEvents: 'auto'
+          }}
+        >
           {/* Tooltip/Message */}
           <div className="bg-white text-gray-800 px-4 py-2 rounded-lg shadow-lg border border-gray-200 text-sm font-medium max-w-[200px] animate-pulse">
             💬 Precisa de ajuda? Fale conosco!
