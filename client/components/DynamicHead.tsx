@@ -3,8 +3,8 @@ import { useSettings } from '../hooks/useSettings';
 import { useHeroSettings } from '../hooks/useHeroSettings';
 
 export function DynamicHead() {
-  const { getSetting, loading } = useSettings();
-  const { settings: heroSettings, loading: heroLoading } = useHeroSettings();
+  const { getSetting, loading, error } = useSettings();
+  const { settings: heroSettings, loading: heroLoading, error: heroError } = useHeroSettings();
 
   useEffect(() => {
     if (loading) return;
