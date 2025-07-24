@@ -1299,7 +1299,7 @@ export default function Index() {
                             content.testimonials.section_subtitle,
                           )}
                         </p>
-                        <p className="text-lg text-gray-400 max-w-4xl mx-auto leading-relaxed">
+                        <p className="text-lg text-gray-300 max-w-4xl mx-auto leading-relaxed">
                           {renderTextWithColorTokens(
                             content.testimonials.section_description,
                           )}
