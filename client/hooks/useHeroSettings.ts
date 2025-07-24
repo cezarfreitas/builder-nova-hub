@@ -31,9 +31,17 @@ export function useHeroSettings(): UseHeroSettingsReturn {
     try {
       setLoading(true);
       setError(null);
-      
-      const response = await fetch('/api/settings/hero');
-      
+
+      // Create fetch with timeout
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+
+      const response = await fetch('/api/settings/hero', {
+        signal: controller.signal
+      });
+
+      clearTimeout(timeoutId);
+
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
@@ -46,8 +54,15 @@ export function useHeroSettings(): UseHeroSettingsReturn {
         throw new Error(result.message || 'Erro ao buscar configurações do hero');
       }
     } catch (err) {
-      console.warn('Usando configurações padrão do hero devido ao erro:', err);
-      setError(err instanceof Error ? err.message : 'Erro desconhecido');
+      // Silently fall back to defaults without throwing errors to console
+      if (err instanceof Error && err.name === 'AbortError') {
+        console.warn('⚠️ API timeout - usando configurações padrão do hero');
+      } else {
+        console.warn('⚠️ API indisponível - usando configurações padrão do hero');
+      }
+
+      // Set null error to prevent UI error states
+      setError(null);
 
       // Usar configurações padrão em caso de erro
       setSettings({
@@ -74,7 +89,12 @@ export function useHeroSettings(): UseHeroSettingsReturn {
   };
 
   useEffect(() => {
-    fetchSettings();
+    // Delay the initial fetch to avoid blocking page load
+    const timer = setTimeout(() => {
+      fetchSettings();
+    }, 100);
+
+    return () => clearTimeout(timer);
   }, []);
 
   return {
