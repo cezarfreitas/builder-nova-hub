@@ -845,35 +845,23 @@ export default function Index() {
             {/* Logo */}
             {currentHero.logo_url && (
               <div className="flex items-center justify-center pt-4 sm:pt-8 lg:pt-12 mb-8 sm:mb-10 lg:mb-12">
-                <div className="relative">
-                  {/* Glow effect behind logo */}
-                  <div className="absolute inset-0 bg-ecko-red/20 blur-xl rounded-full scale-150 opacity-50"></div>
-
-                  {/* Logo container */}
-                  <div className="relative bg-white/5 backdrop-blur-sm rounded-2xl p-4 sm:p-6 lg:p-8 border border-white/10 hover:border-ecko-red/50 transition-all duration-500 hover:scale-105 shadow-2xl">
-                    <img
-                      src={currentHero.logo_url}
-                      alt="Logo Ecko - Marca líder em streetwear brasileiro"
-                      className="w-40 h-16 sm:w-48 sm:h-20 lg:w-56 lg:h-24 xl:w-64 xl:h-28 object-contain transition-all duration-500 brightness-110 contrast-110"
-                      onError={(e) => {
-                        // Fallback para logo de texto se a imagem falhar
-                        const target = e.target as HTMLImageElement;
-                        target.style.display = 'none';
-                        const parent = target.parentElement;
-                        if (parent && !parent.querySelector('.text-logo')) {
-                          const textLogo = document.createElement('div');
-                          textLogo.className = 'text-logo text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-white text-center py-4';
-                          textLogo.innerHTML = '<span class="text-ecko-red">ECKO</span><span class="text-white"> UNLTD</span>';
-                          parent.appendChild(textLogo);
-                        }
-                      }}
-                    />
-                  </div>
-
-                  {/* Decorative elements */}
-                  <div className="absolute -top-2 -right-2 w-4 h-4 bg-ecko-red rounded-full opacity-75 animate-pulse"></div>
-                  <div className="absolute -bottom-2 -left-2 w-3 h-3 bg-white rounded-full opacity-60 animate-pulse" style={{ animationDelay: '0.5s' }}></div>
-                </div>
+                <img
+                  src={currentHero.logo_url}
+                  alt="Logo Ecko - Marca líder em streetwear brasileiro"
+                  className="w-40 h-16 sm:w-48 sm:h-20 lg:w-56 lg:h-24 xl:w-64 xl:h-28 object-contain"
+                  onError={(e) => {
+                    // Fallback para logo de texto se a imagem falhar
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                    const parent = target.parentElement;
+                    if (parent && !parent.querySelector('.text-logo')) {
+                      const textLogo = document.createElement('div');
+                      textLogo.className = 'text-logo text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-white text-center py-4';
+                      textLogo.innerHTML = '<span class="text-ecko-red">ECKO</span><span class="text-white"> UNLTD</span>';
+                      parent.appendChild(textLogo);
+                    }
+                  }}
+                />
               </div>
             )}
 
