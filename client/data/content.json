@@ -226,5 +226,14 @@
     "title": "PRONTO PARA FAZER PARTE DA FAMÍLIA ECKO?",
     "description": "Junte-se aos milhares de revendedores que já transformaram seus negócios com a marca mais desejada do streetwear brasileiro!",
     "button_text": "QUERO SER UM LOJISTA AUTORIZADO"
+  },
+  "footer": {
+    "description": "Seja parte da maior rede de revendedores de streetwear do Brasil. A Ecko oferece produtos de qualidade, suporte completo e as melhores condições do mercado.",
+    "links_title": "Links Úteis",
+    "contact_title": "Contato",
+    "phone": "0800 123 4567",
+    "email": "vendas@ecko.com.br",
+    "hours": "Seg - Sex: 8h às 18h",
+    "copyright": "© 2024 Ecko. Todos os direitos reservados. Seja um revendedor oficial e transforme seu negócio."
   }
 }
