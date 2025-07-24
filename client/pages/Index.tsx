@@ -80,6 +80,14 @@ export default function Index() {
   const [startTime] = useState(Date.now());
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showWhatsApp, setShowWhatsApp] = useState(false);
+
+  // Mostrar WhatsApp flutuante após 3 segundos
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowWhatsApp(true);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, []);
   const [userId] = useState(() => {
     // Gerar user_id único baseado em dados do navegador
     const fingerprint = `${navigator.userAgent}-${screen.width}x${screen.height}-${Intl.DateTimeFormat().resolvedOptions().timeZone}`;
