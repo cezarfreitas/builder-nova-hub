@@ -82,7 +82,6 @@ export default function Index() {
 
 
 
-  // Static FAQs
   const staticFAQs = [
     {
       id: 1,
