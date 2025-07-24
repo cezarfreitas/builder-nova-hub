@@ -285,7 +285,7 @@ export default function Index() {
     return numbers.length === 8;
   };
 
-  // Fun��ão para buscar endere��o pelo CEP
+  // Fun��ão para buscar endereço pelo CEP
   const fetchAddressByCEP = async (cep: string) => {
     const numbers = cep.replace(/\D/g, "");
 
@@ -1354,10 +1354,10 @@ export default function Index() {
                   className="bg-gray-900/50 backdrop-blur-sm border border-gray-700 rounded-xl px-6 hover:border-ecko-red/50 transition-colors duration-300"
                 >
                   <AccordionTrigger className="text-left text-white hover:text-ecko-red py-6 text-lg font-semibold">
-                    {faq.question}
+                    {renderTextWithColorTokens(faq.question)}
                   </AccordionTrigger>
                   <AccordionContent className="text-gray-300 pb-6 text-base leading-relaxed">
-                    {faq.answer}
+                    {renderTextWithColorTokens(faq.answer)}
                   </AccordionContent>
                 </AccordionItem>
               ))}
