@@ -18,6 +18,32 @@
     "section_title": "VANTAGENS [EXCLUSIVAS]",
     "section_subtitle": "para nossos parceiros",
     "section_description": "Descubra os benefícios únicos que fazem da Ecko a escolha certa para impulsionar seu negócio no mundo da moda streetwear",
+    "cards": [
+      {
+        "id": 1,
+        "title": "MARCA INTERNACIONAL",
+        "description": "A Ecko é uma marca reconhecida mundialmente, com forte presença no Brasil e grande apelo junto ao público jovem. Uma marca que só o nome vende sozinho.",
+        "icon": "Globe"
+      },
+      {
+        "id": 2,
+        "title": "PRONTA ENTREGA",
+        "description": "Disponibilizamos mais de 100.000 produtos prontos para entrega, para impulsionar suas vendas com excelentes margens de lucro e um ótimo rápido giro de estoque.",
+        "icon": "Truck"
+      },
+      {
+        "id": 3,
+        "title": "SUPORTE AO LOJISTA",
+        "description": "Nossa equipe de especialistas está sempre à disposição para garantir que você tenha a melhor experiência, tanto na compra quanto na venda do produto em sua loja.",
+        "icon": "HeadphonesIcon"
+      },
+      {
+        "id": 4,
+        "title": "TOTALMENTE ONLINE",
+        "description": "Oferecemos uma plataforma exclusiva de compras online, com preços de atacado destinados aos lojistas de todo o Brasil para facilitar a sua compra e reabastecimento.",
+        "icon": "Monitor"
+      }
+    ],
     "cta_title": "Junte-se a milhares de parceiros que já confiam na Ecko",
     "cta_button_text": "QUERO FAZER PARTE AGORA"
   },
