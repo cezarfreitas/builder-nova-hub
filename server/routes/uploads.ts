@@ -226,60 +226,60 @@ export async function uploadSeoImage(req: Request, res: Response) {
         });
       }
 
-      // Salvar imagem otimizada
-      await sharpInstance.toFile(optimizedPath);
+      // Salvar imagem compactada
+      await sharpInstance.toFile(compressedPath);
 
-      // Verificar se a otimização funcionou
-      if (fs.existsSync(optimizedPath)) {
-        const optimizedStats = fs.statSync(optimizedPath);
-        const reductionPercent = ((1 - optimizedStats.size / file.size) * 100);
+      // Verificar se a compactação funcionou
+      if (fs.existsSync(compressedPath)) {
+        const compressedStats = fs.statSync(compressedPath);
+        const reductionPercent = ((1 - compressedStats.size / file.size) * 100);
 
-        // Usar versão otimizada se reduziu o tamanho ou se o arquivo original era muito grande
-        if (optimizedStats.size < file.size || isLargeFile) {
+        // Usar versão compactada se reduziu o tamanho ou se o arquivo original era muito grande
+        if (compressedStats.size < file.size || isLargeFile) {
           fs.unlinkSync(file.path); // Remover original
-          finalFilename = optimizedFilename;
-          finalSize = optimizedStats.size;
-          finalPath = optimizedPath;
+          finalFilename = compressedFilename;
+          finalSize = compressedStats.size;
+          finalPath = compressedPath;
 
-          optimizationInfo = {
+          compressionInfo = {
             originalSize: file.size,
             originalSizeFormatted: originalSizeFormatted,
-            optimizedSize: optimizedStats.size,
-            optimizedSizeFormatted: formatFileSize(optimizedStats.size),
+            compressedSize: compressedStats.size,
+            compressedSizeFormatted: formatFileSize(compressedStats.size),
             reduction: `${reductionPercent.toFixed(1)}%`,
             quality: quality,
             maxDimensions: `${maxWidth}x${maxHeight}`,
-            wasOptimized: true
+            wasCompressed: true
           };
 
-          console.log('Image optimized successfully:', optimizationInfo);
+          console.log('Image compressed successfully:', compressionInfo);
         } else {
-          // Se a otimização não reduziu o tamanho, manter original
-          fs.unlinkSync(optimizedPath);
-          optimizationInfo = {
+          // Se a compactação não reduziu o tamanho, manter original
+          fs.unlinkSync(compressedPath);
+          compressionInfo = {
             originalSize: file.size,
             originalSizeFormatted: originalSizeFormatted,
-            wasOptimized: false,
-            reason: 'Original file was already optimized'
+            wasCompressed: false,
+            reason: 'Original file was already compressed'
           };
-          console.log('Keeping original file (already optimized)');
+          console.log('Keeping original file (already compressed)');
         }
       } else {
-        console.log('Optimization failed, keeping original');
-        optimizationInfo = {
+        console.log('Compression failed, keeping original');
+        compressionInfo = {
           originalSize: file.size,
           originalSizeFormatted: originalSizeFormatted,
-          wasOptimized: false,
-          reason: 'Optimization process failed'
+          wasCompressed: false,
+          reason: 'Compression process failed'
         };
       }
     } catch (error) {
-      console.error('Image optimization failed, using original:', error);
-      optimizationInfo = {
+      console.error('Image compression failed, using original:', error);
+      compressionInfo = {
         originalSize: file.size,
         originalSizeFormatted: originalSizeFormatted,
-        wasOptimized: false,
-        reason: `Optimization error: ${error.message}`
+        wasCompressed: false,
+        reason: `Compression error: ${error.message}`
       };
     }
 
