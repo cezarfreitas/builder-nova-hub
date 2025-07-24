@@ -21,6 +21,12 @@ export interface ContentData {
     section_title: string;
     section_subtitle: string;
     section_description: string;
+    cards: {
+      id: number;
+      title: string;
+      description: string;
+      icon: string;
+    }[];
     cta_title: string;
     cta_button_text: string;
   };
