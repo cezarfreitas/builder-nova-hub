@@ -173,7 +173,7 @@ export default function AdminTestimonials() {
       } else {
         toast({
           title: "❌ Erro",
-          description: "Nenhuma configuração foi salva",
+          description: "Nenhuma configuraç��o foi salva",
           variant: "destructive",
         });
       }
@@ -364,9 +364,9 @@ export default function AdminTestimonials() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Gerenciar Depoimentos</h1>
+          <h1 className="text-3xl font-bold text-gray-900">Gerenciar Seção Depoimentos</h1>
           <p className="text-gray-600 mt-2">
-            Adicione, edite ou remova os depoimentos de revendedores satisfeitos.
+            Gerencie depoimentos e textos da seção \"Depoimentos\" da home.
           </p>
         </div>
 
