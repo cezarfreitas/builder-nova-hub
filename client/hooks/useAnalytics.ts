@@ -111,9 +111,9 @@ export function useAnalytics(selectedPeriod: number = 30) {
     const timer = setTimeout(() => {
       fetchAnalytics();
     }, 200);
-    
+
     return () => clearTimeout(timer);
-  }, []);
+  }, [selectedPeriod]);
 
   const refreshData = refreshAnalytics;
 
