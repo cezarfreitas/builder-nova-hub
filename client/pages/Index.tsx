@@ -274,7 +274,7 @@ export default function Index() {
     return numbers.length === 8;
   };
 
-  // Fun��ão para buscar endereço pelo CEP
+  // Fun����ão para buscar endereço pelo CEP
   const fetchAddressByCEP = async (cep: string) => {
     const numbers = cep.replace(/\D/g, "");
 
@@ -1446,7 +1446,9 @@ export default function Index() {
             {/* Social Links */}
             <div className="flex space-x-6">
               <a
-                href="#"
+                href={content.footer?.social_links?.facebook || "#"}
+                target={content.footer?.social_links?.facebook ? "_blank" : "_self"}
+                rel={content.footer?.social_links?.facebook ? "noopener noreferrer" : ""}
                 className="text-gray-400 hover:text-ecko-red transition-colors"
               >
                 <span className="sr-only">Facebook</span>
@@ -1463,7 +1465,9 @@ export default function Index() {
                 </svg>
               </a>
               <a
-                href="#"
+                href={content.footer?.social_links?.instagram || "#"}
+                target={content.footer?.social_links?.instagram ? "_blank" : "_self"}
+                rel={content.footer?.social_links?.instagram ? "noopener noreferrer" : ""}
                 className="text-gray-400 hover:text-ecko-red transition-colors"
               >
                 <span className="sr-only">Instagram</span>
