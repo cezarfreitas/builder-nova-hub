@@ -68,6 +68,9 @@ const App = () => (
         <Route path="/admin/form" element={<AdminLayout />}>
           <Route index element={<AdminForm />} />
         </Route>
+        <Route path="/admin/footer" element={<AdminLayout />}>
+          <Route index element={<AdminFooter />} />
+        </Route>
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
       </Routes>
