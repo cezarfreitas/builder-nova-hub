@@ -496,14 +496,28 @@ export default function AdminForm() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
-                {/* Títulos */}
-                <div className="text-center">
-                  <h2 className="text-xl font-bold text-white mb-2">
-                    {renderTextWithColorTokens(settings.title)}
-                  </h2>
-                  <p className="text-gray-300">
-                    {renderTextWithColorTokens(settings.subtitle)}
+                {/* Coluna Esquerda */}
+                <div className="border-b border-gray-700 pb-4 mb-4">
+                  <h4 className="text-sm font-semibold text-ecko-red mb-2">COLUNA ESQUERDA</h4>
+                  <h1 className="text-lg font-black text-white mb-2 leading-tight">
+                    {renderTextWithColorTokens(settings.main_title)}
+                  </h1>
+                  <p className="text-gray-300 text-sm">
+                    {renderTextWithColorTokens(settings.main_description)}
                   </p>
+                </div>
+
+                {/* Coluna Direita - Formulário */}
+                <div>
+                  <h4 className="text-sm font-semibold text-ecko-red mb-2">COLUNA DIREITA - FORMULÁRIO</h4>
+                  <div className="text-center mb-4">
+                    <h2 className="text-lg font-bold text-white mb-2">
+                      {renderTextWithColorTokens(settings.title)}
+                    </h2>
+                    <p className="text-gray-300 text-sm">
+                      {renderTextWithColorTokens(settings.subtitle)}
+                    </p>
+                  </div>
                 </div>
 
                 {/* Campos de Preview */}
