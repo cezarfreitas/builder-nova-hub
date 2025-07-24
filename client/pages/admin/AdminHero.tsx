@@ -4,7 +4,7 @@ import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { Textarea } from "../../components/ui/textarea";
 import { Badge } from "../../components/ui/badge";
-import { CompactImageUpload } from "../../components/CompactImageUpload";
+import { SmartImageUpload } from "../../components/SmartImageUpload";
 import { TokenColorEditor } from "../../components/TokenColorEditor";
 import { renderTextWithColorTokens } from "../../utils/colorTokens";
 import { useToast } from "../../hooks/use-toast";
