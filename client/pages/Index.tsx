@@ -11,6 +11,7 @@ import { renderTextWithColorTokens } from "../utils/colorTokens";
 import { OptimizedImage, usePreloadImages } from "../hooks/useOptimizedImage";
 import { DeferredCSS, PreloadHeroImages } from "../components/DeferredCSS";
 import { LazySection } from "../components/LazySection";
+import { ScriptOptimizer, ReflowOptimizer } from "../components/ScriptOptimizer";
 import {
   Accordion,
   AccordionContent,
