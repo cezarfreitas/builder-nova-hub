@@ -183,7 +183,7 @@ export function SmartImageUpload({
                 <Loader2 className="w-12 h-12 mx-auto text-blue-500 animate-spin" />
                 <div>
                   <p className="text-lg font-medium text-gray-700">Processando imagem...</p>
-                  <p className="text-sm text-gray-500">Otimizando para melhor performance</p>
+                  <p className="text-sm text-gray-500">Compactando para melhor performance</p>
                 </div>
               </div>
             ) : hasImage ? (
