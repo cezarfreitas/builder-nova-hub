@@ -1296,10 +1296,10 @@ export default function Index() {
             <div className="text-center mt-12 md:mt-16">
               <div className="bg-gradient-to-r from-ecko-red/10 to-ecko-red-dark/10 rounded-2xl p-6 border border-ecko-red/20 backdrop-blur-sm max-w-2xl mx-auto">
                 <h3 className="text-2xl font-bold text-white mb-3">
-                  {galleryTexts.cta_title}
+                  {renderTextWithColorTokens(content.gallery.cta_title)}
                 </h3>
                 <p className="text-gray-300 mb-6">
-                  {galleryTexts.cta_description}
+                  {renderTextWithColorTokens(content.gallery.cta_description)}
                 </p>
                 <Button
                   onClick={() => openFormWithOrigin("gallery-cta")}
