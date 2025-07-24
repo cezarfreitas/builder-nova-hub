@@ -18,7 +18,8 @@ import {
   Building,
   GripVertical,
   Save,
-  X
+  X,
+  FileText
 } from "lucide-react";
 
 export default function AdminTestimonials() {
