@@ -11,56 +11,19 @@ export default defineConfig(({ mode }) => ({
   },
   build: {
     outDir: "dist/spa",
-    cssCodeSplit: true, // Enable CSS code splitting
+    cssCodeSplit: true,
     rollupOptions: {
       output: {
-        // Manual chunks to reduce bundle size more aggressively
-        manualChunks: (id) => {
-          // React core
-          if (id.includes("react") || id.includes("react-dom")) {
-            return "react-vendor";
-          }
-
-          // Admin-only components
-          if (
-            id.includes("/admin/") ||
-            id.includes("chart.js") ||
-            id.includes("xlsx")
-          ) {
-            return "admin-lazy";
-          }
-
-          // UI components that can be lazy loaded
-          if (id.includes("@radix-ui") || id.includes("lucide-react")) {
-            return "ui-components";
-          }
-
-          // Router and utilities
-          if (id.includes("react-router") || id.includes("date-fns")) {
-            return "router-utils";
-          }
-
-          // Large external libraries
-          if (id.includes("node_modules")) {
-            return "vendor";
-          }
+        // Simplified manual chunks for reliable build
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          ui: ['lucide-react', '@radix-ui/react-dialog', '@radix-ui/react-toast'],
         },
-        // Optimize chunk size and naming
         chunkFileNames: "assets/[name]-[hash].js",
         entryFileNames: "assets/[name]-[hash].js",
-        assetFileNames: (assetInfo) => {
-          const extType = assetInfo.name.split(".").at(1);
-          if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(extType)) {
-            return `assets/images/[name]-[hash][extname]`;
-          }
-          if (/css/i.test(extType)) {
-            return `assets/css/[name]-[hash][extname]`;
-          }
-          return `assets/[name]-[hash][extname]`;
-        },
+        assetFileNames: "assets/[name]-[hash].[ext]",
       },
     },
-    // Enable minification with esbuild (default, faster than terser)
     minify: true,
   },
   plugins: [react(), expressPlugin()],
