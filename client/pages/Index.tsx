@@ -1132,17 +1132,26 @@ export default function Index() {
                 <span
                   className="relative z-10 flex items-center transition-colors duration-300"
                   style={{
-                    '--hover-color': currentHero.cta_text_color || '#ffffff'
-                  } as React.CSSProperties}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.color = currentHero.cta_text_color || '#ffffff';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.color = '';
+                    color: currentHero.text_color || '#ffffff'
                   }}
                 >
-                  {currentHero.cta_secondary_text}
-                  <ChevronDown className="ml-2 w-6 h-6 group-hover:animate-bounce" />
+                  <span
+                    className="group-hover:hidden"
+                  >
+                    {currentHero.cta_secondary_text}
+                  </span>
+                  <span
+                    className="hidden group-hover:block"
+                    style={{ color: currentHero.cta_text_color || '#dc2626' }}
+                  >
+                    {currentHero.cta_secondary_text}
+                  </span>
+                  <ChevronDown
+                    className="ml-2 w-6 h-6 group-hover:animate-bounce transition-colors duration-300"
+                    style={{
+                      color: 'inherit'
+                    }}
+                  />
                 </span>
               </Button>
 
