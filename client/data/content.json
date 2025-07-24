@@ -228,6 +228,10 @@
     "button_text": "QUERO SER UM LOJISTA AUTORIZADO"
   },
   "footer": {
-    "copyright": "© 2024 Ecko. Todos os direitos reservados. Seja um revendedor oficial e transforme seu negócio."
+    "copyright": "© 2024 Ecko. Todos os direitos reservados. Seja um revendedor oficial e transforme seu negócio.",
+    "social_links": {
+      "facebook": "https://facebook.com/ecko",
+      "instagram": "https://instagram.com/ecko"
+    }
   }
 }
