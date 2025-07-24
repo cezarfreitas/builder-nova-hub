@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
 export const DeferredCSS = () => {
   useEffect(() => {
@@ -6,18 +6,18 @@ export const DeferredCSS = () => {
     const optimizeCSS = () => {
       // Add any custom CSS optimizations here
       // In Vite, CSS is already bundled and optimized
-      console.log('CSS optimization applied');
+      console.log("CSS optimization applied");
     };
 
     // Apply optimizations after initial render
-    if (document.readyState === 'complete') {
+    if (document.readyState === "complete") {
       optimizeCSS();
     } else {
-      window.addEventListener('load', optimizeCSS);
+      window.addEventListener("load", optimizeCSS);
     }
 
     return () => {
-      window.removeEventListener('load', optimizeCSS);
+      window.removeEventListener("load", optimizeCSS);
     };
   }, []);
 
@@ -28,14 +28,14 @@ export const DeferredCSS = () => {
 export const PreloadHeroImages = () => {
   useEffect(() => {
     const preloadImages = [
-      '/logo-ecko.png',
+      "/logo-ecko.png",
       // Adicione outras imagens críticas aqui
     ];
 
-    preloadImages.forEach(src => {
-      const link = document.createElement('link');
-      link.rel = 'preload';
-      link.as = 'image';
+    preloadImages.forEach((src) => {
+      const link = document.createElement("link");
+      link.rel = "preload";
+      link.as = "image";
       link.href = src;
       document.head.appendChild(link);
     });

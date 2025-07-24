@@ -1,39 +1,39 @@
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
 export const ScriptOptimizer = () => {
   useEffect(() => {
     // Remove unused scripts and optimize loading
     const optimizeScripts = () => {
       // Remove any non-essential scripts on initial load
-      const scripts = document.querySelectorAll('script[data-non-critical]');
-      scripts.forEach(script => script.remove());
-      
+      const scripts = document.querySelectorAll("script[data-non-critical]");
+      scripts.forEach((script) => script.remove());
+
       // Defer heavy libraries until needed
       const deferLoadLibraries = () => {
         // Chart.js and other heavy libraries will be loaded only when admin is accessed
-        if (window.location.pathname.includes('/admin')) {
-          import('chart.js').then(() => {
-            console.log('Chart.js loaded for admin');
+        if (window.location.pathname.includes("/admin")) {
+          import("chart.js").then(() => {
+            console.log("Chart.js loaded for admin");
           });
         }
       };
 
       // Use idle callback to defer non-critical tasks
-      if ('requestIdleCallback' in window) {
+      if ("requestIdleCallback" in window) {
         requestIdleCallback(deferLoadLibraries, { timeout: 5000 });
       } else {
         setTimeout(deferLoadLibraries, 1000);
       }
     };
 
-    if (document.readyState === 'complete') {
+    if (document.readyState === "complete") {
       optimizeScripts();
     } else {
-      window.addEventListener('load', optimizeScripts);
+      window.addEventListener("load", optimizeScripts);
     }
 
     return () => {
-      window.removeEventListener('load', optimizeScripts);
+      window.removeEventListener("load", optimizeScripts);
     };
   }, []);
 
@@ -53,13 +53,13 @@ export const ReflowOptimizer = () => {
         isScheduled = true;
         requestAnimationFrame(() => {
           // Batch all DOM reads first
-          readQueue.forEach(read => read());
+          readQueue.forEach((read) => read());
           readQueue = [];
-          
+
           // Then batch all DOM writes
-          writeQueue.forEach(write => write());
+          writeQueue.forEach((write) => write());
           writeQueue = [];
-          
+
           isScheduled = false;
         });
       }

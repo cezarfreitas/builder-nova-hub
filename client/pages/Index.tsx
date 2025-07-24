@@ -12,7 +12,10 @@ import { usePreloadImages } from "../hooks/useOptimizedImage";
 import { OptimizedImage } from "../components/OptimizedImage";
 import { DeferredCSS, PreloadHeroImages } from "../components/DeferredCSS";
 import { LazySection } from "../components/LazySection";
-import { ScriptOptimizer, ReflowOptimizer } from "../components/ScriptOptimizer";
+import {
+  ScriptOptimizer,
+  ReflowOptimizer,
+} from "../components/ScriptOptimizer";
 import {
   Accordion,
   AccordionContent,
@@ -93,10 +96,10 @@ export default function Index() {
 
   // Preload critical images
   const criticalImages = [
-    '/logo-ecko.png',
-    content.gallery?.items?.[0]?.image_url || '',
-    content.gallery?.items?.[1]?.image_url || '',
-    content.gallery?.items?.[2]?.image_url || '',
+    "/logo-ecko.png",
+    content.gallery?.items?.[0]?.image_url || "",
+    content.gallery?.items?.[1]?.image_url || "",
+    content.gallery?.items?.[2]?.image_url || "",
   ].filter(Boolean);
 
   usePreloadImages(criticalImages);

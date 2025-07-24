@@ -17,35 +17,39 @@ export default defineConfig(({ mode }) => ({
         // Manual chunks to reduce bundle size more aggressively
         manualChunks: (id) => {
           // React core
-          if (id.includes('react') || id.includes('react-dom')) {
-            return 'react-vendor';
+          if (id.includes("react") || id.includes("react-dom")) {
+            return "react-vendor";
           }
 
           // Admin-only components
-          if (id.includes('/admin/') || id.includes('chart.js') || id.includes('xlsx')) {
-            return 'admin-lazy';
+          if (
+            id.includes("/admin/") ||
+            id.includes("chart.js") ||
+            id.includes("xlsx")
+          ) {
+            return "admin-lazy";
           }
 
           // UI components that can be lazy loaded
-          if (id.includes('@radix-ui') || id.includes('lucide-react')) {
-            return 'ui-components';
+          if (id.includes("@radix-ui") || id.includes("lucide-react")) {
+            return "ui-components";
           }
 
           // Router and utilities
-          if (id.includes('react-router') || id.includes('date-fns')) {
-            return 'router-utils';
+          if (id.includes("react-router") || id.includes("date-fns")) {
+            return "router-utils";
           }
 
           // Large external libraries
-          if (id.includes('node_modules')) {
-            return 'vendor';
+          if (id.includes("node_modules")) {
+            return "vendor";
           }
         },
         // Optimize chunk size and naming
-        chunkFileNames: 'assets/[name]-[hash].js',
-        entryFileNames: 'assets/[name]-[hash].js',
+        chunkFileNames: "assets/[name]-[hash].js",
+        entryFileNames: "assets/[name]-[hash].js",
         assetFileNames: (assetInfo) => {
-          const extType = assetInfo.name.split('.').at(1);
+          const extType = assetInfo.name.split(".").at(1);
           if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(extType)) {
             return `assets/images/[name]-[hash][extname]`;
           }
@@ -53,17 +57,17 @@ export default defineConfig(({ mode }) => ({
             return `assets/css/[name]-[hash][extname]`;
           }
           return `assets/[name]-[hash][extname]`;
-        }
-      }
+        },
+      },
     },
     // Enable minification
-    minify: 'terser',
+    minify: "terser",
     terserOptions: {
       compress: {
-        drop_console: mode === 'production',
-        drop_debugger: mode === 'production'
-      }
-    }
+        drop_console: mode === "production",
+        drop_debugger: mode === "production",
+      },
+    },
   },
   plugins: [react(), expressPlugin()],
   resolve: {
@@ -74,32 +78,28 @@ export default defineConfig(({ mode }) => ({
   },
   // Optimize dependencies
   optimizeDeps: {
-    include: [
-      'react',
-      'react-dom',
-      'react/jsx-runtime'
-    ],
+    include: ["react", "react-dom", "react/jsx-runtime"],
     exclude: [
       // Lazy load these for better initial load
-      'chart.js',
-      'react-chartjs-2',
-      'xlsx'
-    ]
+      "chart.js",
+      "react-chartjs-2",
+      "xlsx",
+    ],
   },
   // Add experimental features for better performance
   experimental: {
     renderBuiltUrl(filename) {
       // Optimize CDN delivery if needed
       return filename;
-    }
+    },
   },
   // CSS optimization
   css: {
     devSourcemap: false,
     preprocessorOptions: {
       // Inline critical CSS and defer the rest
-    }
-  }
+    },
+  },
 }));
 
 function expressPlugin(): Plugin {

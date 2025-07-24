@@ -1,7 +1,8 @@
-import React from 'react';
-import { useOptimizedImage } from '../hooks/useOptimizedImage';
+import React from "react";
+import { useOptimizedImage } from "../hooks/useOptimizedImage";
 
-interface OptimizedImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
+interface OptimizedImageProps
+  extends React.ImgHTMLAttributes<HTMLImageElement> {
   src: string;
   fallback?: string;
   lazy?: boolean;
@@ -11,38 +12,45 @@ interface OptimizedImageProps extends React.ImgHTMLAttributes<HTMLImageElement> 
 
 export const OptimizedImage: React.FC<OptimizedImageProps> = ({
   src,
-  alt = '',
+  alt = "",
   fallback,
   lazy = true,
   quality,
   aspectRatio,
-  className = '',
+  className = "",
   style,
   ...props
 }) => {
-  const { ref, src: optimizedSrc, isLoaded, hasError } = useOptimizedImage({
+  const {
+    ref,
+    src: optimizedSrc,
+    isLoaded,
+    hasError,
+  } = useOptimizedImage({
     src,
     fallback,
     lazy,
-    quality
+    quality,
   });
 
-  const aspectRatioStyle = aspectRatio ? {
-    aspectRatio: aspectRatio.replace(':', '/'),
-    objectFit: 'cover' as const
-  } : {};
+  const aspectRatioStyle = aspectRatio
+    ? {
+        aspectRatio: aspectRatio.replace(":", "/"),
+        objectFit: "cover" as const,
+      }
+    : {};
 
   return (
     <img
       ref={ref}
       src={optimizedSrc}
       alt={alt}
-      className={`${className} ${isLoaded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}
+      className={`${className} ${isLoaded ? "opacity-100" : "opacity-0"} transition-opacity duration-300`}
       style={{
         ...aspectRatioStyle,
-        ...style
+        ...style,
       }}
-      loading={lazy ? 'lazy' : 'eager'}
+      loading={lazy ? "lazy" : "eager"}
       decoding="async"
       {...props}
     />
