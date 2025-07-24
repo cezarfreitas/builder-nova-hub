@@ -87,16 +87,16 @@ export const useContent = () => {
       const backup = localStorage.getItem("ecko_content_backup");
       if (backup) {
         const parsed = JSON.parse(backup);
-        // Valida se tem a estrutura correta e mescla mantendo hero e benefits do JSON
-        if (parsed.gallery && parsed.testimonials) {
+        // Valida se tem a estrutura correta e mescla mantendo hero, benefits e testimonials do JSON
+        if (parsed.gallery) {
           finalContent = {
             ...finalContent,
-            // Hero e Benefits sempre do JSON
+            // Hero, Benefits e Testimonials sempre do JSON
             hero: contentData.hero,
             benefits: contentData.benefits,
+            testimonials: contentData.testimonials,
             // Outras seções podem vir do backup se válidas
             gallery: parsed.gallery || contentData.gallery,
-            testimonials: parsed.testimonials || contentData.testimonials,
             faq: parsed.faq || contentData.faq,
             final_cta: parsed.final_cta || contentData.final_cta,
           };
