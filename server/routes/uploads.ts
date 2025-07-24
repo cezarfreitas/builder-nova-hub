@@ -284,7 +284,10 @@ export async function uploadSeoImage(req: Request, res: Response) {
     }
 
     // Usar URL relativa para evitar problemas de CORS/URL
-    const imageUrl = `/uploads/${finalFilename}`;
+    // Se está em subpasta (hero, avatars), incluir no path
+    const subPath = file.path.includes('hero') ? 'hero/' :
+                   file.path.includes('avatars') ? 'avatars/' : '';
+    const imageUrl = `/uploads/${subPath}${finalFilename}`;
 
     // Metadados completos da imagem
     const imageInfo = {
