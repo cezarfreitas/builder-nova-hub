@@ -1,8 +1,7 @@
 export const CriticalCSS = () => {
   return (
-    <style
-      dangerouslySetInnerHTML={{
-        __html: `
+    <style dangerouslySetInnerHTML={{
+      __html: `
         /* Critical styles para LCP */
         body {
           margin: 0;
@@ -10,7 +9,21 @@ export const CriticalCSS = () => {
           -webkit-font-smoothing: antialiased;
           -moz-osx-font-smoothing: grayscale;
           background-color: #000;
-          color: #fff;
+          color: #ffffff;
+        }
+
+        /* High contrast text for accessibility */
+        .text-high-contrast {
+          color: #ffffff !important;
+        }
+
+        .text-medium-contrast {
+          color: #d1d5db !important; /* gray-300 */
+        }
+
+        .bg-ecko-tag {
+          background-color: rgba(220, 38, 38, 0.3) !important;
+          border-color: rgba(220, 38, 38, 0.5) !important;
         }
         
         /* Hero section critical styles */
@@ -56,8 +69,7 @@ export const CriticalCSS = () => {
           0% { background-position: 200% 0; }
           100% { background-position: -200% 0; }
         }
-      `,
-      }}
-    />
+      `
+    }} />
   );
 };
