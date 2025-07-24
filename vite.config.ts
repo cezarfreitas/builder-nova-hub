@@ -60,14 +60,8 @@ export default defineConfig(({ mode }) => ({
         },
       },
     },
-    // Enable minification
-    minify: "terser",
-    terserOptions: {
-      compress: {
-        drop_console: mode === "production",
-        drop_debugger: mode === "production",
-      },
-    },
+    // Enable minification with esbuild (default, faster than terser)
+    minify: true,
   },
   plugins: [react(), expressPlugin()],
   resolve: {
