@@ -27,11 +27,19 @@ import {
   Copy
 } from "lucide-react";
 
+interface BenefitCard {
+  id: number;
+  title: string;
+  description: string;
+  icon: string;
+}
+
 interface BenefitsSettings {
   section_tag: string;
   section_title: string;
   section_subtitle: string;
   section_description: string;
+  cards: BenefitCard[];
   cta_title: string;
   cta_button_text: string;
 }
