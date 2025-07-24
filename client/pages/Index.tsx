@@ -155,7 +155,7 @@ export default function Index() {
 
   // Capturar informações de origem do tráfego
   useEffect(() => {
-    const captureTrafficSource = () => {
+    const captureTrafficSource = async () => {
       try {
         const referrer = document.referrer;
         const currentUrl = window.location.href;
