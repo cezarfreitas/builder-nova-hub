@@ -374,7 +374,7 @@ export default function Index() {
 
       if (result.success) {
         toast({
-          title: "✅ Cadastro enviado!",
+          title: "��� Cadastro enviado!",
           description:
             "Nossa equipe entrará em contato em até 24h. Obrigado pelo interesse!",
           duration: 8000,
@@ -1018,7 +1018,7 @@ export default function Index() {
                 <main key="benefits">
                   {/* Benefits Section */}
                   <section
-                    className="py-16 md:py-20 bg-gradient-to-b from-black to-gray-900 relative overflow-hidden"
+                    className="py-16 md:py-20 bg-black relative overflow-hidden"
                     aria-labelledby="vantagens-heading"
                   >
                     {/* Background Pattern */}
