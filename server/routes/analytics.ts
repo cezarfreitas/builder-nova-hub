@@ -604,6 +604,9 @@ export async function trackVisit(req: Request, res: Response) {
     // Gerar user_id baseado no IP + User Agent se não fornecido
     const computedUserId = user_id || Buffer.from(`${ip_address}-${user_agent || ''}`).toString('base64').slice(0, 50);
 
+    // Debug log
+    console.log(`📊 Rastreando evento: ${event_type || 'page_view'} para session ${session_id}`);
+
     // Inserir evento de visita
     await db.execute(`
       INSERT INTO analytics_events (
@@ -625,6 +628,8 @@ export async function trackVisit(req: Request, res: Response) {
       page_url || '',
       duration_seconds || 0
     ]);
+
+    console.log(`✅ Evento ${event_type || 'page_view'} registrado no banco`);
 
     res.json({
       success: true,
