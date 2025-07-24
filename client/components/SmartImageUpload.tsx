@@ -218,13 +218,13 @@ export function SmartImageUpload({
               <div className="flex-1 space-y-2">
                 <div className="flex items-center space-x-2">
                   <span className="font-medium text-blue-900">Processamento concluído</span>
-                  {uploadInfo.optimization?.wasOptimized && (
+                  {uploadInfo.compression?.wasCompressed && (
                     <Badge className="bg-green-100 text-green-800">
-                      Otimizada: {uploadInfo.optimization.reduction}
+                      Compactada: {uploadInfo.compression.reduction}
                     </Badge>
                   )}
                 </div>
-                
+
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
                     <span className="text-gray-600">Arquivo:</span>
@@ -234,15 +234,15 @@ export function SmartImageUpload({
                     <span className="text-gray-600">Tamanho final:</span>
                     <p className="font-medium">{uploadInfo.sizeFormatted}</p>
                   </div>
-                  {uploadInfo.optimization?.wasOptimized && (
+                  {uploadInfo.compression?.wasCompressed && (
                     <>
                       <div>
                         <span className="text-gray-600">Tamanho original:</span>
-                        <p className="font-medium">{uploadInfo.optimization.originalSizeFormatted}</p>
+                        <p className="font-medium">{uploadInfo.compression.originalSizeFormatted}</p>
                       </div>
                       <div>
                         <span className="text-gray-600">Qualidade:</span>
-                        <p className="font-medium">{uploadInfo.optimization.quality}%</p>
+                        <p className="font-medium">{uploadInfo.compression.quality}%</p>
                       </div>
                     </>
                   )}
