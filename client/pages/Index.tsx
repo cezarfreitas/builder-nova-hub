@@ -1424,6 +1424,81 @@ export default function Index() {
             </Button>
           </div>
         </section>
+
+        {/* About Section */}
+        <section id="about" className="py-20 bg-gradient-to-b from-gray-50 to-white">
+          <div className="container mx-auto px-6">
+            {/* Header */}
+            <div className="text-center mb-16">
+              <span className="inline-block px-4 py-2 bg-ecko-red/10 text-ecko-red text-sm font-semibold rounded-full mb-4">
+                {content.about?.section_tag || "Nossa História"}
+              </span>
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+                {renderTextWithColorTokens(
+                  content.about?.section_title || "SOBRE A {ECKO}"
+                )}
+              </h2>
+              <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-4">
+                {content.about?.section_subtitle || "mais de 20 anos de streetwear"}
+              </p>
+              <p className="text-gray-600 max-w-3xl mx-auto">
+                {content.about?.section_description || "Conheça a trajetória de uma das marcas mais influentes do streetwear mundial"}
+              </p>
+            </div>
+
+            {/* Content */}
+            <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
+              {/* Story Text */}
+              <div className="space-y-6">
+                {content.about?.content?.split('\n\n').map((paragraph, index) => (
+                  <p key={index} className="text-gray-700 leading-relaxed text-lg">
+                    {renderTextWithColorTokens(paragraph)}
+                  </p>
+                ))}
+              </div>
+
+              {/* Stats */}
+              <div className="grid grid-cols-2 gap-6">
+                {(content.about?.stats || []).map((stat) => (
+                  <div key={stat.id} className="text-center p-6 bg-white rounded-lg shadow-sm border border-gray-100">
+                    <div className="text-3xl md:text-4xl font-bold text-ecko-red mb-2">
+                      {stat.number}
+                    </div>
+                    <div className="text-gray-900 font-semibold mb-1">
+                      {stat.label}
+                    </div>
+                    <div className="text-sm text-gray-600">
+                      {stat.description}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* CTA */}
+            <div className="text-center bg-black rounded-2xl p-8 md:p-12 text-white">
+              <h3 className="text-2xl md:text-3xl font-bold mb-4">
+                {renderTextWithColorTokens(
+                  content.about?.cta_title || "Faça Parte Desta História"
+                )}
+              </h3>
+              <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
+                {content.about?.cta_description || "Torne-se um revendedor oficial e ajude a escrever o próximo capítulo da Ecko"}
+              </p>
+              <Button
+                size="lg"
+                className="bg-ecko-red hover:bg-ecko-red-dark text-white px-8 py-3 text-lg font-semibold group relative overflow-hidden"
+                onClick={() => scrollToSection("hero")}
+              >
+                <span className="absolute inset-0 bg-gradient-to-r from-red-700 to-red-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                <span className="relative z-10 flex items-center">
+                  {content.about?.cta_button_text || "QUERO SER PARTE DA ECKO"}
+                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </Button>
+            </div>
+          </div>
+        </section>
       </main>
 
       {/* Footer */}
