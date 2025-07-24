@@ -21,6 +21,8 @@ import {
 } from "lucide-react";
 
 interface FormSettings {
+  main_title: string;
+  main_description: string;
   title: string;
   subtitle: string;
   fields: {
