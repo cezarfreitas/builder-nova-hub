@@ -1310,13 +1310,13 @@ export default function Index() {
                           </p>
                           <Button
                             size="lg"
-                            className="bg-ecko-red hover:bg-ecko-red-dark text-white px-8 py-4 text-lg font-bold group relative overflow-hidden transition-all duration-300 hover:scale-105"
+                            className="bg-ecko-red hover:bg-ecko-red-dark text-white px-6 sm:px-8 py-4 sm:py-5 text-base sm:text-lg font-bold group relative overflow-hidden transition-all duration-300 hover:scale-105 min-h-[56px] w-full sm:w-auto touch-manipulation"
                             onClick={() => openFormWithOrigin("cta")}
                           >
                             <span className="absolute inset-0 bg-gradient-to-r from-red-700 to-red-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
-                            <span className="relative z-10 flex items-center">
+                            <span className="relative z-10 flex items-center justify-center">
                               {content.testimonials.cta_button_text}
-                              <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                              <ArrowRight className="ml-2 w-4 sm:w-5 h-4 sm:h-5 group-hover:translate-x-1 transition-transform" />
                             </span>
                           </Button>
                         </div>
