@@ -79,15 +79,33 @@ export function useAnalytics(selectedPeriod: number = 30) {
       }
     }
 
-    // Try to fetch data only if absolutely necessary and with extremely short timeouts
+    // Try to fetch analytics overview data first
+    let realOverviewData = null;
+    try {
+      const overviewResponse = await Promise.race([
+        fetch(`/api/analytics/overview?days=${selectedPeriod}`),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 2000))
+      ]);
+
+      if (overviewResponse.ok) {
+        const overviewResult = await overviewResponse.json();
+        if (overviewResult.success) {
+          realOverviewData = overviewResult.data;
+          console.log(`✅ Dados reais do banco carregados`);
+        }
+      }
+    } catch (e) {
+      console.warn('⚠️ Falha na API de overview');
+    }
+
+    // Try to fetch leads data
     if (navigator.onLine) {
-      // Very quick attempt to get leads (non-critical)
       try {
         const response = await Promise.race([
-          fetch('/api/leads?limit=50'),
-          new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 800))
+          fetch('/api/leads?limit=500'),
+          new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 1500))
         ]);
-        
+
         if (response.ok) {
           const result = await response.json();
           if (result.success && result.data.leads) {
@@ -95,11 +113,11 @@ export function useAnalytics(selectedPeriod: number = 30) {
             stats.total = leads.length;
             stats.unique = leads.filter(l => !l.is_duplicate).length;
             stats.duplicates = leads.filter(l => l.is_duplicate).length;
-            console.log(`✅ ${leads.length} leads carregados`);
+            console.log(`✅ ${leads.length} leads carregados do banco`);
           }
         }
       } catch (e) {
-        console.log('📡 API indisponível, usando dados mock');
+        console.log('📡 API de leads indisponível');
       }
     }
 
