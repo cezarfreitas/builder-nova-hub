@@ -1846,7 +1846,7 @@ export default function Index() {
       {/* WhatsApp Floating Button */}
       {showWhatsApp && (
         <div
-          className="fixed bottom-4 sm:bottom-6 right-4 sm:right-6 z-[9999] flex flex-col items-end space-y-3"
+          className="fixed bottom-4 sm:bottom-6 right-4 sm:right-6 z-[9999] flex flex-col items-end space-y-3 animate-in slide-in-from-right-4 slide-in-from-bottom-4 duration-700"
           style={{
             position: 'fixed',
             zIndex: 9999,
