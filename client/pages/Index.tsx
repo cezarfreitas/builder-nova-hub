@@ -100,7 +100,7 @@ export default function Index() {
       id: 1,
       question: "Como me tornar um revendedor oficial da Ecko?",
       answer:
-        "Para se tornar um revendedor oficial, você precisa ter CNPJ ativo e preencher nosso formulário de cadastro. Nossa equipe entrará em contato em até 24h para apresentar as condições comerciais e processo de aprovação.",
+        "Para se tornar um revendedor oficial, voc�� precisa ter CNPJ ativo e preencher nosso formulário de cadastro. Nossa equipe entrará em contato em até 24h para apresentar as condições comerciais e processo de aprovação.",
       display_order: 1,
       is_active: true,
     },
@@ -152,6 +152,64 @@ export default function Index() {
 
   // Add to window for manual testing
   (window as any).checkWhatsAppClicks = checkLocalClicks;
+
+  // Capturar informações de origem do tráfego
+  useEffect(() => {
+    const captureTrafficSource = () => {
+      try {
+        const referrer = document.referrer;
+        const currentUrl = window.location.href;
+        const urlParams = new URLSearchParams(window.location.search);
+
+        // Identificar fonte do tráfego
+        let sourceName = 'Direto';
+        if (referrer) {
+          if (referrer.includes('google.com')) sourceName = 'Google';
+          else if (referrer.includes('facebook.com')) sourceName = 'Facebook';
+          else if (referrer.includes('instagram.com')) sourceName = 'Instagram';
+          else if (referrer.includes('whatsapp.com')) sourceName = 'WhatsApp';
+          else if (referrer.includes('youtube.com')) sourceName = 'YouTube';
+          else if (referrer.includes('tiktok.com')) sourceName = 'TikTok';
+          else if (referrer.includes('linkedin.com')) sourceName = 'LinkedIn';
+          else sourceName = new URL(referrer).hostname;
+        }
+
+        const trafficSource = {
+          referrer: referrer || 'Direto',
+          source_name: sourceName,
+          utm_source: urlParams.get('utm_source') || '',
+          utm_medium: urlParams.get('utm_medium') || '',
+          utm_campaign: urlParams.get('utm_campaign') || '',
+          utm_term: urlParams.get('utm_term') || '',
+          utm_content: urlParams.get('utm_content') || '',
+          current_url: currentUrl,
+          timestamp: new Date().toISOString(),
+          session_id: sessionId,
+          user_id: userId,
+          page_title: document.title
+        };
+
+        // Salvar no localStorage para analytics
+        const existingTraffic = JSON.parse(localStorage.getItem('traffic_sources') || '[]');
+        existingTraffic.push(trafficSource);
+
+        // Manter apenas os últimos 200 registros
+        if (existingTraffic.length > 200) {
+          existingTraffic.splice(0, existingTraffic.length - 200);
+        }
+
+        localStorage.setItem('traffic_sources', JSON.stringify(existingTraffic));
+
+        console.log('📊 Origem capturada:', sourceName, trafficSource);
+
+      } catch (error) {
+        console.warn('Erro ao capturar origem do tráfego:', error);
+      }
+    };
+
+    // Capturar origem na primeira visita
+    captureTrafficSource();
+  }, []); // Executar apenas uma vez
 
   const trackWhatsAppClick = async () => {
     try {
@@ -267,7 +325,7 @@ export default function Index() {
     return limited;
   };
 
-  // Funç����o para validar WhatsApp
+  // Funç��o para validar WhatsApp
   const validateWhatsApp = (whatsapp: string): boolean => {
     // Remove formatação
     const numbers = whatsapp.replace(/\D/g, "");
@@ -361,7 +419,7 @@ export default function Index() {
     // Validar WhatsApp
     if (!formData.whatsapp || !validateWhatsApp(formData.whatsapp)) {
       toast({
-        title: "⚠���� WhatsApp Inválido",
+        title: "⚠������ WhatsApp Inválido",
         description: content.form.validation_messages.whatsapp_invalid,
         variant: "destructive",
       });
