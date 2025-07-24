@@ -1397,7 +1397,6 @@ export default function Index() {
                                       target.src = "/placeholder.svg";
                                     }}
                                   />
-
                                 </div>
                               </div>
                             ))}
