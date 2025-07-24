@@ -27,6 +27,33 @@ export default function AdminTestimonials() {
   const [saving, setSaving] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [editingTestimonial, setEditingTestimonial] = useState<Testimonial | null>(null);
+  const [activeTab, setActiveTab] = useState<'depoimentos' | 'textos'>('depoimentos');
+
+  // Estados para textos da seção de depoimentos
+  const [textSettings, setTextSettings] = useState({
+    section_tag: 'Depoimentos',
+    section_title: 'O que nossos revendedores dizem',
+    section_subtitle: 'casos reais de sucesso',
+    section_description: 'Depoimentos reais de parceiros que transformaram suas paixões em negócios lucrativos com a Ecko',
+    cta_title: 'Seja o próximo case de sucesso!',
+    cta_description: 'Junte-se aos revendedores que já transformaram seus negócios',
+    cta_button_text: 'QUERO SER UM CASE DE SUCESSO'
+  });
+  const [savingTexts, setSavingTexts] = useState(false);
+
+  // Função local para renderizar tokens de cor
+  const renderTokens = (text: string) => {
+    const colors = {
+      ecko: '#dc2626', red: '#dc2626', blue: '#2563eb', green: '#16a34a',
+      purple: '#7c3aed', orange: '#ea580c', yellow: '#ca8a04', white: '#ffffff',
+      black: '#000000', gray: '#6b7280'
+    };
+
+    return text.replace(/\{(\w+)\}(.*?)\{\/\1\}/g, (match, color, content) => {
+      const colorValue = colors[color as keyof typeof colors];
+      return colorValue ? `<span style="color: ${colorValue}; font-weight: bold;">${content}</span>` : content;
+    });
+  };
 
   // Estados do formulário
   const [formData, setFormData] = useState({
