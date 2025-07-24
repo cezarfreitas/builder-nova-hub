@@ -11,6 +11,7 @@ import { useToast } from "../../hooks/use-toast";
 import { GalleryImage } from "@shared/api";
 import { SmartImageUpload } from "../../components/SmartImageUpload";
 import { MultiImageUpload } from "../../components/MultiImageUpload";
+import { TokenColorEditor } from "../../components/TokenColorEditor";
 import {
   Image,
   Plus,
@@ -29,6 +30,20 @@ import {
 
 export default function AdminGallery() {
   const { toast } = useToast();
+
+  // Função local para renderizar tokens de cor
+  const renderTokens = (text: string) => {
+    const colors = {
+      ecko: '#dc2626', red: '#dc2626', blue: '#2563eb', green: '#16a34a',
+      purple: '#7c3aed', orange: '#ea580c', yellow: '#ca8a04', white: '#ffffff',
+      black: '#000000', gray: '#6b7280'
+    };
+
+    return text.replace(/\{(\w+)\}(.*?)\{\/\1\}/g, (match, color, content) => {
+      const colorValue = colors[color as keyof typeof colors];
+      return colorValue ? `<span style="color: ${colorValue}; font-weight: bold;">${content}</span>` : content;
+    });
+  };
   const [images, setImages] = useState<GalleryImage[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -104,7 +119,16 @@ export default function AdminGallery() {
 
       if (result.success) {
         const settings = result.data;
+
+        // Função para extrair valor da configuração (pode ser string ou objeto)
+        const getValue = (setting: any) => {
+          if (typeof setting === 'string') return setting;
+          if (setting && typeof setting === 'object' && setting.value) return setting.value;
+          return '';
+        };
+
         const galleryTexts = {
+<<<<<<< HEAD
           section_title:
             settings.gallery_section_title?.value || "COLEÇÃO LIFESTYLE",
           section_subtitle:
@@ -129,6 +153,17 @@ export default function AdminGallery() {
           cta_button_text:
             settings.gallery_cta_button_text?.value ||
             "QUERO ESSES PRODUTOS NA MINHA LOJA",
+=======
+          section_title: getValue(settings.gallery_section_title) || 'COLEÇÃO LIFESTYLE',
+          section_subtitle: getValue(settings.gallery_section_subtitle) || 'Descubra o lifestyle autêntico da Ecko',
+          section_description: getValue(settings.gallery_section_description) || 'Descubra o lifestyle autêntico da Ecko através de looks que representam a essência do streetwear e a cultura urbana que move nossa marca.',
+          section_tag: getValue(settings.gallery_section_tag) || 'Lifestyle Gallery',
+          empty_state_title: getValue(settings.gallery_empty_title) || 'Galeria em Construção',
+          empty_state_description: getValue(settings.gallery_empty_description) || 'Em breve nossa galeria estará repleta de produtos incríveis!',
+          cta_title: getValue(settings.gallery_cta_title) || 'Tenha Estes Produtos em Sua Loja!',
+          cta_description: getValue(settings.gallery_cta_description) || 'Produtos com alta demanda e excelente margem de lucro esperando por você',
+          cta_button_text: getValue(settings.gallery_cta_button_text) || 'QUERO ESSES PRODUTOS NA MINHA LOJA'
+>>>>>>> 6f347c33f456ebfde3010de06c74897918b05ac0
         };
         setTextSettings(galleryTexts);
       }
@@ -923,12 +958,10 @@ export default function AdminGallery() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Título Principal
-                    </label>
-                    <input
-                      type="text"
+                    <TokenColorEditor
+                      label="Título Principal"
                       value={textSettings.section_title}
+<<<<<<< HEAD
                       onChange={(e) =>
                         setTextSettings({
                           ...textSettings,
@@ -937,17 +970,20 @@ export default function AdminGallery() {
                       }
                       className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
                       placeholder="Ex: COLEÇÃO LIFESTYLE"
+=======
+                      onChange={(value) => setTextSettings({ ...textSettings, section_title: value })}
+                      placeholder="Ex: COLEÇÃO {ecko}LIFESTYLE{/ecko}"
+                      rows={2}
+>>>>>>> 6f347c33f456ebfde3010de06c74897918b05ac0
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Subtítulo
-                  </label>
-                  <input
-                    type="text"
+                  <TokenColorEditor
+                    label="Subtítulo"
                     value={textSettings.section_subtitle}
+<<<<<<< HEAD
                     onChange={(e) =>
                       setTextSettings({
                         ...textSettings,
@@ -956,15 +992,19 @@ export default function AdminGallery() {
                     }
                     className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
                     placeholder="Ex: Descubra o lifestyle autêntico da Ecko"
+=======
+                    onChange={(value) => setTextSettings({ ...textSettings, section_subtitle: value })}
+                    placeholder="Ex: Descubra o lifestyle {ecko}autêntico{/ecko} da Ecko"
+                    rows={2}
+>>>>>>> 6f347c33f456ebfde3010de06c74897918b05ac0
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Descrição da Seção
-                  </label>
-                  <textarea
+                  <TokenColorEditor
+                    label="Descrição da Seção"
                     value={textSettings.section_description}
+<<<<<<< HEAD
                     onChange={(e) =>
                       setTextSettings({
                         ...textSettings,
@@ -972,8 +1012,11 @@ export default function AdminGallery() {
                       })
                     }
                     className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+=======
+                    onChange={(value) => setTextSettings({ ...textSettings, section_description: value })}
+                    placeholder="Descubra o lifestyle {ecko}autêntico{/ecko} da Ecko através de looks que representam a {blue}essência{/blue} do streetwear..."
+>>>>>>> 6f347c33f456ebfde3010de06c74897918b05ac0
                     rows={3}
-                    placeholder="Descrição completa da seção lifestyle..."
                   />
                 </div>
 
@@ -984,12 +1027,10 @@ export default function AdminGallery() {
 
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Título do CTA
-                      </label>
-                      <input
-                        type="text"
+                      <TokenColorEditor
+                        label="Título do CTA"
                         value={textSettings.cta_title}
+<<<<<<< HEAD
                         onChange={(e) =>
                           setTextSettings({
                             ...textSettings,
@@ -998,16 +1039,19 @@ export default function AdminGallery() {
                         }
                         className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
                         placeholder="Ex: Tenha Estes Produtos em Sua Loja!"
+=======
+                        onChange={(value) => setTextSettings({ ...textSettings, cta_title: value })}
+                        placeholder="Ex: Tenha Estes {ecko}Produtos{/ecko} em Sua Loja!"
+                        rows={2}
+>>>>>>> 6f347c33f456ebfde3010de06c74897918b05ac0
                       />
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Descrição do CTA
-                      </label>
-                      <input
-                        type="text"
+                      <TokenColorEditor
+                        label="Descrição do CTA"
                         value={textSettings.cta_description}
+<<<<<<< HEAD
                         onChange={(e) =>
                           setTextSettings({
                             ...textSettings,
@@ -1016,16 +1060,19 @@ export default function AdminGallery() {
                         }
                         className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
                         placeholder="Ex: Produtos com alta demanda e excelente margem de lucro esperando por você"
+=======
+                        onChange={(value) => setTextSettings({ ...textSettings, cta_description: value })}
+                        placeholder="Ex: Produtos com {green}alta demanda{/green} e {blue}excelente margem{/blue} de lucro esperando por você"
+                        rows={2}
+>>>>>>> 6f347c33f456ebfde3010de06c74897918b05ac0
                       />
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Texto do Botão
-                      </label>
-                      <input
-                        type="text"
+                      <TokenColorEditor
+                        label="Texto do Botão"
                         value={textSettings.cta_button_text}
+<<<<<<< HEAD
                         onChange={(e) =>
                           setTextSettings({
                             ...textSettings,
@@ -1034,6 +1081,11 @@ export default function AdminGallery() {
                         }
                         className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
                         placeholder="Ex: QUERO ESSES PRODUTOS NA MINHA LOJA"
+=======
+                        onChange={(value) => setTextSettings({ ...textSettings, cta_button_text: value })}
+                        placeholder="Ex: QUERO ESSES {white}PRODUTOS{/white} NA MINHA LOJA"
+                        rows={2}
+>>>>>>> 6f347c33f456ebfde3010de06c74897918b05ac0
                       />
                     </div>
                   </div>
@@ -1107,29 +1159,36 @@ export default function AdminGallery() {
             </CardHeader>
             <CardContent>
               <div className="bg-black rounded-lg p-8 text-center">
-                <span className="text-ecko-red font-bold uppercase tracking-wider text-sm">
-                  {textSettings.section_tag}
-                </span>
-                <h2 className="text-3xl md:text-4xl font-black text-white mb-4 uppercase tracking-tight leading-tight mt-2">
-                  {textSettings.section_title}
-                </h2>
-                <span className="block text-lg text-gray-300 mb-4 font-medium">
-                  {textSettings.section_subtitle}
-                </span>
-                <p className="text-gray-300 text-base max-w-2xl mx-auto leading-relaxed">
-                  {textSettings.section_description}
-                </p>
+                <span
+                  className="text-ecko-red font-bold uppercase tracking-wider text-sm"
+                  dangerouslySetInnerHTML={{ __html: renderTokens(textSettings.section_tag) }}
+                />
+                <h2
+                  className="text-3xl md:text-4xl font-black text-white mb-4 uppercase tracking-tight leading-tight mt-2"
+                  dangerouslySetInnerHTML={{ __html: renderTokens(textSettings.section_title) }}
+                />
+                <span
+                  className="block text-lg text-gray-300 mb-4 font-medium"
+                  dangerouslySetInnerHTML={{ __html: renderTokens(textSettings.section_subtitle) }}
+                />
+                <p
+                  className="text-gray-300 text-base max-w-2xl mx-auto leading-relaxed"
+                  dangerouslySetInnerHTML={{ __html: renderTokens(textSettings.section_description) }}
+                />
 
                 <div className="mt-8 p-6 bg-gradient-to-r from-red-600/10 to-red-800/10 rounded-lg border border-red-600/20">
-                  <h3 className="text-xl font-bold text-white mb-2">
-                    {textSettings.cta_title}
-                  </h3>
-                  <p className="text-gray-300 mb-4">
-                    {textSettings.cta_description}
-                  </p>
-                  <div className="bg-red-600 text-white px-6 py-2 rounded-lg font-bold text-sm inline-block">
-                    {textSettings.cta_button_text}
-                  </div>
+                  <h3
+                    className="text-xl font-bold text-white mb-2"
+                    dangerouslySetInnerHTML={{ __html: renderTokens(textSettings.cta_title) }}
+                  />
+                  <p
+                    className="text-gray-300 mb-4"
+                    dangerouslySetInnerHTML={{ __html: renderTokens(textSettings.cta_description) }}
+                  />
+                  <div
+                    className="bg-red-600 text-white px-6 py-2 rounded-lg font-bold text-sm inline-block"
+                    dangerouslySetInnerHTML={{ __html: renderTokens(textSettings.cta_button_text) }}
+                  />
                 </div>
 
                 <div className="mt-6 p-4 bg-gray-800 rounded-lg">

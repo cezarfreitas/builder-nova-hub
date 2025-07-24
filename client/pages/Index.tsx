@@ -86,6 +86,15 @@ export default function Index() {
       "Produtos com alta demanda e excelente margem de lucro esperando por você",
     cta_button_text: "QUERO ESSES PRODUTOS NA MINHA LOJA",
   });
+  const [testimonialsTexts, setTestimonialsTexts] = useState({
+    section_tag: 'Depoimentos',
+    section_title: 'O que nossos revendedores dizem',
+    section_subtitle: 'casos reais de sucesso',
+    section_description: 'Depoimentos reais de parceiros que transformaram suas paixões em negócios lucrativos com a Ecko',
+    cta_title: 'Seja o próximo case de sucesso!',
+    cta_description: 'Junte-se aos revendedores que já transformaram seus negócios',
+    cta_button_text: 'QUERO SER UM CASE DE SUCESSO'
+  });
   const [startTime] = useState(Date.now());
   const [userId] = useState(() => {
     // Gerar user_id único baseado em dados do navegador
@@ -429,7 +438,16 @@ export default function Index() {
 
       if (result.success) {
         const settings = result.data;
+
+        // Função para extrair valor da configuração (pode ser string ou objeto)
+        const getValue = (setting: any) => {
+          if (typeof setting === 'string') return setting;
+          if (setting && typeof setting === 'object' && setting.value) return setting.value;
+          return '';
+        };
+
         setGalleryTexts({
+<<<<<<< HEAD
           section_title:
             settings.gallery_section_title?.value || "COLEÇÃO LIFESTYLE",
           section_subtitle:
@@ -453,10 +471,52 @@ export default function Index() {
           cta_button_text:
             settings.gallery_cta_button_text?.value ||
             "QUERO ESSES PRODUTOS NA MINHA LOJA",
+=======
+          section_title: getValue(settings.gallery_section_title) || 'COLEÇÃO LIFESTYLE',
+          section_subtitle: getValue(settings.gallery_section_subtitle) || 'Viva o estilo Ecko',
+          section_description: getValue(settings.gallery_section_description) || 'Descubra o lifestyle autêntico da Ecko através de looks que representam a essência do streetwear e a cultura urbana que define nossa marca',
+          section_tag: getValue(settings.gallery_section_tag) || 'Lifestyle Gallery',
+          empty_state_title: getValue(settings.gallery_empty_title) || 'Galeria em Construção',
+          empty_state_description: getValue(settings.gallery_empty_description) || 'Em breve nossa galeria estará repleta de produtos incríveis!',
+          cta_title: getValue(settings.gallery_cta_title) || 'Tenha Estes Produtos em Sua Loja!',
+          cta_description: getValue(settings.gallery_cta_description) || 'Produtos com alta demanda e excelente margem de lucro esperando por você',
+          cta_button_text: getValue(settings.gallery_cta_button_text) || 'QUERO ESSES PRODUTOS NA MINHA LOJA'
+>>>>>>> 6f347c33f456ebfde3010de06c74897918b05ac0
         });
       }
     } catch (error) {
       console.error("Erro ao buscar textos da galeria:", error);
+    }
+  };
+
+  // Função para buscar textos da seção depoimentos
+  const fetchTestimonialsTexts = async () => {
+    try {
+      const response = await fetch('/api/settings');
+      const result = await response.json();
+
+      if (result.success) {
+        const settings = result.data;
+
+        // Função para extrair valor da configuração (pode ser string ou objeto)
+        const getValue = (setting: any) => {
+          if (typeof setting === 'string') return setting;
+          if (setting && typeof setting === 'object' && setting.value) return setting.value;
+          return '';
+        };
+
+        setTestimonialsTexts({
+          section_tag: getValue(settings.testimonials_section_tag) || 'Depoimentos',
+          section_title: getValue(settings.testimonials_section_title) || 'O que nossos revendedores dizem',
+          section_subtitle: getValue(settings.testimonials_section_subtitle) || 'casos reais de sucesso',
+          section_description: getValue(settings.testimonials_section_description) || 'Depoimentos reais de parceiros que transformaram suas paixões em negócios lucrativos com a Ecko',
+          cta_title: getValue(settings.testimonials_cta_title) || 'Seja o próximo case de sucesso!',
+          cta_description: getValue(settings.testimonials_cta_description) || 'Junte-se aos revendedores que já transformaram seus negócios',
+          cta_button_text: getValue(settings.testimonials_cta_button_text) || 'QUERO SER UM CASE DE SUCESSO'
+        });
+      }
+    } catch (error) {
+      console.error('Erro ao buscar textos dos depoimentos:', error);
     }
   };
 
@@ -566,6 +626,7 @@ export default function Index() {
     // Definir dados estáticos no carregamento
     fetchGalleryImages();
     fetchGalleryTexts();
+    fetchTestimonialsTexts();
     setFaqs(staticFAQs);
     fetchTestimonials();
 
@@ -1503,6 +1564,7 @@ export default function Index() {
             <div className="text-center mb-16">
               <div className="inline-flex items-center bg-ecko-red/20 backdrop-blur-sm border border-ecko-red/30 rounded-full px-6 py-3 mb-6">
                 <span className="text-ecko-red font-bold uppercase tracking-wider text-sm">
+<<<<<<< HEAD
                   Por que escolher a Ecko?
                 </span>
               </div>
@@ -1518,6 +1580,19 @@ export default function Index() {
               <p className="text-gray-300 text-lg max-w-3xl mx-auto leading-relaxed">
                 Descubra os benefícios únicos que fazem da Ecko a escolha certa
                 para impulsionar seu negócio no mundo da moda streetwear
+=======
+                  {renderTextWithColorTokens(testimonialsTexts.section_tag)}
+                </span>
+              </div>
+              <h2 className="text-3xl md:text-5xl font-black text-white mb-6 leading-tight">
+                {renderTextWithColorTokens(testimonialsTexts.section_title)}
+                <span className="block text-xl md:text-2xl text-gray-300 mt-2 font-medium normal-case tracking-normal">
+                  {renderTextWithColorTokens(testimonialsTexts.section_subtitle)}
+                </span>
+              </h2>
+              <p className="text-gray-300 text-lg max-w-3xl mx-auto leading-relaxed">
+                {renderTextWithColorTokens(testimonialsTexts.section_description)}
+>>>>>>> 6f347c33f456ebfde3010de06c74897918b05ac0
               </p>
             </div>
 
@@ -1595,17 +1670,27 @@ export default function Index() {
             {/* Bottom CTA */}
             <div className="text-center mt-16">
               <div className="bg-gradient-to-r from-ecko-red/10 to-ecko-red-dark/10 rounded-2xl p-6 border border-ecko-red/20 backdrop-blur-sm max-w-2xl mx-auto">
+<<<<<<< HEAD
                 <div className="inline-flex items-center gap-2 text-white font-semibold text-lg mb-4">
                   <span>
                     Junte-se a milhares de parceiros que já confiam na Ecko
                   </span>
                 </div>
+=======
+                <h3 className="text-xl font-bold text-white mb-3">
+                  {renderTextWithColorTokens(testimonialsTexts.cta_title)}
+                </h3>
+                <p className="text-gray-300 mb-4">
+                  {renderTextWithColorTokens(testimonialsTexts.cta_description)}
+                </p>
+>>>>>>> 6f347c33f456ebfde3010de06c74897918b05ac0
                 <Button
                   onClick={() => openFormWithOrigin("benefits-cta")}
                   className="group relative overflow-hidden bg-gradient-to-r from-ecko-red to-ecko-red-dark hover:from-ecko-red-dark hover:to-red-700 text-white px-8 py-4 font-bold text-base shadow-lg hover:shadow-2xl hover:shadow-ecko-red/40 transition-all duration-300 hover:scale-105 uppercase tracking-wider rounded-lg"
                 >
                   <span className="absolute inset-0 bg-gradient-to-r from-red-600 to-red-800 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
                   <span className="relative z-10 flex items-center">
+<<<<<<< HEAD
                     <span className="hidden sm:inline">
                       QUERO FAZER PARTE AGORA
                     </span>
@@ -1820,6 +1905,10 @@ export default function Index() {
                       {galleryTexts.cta_button_text}
                     </span>
                     <span className="sm:hidden">QUERO ESSES PRODUTOS</span>
+=======
+                    <span className="hidden sm:inline">{renderTextWithColorTokens(testimonialsTexts.cta_button_text)}</span>
+                    <span className="sm:hidden">QUERO SER UM CASE</span>
+>>>>>>> 6f347c33f456ebfde3010de06c74897918b05ac0
                     <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </Button>
@@ -1854,6 +1943,7 @@ export default function Index() {
           </div>
         </section>
 
+<<<<<<< HEAD
         {/* CTA Section */}
         <section className="py-16 md:py-20 bg-ecko-red">
           <div className="container mx-auto px-4 sm:px-6 max-w-4xl text-center">
@@ -1864,8 +1954,36 @@ export default function Index() {
             <p className="text-lg sm:text-xl text-white/90 mb-6 sm:mb-8 px-2 leading-relaxed">
               Junte-se aos milhares de revendedores que já transformaram seus
               negócios com a marca mais desejada do streetwear brasileiro!
+=======
+      {/* Gallery Section */}
+      <section className="py-16 md:py-20 bg-gradient-to-b from-black to-gray-900 relative overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-ecko-red/10 via-transparent to-ecko-red/10"></div>
+          <div className="absolute top-1/4 left-1/3 w-72 h-72 bg-ecko-red/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-1/4 right-1/3 w-72 h-72 bg-ecko-red/10 rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="container mx-auto px-6 max-w-7xl relative z-10">
+          {/* Section Header */}
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center bg-ecko-red/20 backdrop-blur-sm border border-ecko-red/30 rounded-full px-6 py-3 mb-6">
+              <span className="text-ecko-red font-bold uppercase tracking-wider text-sm">
+                {renderTextWithColorTokens(galleryTexts.section_tag)}
+              </span>
+            </div>
+            <h2 className="text-3xl md:text-5xl font-black text-white mb-6 uppercase tracking-tight leading-tight">
+              {renderTextWithColorTokens(galleryTexts.section_title)}
+              <span className="block text-xl md:text-2xl text-gray-300 mt-2 font-medium normal-case tracking-normal">
+                {renderTextWithColorTokens(galleryTexts.section_subtitle)}
+              </span>
+            </h2>
+            <p className="text-gray-300 text-lg max-w-3xl mx-auto leading-relaxed">
+              {renderTextWithColorTokens(galleryTexts.section_description)}
+>>>>>>> 6f347c33f456ebfde3010de06c74897918b05ac0
             </p>
 
+<<<<<<< HEAD
             <Button
               onClick={() => openFormWithOrigin("main-cta")}
               className="group relative overflow-hidden bg-white hover:bg-gray-50 text-ecko-red text-base sm:text-lg px-8 sm:px-10 py-4 sm:py-5 h-auto font-black shadow-2xl hover:shadow-black/40 transition-all duration-300 hover:scale-105 uppercase tracking-wider w-full sm:w-auto max-w-sm sm:max-w-none mx-auto rounded-lg border-2 border-white hover:border-gray-200"
@@ -1874,6 +1992,49 @@ export default function Index() {
               <span className="relative z-10 flex items-center">
                 <span className="hidden sm:inline">
                   QUERO SER UM LOJISTA AUTORIZADO
+=======
+          {/* Gallery Grid - 4x2 mobile, 4x4 desktop */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+            {galleryImages.slice(0, 12).map((image, index) => (
+              <div
+                key={image.id || index}
+                className="group relative bg-gray-900 rounded-xl md:rounded-2xl overflow-hidden border border-gray-600 hover:border-ecko-red transition-all duration-500 transform hover:-translate-y-1 hover:scale-105"
+              >
+                <div className="aspect-square overflow-hidden">
+                  <img
+                    src={image.image_url}
+                    alt={image.alt_text || image.title}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
+                </div>
+
+
+
+                {/* Border Glow Effect */}
+                <div className="absolute inset-0 rounded-xl md:rounded-2xl bg-gradient-to-r from-ecko-red/20 via-transparent to-ecko-red/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+              </div>
+            ))}
+          </div>
+
+          {/* CTA Section for Gallery */}
+          <div className="text-center mt-12 md:mt-16">
+            <div className="bg-gradient-to-r from-ecko-red/10 to-ecko-red-dark/10 rounded-2xl p-6 border border-ecko-red/20 backdrop-blur-sm max-w-2xl mx-auto">
+              <h3 className="text-2xl font-bold text-white mb-3">
+                {renderTextWithColorTokens(galleryTexts.cta_title)}
+              </h3>
+              <p className="text-gray-300 mb-6">
+                {renderTextWithColorTokens(galleryTexts.cta_description)}
+              </p>
+              <Button
+                onClick={() => openFormWithOrigin('gallery-cta')}
+                className="group relative overflow-hidden bg-gradient-to-r from-ecko-red to-ecko-red-dark hover:from-ecko-red-dark hover:to-red-700 text-white px-8 py-4 font-bold text-base shadow-lg hover:shadow-2xl hover:shadow-ecko-red/40 transition-all duration-300 hover:scale-105 uppercase tracking-wider rounded-lg"
+              >
+                <span className="absolute inset-0 bg-gradient-to-r from-red-600 to-red-800 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                <span className="relative z-10 flex items-center">
+                  <span className="hidden sm:inline">{renderTextWithColorTokens(galleryTexts.cta_button_text)}</span>
+                  <span className="sm:hidden">QUERO ESSES PRODUTOS</span>
+                  <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+>>>>>>> 6f347c33f456ebfde3010de06c74897918b05ac0
                 </span>
                 <span className="sm:hidden">QUERO SER LOJISTA</span>
                 <ArrowRight className="ml-2 sm:ml-3 w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-1 transition-transform" />
