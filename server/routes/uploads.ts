@@ -428,10 +428,24 @@ export async function uploadGalleryImage(req: Request, res: Response) {
       const compressedFilename = `${nameWithoutExt}-compressed${ext}`;
       const compressedPath = path.join(path.dirname(file.path), compressedFilename);
 
-      // Configurações de compactação para galeria
-      const quality = file.size > 2 * 1024 * 1024 ? 85 : 90;
-      const maxWidth = 800;
-      const maxHeight = 800;
+      // Configurações de compactação para galeria (otimizada para modal)
+      const isLargeFile = file.size > 2 * 1024 * 1024; // > 2MB
+      const isVeryLargeFile = file.size > 4 * 1024 * 1024; // > 4MB
+
+      // Qualidade baseada no tamanho - manter alta qualidade para modal
+      let quality = 92; // Alta qualidade por padrão
+      let maxWidth = 1200; // Tamanho adequado para modal
+      let maxHeight = 1200;
+
+      if (isVeryLargeFile) {
+        quality = 88; // Ainda alta qualidade mesmo em arquivos grandes
+        maxWidth = 1000;
+        maxHeight = 1000;
+      } else if (isLargeFile) {
+        quality = 90;
+        maxWidth = 1100;
+        maxHeight = 1100;
+      }
 
       let sharpInstance = sharp(file.path)
         .resize(maxWidth, maxHeight, {
