@@ -2,14 +2,14 @@
   "section_order": {
     "enabled_sections": [
       {
-        "id": "about",
-        "name": "Sobre a Ecko",
+        "id": "hero",
+        "name": "Hero Section",
         "enabled": true,
         "order": 1
       },
       {
-        "id": "hero",
-        "name": "Hero Section",
+        "id": "about",
+        "name": "Sobre a Ecko",
         "enabled": true,
         "order": 2
       },
