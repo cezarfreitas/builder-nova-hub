@@ -372,12 +372,32 @@ export default function Index() {
           name: "Ricardo Silva",
           company: "Silva Streetwear",
           role: "Proprietário",
-          content: "Trabalhar com a Ecko mudou completamente meu negócio. As vendas triplicaram em apenas 6 meses!",
+          content: "Trabalhar com a Ecko mudou completamente meu neg��cio. As vendas triplicaram em apenas 6 meses!",
           avatar_url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
           rating: 5,
           is_active: true,
         }
       ]);
+    }
+  };
+
+  // Função para buscar imagens da galeria da API
+  const fetchGalleryImages = async () => {
+    try {
+      const response = await fetch('/api/gallery?active_only=true');
+      const result = await response.json();
+
+      if (result.success) {
+        setGalleryImages(result.data.images);
+      } else {
+        console.error('Erro ao carregar galeria:', result.message);
+        // Fallback para dados estáticos em caso de erro
+        setGalleryImages(staticGalleryImages.slice(0, 6));
+      }
+    } catch (error) {
+      console.error('Erro ao buscar galeria:', error);
+      // Fallback para dados estáticos em caso de erro
+      setGalleryImages(staticGalleryImages.slice(0, 6));
     }
   };
 
