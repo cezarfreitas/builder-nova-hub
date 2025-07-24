@@ -590,7 +590,7 @@ export default function AdminBenefits() {
                 <h4 className="font-medium text-blue-900">Informação</h4>
               </div>
               <p className="text-sm text-blue-700">
-                Esta seção gerencia apenas os textos. Os benefícios individuais (cards) são fixos no código e incluem: Marca Internacional, Pronta Entrega, Suporte ao Lojista e Totalmente Online.
+                Esta seção gerencia tanto os textos principais quanto os cards de benefícios individuais. Você pode editar os títulos e descrições de cada card de benefício acima.
               </p>
             </div>
           </CardContent>
