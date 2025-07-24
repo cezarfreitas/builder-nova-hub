@@ -768,23 +768,40 @@ export default function AdminAnalytics() {
           <CardHeader>
             <CardTitle className="flex items-center">
               <Globe className="w-5 h-5 mr-2 text-indigo-600" />
-              Principais Fontes de Tráfego
+              Fontes de Tráfego
             </CardTitle>
+            <p className="text-sm text-gray-600 mt-2">
+              {trafficSources ? `${trafficSources.total_visits} visitas rastreadas` : 'Dados de origem do tráfego'}
+            </p>
           </CardHeader>
           <CardContent>
             <div style={{ height: '250px' }}>
               {trafficSourcesData && <Doughnut data={trafficSourcesData} options={doughnutOptions} />}
             </div>
-            {trafficSources && (
-              <div className="mt-4 space-y-2">
-                {trafficSources.sources.slice(0, 3).map((source, index) => (
-                  <div key={index} className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600">{source.source_name}</span>
-                    <Badge className="bg-gray-100 text-gray-800">
-                      {source.total_leads} leads
-                    </Badge>
+            {trafficSources && trafficSources.sources.length > 0 ? (
+              <div className="mt-4 space-y-3">
+                {trafficSources.sources.slice(0, 5).map((source, index) => (
+                  <div key={index} className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                    <div className="flex items-center">
+                      <div className="w-3 h-3 rounded-full mr-3" style={{
+                        backgroundColor: ['#dc2626', '#16a34a', '#2563eb', '#ca8a04', '#7c3aed'][index] || '#6b7280'
+                      }}></div>
+                      <span className="font-medium text-gray-900">{source.source_name}</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Badge className="bg-blue-100 text-blue-800">
+                        {source.total_visits} visitas
+                      </Badge>
+                      <span className="text-sm text-gray-500">{source.percentage}%</span>
+                    </div>
                   </div>
                 ))}
+              </div>
+            ) : (
+              <div className="mt-4 text-center text-gray-500">
+                <Globe className="w-12 h-12 mx-auto mb-2 text-gray-300" />
+                <p>Nenhuma fonte de tráfego rastreada ainda</p>
+                <p className="text-sm">Aguarde visitantes para ver as origens</p>
               </div>
             )}
           </CardContent>
