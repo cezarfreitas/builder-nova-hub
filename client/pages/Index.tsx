@@ -1208,6 +1208,7 @@ export default function Index() {
             {/* Benefits Grid */}
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
               {content.benefits.cards?.map((card: any) => {
+                console.log('Renderizando card:', card);
                 // Map icon names to actual icon components
                 const iconMap: { [key: string]: any } = {
                   Globe,
