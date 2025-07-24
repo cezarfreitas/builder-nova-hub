@@ -174,7 +174,7 @@ export default function Index() {
       // Validação do WhatsApp
       if (formattedValue && !validateWhatsApp(formattedValue)) {
         setWhatsappError(
-          "Digite um número de WhatsApp válido. Ex: (11) 99999-9999",
+          content.form.fields.whatsapp_error,
         );
       } else {
         setWhatsappError("");
