@@ -899,15 +899,12 @@ export default function AdminGallery() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Texto do Botão
-                      </label>
-                      <input
-                        type="text"
+                      <TokenColorEditor
+                        label="Texto do Botão"
                         value={textSettings.cta_button_text}
-                        onChange={(e) => setTextSettings({ ...textSettings, cta_button_text: e.target.value })}
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
-                        placeholder="Ex: QUERO ESSES PRODUTOS NA MINHA LOJA"
+                        onChange={(value) => setTextSettings({ ...textSettings, cta_button_text: value })}
+                        placeholder="Ex: QUERO ESSES {white}PRODUTOS{/white} NA MINHA LOJA"
+                        rows={2}
                       />
                     </div>
                   </div>
