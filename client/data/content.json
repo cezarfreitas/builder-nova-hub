@@ -1,0 +1,58 @@
+{
+  "hero": {
+    "enabled": true,
+    "title": "SEJA PARCEIRO OFICIAL ECKO E TENHA [SUCESSO]",
+    "subtitle": "A marca mais desejada do streetwear brasileiro",
+    "description": "Junte-se aos milhares de revendedores que já transformaram seus negócios com produtos de alta qualidade e excelente margem de lucro",
+    "cta_text": "QUERO SER REVENDEDOR",
+    "cta_secondary_text": "DESCUBRA AS VANTAGENS",
+    "logo_url": "/logo-ecko.png",
+    "background_image": "https://images.pexels.com/photos/7231215/pexels-photo-7231215.jpeg?auto=compress&cs=tinysrgb&w=1920",
+    "background_color": "#000000",
+    "text_color": "#ffffff",
+    "cta_color": "#dc2626",
+    "cta_text_color": "#ffffff"
+  },
+  "benefits": {
+    "section_tag": "Por que escolher a Ecko?",
+    "section_title": "VANTAGENS [EXCLUSIVAS]",
+    "section_subtitle": "para nossos parceiros",
+    "section_description": "Descubra os benefícios únicos que fazem da Ecko a escolha certa para impulsionar seu negócio no mundo da moda streetwear",
+    "cta_title": "Junte-se a milhares de parceiros que já confiam na Ecko",
+    "cta_button_text": "QUERO FAZER PARTE AGORA"
+  },
+  "gallery": {
+    "section_tag": "Lifestyle Gallery",
+    "section_title": "COLEÇÃO LIFESTYLE",
+    "section_subtitle": "Viva o estilo Ecko",
+    "section_description": "Descubra o lifestyle autêntico da Ecko através de looks que representam a essência do streetwear e a cultura urbana que define nossa marca",
+    "empty_state_title": "Galeria em Construção",
+    "empty_state_description": "Em breve nossa galeria estará repleta de produtos incríveis!",
+    "cta_title": "Tenha Estes Produtos em Sua Loja!",
+    "cta_description": "Produtos com alta demanda e excelente margem de lucro esperando por você",
+    "cta_button_text": "QUERO ESSES PRODUTOS NA MINHA LOJA"
+  },
+  "testimonials": {
+    "section_tag": "Depoimentos",
+    "section_title": "O que nossos revendedores dizem",
+    "section_subtitle": "casos reais de sucesso",
+    "section_description": "Depoimentos reais de parceiros que transformaram suas paixões em negócios lucrativos com a Ecko",
+    "cta_title": "Seja o próximo case de sucesso!",
+    "cta_description": "Junte-se aos revendedores que já transformaram seus negócios",
+    "cta_button_text": "QUERO SER UM CASE DE SUCESSO"
+  },
+  "faq": {
+    "section_tag": "Dúvidas Frequentes",
+    "section_title": "Perguntas [Frequentes]",
+    "section_subtitle": "tire suas dúvidas",
+    "section_description": "Encontre respostas para as principais dúvidas sobre como se tornar um parceiro oficial da Ecko",
+    "cta_title": "Ainda tem dúvidas?",
+    "cta_description": "Nossa equipe está pronta para esclarecer qualquer questão",
+    "cta_button_text": "FALAR COM ESPECIALISTA"
+  },
+  "final_cta": {
+    "title": "PRONTO PARA FAZER PARTE DA FAMÍLIA ECKO?",
+    "description": "Junte-se aos milhares de revendedores que já transformaram seus negócios com a marca mais desejada do streetwear brasileiro!",
+    "button_text": "QUERO SER UM LOJISTA AUTORIZADO"
+  }
+}
