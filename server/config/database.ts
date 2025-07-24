@@ -1,4 +1,4 @@
-import mysql from 'mysql2/promise';
+import mysql from "mysql2/promise";
 
 export interface DatabaseConfig {
   host: string;
@@ -11,11 +11,11 @@ export interface DatabaseConfig {
 // Configuração do banco de dados a partir da URL fornecida
 // mysql://lpdb:52ba0e00cff2c44683f2@5.161.52.206:3040/lpdb
 const dbConfig: DatabaseConfig = {
-  host: '5.161.52.206',
+  host: "5.161.52.206",
   port: 3040,
-  user: 'lpdb',
-  password: '52ba0e00cff2c44683f2',
-  database: 'lpdb'
+  user: "lpdb",
+  password: "52ba0e00cff2c44683f2",
+  database: "lpdb",
 };
 
 let pool: mysql.Pool | null = null;
@@ -26,7 +26,7 @@ export function getDatabase(): mysql.Pool {
       ...dbConfig,
       waitForConnections: true,
       connectionLimit: 10,
-      queueLimit: 0
+      queueLimit: 0,
     });
   }
   return pool;
@@ -38,17 +38,17 @@ export async function testConnection(): Promise<boolean> {
     const connection = await db.getConnection();
     await connection.ping();
     connection.release();
-    console.log('✅ Conexão com MySQL estabelecida com sucesso!');
+    console.log("✅ Conexão com MySQL estabelecida com sucesso!");
     return true;
   } catch (error) {
-    console.error('❌ Erro ao conectar com o banco de dados:', error);
+    console.error("❌ Erro ao conectar com o banco de dados:", error);
     return false;
   }
 }
 
 export async function initializeDatabase(): Promise<void> {
   const db = getDatabase();
-  
+
   try {
     // Tabela de configurações da LP
     await db.execute(`
@@ -99,11 +99,11 @@ export async function initializeDatabase(): Promise<void> {
         ALTER TABLE leads
         ADD COLUMN tipo_loja ENUM('fisica', 'online', 'ambas') DEFAULT NULL
       `);
-      console.log('✅ Coluna tipo_loja adicionada à tabela leads');
+      console.log("✅ Coluna tipo_loja adicionada à tabela leads");
     } catch (error: any) {
       // Se a coluna já existir, apenas log (não é erro)
-      if (error.code !== 'ER_DUP_FIELDNAME') {
-        console.log('⚠️ Coluna tipo_loja já existe ou erro:', error.message);
+      if (error.code !== "ER_DUP_FIELDNAME") {
+        console.log("⚠️ Coluna tipo_loja já existe ou erro:", error.message);
       }
     }
 
@@ -113,33 +113,35 @@ export async function initializeDatabase(): Promise<void> {
         ALTER TABLE leads
         ADD COLUMN form_origin VARCHAR(100) DEFAULT NULL
       `);
-      console.log('✅ Coluna form_origin adicionada à tabela leads');
+      console.log("✅ Coluna form_origin adicionada à tabela leads");
     } catch (error: any) {
-      if (error.code !== 'ER_DUP_FIELDNAME') {
-        console.log('⚠️ Coluna form_origin já existe ou erro:', error.message);
+      if (error.code !== "ER_DUP_FIELDNAME") {
+        console.log("⚠️ Coluna form_origin já existe ou erro:", error.message);
       }
     }
 
     // Migração: Adicionar campos de endereço (exceto cidade que já existe)
     const addressColumns = [
-      'ADD COLUMN cep VARCHAR(10) DEFAULT NULL',
-      'ADD COLUMN endereco VARCHAR(255) DEFAULT NULL',
-      'ADD COLUMN numero VARCHAR(10) DEFAULT NULL',
-      'ADD COLUMN complemento VARCHAR(100) DEFAULT NULL',
-      'ADD COLUMN bairro VARCHAR(100) DEFAULT NULL',
-      'ADD COLUMN estado VARCHAR(2) DEFAULT NULL'
+      "ADD COLUMN cep VARCHAR(10) DEFAULT NULL",
+      "ADD COLUMN endereco VARCHAR(255) DEFAULT NULL",
+      "ADD COLUMN numero VARCHAR(10) DEFAULT NULL",
+      "ADD COLUMN complemento VARCHAR(100) DEFAULT NULL",
+      "ADD COLUMN bairro VARCHAR(100) DEFAULT NULL",
+      "ADD COLUMN estado VARCHAR(2) DEFAULT NULL",
     ];
 
     for (const column of addressColumns) {
       try {
         await db.execute(`ALTER TABLE leads ${column}`);
       } catch (error: any) {
-        if (error.code !== 'ER_DUP_FIELDNAME') {
+        if (error.code !== "ER_DUP_FIELDNAME") {
           console.log(`⚠️ Erro ao adicionar coluna: ${error.message}`);
         }
       }
     }
-    console.log('✅ Colunas de endereço verificadas/adicionadas à tabela leads');
+    console.log(
+      "✅ Colunas de endereço verificadas/adicionadas à tabela leads",
+    );
 
     // Tabela de eventos do pixel/analytics
     await db.execute(`
@@ -206,19 +208,24 @@ export async function initializeDatabase(): Promise<void> {
         ALTER TABLE analytics_events
         ADD COLUMN duration_seconds INT DEFAULT 0
       `);
-      console.log('✅ Coluna duration_seconds adicionada à tabela analytics_events');
+      console.log(
+        "✅ Coluna duration_seconds adicionada à tabela analytics_events",
+      );
     } catch (error: any) {
-      if (error.code !== 'ER_DUP_FIELDNAME') {
-        console.log('⚠️ Coluna duration_seconds já existe ou erro:', error.message);
+      if (error.code !== "ER_DUP_FIELDNAME") {
+        console.log(
+          "⚠️ Coluna duration_seconds já existe ou erro:",
+          error.message,
+        );
       }
     }
 
     // Inserir configurações padrão se não existirem
     await insertDefaultSettings(db);
-    
-    console.log('✅ Banco de dados inicializado com sucesso!');
+
+    console.log("✅ Banco de dados inicializado com sucesso!");
   } catch (error) {
-    console.error('❌ Erro ao inicializar banco de dados:', error);
+    console.error("❌ Erro ao inicializar banco de dados:", error);
     throw error;
   }
 }
@@ -226,40 +233,72 @@ export async function initializeDatabase(): Promise<void> {
 async function insertDefaultSettings(db: mysql.Pool): Promise<void> {
   const defaultSettings = [
     // SEO Settings
-    { key: 'seo_title', value: 'Seja uma Revenda Autorizada da Ecko | Tenha os Melhores Produtos em sua Loja', type: 'text' },
-    { key: 'seo_description', value: 'Seja uma revenda autorizada da Ecko e tenha os melhores produtos de streetwear em sua loja. Transforme sua paixão em lucro com exclusividade territorial e suporte completo.', type: 'text' },
-    { key: 'seo_keywords', value: 'revenda autorizada ecko, melhores produtos streetwear, lojista autorizado', type: 'text' },
-    { key: 'seo_canonical_url', value: 'https://revendedores.ecko.com.br/', type: 'text' },
-    { key: 'seo_og_image', value: 'https://estyle.vteximg.com.br/arquivos/ecko_mosaic5.png', type: 'text' },
-    
+    {
+      key: "seo_title",
+      value:
+        "Seja uma Revenda Autorizada da Ecko | Tenha os Melhores Produtos em sua Loja",
+      type: "text",
+    },
+    {
+      key: "seo_description",
+      value:
+        "Seja uma revenda autorizada da Ecko e tenha os melhores produtos de streetwear em sua loja. Transforme sua paixão em lucro com exclusividade territorial e suporte completo.",
+      type: "text",
+    },
+    {
+      key: "seo_keywords",
+      value:
+        "revenda autorizada ecko, melhores produtos streetwear, lojista autorizado",
+      type: "text",
+    },
+    {
+      key: "seo_canonical_url",
+      value: "https://revendedores.ecko.com.br/",
+      type: "text",
+    },
+    {
+      key: "seo_og_image",
+      value: "https://estyle.vteximg.com.br/arquivos/ecko_mosaic5.png",
+      type: "text",
+    },
+
     // Webhook Settings
-    { key: 'webhook_url', value: '', type: 'text' },
-    { key: 'webhook_secret', value: '', type: 'text' },
-    { key: 'webhook_timeout', value: '30', type: 'number' },
-    { key: 'webhook_retries', value: '3', type: 'number' },
-    
+    { key: "webhook_url", value: "", type: "text" },
+    { key: "webhook_secret", value: "", type: "text" },
+    { key: "webhook_timeout", value: "30", type: "number" },
+    { key: "webhook_retries", value: "3", type: "number" },
+
     // Design Settings
-    { key: 'theme_primary_color', value: '#dc2626', type: 'text' },
-    { key: 'theme_secondary_color', value: '#111827', type: 'text' },
-    { key: 'theme_background_color', value: '#000000', type: 'text' },
-    { key: 'theme_text_color', value: '#ffffff', type: 'text' },
-    { key: 'theme_font_heading', value: 'inter', type: 'text' },
-    { key: 'theme_font_body', value: 'inter', type: 'text' },
-    
+    { key: "theme_primary_color", value: "#dc2626", type: "text" },
+    { key: "theme_secondary_color", value: "#111827", type: "text" },
+    { key: "theme_background_color", value: "#000000", type: "text" },
+    { key: "theme_text_color", value: "#ffffff", type: "text" },
+    { key: "theme_font_heading", value: "inter", type: "text" },
+    { key: "theme_font_body", value: "inter", type: "text" },
+
     // Content Settings
-    { key: 'hero_title', value: 'TRANSFORME SUA PAIXÃO EM LUCRO', type: 'text' },
-    { key: 'hero_subtitle', value: 'Seja uma revenda autorizada da Ecko e tenha os melhores produtos de streetwear em sua loja!', type: 'text' },
-    
+    {
+      key: "hero_title",
+      value: "TRANSFORME SUA PAIXÃO EM LUCRO",
+      type: "text",
+    },
+    {
+      key: "hero_subtitle",
+      value:
+        "Seja uma revenda autorizada da Ecko e tenha os melhores produtos de streetwear em sua loja!",
+      type: "text",
+    },
+
     // Analytics/Pixel Settings
-    { key: 'facebook_pixel_id', value: '1234567890', type: 'text' },
-    { key: 'google_analytics_id', value: 'G-XXXXXXXXXX', type: 'text' },
-    { key: 'google_tag_manager_id', value: 'GTM-XXXXXXX', type: 'text' }
+    { key: "facebook_pixel_id", value: "1234567890", type: "text" },
+    { key: "google_analytics_id", value: "G-XXXXXXXXXX", type: "text" },
+    { key: "google_tag_manager_id", value: "GTM-XXXXXXX", type: "text" },
   ];
 
   for (const setting of defaultSettings) {
     await db.execute(
       `INSERT IGNORE INTO lp_settings (setting_key, setting_value, setting_type) VALUES (?, ?, ?)`,
-      [setting.key, setting.value, setting.type]
+      [setting.key, setting.value, setting.type],
     );
   }
 }
