@@ -100,7 +100,7 @@ export default function Index() {
       id: 1,
       question: "Como me tornar um revendedor oficial da Ecko?",
       answer:
-        "Para se tornar um revendedor oficial, voc�� precisa ter CNPJ ativo e preencher nosso formulário de cadastro. Nossa equipe entrará em contato em até 24h para apresentar as condições comerciais e processo de aprovação.",
+        "Para se tornar um revendedor oficial, você precisa ter CNPJ ativo e preencher nosso formulário de cadastro. Nossa equipe entrará em contato em até 24h para apresentar as condições comerciais e processo de aprovação.",
       display_order: 1,
       is_active: true,
     },
@@ -189,16 +189,34 @@ export default function Index() {
           page_title: document.title
         };
 
-        // Salvar no localStorage para analytics
-        const existingTraffic = JSON.parse(localStorage.getItem('traffic_sources') || '[]');
-        existingTraffic.push(trafficSource);
+        // Salvar no banco de dados MySQL
+        try {
+          const response = await fetch('/api/traffic/track', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(trafficSource)
+          });
 
-        // Manter apenas os últimos 200 registros
-        if (existingTraffic.length > 200) {
-          existingTraffic.splice(0, existingTraffic.length - 200);
+          if (response.ok) {
+            console.log('✅ Origem salva no banco:', sourceName);
+          } else {
+            throw new Error('Falha na API');
+          }
+        } catch (apiError) {
+          console.warn('⚠️ Falha na API, salvando no localStorage:', apiError);
+
+          // Fallback para localStorage se API falhar
+          const existingTraffic = JSON.parse(localStorage.getItem('traffic_sources') || '[]');
+          existingTraffic.push(trafficSource);
+
+          if (existingTraffic.length > 200) {
+            existingTraffic.splice(0, existingTraffic.length - 200);
+          }
+
+          localStorage.setItem('traffic_sources', JSON.stringify(existingTraffic));
         }
-
-        localStorage.setItem('traffic_sources', JSON.stringify(existingTraffic));
 
         console.log('📊 Origem capturada:', sourceName, trafficSource);
 
@@ -419,7 +437,7 @@ export default function Index() {
     // Validar WhatsApp
     if (!formData.whatsapp || !validateWhatsApp(formData.whatsapp)) {
       toast({
-        title: "⚠������ WhatsApp Inválido",
+        title: "⚠���� WhatsApp Inválido",
         description: content.form.validation_messages.whatsapp_invalid,
         variant: "destructive",
       });
