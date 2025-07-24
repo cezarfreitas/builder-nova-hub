@@ -9,6 +9,7 @@ import { upload, uploadAvatar, uploadHero, uploadSeoImage, deleteUploadedImage, 
 import { testDatabaseConnection, getDatabaseInfo } from "./routes/database-test";
 import { getAnalyticsOverview, getDailyStats, getTimeAnalysis, getTrafficSources, getFormOrigins, trackVisit, trackDuration, exportAnalyticsData, getConversionByLocation, getConversionByGeography } from "./routes/analytics";
 import { getTestimonials, getTestimonial, createTestimonial, updateTestimonial, deleteTestimonial, toggleTestimonial, reorderTestimonials } from "./routes/testimonials";
+import { getGalleryImages, getGalleryImage, createGalleryImage, updateGalleryImage, deleteGalleryImage, toggleGalleryImage, reorderGalleryImages } from "./routes/gallery";
 import { initializeDatabase, testConnection } from "./config/database";
 
 export function createServer() {
