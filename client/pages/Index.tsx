@@ -27,7 +27,6 @@ import {
   HeadphonesIcon,
   Monitor,
   ArrowRight,
-  MessageCircle,
   ChevronDown,
   HelpCircle,
   Star,
