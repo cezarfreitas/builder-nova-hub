@@ -2031,23 +2031,7 @@ export default function Index() {
             <Button
               onClick={() => {
                 // Track WhatsApp click
-                try {
-                  fetch('/api/analytics/track', {
-                    method: 'POST',
-                    headers: {
-                      'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                      event_type: 'whatsapp_click',
-                      session_id: sessionId,
-                      user_id: userId,
-                      page_url: window.location.href,
-                      timestamp: new Date().toISOString()
-                    })
-                  }).catch(err => console.warn('Analytics tracking failed:', err));
-                } catch (err) {
-                  console.warn('Failed to track WhatsApp click:', err);
-                }
+                trackWhatsAppClick();
 
                 openFormWithOrigin("whatsapp-float");
               }}
