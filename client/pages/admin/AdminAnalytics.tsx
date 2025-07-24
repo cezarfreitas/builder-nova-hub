@@ -498,33 +498,6 @@ export default function AdminAnalytics() {
           </CardContent>
         </Card>
 
-        {/* Visualizações Únicas */}
-        <Card className="bg-gradient-to-br from-violet-50 to-violet-100 border-violet-200">
-          <CardContent className="p-6">
-            <div className="flex items-center">
-              <div className="p-2 bg-violet-500 rounded-lg">
-                <Eye className="w-6 h-6 text-white" />
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-violet-600">Visualizações Únicas</p>
-                {isLoading ? (
-                  <div className="flex items-center">
-                    <Loader2 className="w-5 h-5 animate-spin text-gray-400 mr-2" />
-                    <span className="text-gray-400">Carregando...</span>
-                  </div>
-                ) : (
-                  <>
-                    <p className="text-2xl font-bold text-violet-900">{overview.traffic.unique_page_views.toLocaleString()}</p>
-                    <p className="text-xs text-violet-600">
-                      De {overview.traffic.total_page_views.toLocaleString()} totais
-                    </p>
-                  </>
-                )}
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
         {/* Taxa de Rejeição */}
         <Card className="bg-gradient-to-br from-amber-50 to-amber-100 border-amber-200">
           <CardContent className="p-6">
@@ -551,6 +524,9 @@ export default function AdminAnalytics() {
             </div>
           </CardContent>
         </Card>
+
+        {/* Placeholder for grid alignment */}
+        <div></div>
       </div>
 
       {/* Terceira linha de métricas */}
