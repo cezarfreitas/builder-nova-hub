@@ -376,11 +376,19 @@ export default function AdminBenefits() {
                 </p>
               )}
               
-              {/* Benefits Cards Placeholder */}
+              {/* Benefits Cards */}
               <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                {[1, 2, 3, 4].map((i) => (
-                  <div key={i} className="bg-gray-800/50 rounded-lg p-4 h-32 flex items-center justify-center">
-                    <Award className="w-8 h-8 text-ecko-red" />
+                {settings.cards?.map((card) => (
+                  <div key={card.id} className="bg-gray-800/50 rounded-lg p-4 min-h-[200px] text-center">
+                    <div className="w-12 h-12 bg-ecko-red/20 rounded-lg flex items-center justify-center mx-auto mb-3">
+                      <Award className="w-6 h-6 text-ecko-red" />
+                    </div>
+                    <h4 className="text-white font-bold text-sm uppercase mb-2">
+                      {renderTextWithColorTokens(card.title)}
+                    </h4>
+                    <p className="text-gray-300 text-xs leading-relaxed">
+                      {renderTextWithColorTokens(card.description)}
+                    </p>
                   </div>
                 ))}
               </div>
