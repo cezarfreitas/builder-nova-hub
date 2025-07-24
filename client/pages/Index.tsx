@@ -186,17 +186,7 @@ export default function Index() {
             throw new Error('Falha na API');
           }
         } catch (apiError) {
-          console.warn('⚠️ Falha na API, salvando no localStorage:', apiError);
-
-          // Fallback para localStorage se API falhar
-          const existingTraffic = JSON.parse(localStorage.getItem('traffic_sources') || '[]');
-          existingTraffic.push(trafficSource);
-
-          if (existingTraffic.length > 200) {
-            existingTraffic.splice(0, existingTraffic.length - 200);
-          }
-
-          localStorage.setItem('traffic_sources', JSON.stringify(existingTraffic));
+          console.warn('⚠️ Falha na API de tráfego:', apiError);
         }
 
         console.log('📊 Origem capturada:', sourceName, trafficSource);
