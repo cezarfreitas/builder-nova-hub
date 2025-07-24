@@ -106,13 +106,13 @@ export const useContent = () => {
         // Sempre usar dados do JSON para seções principais
         finalContent = {
           ...finalContent,
-          // Hero, Benefits, Testimonials e Gallery sempre do JSON
+          // Hero, Benefits, Testimonials, Gallery e FAQ sempre do JSON
           hero: contentData.hero,
           benefits: contentData.benefits,
           testimonials: contentData.testimonials,
           gallery: contentData.gallery,
+          faq: contentData.faq,
           // Outras seções podem vir do backup se válidas
-          faq: parsed.faq || contentData.faq,
           final_cta: parsed.final_cta || contentData.final_cta,
         };
       }
