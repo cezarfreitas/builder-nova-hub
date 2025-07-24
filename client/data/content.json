@@ -1,4 +1,50 @@
 {
+  "section_order": {
+    "enabled_sections": [
+      {
+        "id": "hero",
+        "name": "Hero Section",
+        "enabled": true,
+        "order": 1
+      },
+      {
+        "id": "benefits",
+        "name": "Vantagens",
+        "enabled": true,
+        "order": 2
+      },
+      {
+        "id": "testimonials",
+        "name": "Depoimentos",
+        "enabled": true,
+        "order": 3
+      },
+      {
+        "id": "gallery",
+        "name": "Galeria",
+        "enabled": true,
+        "order": 4
+      },
+      {
+        "id": "faq",
+        "name": "FAQ",
+        "enabled": true,
+        "order": 5
+      },
+      {
+        "id": "about",
+        "name": "Sobre a Ecko",
+        "enabled": true,
+        "order": 6
+      },
+      {
+        "id": "final_cta",
+        "name": "CTA Final",
+        "enabled": true,
+        "order": 7
+      }
+    ]
+  },
   "hero": {
     "enabled": true,
     "title": "SEJA PARCEIRO OFICIAL ECKO E TENHA SUCESSO",
