@@ -426,7 +426,10 @@ export default function Index() {
           section_description: settings.gallery_section_description || 'Descubra o lifestyle autêntico da Ecko através de looks que representam a essência do streetwear e a cultura urbana que define nossa marca',
           section_tag: settings.gallery_section_tag || 'Lifestyle Gallery',
           empty_state_title: settings.gallery_empty_title || 'Galeria em Construção',
-          empty_state_description: settings.gallery_empty_description || 'Em breve nossa galeria estará repleta de produtos incríveis!'
+          empty_state_description: settings.gallery_empty_description || 'Em breve nossa galeria estará repleta de produtos incríveis!',
+          cta_title: settings.gallery_cta_title || 'Tenha Estes Produtos em Sua Loja!',
+          cta_description: settings.gallery_cta_description || 'Produtos com alta demanda e excelente margem de lucro esperando por você',
+          cta_button_text: settings.gallery_cta_button_text || 'QUERO ESSES PRODUTOS NA MINHA LOJA'
         });
       }
     } catch (error) {
