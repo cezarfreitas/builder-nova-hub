@@ -6,7 +6,7 @@ export const DeferredCSS = () => {
     const deferCSS = () => {
       const link = document.createElement('link');
       link.rel = 'stylesheet';
-      link.href = '/client/global.css';
+      link.href = './global.css';
       link.media = 'print';
       link.onload = function() {
         this.media = 'all';
