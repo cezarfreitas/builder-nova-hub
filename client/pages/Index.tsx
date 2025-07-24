@@ -397,7 +397,7 @@ export default function Index() {
     return limited;
   };
 
-  // Função para validar WhatsApp
+  // Funç��o para validar WhatsApp
   const validateWhatsApp = (whatsapp: string): boolean => {
     // Remove formatação
     const numbers = whatsapp.replace(/\D/g, "");
@@ -1207,14 +1207,7 @@ export default function Index() {
 
             {/* Benefits Grid */}
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {!content.benefits.cards || content.benefits.cards.length === 0 ? (
-                <div className="col-span-4 text-center text-gray-400">
-                  <p>Cards de benefícios não encontrados</p>
-                  <p>Debug: {JSON.stringify(content.benefits.cards)}</p>
-                </div>
-              ) : null}
               {content.benefits.cards?.map((card: any) => {
-                console.log('Renderizando card:', card);
                 // Map icon names to actual icon components
                 const iconMap: { [key: string]: any } = {
                   Globe,
