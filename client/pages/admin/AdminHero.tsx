@@ -372,12 +372,11 @@ export default function AdminHero() {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Logo da Empresa
               </label>
-              <SmartImageUpload
+              <CompactImageUpload
                 value={settings.logo_url}
                 onChange={(value) => setSettings(prev => ({ ...prev, logo_url: value }))}
                 type="avatar"
-                placeholder="Upload da logo da empresa (max 2MB)"
-                className="w-full"
+                placeholder="Upload da logo"
               />
             </div>
 
