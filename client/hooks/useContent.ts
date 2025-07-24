@@ -127,6 +127,22 @@ export interface ContentData {
     description: string;
     button_text: string;
   };
+  about: {
+    section_tag: string;
+    section_title: string;
+    section_subtitle: string;
+    section_description: string;
+    content: string;
+    stats: {
+      id: number;
+      number: string;
+      label: string;
+      description: string;
+    }[];
+    cta_title: string;
+    cta_description: string;
+    cta_button_text: string;
+  };
   footer: {
     copyright: string;
     social_links: {
