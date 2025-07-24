@@ -316,16 +316,16 @@ export default function AdminTestimonials() {
                   />
                 </div>
 
-                <div>
+                <div className="md:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    URL do Avatar
+                    Avatar do Cliente
                   </label>
-                  <input
-                    type="url"
+                  <SmartImageUpload
                     value={formData.avatar_url}
-                    onChange={(e) => setFormData({ ...formData, avatar_url: e.target.value })}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
-                    placeholder="https://exemplo.com/foto.jpg"
+                    onChange={(url) => setFormData({ ...formData, avatar_url: url })}
+                    type="avatar"
+                    placeholder="Upload da foto do cliente (opcional)"
+                    className="w-full"
                   />
                 </div>
 
