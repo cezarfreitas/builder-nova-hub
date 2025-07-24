@@ -1,6 +1,11 @@
 import { useState, useEffect } from "react";
 import { Button } from "../../components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "../../components/ui/card";
 import { Badge } from "../../components/ui/badge";
 import { Input } from "../../components/ui/input";
 import { Textarea } from "../../components/ui/textarea";
@@ -21,7 +26,7 @@ import {
   Check,
   AlertCircle,
   Loader2,
-  Link as LinkIcon
+  Link as LinkIcon,
 } from "lucide-react";
 
 interface FooterSettings {
@@ -41,7 +46,7 @@ export default function AdminFooter() {
   const [previewMode, setPreviewMode] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
-  const [validation, setValidation] = useState<{[key: string]: string}>({});
+  const [validation, setValidation] = useState<{ [key: string]: string }>({});
   const { toast } = useToast();
 
   // Sincronizar com o conteúdo JSON quando carregado
@@ -53,7 +58,8 @@ export default function AdminFooter() {
 
   // Detectar mudanças
   useEffect(() => {
-    const hasChanges = JSON.stringify(settings) !== JSON.stringify(content.footer);
+    const hasChanges =
+      JSON.stringify(settings) !== JSON.stringify(content.footer);
     setHasChanges(hasChanges);
   }, [settings, content.footer]);
 
@@ -103,9 +109,9 @@ export default function AdminFooter() {
 
   // Atualizar campo específico
   const updateField = (field: keyof FooterSettings, value: string) => {
-    setSettings(prev => ({
+    setSettings((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
@@ -123,27 +129,32 @@ export default function AdminFooter() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Rodapé</h1>
-          <p className="text-gray-600">Gerencie todos os textos do rodapé da página</p>
+          <p className="text-gray-600">
+            Gerencie todos os textos do rodapé da página
+          </p>
         </div>
-        
+
         <div className="flex items-center gap-4">
           {lastSaved && (
             <span className="text-sm text-gray-500">
               Salvo às {lastSaved.toLocaleTimeString()}
             </span>
           )}
-          
+
           {hasChanges && (
-            <Badge variant="outline" className="text-orange-600 border-orange-300">
+            <Badge
+              variant="outline"
+              className="text-orange-600 border-orange-300"
+            >
               <AlertCircle className="w-3 h-3 mr-1" />
               Alterações pendentes
             </Badge>
           )}
 
           <div className="flex items-center gap-2">
-            <Button 
-              variant="outline" 
-              size="sm" 
+            <Button
+              variant="outline"
+              size="sm"
               onClick={() => setPreviewMode(!previewMode)}
             >
               {previewMode ? (
@@ -158,14 +169,14 @@ export default function AdminFooter() {
                 </>
               )}
             </Button>
-            
+
             <Button variant="outline" size="sm" onClick={resetSettings}>
               <RefreshCw className="w-4 h-4 mr-2" />
               Resetar
             </Button>
-            
-            <Button 
-              onClick={saveSettings} 
+
+            <Button
+              onClick={saveSettings}
               disabled={saving || !hasChanges}
               className="bg-ecko-red hover:bg-ecko-red-dark"
             >
@@ -198,7 +209,7 @@ export default function AdminFooter() {
                 </label>
                 <TokenColorEditor
                   value={settings.description}
-                  onChange={(value) => updateField('description', value)}
+                  onChange={(value) => updateField("description", value)}
                   placeholder="Ex: Seja parte da maior rede de revendedores..."
                   rows={4}
                   label=""
@@ -211,7 +222,7 @@ export default function AdminFooter() {
                 </label>
                 <TokenColorEditor
                   value={settings.copyright}
-                  onChange={(value) => updateField('copyright', value)}
+                  onChange={(value) => updateField("copyright", value)}
                   placeholder="Ex: © 2024 Ecko. Todos os direitos reservados..."
                   rows={2}
                   label=""
@@ -235,7 +246,7 @@ export default function AdminFooter() {
                 </label>
                 <Input
                   value={settings.links_title}
-                  onChange={(e) => updateField('links_title', e.target.value)}
+                  onChange={(e) => updateField("links_title", e.target.value)}
                   placeholder="Links Úteis"
                 />
               </div>
@@ -246,7 +257,7 @@ export default function AdminFooter() {
                 </label>
                 <Input
                   value={settings.contact_title}
-                  onChange={(e) => updateField('contact_title', e.target.value)}
+                  onChange={(e) => updateField("contact_title", e.target.value)}
                   placeholder="Contato"
                 />
               </div>
@@ -268,7 +279,7 @@ export default function AdminFooter() {
                 </label>
                 <Input
                   value={settings.phone}
-                  onChange={(e) => updateField('phone', e.target.value)}
+                  onChange={(e) => updateField("phone", e.target.value)}
                   placeholder="0800 123 4567"
                 />
               </div>
@@ -279,7 +290,7 @@ export default function AdminFooter() {
                 </label>
                 <Input
                   value={settings.email}
-                  onChange={(e) => updateField('email', e.target.value)}
+                  onChange={(e) => updateField("email", e.target.value)}
                   placeholder="vendas@ecko.com.br"
                 />
               </div>
@@ -290,7 +301,7 @@ export default function AdminFooter() {
                 </label>
                 <Input
                   value={settings.hours}
-                  onChange={(e) => updateField('hours', e.target.value)}
+                  onChange={(e) => updateField("hours", e.target.value)}
                   placeholder="Seg - Sex: 8h às 18h"
                 />
               </div>
@@ -314,7 +325,9 @@ export default function AdminFooter() {
                   <div className="md:col-span-2">
                     <div className="flex items-center mb-3">
                       <div className="w-8 h-8 bg-ecko-red rounded flex items-center justify-center">
-                        <span className="text-white font-bold text-xs">ECKO</span>
+                        <span className="text-white font-bold text-xs">
+                          ECKO
+                        </span>
                       </div>
                     </div>
                     <p className="text-gray-400 text-xs leading-relaxed mb-4">
@@ -332,10 +345,20 @@ export default function AdminFooter() {
                       {settings.links_title}
                     </h3>
                     <ul className="space-y-1">
-                      <li><span className="text-gray-400 text-xs">Vantagens</span></li>
-                      <li><span className="text-gray-400 text-xs">Depoimentos</span></li>
-                      <li><span className="text-gray-400 text-xs">Galeria</span></li>
-                      <li><span className="text-gray-400 text-xs">FAQ</span></li>
+                      <li>
+                        <span className="text-gray-400 text-xs">Vantagens</span>
+                      </li>
+                      <li>
+                        <span className="text-gray-400 text-xs">
+                          Depoimentos
+                        </span>
+                      </li>
+                      <li>
+                        <span className="text-gray-400 text-xs">Galeria</span>
+                      </li>
+                      <li>
+                        <span className="text-gray-400 text-xs">FAQ</span>
+                      </li>
                     </ul>
                   </div>
 

@@ -75,12 +75,7 @@ export default function Index() {
     return btoa(fingerprint).slice(0, 20);
   });
 
-
-
   // Static testimonials texts
-
-
-
 
   const staticFAQs = [
     {
@@ -124,8 +119,6 @@ export default function Index() {
       is_active: true,
     },
   ];
-
-
 
   // Função para rastrear clique no WhatsApp
   const trackWhatsAppClick = async () => {
@@ -173,9 +166,7 @@ export default function Index() {
 
       // Validação do WhatsApp
       if (formattedValue && !validateWhatsApp(formattedValue)) {
-        setWhatsappError(
-          content.form.fields.whatsapp_error,
-        );
+        setWhatsappError(content.form.fields.whatsapp_error);
       } else {
         setWhatsappError("");
       }
@@ -199,9 +190,7 @@ export default function Index() {
     // Validar CNPJ imediatamente
     if (name === "hasCnpj") {
       if (value === "nao") {
-        setCnpjError(
-          content.form.fields.cnpj_error,
-        );
+        setCnpjError(content.form.fields.cnpj_error);
       } else {
         setCnpjError("");
       }
@@ -855,7 +844,9 @@ export default function Index() {
                             type="tel"
                             value={formData.whatsapp}
                             onChange={handleInputChange}
-                            placeholder={content.form.fields.whatsapp_placeholder}
+                            placeholder={
+                              content.form.fields.whatsapp_placeholder
+                            }
                             required
                             className={`h-12 text-base bg-gray-800 text-white placeholder-gray-400 focus:ring-ecko-red/20 ${
                               whatsappError
@@ -935,8 +926,12 @@ export default function Index() {
                               className="w-full h-12 border border-gray-700 rounded-md px-4 bg-gray-800 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-base"
                             >
                               <option value="">Selecione</option>
-                              <option value="sim">{content.form.fields.cnpj_yes}</option>
-                              <option value="nao">{content.form.fields.cnpj_no}</option>
+                              <option value="sim">
+                                {content.form.fields.cnpj_yes}
+                              </option>
+                              <option value="nao">
+                                {content.form.fields.cnpj_no}
+                              </option>
                             </select>
                             {cnpjError && (
                               <p className="text-ecko-red text-xs mt-2 font-medium leading-tight">
@@ -981,10 +976,14 @@ export default function Index() {
                           ) : (
                             <>
                               <span className="hidden sm:inline">
-                                {renderTextWithColorTokens(content.form.submit_button)}
+                                {renderTextWithColorTokens(
+                                  content.form.submit_button,
+                                )}
                               </span>
                               <span className="sm:hidden">
-                                {renderTextWithColorTokens(content.form.submit_button)}
+                                {renderTextWithColorTokens(
+                                  content.form.submit_button,
+                                )}
                               </span>
                             </>
                           )}
@@ -1119,76 +1118,80 @@ export default function Index() {
               <h2 className="text-3xl md:text-5xl font-black text-white mb-6 leading-tight">
                 {renderTextWithColorTokens(content.testimonials.section_title)}
                 <span className="block text-xl md:text-2xl text-gray-300 mt-2 font-medium normal-case tracking-normal">
-                  {renderTextWithColorTokens(content.testimonials.section_subtitle)}
+                  {renderTextWithColorTokens(
+                    content.testimonials.section_subtitle,
+                  )}
                 </span>
               </h2>
               <p className="text-gray-300 text-lg max-w-3xl mx-auto leading-relaxed">
-                {renderTextWithColorTokens(content.testimonials.section_description)}
+                {renderTextWithColorTokens(
+                  content.testimonials.section_description,
+                )}
               </p>
             </div>
 
             {/* Testimonials Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {content.testimonials.items
-                ?.filter(testimonial => testimonial.is_active)
+                ?.filter((testimonial) => testimonial.is_active)
                 .slice(0, 4)
                 .map((testimonial, index) => (
-                <div
-                  key={testimonial.id}
-                  className="bg-gray-900/70 backdrop-blur-sm rounded-2xl p-6 border border-gray-600/50 hover:border-ecko-red/60 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-ecko-red/20 group"
-                  style={{ animationDelay: `${index * 0.1}s` }}
-                >
-                  {/* Rating Stars */}
-                  <div className="flex mb-4">
-                    {[...Array(testimonial.rating || 5)].map((_, i) => (
-                      <svg
-                        key={i}
-                        className="w-5 h-5 text-yellow-400 fill-current"
-                        viewBox="0 0 20 20"
-                      >
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                      </svg>
-                    ))}
-                  </div>
+                  <div
+                    key={testimonial.id}
+                    className="bg-gray-900/70 backdrop-blur-sm rounded-2xl p-6 border border-gray-600/50 hover:border-ecko-red/60 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-ecko-red/20 group"
+                    style={{ animationDelay: `${index * 0.1}s` }}
+                  >
+                    {/* Rating Stars */}
+                    <div className="flex mb-4">
+                      {[...Array(testimonial.rating || 5)].map((_, i) => (
+                        <svg
+                          key={i}
+                          className="w-5 h-5 text-yellow-400 fill-current"
+                          viewBox="0 0 20 20"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
 
-                  {/* Testimonial Content */}
-                  <blockquote className="text-gray-300 mb-6 text-sm leading-relaxed">
-                    "{testimonial.content}"
-                  </blockquote>
+                    {/* Testimonial Content */}
+                    <blockquote className="text-gray-300 mb-6 text-sm leading-relaxed">
+                      "{testimonial.content}"
+                    </blockquote>
 
-                  {/* Author Info */}
-                  <div className="flex items-center space-x-3">
-                    {testimonial.avatar_url ? (
-                      <img
-                        src={testimonial.avatar_url}
-                        alt={`${testimonial.name}, ${testimonial.role} da ${testimonial.company} - Revendedor oficial Ecko satisfeito`}
-                        className="w-12 h-12 rounded-full object-cover border-2 border-ecko-red/20"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(testimonial.name)}&background=dc2626&color=ffffff&size=48&bold=true`;
-                        }}
-                      />
-                    ) : (
-                      <div className="w-12 h-12 bg-ecko-red rounded-full flex items-center justify-center">
-                        <span className="text-white font-bold text-lg">
-                          {testimonial.name.charAt(0).toUpperCase()}
-                        </span>
-                      </div>
-                    )}
-                    <div>
-                      <div className="font-semibold text-white">
-                        {testimonial.name}
-                      </div>
-                      {testimonial.company && (
-                        <div className="text-sm text-gray-400">
-                          {testimonial.role ? `${testimonial.role}, ` : ""}
-                          {testimonial.company}
+                    {/* Author Info */}
+                    <div className="flex items-center space-x-3">
+                      {testimonial.avatar_url ? (
+                        <img
+                          src={testimonial.avatar_url}
+                          alt={`${testimonial.name}, ${testimonial.role} da ${testimonial.company} - Revendedor oficial Ecko satisfeito`}
+                          className="w-12 h-12 rounded-full object-cover border-2 border-ecko-red/20"
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(testimonial.name)}&background=dc2626&color=ffffff&size=48&bold=true`;
+                          }}
+                        />
+                      ) : (
+                        <div className="w-12 h-12 bg-ecko-red rounded-full flex items-center justify-center">
+                          <span className="text-white font-bold text-lg">
+                            {testimonial.name.charAt(0).toUpperCase()}
+                          </span>
                         </div>
                       )}
+                      <div>
+                        <div className="font-semibold text-white">
+                          {testimonial.name}
+                        </div>
+                        {testimonial.company && (
+                          <div className="text-sm text-gray-400">
+                            {testimonial.role ? `${testimonial.role}, ` : ""}
+                            {testimonial.company}
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
             </div>
 
             {/* CTA Section for Testimonials */}
@@ -1198,7 +1201,9 @@ export default function Index() {
                   {renderTextWithColorTokens(content.testimonials.cta_title)}
                 </h3>
                 <p className="text-gray-300 mb-4">
-                  {renderTextWithColorTokens(content.testimonials.cta_description)}
+                  {renderTextWithColorTokens(
+                    content.testimonials.cta_description,
+                  )}
                 </p>
                 <Button
                   onClick={() => openFormWithOrigin("testimonials-cta")}
@@ -1207,10 +1212,14 @@ export default function Index() {
                   <span className="absolute inset-0 bg-gradient-to-r from-red-600 to-red-800 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
                   <span className="relative z-10 flex items-center">
                     <span className="hidden sm:inline">
-                      {renderTextWithColorTokens(content.testimonials.cta_button_text)}
+                      {renderTextWithColorTokens(
+                        content.testimonials.cta_button_text,
+                      )}
                     </span>
                     <span className="sm:hidden">
-                      {renderTextWithColorTokens(content.testimonials.cta_button_text)}
+                      {renderTextWithColorTokens(
+                        content.testimonials.cta_button_text,
+                      )}
                     </span>
                     <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </span>
@@ -1252,7 +1261,7 @@ export default function Index() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
               {content.gallery.items?.length > 0 ? (
                 content.gallery.items
-                  .filter(image => image.is_active)
+                  .filter((image) => image.is_active)
                   .slice(0, 8)
                   .map((image, index) => (
                     <div
@@ -1275,9 +1284,15 @@ export default function Index() {
                 <div className="col-span-full text-center py-12">
                   <div className="text-gray-400 mb-4">
                     <h3 className="text-xl font-bold mb-2">
-                      {renderTextWithColorTokens(content.gallery.empty_state_title)}
+                      {renderTextWithColorTokens(
+                        content.gallery.empty_state_title,
+                      )}
                     </h3>
-                    <p>{renderTextWithColorTokens(content.gallery.empty_state_description)}</p>
+                    <p>
+                      {renderTextWithColorTokens(
+                        content.gallery.empty_state_description,
+                      )}
+                    </p>
                   </div>
                 </div>
               )}
@@ -1299,10 +1314,14 @@ export default function Index() {
                   <span className="absolute inset-0 bg-gradient-to-r from-red-600 to-red-800 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
                   <span className="relative z-10 flex items-center">
                     <span className="hidden sm:inline">
-                      {renderTextWithColorTokens(content.gallery.cta_button_text)}
+                      {renderTextWithColorTokens(
+                        content.gallery.cta_button_text,
+                      )}
                     </span>
                     <span className="sm:hidden">
-                      {renderTextWithColorTokens(content.gallery.cta_button_text)}
+                      {renderTextWithColorTokens(
+                        content.gallery.cta_button_text,
+                      )}
                     </span>
                     <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </span>
@@ -1336,22 +1355,22 @@ export default function Index() {
             {/* FAQ Accordion */}
             <Accordion type="single" collapsible className="space-y-4">
               {content.faq.items
-                ?.filter(faq => faq.is_active)
+                ?.filter((faq) => faq.is_active)
                 .sort((a, b) => a.display_order - b.display_order)
                 .map((faq) => (
-                <AccordionItem
-                  key={faq.id}
-                  value={`item-${faq.id}`}
-                  className="bg-gray-900/50 backdrop-blur-sm border border-gray-700 rounded-xl px-6 hover:border-ecko-red/50 transition-colors duration-300"
-                >
-                  <AccordionTrigger className="text-left text-white hover:text-ecko-red py-6 text-lg font-semibold">
-                    {renderTextWithColorTokens(faq.question)}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-gray-300 pb-6 text-base leading-relaxed">
-                    {renderTextWithColorTokens(faq.answer)}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
+                  <AccordionItem
+                    key={faq.id}
+                    value={`item-${faq.id}`}
+                    className="bg-gray-900/50 backdrop-blur-sm border border-gray-700 rounded-xl px-6 hover:border-ecko-red/50 transition-colors duration-300"
+                  >
+                    <AccordionTrigger className="text-left text-white hover:text-ecko-red py-6 text-lg font-semibold">
+                      {renderTextWithColorTokens(faq.question)}
+                    </AccordionTrigger>
+                    <AccordionContent className="text-gray-300 pb-6 text-base leading-relaxed">
+                      {renderTextWithColorTokens(faq.answer)}
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
             </Accordion>
 
             {/* FAQ CTA */}
@@ -1420,24 +1439,49 @@ export default function Index() {
                   className="h-8 w-auto"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
-                    target.style.display = 'none';
+                    target.style.display = "none";
                   }}
                 />
               </div>
               <p className="text-gray-400 text-sm leading-relaxed mb-6 max-w-md">
-                {renderTextWithColorTokens(content.footer?.description || "Seja parte da maior rede de revendedores de streetwear do Brasil. A Ecko oferece produtos de qualidade, suporte completo e as melhores condições do mercado.")}
+                {renderTextWithColorTokens(
+                  content.footer?.description ||
+                    "Seja parte da maior rede de revendedores de streetwear do Brasil. A Ecko oferece produtos de qualidade, suporte completo e as melhores condições do mercado.",
+                )}
               </p>
               <div className="flex space-x-4">
-                <a href="#" className="text-gray-400 hover:text-ecko-red transition-colors">
+                <a
+                  href="#"
+                  className="text-gray-400 hover:text-ecko-red transition-colors"
+                >
                   <span className="sr-only">Facebook</span>
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M20 10C20 4.477 15.523 0 10 0S0 4.477 0 10c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V10h2.54V7.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V10h2.773l-.443 2.89h-2.33v6.988C16.343 19.128 20 14.991 20 10z" clipRule="evenodd" />
+                  <svg
+                    className="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M20 10C20 4.477 15.523 0 10 0S0 4.477 0 10c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V10h2.54V7.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V10h2.773l-.443 2.89h-2.33v6.988C16.343 19.128 20 14.991 20 10z"
+                      clipRule="evenodd"
+                    />
                   </svg>
                 </a>
-                <a href="#" className="text-gray-400 hover:text-ecko-red transition-colors">
+                <a
+                  href="#"
+                  className="text-gray-400 hover:text-ecko-red transition-colors"
+                >
                   <span className="sr-only">Instagram</span>
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M12.017 0H7.983C3.577 0 0 3.577 0 7.983v4.034C0 16.423 3.577 20 7.983 20h4.034C16.423 20 20 16.423 20 12.017V7.983C20 3.577 16.423 0 12.017 0zM18.444 12.017c0 3.551-2.876 6.427-6.427 6.427H7.983c-3.551 0-6.427-2.876-6.427-6.427V7.983c0-3.551 2.876-6.427 6.427-6.427h4.034c3.551 0 6.427 2.876 6.427 6.427v4.034z" clipRule="evenodd" />
+                  <svg
+                    className="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M12.017 0H7.983C3.577 0 0 3.577 0 7.983v4.034C0 16.423 3.577 20 7.983 20h4.034C16.423 20 20 16.423 20 12.017V7.983C20 3.577 16.423 0 12.017 0zM18.444 12.017c0 3.551-2.876 6.427-6.427 6.427H7.983c-3.551 0-6.427-2.876-6.427-6.427V7.983c0-3.551 2.876-6.427 6.427-6.427h4.034c3.551 0 6.427 2.876 6.427 6.427v4.034z"
+                      clipRule="evenodd"
+                    />
                     <path d="M10 5c-2.761 0-5 2.239-5 5s2.239 5 5 5 5-2.239 5-5-2.239-5-5-5zm0 8.333c-1.841 0-3.333-1.492-3.333-3.333S8.159 6.667 10 6.667s3.333 1.492 3.333 3.333S11.841 13.333 10 13.333zm5.208-8.541c0 .69-.559 1.25-1.25 1.25s-1.25-.56-1.25-1.25.559-1.25 1.25-1.25 1.25.56 1.25 1.25z" />
                   </svg>
                 </a>
@@ -1450,10 +1494,38 @@ export default function Index() {
                 {content.footer?.links_title || "Links Úteis"}
               </h3>
               <ul className="space-y-2">
-                <li><a href="#benefits" className="text-gray-400 hover:text-white transition-colors text-sm">Vantagens</a></li>
-                <li><a href="#testimonials" className="text-gray-400 hover:text-white transition-colors text-sm">Depoimentos</a></li>
-                <li><a href="#gallery" className="text-gray-400 hover:text-white transition-colors text-sm">Galeria</a></li>
-                <li><a href="#faq" className="text-gray-400 hover:text-white transition-colors text-sm">FAQ</a></li>
+                <li>
+                  <a
+                    href="#benefits"
+                    className="text-gray-400 hover:text-white transition-colors text-sm"
+                  >
+                    Vantagens
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#testimonials"
+                    className="text-gray-400 hover:text-white transition-colors text-sm"
+                  >
+                    Depoimentos
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#gallery"
+                    className="text-gray-400 hover:text-white transition-colors text-sm"
+                  >
+                    Galeria
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#faq"
+                    className="text-gray-400 hover:text-white transition-colors text-sm"
+                  >
+                    FAQ
+                  </a>
+                </li>
               </ul>
             </div>
 
@@ -1479,7 +1551,10 @@ export default function Index() {
           {/* Copyright */}
           <div className="border-t border-gray-800 mt-8 pt-6 text-center">
             <p className="text-gray-500 text-sm">
-              {renderTextWithColorTokens(content.footer?.copyright || "© 2024 Ecko. Todos os direitos reservados. Seja um revendedor oficial e transforme seu negócio.")}
+              {renderTextWithColorTokens(
+                content.footer?.copyright ||
+                  "© 2024 Ecko. Todos os direitos reservados. Seja um revendedor oficial e transforme seu negócio.",
+              )}
             </p>
           </div>
         </div>

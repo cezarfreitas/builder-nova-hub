@@ -179,20 +179,20 @@ export const useContent = () => {
       setContent(newContent);
 
       // Salva no arquivo JSON via API
-      const response = await fetch('/api/content', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newContent)
+      const response = await fetch("/api/content", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newContent),
       });
 
       if (!response.ok) {
-        throw new Error('Falha ao salvar no servidor');
+        throw new Error("Falha ao salvar no servidor");
       }
 
       // Salva no localStorage como backup apenas se a API funcionou
       localStorage.setItem("ecko_content_backup", JSON.stringify(newContent));
 
-      console.log('✅ Conteúdo salvo no arquivo JSON com sucesso');
+      console.log("✅ Conteúdo salvo no arquivo JSON com sucesso");
       return { success: true };
     } catch (error) {
       console.error("Erro ao salvar conteúdo:", error);

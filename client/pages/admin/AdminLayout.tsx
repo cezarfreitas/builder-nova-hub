@@ -120,7 +120,8 @@ export default function AdminLayout() {
   const location = useLocation();
 
   const currentPath = location.pathname;
-  const activeSection = sidebarItems.find(item => item.path === currentPath)?.id || "dashboard";
+  const activeSection =
+    sidebarItems.find((item) => item.path === currentPath)?.id || "dashboard";
 
   const getItemsByCategory = (category: SidebarItem["category"]) =>
     sidebarItems.filter((item) => item.category === category);
@@ -128,7 +129,7 @@ export default function AdminLayout() {
   const renderSidebarGroup = (
     title: string,
     items: SidebarItem[],
-    className = ""
+    className = "",
   ) => (
     <div className={className}>
       <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
@@ -189,26 +190,21 @@ export default function AdminLayout() {
               {renderSidebarGroup(
                 "Principal",
                 getItemsByCategory("main"),
-                "mb-4"
+                "mb-4",
               )}
               {renderSidebarGroup(
                 "Landing Page",
                 getItemsByCategory("lp"),
-                "mb-4"
+                "mb-4",
               )}
-              {renderSidebarGroup(
-                "Sistema",
-                getItemsByCategory("config")
-              )}
+              {renderSidebarGroup("Sistema", getItemsByCategory("config"))}
             </div>
 
             {/* Footer */}
             <div className="flex-shrink-0 px-4 py-3 border-t border-gray-200">
               <div className="flex items-center">
                 <div className="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center">
-                  <span className="text-xs font-medium text-gray-700">
-                    CF
-                  </span>
+                  <span className="text-xs font-medium text-gray-700">CF</span>
                 </div>
                 <div className="ml-2">
                   <p className="text-xs font-medium text-gray-900">
