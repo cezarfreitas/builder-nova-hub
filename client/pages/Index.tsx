@@ -1514,6 +1514,9 @@ export default function Index() {
             case 'final_cta':
               return (
                 <main key="final_cta">
+                  {/* Section Divider */}
+                  <div className="bg-gradient-to-r from-transparent via-gray-800/30 to-transparent h-px mx-auto max-w-4xl" />
+
                   {/* Final CTA Section */}
                   <section className="py-16 md:py-20 bg-ecko-red">
                     <div className="container mx-auto px-6 text-center">
