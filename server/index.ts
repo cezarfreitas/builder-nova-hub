@@ -136,6 +136,11 @@ export function createServer() {
   app.post("/api/analytics/track-visit", trackVisit);
   app.post("/api/analytics/track-duration", trackDuration);
 
+  // Traffic tracking routes
+  app.post("/api/traffic/track", trackTrafficSource);
+  app.get("/api/traffic/sources", getTrafficSourcesApi);
+  app.get("/api/traffic/recent", getRecentTraffic);
+
   // Testimonials routes
   app.get("/api/testimonials", getTestimonials);
   app.get("/api/testimonials/:id", getTestimonial);
