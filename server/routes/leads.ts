@@ -147,6 +147,8 @@ export const submitLead: RequestHandler = async (req, res) => {
       telefone,
       email,
       is_duplicate,
+      form_origin: validatedData.formOrigin,
+      store_type: validatedData.storeType,
       webhook_status: webhookStatus
     });
 
