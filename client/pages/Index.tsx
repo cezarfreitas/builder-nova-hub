@@ -491,7 +491,7 @@ export default function Index() {
     // Validar WhatsApp
     if (!formData.whatsapp || !validateWhatsApp(formData.whatsapp)) {
       toast({
-        title: "⚠️ WhatsApp Inválido",
+        title: "⚠�� WhatsApp Inválido",
         description: "Digite um número de WhatsApp válido para contato.",
         variant: "destructive",
       });
@@ -1184,21 +1184,20 @@ export default function Index() {
             <div className="text-center mb-16">
               <div className="inline-flex items-center bg-ecko-red/20 backdrop-blur-sm border border-ecko-red/30 rounded-full px-6 py-3 mb-6">
                 <span className="text-ecko-red font-bold uppercase tracking-wider text-sm">
-                  Por que escolher a Ecko?
+                  {renderTextWithColorTokens(content.benefits.section_tag)}
                 </span>
               </div>
               <h2
                 id="vantagens-heading"
                 className="text-3xl md:text-5xl font-black text-white mb-6 uppercase tracking-tight leading-tight"
               >
-                VANTAGENS <span className="text-ecko-red">EXCLUSIVAS</span>
+                {renderTextWithColorTokens(content.benefits.section_title)}
                 <span className="block text-xl md:text-2xl text-gray-300 mt-2 font-medium normal-case tracking-normal">
-                  para nossos parceiros
+                  {renderTextWithColorTokens(content.benefits.section_subtitle)}
                 </span>
               </h2>
               <p className="text-gray-300 text-lg max-w-3xl mx-auto leading-relaxed">
-                Descubra os benefícios únicos que fazem da Ecko a escolha certa
-                para impulsionar seu negócio no mundo da moda streetwear
+                {renderTextWithColorTokens(content.benefits.section_description)}
               </p>
             </div>
 
