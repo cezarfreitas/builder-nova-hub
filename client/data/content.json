@@ -227,6 +227,42 @@
     "description": "Junte-se aos milhares de revendedores que já transformaram seus negócios com a marca mais desejada do streetwear brasileiro!",
     "button_text": "QUERO SER UM LOJISTA AUTORIZADO"
   },
+  "about": {
+    "section_tag": "Nossa História",
+    "section_title": "SOBRE A {ECKO}",
+    "section_subtitle": "mais de 20 anos de streetwear",
+    "section_description": "Conheça a trajetória de uma das marcas mais influentes do streetwear mundial",
+    "content": "Fundada em 1993 por Marc Milecofsky, a Ecko nasceu com o propósito de dar voz à cultura urbana e ao streetwear autêntico. Começando como uma pequena marca de camisetas em Nova Jersey, rapidamente se tornou um ícone global, sendo reconhecida por suas estampas ousadas e pela conexão genuína com a cultura hip-hop, skate e street art.\n\nA marca ganhou destaque ao vestir grandes nomes do rap, como 50 Cent, Eminem e Jay-Z, consolidando sua presença na música e na moda urbana. No Brasil, a Ecko chegou na década de 2000 e rapidamente conquistou o público jovem, tornando-se sinônimo de atitude e estilo autêntico.\n\nHoje, a Ecko continua sendo uma referência no streetwear, mantendo seu DNA rebelde e inovador, sempre conectada com as últimas tendências da cultura urbana. Com mais de duas décadas de história, a marca segue evoluindo e inspirando novas gerações de jovens que buscam autenticidade e qualidade em suas escolhas de moda.",
+    "stats": [
+      {
+        "id": 1,
+        "number": "30+",
+        "label": "Anos de História",
+        "description": "Mais de três décadas construindo a cultura streetwear"
+      },
+      {
+        "id": 2,
+        "number": "50+",
+        "label": "Países",
+        "description": "Presença global com produtos em todos os continentes"
+      },
+      {
+        "id": 3,
+        "number": "1000+",
+        "label": "Lojas Parceiras",
+        "description": "Rede de revendedores oficiais no Brasil"
+      },
+      {
+        "id": 4,
+        "number": "100M+",
+        "label": "Produtos Vendidos",
+        "description": "Milhões de peças que marcaram gerações"
+      }
+    ],
+    "cta_title": "Faça Parte Desta História",
+    "cta_description": "Torne-se um revendedor oficial e ajude a escrever o próximo capítulo da Ecko",
+    "cta_button_text": "QUERO SER PARTE DA ECKO"
+  },
   "footer": {
     "copyright": "© 2024 Ecko. Todos os direitos reservados. Seja um revendedor oficial e transforme seu negócio.",
     "social_links": {
