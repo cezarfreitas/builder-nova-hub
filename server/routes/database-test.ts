@@ -127,6 +127,7 @@ export async function getDatabaseInfo(req: Request, res: Response) {
         tables: tables,
         lp_settings: settingsInfo,
         leads: leadsInfo,
+        traffic_sources: trafficInfo,
         timestamp: new Date().toISOString()
       }
     });
