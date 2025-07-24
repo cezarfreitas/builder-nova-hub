@@ -49,6 +49,7 @@ export default function AdminHero() {
     background_color: "#dc2626",
     text_color: "#ffffff",
     cta_color: "#ffffff",
+    cta_text_color: "#dc2626",
     logo_url: "",
     video_url: "",
     enabled: true
