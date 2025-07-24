@@ -99,6 +99,13 @@ const sidebarItems: SidebarItem[] = [
     path: "/admin/faq",
   },
   {
+    id: "about",
+    label: "Sobre",
+    icon: <History className="w-5 h-5" />,
+    category: "lp",
+    path: "/admin/about",
+  },
+  {
     id: "footer",
     label: "Rodapé",
     icon: <Layout className="w-5 h-5" />,
