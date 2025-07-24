@@ -1422,15 +1422,15 @@ export default function Index() {
                         <span className="inline-block px-4 py-2 bg-ecko-red/10 text-ecko-red text-sm font-semibold rounded-full mb-4">
                           {content.about?.section_tag || "Nossa História"}
                         </span>
-                        <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+                        <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
                           {renderTextWithColorTokens(
                             content.about?.section_title || "SOBRE A {ECKO}"
                           )}
                         </h2>
-                        <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-4">
+                        <p className="text-xl text-gray-300 max-w-2xl mx-auto mb-4">
                           {content.about?.section_subtitle || "mais de 20 anos de streetwear"}
                         </p>
-                        <p className="text-gray-600 max-w-3xl mx-auto">
+                        <p className="text-gray-300 max-w-3xl mx-auto">
                           {content.about?.section_description || "Conheça a trajetória de uma das marcas mais influentes do streetwear mundial"}
                         </p>
                       </div>
