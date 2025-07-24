@@ -828,10 +828,10 @@ export default function Index() {
                     <CardContent className="p-4 sm:p-6 lg:p-8">
                       <div className="text-center mb-4 sm:mb-6">
                         <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-white mb-2">
-                          Cadastro de Revendedor
+                          {renderTextWithColorTokens(content.form.title)}
                         </h2>
                         <p className="text-sm sm:text-base text-gray-300">
-                          Preencha os dados para receber nossa proposta
+                          {renderTextWithColorTokens(content.form.subtitle)}
                         </p>
                       </div>
 
