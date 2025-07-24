@@ -32,6 +32,7 @@ interface HeroSettings {
   background_color: string;
   text_color: string;
   cta_color: string;
+  cta_text_color: string;
   logo_url: string;
   video_url: string;
   enabled: boolean;
