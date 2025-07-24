@@ -865,15 +865,12 @@ export default function AdminGallery() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Descrição da Seção
-                  </label>
-                  <textarea
+                  <TokenColorEditor
+                    label="Descrição da Seção"
                     value={textSettings.section_description}
-                    onChange={(e) => setTextSettings({ ...textSettings, section_description: e.target.value })}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ecko-red focus:border-ecko-red"
+                    onChange={(value) => setTextSettings({ ...textSettings, section_description: value })}
+                    placeholder="Descubra o lifestyle {ecko}autêntico{/ecko} da Ecko através de looks que representam a {blue}essência{/blue} do streetwear..."
                     rows={3}
-                    placeholder="Descrição completa da seção lifestyle..."
                   />
                 </div>
 
