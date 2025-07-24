@@ -587,6 +587,7 @@ export default function Index() {
     // Definir dados estáticos no carregamento
     fetchGalleryImages();
     fetchGalleryTexts();
+    fetchTestimonialsTexts();
     setFaqs(staticFAQs);
     fetchTestimonials();
 
