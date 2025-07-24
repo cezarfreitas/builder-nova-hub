@@ -1253,7 +1253,7 @@ export default function Index() {
                 </span>
               </h2>
               <p className="text-gray-300 text-lg max-w-3xl mx-auto leading-relaxed">
-                {galleryTexts.section_description}
+                {renderTextWithColorTokens(content.gallery.section_description)}
               </p>
             </div>
 
