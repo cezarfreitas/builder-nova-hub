@@ -128,13 +128,11 @@ export interface ContentData {
     button_text: string;
   };
   footer: {
-    description: string;
-    links_title: string;
-    contact_title: string;
-    phone: string;
-    email: string;
-    hours: string;
     copyright: string;
+    social_links: {
+      facebook: string;
+      instagram: string;
+    };
   };
 }
 
