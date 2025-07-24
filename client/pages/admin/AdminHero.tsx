@@ -5,6 +5,7 @@ import { Input } from "../../components/ui/input";
 import { Textarea } from "../../components/ui/textarea";
 import { Badge } from "../../components/ui/badge";
 import { TokenColorEditor } from "../../components/TokenColorEditor";
+import { OptimizedImageUpload } from "../../components/OptimizedImageUpload";
 import { renderTextWithColorTokens } from "../../utils/colorTokens";
 import { useToast } from "../../hooks/use-toast";
 import { useContent } from "../../hooks/useContent";
