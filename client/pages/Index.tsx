@@ -329,7 +329,7 @@ export default function Index() {
     if (!formData.whatsapp || !validateWhatsApp(formData.whatsapp)) {
       toast({
         title: "⚠���� WhatsApp Inválido",
-        description: "Digite um número de WhatsApp válido para contato.",
+        description: content.form.validation_messages.whatsapp_invalid,
         variant: "destructive",
       });
       return;
