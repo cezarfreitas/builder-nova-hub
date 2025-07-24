@@ -8,6 +8,7 @@ import { CompactImageUpload } from "../../components/CompactImageUpload";
 import { TokenColorEditor } from "../../components/TokenColorEditor";
 import { renderTextWithColorTokens } from "../../utils/colorTokens";
 import { useToast } from "../../hooks/use-toast";
+import { useContent } from "../../hooks/useContent";
 import {
   Star,
   Save,
@@ -19,7 +20,9 @@ import {
   Palette,
   Type,
   MousePointer,
-  Check
+  Check,
+  FileText,
+  Database
 } from "lucide-react";
 
 interface HeroSettings {
@@ -34,100 +37,56 @@ interface HeroSettings {
   cta_color: string;
   cta_text_color: string;
   logo_url: string;
-  video_url: string;
   enabled: boolean;
 }
 
 export default function AdminHero() {
-  const [settings, setSettings] = useState<HeroSettings>({
-    title: "Torne-se um Revendedor Ecko",
-    subtitle: "Oportunidade única de negócio",
-    description: "Junte-se à rede de revendedores Ecko e maximize seus lucros com produtos de alta qualidade e suporte completo.",
-    cta_text: "Quero ser Revendedor",
-    cta_secondary_text: "Saiba Mais",
-    background_image: "",
-    background_color: "#dc2626",
-    text_color: "#ffffff",
-    cta_color: "#ffffff",
-    cta_text_color: "#dc2626",
-    logo_url: "",
-    video_url: "",
-    enabled: true
-  });
-
-  const [loading, setLoading] = useState(true);
+  const { content, loading: contentLoading, saveContent } = useContent();
+  const [settings, setSettings] = useState<HeroSettings>(content.hero);
   const [saving, setSaving] = useState(false);
   const [previewMode, setPreviewMode] = useState(false);
+  const [hasChanges, setHasChanges] = useState(false);
   const { toast } = useToast();
 
-  // Carregar configurações do hero
-  const loadSettings = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch('/api/settings/hero');
-      
-      if (response.ok) {
-        const result = await response.json();
-        if (result.success && result.data) {
-          setSettings(prev => ({ ...prev, ...result.data }));
-        }
-      }
-    } catch (error) {
-      console.error('Erro ao carregar configurações do hero:', error);
-      toast({
-        title: "Erro",
-        description: "Erro ao carregar configurações do hero",
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
+  // Sincronizar com o conteúdo JSON quando carregado
+  useEffect(() => {
+    if (content.hero) {
+      setSettings(content.hero);
     }
-  };
+  }, [content.hero]);
 
-  // Salvar configurações
+  // Detectar mudanças
+  useEffect(() => {
+    const hasChanges = JSON.stringify(settings) !== JSON.stringify(content.hero);
+    setHasChanges(hasChanges);
+  }, [settings, content.hero]);
+
+  // Salvar configurações no JSON
   const saveSettings = async () => {
     try {
       setSaving(true);
-      console.log('Salvando configurações do hero:', settings);
+      
+      const updatedContent = {
+        ...content,
+        hero: settings
+      };
 
-      const response = await fetch('/api/settings/hero', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(settings),
-      });
-
-      console.log('Response status:', response.status);
-
-      if (response.ok) {
-        const result = await response.json();
-        console.log('Response result:', result);
-
-        if (result.success) {
-          toast({
-            title: "Sucesso",
-            description: "Configurações do hero salvas com sucesso!",
-          });
-        } else {
-          throw new Error(result.message || 'Erro ao salvar');
-        }
+      const result = await saveContent(updatedContent);
+      
+      if (result.success) {
+        toast({
+          title: "✅ Hero atualizado!",
+          description: "As configurações foram salvas no arquivo JSON com sucesso.",
+        });
+        setHasChanges(false);
       } else {
-        const errorText = await response.text();
-        console.error('Response error:', errorText);
-
-        try {
-          const errorJson = JSON.parse(errorText);
-          throw new Error(errorJson.message || `HTTP ${response.status}: ${response.statusText}`);
-        } catch {
-          throw new Error(`HTTP ${response.status}: ${errorText || response.statusText}`);
-        }
+        throw new Error('Falha ao salvar');
       }
     } catch (error) {
-      console.error('Erro ao salvar configurações:', error);
+      console.error('Erro ao salvar configurações do hero:', error);
       toast({
-        title: "Erro",
-        description: error instanceof Error ? error.message : "Erro ao salvar configurações do hero",
+        title: "❌ Erro ao salvar",
+        description: "Não foi possível salvar as configurações do hero.",
         variant: "destructive",
       });
     } finally {
@@ -135,403 +94,391 @@ export default function AdminHero() {
     }
   };
 
-  useEffect(() => {
-    loadSettings();
-  }, []);
+  // Resetar para valores originais
+  const resetSettings = () => {
+    setSettings(content.hero);
+    setHasChanges(false);
+    toast({
+      title: "🔄 Resetado",
+      description: "Configurações resetadas para os valores originais.",
+    });
+  };
 
-  if (loading) {
+  // Atualizar campo específico
+  const updateField = (field: keyof HeroSettings, value: string | boolean) => {
+    setSettings(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  if (contentLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-ecko-red mx-auto"></div>
-          <p className="mt-4 text-gray-600">Carregando configurações...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-ecko-red mx-auto mb-4"></div>
+          <p className="text-gray-400">Carregando configurações...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900 flex items-center">
-            <Star className="w-8 h-8 mr-3 text-ecko-red" />
-            Configuração do Hero
-          </h1>
-          <p className="text-gray-600 mt-2">
-            Personalize a seção principal da sua landing page para maximizar conversões.
-          </p>
-        </div>
-
-        <div className="flex items-center gap-3">
-          <Button
-            onClick={() => setPreviewMode(!previewMode)}
-            variant="outline"
-            size="sm"
-            className="border-blue-300 text-blue-700 hover:bg-blue-50"
-          >
-            {previewMode ? (
-              <>
-                <EyeOff className="w-4 h-4 mr-2" />
-                Ocultar Preview
-              </>
-            ) : (
-              <>
-                <Eye className="w-4 h-4 mr-2" />
-                Ver Preview
-              </>
-            )}
-          </Button>
-
-          <Button
-            onClick={loadSettings}
-            variant="outline"
-            size="sm"
-            className="border-gray-300 text-gray-700 hover:bg-gray-50"
-            disabled={loading}
-          >
-            <RefreshCw className="w-4 h-4 mr-2" />
-            Recarregar
-          </Button>
-
-          <Button
-            onClick={saveSettings}
-            size="sm"
-            className="bg-ecko-red hover:bg-ecko-red-dark"
-            disabled={saving}
-          >
-            {saving ? (
-              <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
-            ) : (
-              <Save className="w-4 h-4 mr-2" />
-            )}
-            Salvar Alterações
-          </Button>
-        </div>
-      </div>
-
-      {/* Status Badge */}
-      <div className="flex items-center gap-3">
-        <Badge 
-          className={`${settings.enabled ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}
-        >
-          {settings.enabled ? (
-            <>
-              <Check className="w-3 h-3 mr-1" />
-              Ativo
-            </>
-          ) : (
-            'Inativo'
-          )}
-        </Badge>
-        <Button
-          onClick={() => setSettings(prev => ({ ...prev, enabled: !prev.enabled }))}
-          variant="outline"
-          size="sm"
-        >
-          {settings.enabled ? 'Desativar' : 'Ativar'} Hero
-        </Button>
-      </div>
-
-      {/* Preview */}
-      {previewMode && (
-        <Card className="border-2 border-blue-200">
-          <CardHeader>
-            <CardTitle className="flex items-center text-blue-700">
-              <Eye className="w-5 h-5 mr-2" />
-              Preview do Hero
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div 
-              className="relative min-h-96 rounded-lg p-8 flex items-center justify-center"
-              style={{
-                backgroundColor: settings.background_color,
-                backgroundImage: settings.background_image ? `url(${settings.background_image})` : 'none',
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                color: settings.text_color
-              }}
-            >
-              <div className="text-center max-w-2xl">
-                {settings.logo_url && (
-                  <img 
-                    src={settings.logo_url} 
-                    alt="Logo" 
-                    className="h-16 mx-auto mb-6"
-                  />
-                )}
-                
-                <h2 className="text-sm font-semibold mb-2 opacity-90">
-                  {renderTextWithColorTokens(settings.subtitle)}
-                </h2>
-
-                <h1 className="text-4xl font-bold mb-4">
-                  {renderTextWithColorTokens(settings.title)}
-                </h1>
-
-                <p className="text-lg mb-8 opacity-90">
-                  {renderTextWithColorTokens(settings.description)}
-                </p>
-                
-                <div className="flex gap-4 justify-center">
-                  <button
-                    className="px-6 py-3 rounded-lg font-semibold transition-colors"
-                    style={{ backgroundColor: settings.cta_color, color: settings.cta_text_color }}
-                  >
-                    {settings.cta_text}
-                  </button>
-                  
-                  {settings.cta_secondary_text && (
-                    <button className="px-6 py-3 rounded-lg font-semibold border-2 opacity-80">
-                      {settings.cta_secondary_text}
-                    </button>
-                  )}
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Configurações de Texto */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center">
-              <Type className="w-5 h-5 mr-2 text-blue-600" />
-              Conteúdo do Hero
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
+    <div className="min-h-screen bg-black p-6">
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between">
             <div>
-              <TokenColorEditor
-                label="Título Principal"
-                value={settings.title}
-                onChange={(value) => setSettings(prev => ({ ...prev, title: value }))}
-                placeholder="Torne-se um {ecko}Revendedor Ecko{/ecko}"
-                rows={3}
-              />
+              <h1 className="text-3xl font-black text-white mb-2 flex items-center">
+                <Star className="w-8 h-8 text-ecko-red mr-3" />
+                Configurações do Hero
+              </h1>
+              <p className="text-gray-400">
+                Configure a seção principal da landing page
+              </p>
             </div>
-
-            <div>
-              <TokenColorEditor
-                label="Subtítulo"
-                value={settings.subtitle}
-                onChange={(value) => setSettings(prev => ({ ...prev, subtitle: value }))}
-                placeholder="Oportunidade {ecko}única{/ecko} de negócio"
-                rows={2}
-              />
-            </div>
-
-            <div>
-              <TokenColorEditor
-                label="Descrição"
-                value={settings.description}
-                onChange={(value) => setSettings(prev => ({ ...prev, description: value }))}
-                placeholder="Junte-se à rede de revendedores {ecko}Ecko{/ecko} e maximize seus {green}lucros{/green} com produtos de alta qualidade..."
-                rows={4}
-              />
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Texto do CTA Principal
-                </label>
-                <Input
-                  value={settings.cta_text}
-                  onChange={(e) => setSettings(prev => ({ ...prev, cta_text: e.target.value }))}
-                  placeholder="Quero ser Revendedor"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Texto do CTA Secundário
-                </label>
-                <Input
-                  value={settings.cta_secondary_text}
-                  onChange={(e) => setSettings(prev => ({ ...prev, cta_secondary_text: e.target.value }))}
-                  placeholder="Saiba Mais"
-                />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Configurações Visuais */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center">
-              <Palette className="w-5 h-5 mr-2 text-purple-600" />
-              Personalização Visual
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Logo da Empresa
-              </label>
-              <CompactImageUpload
-                value={settings.logo_url}
-                onChange={(value) => setSettings(prev => ({ ...prev, logo_url: value }))}
-                type="avatar"
-                placeholder="Upload da logo"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Imagem de Fundo
-              </label>
-              <CompactImageUpload
-                value={settings.background_image}
-                onChange={(value) => setSettings(prev => ({ ...prev, background_image: value }))}
-                type="hero"
-                placeholder="Upload da imagem de fundo"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                URL do Vídeo (opcional)
-              </label>
-              <Input
-                value={settings.video_url}
-                onChange={(e) => setSettings(prev => ({ ...prev, video_url: e.target.value }))}
-                placeholder="https://youtube.com/watch?v=..."
-                className="w-full"
-              />
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Cor de Fundo
-                </label>
-                <div className="flex items-center gap-2">
-                  <input
-                    type="color"
-                    value={settings.background_color}
-                    onChange={(e) => setSettings(prev => ({ ...prev, background_color: e.target.value }))}
-                    className="w-12 h-10 rounded border"
-                  />
-                  <Input
-                    value={settings.background_color}
-                    onChange={(e) => setSettings(prev => ({ ...prev, background_color: e.target.value }))}
-                    className="flex-1"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Cor do Texto
-                </label>
-                <div className="flex items-center gap-2">
-                  <input
-                    type="color"
-                    value={settings.text_color}
-                    onChange={(e) => setSettings(prev => ({ ...prev, text_color: e.target.value }))}
-                    className="w-12 h-10 rounded border"
-                  />
-                  <Input
-                    value={settings.text_color}
-                    onChange={(e) => setSettings(prev => ({ ...prev, text_color: e.target.value }))}
-                    className="flex-1"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Cor do Botão CTA
-                </label>
-                <div className="flex items-center gap-2">
-                  <input
-                    type="color"
-                    value={settings.cta_color}
-                    onChange={(e) => setSettings(prev => ({ ...prev, cta_color: e.target.value }))}
-                    className="w-12 h-10 rounded border"
-                  />
-                  <Input
-                    value={settings.cta_color}
-                    onChange={(e) => setSettings(prev => ({ ...prev, cta_color: e.target.value }))}
-                    className="flex-1"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Cor do Texto (Mouse Hover)
-                </label>
-                <div className="flex items-center gap-2">
-                  <input
-                    type="color"
-                    value={settings.cta_text_color}
-                    onChange={(e) => setSettings(prev => ({ ...prev, cta_text_color: e.target.value }))}
-                    className="w-12 h-10 rounded border"
-                  />
-                  <Input
-                    value={settings.cta_text_color}
-                    onChange={(e) => setSettings(prev => ({ ...prev, cta_text_color: e.target.value }))}
-                    className="flex-1"
-                  />
-                </div>
-                <p className="text-xs text-gray-500 mt-1">
-                  Cor que o texto fica quando o mouse passa sobre o botão
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Dicas e Recomendações */}
-      <Card className="bg-blue-50 border-blue-200">
-        <CardHeader>
-          <CardTitle className="text-blue-800 flex items-center">
-            <MousePointer className="w-5 h-5 mr-2" />
-            Dicas para Otimização
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-blue-700">
-            <div>
-              <h4 className="font-semibold mb-2">📝 Texto</h4>
-              <ul className="space-y-1 text-blue-600">
-                <li>• Mantenha o título curto e impactante (max 8 palavras)</li>
-                <li>• Use verbos de ação no CTA ("Quero", "Começar", "Descobrir")</li>
-                <li>• Destaque benefícios únicos na descrição</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-2">🎨 Visual</h4>
-              <ul className="space-y-1 text-blue-600">
-                <li>• Use imagens de alta qualidade (min 1920x1080)</li>
-                <li>• Imagens grandes são compactadas automaticamente</li>
-                <li>• Contraste adequado entre texto e fundo</li>
-                <li>• Configure cores de hover para interação visual</li>
-                <li>• Cores que reflitam a identidade da marca</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-2">🏷️ Tokens de Cor</h4>
-              <ul className="space-y-1 text-blue-600">
-                <li>• Use <code className="px-1 bg-blue-100 rounded text-xs">{`{ecko}texto{/ecko}`}</code> para palavras importantes</li>
-                <li>• Selecione texto e clique em uma cor para aplicar</li>
-                <li>• Use <code className="px-1 bg-blue-100 rounded text-xs">{`{red}{/red}`}</code>, <code className="px-1 bg-blue-100 rounded text-xs">{`{blue}{/blue}`}</code>, etc.</li>
-                <li>• Cores destacam palavras-chave automaticamente</li>
-              </ul>
+            
+            <div className="flex items-center space-x-4">
+              <Badge variant="outline" className="text-green-400 border-green-400">
+                <FileText className="w-4 h-4 mr-2" />
+                Modo JSON
+              </Badge>
+              
+              {hasChanges && (
+                <Badge variant="outline" className="text-yellow-400 border-yellow-400">
+                  Alterações não salvas
+                </Badge>
+              )}
+              
+              <Button
+                onClick={() => setPreviewMode(!previewMode)}
+                variant="outline"
+                className="border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white"
+              >
+                {previewMode ? <EyeOff className="w-4 h-4 mr-2" /> : <Eye className="w-4 h-4 mr-2" />}
+                {previewMode ? 'Ocultar Preview' : 'Mostrar Preview'}
+              </Button>
+              
+              <Button
+                onClick={resetSettings}
+                variant="outline"
+                disabled={!hasChanges}
+                className="border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black"
+              >
+                <RefreshCw className="w-4 h-4 mr-2" />
+                Resetar
+              </Button>
+              
+              <Button
+                onClick={saveSettings}
+                disabled={saving || !hasChanges}
+                className="bg-gradient-to-r from-ecko-red to-ecko-red-dark hover:from-ecko-red-dark hover:to-red-700"
+              >
+                <Save className="w-4 h-4 mr-2" />
+                {saving ? 'Salvando...' : 'Salvar'}
+              </Button>
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+
+        {/* Preview Section */}
+        {previewMode && (
+          <div className="mb-8">
+            <Card className="bg-gray-900 border-gray-700">
+              <CardHeader>
+                <CardTitle className="text-white flex items-center">
+                  <Eye className="w-5 h-5 mr-2" />
+                  Preview do Hero
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div 
+                  className="relative h-96 rounded-lg overflow-hidden flex items-center justify-center"
+                  style={{ 
+                    backgroundColor: settings.background_color,
+                    backgroundImage: settings.background_image ? `url(${settings.background_image})` : 'none',
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center'
+                  }}
+                >
+                  {/* Overlay */}
+                  <div className="absolute inset-0 bg-black/50"></div>
+                  
+                  {/* Content */}
+                  <div className="relative text-center px-6 max-w-4xl">
+                    {/* Logo Preview */}
+                    {settings.logo_url && (
+                      <div className="mb-6">
+                        <img 
+                          src={settings.logo_url} 
+                          alt="Logo" 
+                          className="h-16 mx-auto object-contain"
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.style.display = 'none';
+                          }}
+                        />
+                      </div>
+                    )}
+                    
+                    {/* Subtitle */}
+                    {settings.subtitle && (
+                      <p 
+                        className="text-lg mb-4 opacity-90"
+                        style={{ color: settings.text_color }}
+                      >
+                        {renderTextWithColorTokens(settings.subtitle)}
+                      </p>
+                    )}
+                    
+                    {/* Title */}
+                    <h1 
+                      className="text-4xl font-black mb-4 leading-tight"
+                      style={{ color: settings.text_color }}
+                    >
+                      {renderTextWithColorTokens(settings.title)}
+                    </h1>
+                    
+                    {/* Description */}
+                    {settings.description && (
+                      <p 
+                        className="text-lg mb-6 opacity-90"
+                        style={{ color: settings.text_color }}
+                      >
+                        {renderTextWithColorTokens(settings.description)}
+                      </p>
+                    )}
+                    
+                    {/* CTAs */}
+                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                      {settings.cta_text && (
+                        <button 
+                          className="px-8 py-3 font-bold rounded-lg transition-all duration-300 hover:scale-105"
+                          style={{ 
+                            backgroundColor: settings.cta_color,
+                            color: settings.cta_text_color 
+                          }}
+                        >
+                          {settings.cta_text}
+                        </button>
+                      )}
+                      
+                      {settings.cta_secondary_text && (
+                        <button 
+                          className="px-8 py-3 font-bold border-2 rounded-lg transition-all duration-300 hover:scale-105"
+                          style={{ 
+                            borderColor: settings.cta_color,
+                            color: settings.text_color,
+                            backgroundColor: 'transparent'
+                          }}
+                        >
+                          {settings.cta_secondary_text}
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Textos */}
+          <Card className="bg-gray-900 border-gray-700">
+            <CardHeader>
+              <CardTitle className="text-white flex items-center">
+                <Type className="w-5 h-5 mr-2" />
+                Textos do Hero
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div>
+                <label className="block text-sm font-semibold text-gray-300 mb-2">
+                  Título Principal
+                </label>
+                <Textarea
+                  value={settings.title}
+                  onChange={(e) => updateField('title', e.target.value)}
+                  placeholder="Digite o título principal..."
+                  className="h-20 bg-gray-800 border-gray-600 text-white placeholder-gray-400 focus:border-ecko-red focus:ring-ecko-red/20"
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  Use [texto] para destacar em vermelho
+                </p>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-300 mb-2">
+                  Subtítulo
+                </label>
+                <Input
+                  value={settings.subtitle}
+                  onChange={(e) => updateField('subtitle', e.target.value)}
+                  placeholder="Digite o subtítulo..."
+                  className="bg-gray-800 border-gray-600 text-white placeholder-gray-400 focus:border-ecko-red focus:ring-ecko-red/20"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-300 mb-2">
+                  Descrição
+                </label>
+                <Textarea
+                  value={settings.description}
+                  onChange={(e) => updateField('description', e.target.value)}
+                  placeholder="Digite a descrição..."
+                  className="h-24 bg-gray-800 border-gray-600 text-white placeholder-gray-400 focus:border-ecko-red focus:ring-ecko-red/20"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-300 mb-2">
+                    CTA Principal
+                  </label>
+                  <Input
+                    value={settings.cta_text}
+                    onChange={(e) => updateField('cta_text', e.target.value)}
+                    placeholder="Ex: Quero ser Revendedor"
+                    className="bg-gray-800 border-gray-600 text-white placeholder-gray-400 focus:border-ecko-red focus:ring-ecko-red/20"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-300 mb-2">
+                    CTA Secundário
+                  </label>
+                  <Input
+                    value={settings.cta_secondary_text}
+                    onChange={(e) => updateField('cta_secondary_text', e.target.value)}
+                    placeholder="Ex: Saiba Mais"
+                    className="bg-gray-800 border-gray-600 text-white placeholder-gray-400 focus:border-ecko-red focus:ring-ecko-red/20"
+                  />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Visual e Cores */}
+          <Card className="bg-gray-900 border-gray-700">
+            <CardHeader>
+              <CardTitle className="text-white flex items-center">
+                <Palette className="w-5 h-5 mr-2" />
+                Visual e Cores
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div>
+                <label className="block text-sm font-semibold text-gray-300 mb-2">
+                  Status
+                </label>
+                <div className="flex items-center space-x-3">
+                  <button
+                    onClick={() => updateField('enabled', !settings.enabled)}
+                    className={`flex items-center px-4 py-2 rounded-lg transition-colors ${
+                      settings.enabled 
+                        ? 'bg-green-600 text-white' 
+                        : 'bg-gray-700 text-gray-300'
+                    }`}
+                  >
+                    <Check className="w-4 h-4 mr-2" />
+                    {settings.enabled ? 'Ativo' : 'Inativo'}
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-300 mb-2">
+                  Logo URL
+                </label>
+                <Input
+                  value={settings.logo_url}
+                  onChange={(e) => updateField('logo_url', e.target.value)}
+                  placeholder="https://example.com/logo.png"
+                  className="bg-gray-800 border-gray-600 text-white placeholder-gray-400 focus:border-ecko-red focus:ring-ecko-red/20"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-300 mb-2">
+                  Imagem de Background
+                </label>
+                <Input
+                  value={settings.background_image}
+                  onChange={(e) => updateField('background_image', e.target.value)}
+                  placeholder="https://example.com/background.jpg"
+                  className="bg-gray-800 border-gray-600 text-white placeholder-gray-400 focus:border-ecko-red focus:ring-ecko-red/20"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <TokenColorEditor
+                  label="Cor de Fundo"
+                  value={settings.background_color}
+                  onChange={(color) => updateField('background_color', color)}
+                />
+
+                <TokenColorEditor
+                  label="Cor do Texto"
+                  value={settings.text_color}
+                  onChange={(color) => updateField('text_color', color)}
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <TokenColorEditor
+                  label="Cor do CTA"
+                  value={settings.cta_color}
+                  onChange={(color) => updateField('cta_color', color)}
+                />
+
+                <TokenColorEditor
+                  label="Texto do CTA"
+                  value={settings.cta_text_color}
+                  onChange={(color) => updateField('cta_text_color', color)}
+                />
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Actions */}
+        <div className="mt-8 flex justify-between items-center">
+          <div>
+            <Button
+              variant="outline"
+              className="border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white"
+              onClick={() => window.open('/', '_blank')}
+            >
+              <Eye className="w-4 h-4 mr-2" />
+              Ver Landing Page
+            </Button>
+          </div>
+          
+          <div className="flex space-x-4">
+            <Button
+              onClick={resetSettings}
+              variant="outline"
+              disabled={!hasChanges}
+              className="border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black"
+            >
+              <RefreshCw className="w-4 h-4 mr-2" />
+              Resetar Mudanças
+            </Button>
+            
+            <Button
+              onClick={saveSettings}
+              disabled={saving || !hasChanges}
+              className="bg-gradient-to-r from-ecko-red to-ecko-red-dark hover:from-ecko-red-dark hover:to-red-700 min-w-[140px]"
+            >
+              <Save className="w-4 h-4 mr-2" />
+              {saving ? 'Salvando...' : 'Salvar Alterações'}
+            </Button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
