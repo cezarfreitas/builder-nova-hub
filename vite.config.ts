@@ -77,10 +77,28 @@ export default defineConfig(({ mode }) => ({
     include: [
       'react',
       'react-dom',
-      'lucide-react',
-      '@radix-ui/react-dialog',
-      '@radix-ui/react-toast'
+      'react/jsx-runtime'
+    ],
+    exclude: [
+      // Lazy load these for better initial load
+      'chart.js',
+      'react-chartjs-2',
+      'xlsx'
     ]
+  },
+  // Add experimental features for better performance
+  experimental: {
+    renderBuiltUrl(filename) {
+      // Optimize CDN delivery if needed
+      return filename;
+    }
+  },
+  // CSS optimization
+  css: {
+    devSourcemap: false,
+    preprocessorOptions: {
+      // Inline critical CSS and defer the rest
+    }
   }
 }));
 
