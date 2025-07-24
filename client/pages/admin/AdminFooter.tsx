@@ -7,6 +7,7 @@ import {
   CardTitle,
 } from "../../components/ui/card";
 import { Badge } from "../../components/ui/badge";
+import { Input } from "../../components/ui/input";
 import { useToast } from "../../hooks/use-toast";
 import { useContent } from "../../hooks/useContent";
 import { TokenColorEditor } from "../../components/TokenColorEditor";
@@ -19,10 +20,17 @@ import {
   Copyright,
   AlertCircle,
   Loader2,
+  Link as LinkIcon,
+  Facebook,
+  Instagram,
 } from "lucide-react";
 
 interface FooterSettings {
   copyright: string;
+  social_links: {
+    facebook: string;
+    instagram: string;
+  };
 }
 
 export default function AdminFooter() {
@@ -37,7 +45,13 @@ export default function AdminFooter() {
   // Sincronizar com o conteúdo JSON quando carregado
   useEffect(() => {
     if (content.footer) {
-      setSettings(content.footer);
+      setSettings({
+        copyright: content.footer.copyright || "",
+        social_links: {
+          facebook: content.footer.social_links?.facebook || "",
+          instagram: content.footer.social_links?.instagram || "",
+        }
+      });
     }
   }, [content.footer]);
 
@@ -84,7 +98,13 @@ export default function AdminFooter() {
 
   // Resetar para valores originais
   const resetSettings = () => {
-    setSettings(content.footer);
+    setSettings({
+      copyright: content.footer.copyright || "",
+      social_links: {
+        facebook: content.footer.social_links?.facebook || "",
+        instagram: content.footer.social_links?.instagram || "",
+      }
+    });
     setHasChanges(false);
     toast({
       title: "Resetado",
@@ -93,11 +113,22 @@ export default function AdminFooter() {
   };
 
   // Atualizar campo específico
-  const updateField = (field: keyof FooterSettings, value: string) => {
-    setSettings((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
+  const updateField = (field: string, value: string) => {
+    if (field.startsWith('social_links.')) {
+      const socialField = field.split('.')[1];
+      setSettings((prev) => ({
+        ...prev,
+        social_links: {
+          ...prev.social_links,
+          [socialField]: value,
+        }
+      }));
+    } else {
+      setSettings((prev) => ({
+        ...prev,
+        [field]: value,
+      }));
+    }
   };
 
   if (contentLoading) {
@@ -115,7 +146,7 @@ export default function AdminFooter() {
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Rodapé</h1>
           <p className="text-gray-600">
-            Gerencie o texto do copyright do rodapé da página
+            Gerencie o texto do copyright e links das redes sociais
           </p>
         </div>
 
@@ -205,6 +236,47 @@ export default function AdminFooter() {
               </div>
             </CardContent>
           </Card>
+
+          {/* Redes Sociais */}
+          <Card className="bg-white shadow-sm border border-gray-200">
+            <CardHeader>
+              <CardTitle className="text-gray-900 flex items-center">
+                <LinkIcon className="w-5 h-5 mr-2 text-ecko-red" />
+                Redes Sociais
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700 flex items-center">
+                  <Facebook className="w-4 h-4 mr-2 text-blue-600" />
+                  Link do Facebook
+                </label>
+                <Input
+                  value={settings.social_links.facebook}
+                  onChange={(e) => updateField("social_links.facebook", e.target.value)}
+                  placeholder="https://facebook.com/ecko"
+                  type="url"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700 flex items-center">
+                  <Instagram className="w-4 h-4 mr-2 text-pink-600" />
+                  Link do Instagram
+                </label>
+                <Input
+                  value={settings.social_links.instagram}
+                  onChange={(e) => updateField("social_links.instagram", e.target.value)}
+                  placeholder="https://instagram.com/ecko"
+                  type="url"
+                />
+              </div>
+              
+              <p className="text-xs text-gray-500">
+                Links das redes sociais serão abertos em nova aba
+              </p>
+            </CardContent>
+          </Card>
         </div>
 
         {/* Preview */}
@@ -230,12 +302,22 @@ export default function AdminFooter() {
 
                   {/* Social Links */}
                   <div className="flex space-x-4">
-                    <div className="w-6 h-6 bg-gray-600 rounded flex items-center justify-center">
-                      <span className="text-xs text-white">FB</span>
-                    </div>
-                    <div className="w-6 h-6 bg-gray-600 rounded flex items-center justify-center">
-                      <span className="text-xs text-white">IG</span>
-                    </div>
+                    <a
+                      href={settings.social_links.facebook || "#"}
+                      target={settings.social_links.facebook ? "_blank" : "_self"}
+                      rel={settings.social_links.facebook ? "noopener noreferrer" : ""}
+                      className="w-6 h-6 bg-gray-600 hover:bg-ecko-red rounded flex items-center justify-center transition-colors"
+                    >
+                      <Facebook className="w-4 h-4 text-white" />
+                    </a>
+                    <a
+                      href={settings.social_links.instagram || "#"}
+                      target={settings.social_links.instagram ? "_blank" : "_self"}
+                      rel={settings.social_links.instagram ? "noopener noreferrer" : ""}
+                      className="w-6 h-6 bg-gray-600 hover:bg-ecko-red rounded flex items-center justify-center transition-colors"
+                    >
+                      <Instagram className="w-4 h-4 text-white" />
+                    </a>
                   </div>
 
                   {/* Copyright */}
