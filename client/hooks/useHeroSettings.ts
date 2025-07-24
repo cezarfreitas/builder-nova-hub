@@ -46,9 +46,24 @@ export function useHeroSettings(): UseHeroSettingsReturn {
         throw new Error(result.message || 'Erro ao buscar configurações do hero');
       }
     } catch (err) {
-      console.error('Erro ao buscar configurações do hero:', err);
+      console.warn('Usando configurações padrão do hero devido ao erro:', err);
       setError(err instanceof Error ? err.message : 'Erro desconhecido');
-      setSettings(null); // Sem fallback - apenas dados salvos no banco
+
+      // Usar configurações padrão em caso de erro
+      setSettings({
+        title: "SEJA PARCEIRO OFICIAL ECKO E TENHA SUCESSO",
+        subtitle: "Transforme sua paixão pelo streetwear em um negócio lucrativo",
+        description: "Junte-se aos milhares de revendedores que já transformaram seus negócios com a marca mais desejada do streetwear brasileiro",
+        cta_text: "QUERO SER REVENDEDOR OFICIAL",
+        cta_secondary_text: "CONHECER OS BENEFÍCIOS",
+        background_image: "",
+        background_color: "#000000",
+        text_color: "#ffffff",
+        cta_color: "#dc2626",
+        logo_url: "",
+        video_url: "",
+        enabled: true
+      });
     } finally {
       setLoading(false);
     }
