@@ -52,6 +52,8 @@ export default function AdminAnalytics() {
   const [selectedPeriod, setSelectedPeriod] = useState(30);
   const { overview, dailyStats, timeAnalysis, trafficSources, locationConversion, geographyConversion, loading, error, refreshData } = useAnalytics(selectedPeriod);
 
+  const isLoading = loading;
+
   const handlePeriodChange = (days: number) => {
     setSelectedPeriod(days);
   };
