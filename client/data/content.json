@@ -2,38 +2,38 @@
   "section_order": {
     "enabled_sections": [
       {
+        "id": "about",
+        "name": "Sobre a Ecko",
+        "enabled": true,
+        "order": 1
+      },
+      {
         "id": "hero",
         "name": "Hero Section",
         "enabled": true,
-        "order": 1
+        "order": 2
       },
       {
         "id": "form",
         "name": "Formulário",
         "enabled": true,
-        "order": 2
+        "order": 3
       },
       {
         "id": "benefits",
         "name": "Vantagens",
         "enabled": true,
-        "order": 3
+        "order": 4
       },
       {
         "id": "gallery",
         "name": "Galeria",
         "enabled": true,
-        "order": 4
+        "order": 5
       },
       {
         "id": "testimonials",
         "name": "Depoimentos",
-        "enabled": true,
-        "order": 5
-      },
-      {
-        "id": "about",
-        "name": "Sobre a Ecko",
         "enabled": true,
         "order": 6
       },
