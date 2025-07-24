@@ -152,6 +152,7 @@ export default function AdminOrder() {
   const getSectionIcon = (sectionId: string) => {
     const icons: { [key: string]: string } = {
       hero: "🏠",
+      form: "📝",
       benefits: "⭐",
       testimonials: "💬",
       gallery: "🖼️",
