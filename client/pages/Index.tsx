@@ -219,7 +219,7 @@ export default function Index() {
   // Função para abrir formulário com origem específica
   const openFormWithOrigin = (origin: string) => {
     setFormOrigin(origin);
-    setShowForm(true);
+    setIsModalOpen(true);
   };
 
   // Função para formatar WhatsApp
