@@ -1506,7 +1506,7 @@ export default function Index() {
                       <Button
                         size="lg"
                         onClick={() => scrollToSection("hero")}
-                        className="bg-white text-ecko-red hover:bg-gray-100 px-8 py-4 text-lg font-bold group relative overflow-hidden transition-all duration-300 hover:scale-105 shadow-2xl"
+                        className="bg-ecko-red hover:bg-ecko-red-dark text-white px-8 py-4 text-lg font-bold group relative overflow-hidden transition-all duration-300 hover:scale-105 shadow-2xl"
                       >
                         <span className="absolute inset-0 bg-gradient-to-r from-gray-50 to-gray-100 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
                         <span className="relative z-10 flex items-center">
