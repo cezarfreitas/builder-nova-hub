@@ -48,7 +48,8 @@ export default function Index() {
     enabled: true,
     title: "SEJA PARCEIRO OFICIAL ECKO E TENHA [SUCESSO]",
     subtitle: "A marca mais desejada do streetwear brasileiro",
-    description: "Junte-se aos milhares de revendedores que já transformaram seus negócios com produtos de alta qualidade e excelente margem de lucro",
+    description:
+      "Junte-se aos milhares de revendedores que já transformaram seus negócios com produtos de alta qualidade e excelente margem de lucro",
     cta_text: "QUERO SER REVENDEDOR",
     cta_secondary_text: "DESCUBRA AS VANTAGENS",
     logo_url: "/logo-ecko.png",
@@ -56,7 +57,7 @@ export default function Index() {
     background_color: "#000000",
     text_color: "#ffffff",
     cta_color: "#dc2626",
-    cta_text_color: "#ffffff"
+    cta_text_color: "#ffffff",
   };
 
   const [formData, setFormData] = useState<LeadFormData>({
@@ -90,24 +91,29 @@ export default function Index() {
   const galleryTexts = {
     section_title: "COLEÇÃO LIFESTYLE",
     section_subtitle: "Viva o estilo Ecko",
-    section_description: "Descubra o lifestyle autêntico da Ecko através de looks que representam a essência do streetwear e a cultura urbana que define nossa marca",
+    section_description:
+      "Descubra o lifestyle autêntico da Ecko através de looks que representam a essência do streetwear e a cultura urbana que define nossa marca",
     section_tag: "Lifestyle Gallery",
     empty_state_title: "Galeria em Construção",
-    empty_state_description: "Em breve nossa galeria estará repleta de produtos incríveis!",
+    empty_state_description:
+      "Em breve nossa galeria estará repleta de produtos incríveis!",
     cta_title: "Tenha Estes Produtos em Sua Loja!",
-    cta_description: "Produtos com alta demanda e excelente margem de lucro esperando por você",
+    cta_description:
+      "Produtos com alta demanda e excelente margem de lucro esperando por você",
     cta_button_text: "QUERO ESSES PRODUTOS NA MINHA LOJA",
   };
 
   // Static testimonials texts
   const testimonialsTexts = {
-    section_tag: 'Depoimentos',
-    section_title: 'O que nossos revendedores dizem',
-    section_subtitle: 'casos reais de sucesso',
-    section_description: 'Depoimentos reais de parceiros que transformaram suas paixões em negócios lucrativos com a Ecko',
-    cta_title: 'Seja o próximo case de sucesso!',
-    cta_description: 'Junte-se aos revendedores que já transformaram seus negócios',
-    cta_button_text: 'QUERO SER UM CASE DE SUCESSO'
+    section_tag: "Depoimentos",
+    section_title: "O que nossos revendedores dizem",
+    section_subtitle: "casos reais de sucesso",
+    section_description:
+      "Depoimentos reais de parceiros que transformaram suas paixões em negócios lucrativos com a Ecko",
+    cta_title: "Seja o próximo case de sucesso!",
+    cta_description:
+      "Junte-se aos revendedores que já transformaram seus negócios",
+    cta_button_text: "QUERO SER UM CASE DE SUCESSO",
   };
 
   // Static gallery images
@@ -115,9 +121,12 @@ export default function Index() {
     {
       id: 1,
       title: "Street Style Urbano",
-      description: "Coleção lifestyle Ecko - visual urbano autêntico com atitude",
-      image_url: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=500&h=500&fit=crop&crop=center",
-      alt_text: "Ecko streetwear - homem jovem com roupa urbana da marca líder em moda street no Brasil",
+      description:
+        "Coleção lifestyle Ecko - visual urbano autêntico com atitude",
+      image_url:
+        "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=500&h=500&fit=crop&crop=center",
+      alt_text:
+        "Ecko streetwear - homem jovem com roupa urbana da marca líder em moda street no Brasil",
       display_order: 1,
       is_active: true,
     },
@@ -125,8 +134,10 @@ export default function Index() {
       id: 2,
       title: "Estilo Casual Premium",
       description: "Looks casuais que refletem a essência streetwear da marca",
-      image_url: "https://images.unsplash.com/photo-1506629905607-21e4ab4ea3d4?w=500&h=500&fit=crop&crop=center",
-      alt_text: "Moda casual Ecko - looks premium streetwear brasileiro para o dia a dia urbano",
+      image_url:
+        "https://images.unsplash.com/photo-1506629905607-21e4ab4ea3d4?w=500&h=500&fit=crop&crop=center",
+      alt_text:
+        "Moda casual Ecko - looks premium streetwear brasileiro para o dia a dia urbano",
       display_order: 2,
       is_active: true,
     },
@@ -134,8 +145,10 @@ export default function Index() {
       id: 3,
       title: "Atitude Streetwear",
       description: "Visual jovem e descolado que representa a cultura urbana",
-      image_url: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=500&h=500&fit=crop&crop=center",
-      alt_text: "Jovem estiloso com roupas Ecko representando a cultura streetwear urbana brasileira",
+      image_url:
+        "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=500&h=500&fit=crop&crop=center",
+      alt_text:
+        "Jovem estiloso com roupas Ecko representando a cultura streetwear urbana brasileira",
       display_order: 3,
       is_active: true,
     },
@@ -143,8 +156,10 @@ export default function Index() {
       id: 4,
       title: "Moda Urbana Feminina",
       description: "Coleção feminina com pegada street e muita personalidade",
-      image_url: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=500&h=500&fit=crop&crop=center",
-      alt_text: "Mulher jovem com estilo streetwear Ecko - moda urbana feminina brasileira",
+      image_url:
+        "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=500&h=500&fit=crop&crop=center",
+      alt_text:
+        "Mulher jovem com estilo streetwear Ecko - moda urbana feminina brasileira",
       display_order: 4,
       is_active: true,
     },
@@ -152,8 +167,10 @@ export default function Index() {
       id: 5,
       title: "Look Esportivo Chic",
       description: "Combinação perfeita entre conforto e estilo urbano",
-      image_url: "https://images.unsplash.com/photo-1558618047-fcd95c85cd64?w=500&h=500&fit=crop&crop=center",
-      alt_text: "Combinação perfeita de conforto e estilo urbano com roupas esportivas Ecko",
+      image_url:
+        "https://images.unsplash.com/photo-1558618047-fcd95c85cd64?w=500&h=500&fit=crop&crop=center",
+      alt_text:
+        "Combinação perfeita de conforto e estilo urbano com roupas esportivas Ecko",
       display_order: 5,
       is_active: true,
     },
@@ -161,7 +178,8 @@ export default function Index() {
       id: 6,
       title: "Estilo Hip Hop Culture",
       description: "Raízes da cultura hip hop com toque contemporâneo",
-      image_url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=500&fit=crop&crop=center",
+      image_url:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=500&fit=crop&crop=center",
       alt_text: "Hip hop culture Ecko lifestyle",
       display_order: 6,
       is_active: true,
@@ -170,7 +188,8 @@ export default function Index() {
       id: 7,
       title: "Urban Fashion Trends",
       description: "Tendências da moda urbana que definem gerações",
-      image_url: "https://images.unsplash.com/photo-1533973403183-b2952e4b971e?w=500&h=500&fit=crop&crop=center",
+      image_url:
+        "https://images.unsplash.com/photo-1533973403183-b2952e4b971e?w=500&h=500&fit=crop&crop=center",
       alt_text: "Urban fashion trends Ecko",
       display_order: 7,
       is_active: true,
@@ -179,11 +198,12 @@ export default function Index() {
       id: 8,
       title: "Lifestyle Autêntico",
       description: "Autenticidade e originalidade em cada visual",
-      image_url: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=500&h=500&fit=crop&crop=center",
+      image_url:
+        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=500&h=500&fit=crop&crop=center",
       alt_text: "Lifestyle autêntico Ecko",
       display_order: 8,
       is_active: true,
-    }
+    },
   ];
 
   // Static FAQs
@@ -191,35 +211,40 @@ export default function Index() {
     {
       id: 1,
       question: "Como me tornar um revendedor oficial da Ecko?",
-      answer: "Para se tornar um revendedor oficial, você precisa ter CNPJ ativo e preencher nosso formulário de cadastro. Nossa equipe entrará em contato em até 24h para apresentar as condições comerciais e processo de aprovação.",
+      answer:
+        "Para se tornar um revendedor oficial, você precisa ter CNPJ ativo e preencher nosso formulário de cadastro. Nossa equipe entrará em contato em até 24h para apresentar as condições comerciais e processo de aprovação.",
       display_order: 1,
       is_active: true,
     },
     {
       id: 2,
       question: "Qual o investimento mínimo para começar?",
-      answer: "O investimento inicial varia conforme o tipo de loja e região. Oferecemos condições especiais para novos parceiros, incluindo facilidades de pagamento e lotes mínimos acessíveis. Consulte nossa equipe para uma proposta personalizada.",
+      answer:
+        "O investimento inicial varia conforme o tipo de loja e região. Oferecemos condições especiais para novos parceiros, incluindo facilidades de pagamento e lotes mínimos acessíveis. Consulte nossa equipe para uma proposta personalizada.",
       display_order: 2,
       is_active: true,
     },
     {
       id: 3,
       question: "Vocês oferecem exclusividade territorial?",
-      answer: "Sim! Dependendo da região e do perfil do parceiro, oferecemos proteção territorial para garantir que você tenha espaço para crescer sem concorrência direta de outros revendedores oficiais.",
+      answer:
+        "Sim! Dependendo da região e do perfil do parceiro, oferecemos proteção territorial para garantir que você tenha espaço para crescer sem concorrência direta de outros revendedores oficiais.",
       display_order: 3,
       is_active: true,
     },
     {
       id: 4,
       question: "Como funciona o suporte pós-venda?",
-      answer: "Nossa equipe oferece suporte completo: treinamento de produto, materiais de marketing, orientação sobre displays e estratégias de venda. Além disso, você terá um consultor dedicado para acompanhar seu desenvolvimento.",
+      answer:
+        "Nossa equipe oferece suporte completo: treinamento de produto, materiais de marketing, orientação sobre displays e estratégias de venda. Além disso, você terá um consultor dedicado para acompanhar seu desenvolvimento.",
       display_order: 4,
       is_active: true,
     },
     {
       id: 5,
       question: "Qual o prazo de entrega dos produtos?",
-      answer: "Trabalhamos com estoque disponível para pronta entrega. O prazo médio é de 5 a 10 dias úteis, dependendo da localização. Para pedidos maiores, o prazo pode ser negociado conforme a necessidade.",
+      answer:
+        "Trabalhamos com estoque disponível para pronta entrega. O prazo médio é de 5 a 10 dias úteis, dependendo da localização. Para pedidos maiores, o prazo pode ser negociado conforme a necessidade.",
       display_order: 5,
       is_active: true,
     },
@@ -232,8 +257,10 @@ export default function Index() {
       name: "Ricardo Silva",
       company: "Silva Streetwear",
       role: "Proprietário",
-      content: "Trabalhar com a Ecko mudou completamente meu negócio. As vendas triplicaram em apenas 6 meses e os clientes sempre voltam para comprar mais. A qualidade dos produtos é excepcional!",
-      avatar_url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+      content:
+        "Trabalhar com a Ecko mudou completamente meu negócio. As vendas triplicaram em apenas 6 meses e os clientes sempre voltam para comprar mais. A qualidade dos produtos é excepcional!",
+      avatar_url:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
       rating: 5,
       is_active: true,
     },
@@ -242,8 +269,10 @@ export default function Index() {
       name: "Ana Carolina",
       company: "Street Style Store",
       role: "CEO",
-      content: "Como mulher empreendedora, encontrei na Ecko o parceiro ideal. O suporte é incrível e os produtos vendem sozinhos. Minha loja cresceu 400% desde que me tornei revendedora oficial.",
-      avatar_url: "https://images.unsplash.com/photo-1494790108755-2616b612b647?w=150&h=150&fit=crop&crop=face",
+      content:
+        "Como mulher empreendedora, encontrei na Ecko o parceiro ideal. O suporte é incrível e os produtos vendem sozinhos. Minha loja cresceu 400% desde que me tornei revendedora oficial.",
+      avatar_url:
+        "https://images.unsplash.com/photo-1494790108755-2616b612b647?w=150&h=150&fit=crop&crop=face",
       rating: 5,
       is_active: true,
     },
@@ -252,8 +281,10 @@ export default function Index() {
       name: "Marcus Santos",
       company: "Urban Fashion",
       role: "Diretor Comercial",
-      content: "A Ecko não é só uma marca, é um estilo de vida. Nossos clientes são apaixonados pelos produtos e isso reflete diretamente nas nossas vendas. Melhor decisão que já tomei!",
-      avatar_url: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+      content:
+        "A Ecko não é só uma marca, é um estilo de vida. Nossos clientes são apaixonados pelos produtos e isso reflete diretamente nas nossas vendas. Melhor decisão que já tomei!",
+      avatar_url:
+        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
       rating: 5,
       is_active: true,
     },
@@ -262,8 +293,10 @@ export default function Index() {
       name: "Fernanda Costa",
       company: "FC Moda Urbana",
       role: "Fundadora",
-      content: "Em 2 anos como revendedora Ecko, consegui abrir mais 3 lojas. A marca tem uma força incrível no mercado e os jovens amam. O retorno sobre investimento é fantástico!",
-      avatar_url: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=150&h=150&fit=crop&crop=face",
+      content:
+        "Em 2 anos como revendedora Ecko, consegui abrir mais 3 lojas. A marca tem uma força incrível no mercado e os jovens amam. O retorno sobre investimento é fantástico!",
+      avatar_url:
+        "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=150&h=150&fit=crop&crop=face",
       rating: 5,
       is_active: true,
     },
@@ -282,9 +315,13 @@ export default function Index() {
           user_id: userId,
           page_url: window.location.href,
           referrer: document.referrer,
-          utm_source: new URLSearchParams(window.location.search).get("utm_source") || "",
-          utm_medium: new URLSearchParams(window.location.search).get("utm_medium") || "",
-          utm_campaign: new URLSearchParams(window.location.search).get("utm_campaign") || "",
+          utm_source:
+            new URLSearchParams(window.location.search).get("utm_source") || "",
+          utm_medium:
+            new URLSearchParams(window.location.search).get("utm_medium") || "",
+          utm_campaign:
+            new URLSearchParams(window.location.search).get("utm_campaign") ||
+            "",
           user_agent: navigator.userAgent,
           duration_seconds: Math.floor((Date.now() - startTime) / 1000),
           event_type: "whatsapp_click",
@@ -1112,10 +1149,14 @@ export default function Index() {
                           ) : (
                             <>
                               <span className="hidden sm:inline">
-                                {staticHero.cta_text ? staticHero.cta_text.toUpperCase() : "QUERO SER REVENDEDOR"}
+                                {staticHero.cta_text
+                                  ? staticHero.cta_text.toUpperCase()
+                                  : "QUERO SER REVENDEDOR"}
                               </span>
                               <span className="sm:hidden">
-                                {staticHero.cta_text ? staticHero.cta_text.toUpperCase() : "SER REVENDEDOR"}
+                                {staticHero.cta_text
+                                  ? staticHero.cta_text.toUpperCase()
+                                  : "SER REVENDEDOR"}
                               </span>
                             </>
                           )}
@@ -1365,7 +1406,9 @@ export default function Index() {
                 >
                   <span className="absolute inset-0 bg-gradient-to-r from-red-600 to-red-800 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
                   <span className="relative z-10 flex items-center">
-                    <span className="hidden sm:inline">{testimonialsTexts.cta_button_text}</span>
+                    <span className="hidden sm:inline">
+                      {testimonialsTexts.cta_button_text}
+                    </span>
                     <span className="sm:hidden">QUERO SER UM CASE</span>
                     <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </span>
@@ -1468,7 +1511,8 @@ export default function Index() {
                 </span>
               </h2>
               <p className="text-gray-300 text-lg max-w-3xl mx-auto leading-relaxed">
-                Encontre respostas para as principais dúvidas sobre como se tornar um parceiro oficial da Ecko
+                Encontre respostas para as principais dúvidas sobre como se
+                tornar um parceiro oficial da Ecko
               </p>
             </div>
 
