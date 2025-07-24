@@ -176,7 +176,7 @@
       },
       {
         "id": 5,
-        "question": "Qual o prazo de entrega dos produtos?",
+        "question": "Qual o prazo de entrega dos produtoss?",
         "answer": "Trabalhamos com estoque disponível para pronta entrega. O prazo médio é de 5 a 10 dias úteis, dependendo da localização. Para pedidos maiores, o prazo pode ser negociado conforme a necessidade.",
         "is_active": true,
         "display_order": 5
