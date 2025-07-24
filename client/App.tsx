@@ -59,4 +59,12 @@ const App = () => (
   </BrowserRouter>
 );
 
-createRoot(document.getElementById("root")!).render(<App />);
+// Previne múltiplas chamadas de createRoot durante hot reloading
+const container = document.getElementById("root")!;
+if (!container._reactRootContainer) {
+  const root = createRoot(container);
+  container._reactRootContainer = root;
+  root.render(<App />);
+} else {
+  container._reactRootContainer.render(<App />);
+}
