@@ -439,7 +439,118 @@ export default function AdminAnalytics() {
         </Card>
       </div>
 
-      {/* Segunda linha de métricas */}
+      {/* Segunda linha de métricas - Segmentação de Usuários */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Usuários Novos */}
+        <Card className="bg-gradient-to-br from-cyan-50 to-cyan-100 border-cyan-200">
+          <CardContent className="p-6">
+            <div className="flex items-center">
+              <div className="p-2 bg-cyan-500 rounded-lg">
+                <Users className="w-6 h-6 text-white" />
+              </div>
+              <div className="ml-4">
+                <p className="text-sm font-medium text-cyan-600">Usuários Novos</p>
+                {isLoading ? (
+                  <div className="flex items-center">
+                    <Loader2 className="w-5 h-5 animate-spin text-gray-400 mr-2" />
+                    <span className="text-gray-400">Carregando...</span>
+                  </div>
+                ) : (
+                  <>
+                    <p className="text-2xl font-bold text-cyan-900">{overview.traffic.new_users}</p>
+                    <p className="text-xs text-cyan-600">
+                      {overview.traffic.unique_users > 0 ? ((overview.traffic.new_users / overview.traffic.unique_users) * 100).toFixed(1) : 0}% do total
+                    </p>
+                  </>
+                )}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Usuários Recorrentes */}
+        <Card className="bg-gradient-to-br from-teal-50 to-teal-100 border-teal-200">
+          <CardContent className="p-6">
+            <div className="flex items-center">
+              <div className="p-2 bg-teal-500 rounded-lg">
+                <RefreshCw className="w-6 h-6 text-white" />
+              </div>
+              <div className="ml-4">
+                <p className="text-sm font-medium text-teal-600">Usuários Recorrentes</p>
+                {isLoading ? (
+                  <div className="flex items-center">
+                    <Loader2 className="w-5 h-5 animate-spin text-gray-400 mr-2" />
+                    <span className="text-gray-400">Carregando...</span>
+                  </div>
+                ) : (
+                  <>
+                    <p className="text-2xl font-bold text-teal-900">{overview.traffic.returning_users}</p>
+                    <p className="text-xs text-teal-600">
+                      {overview.traffic.unique_users > 0 ? ((overview.traffic.returning_users / overview.traffic.unique_users) * 100).toFixed(1) : 0}% do total
+                    </p>
+                  </>
+                )}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Visualizações Únicas */}
+        <Card className="bg-gradient-to-br from-violet-50 to-violet-100 border-violet-200">
+          <CardContent className="p-6">
+            <div className="flex items-center">
+              <div className="p-2 bg-violet-500 rounded-lg">
+                <Eye className="w-6 h-6 text-white" />
+              </div>
+              <div className="ml-4">
+                <p className="text-sm font-medium text-violet-600">Visualizações Únicas</p>
+                {isLoading ? (
+                  <div className="flex items-center">
+                    <Loader2 className="w-5 h-5 animate-spin text-gray-400 mr-2" />
+                    <span className="text-gray-400">Carregando...</span>
+                  </div>
+                ) : (
+                  <>
+                    <p className="text-2xl font-bold text-violet-900">{overview.traffic.unique_page_views.toLocaleString()}</p>
+                    <p className="text-xs text-violet-600">
+                      De {overview.traffic.total_page_views.toLocaleString()} totais
+                    </p>
+                  </>
+                )}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Taxa de Rejeição */}
+        <Card className="bg-gradient-to-br from-amber-50 to-amber-100 border-amber-200">
+          <CardContent className="p-6">
+            <div className="flex items-center">
+              <div className="p-2 bg-amber-500 rounded-lg">
+                <TrendingUp className="w-6 h-6 text-white" />
+              </div>
+              <div className="ml-4">
+                <p className="text-sm font-medium text-amber-600">Taxa de Rejeição</p>
+                {isLoading ? (
+                  <div className="flex items-center">
+                    <Loader2 className="w-5 h-5 animate-spin text-gray-400 mr-2" />
+                    <span className="text-gray-400">Carregando...</span>
+                  </div>
+                ) : (
+                  <>
+                    <p className="text-2xl font-bold text-amber-900">{overview.traffic.bounce_rate}%</p>
+                    <p className="text-xs text-amber-600">
+                      Sessões de página única
+                    </p>
+                  </>
+                )}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Terceira linha de métricas */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {/* Cliques WhatsApp */}
         <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200">
