@@ -75,21 +75,7 @@ export default function Index() {
     return btoa(fingerprint).slice(0, 20);
   });
 
-  // Static gallery texts
-  const galleryTexts = {
-    section_title: "COLEÇÃO LIFESTYLE",
-    section_subtitle: "Viva o estilo Ecko",
-    section_description:
-      "Descubra o lifestyle autêntico da Ecko através de looks que representam a essência do streetwear e a cultura urbana que define nossa marca",
-    section_tag: "Lifestyle Gallery",
-    empty_state_title: "Galeria em Construção",
-    empty_state_description:
-      "Em breve nossa galeria estará repleta de produtos incríveis!",
-    cta_title: "Tenha Estes Produtos em Sua Loja!",
-    cta_description:
-      "Produtos com alta demanda e excelente margem de lucro esperando por você",
-    cta_button_text: "QUERO ESSES PRODUTOS NA MINHA LOJA",
-  };
+
 
   // Static testimonials texts
 
