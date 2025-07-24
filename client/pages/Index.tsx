@@ -856,15 +856,28 @@ export default function Index() {
           <div className="relative z-20 text-center px-4 sm:px-6 max-w-4xl mx-auto">
             {/* Logo */}
             {staticHero.logo_url && (
-              <div className="flex items-center justify-center mt-8 sm:mt-12 lg:mt-20 mb-6 sm:mb-8">
-                <div
-                  className="w-32 h-12 sm:w-40 sm:h-16 lg:w-48 lg:h-20 xl:w-56 xl:h-24 bg-no-repeat bg-center bg-contain transition-all duration-500"
-                  style={{
-                    backgroundImage: `url(${staticHero.logo_url})`,
-                  }}
-                  role="img"
-                  aria-label="Logo da Empresa"
-                />
+              <div className="flex items-center justify-center pt-4 sm:pt-8 lg:pt-12 mb-8 sm:mb-10 lg:mb-12">
+                <div className="relative">
+                  {/* Glow effect behind logo */}
+                  <div className="absolute inset-0 bg-ecko-red/20 blur-xl rounded-full scale-150 opacity-50"></div>
+
+                  {/* Logo container */}
+                  <div className="relative bg-white/5 backdrop-blur-sm rounded-2xl p-4 sm:p-6 lg:p-8 border border-white/10 hover:border-ecko-red/50 transition-all duration-500 hover:scale-105 shadow-2xl">
+                    <div
+                      className="w-40 h-16 sm:w-48 sm:h-20 lg:w-56 lg:h-24 xl:w-64 xl:h-28 bg-no-repeat bg-center bg-contain transition-all duration-500"
+                      style={{
+                        backgroundImage: `url(${staticHero.logo_url})`,
+                        filter: "brightness(1.1) contrast(1.1)",
+                      }}
+                      role="img"
+                      aria-label="Logo Ecko - Marca líder em streetwear brasileiro"
+                    />
+                  </div>
+
+                  {/* Decorative elements */}
+                  <div className="absolute -top-2 -right-2 w-4 h-4 bg-ecko-red rounded-full opacity-75 animate-pulse"></div>
+                  <div className="absolute -bottom-2 -left-2 w-3 h-3 bg-white rounded-full opacity-60 animate-pulse" style={{ animationDelay: '0.5s' }}></div>
+                </div>
               </div>
             )}
 
