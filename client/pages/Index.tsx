@@ -2045,20 +2045,19 @@ export default function Index() {
                 // Track WhatsApp click with multiple methods
                 trackWhatsAppClick();
 
-                // Backup tracking method
+                // Local backup for analytics
                 try {
-                  fetch("/api/analytics", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                      event: "whatsapp_click",
-                      session_id: sessionId,
-                      user_id: userId,
-                      timestamp: new Date().toISOString()
-                    })
-                  }).catch(e => console.warn('Backup tracking failed:', e));
+                  const clicks = JSON.parse(localStorage.getItem('whatsapp_clicks') || '[]');
+                  clicks.push({
+                    timestamp: new Date().toISOString(),
+                    session_id: sessionId,
+                    user_id: userId,
+                    page_url: window.location.href
+                  });
+                  localStorage.setItem('whatsapp_clicks', JSON.stringify(clicks));
+                  console.log('💾 WhatsApp click salvo localmente:', clicks.length);
                 } catch (e) {
-                  console.warn('Backup tracking error:', e);
+                  console.warn('LocalStorage backup failed:', e);
                 }
 
                 openFormWithOrigin("whatsapp-float");
