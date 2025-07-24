@@ -102,6 +102,11 @@ export function MultiImageUpload({
         const file = validFiles[i];
         const result = await uploadImage(file);
         results.push(result);
+
+        // Pequeno delay entre uploads para dar tempo ao servidor
+        if (i < validFiles.length - 1) {
+          await new Promise(resolve => setTimeout(resolve, 500));
+        }
       }
 
       const successfulUploads = results.filter(url => url !== null) as string[];
