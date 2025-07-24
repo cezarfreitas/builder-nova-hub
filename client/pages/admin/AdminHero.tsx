@@ -517,10 +517,12 @@ export default function AdminHero() {
                 <label className="block text-sm font-medium text-gray-700">
                   CTA Principal *
                 </label>
-                <Input
+                <TokenColorEditor
                   value={settings.cta_text}
-                  onChange={(e) => updateField('cta_text', e.target.value)}
+                  onChange={(value) => updateField('cta_text', value)}
                   placeholder="Ex: Quero ser Revendedor"
+                  rows={2}
+                  label=""
                   className={validation.cta_text ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : ''}
                 />
                 {validation.cta_text && (
@@ -535,10 +537,12 @@ export default function AdminHero() {
                 <label className="block text-sm font-medium text-gray-700">
                   CTA Secundário
                 </label>
-                <Input
+                <TokenColorEditor
                   value={settings.cta_secondary_text}
-                  onChange={(e) => updateField('cta_secondary_text', e.target.value)}
+                  onChange={(value) => updateField('cta_secondary_text', value)}
                   placeholder="Ex: Saiba Mais"
+                  rows={2}
+                  label=""
                 />
               </div>
             </div>
