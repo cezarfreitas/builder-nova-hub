@@ -1850,7 +1850,7 @@ export default function Index() {
               </p>
               <a
                 href="/admin"
-                className="text-gray-600 hover:text-ecko-red text-xs transition-colors"
+                className="text-gray-300 hover:text-ecko-red text-xs transition-colors"
               >
                 Admin
               </a>
