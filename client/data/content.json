@@ -23,31 +23,31 @@
         "id": "gallery",
         "name": "Galeria",
         "enabled": true,
-        "order": 3
+        "order": 4
       },
       {
         "id": "testimonials",
         "name": "Depoimentos",
         "enabled": true,
-        "order": 4
+        "order": 5
       },
       {
         "id": "faq",
         "name": "FAQ",
         "enabled": true,
-        "order": 5
+        "order": 6
       },
       {
         "id": "about",
         "name": "Sobre a Ecko",
         "enabled": true,
-        "order": 6
+        "order": 7
       },
       {
         "id": "final_cta",
         "name": "CTA Final",
         "enabled": true,
-        "order": 7
+        "order": 8
       }
     ]
   },
@@ -225,7 +225,7 @@
       }
     ],
     "cta_title": "Seja o próximo case de sucesso!",
-    "cta_description": "Junte-se aos revendedores que já transformaram seus negócios",
+    "cta_description": "Junte-se aos revendedores que já transformaram seus neg��cios",
     "cta_button_text": "QUERO SER UM CASE DE SUCESSO"
   },
   "faq": {
