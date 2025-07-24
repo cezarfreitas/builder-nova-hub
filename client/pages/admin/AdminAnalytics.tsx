@@ -572,23 +572,7 @@ export default function AdminAnalytics() {
           </CardContent>
         </Card>
 
-        {/* Leads com CNPJ */}
-        <Card className="bg-gradient-to-br from-emerald-50 to-emerald-100 border-emerald-200">
-          <CardContent className="p-6">
-            <div className="flex items-center">
-              <div className="p-2 bg-emerald-500 rounded-lg">
-                <Target className="w-6 h-6 text-white" />
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-emerald-600">Leads com CNPJ</p>
-                <p className="text-2xl font-bold text-emerald-900">{overview.leads.with_cnpj}</p>
-                <p className="text-xs text-emerald-600">
-                  {((overview.leads.with_cnpj / overview.leads.total) * 100).toFixed(1)}% do total
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+
 
         {/* Leads Únicos */}
         <Card className="bg-gradient-to-br from-ecko-red/10 to-ecko-red/20 border-ecko-red/30">
