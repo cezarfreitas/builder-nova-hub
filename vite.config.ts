@@ -35,13 +35,7 @@ export default defineConfig(({ mode }) => ({
   },
   // Optimize dependencies
   optimizeDeps: {
-    include: ["react", "react-dom", "react/jsx-runtime"],
-    exclude: [
-      // Lazy load these for better initial load
-      "chart.js",
-      "react-chartjs-2",
-      "xlsx",
-    ],
+    include: ["react", "react-dom"],
   },
 
   // CSS optimization
