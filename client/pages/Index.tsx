@@ -1682,10 +1682,10 @@ export default function Index() {
                       <Button
                         size="lg"
                         onClick={() => openFormWithOrigin("cta")}
-                        className="bg-white hover:bg-gray-100 text-ecko-red px-8 py-4 text-lg font-bold group relative overflow-hidden transition-all duration-300 hover:scale-105 shadow-2xl"
+                        className="bg-white hover:bg-gray-100 text-ecko-red px-6 sm:px-8 py-4 sm:py-5 text-base sm:text-lg font-bold group relative overflow-hidden transition-all duration-300 hover:scale-105 shadow-2xl min-h-[56px] w-full sm:w-auto touch-manipulation"
                       >
                         <span className="absolute inset-0 bg-gradient-to-r from-gray-100 to-gray-200 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
-                        <span className="relative z-10 flex items-center">
+                        <span className="relative z-10 flex items-center justify-center">
                           <span className="hidden sm:inline">
                             {content.final_cta.button_text}
                           </span>
