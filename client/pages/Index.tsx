@@ -728,6 +728,8 @@ export default function Index() {
   return (
     <>
       <DynamicHead />
+      <DeferredCSS />
+      <PreloadHeroImages />
       <main className="bg-black pb-4">
         {/* Hero Full Screen Section */}
         <section
