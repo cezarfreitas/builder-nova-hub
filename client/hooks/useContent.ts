@@ -127,6 +127,15 @@ export interface ContentData {
     description: string;
     button_text: string;
   };
+  footer: {
+    description: string;
+    links_title: string;
+    contact_title: string;
+    phone: string;
+    email: string;
+    hours: string;
+    copyright: string;
+  };
 }
 
 export const useContent = () => {
