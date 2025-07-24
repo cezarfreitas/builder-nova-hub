@@ -532,6 +532,7 @@ export default function Index() {
   useEffect(() => {
     // Definir dados estáticos no carregamento
     fetchGalleryImages();
+    fetchGalleryTexts();
     setFaqs(staticFAQs);
     fetchTestimonials();
 
