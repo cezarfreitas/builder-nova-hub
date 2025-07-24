@@ -87,13 +87,7 @@ export default function AdminHero() {
       newValidation.cta_text = "CTA principal é obrigatório";
     }
     
-    if (settings.logo_url && !isValidUrl(settings.logo_url)) {
-      newValidation.logo_url = "URL do logo inválida";
-    }
-    
-    if (settings.background_image && !isValidUrl(settings.background_image)) {
-      newValidation.background_image = "URL da imagem inválida";
-    }
+    // URL validation removed - OptimizedImageUpload handles file validation
     
     setValidation(newValidation);
     
