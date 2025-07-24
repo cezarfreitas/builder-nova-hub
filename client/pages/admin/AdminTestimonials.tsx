@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/ca
 import { Badge } from "../../components/ui/badge";
 import { useToast } from "../../hooks/use-toast";
 import { Testimonial } from "@shared/api";
+import { SmartImageUpload } from "../../components/SmartImageUpload";
 import {
   MessageSquare,
   Plus,
