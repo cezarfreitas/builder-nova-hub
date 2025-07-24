@@ -72,6 +72,14 @@ export default function Index() {
   const [formOrigin, setFormOrigin] = useState<string>("");
   const [galleryImages, setGalleryImages] = useState<GalleryImage[]>([]);
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const [galleryTexts, setGalleryTexts] = useState({
+    section_title: 'COLEÇÃO LIFESTYLE',
+    section_subtitle: 'Viva o estilo Ecko',
+    section_description: 'Descubra o lifestyle autêntico da Ecko através de looks que representam a essência do streetwear e a cultura urbana que define nossa marca',
+    section_tag: 'Lifestyle Gallery',
+    empty_state_title: 'Galeria em Construção',
+    empty_state_description: 'Em breve nossa galeria estará repleta de produtos incríveis!'
+  });
   const [startTime] = useState(Date.now());
   const [userId] = useState(() => {
     // Gerar user_id único baseado em dados do navegador
