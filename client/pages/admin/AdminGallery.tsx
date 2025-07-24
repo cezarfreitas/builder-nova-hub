@@ -25,6 +25,20 @@ import {
 
 export default function AdminGallery() {
   const { toast } = useToast();
+
+  // Função local para renderizar tokens de cor
+  const renderTokens = (text: string) => {
+    const colors = {
+      ecko: '#dc2626', red: '#dc2626', blue: '#2563eb', green: '#16a34a',
+      purple: '#7c3aed', orange: '#ea580c', yellow: '#ca8a04', white: '#ffffff',
+      black: '#000000', gray: '#6b7280'
+    };
+
+    return text.replace(/\{(\w+)\}(.*?)\{\/\1\}/g, (match, color, content) => {
+      const colorValue = colors[color as keyof typeof colors];
+      return colorValue ? `<span style="color: ${colorValue}; font-weight: bold;">${content}</span>` : content;
+    });
+  };
   const [images, setImages] = useState<GalleryImage[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
