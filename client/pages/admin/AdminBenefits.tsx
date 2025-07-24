@@ -74,7 +74,7 @@ export default function AdminBenefits() {
     const newValidation: {[key: string]: string} = {};
     
     if (!settings.section_title.trim()) {
-      newValidation.section_title = "Título da seção é obrigatório";
+      newValidation.section_title = "T��tulo da seção é obrigatório";
     } else if (settings.section_title.length > 100) {
       newValidation.section_title = "Título muito longo (máx. 100 caracteres)";
     }
@@ -180,6 +180,16 @@ export default function AdminBenefits() {
     setSettings(prev => ({
       ...prev,
       [field]: value
+    }));
+  };
+
+  // Atualizar card específico
+  const updateCard = (cardId: number, field: keyof BenefitCard, value: string) => {
+    setSettings(prev => ({
+      ...prev,
+      cards: prev.cards.map(card =>
+        card.id === cardId ? { ...card, [field]: value } : card
+      )
     }));
   };
 
