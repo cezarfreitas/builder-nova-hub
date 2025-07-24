@@ -230,7 +230,7 @@ export default function Index() {
     // Remove formatação
     const numbers = whatsapp.replace(/\D/g, "");
 
-    // Verifica se tem 10 ou 11 d��gitos (com DDD)
+    // Verifica se tem 10 ou 11 dígitos (com DDD)
     if (numbers.length < 10 || numbers.length > 11) {
       return false;
     }
@@ -811,7 +811,7 @@ export default function Index() {
                 {/* Right Form */}
                 <div className="relative mt-6 lg:mt-0">
                   <div className="absolute -inset-2 sm:-inset-4 bg-gradient-to-r from-ecko-red via-red-500 to-ecko-red-dark rounded-3xl opacity-20 blur-xl"></div>
-                  <Card className="relative shadow-2xl border-2 border-ecko-red/40 bg-gray-900/90 backdrop-blur-lg">
+                  <Card className="relative shadow-2xl border-2 border-ecko-red/40 bg-black/90 backdrop-blur-lg">
                     <CardContent className="p-4 sm:p-6 lg:p-8">
                       <div className="text-center mb-4 sm:mb-6">
                         <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-white mb-2">
@@ -897,7 +897,7 @@ export default function Index() {
                           />
                           {cepLoading && (
                             <p className="text-blue-400 text-xs mt-2 font-medium leading-tight">
-                              ��� Validando CEP...
+                              🔍 Validando CEP...
                             </p>
                           )}
                           {cepError && (
