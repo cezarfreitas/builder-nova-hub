@@ -63,6 +63,41 @@
     "section_title": "O que nossos revendedores dizem",
     "section_subtitle": "casos reais de sucesso",
     "section_description": "Depoimentos reais de parceiros que transformaram suas paixões em negócios lucrativos com a Ecko",
+    "items": [
+      {
+        "id": 1,
+        "name": "Ricardo Silva",
+        "company": "Silva Streetwear",
+        "role": "Proprietário",
+        "content": "Trabalhar com a Ecko mudou completamente meu negócio. As vendas triplicaram em apenas 6 meses e os clientes sempre voltam para comprar mais. A qualidade dos produtos é excepcional!",
+        "avatar_url": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+        "rating": 5,
+        "is_active": true,
+        "display_order": 1
+      },
+      {
+        "id": 2,
+        "name": "Ana Carolina",
+        "company": "Street Style Store",
+        "role": "CEO",
+        "content": "A parceria com a Ecko superou todas as expectativas. O suporte é incrível e os produtos têm uma qualidade incomparável. Meus clientes são apaixonados pela marca!",
+        "avatar_url": "https://images.unsplash.com/photo-1494790108755-2616b612b605?w=150&h=150&fit=crop&crop=face",
+        "rating": 5,
+        "is_active": true,
+        "display_order": 2
+      },
+      {
+        "id": 3,
+        "name": "João Santos",
+        "company": "Urban Fashion",
+        "role": "Diretor Comercial",
+        "content": "Em dois anos como revendedor oficial, consegui expandir para 3 lojas. A marca Ecko tem um apelo incrível com o público jovem e a margem de lucro é excelente.",
+        "avatar_url": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+        "rating": 5,
+        "is_active": true,
+        "display_order": 3
+      }
+    ],
     "cta_title": "Seja o próximo case de sucesso!",
     "cta_description": "Junte-se aos revendedores que já transformaram seus negócios",
     "cta_button_text": "QUERO SER UM CASE DE SUCESSO"
