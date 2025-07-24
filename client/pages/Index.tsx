@@ -1357,7 +1357,7 @@ export default function Index() {
                                         testimonial.name,
                                       )}
                                     </div>
-                                    <div className="text-sm text-gray-400">
+                                    <div className="text-sm text-gray-300">
                                       {testimonial.role} • {testimonial.company}
                                     </div>
                                   </div>
