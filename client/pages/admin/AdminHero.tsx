@@ -582,41 +582,27 @@ export default function AdminHero() {
               </div>
             </div>
 
-            <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">
-                Logo URL
-              </label>
-              <Input
-                value={settings.logo_url}
-                onChange={(e) => updateField('logo_url', e.target.value)}
-                placeholder="https://example.com/logo.png"
-                className={validation.logo_url ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : ''}
-              />
-              {validation.logo_url && (
-                <p className="text-red-600 text-sm flex items-center">
-                  <AlertCircle className="w-4 h-4 mr-1" />
-                  {validation.logo_url}
-                </p>
-              )}
-            </div>
+            <OptimizedImageUpload
+              value={settings.logo_url}
+              onChange={(url) => updateField('logo_url', url)}
+              label="Logo da Empresa"
+              maxSizeKB={200}
+              maxWidth={800}
+              maxHeight={400}
+              quality={0.9}
+              acceptedTypes={['image/png', 'image/jpeg', 'image/webp']}
+            />
 
-            <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">
-                Imagem de Background
-              </label>
-              <Input
-                value={settings.background_image}
-                onChange={(e) => updateField('background_image', e.target.value)}
-                placeholder="https://example.com/background.jpg"
-                className={validation.background_image ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : ''}
-              />
-              {validation.background_image && (
-                <p className="text-red-600 text-sm flex items-center">
-                  <AlertCircle className="w-4 h-4 mr-1" />
-                  {validation.background_image}
-                </p>
-              )}
-            </div>
+            <OptimizedImageUpload
+              value={settings.background_image}
+              onChange={(url) => updateField('background_image', url)}
+              label="Imagem de Background"
+              maxSizeKB={800}
+              maxWidth={1920}
+              maxHeight={1080}
+              quality={0.8}
+              acceptedTypes={['image/jpeg', 'image/png', 'image/webp']}
+            />
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
