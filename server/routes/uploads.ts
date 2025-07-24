@@ -479,8 +479,10 @@ export async function uploadGalleryImage(req: Request, res: Response) {
 
       if (fs.existsSync(compressedPath)) {
         const compressedStats = fs.statSync(compressedPath);
+        const reductionPercent = ((file.size - compressedStats.size) / file.size) * 100;
 
-        if (compressedStats.size < file.size) {
+        // Usar versão compactada se reduziu tamanho OU se arquivo original era muito grande
+        if (compressedStats.size < file.size || isLargeFile) {
           fs.unlinkSync(file.path);
           finalFilename = compressedFilename;
           finalSize = compressedStats.size;
@@ -488,13 +490,17 @@ export async function uploadGalleryImage(req: Request, res: Response) {
           compressionInfo = {
             originalSize: file.size,
             compressedSize: compressedStats.size,
-            reduction: `${(((file.size - compressedStats.size) / file.size) * 100).toFixed(1)}%`,
+            reduction: `${reductionPercent.toFixed(1)}%`,
             quality: quality,
+            maxDimensions: `${maxWidth}x${maxHeight}`,
             wasCompressed: true
           };
         } else {
           fs.unlinkSync(compressedPath);
-          compressionInfo = { wasCompressed: false };
+          compressionInfo = {
+            wasCompressed: false,
+            reason: 'Original já otimizado'
+          };
         }
       }
     } catch (error) {
