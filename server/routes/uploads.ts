@@ -167,7 +167,7 @@ export async function uploadSeoImage(req: Request, res: Response) {
       const optimizedFilename = `${nameWithoutExt}-opt${ext}`;
       const optimizedPath = path.join(path.dirname(file.path), optimizedFilename);
 
-      // Determinar configurações de otimização baseadas no tamanho
+      // Determinar configurações de otimiza��ão baseadas no tamanho
       const isLargeFile = file.size > 2 * 1024 * 1024; // > 2MB
       const isVeryLargeFile = file.size > 5 * 1024 * 1024; // > 5MB
 
@@ -286,21 +286,30 @@ export async function uploadSeoImage(req: Request, res: Response) {
     // Usar URL relativa para evitar problemas de CORS/URL
     const imageUrl = `/uploads/${finalFilename}`;
 
-    // Metadados da imagem
+    // Metadados completos da imagem
     const imageInfo = {
       filename: finalFilename,
       originalName: file.originalname,
       size: finalSize,
+      sizeFormatted: formatFileSize(finalSize),
       mimetype: file.mimetype,
       url: imageUrl,
-      path: finalPath
+      path: finalPath,
+      uploadType: uploadType,
+      optimization: optimizationInfo
     };
 
     console.log('Upload successful, returning:', imageInfo);
 
+    // Mensagem dinâmica baseada na otimização
+    let message = 'Imagem enviada com sucesso';
+    if (optimizationInfo?.wasOptimized) {
+      message += ` e otimizada (redução de ${optimizationInfo.reduction})`;
+    }
+
     res.json({
       success: true,
-      message: 'Imagem enviada com sucesso',
+      message: message,
       data: imageInfo
     });
   } catch (error) {
