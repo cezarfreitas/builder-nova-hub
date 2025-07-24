@@ -115,40 +115,58 @@ export default function AdminGallery() {
   };
 
   const saveTextSettings = async () => {
+    if (savingTexts) return; // Prevenir múltiplas chamadas
+
     setSavingTexts(true);
     try {
-      const settingsToSave = {
-        gallery_section_title: textSettings.section_title,
-        gallery_section_subtitle: textSettings.section_subtitle,
-        gallery_section_description: textSettings.section_description,
-        gallery_section_tag: textSettings.section_tag,
-        gallery_empty_title: textSettings.empty_state_title,
-        gallery_empty_description: textSettings.empty_state_description,
-        gallery_cta_title: textSettings.cta_title,
-        gallery_cta_description: textSettings.cta_description,
-        gallery_cta_button_text: textSettings.cta_button_text
-      };
+      const settings = [
+        { key: 'gallery_section_title', value: textSettings.section_title },
+        { key: 'gallery_section_subtitle', value: textSettings.section_subtitle },
+        { key: 'gallery_section_description', value: textSettings.section_description },
+        { key: 'gallery_section_tag', value: textSettings.section_tag },
+        { key: 'gallery_empty_title', value: textSettings.empty_state_title },
+        { key: 'gallery_empty_description', value: textSettings.empty_state_description },
+        { key: 'gallery_cta_title', value: textSettings.cta_title },
+        { key: 'gallery_cta_description', value: textSettings.cta_description },
+        { key: 'gallery_cta_button_text', value: textSettings.cta_button_text }
+      ];
 
-      const response = await fetch('/api/settings', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(settingsToSave),
-      });
+      let successCount = 0;
+      let errorCount = 0;
 
-      const result = await response.json();
+      // Salvar cada configuração individualmente para evitar problemas de stream
+      for (const setting of settings) {
+        try {
+          const response = await fetch(`/api/settings/${setting.key}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ value: setting.value, type: 'text' }),
+          });
 
-      if (result.success) {
+          const result = await response.json();
+          if (result.success) {
+            successCount++;
+          } else {
+            errorCount++;
+          }
+        } catch (error) {
+          console.error(`Erro ao salvar ${setting.key}:`, error);
+          errorCount++;
+        }
+      }
+
+      if (successCount > 0) {
         toast({
           title: "✅ Sucesso",
-          description: "Textos da seção atualizados com sucesso",
+          description: `${successCount} configurações salvas${errorCount > 0 ? ` (${errorCount} falharam)` : ''}`,
           variant: "success",
         });
       } else {
         toast({
           title: "❌ Erro",
-          description: result.message || "Erro ao salvar textos",
+          description: "Nenhuma configuração foi salva",
           variant: "destructive",
         });
       }
@@ -156,7 +174,7 @@ export default function AdminGallery() {
       console.error('Erro ao salvar textos:', error);
       toast({
         title: "❌ Erro",
-        description: "Erro ao salvar textos da seção",
+        description: "Erro inesperado ao salvar textos",
         variant: "destructive",
       });
     } finally {
@@ -635,7 +653,7 @@ export default function AdminGallery() {
                   className="w-4 h-4 text-ecko-red bg-gray-100 border-gray-300 rounded focus:ring-ecko-red focus:ring-2"
                 />
                 <label htmlFor="is_active" className="ml-2 text-sm font-medium text-gray-700">
-                  Ativo (visível na landing page)
+                  Ativo (vis��vel na landing page)
                 </label>
               </div>
 
