@@ -328,7 +328,7 @@ export default function Index() {
     // Validar WhatsApp
     if (!formData.whatsapp || !validateWhatsApp(formData.whatsapp)) {
       toast({
-        title: "⚠���� WhatsApp Inválido",
+        title: "⚠����� WhatsApp Inválido",
         description: content.form.validation_messages.whatsapp_invalid,
         variant: "destructive",
       });
@@ -809,10 +809,7 @@ export default function Index() {
                 {/* Left Content */}
                 <div className="text-center lg:text-left">
                   <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-white mb-4 sm:mb-6 leading-tight px-2 lg:px-0">
-                    <span className="text-ecko-red">SEJA PARCEIRO</span>
-                    <br />
-                    <span className="text-ecko-red">OFICIAL ECKO</span>
-                    <br />E TENHA <span className="text-ecko-red">SUCESSO</span>
+                    {renderTextWithColorTokens(content.form.main_title)}
                   </h1>
 
                   <div className="text-lg sm:text-xl lg:text-2xl text-gray-100 mb-6 sm:mb-7 lg:mb-8 font-medium px-2 lg:px-0 transition-all duration-500">
