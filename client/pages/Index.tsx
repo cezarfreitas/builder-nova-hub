@@ -819,9 +819,9 @@ export default function Index() {
         >
           {/* Background Image */}
           <div className="absolute inset-0">
-            {staticHero.background_image ? (
+            {currentHero.background_image ? (
               <img
-                src={staticHero.background_image}
+                src={currentHero.background_image}
                 alt="Background do Hero"
                 className="w-full h-full object-cover transition-opacity duration-500"
                 loading="eager"
