@@ -149,6 +149,9 @@ export function createServer() {
   app.put("/api/gallery/:id/toggle", toggleGalleryImage);
   app.put("/api/gallery/reorder", reorderGalleryImages);
 
+  // Content routes
+  app.use("/api", contentRouter);
+
   // Database test routes
   app.get("/api/test-db", testDatabaseConnection);
   app.get("/api/database-info", getDatabaseInfo);
