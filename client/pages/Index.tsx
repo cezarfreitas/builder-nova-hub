@@ -990,7 +990,7 @@ export default function Index() {
                   </h1>
 
                   <div className="text-lg sm:text-xl lg:text-2xl text-gray-100 mb-6 sm:mb-7 lg:mb-8 font-medium px-2 lg:px-0 transition-all duration-500">
-                    {renderTextWithColorTokens(staticHero.description)}
+                    {renderTextWithColorTokens(currentHero.description)}
                   </div>
                 </div>
 
