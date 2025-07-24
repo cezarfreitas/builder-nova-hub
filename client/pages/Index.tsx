@@ -948,12 +948,12 @@ export default function Index() {
                   <div
                     className="w-1 h-12 bg-gradient-to-b to-transparent rounded-full mb-2"
                     style={{
-                      background: `linear-gradient(to bottom, ${staticHero.cta_color}, transparent)`,
+                      background: `linear-gradient(to bottom, ${currentHero.cta_color}, transparent)`,
                     }}
                   ></div>
                   <ChevronDown
                     className="w-6 h-6 animate-pulse hover:text-white transition-colors"
-                    style={{ color: staticHero.cta_color }}
+                    style={{ color: currentHero.cta_color }}
                   />
                 </div>
               </div>
