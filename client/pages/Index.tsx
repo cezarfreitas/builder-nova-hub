@@ -499,7 +499,7 @@ export default function Index() {
                       ? "border-red-500 focus:border-red-500"
                       : formData.whatsapp && validateWhatsApp(formData.whatsapp)
                         ? "border-green-500 focus:border-green-500"
-                        : "border-gray-800 focus:border-ecko-red"
+                        : "border-gray-300 focus:border-ecko-red"
                   }`}
                 />
                 {whatsappError && (
@@ -535,7 +535,7 @@ export default function Index() {
                           validateCEP(formData.cep) &&
                           formData.cidade
                         ? "border-green-500 focus:border-green-500"
-                        : "border-gray-800 focus:border-ecko-red"
+                        : "border-gray-300 focus:border-ecko-red"
                   }`}
                 />
                 {cepLoading && (
@@ -864,7 +864,7 @@ export default function Index() {
                                 : formData.whatsapp &&
                                     validateWhatsApp(formData.whatsapp)
                                   ? "border-green-500 focus:border-green-500"
-                                  : "border-gray-800 focus:border-ecko-red"
+                                  : "border-gray-300 focus:border-ecko-red"
                             }`}
                           />
                           {whatsappError && (
@@ -900,7 +900,7 @@ export default function Index() {
                                     validateCEP(formData.cep) &&
                                     formData.cidade
                                   ? "border-green-500 focus:border-green-500"
-                                  : "border-gray-800 focus:border-ecko-red"
+                                  : "border-gray-300 focus:border-ecko-red"
                             }`}
                           />
                           {cepLoading && (
@@ -1831,7 +1831,7 @@ export default function Index() {
                       ? "border-red-500 focus:border-red-500"
                       : validateWhatsApp(formData.whatsapp) && formData.whatsapp
                         ? "border-green-500 focus:border-green-500"
-                        : "border-gray-800 focus:border-ecko-red"
+                        : "border-gray-300 focus:border-ecko-red"
                   }`}
                 />
                 {whatsappError && (
@@ -1864,7 +1864,7 @@ export default function Index() {
                         ? "border-yellow-500 focus:border-yellow-500"
                         : formData.cidade && formData.estado
                           ? "border-green-500 focus:border-green-500"
-                          : "border-gray-800 focus:border-ecko-red"
+                          : "border-gray-300 focus:border-ecko-red"
                   }`}
                   disabled={cepLoading}
                 />
