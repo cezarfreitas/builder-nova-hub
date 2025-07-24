@@ -951,7 +951,7 @@ export default function Index() {
 
                           <div>
                             <label className="block text-sm font-semibold text-gray-300 mb-2">
-                              Tipo de Loja
+                              {content.form.fields.store_type_label}
                             </label>
                             <select
                               name="storeType"
