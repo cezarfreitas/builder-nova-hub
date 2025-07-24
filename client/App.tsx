@@ -25,6 +25,7 @@ import AdminContent from "./pages/admin/AdminContent";
 import AdminBenefits from "./pages/admin/AdminBenefits";
 import AdminFAQ from "./pages/admin/AdminFAQ";
 import AdminForm from "./pages/admin/AdminForm";
+import AdminFooter from "./pages/admin/AdminFooter";
 import NotFound from "./pages/NotFound";
 
 const App = () => (
