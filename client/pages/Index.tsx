@@ -404,7 +404,7 @@ export default function Index() {
     // Validar CEP
     if (!formData.cep || !validateCEP(formData.cep)) {
       toast({
-        title: "���️ CEP Obrigatório",
+        title: "��️ CEP Obrigatório",
         description: "Digite um CEP válido para identificar sua localização.",
         variant: "destructive",
       });
@@ -1481,7 +1481,7 @@ export default function Index() {
                           <h3 className="text-2xl font-bold text-white mb-4">
                             {content.gallery.empty_state_title}
                           </h3>
-                          <p className="text-gray-400 max-w-md mx-auto">
+                          <p className="text-gray-300 max-w-md mx-auto">
                             {content.gallery.empty_state_description}
                           </p>
                         </div>
