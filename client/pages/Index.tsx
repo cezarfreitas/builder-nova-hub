@@ -200,7 +200,7 @@ export default function Index() {
     if (name === "hasCnpj") {
       if (value === "nao") {
         setCnpjError(
-          "Para ser um revendedor oficial da Ecko é necessário ter CNPJ.",
+          content.form.fields.cnpj_error,
         );
       } else {
         setCnpjError("");
