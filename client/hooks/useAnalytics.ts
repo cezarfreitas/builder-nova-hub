@@ -50,6 +50,15 @@ export function useAnalytics(selectedPeriod: number = 30) {
       whatsappClicks = 0;
     }
 
+    // Get traffic sources from localStorage
+    let trafficSourcesData = [];
+    try {
+      trafficSourcesData = JSON.parse(localStorage.getItem('traffic_sources') || '[]');
+      console.log(`📊 Fontes de tráfego: ${trafficSourcesData.length} registros`);
+    } catch (e) {
+      console.warn('Erro ao ler fontes de tráfego do localStorage');
+    }
+
     // Try to fetch data only if absolutely necessary and with extremely short timeouts
     if (navigator.onLine) {
       // Very quick attempt to get leads (non-critical)
