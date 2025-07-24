@@ -52,6 +52,44 @@
     "section_title": "COLEÇÃO LIFESTYLE",
     "section_subtitle": "Viva o estilo Ecko",
     "section_description": "Descubra o lifestyle autêntico da Ecko através de looks que representam a essência do streetwear e a cultura urbana que define nossa marca",
+    "items": [
+      {
+        "id": 1,
+        "title": "Streetwear Urbano",
+        "description": "Estilo autêntico que define tendências",
+        "image_url": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&h=600&fit=crop&crop=center",
+        "alt_text": "Coleção streetwear urbano Ecko",
+        "is_active": true,
+        "display_order": 1
+      },
+      {
+        "id": 2,
+        "title": "Lifestyle Autêntico",
+        "description": "Autenticidade e originalidade em cada visual",
+        "image_url": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&h=600&fit=crop&crop=center",
+        "alt_text": "Lifestyle autêntico Ecko",
+        "is_active": true,
+        "display_order": 2
+      },
+      {
+        "id": 3,
+        "title": "Tendências Urbanas",
+        "description": "Na vanguarda da moda streetwear",
+        "image_url": "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=600&h=600&fit=crop&crop=center",
+        "alt_text": "Tendências urbanas Ecko",
+        "is_active": true,
+        "display_order": 3
+      },
+      {
+        "id": 4,
+        "title": "Estilo Jovem",
+        "description": "Para quem vive intensamente",
+        "image_url": "https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?w=600&h=600&fit=crop&crop=center",
+        "alt_text": "Estilo jovem Ecko",
+        "is_active": true,
+        "display_order": 4
+      }
+    ],
     "empty_state_title": "Galeria em Construção",
     "empty_state_description": "Em breve nossa galeria estará repleta de produtos incríveis!",
     "cta_title": "Tenha Estes Produtos em Sua Loja!",
