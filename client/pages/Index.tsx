@@ -359,8 +359,7 @@ export default function Index() {
     if (formData.hasCnpj === "nao") {
       toast({
         title: "⚠️ CNPJ Obrigatório",
-        description:
-          "É necessário ter CNPJ para se tornar um revendedor autorizado.",
+        description: content.form.validation_messages.cnpj_required,
         variant: "destructive",
       });
       return;
