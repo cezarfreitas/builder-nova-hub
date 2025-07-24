@@ -76,22 +76,27 @@ export function useAnalytics(selectedPeriod: number = 30) {
       setError(null);
 
       // Mock data as fallback
-      const today = new Date();
-      const mockData: AnalyticsData = {
-        totalLeads: 0,
-        leadsToday: 0,
-        conversionRate: 0,
-        pageViews: 0,
-        leadsByDay: [],
-        recentActivity: [],
-        trends: {
-          leadsChange: 0,
-          conversionChange: 0,
-          viewsChange: 0
-        }
+      const mockOverview = {
+        leads: { total: 0, unique: 0, duplicates: 0, with_cnpj: 0, period: 0 },
+        conversion: { rate: 0, period_rate: 0 },
+        traffic: {
+          unique_users: 0,
+          total_sessions: 0,
+          avg_session_duration: 0,
+          whatsapp_clicks: 0,
+          unique_page_views: 0,
+          total_page_views: 0
+        },
+        store_types: { fisica: 0, online: 0, ambas: 0 },
+        period_days: selectedPeriod
       };
 
-      setAnalytics(mockData);
+      setOverview(mockOverview);
+      setDailyStats([]);
+      setTimeAnalysis(null);
+      setTrafficSources(null);
+      setLocationConversion(null);
+      setGeographyConversion(null);
     } finally {
       setLoading(false);
     }
