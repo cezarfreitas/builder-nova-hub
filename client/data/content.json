@@ -13,6 +13,40 @@
     "cta_color": "#dc2626",
     "cta_text_color": "#ffffff"
   },
+  "form": {
+    "title": "Cadastro de Revendedor",
+    "subtitle": "Preencha os dados para receber nossa proposta",
+    "fields": {
+      "name_label": "Nome Completo",
+      "name_placeholder": "Digite seu nome completo",
+      "whatsapp_label": "WhatsApp",
+      "whatsapp_placeholder": "(11) 99999-9999",
+      "whatsapp_error": "Digite um número de WhatsApp válido. Ex: (11) 99999-9999",
+      "whatsapp_success": "✅ WhatsApp válido",
+      "cep_label": "CEP",
+      "cep_placeholder": "Digite seu CEP",
+      "endereco_label": "Endereço",
+      "endereco_placeholder": "Rua, número",
+      "complemento_label": "Complemento",
+      "complemento_placeholder": "Apto, bloco, casa...",
+      "bairro_label": "Bairro",
+      "cidade_label": "Cidade",
+      "estado_label": "Estado",
+      "cnpj_label": "Tem CNPJ?",
+      "cnpj_yes": "Sim",
+      "cnpj_no": "Não",
+      "cnpj_error": "Para ser um revendedor oficial da Ecko é necessário ter CNPJ.",
+      "store_type_label": "Tipo de Loja",
+      "store_type_placeholder": "Ex: Loja física, Online, Ambos..."
+    },
+    "submit_button": "QUERO SER REVENDEDOR OFICIAL",
+    "submit_button_loading": "Enviando...",
+    "validation_messages": {
+      "whatsapp_invalid": "Digite um número de WhatsApp válido para contato.",
+      "address_incomplete": "Aguarde o carregamento do endereço ou verifique o CEP.",
+      "cnpj_required": "É necessário ter CNPJ para se tornar um revendedor autorizado."
+    }
+  },
   "benefits": {
     "section_tag": "Por que escolher a Ecko?",
     "section_title": "VANTAGENS [EXCLUSIVAS]",
