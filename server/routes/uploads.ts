@@ -154,20 +154,20 @@ export async function uploadSeoImage(req: Request, res: Response) {
       });
     }
 
-    // Otimização inteligente baseada no peso da imagem
+    // Compactação inteligente baseada no peso da imagem
     let finalFilename = file.filename;
     let finalSize = file.size;
     let finalPath = file.path;
-    let optimizationInfo = null;
+    let compressionInfo = null;
 
     try {
-      // Gerar nome otimizado
+      // Gerar nome compactado
       const ext = path.extname(file.filename);
       const nameWithoutExt = path.basename(file.filename, ext);
-      const optimizedFilename = `${nameWithoutExt}-opt${ext}`;
-      const optimizedPath = path.join(path.dirname(file.path), optimizedFilename);
+      const compressedFilename = `${nameWithoutExt}-compressed${ext}`;
+      const compressedPath = path.join(path.dirname(file.path), compressedFilename);
 
-      // Determinar configurações de otimiza��ão baseadas no tamanho
+      // Determinar configurações de compactação baseadas no tamanho
       const isLargeFile = file.size > 2 * 1024 * 1024; // > 2MB
       const isVeryLargeFile = file.size > 5 * 1024 * 1024; // > 5MB
 
