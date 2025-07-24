@@ -78,6 +78,8 @@ export default function Index() {
   const [cepLoading, setCepLoading] = useState(false);
   const [formOrigin, setFormOrigin] = useState<string>("");
   const [startTime] = useState(Date.now());
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showWhatsApp, setShowWhatsApp] = useState(false);
   const [userId] = useState(() => {
     // Gerar user_id único baseado em dados do navegador
     const fingerprint = `${navigator.userAgent}-${screen.width}x${screen.height}-${Intl.DateTimeFormat().resolvedOptions().timeZone}`;
