@@ -1397,6 +1397,7 @@ export default function Index() {
                                       target.src = "/placeholder.svg";
                                     }}
                                   />
+
                                 </div>
                               </div>
                             ))}
@@ -1434,9 +1435,11 @@ export default function Index() {
                             onClick={() => openFormWithOrigin("cta")}
                           >
                             <span className="absolute inset-0 bg-gradient-to-r from-red-700 to-red-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
-                            <span className="relative z-10 flex items-center justify-center">
-                              {content.gallery.cta_button_text}
-                              <ArrowRight className="ml-2 w-4 sm:w-5 h-4 sm:h-5 group-hover:translate-x-1 transition-transform" />
+                            <span className="relative z-10 flex items-center justify-center text-center">
+                              <span className="flex-shrink-0">
+                                {content.gallery.cta_button_text}
+                              </span>
+                              <ArrowRight className="ml-2 w-4 sm:w-5 h-4 sm:h-5 group-hover:translate-x-1 transition-transform flex-shrink-0" />
                             </span>
                           </Button>
                         </div>
