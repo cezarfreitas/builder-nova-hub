@@ -483,6 +483,9 @@ export default function AdminHero() {
                     className="flex-1"
                   />
                 </div>
+                <p className="text-xs text-gray-500 mt-1">
+                  Cor que o texto fica quando o mouse passa sobre o botão
+                </p>
               </div>
             </div>
           </CardContent>
