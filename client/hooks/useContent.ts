@@ -68,21 +68,34 @@ export interface ContentData {
 
 export const useContent = () => {
   const [content, setContent] = useState<ContentData>(() => {
-    // Tenta carregar backup do localStorage primeiro
+    // Sempre usar dados do JSON como base
+    let finalContent = { ...contentData };
+
+    // Tenta carregar backup do localStorage apenas para seções específicas (não hero)
     try {
       const backup = localStorage.getItem("ecko_content_backup");
       if (backup) {
         const parsed = JSON.parse(backup);
-        // Valida se tem a estrutura correta
-        if (parsed.hero && parsed.gallery && parsed.testimonials && parsed.benefits?.cards) {
-          return parsed;
+        // Valida se tem a estrutura correta e mescla mantendo hero do JSON
+        if (parsed.gallery && parsed.testimonials && parsed.benefits?.cards) {
+          finalContent = {
+            ...finalContent,
+            // Hero sempre do JSON
+            hero: contentData.hero,
+            // Outras seções podem vir do backup se válidas
+            benefits: parsed.benefits?.cards ? parsed.benefits : contentData.benefits,
+            gallery: parsed.gallery || contentData.gallery,
+            testimonials: parsed.testimonials || contentData.testimonials,
+            faq: parsed.faq || contentData.faq,
+            final_cta: parsed.final_cta || contentData.final_cta
+          };
         }
       }
     } catch (error) {
       console.warn("Erro ao carregar backup do localStorage:", error);
     }
-    // Se não houver backup válido, usa os dados padrão
-    return contentData;
+
+    return finalContent;
   });
   const [loading, setLoading] = useState(false);
 
