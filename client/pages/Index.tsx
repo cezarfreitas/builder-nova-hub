@@ -1720,17 +1720,17 @@ export default function Index() {
           <div className="text-center mb-16">
             <div className="inline-flex items-center bg-ecko-red/20 backdrop-blur-sm border border-ecko-red/30 rounded-full px-6 py-3 mb-6">
               <span className="text-ecko-red font-bold uppercase tracking-wider text-sm">
-                {galleryTexts.section_tag}
+                {renderTextWithColorTokens(galleryTexts.section_tag)}
               </span>
             </div>
             <h2 className="text-3xl md:text-5xl font-black text-white mb-6 uppercase tracking-tight leading-tight">
-              {galleryTexts.section_title}
+              {renderTextWithColorTokens(galleryTexts.section_title)}
               <span className="block text-xl md:text-2xl text-gray-300 mt-2 font-medium normal-case tracking-normal">
-                {galleryTexts.section_subtitle}
+                {renderTextWithColorTokens(galleryTexts.section_subtitle)}
               </span>
             </h2>
             <p className="text-gray-300 text-lg max-w-3xl mx-auto leading-relaxed">
-              {galleryTexts.section_description}
+              {renderTextWithColorTokens(galleryTexts.section_description)}
             </p>
           </div>
 
