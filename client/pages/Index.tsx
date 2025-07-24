@@ -339,7 +339,7 @@ export default function Index() {
     // Validar WhatsApp
     if (!formData.whatsapp || !validateWhatsApp(formData.whatsapp)) {
       toast({
-        title: "������ WhatsApp Inválido",
+        title: "⚠���� WhatsApp Inválido",
         description: content.form.validation_messages.whatsapp_invalid,
         variant: "destructive",
       });
@@ -2042,8 +2042,24 @@ export default function Index() {
             {/* Main Button */}
             <Button
               onClick={() => {
-                // Track WhatsApp click
+                // Track WhatsApp click with multiple methods
                 trackWhatsAppClick();
+
+                // Backup tracking method
+                try {
+                  fetch("/api/analytics", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                      event: "whatsapp_click",
+                      session_id: sessionId,
+                      user_id: userId,
+                      timestamp: new Date().toISOString()
+                    })
+                  }).catch(e => console.warn('Backup tracking failed:', e));
+                } catch (e) {
+                  console.warn('Backup tracking error:', e);
+                }
 
                 openFormWithOrigin("whatsapp-float");
               }}
