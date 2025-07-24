@@ -306,6 +306,7 @@ export function useAnalytics(selectedPeriod: number = 30) {
   };
 
   const refreshData = async () => {
+    console.log('🔄 Forçando atualização dos dados de analytics...');
     await fetchAnalytics();
   };
 
