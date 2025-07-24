@@ -23,7 +23,9 @@ const App = () => (
       <Sonner />
       <Routes>
         <Route path="/" element={<Index />} />
-        <Route path="/admin" element={<Admin />} />
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<AdminDashboard />} />
+        </Route>
         <Route path="/admin/leads" element={<AdminLayout />}>
           <Route index element={<AdminLeads />} />
         </Route>
