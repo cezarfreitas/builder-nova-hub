@@ -66,6 +66,17 @@
     <meta name="geo.region" content="BR" />
     <meta name="geo.placename" content="Brasil" />
 
+    <!-- Performance Optimization -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://estyle.vteximg.com.br" />
+
+    <!-- Preload critical resources -->
+    <link rel="modulepreload" href="/client/App.tsx" />
+    <link rel="modulepreload" href="/client/pages/Index.tsx" />
+
+    <!-- Critical CSS inlined will be added by CriticalCSS component -->
+
     <!-- Structured Data JSON-LD -->
     <script type="application/ld+json">
       {
