@@ -384,6 +384,45 @@ export default function AdminAnalytics() {
           </Button>
 
           <Button
+            onClick={async () => {
+              try {
+                const localData = JSON.parse(localStorage.getItem('traffic_sources') || '[]');
+                if (localData.length === 0) {
+                  alert('Nenhum dado local para migrar');
+                  return;
+                }
+
+                let migrated = 0;
+                for (const traffic of localData) {
+                  try {
+                    const response = await fetch('/api/traffic/track', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify(traffic)
+                    });
+                    if (response.ok) migrated++;
+                  } catch (e) {
+                    console.warn('Erro ao migrar item:', e);
+                  }
+                }
+
+                alert(`${migrated}/${localData.length} registros migrados para o banco!`);
+                if (migrated > 0) {
+                  refreshData(); // Atualizar dados
+                }
+              } catch (e) {
+                alert('Erro durante migração');
+              }
+            }}
+            variant="outline"
+            size="sm"
+            className="border-purple-300 text-purple-700 hover:bg-purple-50"
+          >
+            <RefreshCw className="w-4 h-4 mr-2" />
+            Migrar para Banco
+          </Button>
+
+          <Button
             onClick={refreshData}
             variant="outline"
             size="sm"
