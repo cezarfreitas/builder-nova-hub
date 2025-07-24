@@ -1737,7 +1737,7 @@ export default function Index() {
                       <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6">
                         {renderTextWithColorTokens(content.final_cta.title)}
                       </h2>
-                      <p className="text-xl md:text-2xl text-red-100 mb-8 max-w-4xl mx-auto font-light leading-relaxed">
+                      <p className="text-xl md:text-2xl text-white mb-8 max-w-4xl mx-auto font-light leading-relaxed">
                         {renderTextWithColorTokens(
                           content.final_cta.description,
                         )}
