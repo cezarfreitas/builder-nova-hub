@@ -431,6 +431,31 @@ export default function AdminHero() {
         </Card>
       )}
 
+      {/* Performance Info */}
+      <Card className="bg-blue-50 border-blue-200">
+        <CardContent className="p-4">
+          <div className="flex items-center space-x-2 mb-2">
+            <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+              <Zap className="w-4 h-4 text-blue-600" />
+            </div>
+            <h3 className="font-semibold text-blue-900">Otimização Automática de Performance</h3>
+          </div>
+          <p className="text-sm text-blue-700 mb-3">
+            As imagens são automaticamente comprimidas e otimizadas para web, garantindo carregamento rápido sem perda de qualidade visual.
+          </p>
+          <div className="grid grid-cols-2 gap-4 text-xs">
+            <div className="bg-white/50 rounded p-2">
+              <div className="font-medium text-blue-800">Logo</div>
+              <div className="text-blue-600">Máx: 200KB • 800x400px</div>
+            </div>
+            <div className="bg-white/50 rounded p-2">
+              <div className="font-medium text-blue-800">Background</div>
+              <div className="text-blue-600">Máx: 800KB • 1920x1080px</div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Main Content */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Textos */}
