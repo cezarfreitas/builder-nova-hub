@@ -179,7 +179,12 @@ export function useSettings(): UseSettingsReturn {
 
   // Carregar configurações na inicialização
   useEffect(() => {
-    refreshSettings();
+    // Delay the initial fetch to avoid blocking page load
+    const timer = setTimeout(() => {
+      refreshSettings();
+    }, 200);
+
+    return () => clearTimeout(timer);
   }, [refreshSettings]);
 
   return {
