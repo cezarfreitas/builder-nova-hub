@@ -25,9 +25,14 @@ export function MultiImageUpload({
 
   const uploadImage = async (file: File): Promise<string | null> => {
     try {
-      // Criar um novo FormData para cada arquivo
+      // Criar uma nova instância do arquivo para evitar problemas de stream
+      const newFile = new File([file], file.name, {
+        type: file.type,
+        lastModified: file.lastModified
+      });
+
       const formData = new FormData();
-      formData.append('image', file);
+      formData.append('image', newFile);
 
       const response = await fetch('/api/upload/gallery', {
         method: 'POST',
