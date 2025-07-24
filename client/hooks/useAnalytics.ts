@@ -50,13 +50,33 @@ export function useAnalytics(selectedPeriod: number = 30) {
       whatsappClicks = 0;
     }
 
-    // Get traffic sources from localStorage
+    // Get traffic sources from database
     let trafficSourcesData = [];
+    let dbTrafficSources = null;
+
     try {
-      trafficSourcesData = JSON.parse(localStorage.getItem('traffic_sources') || '[]');
-      console.log(`📊 Fontes de tráfego: ${trafficSourcesData.length} registros`);
+      const response = await Promise.race([
+        fetch(`/api/traffic/sources?days=${selectedPeriod}`),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 800))
+      ]);
+
+      if (response.ok) {
+        const result = await response.json();
+        if (result.success) {
+          dbTrafficSources = result.data;
+          console.log(`✅ Fontes de tráfego do banco: ${result.data.total_visits} visitas`);
+        }
+      }
     } catch (e) {
-      console.warn('Erro ao ler fontes de tráfego do localStorage');
+      console.warn('⚠️ Falha na API de tráfego, tentando localStorage');
+
+      // Fallback para localStorage
+      try {
+        trafficSourcesData = JSON.parse(localStorage.getItem('traffic_sources') || '[]');
+        console.log(`📱 Fontes de tráfego do localStorage: ${trafficSourcesData.length} registros`);
+      } catch (localError) {
+        console.warn('Erro ao ler fontes de tráfego do localStorage');
+      }
     }
 
     // Try to fetch data only if absolutely necessary and with extremely short timeouts
