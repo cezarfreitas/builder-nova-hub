@@ -61,7 +61,23 @@ export interface ContentData {
 }
 
 export const useContent = () => {
-  const [content, setContent] = useState<ContentData>(contentData);
+  const [content, setContent] = useState<ContentData>(() => {
+    // Tenta carregar backup do localStorage primeiro
+    try {
+      const backup = localStorage.getItem('ecko_content_backup');
+      if (backup) {
+        const parsed = JSON.parse(backup);
+        // Valida se tem a estrutura correta
+        if (parsed.hero && parsed.gallery && parsed.testimonials) {
+          return parsed;
+        }
+      }
+    } catch (error) {
+      console.warn('Erro ao carregar backup do localStorage:', error);
+    }
+    // Se não houver backup válido, usa os dados padrão
+    return contentData;
+  });
   const [loading, setLoading] = useState(false);
 
   // Função para salvar conteúdo (atualiza estado local + futura API)
