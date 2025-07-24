@@ -80,13 +80,7 @@ export default defineConfig(({ mode }) => ({
       "xlsx",
     ],
   },
-  // Add experimental features for better performance
-  experimental: {
-    renderBuiltUrl(filename) {
-      // Optimize CDN delivery if needed
-      return filename;
-    },
-  },
+
   // CSS optimization
   css: {
     devSourcemap: false,
