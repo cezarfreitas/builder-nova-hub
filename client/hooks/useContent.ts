@@ -2,6 +2,14 @@ import { useState, useEffect } from "react";
 import contentData from "../data/content.json";
 
 export interface ContentData {
+  section_order: {
+    enabled_sections: {
+      id: string;
+      name: string;
+      enabled: boolean;
+      order: number;
+    }[];
+  };
   hero: {
     enabled: boolean;
     title: string;
