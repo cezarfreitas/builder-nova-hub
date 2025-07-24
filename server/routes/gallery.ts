@@ -6,7 +6,7 @@ import { getDatabase } from '../config/database';
 const gallerySchema = z.object({
   title: z.string().min(1, "Título é obrigatório"),
   description: z.string().optional(),
-  image_url: z.string().url("URL da imagem inválida"),
+  image_url: z.string().min(1, "URL da imagem é obrigatória"),
   alt_text: z.string().optional(),
   is_active: z.boolean().default(true),
   display_order: z.number().default(0)
