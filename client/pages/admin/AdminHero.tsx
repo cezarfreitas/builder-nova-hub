@@ -385,10 +385,12 @@ export default function AdminHero() {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Imagem de Fundo
               </label>
-              <CompactImageUpload
+              <SmartImageUpload
                 value={settings.background_image}
                 onChange={(value) => setSettings(prev => ({ ...prev, background_image: value }))}
-                placeholder="URL da imagem de fundo ou faça upload"
+                type="hero"
+                placeholder="Upload da imagem de fundo (max 15MB - será compactada automaticamente)"
+                className="w-full"
               />
             </div>
 
@@ -497,7 +499,7 @@ export default function AdminHero() {
               <ul className="space-y-1 text-blue-600">
                 <li>• Use <code className="px-1 bg-blue-100 rounded text-xs">{`{ecko}texto{/ecko}`}</code> para palavras importantes</li>
                 <li>• Selecione texto e clique em uma cor para aplicar</li>
-                <li>• Use <code className="px-1 bg-blue-100 rounded text-xs">{`{red}{/red}`}</code>, <code className="px-1 bg-blue-100 rounded text-xs">{`{blue}{/blue}`}</code>, etc.</li>
+                <li>��� Use <code className="px-1 bg-blue-100 rounded text-xs">{`{red}{/red}`}</code>, <code className="px-1 bg-blue-100 rounded text-xs">{`{blue}{/blue}`}</code>, etc.</li>
                 <li>• Cores destacam palavras-chave automaticamente</li>
               </ul>
             </div>
