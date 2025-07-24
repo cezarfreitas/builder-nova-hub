@@ -1025,7 +1025,12 @@ export default function Index() {
               return (
                 <main key="benefits">
                   {/* Section Divider */}
-                  <div className="bg-gradient-to-r from-transparent via-white/30 to-transparent h-px mx-auto max-w-6xl opacity-25 hover:opacity-40 transition-opacity duration-700" />
+                  <div
+                    className="h-px mx-auto max-w-6xl opacity-20 hover:opacity-35 transition-opacity duration-700"
+                    style={{
+                      background: 'linear-gradient(to right, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%)'
+                    }}
+                  />
 
                   {/* Benefits Section */}
                   <section
@@ -1133,7 +1138,12 @@ export default function Index() {
               return (
                 <main key="testimonials">
                   {/* Section Divider */}
-                  <div className="bg-gradient-to-r from-transparent via-white/30 to-transparent h-px mx-auto max-w-6xl opacity-25 hover:opacity-40 transition-opacity duration-700" />
+                  <div
+                    className="h-px mx-auto max-w-6xl opacity-20 hover:opacity-35 transition-opacity duration-700"
+                    style={{
+                      background: 'linear-gradient(to right, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%)'
+                    }}
+                  />
 
                   {/* Testimonials Section */}
                   <section className="py-16 md:py-20 bg-black relative overflow-hidden">
@@ -1245,7 +1255,12 @@ export default function Index() {
               return (
                 <main key="gallery">
                   {/* Section Divider */}
-                  <div className="bg-gradient-to-r from-transparent via-white/30 to-transparent h-px mx-auto max-w-6xl opacity-25 hover:opacity-40 transition-opacity duration-700" />
+                  <div
+                    className="h-px mx-auto max-w-6xl opacity-20 hover:opacity-35 transition-opacity duration-700"
+                    style={{
+                      background: 'linear-gradient(to right, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%)'
+                    }}
+                  />
 
                   {/* Gallery Section */}
                   <section className="py-16 md:py-20 bg-black relative overflow-hidden">
@@ -1354,7 +1369,12 @@ export default function Index() {
               return (
                 <main key="faq">
                   {/* Section Divider */}
-                  <div className="bg-gradient-to-r from-transparent via-white/30 to-transparent h-px mx-auto max-w-6xl opacity-25 hover:opacity-40 transition-opacity duration-700" />
+                  <div
+                    className="h-px mx-auto max-w-6xl opacity-20 hover:opacity-35 transition-opacity duration-700"
+                    style={{
+                      background: 'linear-gradient(to right, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%)'
+                    }}
+                  />
 
                   {/* FAQ Section */}
                   <section className="py-16 md:py-20 bg-black relative overflow-hidden">
@@ -1435,7 +1455,12 @@ export default function Index() {
               return (
                 <main key="about">
                   {/* Section Divider */}
-                  <div className="bg-gradient-to-r from-transparent via-white/30 to-transparent h-px mx-auto max-w-6xl opacity-25 hover:opacity-40 transition-opacity duration-700" />
+                  <div
+                    className="h-px mx-auto max-w-6xl opacity-20 hover:opacity-35 transition-opacity duration-700"
+                    style={{
+                      background: 'linear-gradient(to right, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%)'
+                    }}
+                  />
 
                   {/* About Section */}
                   <section id="about" className="py-20 bg-black">
@@ -1518,7 +1543,12 @@ export default function Index() {
               return (
                 <main key="final_cta">
                   {/* Section Divider */}
-                  <div className="bg-gradient-to-r from-transparent via-white/30 to-transparent h-px mx-auto max-w-6xl opacity-25 hover:opacity-40 transition-opacity duration-700" />
+                  <div
+                    className="h-px mx-auto max-w-6xl opacity-20 hover:opacity-35 transition-opacity duration-700"
+                    style={{
+                      background: 'linear-gradient(to right, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%)'
+                    }}
+                  />
 
                   {/* Final CTA Section */}
                   <section className="py-16 md:py-20 bg-ecko-red">
