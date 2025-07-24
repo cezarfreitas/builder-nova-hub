@@ -1116,24 +1116,35 @@ export default function Index() {
           {/* CTA Buttons */}
           {currentHero.cta_secondary_text && (
             <div className="flex flex-col items-center">
-              <div
-                className="mb-6 sm:mb-8 group relative overflow-hidden bg-transparent border-2 font-bold px-8 sm:px-10 py-4 sm:py-5 h-auto text-base sm:text-lg uppercase tracking-wider transition-all duration-500 hover:scale-105 hover:shadow-2xl rounded-lg cursor-pointer"
-                onClick={scrollToContent}
-                style={{
-                  borderColor: currentHero.cta_color,
-                  color: currentHero.text_color || '#ffffff',
-                  '--hover-text-color': currentHero.cta_text_color || '#dc2626'
-                } as React.CSSProperties}
-              >
-                <span
-                  className="absolute inset-0 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"
-                  style={{ backgroundColor: currentHero.cta_color }}
-                ></span>
-                <span className="relative z-10 flex items-center transition-colors duration-300 group-hover:text-[var(--hover-text-color)]">
-                  {currentHero.cta_secondary_text}
-                  <ChevronDown className="ml-2 w-6 h-6 group-hover:animate-bounce" />
-                </span>
-              </div>
+              <>
+                <style>
+                  {`
+                    .hero-cta-button:hover .hero-cta-text {
+                      color: ${currentHero.cta_text_color || '#dc2626'} !important;
+                    }
+                  `}
+                </style>
+                <div
+                  className="hero-cta-button mb-6 sm:mb-8 group relative overflow-hidden bg-transparent border-2 font-bold px-8 sm:px-10 py-4 sm:py-5 h-auto text-base sm:text-lg uppercase tracking-wider transition-all duration-500 hover:scale-105 hover:shadow-2xl rounded-lg cursor-pointer"
+                  onClick={scrollToContent}
+                  style={{
+                    borderColor: currentHero.cta_color,
+                    color: currentHero.text_color || '#ffffff'
+                  }}
+                >
+                  <span
+                    className="absolute inset-0 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"
+                    style={{ backgroundColor: currentHero.cta_color }}
+                  ></span>
+                  <span
+                    className="hero-cta-text relative z-10 flex items-center transition-colors duration-300"
+                    style={{ color: currentHero.text_color || '#ffffff' }}
+                  >
+                    {currentHero.cta_secondary_text}
+                    <ChevronDown className="ml-2 w-6 h-6 group-hover:animate-bounce" />
+                  </span>
+                </div>
+              </>
 
               {/* Scroll Indicator */}
               <div
