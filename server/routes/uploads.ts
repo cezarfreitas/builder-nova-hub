@@ -457,18 +457,21 @@ export async function uploadGalleryImage(req: Request, res: Response) {
         sharpInstance = sharpInstance.jpeg({
           quality: quality,
           progressive: true,
-          mozjpeg: true
+          mozjpeg: true,
+          optimiseScans: true // Otimização adicional
         });
       } else if (file.mimetype.includes('png')) {
         sharpInstance = sharpInstance.png({
-          quality: Math.min(quality, 90),
-          compressionLevel: 6,
-          progressive: true
+          quality: Math.min(quality, 95), // Aumentar qualidade máxima para PNG
+          compressionLevel: isVeryLargeFile ? 7 : 5, // Compressão adaptativa
+          progressive: true,
+          palette: false // Manter cores verdadeiras
         });
       } else if (file.mimetype.includes('webp')) {
         sharpInstance = sharpInstance.webp({
           quality: quality,
-          progressive: true
+          progressive: true,
+          effort: 4 // Mais esforço na compactação para melhor qualidade
         });
       }
 
