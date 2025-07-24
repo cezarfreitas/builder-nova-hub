@@ -24,6 +24,8 @@ import {
   MessageCircle,
   ChevronDown,
   HelpCircle,
+  Star,
+  Image,
 } from "lucide-react";
 
 interface LeadFormData {
