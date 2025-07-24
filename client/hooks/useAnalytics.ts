@@ -36,6 +36,11 @@ export function useAnalytics(selectedPeriod: number = 30) {
       setLoading(true);
       setError(null);
 
+      // Quick connectivity check
+      if (!navigator.onLine) {
+        throw new Error('No internet connection');
+      }
+
       let leads = [];
       let stats = { total: 0, unique: 0, duplicates: 0, webhook_errors: 0 };
 
