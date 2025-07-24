@@ -45,6 +45,9 @@ const App = () => (
         <Route path="/admin/gallery" element={<AdminLayout />}>
           <Route index element={<AdminGallery />} />
         </Route>
+        <Route path="/admin/content" element={<AdminLayout />}>
+          <Route index element={<AdminContent />} />
+        </Route>
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
       </Routes>
