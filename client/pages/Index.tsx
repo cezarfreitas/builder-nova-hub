@@ -744,7 +744,7 @@ export default function Index() {
                   `}
                   </style>
                   <div
-                    className="hero-cta-button mb-6 sm:mb-8 group relative overflow-hidden bg-transparent border-2 font-bold px-8 sm:px-10 py-4 sm:py-5 h-auto text-base sm:text-lg uppercase tracking-wider transition-all duration-500 hover:scale-105 hover:shadow-2xl rounded-lg cursor-pointer"
+                    className="hero-cta-button mb-6 sm:mb-8 group relative overflow-hidden bg-transparent border-2 font-bold px-6 sm:px-10 py-4 sm:py-5 h-auto text-sm sm:text-lg uppercase tracking-wider transition-all duration-500 hover:scale-105 hover:shadow-2xl rounded-lg cursor-pointer min-h-[56px] w-full sm:w-auto flex items-center justify-center"
                     onClick={scrollToContent}
                     style={{
                       borderColor: currentHero.cta_color,
@@ -972,7 +972,7 @@ export default function Index() {
                         <Button
                           type="submit"
                           disabled={isSubmitting || formData.hasCnpj === "nao"}
-                          className={`group relative overflow-hidden w-full py-4 sm:py-5 text-sm sm:text-base lg:text-lg font-bold shadow-lg hover:shadow-2xl transition-all duration-300 h-auto min-h-[52px] rounded-lg ${
+                          className={`group relative overflow-hidden w-full py-4 sm:py-5 text-base sm:text-lg lg:text-xl font-bold shadow-lg hover:shadow-2xl transition-all duration-300 h-auto min-h-[56px] rounded-lg touch-manipulation ${
                             formData.hasCnpj === "nao"
                               ? "bg-black/70 cursor-not-allowed"
                               : "bg-gradient-to-r from-ecko-red to-ecko-red-dark hover:from-ecko-red-dark hover:to-red-700 hover:scale-[1.02] hover:shadow-ecko-red/40"
