@@ -210,6 +210,38 @@ export default function Index() {
     captureTrafficSource();
   }, []); // Executar apenas uma vez
 
+  // Track page view
+  useEffect(() => {
+    const trackPageView = async () => {
+      try {
+        const response = await fetch('/api/analytics/track-visit', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            event_type: 'page_view',
+            session_id: sessionId,
+            user_id: userId,
+            page_url: window.location.href,
+            referrer: document.referrer,
+            duration_seconds: 0
+          })
+        });
+
+        if (response.ok) {
+          console.log('✅ Page view registrada no banco');
+        } else {
+          console.warn('⚠️ Erro ao registrar page view');
+        }
+      } catch (e) {
+        console.warn('Erro ao rastrear page view:', e);
+      }
+    };
+
+    trackPageView();
+  }, [sessionId, userId]);
+
 
 
   const handleInputChange = (
@@ -395,7 +427,7 @@ export default function Index() {
     // Verificar se o endereço foi carregado
     if (!formData.cidade || !formData.estado) {
       toast({
-        title: "⚠️ Endereço Incompleto",
+        title: "⚠️ Endere��o Incompleto",
         description: content.form.validation_messages.address_incomplete,
         variant: "destructive",
       });
