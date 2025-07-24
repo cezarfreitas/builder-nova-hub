@@ -189,8 +189,8 @@ export function useAnalytics(selectedPeriod: number = 30) {
       });
     }
 
-    // Set overview data
-    const realOverview = {
+    // Set overview data - use real data if available, otherwise calculated/mock data
+    const finalOverview = realOverviewData || {
       leads: {
         total: stats.total,
         unique: stats.unique,
@@ -218,7 +218,12 @@ export function useAnalytics(selectedPeriod: number = 30) {
       period_days: selectedPeriod
     };
 
-    setOverview(realOverview);
+    // Always use real WhatsApp clicks from localStorage
+    if (finalOverview.traffic) {
+      finalOverview.traffic.whatsapp_clicks = whatsappClicks;
+    }
+
+    setOverview(finalOverview);
     setDailyStats(dailyData);
 
     // Analyze traffic sources from database or localStorage
