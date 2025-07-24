@@ -75,6 +75,13 @@ export interface ContentData {
     section_title: string;
     section_subtitle: string;
     section_description: string;
+    items: {
+      id: number;
+      question: string;
+      answer: string;
+      is_active: boolean;
+      display_order: number;
+    }[];
     cta_title: string;
     cta_description: string;
     cta_button_text: string;
