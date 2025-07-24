@@ -1871,7 +1871,10 @@ export default function Index() {
 
             {/* Close Button */}
             <Button
-              onClick={() => setShowWhatsApp(false)}
+              onClick={() => {
+                setShowWhatsApp(false);
+                setWhatsappDismissed(true);
+              }}
               className="absolute -top-1 -right-1 bg-red-500 hover:bg-red-600 text-white rounded-full w-6 h-6 p-0 shadow-lg transition-all duration-200 hover:scale-110"
               title="Fechar"
             >
