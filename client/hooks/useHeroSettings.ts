@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 export interface HeroSettings {
   title: string;
@@ -31,9 +31,9 @@ export function useHeroSettings(): UseHeroSettingsReturn {
     try {
       setLoading(true);
       setError(null);
-      
-      const response = await fetch('/api/settings/hero');
-      
+
+      const response = await fetch("/api/settings/hero");
+
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
@@ -43,17 +43,21 @@ export function useHeroSettings(): UseHeroSettingsReturn {
       if (result.success) {
         setSettings(result.data);
       } else {
-        throw new Error(result.message || 'Erro ao buscar configurações do hero');
+        throw new Error(
+          result.message || "Erro ao buscar configurações do hero",
+        );
       }
     } catch (err) {
-      console.warn('Usando configurações padrão do hero devido ao erro:', err);
-      setError(err instanceof Error ? err.message : 'Erro desconhecido');
+      console.warn("Usando configurações padrão do hero devido ao erro:", err);
+      setError(err instanceof Error ? err.message : "Erro desconhecido");
 
       // Usar configurações padrão em caso de erro
       setSettings({
         title: "SEJA PARCEIRO OFICIAL ECKO E TENHA SUCESSO",
-        subtitle: "Transforme sua paixão pelo streetwear em um negócio lucrativo",
-        description: "Junte-se aos milhares de revendedores que já transformaram seus negócios com a marca mais desejada do streetwear brasileiro",
+        subtitle:
+          "Transforme sua paixão pelo streetwear em um negócio lucrativo",
+        description:
+          "Junte-se aos milhares de revendedores que já transformaram seus negócios com a marca mais desejada do streetwear brasileiro",
         cta_text: "QUERO SER REVENDEDOR OFICIAL",
         cta_secondary_text: "CONHECER OS BENEFÍCIOS",
         background_image: "",
@@ -62,7 +66,7 @@ export function useHeroSettings(): UseHeroSettingsReturn {
         cta_color: "#dc2626",
         logo_url: "",
         video_url: "",
-        enabled: true
+        enabled: true,
       });
     } finally {
       setLoading(false);
@@ -81,6 +85,6 @@ export function useHeroSettings(): UseHeroSettingsReturn {
     settings,
     loading,
     error,
-    refreshSettings
+    refreshSettings,
   };
 }

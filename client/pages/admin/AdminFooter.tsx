@@ -50,7 +50,7 @@ export default function AdminFooter() {
         social_links: {
           facebook: content.footer.social_links?.facebook || "",
           instagram: content.footer.social_links?.instagram || "",
-        }
+        },
       });
     }
   }, [content.footer]);
@@ -103,7 +103,7 @@ export default function AdminFooter() {
       social_links: {
         facebook: content.footer.social_links?.facebook || "",
         instagram: content.footer.social_links?.instagram || "",
-      }
+      },
     });
     setHasChanges(false);
     toast({
@@ -114,14 +114,14 @@ export default function AdminFooter() {
 
   // Atualizar campo específico
   const updateField = (field: string, value: string) => {
-    if (field.startsWith('social_links.')) {
-      const socialField = field.split('.')[1];
+    if (field.startsWith("social_links.")) {
+      const socialField = field.split(".")[1];
       setSettings((prev) => ({
         ...prev,
         social_links: {
           ...prev.social_links,
           [socialField]: value,
-        }
+        },
       }));
     } else {
       setSettings((prev) => ({
@@ -231,7 +231,8 @@ export default function AdminFooter() {
                   label=""
                 />
                 <p className="text-xs text-gray-500">
-                  Use {"{ecko}"} e {"{/ecko}"} para destacar palavras em vermelho
+                  Use {"{ecko}"} e {"{/ecko}"} para destacar palavras em
+                  vermelho
                 </p>
               </div>
             </CardContent>
@@ -253,7 +254,9 @@ export default function AdminFooter() {
                 </label>
                 <Input
                   value={settings.social_links.facebook}
-                  onChange={(e) => updateField("social_links.facebook", e.target.value)}
+                  onChange={(e) =>
+                    updateField("social_links.facebook", e.target.value)
+                  }
                   placeholder="https://facebook.com/ecko"
                   type="url"
                 />
@@ -266,12 +269,14 @@ export default function AdminFooter() {
                 </label>
                 <Input
                   value={settings.social_links.instagram}
-                  onChange={(e) => updateField("social_links.instagram", e.target.value)}
+                  onChange={(e) =>
+                    updateField("social_links.instagram", e.target.value)
+                  }
                   placeholder="https://instagram.com/ecko"
                   type="url"
                 />
               </div>
-              
+
               <p className="text-xs text-gray-500">
                 Links das redes sociais serão abertos em nova aba
               </p>
@@ -294,9 +299,7 @@ export default function AdminFooter() {
                   {/* Logo */}
                   <div className="flex items-center">
                     <div className="w-8 h-8 bg-ecko-red rounded flex items-center justify-center">
-                      <span className="text-white font-bold text-xs">
-                        ECKO
-                      </span>
+                      <span className="text-white font-bold text-xs">ECKO</span>
                     </div>
                   </div>
 
@@ -304,16 +307,28 @@ export default function AdminFooter() {
                   <div className="flex space-x-4">
                     <a
                       href={settings.social_links.facebook || "#"}
-                      target={settings.social_links.facebook ? "_blank" : "_self"}
-                      rel={settings.social_links.facebook ? "noopener noreferrer" : ""}
+                      target={
+                        settings.social_links.facebook ? "_blank" : "_self"
+                      }
+                      rel={
+                        settings.social_links.facebook
+                          ? "noopener noreferrer"
+                          : ""
+                      }
                       className="w-6 h-6 bg-gray-600 hover:bg-ecko-red rounded flex items-center justify-center transition-colors"
                     >
                       <Facebook className="w-4 h-4 text-white" />
                     </a>
                     <a
                       href={settings.social_links.instagram || "#"}
-                      target={settings.social_links.instagram ? "_blank" : "_self"}
-                      rel={settings.social_links.instagram ? "noopener noreferrer" : ""}
+                      target={
+                        settings.social_links.instagram ? "_blank" : "_self"
+                      }
+                      rel={
+                        settings.social_links.instagram
+                          ? "noopener noreferrer"
+                          : ""
+                      }
                       className="w-6 h-6 bg-gray-600 hover:bg-ecko-red rounded flex items-center justify-center transition-colors"
                     >
                       <Instagram className="w-4 h-4 text-white" />
