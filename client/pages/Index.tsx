@@ -2120,28 +2120,34 @@ export default function Index() {
 
             {/* Main Button */}
             <Button
-              onClick={() => {
-                // Track WhatsApp click with multiple methods
-                trackWhatsAppClick();
-
-                // Local backup for analytics
+              onClick={async () => {
+                // Track WhatsApp click via API only
                 try {
-                  const clicks = JSON.parse(localStorage.getItem('whatsapp_clicks') || '[]');
-                  const newClick = {
-                    timestamp: new Date().toISOString(),
-                    session_id: sessionId,
-                    user_id: userId,
-                    page_url: window.location.href
-                  };
-                  clicks.push(newClick);
-                  localStorage.setItem('whatsapp_clicks', JSON.stringify(clicks));
-                  setWhatsappClickCount(clicks.length);
-                  console.log('💾 WhatsApp click salvo localmente:', clicks.length);
+                  const response = await fetch('/api/analytics/track-visit', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                      event_type: 'whatsapp_click',
+                      session_id: sessionId,
+                      user_id: userId,
+                      page_url: window.location.href,
+                      event_data: {
+                        button_type: 'floating',
+                        timestamp: new Date().toISOString()
+                      }
+                    })
+                  });
 
-                  // Show immediate feedback
-                  console.log('✅ Clique #' + clicks.length + ' registrado!');
+                  if (response.ok) {
+                    console.log('✅ WhatsApp click registrado no banco');
+                    setWhatsappClickCount(prev => prev + 1);
+                  } else {
+                    console.warn('⚠️ Erro ao registrar click no banco');
+                  }
                 } catch (e) {
-                  console.warn('LocalStorage backup failed:', e);
+                  console.warn('Erro ao rastrear click:', e);
                 }
 
                 openFormWithOrigin("whatsapp-float");
