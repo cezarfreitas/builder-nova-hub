@@ -11,7 +11,7 @@ import {
   Loader2,
   AlertCircle,
   Info,
-  Compress,
+  Minimize2,
   Download
 } from 'lucide-react';
 
