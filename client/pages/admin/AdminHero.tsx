@@ -111,15 +111,7 @@ export default function AdminHero() {
     };
   }, [settings, content.hero]);
 
-  // Validar URL
-  const isValidUrl = (url: string) => {
-    try {
-      new URL(url);
-      return true;
-    } catch {
-      return false;
-    }
-  };
+
 
   // Auto-save silencioso
   const autoSaveSettings = useCallback(async () => {
