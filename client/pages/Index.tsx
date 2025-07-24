@@ -611,7 +611,7 @@ export default function Index() {
                   disabled={isSubmitting || formData.hasCnpj === "nao"}
                   className={`group relative overflow-hidden flex-1 h-12 font-bold transition-all duration-300 rounded-lg ${
                     formData.hasCnpj === "nao"
-                      ? "bg-gray-600 cursor-not-allowed"
+                      ? "bg-black/70 cursor-not-allowed"
                       : "bg-gradient-to-r from-ecko-red to-ecko-red-dark hover:from-ecko-red-dark hover:to-red-700 hover:scale-105 hover:shadow-lg hover:shadow-ecko-red/40"
                   } text-white`}
                 >
@@ -966,7 +966,7 @@ export default function Index() {
                           disabled={isSubmitting || formData.hasCnpj === "nao"}
                           className={`group relative overflow-hidden w-full py-4 sm:py-5 text-sm sm:text-base lg:text-lg font-bold shadow-lg hover:shadow-2xl transition-all duration-300 h-auto min-h-[52px] rounded-lg ${
                             formData.hasCnpj === "nao"
-                              ? "bg-gray-600 cursor-not-allowed"
+                              ? "bg-black/70 cursor-not-allowed"
                               : "bg-gradient-to-r from-ecko-red to-ecko-red-dark hover:from-ecko-red-dark hover:to-red-700 hover:scale-[1.02] hover:shadow-ecko-red/40"
                           } text-white`}
                         >
