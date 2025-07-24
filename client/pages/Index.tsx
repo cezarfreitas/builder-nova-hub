@@ -434,7 +434,7 @@ export default function Index() {
     // Limita a 8 dígitos
     const limited = numbers.slice(0, 8);
 
-    // Aplica formatação
+    // Aplica formata��ão
     if (limited.length <= 5) {
       return limited;
     } else {
@@ -1277,7 +1277,7 @@ export default function Index() {
               <div className="bg-gradient-to-r from-ecko-red/10 to-ecko-red-dark/10 rounded-2xl p-6 border border-ecko-red/20 backdrop-blur-sm max-w-2xl mx-auto">
                 <div className="inline-flex items-center gap-2 text-white font-semibold text-lg mb-4">
                   <span>
-                    Junte-se a milhares de parceiros que já confiam na Ecko
+                    {renderTextWithColorTokens(content.benefits.cta_title)}
                   </span>
                 </div>
                 <Button
@@ -1287,9 +1287,9 @@ export default function Index() {
                   <span className="absolute inset-0 bg-gradient-to-r from-red-600 to-red-800 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
                   <span className="relative z-10 flex items-center">
                     <span className="hidden sm:inline">
-                      QUERO FAZER PARTE AGORA
+                      {renderTextWithColorTokens(content.benefits.cta_button_text)}
                     </span>
-                    <span className="sm:hidden">QUERO FAZER PARTE</span>
+                    <span className="sm:hidden">{renderTextWithColorTokens(content.benefits.cta_button_text)}</span>
                     <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </Button>
