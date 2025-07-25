@@ -32,13 +32,27 @@ export function useSettings(): UseSettingsReturn {
 
       // Create fetch with timeout
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+      const timeoutId = setTimeout(() => controller.abort(), 3000); // Reduced to 3 seconds
 
-      const response = await fetch("/api/settings", {
-        signal: controller.signal,
-      });
+      let response;
+      try {
+        response = await fetch("/api/settings", {
+          signal: controller.signal,
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+      } catch (fetchError) {
+        clearTimeout(timeoutId);
+        throw new Error(`Network error: ${fetchError.message}`);
+      }
 
       clearTimeout(timeoutId);
+
+      if (!response) {
+        throw new Error("No response received from server");
+      }
 
       if (response.status === 500) {
         // Banco não disponível, usar configurações padrão
