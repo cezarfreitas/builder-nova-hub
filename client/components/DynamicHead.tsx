@@ -60,6 +60,29 @@ export function DynamicHead() {
       canonicalLink.setAttribute("href", href);
     };
 
+    // Atualizar favicon
+    const updateFavicon = (href: string) => {
+      if (!href) return;
+
+      // Remover favicons existentes
+      const existingFavicons = document.querySelectorAll('link[rel="icon"], link[rel="shortcut icon"]');
+      existingFavicons.forEach(favicon => favicon.remove());
+
+      // Criar novo favicon
+      const faviconLink = document.createElement("link");
+      faviconLink.setAttribute("rel", "icon");
+      faviconLink.setAttribute("type", "image/x-icon");
+      faviconLink.setAttribute("href", href);
+      document.head.appendChild(faviconLink);
+
+      // Adicionar também como shortcut icon para compatibilidade
+      const shortcutLink = document.createElement("link");
+      shortcutLink.setAttribute("rel", "shortcut icon");
+      shortcutLink.setAttribute("type", "image/x-icon");
+      shortcutLink.setAttribute("href", href);
+      document.head.appendChild(shortcutLink);
+    };
+
     // SEO Básico
     updateMetaTag("description", getSetting("seo_description"));
     updateMetaTag("keywords", getSetting("seo_keywords"));
