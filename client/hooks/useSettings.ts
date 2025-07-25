@@ -30,7 +30,7 @@ export function useSettings(): UseSettingsReturn {
       setLoading(true);
       setError(null);
 
-      console.log('🔄 useSettings: Iniciando fetch de configurações');
+      console.log("🔄 useSettings: Iniciando fetch de configurações");
 
       let response;
       try {
@@ -41,12 +41,15 @@ export function useSettings(): UseSettingsReturn {
             "Content-Type": "application/json",
           },
         });
-        console.log('✅ useSettings: Fetch realizado com sucesso', response.status);
+        console.log(
+          "✅ useSettings: Fetch realizado com sucesso",
+          response.status,
+        );
       } catch (fetchError) {
-        console.error('❌ useSettings: Erro no fetch:', fetchError);
-        console.error('❌ useSettings: Tipo do erro:', typeof fetchError);
-        console.error('❌ useSettings: Nome do erro:', fetchError.name);
-        console.error('❌ useSettings: Stack:', fetchError.stack);
+        console.error("❌ useSettings: Erro no fetch:", fetchError);
+        console.error("❌ useSettings: Tipo do erro:", typeof fetchError);
+        console.error("❌ useSettings: Nome do erro:", fetchError.name);
+        console.error("❌ useSettings: Stack:", fetchError.stack);
 
         // Use fallback settings immediately on any fetch error
         throw new Error(`Network error: ${fetchError.message}`);
@@ -138,15 +141,25 @@ export function useSettings(): UseSettingsReturn {
         throw new Error(result.message || "Erro ao carregar configurações");
       }
     } catch (err) {
-      console.error('❌ useSettings: Erro capturado:', err);
+      console.error("❌ useSettings: Erro capturado:", err);
 
       // Silently fall back to defaults
       if (err instanceof Error && err.name === "AbortError") {
-        console.warn("⚠️ useSettings: API timeout - usando configurações padrão");
-      } else if (err instanceof Error && err.message.includes('Failed to fetch')) {
-        console.warn("⚠️ useSettings: Falha na conexão - usando configurações padrão");
+        console.warn(
+          "⚠️ useSettings: API timeout - usando configurações padrão",
+        );
+      } else if (
+        err instanceof Error &&
+        err.message.includes("Failed to fetch")
+      ) {
+        console.warn(
+          "⚠️ useSettings: Falha na conexão - usando configurações padrão",
+        );
       } else {
-        console.warn("⚠️ useSettings: API indisponível - usando configurações padrão", err);
+        console.warn(
+          "⚠️ useSettings: API indisponível - usando configurações padrão",
+          err,
+        );
       }
 
       // Don't set error to prevent UI error states, but log it

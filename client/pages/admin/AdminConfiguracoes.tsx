@@ -769,7 +769,7 @@ export default function AdminConfiguracoes() {
                   Os dados do lead serão enviados no seguinte formato JSON:
                 </p>
                 <pre className="bg-gray-800 text-green-400 p-4 rounded text-xs overflow-x-auto">
-{`{
+                  {`{
   "lead_id": 123,
   "nome": "João Silva",
   "email": "joao@empresa.com",

@@ -65,8 +65,10 @@ export function DynamicHead() {
       if (!href) return;
 
       // Remover favicons existentes
-      const existingFavicons = document.querySelectorAll('link[rel="icon"], link[rel="shortcut icon"]');
-      existingFavicons.forEach(favicon => favicon.remove());
+      const existingFavicons = document.querySelectorAll(
+        'link[rel="icon"], link[rel="shortcut icon"]',
+      );
+      existingFavicons.forEach((favicon) => favicon.remove());
 
       // Criar novo favicon
       const faviconLink = document.createElement("link");

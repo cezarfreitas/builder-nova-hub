@@ -123,7 +123,7 @@ export const submitLead: RequestHandler = async (req, res) => {
             utm_medium: utm_medium || "",
             utm_campaign: utm_campaign || "",
             ip_address,
-            user_agent: req.headers['user-agent'] || "",
+            user_agent: req.headers["user-agent"] || "",
             created_at: new Date().toISOString(),
             timestamp: new Date().toISOString(), // Manter para compatibilidade
           };
