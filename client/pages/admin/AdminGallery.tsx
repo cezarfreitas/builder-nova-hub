@@ -192,16 +192,40 @@ export default function AdminGallery() {
   };
 
   // Excluir imagem
-  const deleteImage = (id: number) => {
+  const deleteImage = async (id: number) => {
     if (confirm("Tem certeza que deseja excluir esta imagem?")) {
-      setSettings(prev => ({
-        ...prev,
-        items: prev.items.filter(item => item.id !== id)
-      }));
-      toast({
-        title: "Imagem excluída",
-        description: "A imagem foi removida com sucesso.",
-      });
+      const newSettings = {
+        ...settings,
+        items: settings.items.filter(item => item.id !== id)
+      };
+
+      setSettings(newSettings);
+
+      // Auto-save após exclusão
+      try {
+        const updatedContent = {
+          ...content,
+          gallery: newSettings,
+        };
+
+        const result = await saveContent(updatedContent);
+
+        if (result.success) {
+          toast({
+            title: "Imagem excluída",
+            description: "A imagem foi removida e salva automaticamente.",
+          });
+        } else {
+          throw new Error("Falha ao salvar");
+        }
+      } catch (error) {
+        console.error("Erro ao salvar após exclusão:", error);
+        toast({
+          title: "Imagem removida localmente",
+          description: "Clique em 'Salvar Alterações' para confirmar a exclusão.",
+          variant: "destructive",
+        });
+      }
     }
   };
 
