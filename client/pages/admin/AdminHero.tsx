@@ -101,57 +101,7 @@ export default function AdminHero() {
     }));
   };
 
-  // Apply preset colors
-  const applyColorPreset = (preset: string) => {
-    const presets = {
-      ecko: {
-        background_color: "#000000",
-        text_color: "#ffffff", 
-        cta_color: "#dc2626",
-        cta_text_color: "#ffffff"
-      },
-      luxury: {
-        background_color: "#1a1a1a",
-        text_color: "#f5f5f5",
-        cta_color: "#d4af37",
-        cta_text_color: "#000000"
-      },
-      vibrant: {
-        background_color: "#6366f1",
-        text_color: "#ffffff",
-        cta_color: "#f59e0b",
-        cta_text_color: "#000000"
-      },
-      minimal: {
-        background_color: "#ffffff",
-        text_color: "#1f2937",
-        cta_color: "#3b82f6",
-        cta_text_color: "#ffffff"
-      }
-    };
 
-    const colors = presets[preset as keyof typeof presets];
-    if (colors) {
-      Object.entries(colors).forEach(([key, value]) => {
-        updateField(key as keyof HeroSettings, value);
-      });
-      toast({
-        title: `🎨 Preset "${preset}" aplicado!`,
-        description: "As cores foram atualizadas conforme o tema selecionado.",
-      });
-    }
-  };
-
-  // Tab data
-  const tabs = [
-    { id: 'content', label: 'Conteúdo', icon: Type },
-    { id: 'visual', label: 'Imagens', icon: Image },
-    { id: 'style', label: 'Estilo', icon: PaletteIcon },
-  ] as const;
-
-  // Status da validação
-  const hasErrors = Object.keys(validation).length > 0;
-  const saveProgress = hasChanges ? (hasErrors ? 0 : 50) : 100;
 
   if (contentLoading) {
     return (
