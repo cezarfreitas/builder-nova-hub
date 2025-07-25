@@ -150,14 +150,18 @@ export function useSettings(): UseSettingsReturn {
         throw new Error(result.message || "Erro ao carregar configurações");
       }
     } catch (err) {
+      console.error('❌ useSettings: Erro capturado:', err);
+
       // Silently fall back to defaults
       if (err instanceof Error && err.name === "AbortError") {
-        console.warn("⚠️ API timeout - usando configurações padrão");
+        console.warn("⚠️ useSettings: API timeout - usando configurações padrão");
+      } else if (err instanceof Error && err.message.includes('Failed to fetch')) {
+        console.warn("⚠️ useSettings: Falha na conexão - usando configurações padrão");
       } else {
-        console.warn("⚠️ API indisponível - usando configurações padrão");
+        console.warn("⚠️ useSettings: API indisponível - usando configurações padrão", err);
       }
 
-      // Don't set error to prevent UI error states
+      // Don't set error to prevent UI error states, but log it
       setError(null);
 
       // Usar configurações padrão em caso de erro
