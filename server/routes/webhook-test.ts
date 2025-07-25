@@ -13,22 +13,35 @@ export async function testWebhook(req: Request, res: Response) {
       });
     }
 
-    // Payload de teste
+    // Payload de teste completo com todos os campos
     const testPayload = {
       test: true,
       message: "Teste de webhook enviado pelo admin",
       lead_id: 999,
-      nome: "Teste Admin",
+      nome: "João Silva Teste",
+      email: "joao.teste@empresa.com",
       telefone: "(11) 99999-9999",
-      tem_cnpj: "sim",
+      cidade: "São Paulo",
+      empresa: "Empresa Teste ABC Ltda",
+      experiencia_revenda: "sim",
+      tem_cnpj: "sim", // Manter para compatibilidade
       tipo_loja: "fisica",
+      cep: "01234-567",
+      endereco: "Rua das Flores, 123",
+      numero: "123",
+      complemento: "Sala 101",
+      bairro: "Centro",
+      estado: "SP",
+      form_origin: "admin_test",
       is_duplicate: false,
       source: "admin_test",
       utm_source: "",
       utm_medium: "",
       utm_campaign: "",
       ip_address: "127.0.0.1",
-      timestamp: new Date().toISOString()
+      user_agent: "Mozilla/5.0 (Test) Ecko-LP-Webhook-Test/1.0",
+      created_at: new Date().toISOString(),
+      timestamp: new Date().toISOString() // Manter para compatibilidade
     };
 
     // Preparar headers
