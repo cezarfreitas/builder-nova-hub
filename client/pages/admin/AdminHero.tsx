@@ -624,7 +624,7 @@ export default function AdminHero() {
                         <h4 className="font-semibold text-blue-900 text-sm">Otimização Automática</h4>
                       </div>
                       <p className="text-blue-700 text-xs">
-                        Imagens são automaticamente comprimidas e redimensionadas para máxima performance.
+                        Imagens s��o automaticamente comprimidas e redimensionadas para máxima performance.
                       </p>
                     </div>
 
@@ -1006,7 +1006,13 @@ export default function AdminHero() {
                           }}
                         >
                           {/* Overlay */}
-                          <div className="absolute inset-0 bg-black/50"></div>
+                          <div
+                            className="absolute inset-0 transition-all duration-300"
+                            style={{
+                              backgroundColor: settings.overlay_color,
+                              opacity: settings.overlay_opacity / 100
+                            }}
+                          ></div>
 
                           {/* Content */}
                           <div className={`relative text-center px-6 space-y-4 ${previewDevice === 'mobile' ? 'max-w-xs' : 'max-w-3xl'}`}>
