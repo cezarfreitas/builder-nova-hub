@@ -436,7 +436,7 @@ export default function AdminHero() {
                 {settings.description && (
                   <p
                     className="text-lg opacity-90 max-w-2xl mx-auto"
-                    style={{ color: settings.text_color }}
+                    style={{ color: settings.text_color || "#ffffff" }}
                   >
                     {renderTextWithColorTokens(settings.description)}
                   </p>
