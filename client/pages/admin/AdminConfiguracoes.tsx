@@ -44,6 +44,12 @@ export default function AdminConfiguracoes() {
   // Hook para gerenciar configurações
   const { settings, loading, error, saveSetting, saveMultipleSettings, getSetting } = useSettings();
 
+  // Helper para gerar URLs baseadas no domínio configurado
+  const generateUrl = (path: string = "/") => {
+    const domain = seoFormData.site_domain || "https://b2b.eckoshop.com.br";
+    return domain.endsWith("/") ? domain + path.substring(1) : domain + path;
+  };
+
   // Estados do formulário SEO
   const [seoFormData, setSeoFormData] = useState({
     site_domain: getSetting("site_domain") || "https://b2b.eckoshop.com.br",
