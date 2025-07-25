@@ -1270,7 +1270,7 @@ export default function Index() {
                                 </p>
                                 <p className="text-xs text-gray-300 leading-tight md:hidden">
                                   {renderTextWithColorTokens(
-                                    benefit.description.split('.')[0] + '.',
+                                    benefit.description.split(".")[0] + ".",
                                   )}
                                 </p>
                               </div>
@@ -1364,9 +1364,14 @@ export default function Index() {
                           <CarouselContent className="-ml-2">
                             {content.testimonials.items
                               ?.filter((testimonial) => testimonial.is_active)
-                              ?.sort((a, b) => a.display_order - b.display_order)
+                              ?.sort(
+                                (a, b) => a.display_order - b.display_order,
+                              )
                               ?.map((testimonial, index) => (
-                                <CarouselItem key={testimonial.id} className="pl-2 basis-4/5">
+                                <CarouselItem
+                                  key={testimonial.id}
+                                  className="pl-2 basis-4/5"
+                                >
                                   <div className="group relative h-full">
                                     <div className="h-full bg-black/80 backdrop-blur-sm border border-white rounded-2xl p-6 transition-all duration-500 hover:border-ecko-red/50 hover:shadow-2xl hover:shadow-ecko-red/10">
                                       {/* Rating Stars */}
@@ -1407,7 +1412,8 @@ export default function Index() {
                                             )}
                                           </div>
                                           <div className="text-xs text-gray-300">
-                                            {testimonial.role} • {testimonial.company}
+                                            {testimonial.role} •{" "}
+                                            {testimonial.company}
                                           </div>
                                         </div>
                                       </div>
@@ -2125,7 +2131,9 @@ export default function Index() {
                   </label>
                 </div>
                 {cnpjError && (
-                  <p className="text-red-400 text-xs md:text-sm mt-2">{cnpjError}</p>
+                  <p className="text-red-400 text-xs md:text-sm mt-2">
+                    {cnpjError}
+                  </p>
                 )}
               </div>
 
