@@ -618,16 +618,6 @@ export default function AdminHero() {
                 </CardHeader>
                 {expandedSections.visual && (
                   <CardContent className="space-y-6 pt-0">
-                    <div className="bg-blue-50 p-4 rounded-xl border border-blue-200">
-                      <div className="flex items-center space-x-2 mb-2">
-                        <Zap className="w-4 h-4 text-blue-600" />
-                        <h4 className="font-semibold text-blue-900 text-sm">Otimização Automática</h4>
-                      </div>
-                      <p className="text-blue-700 text-xs">
-                        Imagens são automaticamente comprimidas e redimensionadas para máxima performance.
-                      </p>
-                    </div>
-
                     <OptimizedImageUpload
                       value={settings.logo_url}
                       onChange={(url) => updateField("logo_url", url)}
