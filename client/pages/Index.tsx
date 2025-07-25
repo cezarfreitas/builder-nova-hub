@@ -439,7 +439,7 @@ export default function Index() {
     // Verificar se o endereço foi carregado
     if (!formData.cidade || !formData.estado) {
       toast({
-        title: "⚠️ Endere���o Incompleto",
+        title: "⚠️ Endere��o Incompleto",
         description: content.form.validation_messages.address_incomplete,
         variant: "destructive",
       });
@@ -2093,39 +2093,39 @@ export default function Index() {
               )}
 
               <div>
-                <label className="block text-sm font-semibold text-gray-300 mb-2">
+                <label className="block text-xs md:text-sm font-semibold text-gray-300 mb-2">
                   {content.form.fields.cnpj_label}
                 </label>
-                <div className="flex gap-4">
-                  <label className="flex items-center cursor-pointer">
+                <div className="flex flex-col md:flex-row gap-3 md:gap-4">
+                  <label className="flex items-center cursor-pointer bg-gray-800/30 rounded-lg p-3 md:p-2 hover:bg-gray-800/50 transition-colors">
                     <input
                       type="radio"
                       name="hasCnpj"
                       value="sim"
                       checked={formData.hasCnpj === "sim"}
                       onChange={handleInputChange}
-                      className="mr-2 text-ecko-red"
+                      className="mr-3 md:mr-2 text-ecko-red scale-125 md:scale-100"
                     />
-                    <span className="text-white">
+                    <span className="text-white text-sm md:text-base">
                       {content.form.fields.cnpj_yes}
                     </span>
                   </label>
-                  <label className="flex items-center cursor-pointer">
+                  <label className="flex items-center cursor-pointer bg-gray-800/30 rounded-lg p-3 md:p-2 hover:bg-gray-800/50 transition-colors">
                     <input
                       type="radio"
                       name="hasCnpj"
                       value="nao"
                       checked={formData.hasCnpj === "nao"}
                       onChange={handleInputChange}
-                      className="mr-2 text-ecko-red"
+                      className="mr-3 md:mr-2 text-ecko-red scale-125 md:scale-100"
                     />
-                    <span className="text-white">
+                    <span className="text-white text-sm md:text-base">
                       {content.form.fields.cnpj_no}
                     </span>
                   </label>
                 </div>
                 {cnpjError && (
-                  <p className="text-red-400 text-sm mt-2">{cnpjError}</p>
+                  <p className="text-red-400 text-xs md:text-sm mt-2">{cnpjError}</p>
                 )}
               </div>
 
