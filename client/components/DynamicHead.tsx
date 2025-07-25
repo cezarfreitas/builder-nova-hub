@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useSettings } from "../hooks/useSettings";
+import { useJsonSettings } from "../hooks/useJsonSettings";
 import { useHeroSettings } from "../hooks/useHeroSettings";
 
 export function DynamicHead() {
