@@ -15,6 +15,8 @@ export interface ContentData {
     text_color: string;
     cta_color: string;
     cta_text_color: string;
+    overlay_opacity: number;
+    overlay_color: string;
   };
   form: {
     main_title: string;
