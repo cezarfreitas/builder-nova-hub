@@ -358,12 +358,21 @@ export default function AdminGallery() {
                 </div>
                 
                 <CardContent className="p-4">
-                  <h3 className="font-semibold text-gray-900 mb-1 truncate">
-                    {image.title || "Sem título"}
-                  </h3>
-                  <p className="text-sm text-gray-600 mb-3 line-clamp-2">
-                    {image.description || "Sem descrição"}
-                  </p>
+                  {image.title && (
+                    <h3 className="font-semibold text-gray-900 mb-1 truncate">
+                      {image.title}
+                    </h3>
+                  )}
+                  {image.description && (
+                    <p className="text-sm text-gray-600 mb-3 line-clamp-2">
+                      {image.description}
+                    </p>
+                  )}
+                  {!image.title && !image.description && (
+                    <div className="mb-3 text-xs text-gray-500">
+                      Imagem #{image.display_order}
+                    </div>
+                  )}
                   
                   <div className="flex items-center justify-between">
                     <span className="text-xs text-gray-500">
