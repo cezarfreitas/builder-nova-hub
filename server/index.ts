@@ -136,6 +136,7 @@ export function createServer() {
   app.get("/api/analytics/export-data", exportAnalyticsData);
   app.post("/api/analytics/track-visit", trackVisit);
   app.post("/api/analytics/track-duration", trackDuration);
+  app.post("/api/analytics/test-pixel", testFacebookPixel);
 
   // Traffic tracking routes
   app.post("/api/traffic/track", trackTrafficSource);
