@@ -303,11 +303,25 @@ export default function AdminGallery() {
       {/* Content */}
       {activeTab === 'galeria' ? (
         <div className="space-y-6">
-          {/* Add Button */}
+          {/* Upload Area */}
+          <Card className="bg-white border border-gray-200">
+            <CardContent className="p-6">
+              <MultiImageUpload
+                onUpload={addMultipleImages}
+                maxFiles={20}
+                maxSize={10}
+                quality={0.85}
+                maxWidth={1200}
+                maxHeight={1200}
+              />
+            </CardContent>
+          </Card>
+
+          {/* Add Single Button */}
           <div className="flex justify-end">
-            <Button onClick={addImage} className="bg-ecko-red hover:bg-ecko-red-dark">
+            <Button onClick={addImage} variant="outline">
               <Plus className="w-4 h-4 mr-2" />
-              Adicionar Imagem
+              Adicionar Imagem Individual
             </Button>
           </div>
 
