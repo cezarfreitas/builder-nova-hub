@@ -175,7 +175,10 @@ export const useContent = () => {
       // Salva no arquivo JSON via API
       const response = await fetch("/api/content", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Cache-Control": "no-cache"
+        },
         body: JSON.stringify(newContent),
       });
 
