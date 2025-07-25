@@ -266,7 +266,12 @@ export default function Index() {
           throw new Error("Falha na API");
         }
       } catch (e) {
-        console.warn("Erro ao rastrear page view:", e);
+        // Silently handle errors to prevent console spam
+        if (e instanceof Error && e.name === "AbortError") {
+          // Timeout - ignore silently
+        } else {
+          // Other API errors - ignore silently
+        }
       }
     };
 
