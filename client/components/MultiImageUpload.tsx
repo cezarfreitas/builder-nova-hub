@@ -34,7 +34,7 @@ export function MultiImageUpload({
   onUpload,
   maxFiles = 10,
   maxSize = 5,
-  acceptedTypes = ["image/jpeg", "image/png", "image/webp"],
+  acceptedTypes = ["image/jpeg", "image/png", "image/webp", "image/gif"],
   quality = 0.8,
   maxWidth = 1200,
   maxHeight = 1200,
