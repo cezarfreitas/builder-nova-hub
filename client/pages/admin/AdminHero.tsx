@@ -16,8 +16,6 @@ import { useContent } from "../../hooks/useContent";
 import {
   Save,
   RefreshCw,
-  Eye,
-  EyeOff,
   Type,
   CheckCircle,
   AlertCircle,
@@ -25,7 +23,6 @@ import {
   Copy,
   ExternalLink,
   Sparkles,
-  Monitor,
   ChevronDown,
   ChevronUp,
   Palette as PaletteIcon,
