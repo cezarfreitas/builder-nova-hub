@@ -1991,7 +1991,7 @@ export default function Index() {
           {!isSubmitted ? (
             <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
               <div>
-                <label className="block text-sm font-semibold text-gray-300 mb-2">
+                <label className="block text-xs md:text-sm font-semibold text-gray-300 mb-1 md:mb-2">
                   {content.form.fields.name_label}
                 </label>
                 <Input
@@ -2000,7 +2000,7 @@ export default function Index() {
                   onChange={handleInputChange}
                   placeholder={content.form.fields.name_placeholder}
                   required
-                  className="h-12 text-base bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:border-ecko-red focus:ring-ecko-red/20"
+                  className="h-11 md:h-12 text-sm md:text-base bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:border-ecko-red focus:ring-ecko-red/20"
                 />
               </div>
 
