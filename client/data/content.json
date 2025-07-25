@@ -167,15 +167,6 @@
         "alt_text": "Tendências urbanas Ecko",
         "is_active": true,
         "display_order": 3
-      },
-      {
-        "id": 4,
-        "title": "Estilo Jovem",
-        "description": "Para quem vive intensamente",
-        "image_url": "https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?w=600&h=600&fit=crop&crop=center",
-        "alt_text": "Estilo jovem Ecko",
-        "is_active": true,
-        "display_order": 4
       }
     ],
     "empty_state_title": "Galeria em Construção",
