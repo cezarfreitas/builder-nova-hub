@@ -153,16 +153,16 @@ export default function AdminConfiguracoes() {
       });
 
       setAnalyticsFormData({
-        ga4_measurement_id: getSetting("ga4_measurement_id") || "",
-        ga4_api_secret: getSetting("ga4_api_secret") || "",
-        gtag_config: getSetting("gtag_config") || "",
-        facebook_pixel_id: getSetting("facebook_pixel_id") || "",
-        facebook_access_token: getSetting("facebook_access_token") || "",
-        facebook_test_event_code: getSetting("facebook_test_event_code") || "",
+        ga4_measurement_id: getSetting("analytics", "ga4_measurement_id") || "",
+        ga4_api_secret: getSetting("analytics", "ga4_api_secret") || "",
+        gtag_config: getSetting("analytics", "gtag_config") || "",
+        facebook_pixel_id: getSetting("analytics", "facebook_pixel_id") || "",
+        facebook_access_token: getSetting("analytics", "facebook_access_token") || "",
+        facebook_test_event_code: getSetting("analytics", "facebook_test_event_code") || "",
         conversions_api_enabled:
-          getSetting("conversions_api_enabled") || "false",
-        lead_event_name: getSetting("lead_event_name") || "Lead",
-        conversion_value: getSetting("conversion_value") || "0",
+          getSetting("analytics", "conversions_api_enabled") || "false",
+        lead_event_name: getSetting("analytics", "lead_event_name") || "Lead",
+        conversion_value: getSetting("analytics", "conversion_value") || "0",
       });
     }
   }, [settings, getSetting]);
@@ -813,7 +813,7 @@ export default function AdminConfiguracoes() {
             <div className="space-y-8">
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold text-gray-900">
-                  Configurações de SEO
+                  Configuraç��es de SEO
                 </h3>
                 <div className="flex gap-2">
                   <Button
