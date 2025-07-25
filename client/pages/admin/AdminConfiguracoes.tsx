@@ -373,7 +373,19 @@ export default function AdminConfiguracoes() {
         }),
       });
 
-      const result = await response.json();
+      // Read response body once and handle both success and error cases
+      let result;
+      try {
+        const responseText = await response.text();
+        result = responseText ? JSON.parse(responseText) : {};
+      } catch (parseError) {
+        console.error('Erro ao fazer parse da resposta:', parseError);
+        throw new Error('Resposta inválida do servidor');
+      }
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${result.message || 'Erro no servidor'}`);
+      }
 
       if (result.success) {
         toast({
@@ -392,7 +404,7 @@ export default function AdminConfiguracoes() {
       console.error('Erro ao testar pixel:', error);
       toast({
         title: "❌ Erro",
-        description: "Erro ao testar Facebook Pixel. Tente novamente.",
+        description: error.message || "Erro ao testar Facebook Pixel. Tente novamente.",
         variant: "destructive",
       });
     } finally {
