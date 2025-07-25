@@ -303,5 +303,54 @@
       "facebook": "https://facebook.com/ecko",
       "instagram": "https://instagram.com/ecko"
     }
+  },
+  "settings": {
+    "general": {
+      "site_domain": "https://b2b.eckoshop.com.br",
+      "favicon_url": ""
+    },
+    "seo": {
+      "seo_title": "Seja uma Revenda Autorizada da Ecko | Tenha os Melhores Produtos",
+      "seo_description": "Seja uma revenda autorizada da Ecko e tenha os melhores produtos de streetwear em sua loja. Transforme sua paixão em lucro com exclusividade territorial e suporte completo.",
+      "seo_keywords": "revenda autorizada ecko, melhores produtos streetwear, lojista autorizado",
+      "seo_canonical_url": "https://b2b.eckoshop.com.br/",
+      "seo_robots": "index,follow",
+      "og_title": "Seja uma Revenda Autorizada da Ecko",
+      "og_description": "Transforme sua paixão em lucro! Seja um revendedor autorizado Ecko e tenha acesso aos melhores produtos de streetwear do mercado.",
+      "og_image": "https://estyle.vteximg.com.br/arquivos/ecko_mosaic5.png",
+      "og_type": "website",
+      "og_url": "https://b2b.eckoshop.com.br/",
+      "og_site_name": "Ecko Revendedores",
+      "twitter_card": "summary_large_image",
+      "twitter_title": "",
+      "twitter_description": "",
+      "twitter_image": "",
+      "schema_company_name": "",
+      "schema_company_logo": "",
+      "schema_contact_phone": "",
+      "schema_contact_email": "",
+      "schema_address_street": "",
+      "schema_address_city": "",
+      "schema_address_state": "",
+      "schema_address_postal": "",
+      "schema_address_country": ""
+    },
+    "webhook": {
+      "webhook_url": "",
+      "webhook_secret": "",
+      "webhook_timeout": "30",
+      "webhook_retries": "3"
+    },
+    "analytics": {
+      "ga4_measurement_id": "",
+      "ga4_api_secret": "",
+      "gtag_config": "",
+      "facebook_pixel_id": "",
+      "facebook_access_token": "",
+      "facebook_test_event_code": "",
+      "conversions_api_enabled": "false",
+      "lead_event_name": "Lead",
+      "conversion_value": "0"
+    }
   }
 }
