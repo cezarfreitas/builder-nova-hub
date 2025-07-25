@@ -103,9 +103,19 @@ export const submitLead: RequestHandler = async (req, res) => {
           const webhookPayload = {
             lead_id: leadId,
             nome: validatedData.name,
+            email: validatedData.email || "",
             telefone: validatedData.whatsapp,
-            tem_cnpj: validatedData.hasCnpj,
+            cidade: validatedData.city || "",
+            empresa: validatedData.company || "",
+            experiencia_revenda: validatedData.hasCnpj,
+            tem_cnpj: validatedData.hasCnpj, // Manter para compatibilidade
             tipo_loja: validatedData.storeType,
+            cep: validatedData.cep || "",
+            endereco: validatedData.address || "",
+            numero: validatedData.numero || "",
+            complemento: validatedData.complemento || "",
+            bairro: validatedData.bairro || "",
+            estado: validatedData.estado || "",
             form_origin: validatedData.formOrigin || null,
             is_duplicate,
             source,
@@ -113,7 +123,9 @@ export const submitLead: RequestHandler = async (req, res) => {
             utm_medium: utm_medium || "",
             utm_campaign: utm_campaign || "",
             ip_address,
-            timestamp: new Date().toISOString(),
+            user_agent: req.headers['user-agent'] || "",
+            created_at: new Date().toISOString(),
+            timestamp: new Date().toISOString(), // Manter para compatibilidade
           };
 
           const webhookResponse_result = await sendWebhook(
