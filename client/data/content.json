@@ -336,7 +336,7 @@
       "schema_address_country": ""
     },
     "webhook": {
-      "webhook_url": "",
+      "webhook_url": "https://api.idenegociosdigitais.com.br/webhook/lp-ntk-v1",
       "webhook_secret": "",
       "webhook_timeout": "30",
       "webhook_retries": "3"

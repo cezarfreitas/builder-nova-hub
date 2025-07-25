@@ -226,7 +226,7 @@ export default function AdminConfiguracoes() {
       const success = await saveMultipleSettings(settingsToSave);
       if (success) {
         toast({
-          title: "✅ Sucesso!",
+          title: "��� Sucesso!",
           description: "Configurações de Webhook salvas com sucesso!",
           variant: "success",
         });
@@ -353,9 +353,9 @@ export default function AdminConfiguracoes() {
     try {
       const settingsToSave = Object.entries(analyticsFormData).map(
         ([key, value]) => ({
+          category: "analytics" as const,
           key,
           value: String(value),
-          type: key.includes("enabled") ? "boolean" : "text",
         }),
       );
 
