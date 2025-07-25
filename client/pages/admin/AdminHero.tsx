@@ -386,7 +386,7 @@ export default function AdminHero() {
             <div
               className="relative h-96 rounded-lg overflow-hidden flex items-center justify-center"
               style={{
-                backgroundColor: settings.background_color,
+                backgroundColor: settings.background_color || "#000000",
                 backgroundImage: settings.background_image
                   ? `url(${settings.background_image})`
                   : "none",
