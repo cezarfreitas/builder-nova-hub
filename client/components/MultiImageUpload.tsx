@@ -54,7 +54,7 @@ export function MultiImageUpload({
       img.onload = () => {
         // Calcular novas dimensões mantendo aspect ratio
         let { width, height } = img;
-        
+
         if (width > maxWidth || height > maxHeight) {
           const ratio = Math.min(maxWidth / width, maxHeight / height);
           width = width * ratio;
@@ -66,7 +66,7 @@ export function MultiImageUpload({
 
         // Desenhar e comprimir
         ctx?.drawImage(img, 0, 0, width, height);
-        
+
         canvas.toBlob(
           (blob) => {
             if (blob) {
@@ -80,7 +80,7 @@ export function MultiImageUpload({
             }
           },
           file.type,
-          quality
+          quality,
         );
       };
 
@@ -93,11 +93,11 @@ export function MultiImageUpload({
     if (!acceptedTypes.includes(file.type)) {
       return `Tipo de arquivo não aceito: ${file.type}`;
     }
-    
+
     if (file.size > maxSize * 1024 * 1024) {
       return `Arquivo muito grande: ${(file.size / 1024 / 1024).toFixed(1)}MB (máximo: ${maxSize}MB)`;
     }
-    
+
     return null;
   };
 
@@ -116,7 +116,7 @@ export function MultiImageUpload({
     }
 
     const result = await response.json();
-    
+
     if (!result.success) {
       throw new Error(result.message || "Upload falhou");
     }
@@ -127,7 +127,7 @@ export function MultiImageUpload({
   // Processar arquivos selecionados
   const handleFileSelect = async (files: FileList) => {
     const fileArray = Array.from(files).slice(0, maxFiles);
-    
+
     if (fileArray.length === 0) return;
 
     const initialResults: UploadResult[] = fileArray.map((file) => ({
@@ -144,13 +144,13 @@ export function MultiImageUpload({
     // Processar cada arquivo
     for (let i = 0; i < fileArray.length; i++) {
       const file = fileArray[i];
-      
+
       try {
         // Atualizar status para uploading
-        setUploadResults(prev => 
-          prev.map((result, idx) => 
-            idx === i ? { ...result, status: "uploading" } : result
-          )
+        setUploadResults((prev) =>
+          prev.map((result, idx) =>
+            idx === i ? { ...result, status: "uploading" } : result,
+          ),
         );
 
         // Validar arquivo
@@ -161,34 +161,40 @@ export function MultiImageUpload({
 
         // Comprimir imagem
         const compressedFile = await compressImage(file);
-        
+
         // Upload
         const url = await uploadFile(compressedFile, i);
-        
+
         // Atualizar resultado com sucesso
-        setUploadResults(prev => 
-          prev.map((result, idx) => 
-            idx === i ? { 
-              ...result, 
-              status: "success", 
-              url,
-              compressedSize: compressedFile.size 
-            } : result
-          )
+        setUploadResults((prev) =>
+          prev.map((result, idx) =>
+            idx === i
+              ? {
+                  ...result,
+                  status: "success",
+                  url,
+                  compressedSize: compressedFile.size,
+                }
+              : result,
+          ),
         );
 
         successfulUploads.push(url);
-
       } catch (error) {
         // Atualizar resultado com erro
-        setUploadResults(prev => 
-          prev.map((result, idx) => 
-            idx === i ? { 
-              ...result, 
-              status: "error", 
-              error: error instanceof Error ? error.message : "Erro desconhecido" 
-            } : result
-          )
+        setUploadResults((prev) =>
+          prev.map((result, idx) =>
+            idx === i
+              ? {
+                  ...result,
+                  status: "error",
+                  error:
+                    error instanceof Error
+                      ? error.message
+                      : "Erro desconhecido",
+                }
+              : result,
+          ),
         );
       }
     }
@@ -200,7 +206,7 @@ export function MultiImageUpload({
       onUpload(successfulUploads);
       toast({
         title: "Upload concluído!",
-        description: `${successfulUploads.length} ${successfulUploads.length === 1 ? 'imagem enviada' : 'imagens enviadas'} com sucesso.`,
+        description: `${successfulUploads.length} ${successfulUploads.length === 1 ? "imagem enviada" : "imagens enviadas"} com sucesso.`,
       });
     }
 
@@ -209,7 +215,7 @@ export function MultiImageUpload({
     if (errors.length > 0) {
       toast({
         title: "Alguns uploads falharam",
-        description: `${errors.length} ${errors.length === 1 ? 'arquivo teve' : 'arquivos tiveram'} problemas no upload.`,
+        description: `${errors.length} ${errors.length === 1 ? "arquivo teve" : "arquivos tiveram"} problemas no upload.`,
         variant: "destructive",
       });
     }
@@ -217,7 +223,7 @@ export function MultiImageUpload({
 
   // Remover arquivo da lista
   const removeFile = (index: number) => {
-    setUploadResults(prev => prev.filter((_, idx) => idx !== index));
+    setUploadResults((prev) => prev.filter((_, idx) => idx !== index));
   };
 
   // Resetar lista
@@ -254,7 +260,7 @@ export function MultiImageUpload({
               Formatos aceitos: JPG, PNG, WebP
             </p>
           </div>
-          
+
           <div className="mt-6 flex justify-center space-x-4">
             <Button
               onClick={() => fileInputRef.current?.click()}
@@ -264,9 +270,13 @@ export function MultiImageUpload({
               <Plus className="w-4 h-4 mr-2" />
               Selecionar Imagens
             </Button>
-            
+
             {uploadResults.length > 0 && (
-              <Button variant="outline" onClick={clearAll} disabled={isUploading}>
+              <Button
+                variant="outline"
+                onClick={clearAll}
+                disabled={isUploading}
+              >
                 <X className="w-4 h-4 mr-2" />
                 Limpar Lista
               </Button>
@@ -294,11 +304,14 @@ export function MultiImageUpload({
             <div className="flex items-center space-x-2 text-xs text-gray-500">
               <div className="flex items-center">
                 <CheckCircle className="w-3 h-3 mr-1 text-green-500" />
-                {uploadResults.filter(r => r.status === "success").length} sucesso
+                {
+                  uploadResults.filter((r) => r.status === "success").length
+                }{" "}
+                sucesso
               </div>
               <div className="flex items-center">
                 <AlertCircle className="w-3 h-3 mr-1 text-red-500" />
-                {uploadResults.filter(r => r.status === "error").length} erro
+                {uploadResults.filter((r) => r.status === "error").length} erro
               </div>
             </div>
           </div>
@@ -331,20 +344,30 @@ export function MultiImageUpload({
                     </p>
                     <div className="flex items-center space-x-2 text-xs text-gray-500">
                       <span>{formatFileSize(result.originalSize || 0)}</span>
-                      {result.compressedSize && result.compressedSize !== result.originalSize && (
-                        <>
-                          <span>→</span>
-                          <span className="text-green-600">
-                            {formatFileSize(result.compressedSize)}
-                          </span>
-                          <span className="text-green-600">
-                            (-{Math.round((1 - result.compressedSize / (result.originalSize || 1)) * 100)}%)
-                          </span>
-                        </>
-                      )}
+                      {result.compressedSize &&
+                        result.compressedSize !== result.originalSize && (
+                          <>
+                            <span>→</span>
+                            <span className="text-green-600">
+                              {formatFileSize(result.compressedSize)}
+                            </span>
+                            <span className="text-green-600">
+                              (-
+                              {Math.round(
+                                (1 -
+                                  result.compressedSize /
+                                    (result.originalSize || 1)) *
+                                  100,
+                              )}
+                              %)
+                            </span>
+                          </>
+                        )}
                     </div>
                     {result.error && (
-                      <p className="text-xs text-red-600 mt-1">{result.error}</p>
+                      <p className="text-xs text-red-600 mt-1">
+                        {result.error}
+                      </p>
                     )}
                   </div>
                 </div>

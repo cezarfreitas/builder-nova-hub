@@ -103,7 +103,8 @@ export function DynamicHead() {
     );
     updateMetaTag(
       "",
-      getSetting("seo", "og_description") || getSetting("seo", "seo_description"),
+      getSetting("seo", "og_description") ||
+        getSetting("seo", "seo_description"),
       "og:description",
     );
     updateMetaTag("", getSetting("seo", "og_image"), "og:image");
@@ -133,7 +134,8 @@ export function DynamicHead() {
     );
     updateMetaTag(
       "twitter:description",
-      getSetting("seo", "og_description") || getSetting("seo", "seo_description"),
+      getSetting("seo", "og_description") ||
+        getSetting("seo", "seo_description"),
     );
     updateMetaTag("twitter:image", getSetting("seo", "og_image"));
 

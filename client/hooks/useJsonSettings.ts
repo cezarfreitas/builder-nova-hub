@@ -55,9 +55,17 @@ interface UseJsonSettingsReturn {
   settings: JsonSettings;
   loading: boolean;
   error: string | null;
-  saveSetting: (category: keyof JsonSettings, key: string, value: any) => Promise<boolean>;
+  saveSetting: (
+    category: keyof JsonSettings,
+    key: string,
+    value: any,
+  ) => Promise<boolean>;
   saveMultipleSettings: (
-    settingsArray: Array<{ category: keyof JsonSettings; key: string; value: any }>
+    settingsArray: Array<{
+      category: keyof JsonSettings;
+      key: string;
+      value: any;
+    }>,
   ) => Promise<boolean>;
   getSetting: (category: keyof JsonSettings, key: string) => any;
   refreshSettings: () => Promise<void>;
@@ -65,7 +73,9 @@ interface UseJsonSettingsReturn {
 
 export function useJsonSettings(): UseJsonSettingsReturn {
   const { content, loading: contentLoading, saveContent } = useContent();
-  const [settings, setSettings] = useState<JsonSettings>(content.settings || getDefaultSettings());
+  const [settings, setSettings] = useState<JsonSettings>(
+    content.settings || getDefaultSettings(),
+  );
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -77,13 +87,17 @@ export function useJsonSettings(): UseJsonSettingsReturn {
         favicon_url: "",
       },
       seo: {
-        seo_title: "Seja uma Revenda Autorizada da Ecko | Tenha os Melhores Produtos",
-        seo_description: "Seja uma revenda autorizada da Ecko e tenha os melhores produtos de streetwear em sua loja. Transforme sua paixão em lucro com exclusividade territorial e suporte completo.",
-        seo_keywords: "revenda autorizada ecko, melhores produtos streetwear, lojista autorizado",
+        seo_title:
+          "Seja uma Revenda Autorizada da Ecko | Tenha os Melhores Produtos",
+        seo_description:
+          "Seja uma revenda autorizada da Ecko e tenha os melhores produtos de streetwear em sua loja. Transforme sua paixão em lucro com exclusividade territorial e suporte completo.",
+        seo_keywords:
+          "revenda autorizada ecko, melhores produtos streetwear, lojista autorizado",
         seo_canonical_url: "https://b2b.eckoshop.com.br/",
         seo_robots: "index,follow",
         og_title: "Seja uma Revenda Autorizada da Ecko",
-        og_description: "Transforme sua paixão em lucro! Seja um revendedor autorizado Ecko e tenha acesso aos melhores produtos de streetwear do mercado.",
+        og_description:
+          "Transforme sua paixão em lucro! Seja um revendedor autorizado Ecko e tenha acesso aos melhores produtos de streetwear do mercado.",
         og_image: "https://estyle.vteximg.com.br/arquivos/ecko_mosaic5.png",
         og_type: "website",
         og_url: "https://b2b.eckoshop.com.br/",
@@ -139,7 +153,11 @@ export function useJsonSettings(): UseJsonSettingsReturn {
   }, []);
 
   const saveSetting = useCallback(
-    async (category: keyof JsonSettings, key: string, value: any): Promise<boolean> => {
+    async (
+      category: keyof JsonSettings,
+      key: string,
+      value: any,
+    ): Promise<boolean> => {
       try {
         setError(null);
 
@@ -166,18 +184,23 @@ export function useJsonSettings(): UseJsonSettingsReturn {
           throw new Error(result.message || "Erro ao salvar configuração");
         }
       } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : "Erro desconhecido";
+        const errorMessage =
+          err instanceof Error ? err.message : "Erro desconhecido";
         setError(errorMessage);
         console.error("Erro ao salvar configuração:", err);
         return false;
       }
     },
-    [settings, content, saveContent]
+    [settings, content, saveContent],
   );
 
   const saveMultipleSettings = useCallback(
     async (
-      settingsArray: Array<{ category: keyof JsonSettings; key: string; value: any }>
+      settingsArray: Array<{
+        category: keyof JsonSettings;
+        key: string;
+        value: any;
+      }>,
     ): Promise<boolean> => {
       try {
         setError(null);
@@ -210,20 +233,24 @@ export function useJsonSettings(): UseJsonSettingsReturn {
           throw new Error(result.message || "Erro ao salvar configurações");
         }
       } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : "Erro desconhecido";
+        const errorMessage =
+          err instanceof Error ? err.message : "Erro desconhecido";
         setError(errorMessage);
         console.error("Erro ao salvar configurações:", err);
         return false;
       }
     },
-    [settings, content, saveContent]
+    [settings, content, saveContent],
   );
 
   const getSetting = useCallback(
     (category: keyof JsonSettings, key: string): any => {
-      return settings[category]?.[key as keyof typeof settings[typeof category]] || "";
+      return (
+        settings[category]?.[key as keyof (typeof settings)[typeof category]] ||
+        ""
+      );
     },
-    [settings]
+    [settings],
   );
 
   return {

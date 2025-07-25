@@ -64,7 +64,8 @@ export default function AdminConfiguracoes() {
 
   // Estados do formulário SEO
   const [seoFormData, setSeoFormData] = useState({
-    site_domain: getSetting("general", "site_domain") || "https://b2b.eckoshop.com.br",
+    site_domain:
+      getSetting("general", "site_domain") || "https://b2b.eckoshop.com.br",
     favicon_url: getSetting("general", "favicon_url") || "",
     seo_title: getSetting("seo", "seo_title") || "",
     seo_description: getSetting("seo", "seo_description") || "",
@@ -106,9 +107,12 @@ export default function AdminConfiguracoes() {
     ga4_api_secret: getSetting("analytics", "ga4_api_secret") || "",
     gtag_config: getSetting("analytics", "gtag_config") || "",
     facebook_pixel_id: getSetting("analytics", "facebook_pixel_id") || "",
-    facebook_access_token: getSetting("analytics", "facebook_access_token") || "",
-    facebook_test_event_code: getSetting("analytics", "facebook_test_event_code") || "",
-    conversions_api_enabled: getSetting("analytics", "conversions_api_enabled") || "false",
+    facebook_access_token:
+      getSetting("analytics", "facebook_access_token") || "",
+    facebook_test_event_code:
+      getSetting("analytics", "facebook_test_event_code") || "",
+    conversions_api_enabled:
+      getSetting("analytics", "conversions_api_enabled") || "false",
     lead_event_name: getSetting("analytics", "lead_event_name") || "Lead",
     conversion_value: getSetting("analytics", "conversion_value") || "0",
   });
@@ -117,7 +121,8 @@ export default function AdminConfiguracoes() {
   React.useEffect(() => {
     if (settings && Object.keys(settings).length > 0) {
       setSeoFormData({
-        site_domain: getSetting("general", "site_domain") || "https://b2b.eckoshop.com.br",
+        site_domain:
+          getSetting("general", "site_domain") || "https://b2b.eckoshop.com.br",
         favicon_url: getSetting("general", "favicon_url") || "",
         seo_title: getSetting("seo", "seo_title") || "",
         seo_description: getSetting("seo", "seo_description") || "",
@@ -130,7 +135,8 @@ export default function AdminConfiguracoes() {
         og_type: getSetting("seo", "og_type") || "website",
         og_url: getSetting("seo", "og_url") || "",
         og_site_name: getSetting("seo", "og_site_name") || "",
-        twitter_card: getSetting("seo", "twitter_card") || "summary_large_image",
+        twitter_card:
+          getSetting("seo", "twitter_card") || "summary_large_image",
         twitter_title: getSetting("seo", "twitter_title") || "",
         twitter_description: getSetting("seo", "twitter_description") || "",
         twitter_image: getSetting("seo", "twitter_image") || "",
@@ -142,7 +148,8 @@ export default function AdminConfiguracoes() {
         schema_address_city: getSetting("seo", "schema_address_city") || "",
         schema_address_state: getSetting("seo", "schema_address_state") || "",
         schema_address_postal: getSetting("seo", "schema_address_postal") || "",
-        schema_address_country: getSetting("seo", "schema_address_country") || "",
+        schema_address_country:
+          getSetting("seo", "schema_address_country") || "",
       });
 
       setWebhookFormData({
@@ -157,8 +164,10 @@ export default function AdminConfiguracoes() {
         ga4_api_secret: getSetting("analytics", "ga4_api_secret") || "",
         gtag_config: getSetting("analytics", "gtag_config") || "",
         facebook_pixel_id: getSetting("analytics", "facebook_pixel_id") || "",
-        facebook_access_token: getSetting("analytics", "facebook_access_token") || "",
-        facebook_test_event_code: getSetting("analytics", "facebook_test_event_code") || "",
+        facebook_access_token:
+          getSetting("analytics", "facebook_access_token") || "",
+        facebook_test_event_code:
+          getSetting("analytics", "facebook_test_event_code") || "",
         conversions_api_enabled:
           getSetting("analytics", "conversions_api_enabled") || "false",
         lead_event_name: getSetting("analytics", "lead_event_name") || "Lead",
