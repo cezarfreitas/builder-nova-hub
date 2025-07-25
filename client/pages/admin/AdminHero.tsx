@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -10,25 +10,15 @@ import { Input } from "../../components/ui/input";
 import { Badge } from "../../components/ui/badge";
 import { TokenColorEditor } from "../../components/TokenColorEditor";
 import { OptimizedImageUpload } from "../../components/OptimizedImageUpload";
-import { renderTextWithColorTokens } from "../../utils/colorTokens";
 import { useToast } from "../../hooks/use-toast";
 import { useContent } from "../../hooks/useContent";
 import {
   Save,
-  RefreshCw,
   Type,
-  CheckCircle,
   AlertCircle,
   Loader2,
-  Copy,
-  ExternalLink,
-  Sparkles,
-  Palette as PaletteIcon,
   Image,
-  FileText,
-  RotateCcw,
-  Timer,
-  Layers,
+  Palette as PaletteIcon,
   Lightbulb,
 } from "lucide-react";
 
