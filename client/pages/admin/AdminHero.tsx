@@ -59,12 +59,7 @@ export default function AdminHero() {
   const [hasChanges, setHasChanges] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const [validation, setValidation] = useState<{ [key: string]: string }>({});
-  const [expandedSections, setExpandedSections] = useState({
-    content: true,
-    visual: true,
-    colors: false,
-    advanced: false
-  });
+  const [activeTab, setActiveTab] = useState<'content' | 'visual' | 'style'>('content');
   const { toast } = useToast();
 
   // Debounced auto-save
