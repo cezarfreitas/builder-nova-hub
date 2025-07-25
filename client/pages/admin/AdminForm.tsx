@@ -6,18 +6,16 @@ import { Input } from "../../components/ui/input";
 import { useToast } from "../../hooks/use-toast";
 import { useContent } from "../../hooks/useContent";
 import { TokenColorEditor } from "../../components/TokenColorEditor";
-import { renderTextWithColorTokens } from "../../utils/colorTokens";
 import {
   FormInput,
   Save,
-  RefreshCw,
-  Eye,
-  EyeOff,
   Type,
-  Check,
   AlertCircle,
   Loader2,
-  FileText
+  FileText,
+  Check,
+  Settings,
+  Lightbulb
 } from "lucide-react";
 
 interface FormSettings {
@@ -61,11 +59,8 @@ export default function AdminForm() {
   const { content, loading: contentLoading, saveContent } = useContent();
   const [settings, setSettings] = useState<FormSettings>(content.form);
   const [saving, setSaving] = useState(false);
-  const [autoSaving, setAutoSaving] = useState(false);
-  const [previewMode, setPreviewMode] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
-  const [lastSaved, setLastSaved] = useState<Date | null>(null);
-  const [validation, setValidation] = useState<{[key: string]: string}>({});
+  const [activeTab, setActiveTab] = useState<'titulos' | 'campos' | 'mensagens'>('titulos');
   const { toast } = useToast();
 
   // Sincronizar com o conteúdo JSON quando carregado
@@ -99,7 +94,6 @@ export default function AdminForm() {
           description: "As configurações foram salvas com sucesso.",
         });
         setHasChanges(false);
-        setLastSaved(new Date());
       } else {
         throw new Error("Falha ao salvar");
       }
@@ -113,16 +107,6 @@ export default function AdminForm() {
     } finally {
       setSaving(false);
     }
-  };
-
-  // Resetar para valores originais
-  const resetSettings = () => {
-    setSettings(content.form);
-    setHasChanges(false);
-    toast({
-      title: "Resetado",
-      description: "Configurações resetadas para os valores salvos.",
-    });
   };
 
   // Atualizar campo específico
@@ -158,51 +142,19 @@ export default function AdminForm() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Formulário de Cadastro</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Formulário</h1>
           <p className="text-gray-600">Gerencie todos os textos do formulário de revendedor</p>
         </div>
         
-        <div className="flex items-center gap-4">
-          {lastSaved && (
-            <span className="text-sm text-gray-500">
-              Salvo às {lastSaved.toLocaleTimeString()}
-            </span>
-          )}
-          
-          {hasChanges && (
+        {hasChanges && (
+          <div className="flex items-center gap-4">
             <Badge variant="outline" className="text-orange-600 border-orange-300">
               <AlertCircle className="w-3 h-3 mr-1" />
               Alterações pendentes
             </Badge>
-          )}
-
-          <div className="flex items-center gap-2">
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={() => setPreviewMode(!previewMode)}
-            >
-              {previewMode ? (
-                <>
-                  <EyeOff className="w-4 h-4 mr-2" />
-                  Ocultar Preview
-                </>
-              ) : (
-                <>
-                  <Eye className="w-4 h-4 mr-2" />
-                  Mostrar Preview
-                </>
-              )}
-            </Button>
-            
-            <Button variant="outline" size="sm" onClick={resetSettings}>
-              <RefreshCw className="w-4 h-4 mr-2" />
-              Resetar
-            </Button>
-            
             <Button 
               onClick={saveSettings} 
-              disabled={saving || !hasChanges}
+              disabled={saving}
               className="bg-ecko-red hover:bg-ecko-red-dark"
             >
               {saving ? (
@@ -213,18 +165,96 @@ export default function AdminForm() {
               Salvar Alterações
             </Button>
           </div>
-        </div>
+        )}
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-2">
-        {/* Configurações */}
+      {/* Tabs */}
+      <div className="border-b border-gray-200">
+        <nav className="-mb-px flex space-x-8">
+          <button
+            onClick={() => setActiveTab('titulos')}
+            className={`py-2 px-1 border-b-2 font-medium text-sm ${
+              activeTab === 'titulos'
+                ? 'border-ecko-red text-ecko-red'
+                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+            }`}
+          >
+            <Type className="w-4 h-4 mr-2 inline" />
+            Títulos
+          </button>
+          <button
+            onClick={() => setActiveTab('campos')}
+            className={`py-2 px-1 border-b-2 font-medium text-sm ${
+              activeTab === 'campos'
+                ? 'border-ecko-red text-ecko-red'
+                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+            }`}
+          >
+            <FormInput className="w-4 h-4 mr-2 inline" />
+            Campos
+          </button>
+          <button
+            onClick={() => setActiveTab('mensagens')}
+            className={`py-2 px-1 border-b-2 font-medium text-sm ${
+              activeTab === 'mensagens'
+                ? 'border-ecko-red text-ecko-red'
+                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+            }`}
+          >
+            <FileText className="w-4 h-4 mr-2 inline" />
+            Mensagens
+          </button>
+        </nav>
+      </div>
+
+      {/* Content */}
+      {activeTab === 'titulos' ? (
         <div className="space-y-6">
+          {/* Color Instructions */}
+          <Card className="bg-blue-50 border-blue-200">
+            <CardContent className="p-4">
+              <div className="flex items-center space-x-2 mb-3">
+                <Lightbulb className="w-4 h-4 text-blue-600" />
+                <h4 className="font-semibold text-blue-900 text-sm">Destaque de Texto</h4>
+              </div>
+              <p className="text-blue-700 text-xs mb-3">
+                Use <code className="bg-blue-100 px-1 rounded text-blue-800">{"{ecko}texto{/ecko}"}</code> em qualquer campo de texto para destacar palavras.
+              </p>
+              
+              {/* Color Examples */}
+              <div className="flex flex-wrap gap-2">
+                <span className="text-xs text-blue-600 mr-2">Cores:</span>
+                {[
+                  { name: 'ecko', color: '#dc2626' },
+                  { name: 'blue', color: '#2563eb' },
+                  { name: 'green', color: '#16a34a' },
+                  { name: 'orange', color: '#ea580c' },
+                  { name: 'yellow', color: '#ca8a04' },
+                  { name: 'white', color: '#ffffff' },
+                  { name: 'black', color: '#000000' }
+                ].map(({ name, color }) => (
+                  <span
+                    key={name}
+                    className="inline-flex items-center px-2 py-1 rounded text-xs font-medium border"
+                    style={{
+                      backgroundColor: color === '#ffffff' ? '#f8f9fa' : color,
+                      color: ['#ffffff', '#ca8a04'].includes(color) ? '#000000' : '#ffffff',
+                      borderColor: color === '#ffffff' ? '#d1d5db' : color
+                    }}
+                  >
+                    {name}
+                  </span>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
           {/* Títulos Principais */}
-          <Card className="bg-white shadow-sm border border-gray-200">
+          <Card>
             <CardHeader>
-              <CardTitle className="text-gray-900 flex items-center">
+              <CardTitle className="flex items-center">
                 <Type className="w-5 h-5 mr-2 text-ecko-red" />
-                Títulos Principais
+                Títulos da Seção
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -281,17 +311,19 @@ export default function AdminForm() {
               </div>
             </CardContent>
           </Card>
-
+        </div>
+      ) : activeTab === 'campos' ? (
+        <div className="space-y-6">
           {/* Labels dos Campos */}
-          <Card className="bg-white shadow-sm border border-gray-200">
+          <Card>
             <CardHeader>
-              <CardTitle className="text-gray-900 flex items-center">
+              <CardTitle className="flex items-center">
                 <FormInput className="w-5 h-5 mr-2 text-ecko-red" />
-                Labels dos Campos
+                Labels e Placeholders
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="block text-sm font-medium text-gray-700">
                     Label Nome
@@ -300,6 +332,17 @@ export default function AdminForm() {
                     value={settings.fields.name_label}
                     onChange={(e) => updateField('fields.name_label', e.target.value)}
                     placeholder="Nome Completo"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Placeholder Nome
+                  </label>
+                  <Input
+                    value={settings.fields.name_placeholder}
+                    onChange={(e) => updateField('fields.name_placeholder', e.target.value)}
+                    placeholder="Digite seu nome completo"
                   />
                 </div>
 
@@ -316,6 +359,17 @@ export default function AdminForm() {
 
                 <div className="space-y-2">
                   <label className="block text-sm font-medium text-gray-700">
+                    Placeholder WhatsApp
+                  </label>
+                  <Input
+                    value={settings.fields.whatsapp_placeholder}
+                    onChange={(e) => updateField('fields.whatsapp_placeholder', e.target.value)}
+                    placeholder="(11) 99999-9999"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-gray-700">
                     Label CEP
                   </label>
                   <Input
@@ -327,12 +381,34 @@ export default function AdminForm() {
 
                 <div className="space-y-2">
                   <label className="block text-sm font-medium text-gray-700">
+                    Placeholder CEP
+                  </label>
+                  <Input
+                    value={settings.fields.cep_placeholder}
+                    onChange={(e) => updateField('fields.cep_placeholder', e.target.value)}
+                    placeholder="00000-000"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-gray-700">
                     Label Endereço
                   </label>
                   <Input
                     value={settings.fields.endereco_label}
                     onChange={(e) => updateField('fields.endereco_label', e.target.value)}
                     placeholder="Endereço"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Placeholder Endereço
+                  </label>
+                  <Input
+                    value={settings.fields.endereco_placeholder}
+                    onChange={(e) => updateField('fields.endereco_placeholder', e.target.value)}
+                    placeholder="Rua, número"
                   />
                 </div>
 
@@ -357,41 +433,92 @@ export default function AdminForm() {
                     placeholder="Tipo de Loja"
                   />
                 </div>
+
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Placeholder Tipo de Loja
+                  </label>
+                  <Input
+                    value={settings.fields.store_type_placeholder}
+                    onChange={(e) => updateField('fields.store_type_placeholder', e.target.value)}
+                    placeholder="Selecione o tipo"
+                  />
+                </div>
               </div>
             </CardContent>
           </Card>
 
-          {/* Placeholders */}
-          <Card className="bg-white shadow-sm border border-gray-200">
+          {/* Botões e Opções */}
+          <Card>
             <CardHeader>
-              <CardTitle className="text-gray-900 flex items-center">
-                <FileText className="w-5 h-5 mr-2 text-ecko-red" />
-                Placeholders e Mensagens
+              <CardTitle className="flex items-center">
+                <Check className="w-5 h-5 mr-2 text-ecko-red" />
+                Botões e Opções
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-700">
-                  Placeholder Nome
-                </label>
-                <Input
-                  value={settings.fields.name_placeholder}
-                  onChange={(e) => updateField('fields.name_placeholder', e.target.value)}
-                  placeholder="Digite seu nome completo"
-                />
-              </div>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Texto do Botão de Envio
+                  </label>
+                  <TokenColorEditor
+                    value={settings.submit_button}
+                    onChange={(value) => updateField('submit_button', value)}
+                    placeholder="QUERO SER REVENDEDOR OFICIAL"
+                    rows={2}
+                    label=""
+                  />
+                </div>
 
-              <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-700">
-                  Placeholder WhatsApp
-                </label>
-                <Input
-                  value={settings.fields.whatsapp_placeholder}
-                  onChange={(e) => updateField('fields.whatsapp_placeholder', e.target.value)}
-                  placeholder="(11) 99999-9999"
-                />
-              </div>
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Texto do Botão (Carregando)
+                  </label>
+                  <Input
+                    value={settings.submit_button_loading}
+                    onChange={(e) => updateField('submit_button_loading', e.target.value)}
+                    placeholder="Enviando..."
+                  />
+                </div>
 
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Opção CNPJ Sim
+                  </label>
+                  <Input
+                    value={settings.fields.cnpj_yes}
+                    onChange={(e) => updateField('fields.cnpj_yes', e.target.value)}
+                    placeholder="Sim"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Opção CNPJ Não
+                  </label>
+                  <Input
+                    value={settings.fields.cnpj_no}
+                    onChange={(e) => updateField('fields.cnpj_no', e.target.value)}
+                    placeholder="Não"
+                  />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      ) : (
+        // Mensagens
+        <div className="space-y-6">
+          {/* Mensagens de Validação */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <AlertCircle className="w-5 h-5 mr-2 text-ecko-red" />
+                Mensagens de Validação
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">
                   Mensagem de Erro WhatsApp
@@ -424,162 +551,43 @@ export default function AdminForm() {
                   placeholder="Para ser um revendedor oficial..."
                 />
               </div>
-            </CardContent>
-          </Card>
 
-          {/* Botões */}
-          <Card className="bg-white shadow-sm border border-gray-200">
-            <CardHeader>
-              <CardTitle className="text-gray-900 flex items-center">
-                <Check className="w-5 h-5 mr-2 text-ecko-red" />
-                Botões e Ações
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">
-                  Texto do Botão de Envio
+                  WhatsApp Inválido
                 </label>
-                <TokenColorEditor
-                  value={settings.submit_button}
-                  onChange={(value) => updateField('submit_button', value)}
-                  placeholder="QUERO SER REVENDEDOR OFICIAL"
-                  rows={2}
-                  label=""
+                <Input
+                  value={settings.validation_messages.whatsapp_invalid}
+                  onChange={(e) => updateField('validation_messages.whatsapp_invalid', e.target.value)}
+                  placeholder="Número de WhatsApp inválido"
                 />
               </div>
 
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">
-                  Texto do Botão (Carregando)
+                  Endereço Incompleto
                 </label>
                 <Input
-                  value={settings.submit_button_loading}
-                  onChange={(e) => updateField('submit_button_loading', e.target.value)}
-                  placeholder="Enviando..."
+                  value={settings.validation_messages.address_incomplete}
+                  onChange={(e) => updateField('validation_messages.address_incomplete', e.target.value)}
+                  placeholder="Preencha o endereço completo"
                 />
               </div>
 
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">
-                  Opção CNPJ Sim
+                  CNPJ Obrigatório
                 </label>
                 <Input
-                  value={settings.fields.cnpj_yes}
-                  onChange={(e) => updateField('fields.cnpj_yes', e.target.value)}
-                  placeholder="Sim"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-700">
-                  Opção CNPJ Não
-                </label>
-                <Input
-                  value={settings.fields.cnpj_no}
-                  onChange={(e) => updateField('fields.cnpj_no', e.target.value)}
-                  placeholder="Não"
+                  value={settings.validation_messages.cnpj_required}
+                  onChange={(e) => updateField('validation_messages.cnpj_required', e.target.value)}
+                  placeholder="CNPJ é obrigatório para revendedores"
                 />
               </div>
             </CardContent>
           </Card>
         </div>
-
-        {/* Preview */}
-        {previewMode && (
-          <div className="lg:sticky lg:top-6">
-            <Card className="bg-gray-900 text-white">
-              <CardHeader>
-                <CardTitle className="text-white flex items-center">
-                  <Eye className="w-5 h-5 mr-2 text-ecko-red" />
-                  Preview do Formulário
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                {/* Coluna Esquerda */}
-                <div className="border-b border-gray-700 pb-4 mb-4">
-                  <h4 className="text-sm font-semibold text-ecko-red mb-2">COLUNA ESQUERDA</h4>
-                  <h1 className="text-lg font-black text-white mb-2 leading-tight">
-                    {renderTextWithColorTokens(settings.main_title)}
-                  </h1>
-                  <p className="text-gray-300 text-sm">
-                    {renderTextWithColorTokens(settings.main_description)}
-                  </p>
-                </div>
-
-                {/* Coluna Direita - Formulário */}
-                <div>
-                  <h4 className="text-sm font-semibold text-ecko-red mb-2">COLUNA DIREITA - FORMULÁRIO</h4>
-                  <div className="text-center mb-4">
-                    <h2 className="text-lg font-bold text-white mb-2">
-                      {renderTextWithColorTokens(settings.title)}
-                    </h2>
-                    <p className="text-gray-300 text-sm">
-                      {renderTextWithColorTokens(settings.subtitle)}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Campos de Preview */}
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
-                      {settings.fields.name_label}
-                    </label>
-                    <div className="h-10 bg-gray-800 border border-gray-700 rounded px-3 flex items-center text-gray-400">
-                      {settings.fields.name_placeholder}
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
-                      {settings.fields.whatsapp_label}
-                    </label>
-                    <div className="h-10 bg-gray-800 border border-gray-700 rounded px-3 flex items-center text-gray-400">
-                      {settings.fields.whatsapp_placeholder}
-                    </div>
-                    <p className="text-green-400 text-xs mt-1">
-                      {settings.fields.whatsapp_success}
-                    </p>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
-                      {settings.fields.cep_label}
-                    </label>
-                    <div className="h-10 bg-gray-800 border border-gray-700 rounded px-3 flex items-center text-gray-400">
-                      {settings.fields.cep_placeholder}
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
-                      {settings.fields.cnpj_label}
-                    </label>
-                    <div className="h-10 bg-gray-800 border border-gray-700 rounded px-3 flex items-center text-gray-400">
-                      <span className="mr-4">{settings.fields.cnpj_yes}</span>
-                      <span>{settings.fields.cnpj_no}</span>
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
-                      {settings.fields.store_type_label}
-                    </label>
-                    <div className="h-10 bg-gray-800 border border-gray-700 rounded px-3 flex items-center text-gray-400">
-                      {settings.fields.store_type_placeholder}
-                    </div>
-                  </div>
-
-                  <button className="w-full bg-ecko-red text-white py-3 rounded font-bold">
-                    {renderTextWithColorTokens(settings.submit_button)}
-                  </button>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        )}
-      </div>
+      )}
     </div>
   );
 }
