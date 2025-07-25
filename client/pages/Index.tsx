@@ -9,6 +9,7 @@ import { useSessionId } from "../hooks/useSessionId";
 import { useContent } from "../hooks/useContent";
 import { renderTextWithColorTokens } from "../utils/colorTokens";
 import { usePreloadImages } from "../hooks/useOptimizedImage";
+import { robustPost } from "../utils/robustFetch";
 import { OptimizedImage } from "../components/OptimizedImage";
 import { DeferredCSS, PreloadHeroImages } from "../components/DeferredCSS";
 import { LazySection } from "../components/LazySection";
