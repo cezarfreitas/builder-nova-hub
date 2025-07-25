@@ -239,12 +239,7 @@ export default function Index() {
           console.log("✅ Page view registrada no banco");
         }
       } catch (e) {
-        // Silently handle errors to prevent console spam
-        if (e instanceof Error && e.name === "AbortError") {
-          // Timeout - ignore silently
-        } else {
-          // Other API errors - ignore silently
-        }
+        // Silently handle all errors
       }
     };
 
@@ -371,7 +366,7 @@ export default function Index() {
     return numbers.length === 8;
   };
 
-  // Fun���������o para buscar endereço pelo CEP
+  // Fun�������o para buscar endereço pelo CEP
   const fetchAddressByCEP = async (cep: string) => {
     const numbers = cep.replace(/\D/g, "");
 
