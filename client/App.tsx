@@ -28,55 +28,57 @@ import AdminForm from "./pages/admin/AdminForm";
 import AdminFooter from "./pages/admin/AdminFooter";
 import NotFound from "./pages/NotFound";
 
-const App = () => (
-  <BrowserRouter>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <Routes>
-        <Route path="/" element={<Index />} />
-        <Route path="/admin" element={<AdminLayout />}>
-          <Route index element={<AdminDashboard />} />
-        </Route>
-        <Route path="/admin/leads" element={<AdminLayout />}>
-          <Route index element={<AdminLeads />} />
-        </Route>
-        <Route path="/admin/analytics" element={<AdminLayout />}>
-          <Route index element={<AdminAnalytics />} />
-        </Route>
-        <Route path="/admin/configuracoes" element={<AdminLayout />}>
-          <Route index element={<AdminConfiguracoes />} />
-        </Route>
-        <Route path="/admin/hero" element={<AdminLayout />}>
-          <Route index element={<AdminHero />} />
-        </Route>
-        <Route path="/admin/benefits" element={<AdminLayout />}>
-          <Route index element={<AdminBenefits />} />
-        </Route>
-        <Route path="/admin/testimonials" element={<AdminLayout />}>
-          <Route index element={<AdminTestimonials />} />
-        </Route>
-        <Route path="/admin/gallery" element={<AdminLayout />}>
-          <Route index element={<AdminGallery />} />
-        </Route>
-        <Route path="/admin/content" element={<AdminLayout />}>
-          <Route index element={<AdminContent />} />
-        </Route>
-        <Route path="/admin/faq" element={<AdminLayout />}>
-          <Route index element={<AdminFAQ />} />
-        </Route>
-        <Route path="/admin/form" element={<AdminLayout />}>
-          <Route index element={<AdminForm />} />
-        </Route>
-        <Route path="/admin/footer" element={<AdminLayout />}>
-          <Route index element={<AdminFooter />} />
-        </Route>
-        {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </TooltipProvider>
-  </BrowserRouter>
-);
+export default function App() {
+  return (
+    <BrowserRouter>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<AdminDashboard />} />
+          </Route>
+          <Route path="/admin/leads" element={<AdminLayout />}>
+            <Route index element={<AdminLeads />} />
+          </Route>
+          <Route path="/admin/analytics" element={<AdminLayout />}>
+            <Route index element={<AdminAnalytics />} />
+          </Route>
+          <Route path="/admin/configuracoes" element={<AdminLayout />}>
+            <Route index element={<AdminConfiguracoes />} />
+          </Route>
+          <Route path="/admin/hero" element={<AdminLayout />}>
+            <Route index element={<AdminHero />} />
+          </Route>
+          <Route path="/admin/benefits" element={<AdminLayout />}>
+            <Route index element={<AdminBenefits />} />
+          </Route>
+          <Route path="/admin/testimonials" element={<AdminLayout />}>
+            <Route index element={<AdminTestimonials />} />
+          </Route>
+          <Route path="/admin/gallery" element={<AdminLayout />}>
+            <Route index element={<AdminGallery />} />
+          </Route>
+          <Route path="/admin/content" element={<AdminLayout />}>
+            <Route index element={<AdminContent />} />
+          </Route>
+          <Route path="/admin/faq" element={<AdminLayout />}>
+            <Route index element={<AdminFAQ />} />
+          </Route>
+          <Route path="/admin/form" element={<AdminLayout />}>
+            <Route index element={<AdminForm />} />
+          </Route>
+          <Route path="/admin/footer" element={<AdminLayout />}>
+            <Route index element={<AdminFooter />} />
+          </Route>
+          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </TooltipProvider>
+    </BrowserRouter>
+  );
+}
 
 // Previne múltiplas chamadas de createRoot durante hot reloading
 const container = document.getElementById("root")!;
