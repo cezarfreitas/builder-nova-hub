@@ -43,15 +43,9 @@ export default function AdminHero() {
   const { content, loading: contentLoading, saveContent } = useContent();
   const [settings, setSettings] = useState<HeroSettings>(content.hero);
   const [saving, setSaving] = useState(false);
-  const [autoSaving, setAutoSaving] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
-  const [lastSaved, setLastSaved] = useState<Date | null>(null);
-  const [validation, setValidation] = useState<{ [key: string]: string }>({});
-  const [activeTab, setActiveTab] = useState<'content' | 'visual' | 'style'>('content');
+  const [activeTab, setActiveTab] = useState<'conteudo' | 'imagens' | 'cores'>('conteudo');
   const { toast } = useToast();
-
-  // Debounced auto-save
-  const [autoSaveTimeout, setAutoSaveTimeout] = useState<NodeJS.Timeout | null>(null);
 
   // Sincronizar com o conteúdo JSON quando carregado
   useEffect(() => {
@@ -743,7 +737,7 @@ export default function AdminHero() {
                       </div>
 
                       <div className="space-y-3">
-                        <label className="text-sm font-medium text-gray-900">Botão</label>
+                        <label className="text-sm font-medium text-gray-900">Bot��o</label>
                         <div className="flex space-x-3">
                           <input
                             type="color"
