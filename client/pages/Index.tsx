@@ -162,6 +162,11 @@ export default function Index() {
   // Capturar informações de origem do tráfego
   useEffect(() => {
     const captureTrafficSource = async () => {
+      // Verificar se o ambiente está disponível
+      if (typeof window === 'undefined' || typeof fetch === 'undefined') {
+        return;
+      }
+
       try {
         const referrer = document.referrer;
         const currentUrl = window.location.href;
