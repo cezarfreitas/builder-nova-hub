@@ -518,6 +518,101 @@ export default function AdminConfiguracoes() {
             </div>
           )}
 
+          {activeConfigTab === "seo" && (
+            <div className="space-y-8">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-gray-900">Configurações de SEO</h3>
+                <div className="flex gap-2">
+                  <Button
+                    onClick={() => setShowSeoPreview(true)}
+                    variant="outline"
+                    className="border-blue-300 text-blue-700 hover:bg-blue-50"
+                  >
+                    <Eye className="w-4 h-4 mr-2" />
+                    Preview
+                  </Button>
+                </div>
+              </div>
+
+              <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                <div className="flex items-start">
+                  <div className="flex-shrink-0">
+                    <Search className="h-5 w-5 text-blue-400" />
+                  </div>
+                  <div className="ml-3">
+                    <h4 className="text-sm font-medium text-blue-800">Otimização para mecanismos de busca</h4>
+                    <p className="text-sm text-blue-700 mt-1">
+                      Configure as meta tags e dados estruturados para melhorar o ranking da página nos resultados de busca.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Meta Tags Básicas */}
+              <div className="bg-gray-50 p-6 rounded-lg">
+                <h4 className="text-md font-semibold text-gray-900 mb-4 flex items-center">
+                  <Globe className="w-5 h-5 mr-2" />
+                  Meta Tags Básicas
+                </h4>
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="seo_title" className="text-sm font-medium text-gray-700">
+                      Título da Página (Title Tag)
+                    </Label>
+                    <Input
+                      id="seo_title"
+                      value={seoFormData.seo_title}
+                      onChange={(e) => setSeoFormData({...seoFormData, seo_title: e.target.value})}
+                      placeholder="Seja uma Revenda Autorizada da Ecko | Tenha os Melhores Produtos"
+                      className="mt-1"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Máximo de 60 caracteres recomendado
+                    </p>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="seo_description" className="text-sm font-medium text-gray-700">
+                      Meta Description
+                    </Label>
+                    <Textarea
+                      id="seo_description"
+                      value={seoFormData.seo_description}
+                      onChange={(e) => setSeoFormData({...seoFormData, seo_description: e.target.value})}
+                      placeholder="Seja uma revenda autorizada da Ecko e tenha os melhores produtos de streetwear em sua loja..."
+                      className="mt-1"
+                      rows={3}
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Máximo de 160 caracteres recomendado
+                    </p>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="seo_keywords" className="text-sm font-medium text-gray-700">
+                      Keywords (separadas por vírgula)
+                    </Label>
+                    <Input
+                      id="seo_keywords"
+                      value={seoFormData.seo_keywords}
+                      onChange={(e) => setSeoFormData({...seoFormData, seo_keywords: e.target.value})}
+                      placeholder="revenda autorizada ecko, melhores produtos streetwear, lojista autorizado"
+                      className="mt-1"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <Button
+                onClick={handleSaveSeoSettings}
+                disabled={saving}
+                className="bg-ecko-red hover:bg-ecko-red-dark text-white px-8 py-3 text-base font-medium"
+              >
+                {saving ? 'Salvando...' : 'Salvar Configurações de SEO'}
+              </Button>
+            </div>
+          )}
+
           {activeConfigTab === "database" && (
             <div className="space-y-8">
               <div className="flex items-center justify-between">
