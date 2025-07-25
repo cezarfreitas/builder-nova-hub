@@ -369,7 +369,7 @@ export default function Index() {
     return numbers.length === 8;
   };
 
-  // Fun����ão para buscar endereço pelo CEP
+  // Fun������o para buscar endereço pelo CEP
   const fetchAddressByCEP = async (cep: string) => {
     const numbers = cep.replace(/\D/g, "");
 
@@ -1068,7 +1068,7 @@ export default function Index() {
                               className="w-full h-12 border border-gray-300 rounded-md px-4 bg-white text-gray-900 focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-base"
                             >
                               <option value="">Selecione</option>
-                              <option value="fisica">Física</option>
+                              <option value="fisica">F��sica</option>
                               <option value="online">Online</option>
                               <option value="ambas">Física + Online</option>
                             </select>
@@ -1189,7 +1189,7 @@ export default function Index() {
                             className="group relative"
                             style={{ animationDelay: `${index * 100}ms` }}
                           >
-                            <div className="h-full bg-black/80 backdrop-blur-sm border border-gray-800/50 rounded-2xl p-8 transition-all duration-500 hover:border-ecko-red/50 hover:shadow-2xl hover:shadow-ecko-red/10 hover:-translate-y-2">
+                            <div className="h-full bg-black/80 backdrop-blur-sm border border-white rounded-2xl p-8 transition-all duration-500 hover:border-ecko-red/50 hover:shadow-2xl hover:shadow-ecko-red/10 hover:-translate-y-2">
                               <div className="text-center">
                                 <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-br from-ecko-red to-ecko-red-dark rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
                                   {benefit.icon === "Globe" && (
@@ -1269,7 +1269,7 @@ export default function Index() {
 
                       {/* Call to Action */}
                       <div className="text-center">
-                        <div className="bg-black/80 backdrop-blur-sm border border-gray-800/50 rounded-3xl p-8 md:p-12 max-w-4xl mx-auto">
+                        <div className="bg-black/80 backdrop-blur-sm border border-white rounded-3xl p-8 md:p-12 max-w-4xl mx-auto">
                           <h3 className="text-2xl md:text-3xl font-bold text-white mb-6">
                             {renderTextWithColorTokens(
                               content.benefits.cta_title,
@@ -1351,7 +1351,7 @@ export default function Index() {
                               className="group relative"
                               style={{ animationDelay: `${index * 150}ms` }}
                             >
-                              <div className="h-full bg-black/80 backdrop-blur-sm border border-gray-800/50 rounded-2xl p-8 transition-all duration-500 hover:border-ecko-red/50 hover:shadow-2xl hover:shadow-ecko-red/10 hover:-translate-y-2">
+                              <div className="h-full bg-black/80 backdrop-blur-sm border border-white rounded-2xl p-8 transition-all duration-500 hover:border-ecko-red/50 hover:shadow-2xl hover:shadow-ecko-red/10 hover:-translate-y-2">
                                 {/* Rating Stars */}
                                 <div className="flex items-center mb-6">
                                   {[...Array(testimonial.rating)].map(
@@ -1401,7 +1401,7 @@ export default function Index() {
 
                       {/* Call to Action */}
                       <div className="text-center">
-                        <div className="bg-black/80 backdrop-blur-sm border border-gray-800/50 rounded-3xl p-8 md:p-12 max-w-4xl mx-auto">
+                        <div className="bg-black/80 backdrop-blur-sm border border-white rounded-3xl p-8 md:p-12 max-w-4xl mx-auto">
                           <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
                             {renderTextWithColorTokens(
                               content.testimonials.cta_title,
@@ -1487,7 +1487,7 @@ export default function Index() {
                             ?.map((item, index) => (
                               <div
                                 key={item.id}
-                                className="group relative overflow-hidden rounded-2xl bg-black/80 backdrop-blur-sm border border-gray-800/50 transition-all duration-500 hover:border-ecko-red/50 hover:shadow-2xl hover:shadow-ecko-red/10 hover:-translate-y-2"
+                                className="group relative overflow-hidden rounded-2xl bg-black/80 backdrop-blur-sm border border-white transition-all duration-500 hover:border-ecko-red/50 hover:shadow-2xl hover:shadow-ecko-red/10 hover:-translate-y-2"
                                 style={{ animationDelay: `${index * 100}ms` }}
                               >
                                 <div className="aspect-square relative overflow-hidden">
@@ -1519,7 +1519,7 @@ export default function Index() {
 
                       {/* Call to Action */}
                       <div className="text-center">
-                        <div className="bg-black/80 backdrop-blur-sm border border-gray-800/50 rounded-3xl p-8 md:p-12 max-w-4xl mx-auto">
+                        <div className="bg-black/80 backdrop-blur-sm border border-white rounded-3xl p-8 md:p-12 max-w-4xl mx-auto">
                           <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
                             {renderTextWithColorTokens(
                               content.gallery.cta_title,
@@ -1606,7 +1606,7 @@ export default function Index() {
                             <AccordionItem
                               key={item.id}
                               value={`item-${item.id}`}
-                              className="bg-black/80 backdrop-blur-sm border border-gray-800/50 rounded-2xl px-6 transition-all duration-300 hover:border-ecko-red/50"
+                              className="bg-black/80 backdrop-blur-sm border border-white rounded-2xl px-6 transition-all duration-300 hover:border-ecko-red/50"
                             >
                               <AccordionTrigger className="text-left text-white hover:text-ecko-red transition-colors duration-300 py-6 text-lg font-semibold hover:no-underline">
                                 {renderTextWithColorTokens(item.question)}
@@ -1620,7 +1620,7 @@ export default function Index() {
 
                       {/* Call to Action */}
                       <div className="text-center">
-                        <div className="bg-black/80 backdrop-blur-sm border border-gray-800/50 rounded-3xl p-8 md:p-12">
+                        <div className="bg-black/80 backdrop-blur-sm border border-white rounded-3xl p-8 md:p-12">
                           <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
                             {renderTextWithColorTokens(content.faq.cta_title)}
                           </h3>
