@@ -58,6 +58,11 @@ export function useSettings(): UseSettingsReturn {
         // Banco não disponível, usar configurações padrão
         console.warn("⚠️ Banco não disponível, usando configurações padrão");
         setSettings({
+          site_domain: {
+            value: "https://b2b.eckoshop.com.br",
+            type: "text",
+            updated_at: new Date().toISOString(),
+          },
           seo_title: {
             value:
               "Seja uma Revenda Autorizada da Ecko | Tenha os Melhores Produtos",
@@ -77,7 +82,7 @@ export function useSettings(): UseSettingsReturn {
             updated_at: new Date().toISOString(),
           },
           seo_canonical_url: {
-            value: "https://revendedores.ecko.com.br/",
+            value: "https://b2b.eckoshop.com.br/",
             type: "text",
             updated_at: new Date().toISOString(),
           },
