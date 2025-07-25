@@ -47,6 +47,8 @@ export function MultiImageUpload({
   // Função para comprimir imagem
   const compressImage = (file: File): Promise<File> => {
     return new Promise((resolve) => {
+      console.log(`🗜️ Comprimindo ${file.name}: ${(file.size / 1024 / 1024).toFixed(1)}MB`);
+
       const canvas = document.createElement("canvas");
       const ctx = canvas.getContext("2d");
       const img = new Image();
@@ -54,12 +56,15 @@ export function MultiImageUpload({
       img.onload = () => {
         // Calcular novas dimensões mantendo aspect ratio
         let { width, height } = img;
+        const originalDimensions = `${width}x${height}`;
 
         if (width > maxWidth || height > maxHeight) {
           const ratio = Math.min(maxWidth / width, maxHeight / height);
           width = width * ratio;
           height = height * ratio;
         }
+
+        console.log(`📐 Redimensionando ${file.name}: ${originalDimensions} → ${Math.round(width)}x${Math.round(height)}`);
 
         canvas.width = width;
         canvas.height = height;
