@@ -12,6 +12,7 @@ import { Textarea } from "../../components/ui/textarea";
 import { useToast } from "../../hooks/use-toast";
 import { useContent } from "../../hooks/useContent";
 import { SmartImageUpload } from "../../components/SmartImageUpload";
+import { MultiImageUpload } from "../../components/MultiImageUpload";
 import { TokenColorEditor } from "../../components/TokenColorEditor";
 import { renderTextWithColorTokens } from "../../utils/colorTokens";
 import {
