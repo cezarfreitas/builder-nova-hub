@@ -140,13 +140,7 @@
     "section_title": "COLEÇÃO LIFESTYLE",
     "section_subtitle": "Viva o estilo Ecko",
     "section_description": "Descubra o lifestyle autêntico da Ecko através de looks que representam a essência do streetwear e a cultura urbana que define nossa marca",
-    "items": [
-      {
-        "id": 1,
-        "is_active": true,
-        "display_order": 1
-      }
-    ],
+    "items": [],
     "empty_state_title": "Galeria em Construção",
     "empty_state_description": "Em breve nossa galeria estará repleta de produtos incríveis!",
     "cta_title": "Tenha Estes Produtos em Sua Loja!",
