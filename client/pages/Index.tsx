@@ -1182,7 +1182,7 @@ export default function Index() {
                       </div>
 
                       {/* Benefits Cards */}
-                      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+                      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 mb-16">
                         {content.benefits.cards.map((benefit, index) => (
                           <div
                             key={benefit.id}
