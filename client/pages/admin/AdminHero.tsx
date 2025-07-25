@@ -796,7 +796,7 @@ export default function AdminHero() {
                   <CardTitle className="flex items-center justify-between text-gray-900">
                     <div className="flex items-center">
                       <Layers className="w-5 h-5 mr-3 text-ecko-red" />
-                      Overlay da Imagem
+                      Overlay com Gradientes
                     </div>
                     {expandedSections.advanced ?
                       <ChevronUp className="w-5 h-5 text-gray-400" /> :
