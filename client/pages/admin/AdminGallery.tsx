@@ -246,13 +246,38 @@ export default function AdminGallery() {
   };
 
   // Toggle ativo/inativo
-  const toggleImage = (id: number) => {
-    setSettings(prev => ({
-      ...prev,
-      items: prev.items.map(item => 
+  const toggleImage = async (id: number) => {
+    const newSettings = {
+      ...settings,
+      items: settings.items.map(item =>
         item.id === id ? { ...item, is_active: !item.is_active } : item
       )
-    }));
+    };
+
+    setSettings(newSettings);
+
+    // Auto-save após toggle
+    try {
+      const updatedContent = {
+        ...content,
+        gallery: newSettings,
+      };
+
+      await saveContent(updatedContent);
+
+      const toggledImage = newSettings.items.find(item => item.id === id);
+      toast({
+        title: `Imagem ${toggledImage?.is_active ? 'ativada' : 'desativada'}`,
+        description: "Alteração salva automaticamente.",
+      });
+    } catch (error) {
+      console.error("Erro ao salvar toggle:", error);
+      toast({
+        title: "Status alterado localmente",
+        description: "Clique em 'Salvar Alterações' para confirmar.",
+        variant: "destructive",
+      });
+    }
   };
 
   // Reordenar imagens
