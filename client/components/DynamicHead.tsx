@@ -102,7 +102,9 @@ export function DynamicHead() {
     updateCanonical(getSetting("seo", "seo_canonical_url"));
 
     // Favicon
-    updateFavicon(getSetting("general", "favicon_url"));
+    const faviconUrl = getSetting("general", "favicon_url");
+    console.log("🖼️ DynamicHead: Aplicando favicon:", faviconUrl);
+    updateFavicon(faviconUrl);
 
     // Open Graph
     updateMetaTag("", getSetting("seo", "og_type") || "website", "og:type");
