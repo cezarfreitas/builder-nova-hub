@@ -63,6 +63,11 @@ export function useSettings(): UseSettingsReturn {
             type: "text",
             updated_at: new Date().toISOString(),
           },
+          favicon_url: {
+            value: "",
+            type: "text",
+            updated_at: new Date().toISOString(),
+          },
           seo_title: {
             value:
               "Seja uma Revenda Autorizada da Ecko | Tenha os Melhores Produtos",
