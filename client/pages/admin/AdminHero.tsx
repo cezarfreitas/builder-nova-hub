@@ -406,10 +406,10 @@ export default function AdminHero() {
 
       <div className="px-6 py-6">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
-            
+          <div className="max-w-4xl mx-auto">
+
             {/* Editor Panel */}
-            <div className="xl:col-span-5 space-y-6">
+            <div className="space-y-6">
               
               {/* Content Section */}
               <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm">
