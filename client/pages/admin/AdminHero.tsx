@@ -418,7 +418,7 @@ export default function AdminHero() {
                 {settings.subtitle && (
                   <p
                     className="text-lg opacity-90"
-                    style={{ color: settings.text_color }}
+                    style={{ color: settings.text_color || "#ffffff" }}
                   >
                     {renderTextWithColorTokens(settings.subtitle)}
                   </p>
