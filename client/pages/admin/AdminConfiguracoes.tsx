@@ -312,6 +312,94 @@ export default function AdminConfiguracoes() {
     }
   };
 
+  // Função para salvar configurações Analytics
+  const handleSaveAnalyticsSettings = async () => {
+    setSaving(true);
+    try {
+      const settingsToSave = Object.entries(analyticsFormData).map(([key, value]) => ({
+        key,
+        value: String(value),
+        type: key.includes('enabled') ? 'boolean' : 'text'
+      }));
+
+      const success = await saveMultipleSettings(settingsToSave);
+      if (success) {
+        toast({
+          title: "✅ Sucesso!",
+          description: "Configurações de Analytics salvas com sucesso!",
+          variant: "success",
+        });
+      } else {
+        toast({
+          title: "❌ Erro",
+          description: "Erro ao salvar configurações. Tente novamente.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error('Erro ao salvar:', error);
+      toast({
+        title: "❌ Erro",
+        description: "Erro ao salvar configurações. Tente novamente.",
+        variant: "destructive",
+      });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  // Função para testar Facebook Pixel
+  const handleTestFacebookPixel = async () => {
+    if (!analyticsFormData.facebook_pixel_id) {
+      toast({
+        title: "⚠️ Pixel ID obrigatório",
+        description: "Configure um Pixel ID antes de testar.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setSaving(true);
+    try {
+      const response = await fetch('/api/analytics/test-pixel', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          pixel_id: analyticsFormData.facebook_pixel_id,
+          access_token: analyticsFormData.facebook_access_token,
+          test_event_code: analyticsFormData.facebook_test_event_code
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        toast({
+          title: "✅ Pixel testado!",
+          description: "Evento de teste enviado com sucesso para o Facebook.",
+          variant: "success",
+        });
+      } else {
+        toast({
+          title: "❌ Erro no teste",
+          description: result.message || "Erro ao testar pixel",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error('Erro ao testar pixel:', error);
+      toast({
+        title: "❌ Erro",
+        description: "Erro ao testar Facebook Pixel. Tente novamente.",
+        variant: "destructive",
+      });
+    } finally {
+      setSaving(false);
+    }
+  };
+
   // Função para testar conexão do banco
   const handleTestDatabaseConnection = async () => {
     setSaving(true);
