@@ -790,6 +790,20 @@ export default function AdminConfiguracoes() {
                     </Button>
                   </div>
                 </div>
+
+                {/* Favicon */}
+                <div className="mt-6 pt-6 border-t border-blue-200">
+                  <Label className="text-sm font-medium text-gray-700 flex items-center mb-2">
+                    <Image className="w-4 h-4 mr-1" />
+                    Ícone da Página (Favicon)
+                  </Label>
+                  <SeoImageUpload
+                    currentImage={seoFormData.favicon_url}
+                    onImageChange={(url) => setSeoFormData({...seoFormData, favicon_url: url})}
+                    label="Favicon do site"
+                    description="Tamanho ideal: 32x32px ou 16x16px | Formatos: ICO, PNG, SVG | Aparece na aba do navegador"
+                  />
+                </div>
               </div>
 
               {/* Meta Tags Básicas */}
