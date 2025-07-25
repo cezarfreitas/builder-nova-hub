@@ -448,8 +448,8 @@ export default function AdminHero() {
                     <button
                       className="px-8 py-3 font-bold rounded-lg transition-all duration-300 hover:scale-105"
                       style={{
-                        backgroundColor: settings.cta_color,
-                        color: settings.cta_text_color,
+                        backgroundColor: settings.cta_color || "#dc2626",
+                        color: settings.cta_text_color || "#ffffff",
                       }}
                     >
                       {settings.cta_text}
