@@ -168,7 +168,7 @@ export function TokenColorEditor({
                     <p>• Selecione texto e clique em uma cor para aplicar</p>
                     <p>• Use <code>{`{ecko}texto{/ecko}`}</code> para texto vermelho Ecko</p>
                     <p>• Use <code>{`{blue}texto{/blue}`}</code> para texto azul</p>
-                    <p>• Tokens disponíveis: ecko, red, blue, green, purple, orange, yellow, white, black, gray</p>
+                    <p>• Cores disponíveis: ecko, blue, green, orange, yellow, white, black</p>
                   </div>
                 </div>
               </PopoverContent>
