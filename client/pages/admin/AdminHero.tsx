@@ -806,6 +806,11 @@ export default function AdminHero() {
                 </CardHeader>
                 {expandedSections.advanced && (
                   <CardContent className="space-y-4 pt-0">
+                    <div className="bg-amber-50 p-3 rounded-lg border border-amber-200">
+                      <p className="text-amber-700 text-xs">
+                        <strong>Sistema de Overlay:</strong> Usa múltiplas camadas - uma cor base controlável + gradientes automáticos (vertical e lateral) para melhor efeito visual.
+                      </p>
+                    </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <label className="text-sm font-medium text-gray-900">Cor</label>
