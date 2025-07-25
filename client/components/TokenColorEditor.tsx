@@ -39,7 +39,8 @@ export function TokenColorEditor({
   placeholder = "Digite seu texto...",
   rows = 4,
   label,
-  className = ""
+  className = "",
+  showColors = false
 }: TokenColorEditorProps) {
   const [showPreview, setShowPreview] = useState(false);
   const [cursorPosition, setCursorPosition] = useState(0);
