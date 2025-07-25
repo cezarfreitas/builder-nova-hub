@@ -642,12 +642,12 @@ function ImageForm({
 
           <div className="space-y-2">
             <label className="block text-sm font-medium text-gray-700">
-              Texto Alternativo (Alt Text)
+              Texto Alternativo (opcional)
             </label>
             <Input
-              value={formData.alt_text}
+              value={formData.alt_text || ""}
               onChange={(e) => setFormData(prev => ({ ...prev, alt_text: e.target.value }))}
-              placeholder="Descrição para acessibilidade"
+              placeholder="Descrição para acessibilidade (opcional)"
             />
           </div>
 
