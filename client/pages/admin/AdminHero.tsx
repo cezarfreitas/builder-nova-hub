@@ -65,6 +65,8 @@ interface HeroSettings {
   cta_text_color: string;
   logo_url: string;
   enabled: boolean;
+  overlay_opacity: number;
+  overlay_color: string;
 }
 
 export default function AdminHero() {
