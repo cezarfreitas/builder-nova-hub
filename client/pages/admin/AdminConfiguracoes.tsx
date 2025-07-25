@@ -171,13 +171,19 @@ export default function AdminConfiguracoes() {
   const handleSaveSeoSettings = async () => {
     setSaving(true);
     try {
-      const settingsToSave = Object.entries(seoFormData).map(
-        ([key, value]) => ({
+      const settingsToSave = Object.entries(seoFormData).map(([key, value]) => {
+        // Determinar categoria baseada na chave
+        let category: "general" | "seo" = "seo";
+        if (key === "site_domain" || key === "favicon_url") {
+          category = "general";
+        }
+
+        return {
+          category,
           key,
           value: String(value),
-          type: "text",
-        }),
-      );
+        };
+      });
 
       const success = await saveMultipleSettings(settingsToSave);
       if (success) {
