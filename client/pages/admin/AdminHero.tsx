@@ -1047,12 +1047,12 @@ export default function AdminHero() {
                 <div className="flex items-center space-x-2">
                   <input
                     type="color"
-                    value={settings.cta_color}
+                    value={settings.cta_color || "#dc2626"}
                     onChange={(e) => updateField("cta_color", e.target.value)}
                     className="w-12 h-10 border border-gray-300 rounded cursor-pointer"
                   />
                   <Input
-                    value={settings.cta_color}
+                    value={settings.cta_color || "#dc2626"}
                     onChange={(e) => updateField("cta_color", e.target.value)}
                     placeholder="#dc2626"
                     className="flex-1"
