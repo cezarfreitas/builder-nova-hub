@@ -165,7 +165,6 @@ export default function AdminHero() {
   const saveSettings = async () => {
     try {
       setSaving(true);
-      triggerPreviewAnimation();
 
       const updatedContent = {
         ...content,
