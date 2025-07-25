@@ -127,10 +127,7 @@ export default function AdminGallery() {
     const newId = Math.max(...settings.items.map(img => img.id), 0) + 1;
     const newImage: GalleryItem = {
       id: newId,
-      title: "",
-      description: "",
       image_url: "",
-      alt_text: "",
       is_active: true,
       display_order: settings.items.length + 1
     };
@@ -141,6 +138,29 @@ export default function AdminGallery() {
     }));
     setEditingImage(newImage);
     setShowForm(true);
+  };
+
+  // Adicionar múltiplas imagens
+  const addMultipleImages = (urls: string[]) => {
+    const newImages: GalleryItem[] = urls.map((url, index) => {
+      const newId = Math.max(...settings.items.map(img => img.id), 0) + index + 1;
+      return {
+        id: newId,
+        image_url: url,
+        is_active: true,
+        display_order: settings.items.length + index + 1
+      };
+    });
+
+    setSettings(prev => ({
+      ...prev,
+      items: [...prev.items, ...newImages]
+    }));
+
+    toast({
+      title: "Imagens adicionadas!",
+      description: `${urls.length} ${urls.length === 1 ? 'imagem foi adicionada' : 'imagens foram adicionadas'} à galeria.`,
+    });
   };
 
   // Editar imagem
