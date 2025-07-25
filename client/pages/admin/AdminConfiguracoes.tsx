@@ -98,10 +98,11 @@ export default function AdminConfiguracoes() {
   React.useEffect(() => {
     if (settings && Object.keys(settings).length > 0) {
       setSeoFormData({
+        site_domain: getSetting("site_domain") || "https://b2b.eckoshop.com.br",
         seo_title: getSetting("seo_title") || "",
         seo_description: getSetting("seo_description") || "",
         seo_keywords: getSetting("seo_keywords") || "",
-        seo_canonical_url: getSetting("seo_canonical_url") || "https://b2b.eckoshop.com.br/",
+        seo_canonical_url: getSetting("seo_canonical_url") || "",
         seo_robots: getSetting("seo_robots") || "index,follow",
         og_title: getSetting("og_title") || "",
         og_description: getSetting("og_description") || "",
