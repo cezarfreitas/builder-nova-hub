@@ -990,3 +990,97 @@ export async function getConversionByGeography(req: Request, res: Response) {
     });
   }
 }
+
+// POST /api/analytics/test-pixel - Testar Facebook Pixel
+export async function testFacebookPixel(req: Request, res: Response) {
+  try {
+    const { pixel_id, access_token, test_event_code } = req.body;
+
+    if (!pixel_id) {
+      return res.status(400).json({
+        success: false,
+        message: "Pixel ID é obrigatório"
+      });
+    }
+
+    // Simular evento de teste
+    const testEventData = {
+      data: [{
+        event_name: "Lead",
+        event_time: Math.floor(Date.now() / 1000),
+        action_source: "website",
+        event_source_url: "https://revendedores.ecko.com.br/",
+        user_data: {
+          client_ip_address: req.ip || "127.0.0.1",
+          client_user_agent: req.get('User-Agent') || "",
+          fbp: `fb.1.${Date.now()}.123456789`,
+          fbc: `fb.1.${Date.now()}.test_conversion`
+        },
+        custom_data: {
+          content_name: "Lead Form Test",
+          content_category: "lead_generation",
+          value: 1.00,
+          currency: "BRL"
+        }
+      }],
+      test_event_code: test_event_code || undefined
+    };
+
+    // Se access_token foi fornecido, tentar enviar para Conversions API
+    if (access_token) {
+      try {
+        const conversionResponse = await fetch(
+          `https://graph.facebook.com/v18.0/${pixel_id}/events`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${access_token}`
+            },
+            body: JSON.stringify(testEventData)
+          }
+        );
+
+        const conversionResult = await conversionResponse.json();
+
+        if (conversionResponse.ok) {
+          res.json({
+            success: true,
+            message: "Teste de Pixel e Conversions API executado com sucesso",
+            facebook_response: conversionResult,
+            test_data: testEventData
+          });
+        } else {
+          res.status(400).json({
+            success: false,
+            message: `Erro da API do Facebook: ${conversionResult.error?.message || 'Erro desconhecido'}`,
+            facebook_error: conversionResult.error
+          });
+        }
+      } catch (fetchError) {
+        console.error('Erro ao chamar Facebook API:', fetchError);
+        res.status(500).json({
+          success: false,
+          message: "Erro ao conectar com a API do Facebook",
+          error: fetchError.message
+        });
+      }
+    } else {
+      // Sem access token, apenas retornar sucesso simulado
+      res.json({
+        success: true,
+        message: "Teste de Pixel simulado com sucesso (sem Conversions API)",
+        simulated_data: testEventData,
+        note: "Para testar Conversions API, configure o Access Token"
+      });
+    }
+
+  } catch (error) {
+    console.error('Erro no teste de pixel:', error);
+    res.status(500).json({
+      success: false,
+      message: "Erro interno do servidor",
+      error: error.message
+    });
+  }
+}
