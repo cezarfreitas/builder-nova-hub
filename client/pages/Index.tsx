@@ -1703,7 +1703,7 @@ export default function Index() {
                           {(content.about?.stats || []).map((stat) => (
                             <div
                               key={stat.id}
-                              className="text-center p-6 bg-black/60 rounded-lg shadow-sm border border-gray-800"
+                              className="text-center p-6 bg-black/60 rounded-lg shadow-sm border border-white"
                             >
                               <div className="text-3xl md:text-4xl font-bold text-ecko-red mb-2">
                                 {stat.number}
