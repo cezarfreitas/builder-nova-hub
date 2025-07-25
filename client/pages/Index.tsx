@@ -659,10 +659,14 @@ export default function Index() {
               />
             )}
 
-            {/* Multiple Overlay Layers for Better Effect */}
-            <div className="absolute inset-0 bg-black/70 z-10"></div>
-            <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/90 z-10"></div>
-            <div className="absolute inset-0 bg-gradient-to-r from-ecko-red/15 via-transparent to-ecko-red/15 z-10"></div>
+            {/* Dynamic Overlay */}
+            <div
+              className="absolute inset-0 z-10 transition-all duration-300"
+              style={{
+                backgroundColor: currentHero.overlay_color || "#000000",
+                opacity: (currentHero.overlay_opacity || 50) / 100
+              }}
+            ></div>
           </div>
 
           {/* Content */}
