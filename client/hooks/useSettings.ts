@@ -30,9 +30,14 @@ export function useSettings(): UseSettingsReturn {
       setLoading(true);
       setError(null);
 
+      console.log('🔄 useSettings: Iniciando fetch de configurações');
+
       // Create fetch with timeout
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 3000); // Reduced to 3 seconds
+      const timeoutId = setTimeout(() => {
+        console.log('⏰ useSettings: Timeout atingido, abortando fetch');
+        controller.abort();
+      }, 5000); // Increased to 5 seconds
 
       let response;
       try {
@@ -43,8 +48,17 @@ export function useSettings(): UseSettingsReturn {
             "Content-Type": "application/json",
           },
         });
+        console.log('✅ useSettings: Fetch realizado com sucesso', response.status);
       } catch (fetchError) {
         clearTimeout(timeoutId);
+        console.error('❌ useSettings: Erro no fetch:', fetchError);
+
+        // Check if it's an AbortError (timeout)
+        if (fetchError.name === 'AbortError') {
+          console.log('⏰ useSettings: Fetch abortado por timeout');
+          throw new Error('Timeout: O servidor não respondeu em 5 segundos');
+        }
+
         throw new Error(`Network error: ${fetchError.message}`);
       }
 
