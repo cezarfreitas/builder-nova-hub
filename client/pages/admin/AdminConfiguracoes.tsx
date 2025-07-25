@@ -727,10 +727,37 @@ export default function AdminConfiguracoes() {
                 </div>
               </div>
 
+              {/* Configuração de Domínio */}
+              <div className="bg-blue-50 p-6 rounded-lg border border-blue-200">
+                <h4 className="text-md font-semibold text-gray-900 mb-4 flex items-center">
+                  <Globe className="w-5 h-5 mr-2 text-blue-600" />
+                  Configuração de Domínio
+                </h4>
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="site_domain" className="text-sm font-medium text-gray-700 flex items-center">
+                      <Link className="w-4 h-4 mr-1" />
+                      Domínio Principal do Site
+                    </Label>
+                    <Input
+                      id="site_domain"
+                      value={seoFormData.site_domain}
+                      onChange={(e) => setSeoFormData({...seoFormData, site_domain: e.target.value})}
+                      placeholder="https://b2b.eckoshop.com.br"
+                      className="mt-1"
+                    />
+                    <p className="text-xs text-blue-600 mt-1 flex items-center">
+                      <Shield className="w-3 h-3 mr-1" />
+                      Este domínio será usado automaticamente em todas as URLs canônicas, Open Graph e Schema.org
+                    </p>
+                  </div>
+                </div>
+              </div>
+
               {/* Meta Tags Básicas */}
               <div className="bg-gray-50 p-6 rounded-lg">
                 <h4 className="text-md font-semibold text-gray-900 mb-4 flex items-center">
-                  <Globe className="w-5 h-5 mr-2 text-blue-600" />
+                  <FileText className="w-5 h-5 mr-2 text-green-600" />
                   Meta Tags Básicas
                 </h4>
                 <div className="space-y-4">
@@ -1034,7 +1061,7 @@ export default function AdminConfiguracoes() {
                       className="mt-1"
                     />
                     <p className="text-xs text-gray-500 mt-1">
-                      Encontre no Google Analytics 4 → Admin → Streams de dados
+                      Encontre no Google Analytics 4 → Admin ��� Streams de dados
                     </p>
                   </div>
 
