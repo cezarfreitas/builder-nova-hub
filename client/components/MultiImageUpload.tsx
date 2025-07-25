@@ -103,6 +103,8 @@ export function MultiImageUpload({
 
   // Upload de um arquivo
   const uploadFile = async (file: File, index: number): Promise<string> => {
+    console.log(`📤 Fazendo upload do arquivo ${index + 1}:`, file.name, file.size, file.type);
+
     const formData = new FormData();
     formData.append("image", file);
 
@@ -111,11 +113,16 @@ export function MultiImageUpload({
       body: formData,
     });
 
+    console.log(`📥 Resposta do upload ${index + 1}:`, response.status, response.statusText);
+
     if (!response.ok) {
-      throw new Error(`Upload falhou: ${response.statusText}`);
+      const errorText = await response.text();
+      console.error(`❌ Upload falhou para ${file.name}:`, errorText);
+      throw new Error(`Upload falhou: ${response.status} ${response.statusText} - ${errorText}`);
     }
 
     const result = await response.json();
+    console.log(`✅ Resultado do upload ${index + 1}:`, result);
 
     if (!result.success) {
       throw new Error(result.message || "Upload falhou");
