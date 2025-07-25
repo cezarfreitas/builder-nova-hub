@@ -845,33 +845,33 @@ export default function AdminHero() {
                       <button
                         onClick={() => {
                           updateField("overlay_color", "#000000");
-                          updateField("overlay_opacity", 50);
+                          updateField("overlay_opacity", 70);
                         }}
                         className="p-2 rounded border border-gray-200 hover:border-gray-400 text-center"
                       >
-                        <div className="w-full h-4 bg-black/50 rounded mb-1"></div>
+                        <div className="w-full h-4 bg-black/70 rounded mb-1"></div>
                         <span className="text-xs text-gray-600">Padrão</span>
                       </button>
 
                       <button
                         onClick={() => {
                           updateField("overlay_color", "#000000");
-                          updateField("overlay_opacity", 30);
+                          updateField("overlay_opacity", 50);
                         }}
                         className="p-2 rounded border border-gray-200 hover:border-gray-400 text-center"
                       >
-                        <div className="w-full h-4 bg-black/30 rounded mb-1"></div>
+                        <div className="w-full h-4 bg-black/50 rounded mb-1"></div>
                         <span className="text-xs text-gray-600">Sutil</span>
                       </button>
 
                       <button
                         onClick={() => {
                           updateField("overlay_color", "#000000");
-                          updateField("overlay_opacity", 70);
+                          updateField("overlay_opacity", 90);
                         }}
                         className="p-2 rounded border border-gray-200 hover:border-gray-400 text-center"
                       >
-                        <div className="w-full h-4 bg-black/70 rounded mb-1"></div>
+                        <div className="w-full h-4 bg-black/90 rounded mb-1"></div>
                         <span className="text-xs text-gray-600">Intenso</span>
                       </button>
 
