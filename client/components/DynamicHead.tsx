@@ -86,31 +86,31 @@ export function DynamicHead() {
     };
 
     // SEO Básico
-    updateMetaTag("description", getSetting("seo_description"));
-    updateMetaTag("keywords", getSetting("seo_keywords"));
-    updateMetaTag("robots", getSetting("seo_robots") || "index,follow");
-    updateCanonical(getSetting("seo_canonical_url"));
+    updateMetaTag("description", getSetting("seo", "seo_description"));
+    updateMetaTag("keywords", getSetting("seo", "seo_keywords"));
+    updateMetaTag("robots", getSetting("seo", "seo_robots") || "index,follow");
+    updateCanonical(getSetting("seo", "seo_canonical_url"));
 
     // Favicon
-    updateFavicon(getSetting("favicon_url"));
+    updateFavicon(getSetting("general", "favicon_url"));
 
     // Open Graph
-    updateMetaTag("", getSetting("og_type") || "website", "og:type");
+    updateMetaTag("", getSetting("seo", "og_type") || "website", "og:type");
     updateMetaTag(
       "",
-      getSetting("og_title") || getSetting("seo_title"),
+      getSetting("seo", "og_title") || getSetting("seo", "seo_title"),
       "og:title",
     );
     updateMetaTag(
       "",
-      getSetting("og_description") || getSetting("seo_description"),
+      getSetting("seo", "og_description") || getSetting("seo", "seo_description"),
       "og:description",
     );
-    updateMetaTag("", getSetting("og_image"), "og:image");
-    updateMetaTag("", getSetting("seo_canonical_url"), "og:url");
+    updateMetaTag("", getSetting("seo", "og_image"), "og:image");
+    updateMetaTag("", getSetting("seo", "seo_canonical_url"), "og:url");
     updateMetaTag(
       "",
-      getSetting("og_site_name") || "Ecko Revendedores",
+      getSetting("seo", "og_site_name") || "Ecko Revendedores",
       "og:site_name",
     );
 
