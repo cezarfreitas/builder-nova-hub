@@ -115,7 +115,7 @@ export function DynamicHead() {
     );
 
     // Facebook
-    const facebookAppId = getSetting("facebook_app_id");
+    const facebookAppId = getSetting("analytics", "facebook_app_id");
     if (facebookAppId) {
       updateMetaTag("", facebookAppId, "fb:app_id");
     }
@@ -123,26 +123,26 @@ export function DynamicHead() {
     // Twitter Card
     updateMetaTag(
       "twitter:card",
-      getSetting("twitter_card") || "summary_large_image",
+      getSetting("seo", "twitter_card") || "summary_large_image",
     );
     updateMetaTag(
       "twitter:title",
-      getSetting("twitter_title") ||
-        getSetting("og_title") ||
-        getSetting("seo_title"),
+      getSetting("seo", "twitter_title") ||
+        getSetting("seo", "og_title") ||
+        getSetting("seo", "seo_title"),
     );
     updateMetaTag(
       "twitter:description",
-      getSetting("og_description") || getSetting("seo_description"),
+      getSetting("seo", "og_description") || getSetting("seo", "seo_description"),
     );
-    updateMetaTag("twitter:image", getSetting("og_image"));
+    updateMetaTag("twitter:image", getSetting("seo", "og_image"));
 
-    const twitterSite = getSetting("twitter_site");
+    const twitterSite = getSetting("seo", "twitter_site");
     if (twitterSite) {
       updateMetaTag("twitter:site", twitterSite);
     }
 
-    const twitterCreator = getSetting("twitter_creator");
+    const twitterCreator = getSetting("seo", "twitter_creator");
     if (twitterCreator) {
       updateMetaTag("twitter:creator", twitterCreator);
     }
