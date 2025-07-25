@@ -140,7 +140,8 @@ export function MultiImageUpload({
       throw new Error(result.message || "Upload falhou");
     }
 
-    return result.url;
+    // O servidor retorna a URL em result.data.url
+    return result.data?.url || result.url;
   };
 
   // Processar arquivos selecionados
