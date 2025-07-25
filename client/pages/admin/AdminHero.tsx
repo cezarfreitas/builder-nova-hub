@@ -894,40 +894,7 @@ export default function AdminHero() {
               </Card>
             </div>
 
-            {/* Preview Panel - Simplificado */}
-            <div className="xl:col-span-7">
-              <div className="sticky top-24">
-                <Card className="border-0 shadow-lg bg-white overflow-hidden">
-                  <CardHeader className="bg-gray-50 border-b">
-                    <div className="flex items-center space-x-3">
-                      <Monitor className="w-5 h-5 text-gray-600" />
-                      <h3 className="text-lg font-semibold text-gray-900">Preview</h3>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => window.open("/", "_blank")}
-                        className="ml-auto"
-                      >
-                        <ExternalLink className="w-4 h-4 mr-2" />
-                        Ver Landing Page
-                      </Button>
-                    </div>
-                  </CardHeader>
 
-                  <CardContent className="p-6">
-                    <div className="bg-gray-100 rounded-lg p-4 text-center">
-                      <p className="text-gray-600 mb-2">
-                        <Eye className="w-5 h-5 inline mr-2" />
-                        Visualize as alterações em tempo real
-                      </p>
-                      <p className="text-sm text-gray-500">
-                        Clique em "Ver Landing Page" para visualizar o Hero completo
-                      </p>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
           </div>
         </div>
       </div>
