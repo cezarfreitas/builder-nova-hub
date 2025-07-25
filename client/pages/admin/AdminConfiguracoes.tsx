@@ -217,12 +217,9 @@ export default function AdminConfiguracoes() {
     try {
       const settingsToSave = Object.entries(webhookFormData).map(
         ([key, value]) => ({
+          category: "webhook" as const,
           key,
           value: String(value),
-          type:
-            key.includes("timeout") || key.includes("retries")
-              ? "number"
-              : "text",
         }),
       );
 
