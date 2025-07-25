@@ -24,15 +24,12 @@ interface TokenColorEditorProps {
 // Tokens de cor pré-definidos
 const COLOR_TOKENS = {
   'ecko': '#dc2626',      // Vermelho Ecko
-  'red': '#dc2626',       // Vermelho
   'blue': '#2563eb',      // Azul
   'green': '#16a34a',     // Verde
-  'purple': '#7c3aed',    // Roxo
   'orange': '#ea580c',    // Laranja
   'yellow': '#ca8a04',    // Amarelo
   'white': '#ffffff',     // Branco
   'black': '#000000',     // Preto
-  'gray': '#6b7280',      // Cinza
 };
 
 export function TokenColorEditor({
