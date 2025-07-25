@@ -757,6 +757,36 @@ export default function AdminConfiguracoes() {
                       Este domínio será usado automaticamente em todas as URLs canônicas, Open Graph e Schema.org
                     </p>
                   </div>
+
+                  <div className="flex gap-2 mt-4">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setSeoFormData({
+                        ...seoFormData,
+                        seo_canonical_url: generateUrl("/"),
+                        og_url: generateUrl("/"),
+                      })}
+                      className="text-xs"
+                    >
+                      <Zap className="w-3 h-3 mr-1" />
+                      Aplicar a URLs
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setSeoFormData({
+                        ...seoFormData,
+                        site_domain: "https://b2b.eckoshop.com.br"
+                      })}
+                      className="text-xs"
+                    >
+                      <Palette className="w-3 h-3 mr-1" />
+                      Usar Padrão
+                    </Button>
+                  </div>
                 </div>
               </div>
 
