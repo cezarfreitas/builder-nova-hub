@@ -13,6 +13,9 @@ export function DynamicHead() {
   useEffect(() => {
     if (loading) return;
 
+    console.log("🔄 DynamicHead: Carregando configurações...");
+    console.log("⚙️ DynamicHead: Settings loading:", loading, "error:", error);
+
     // Atualizar title com fallback
     const title =
       getSetting("seo", "seo_title") ||
