@@ -233,20 +233,20 @@ export function DynamicHead() {
     addPreloadLink(defaultLogo);
 
     // Preload logo customizado apenas quando disponível e diferente
-    if (heroSettings?.logo_url && heroSettings.logo_url !== defaultLogo) {
-      addPreloadLink(heroSettings.logo_url);
+    if (content.hero?.logo_url && content.hero.logo_url !== defaultLogo) {
+      addPreloadLink(content.hero.logo_url);
     }
 
     // Preload imagem de fundo do hero
-    if (heroSettings?.background_image) {
-      addPreloadLink(heroSettings.background_image);
+    if (content.hero?.background_image) {
+      addPreloadLink(content.hero.background_image);
     } else {
       // Preload imagem de fundo padrão
       const defaultBackground =
         "https://estyle.vteximg.com.br/arquivos/ecko_mosaic5.png?v=638421392678800000";
       addPreloadLink(defaultBackground);
     }
-  }, [heroSettings]);
+  }, [content.hero]);
 
   return null; // Este componente não renderiza nada visível
 }
