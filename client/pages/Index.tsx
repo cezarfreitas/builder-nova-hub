@@ -2130,7 +2130,7 @@ export default function Index() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-300 mb-2">
+                <label className="block text-xs md:text-sm font-semibold text-gray-300 mb-1 md:mb-2">
                   {content.form.fields.store_type_label}
                 </label>
                 <select
@@ -2138,7 +2138,7 @@ export default function Index() {
                   value={formData.storeType}
                   onChange={handleInputChange}
                   required
-                  className="w-full h-12 border border-gray-300 rounded-md px-4 bg-white text-gray-900 focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-base"
+                  className="w-full h-11 md:h-12 border border-gray-300 rounded-md px-3 md:px-4 bg-white text-gray-900 focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-sm md:text-base"
                 >
                   <option value="">Selecione</option>
                   <option value="fisica">Física</option>
