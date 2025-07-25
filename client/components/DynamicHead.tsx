@@ -70,17 +70,27 @@ export function DynamicHead() {
       );
       existingFavicons.forEach((favicon) => favicon.remove());
 
+      // Detectar tipo do arquivo
+      let type = "image/x-icon";
+      if (href.endsWith('.svg')) {
+        type = "image/svg+xml";
+      } else if (href.endsWith('.png')) {
+        type = "image/png";
+      } else if (href.endsWith('.jpg') || href.endsWith('.jpeg')) {
+        type = "image/jpeg";
+      }
+
       // Criar novo favicon
       const faviconLink = document.createElement("link");
       faviconLink.setAttribute("rel", "icon");
-      faviconLink.setAttribute("type", "image/x-icon");
+      faviconLink.setAttribute("type", type);
       faviconLink.setAttribute("href", href);
       document.head.appendChild(faviconLink);
 
       // Adicionar também como shortcut icon para compatibilidade
       const shortcutLink = document.createElement("link");
       shortcutLink.setAttribute("rel", "shortcut icon");
-      shortcutLink.setAttribute("type", "image/x-icon");
+      shortcutLink.setAttribute("type", type);
       shortcutLink.setAttribute("href", href);
       document.head.appendChild(shortcutLink);
     };
