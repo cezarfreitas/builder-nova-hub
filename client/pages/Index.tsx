@@ -239,6 +239,9 @@ export default function Index() {
   useEffect(() => {
     const trackPageView = async () => {
       try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 3000);
+
         const response = await fetch("/api/analytics/track-visit", {
           method: "POST",
           headers: {
@@ -252,12 +255,15 @@ export default function Index() {
             referrer: document.referrer,
             duration_seconds: 0,
           }),
+          signal: controller.signal,
         });
+
+        clearTimeout(timeoutId);
 
         if (response.ok) {
           console.log("✅ Page view registrada no banco");
         } else {
-          console.warn("⚠️ Erro ao registrar page view");
+          throw new Error("Falha na API");
         }
       } catch (e) {
         console.warn("Erro ao rastrear page view:", e);
