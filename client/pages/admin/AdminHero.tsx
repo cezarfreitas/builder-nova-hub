@@ -74,20 +74,15 @@ export default function AdminHero() {
   const [settings, setSettings] = useState<HeroSettings>(content.hero);
   const [saving, setSaving] = useState(false);
   const [autoSaving, setAutoSaving] = useState(false);
-  const [previewMode, setPreviewMode] = useState(true);
-  const [previewDevice, setPreviewDevice] = useState<'desktop' | 'tablet' | 'mobile'>('desktop');
   const [hasChanges, setHasChanges] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const [validation, setValidation] = useState<{ [key: string]: string }>({});
-  const [autoPreview, setAutoPreview] = useState(true);
   const [expandedSections, setExpandedSections] = useState({
     content: true,
     visual: true,
     colors: false,
     advanced: false
   });
-  const [isAnimating, setIsAnimating] = useState(false);
-  const previewRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
   // Debounced auto-save
