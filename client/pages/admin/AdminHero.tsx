@@ -1025,12 +1025,12 @@ export default function AdminHero() {
                 <div className="flex items-center space-x-2">
                   <input
                     type="color"
-                    value={settings.text_color}
+                    value={settings.text_color || "#ffffff"}
                     onChange={(e) => updateField("text_color", e.target.value)}
                     className="w-12 h-10 border border-gray-300 rounded cursor-pointer"
                   />
                   <Input
-                    value={settings.text_color}
+                    value={settings.text_color || "#ffffff"}
                     onChange={(e) => updateField("text_color", e.target.value)}
                     placeholder="#ffffff"
                     className="flex-1"
