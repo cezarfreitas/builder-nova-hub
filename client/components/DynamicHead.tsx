@@ -1,14 +1,10 @@
 import { useEffect } from "react";
 import { useJsonSettings } from "../hooks/useJsonSettings";
-import { useHeroSettings } from "../hooks/useHeroSettings";
+import { useContent } from "../hooks/useContent";
 
 export function DynamicHead() {
   const { getSetting, loading, error } = useJsonSettings();
-  const {
-    settings: heroSettings,
-    loading: heroLoading,
-    error: heroError,
-  } = useHeroSettings();
+  const { content, loading: contentLoading } = useContent();
 
   useEffect(() => {
     if (loading) return;
@@ -76,16 +72,20 @@ export function DynamicHead() {
       const existingFavicons = document.querySelectorAll(
         'link[rel="icon"], link[rel="shortcut icon"]',
       );
-      console.log("🗑️ Removendo", existingFavicons.length, "favicons existentes");
+      console.log(
+        "🗑️ Removendo",
+        existingFavicons.length,
+        "favicons existentes",
+      );
       existingFavicons.forEach((favicon) => favicon.remove());
 
       // Detectar tipo do arquivo
       let type = "image/x-icon";
-      if (href.endsWith('.svg')) {
+      if (href.endsWith(".svg")) {
         type = "image/svg+xml";
-      } else if (href.endsWith('.png')) {
+      } else if (href.endsWith(".png")) {
         type = "image/png";
-      } else if (href.endsWith('.jpg') || href.endsWith('.jpeg')) {
+      } else if (href.endsWith(".jpg") || href.endsWith(".jpeg")) {
         type = "image/jpeg";
       }
 
@@ -237,20 +237,20 @@ export function DynamicHead() {
     addPreloadLink(defaultLogo);
 
     // Preload logo customizado apenas quando disponível e diferente
-    if (heroSettings?.logo_url && heroSettings.logo_url !== defaultLogo) {
-      addPreloadLink(heroSettings.logo_url);
+    if (content.hero?.logo_url && content.hero.logo_url !== defaultLogo) {
+      addPreloadLink(content.hero.logo_url);
     }
 
     // Preload imagem de fundo do hero
-    if (heroSettings?.background_image) {
-      addPreloadLink(heroSettings.background_image);
+    if (content.hero?.background_image) {
+      addPreloadLink(content.hero.background_image);
     } else {
       // Preload imagem de fundo padrão
       const defaultBackground =
         "https://estyle.vteximg.com.br/arquivos/ecko_mosaic5.png?v=638421392678800000";
       addPreloadLink(defaultBackground);
     }
-  }, [heroSettings]);
+  }, [content.hero]);
 
   return null; // Este componente não renderiza nada visível
 }

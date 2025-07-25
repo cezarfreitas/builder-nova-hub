@@ -9,6 +9,7 @@ import { useSessionId } from "../hooks/useSessionId";
 import { useContent } from "../hooks/useContent";
 import { renderTextWithColorTokens } from "../utils/colorTokens";
 import { usePreloadImages } from "../hooks/useOptimizedImage";
+import { robustPost } from "../utils/robustFetch";
 import { OptimizedImage } from "../components/OptimizedImage";
 import { DeferredCSS, PreloadHeroImages } from "../components/DeferredCSS";
 import { LazySection } from "../components/LazySection";
@@ -162,6 +163,11 @@ export default function Index() {
   // Capturar informações de origem do tráfego
   useEffect(() => {
     const captureTrafficSource = async () => {
+      // Verificar se o ambiente está disponível
+      if (typeof window === "undefined" || typeof fetch === "undefined") {
+        return;
+      }
+
       try {
         const referrer = document.referrer;
         const currentUrl = window.location.href;
@@ -196,22 +202,9 @@ export default function Index() {
         };
 
         // Salvar no banco de dados MySQL
-        try {
-          const response = await fetch("/api/traffic/track", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(trafficSource),
-          });
-
-          if (response.ok) {
-            console.log("✅ Origem salva no banco:", sourceName);
-          } else {
-            throw new Error("Falha na API");
-          }
-        } catch (apiError) {
-          console.warn("⚠️ Falha na API de tráfego:", apiError);
+        const result = await robustPost("/api/traffic/track", trafficSource);
+        if (result.success) {
+          console.log("✅ Origem salva no banco:", sourceName);
         }
 
         console.log("📊 Origem capturada:", sourceName, trafficSource);
@@ -227,29 +220,26 @@ export default function Index() {
   // Track page view
   useEffect(() => {
     const trackPageView = async () => {
+      // Verificar se o ambiente está disponível
+      if (typeof window === "undefined" || typeof fetch === "undefined") {
+        return;
+      }
+
       try {
-        const response = await fetch("/api/analytics/track-visit", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            event_type: "page_view",
-            session_id: sessionId,
-            user_id: userId,
-            page_url: window.location.href,
-            referrer: document.referrer,
-            duration_seconds: 0,
-          }),
+        const result = await robustPost("/api/analytics/track-visit", {
+          event_type: "page_view",
+          session_id: sessionId,
+          user_id: userId,
+          page_url: window.location.href,
+          referrer: document.referrer,
+          duration_seconds: 0,
         });
 
-        if (response.ok) {
+        if (result.success) {
           console.log("✅ Page view registrada no banco");
-        } else {
-          console.warn("⚠️ Erro ao registrar page view");
         }
       } catch (e) {
-        console.warn("Erro ao rastrear page view:", e);
+        // Silently handle all errors
       }
     };
 
