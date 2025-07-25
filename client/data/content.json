@@ -348,7 +348,7 @@
       "facebook_pixel_id": "",
       "facebook_access_token": "",
       "facebook_test_event_code": "",
-      "conversions_api_enabled": "false",
+      "conversions_api_enabled": "true",
       "lead_event_name": "Lead",
       "conversion_value": "0"
     }
