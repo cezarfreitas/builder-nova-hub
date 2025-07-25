@@ -1981,7 +1981,7 @@ export default function Index() {
           }
         }}
       >
-        <DialogContent className="max-w-md mx-auto bg-black/95 border-2 border-ecko-red/40 text-white">
+        <DialogContent className="max-w-md mx-auto bg-black/95 border-2 border-ecko-red/40 text-white max-h-[90vh] overflow-y-auto p-4 md:p-6">
           <DialogHeader>
             <DialogTitle className="text-center text-xl font-bold text-white mb-4">
               {renderTextWithColorTokens(content.form.title)}
