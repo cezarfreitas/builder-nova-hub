@@ -376,7 +376,7 @@ export default function Index() {
     return numbers.length === 8;
   };
 
-  // Fun������o para buscar endereço pelo CEP
+  // Fun�������o para buscar endereço pelo CEP
   const fetchAddressByCEP = async (cep: string) => {
     const numbers = cep.replace(/\D/g, "");
 
@@ -2150,7 +2150,7 @@ export default function Index() {
               <Button
                 type="submit"
                 disabled={isSubmitting || formData.hasCnpj === "nao"}
-                className={`w-full h-12 font-bold text-base transition-all duration-300 ${
+                className={`w-full h-12 md:h-14 font-bold text-sm md:text-base transition-all duration-300 mt-4 md:mt-6 ${
                   formData.hasCnpj === "nao"
                     ? "bg-black/70 cursor-not-allowed"
                     : "bg-gradient-to-r from-ecko-red to-ecko-red-dark hover:from-ecko-red-dark hover:to-red-700 hover:scale-[1.02] hover:shadow-ecko-red/40"
