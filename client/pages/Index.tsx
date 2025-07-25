@@ -2036,7 +2036,7 @@ export default function Index() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-300 mb-2">
+                <label className="block text-xs md:text-sm font-semibold text-gray-300 mb-1 md:mb-2">
                   {content.form.fields.cep_label}
                 </label>
                 <Input
@@ -2046,7 +2046,7 @@ export default function Index() {
                   onChange={handleInputChange}
                   placeholder={content.form.fields.cep_placeholder}
                   required
-                  className={`h-12 text-base bg-white text-gray-900 placeholder-gray-500 focus:ring-ecko-red/20 ${
+                  className={`h-11 md:h-12 text-sm md:text-base bg-white text-gray-900 placeholder-gray-500 focus:ring-ecko-red/20 ${
                     cepError
                       ? "border-red-500 focus:border-red-500"
                       : cepLoading
