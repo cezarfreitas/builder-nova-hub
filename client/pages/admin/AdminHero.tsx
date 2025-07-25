@@ -34,6 +34,7 @@ import {
   RotateCcw,
   Timer,
   Layers,
+  Lightbulb,
 } from "lucide-react";
 
 interface HeroSettings {
