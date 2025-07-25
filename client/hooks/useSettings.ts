@@ -143,6 +143,11 @@ export function useSettings(): UseSettingsReturn {
 
       // Usar configurações padrão em caso de erro
       setSettings({
+        site_domain: {
+          value: "https://b2b.eckoshop.com.br",
+          type: "text",
+          updated_at: new Date().toISOString(),
+        },
         seo_title: {
           value:
             "Seja uma Revenda Autorizada da Ecko | Tenha os Melhores Produtos",
@@ -162,7 +167,7 @@ export function useSettings(): UseSettingsReturn {
           updated_at: new Date().toISOString(),
         },
         seo_canonical_url: {
-          value: "https://revendedores.ecko.com.br/",
+          value: "https://b2b.eckoshop.com.br/",
           type: "text",
           updated_at: new Date().toISOString(),
         },
