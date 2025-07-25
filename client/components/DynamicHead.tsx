@@ -1,14 +1,10 @@
 import { useEffect } from "react";
 import { useJsonSettings } from "../hooks/useJsonSettings";
-import { useHeroSettings } from "../hooks/useHeroSettings";
+import { useContent } from "../hooks/useContent";
 
 export function DynamicHead() {
   const { getSetting, loading, error } = useJsonSettings();
-  const {
-    settings: heroSettings,
-    loading: heroLoading,
-    error: heroError,
-  } = useHeroSettings();
+  const { content, loading: contentLoading } = useContent();
 
   useEffect(() => {
     if (loading) return;
