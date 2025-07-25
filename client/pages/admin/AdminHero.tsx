@@ -808,116 +808,86 @@ export default function AdminHero() {
                   </CardTitle>
                 </CardHeader>
                 {expandedSections.advanced && (
-                  <CardContent className="space-y-6 pt-0">
-                    <div className="bg-amber-50 p-4 rounded-xl border border-amber-200">
-                      <div className="flex items-center space-x-2 mb-2">
-                        <Lightbulb className="w-4 h-4 text-amber-600" />
-                        <h4 className="font-semibold text-amber-900 text-sm">Overlay de Imagem</h4>
-                      </div>
-                      <p className="text-amber-700 text-xs">
-                        O overlay melhora a legibilidade do texto sobre a imagem de fundo, aplicando uma camada semitransparente.
-                      </p>
-                    </div>
-
-                    <div className="space-y-4">
-                      <div className="space-y-3">
-                        <label className="text-sm font-semibold text-gray-900">
-                          Cor do Overlay
-                        </label>
-                        <div className="flex items-center space-x-3">
+                  <CardContent className="space-y-4 pt-0">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-gray-900">Cor</label>
+                        <div className="flex space-x-2">
                           <input
                             type="color"
                             value={settings.overlay_color}
                             onChange={(e) => updateField("overlay_color", e.target.value)}
-                            className="w-12 h-12 border-2 border-gray-300 rounded-xl cursor-pointer hover:border-gray-400 transition-colors"
+                            className="w-10 h-10 border border-gray-300 rounded cursor-pointer"
                           />
                           <Input
                             value={settings.overlay_color}
                             onChange={(e) => updateField("overlay_color", e.target.value)}
-                            placeholder="#000000"
-                            className="flex-1 font-mono"
+                            className="flex-1 font-mono text-sm"
                           />
                         </div>
                       </div>
 
-                      <div className="space-y-3">
-                        <div className="flex items-center justify-between">
-                          <label className="text-sm font-semibold text-gray-900">
-                            Opacidade do Overlay
-                          </label>
-                          <span className="text-sm font-medium text-gray-600 bg-gray-100 px-2 py-1 rounded">
-                            {settings.overlay_opacity}%
-                          </span>
+                      <div className="space-y-2">
+                        <div className="flex justify-between">
+                          <label className="text-sm font-medium text-gray-900">Opacidade</label>
+                          <span className="text-sm text-gray-600">{settings.overlay_opacity}%</span>
                         </div>
-                        <div className="space-y-2">
-                          <input
-                            type="range"
-                            min="0"
-                            max="90"
-                            step="5"
-                            value={settings.overlay_opacity}
-                            onChange={(e) => updateField("overlay_opacity", parseInt(e.target.value))}
-                            className="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
-                            style={{
-                              background: `linear-gradient(to right, #dc2626 0%, #dc2626 ${(settings.overlay_opacity / 90) * 100}%, #e5e7eb ${(settings.overlay_opacity / 90) * 100}%, #e5e7eb 100%)`
-                            }}
-                          />
-                          <div className="flex justify-between text-xs text-gray-500">
-                            <span>Transparente (0%)</span>
-                            <span>Opaco (90%)</span>
-                          </div>
-                        </div>
+                        <input
+                          type="range"
+                          min="0"
+                          max="90"
+                          step="5"
+                          value={settings.overlay_opacity}
+                          onChange={(e) => updateField("overlay_opacity", parseInt(e.target.value))}
+                          className="w-full slider"
+                        />
                       </div>
+                    </div>
 
-                      {/* Quick Presets for Overlay */}
-                      <div className="space-y-3">
-                        <label className="text-sm font-semibold text-gray-900">Presets Rápidos</label>
-                        <div className="grid grid-cols-4 gap-2">
-                          <button
-                            onClick={() => {
-                              updateField("overlay_color", "#000000");
-                              updateField("overlay_opacity", 50);
-                            }}
-                            className="p-3 rounded-lg border border-gray-200 hover:border-gray-400 transition-all duration-200 text-center"
-                          >
-                            <div className="w-full h-6 bg-black/50 rounded mb-1"></div>
-                            <span className="text-xs text-gray-600">Padrão</span>
-                          </button>
+                    <div className="grid grid-cols-4 gap-2">
+                      <button
+                        onClick={() => {
+                          updateField("overlay_color", "#000000");
+                          updateField("overlay_opacity", 50);
+                        }}
+                        className="p-2 rounded border border-gray-200 hover:border-gray-400 text-center"
+                      >
+                        <div className="w-full h-4 bg-black/50 rounded mb-1"></div>
+                        <span className="text-xs text-gray-600">Padrão</span>
+                      </button>
 
-                          <button
-                            onClick={() => {
-                              updateField("overlay_color", "#000000");
-                              updateField("overlay_opacity", 30);
-                            }}
-                            className="p-3 rounded-lg border border-gray-200 hover:border-gray-400 transition-all duration-200 text-center"
-                          >
-                            <div className="w-full h-6 bg-black/30 rounded mb-1"></div>
-                            <span className="text-xs text-gray-600">Sutil</span>
-                          </button>
+                      <button
+                        onClick={() => {
+                          updateField("overlay_color", "#000000");
+                          updateField("overlay_opacity", 30);
+                        }}
+                        className="p-2 rounded border border-gray-200 hover:border-gray-400 text-center"
+                      >
+                        <div className="w-full h-4 bg-black/30 rounded mb-1"></div>
+                        <span className="text-xs text-gray-600">Sutil</span>
+                      </button>
 
-                          <button
-                            onClick={() => {
-                              updateField("overlay_color", "#000000");
-                              updateField("overlay_opacity", 70);
-                            }}
-                            className="p-3 rounded-lg border border-gray-200 hover:border-gray-400 transition-all duration-200 text-center"
-                          >
-                            <div className="w-full h-6 bg-black/70 rounded mb-1"></div>
-                            <span className="text-xs text-gray-600">Intenso</span>
-                          </button>
+                      <button
+                        onClick={() => {
+                          updateField("overlay_color", "#000000");
+                          updateField("overlay_opacity", 70);
+                        }}
+                        className="p-2 rounded border border-gray-200 hover:border-gray-400 text-center"
+                      >
+                        <div className="w-full h-4 bg-black/70 rounded mb-1"></div>
+                        <span className="text-xs text-gray-600">Intenso</span>
+                      </button>
 
-                          <button
-                            onClick={() => {
-                              updateField("overlay_color", "#000000");
-                              updateField("overlay_opacity", 0);
-                            }}
-                            className="p-3 rounded-lg border border-gray-200 hover:border-gray-400 transition-all duration-200 text-center"
-                          >
-                            <div className="w-full h-6 bg-transparent border border-gray-300 rounded mb-1"></div>
-                            <span className="text-xs text-gray-600">Sem</span>
-                          </button>
-                        </div>
-                      </div>
+                      <button
+                        onClick={() => {
+                          updateField("overlay_color", "#000000");
+                          updateField("overlay_opacity", 0);
+                        }}
+                        className="p-2 rounded border border-gray-200 hover:border-gray-400 text-center"
+                      >
+                        <div className="w-full h-4 bg-transparent border border-gray-300 rounded mb-1"></div>
+                        <span className="text-xs text-gray-600">Sem</span>
+                      </button>
                     </div>
                   </CardContent>
                 )}
