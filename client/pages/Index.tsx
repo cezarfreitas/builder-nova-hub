@@ -439,7 +439,7 @@ export default function Index() {
     // Verificar se o endereço foi carregado
     if (!formData.cidade || !formData.estado) {
       toast({
-        title: "⚠️ Endere��o Incompleto",
+        title: "⚠️ Endere���o Incompleto",
         description: content.form.validation_messages.address_incomplete,
         variant: "destructive",
       });
@@ -2068,25 +2068,25 @@ export default function Index() {
               </div>
 
               {formData.cidade && formData.estado && (
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                   <div>
-                    <label className="block text-sm font-semibold text-gray-300 mb-2">
+                    <label className="block text-xs md:text-sm font-semibold text-gray-300 mb-1 md:mb-2">
                       {content.form.fields.cidade_label}
                     </label>
                     <Input
                       value={formData.cidade}
                       readOnly
-                      className="h-12 text-base bg-black/90 border-gray-800 text-white"
+                      className="h-10 md:h-12 text-sm md:text-base bg-black/90 border-gray-800 text-white"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold text-gray-300 mb-2">
+                    <label className="block text-xs md:text-sm font-semibold text-gray-300 mb-1 md:mb-2">
                       {content.form.fields.estado_label}
                     </label>
                     <Input
                       value={formData.estado}
                       readOnly
-                      className="h-12 text-base bg-black/90 border-gray-800 text-white"
+                      className="h-10 md:h-12 text-sm md:text-base bg-black/90 border-gray-800 text-white"
                     />
                   </div>
                 </div>
