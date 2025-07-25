@@ -194,6 +194,7 @@ export default function AdminGallery() {
   // Excluir imagem
   const deleteImage = async (id: number) => {
     if (confirm("Tem certeza que deseja excluir esta imagem?")) {
+      const imageToDelete = settings.items.find(item => item.id === id);
       const newSettings = {
         ...settings,
         items: settings.items.filter(item => item.id !== id)
@@ -211,6 +212,21 @@ export default function AdminGallery() {
         const result = await saveContent(updatedContent);
 
         if (result.success) {
+          // Tentar remover arquivo físico se for upload local
+          if (imageToDelete?.image_url.startsWith('/uploads/')) {
+            const filename = imageToDelete.image_url.split('/').pop();
+            if (filename) {
+              try {
+                await fetch(`/api/uploads/${filename}`, {
+                  method: 'DELETE'
+                });
+              } catch (deleteError) {
+                console.warn('Erro ao deletar arquivo físico:', deleteError);
+                // Não mostrar erro ao usuário, pois a imagem já foi removida do JSON
+              }
+            }
+          }
+
           toast({
             title: "Imagem excluída",
             description: "A imagem foi removida e salva automaticamente.",
