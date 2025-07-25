@@ -427,7 +427,7 @@ export default function AdminHero() {
                 {/* Title */}
                 <h1
                   className="text-4xl font-black leading-tight"
-                  style={{ color: settings.text_color }}
+                  style={{ color: settings.text_color || "#ffffff" }}
                 >
                   {renderTextWithColorTokens(settings.title)}
                 </h1>
