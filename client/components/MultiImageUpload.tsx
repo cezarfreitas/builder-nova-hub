@@ -230,11 +230,12 @@ export function MultiImageUpload({
     }
 
     // Notificar erros se houver
-    const errors = initialResults.filter((_, idx) => !successfulUploads[idx]);
-    if (errors.length > 0) {
+    const failedResults = uploadResults.filter(result => result.status === "error");
+    if (failedResults.length > 0) {
+      const firstError = failedResults[0].error;
       toast({
         title: "Alguns uploads falharam",
-        description: `${errors.length} ${errors.length === 1 ? "arquivo teve" : "arquivos tiveram"} problemas no upload.`,
+        description: `${failedResults.length} ${failedResults.length === 1 ? "arquivo teve" : "arquivos tiveram"} problemas. Primeiro erro: ${firstError?.substring(0, 80)}...`,
         variant: "destructive",
       });
     }
