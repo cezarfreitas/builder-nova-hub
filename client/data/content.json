@@ -140,14 +140,7 @@
     "section_title": "COLEÇÃO LIFESTYLE",
     "section_subtitle": "Viva o estilo Ecko",
     "section_description": "Descubra o lifestyle autêntico da Ecko através de looks que representam a essência do streetwear e a cultura urbana que define nossa marca",
-    "items": [
-      {
-        "id": 1,
-        "image_url": "/uploads/gallery/gallery-1753447835277-220981753.png",
-        "is_active": true,
-        "display_order": 1
-      }
-    ],
+    "items": [],
     "empty_state_title": "Galeria em Construção",
     "empty_state_description": "Em breve nossa galeria estará repleta de produtos incríveis!",
     "cta_title": "Tenha Estes Produtos em Sua Loja!",
@@ -254,7 +247,7 @@
     "section_title": "SOBRE A {ECKO}",
     "section_subtitle": "mais de 20 anos de streetwear",
     "section_description": "Conheça a trajetória de uma das marcas mais influentes do streetwear mundial",
-    "content": "Fundada em 1993 por Marc Milecofsky, a Ecko nasceu com o propósito de dar voz à cultura urbana e ao streetwear aut��ntico. Começando como uma pequena marca de camisetas em Nova Jersey, rapidamente se tornou um ícone global, sendo reconhecida por suas estampas ousadas e pela conexão genuína com a cultura hip-hop, skate e street art.\n\nA marca ganhou destaque ao vestir grandes nomes do rap, como 50 Cent, Eminem e Jay-Z, consolidando sua presença na música e na moda urbana. No Brasil, a Ecko chegou na década de 2000 e rapidamente conquistou o público jovem, tornando-se sinônimo de atitude e estilo autêntico.\n\nHoje, a Ecko continua sendo uma referência no streetwear, mantendo seu DNA rebelde e inovador, sempre conectada com as últimas tendências da cultura urbana. Com mais de duas décadas de história, a marca segue evoluindo e inspirando novas gerações de jovens que buscam autenticidade e qualidade em suas escolhas de moda.",
+    "content": "Fundada em 1993 por Marc Milecofsky, a Ecko nasceu com o propósito de dar voz à cultura urbana e ao streetwear autêntico. Começando como uma pequena marca de camisetas em Nova Jersey, rapidamente se tornou um ícone global, sendo reconhecida por suas estampas ousadas e pela conexão genuína com a cultura hip-hop, skate e street art.\n\nA marca ganhou destaque ao vestir grandes nomes do rap, como 50 Cent, Eminem e Jay-Z, consolidando sua presença na música e na moda urbana. No Brasil, a Ecko chegou na década de 2000 e rapidamente conquistou o público jovem, tornando-se sinônimo de atitude e estilo autêntico.\n\nHoje, a Ecko continua sendo uma referência no streetwear, mantendo seu DNA rebelde e inovador, sempre conectada com as últimas tendências da cultura urbana. Com mais de duas décadas de história, a marca segue evoluindo e inspirando novas gerações de jovens que buscam autenticidade e qualidade em suas escolhas de moda.",
     "stats": [
       {
         "id": 1,
