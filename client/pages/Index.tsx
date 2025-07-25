@@ -2073,86 +2073,44 @@ export default function Index() {
                 )}
               </div>
 
-              {formData.cidade && formData.estado && (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
-                  <div>
-                    <label className="block text-xs md:text-sm font-semibold text-gray-300 mb-1 md:mb-2">
-                      {content.form.fields.cidade_label}
-                    </label>
-                    <Input
-                      value={formData.cidade}
-                      readOnly
-                      className="h-10 md:h-12 text-sm md:text-base bg-black/90 border-gray-800 text-white"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs md:text-sm font-semibold text-gray-300 mb-1 md:mb-2">
-                      {content.form.fields.estado_label}
-                    </label>
-                    <Input
-                      value={formData.estado}
-                      readOnly
-                      className="h-10 md:h-12 text-sm md:text-base bg-black/90 border-gray-800 text-white"
-                    />
-                  </div>
-                </div>
-              )}
-
-              <div>
-                <label className="block text-xs md:text-sm font-semibold text-gray-300 mb-2">
-                  {content.form.fields.cnpj_label}
-                </label>
-                <div className="flex flex-col md:flex-row gap-3 md:gap-4">
-                  <label className="flex items-center cursor-pointer bg-gray-800/30 rounded-lg p-3 md:p-2 hover:bg-gray-800/50 transition-colors">
-                    <input
-                      type="radio"
-                      name="hasCnpj"
-                      value="sim"
-                      checked={formData.hasCnpj === "sim"}
-                      onChange={handleInputChange}
-                      className="mr-3 md:mr-2 text-ecko-red scale-125 md:scale-100"
-                    />
-                    <span className="text-white text-sm md:text-base">
-                      {content.form.fields.cnpj_yes}
-                    </span>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+                <div>
+                  <label className="block text-xs md:text-sm font-semibold text-gray-300 mb-1 md:mb-2">
+                    {content.form.fields.cnpj_label}
                   </label>
-                  <label className="flex items-center cursor-pointer bg-gray-800/30 rounded-lg p-3 md:p-2 hover:bg-gray-800/50 transition-colors">
-                    <input
-                      type="radio"
-                      name="hasCnpj"
-                      value="nao"
-                      checked={formData.hasCnpj === "nao"}
-                      onChange={handleInputChange}
-                      className="mr-3 md:mr-2 text-ecko-red scale-125 md:scale-100"
-                    />
-                    <span className="text-white text-sm md:text-base">
-                      {content.form.fields.cnpj_no}
-                    </span>
-                  </label>
+                  <select
+                    name="hasCnpj"
+                    value={formData.hasCnpj}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full h-11 md:h-12 border border-gray-300 rounded-md px-3 md:px-4 bg-white text-gray-900 focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-sm md:text-base"
+                  >
+                    <option value="">Selecione</option>
+                    <option value="sim">{content.form.fields.cnpj_yes}</option>
+                    <option value="nao">{content.form.fields.cnpj_no}</option>
+                  </select>
+                  {cnpjError && (
+                    <p className="text-red-400 text-xs md:text-sm mt-2">{cnpjError}</p>
+                  )}
                 </div>
-                {cnpjError && (
-                  <p className="text-red-400 text-xs md:text-sm mt-2">
-                    {cnpjError}
-                  </p>
-                )}
-              </div>
 
-              <div>
-                <label className="block text-xs md:text-sm font-semibold text-gray-300 mb-1 md:mb-2">
-                  {content.form.fields.store_type_label}
-                </label>
-                <select
-                  name="storeType"
-                  value={formData.storeType}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full h-11 md:h-12 border border-gray-300 rounded-md px-3 md:px-4 bg-white text-gray-900 focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-sm md:text-base"
-                >
-                  <option value="">Selecione</option>
-                  <option value="fisica">Física</option>
-                  <option value="online">Online</option>
-                  <option value="ambas">Física + Online</option>
-                </select>
+                <div>
+                  <label className="block text-xs md:text-sm font-semibold text-gray-300 mb-1 md:mb-2">
+                    {content.form.fields.store_type_label}
+                  </label>
+                  <select
+                    name="storeType"
+                    value={formData.storeType}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full h-11 md:h-12 border border-gray-300 rounded-md px-3 md:px-4 bg-white text-gray-900 focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-sm md:text-base"
+                  >
+                    <option value="">Selecione</option>
+                    <option value="fisica">Física</option>
+                    <option value="online">Online</option>
+                    <option value="ambas">Física + Online</option>
+                  </select>
+                </div>
               </div>
 
               <Button
