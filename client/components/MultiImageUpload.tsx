@@ -47,7 +47,14 @@ export function MultiImageUpload({
   // Função para comprimir imagem
   const compressImage = (file: File): Promise<File> => {
     return new Promise((resolve) => {
-      console.log(`🗜️ Comprimindo ${file.name}: ${(file.size / 1024 / 1024).toFixed(1)}MB`);
+      console.log(`🗜️ Processando ${file.name}: ${(file.size / 1024 / 1024).toFixed(1)}MB (${file.type})`);
+
+      // GIFs não devem ser comprimidos (perdem animação)
+      if (file.type === "image/gif") {
+        console.log(`🎬 GIF detectado, mantendo original: ${file.name}`);
+        resolve(file);
+        return;
+      }
 
       const canvas = document.createElement("canvas");
       const ctx = canvas.getContext("2d");
