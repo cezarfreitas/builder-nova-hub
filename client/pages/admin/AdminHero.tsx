@@ -33,6 +33,8 @@ import {
   Loader2,
   Copy,
   Zap,
+  Settings,
+  X,
 } from "lucide-react";
 
 interface HeroSettings {
