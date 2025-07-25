@@ -487,10 +487,6 @@ export default function AdminHero() {
                           <span className="text-sm font-medium">{validation.title}</span>
                         </div>
                       )}
-                      <p className="text-xs text-gray-500 flex items-center">
-                        <Lightbulb className="w-3 h-3 mr-1" />
-                        Use {"{ecko}texto{/ecko}"} para destacar em vermelho
-                      </p>
                     </div>
 
                     {/* Subtítulo */}
