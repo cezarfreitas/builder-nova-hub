@@ -1352,8 +1352,77 @@ export default function Index() {
                         </p>
                       </div>
 
-                      {/* Testimonials Grid */}
-                      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+                      {/* Testimonials - Mobile Carousel */}
+                      <div className="md:hidden mb-16">
+                        <Carousel
+                          opts={{
+                            align: "start",
+                            loop: true,
+                          }}
+                          className="w-full"
+                        >
+                          <CarouselContent className="-ml-2">
+                            {content.testimonials.items
+                              ?.filter((testimonial) => testimonial.is_active)
+                              ?.sort((a, b) => a.display_order - b.display_order)
+                              ?.map((testimonial, index) => (
+                                <CarouselItem key={testimonial.id} className="pl-2 basis-4/5">
+                                  <div className="group relative h-full">
+                                    <div className="h-full bg-black/80 backdrop-blur-sm border border-white rounded-2xl p-6 transition-all duration-500 hover:border-ecko-red/50 hover:shadow-2xl hover:shadow-ecko-red/10">
+                                      {/* Rating Stars */}
+                                      <div className="flex items-center mb-4">
+                                        {[...Array(testimonial.rating)].map(
+                                          (_, i) => (
+                                            <Star
+                                              key={i}
+                                              className="w-4 h-4 text-yellow-400 fill-current"
+                                            />
+                                          ),
+                                        )}
+                                      </div>
+
+                                      {/* Testimonial Content */}
+                                      <blockquote className="text-gray-300 leading-relaxed mb-4 italic text-sm">
+                                        "
+                                        {renderTextWithColorTokens(
+                                          testimonial.content,
+                                        )}
+                                        "
+                                      </blockquote>
+
+                                      {/* Author Info */}
+                                      <div className="flex items-center">
+                                        <OptimizedImage
+                                          src={testimonial.avatar_url}
+                                          alt={testimonial.name}
+                                          className="w-10 h-10 rounded-full border-2 border-ecko-red/30 mr-3 object-cover"
+                                          fallback="/placeholder.svg"
+                                          lazy={true}
+                                          aspectRatio="1:1"
+                                        />
+                                        <div>
+                                          <div className="font-semibold text-white text-sm group-hover:text-ecko-red transition-colors duration-300">
+                                            {renderTextWithColorTokens(
+                                              testimonial.name,
+                                            )}
+                                          </div>
+                                          <div className="text-xs text-gray-300">
+                                            {testimonial.role} • {testimonial.company}
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </CarouselItem>
+                              ))}
+                          </CarouselContent>
+                          <CarouselPrevious className="left-0 bg-black/80 border-white text-white hover:bg-ecko-red hover:border-ecko-red" />
+                          <CarouselNext className="right-0 bg-black/80 border-white text-white hover:bg-ecko-red hover:border-ecko-red" />
+                        </Carousel>
+                      </div>
+
+                      {/* Testimonials - Desktop Grid */}
+                      <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
                         {content.testimonials.items
                           ?.filter((testimonial) => testimonial.is_active)
                           ?.sort((a, b) => a.display_order - b.display_order)
