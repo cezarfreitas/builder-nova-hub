@@ -685,12 +685,13 @@ export default function AdminConfiguracoes() {
               {/* Meta Tags Básicas */}
               <div className="bg-gray-50 p-6 rounded-lg">
                 <h4 className="text-md font-semibold text-gray-900 mb-4 flex items-center">
-                  <Globe className="w-5 h-5 mr-2" />
+                  <Globe className="w-5 h-5 mr-2 text-blue-600" />
                   Meta Tags Básicas
                 </h4>
                 <div className="space-y-4">
                   <div>
-                    <Label htmlFor="seo_title" className="text-sm font-medium text-gray-700">
+                    <Label htmlFor="seo_title" className="text-sm font-medium text-gray-700 flex items-center">
+                      <FileText className="w-4 h-4 mr-1" />
                       Título da Página (Title Tag)
                     </Label>
                     <Input
@@ -700,13 +701,15 @@ export default function AdminConfiguracoes() {
                       placeholder="Seja uma Revenda Autorizada da Ecko | Tenha os Melhores Produtos"
                       className="mt-1"
                     />
-                    <p className="text-xs text-gray-500 mt-1">
-                      Máximo de 60 caracteres recomendado
+                    <p className="text-xs text-gray-500 mt-1 flex items-center">
+                      <Target className="w-3 h-3 mr-1" />
+                      Máximo de 60 caracteres recomendado | Atual: {seoFormData.seo_title.length}
                     </p>
                   </div>
 
                   <div>
-                    <Label htmlFor="seo_description" className="text-sm font-medium text-gray-700">
+                    <Label htmlFor="seo_description" className="text-sm font-medium text-gray-700 flex items-center">
+                      <Code className="w-4 h-4 mr-1" />
                       Meta Description
                     </Label>
                     <Textarea
@@ -717,13 +720,15 @@ export default function AdminConfiguracoes() {
                       className="mt-1"
                       rows={3}
                     />
-                    <p className="text-xs text-gray-500 mt-1">
-                      Máximo de 160 caracteres recomendado
+                    <p className="text-xs text-gray-500 mt-1 flex items-center">
+                      <Target className="w-3 h-3 mr-1" />
+                      Máximo de 160 caracteres recomendado | Atual: {seoFormData.seo_description.length}
                     </p>
                   </div>
 
                   <div>
-                    <Label htmlFor="seo_keywords" className="text-sm font-medium text-gray-700">
+                    <Label htmlFor="seo_keywords" className="text-sm font-medium text-gray-700 flex items-center">
+                      <Search className="w-4 h-4 mr-1" />
                       Keywords (separadas por vírgula)
                     </Label>
                     <Input
@@ -734,6 +739,185 @@ export default function AdminConfiguracoes() {
                       className="mt-1"
                     />
                   </div>
+
+                  <div>
+                    <Label htmlFor="seo_canonical_url" className="text-sm font-medium text-gray-700 flex items-center">
+                      <Link className="w-4 h-4 mr-1" />
+                      URL Canônica
+                    </Label>
+                    <Input
+                      id="seo_canonical_url"
+                      value={seoFormData.seo_canonical_url}
+                      onChange={(e) => setSeoFormData({...seoFormData, seo_canonical_url: e.target.value})}
+                      placeholder="https://revendedores.ecko.com.br/"
+                      className="mt-1"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Open Graph / Facebook */}
+              <div className="bg-blue-50 p-6 rounded-lg border border-blue-200">
+                <h4 className="text-md font-semibold text-gray-900 mb-4 flex items-center">
+                  <Facebook className="w-5 h-5 mr-2 text-blue-600" />
+                  Open Graph / Facebook
+                </h4>
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="og_title" className="text-sm font-medium text-gray-700">
+                      Título Open Graph
+                    </Label>
+                    <Input
+                      id="og_title"
+                      value={seoFormData.og_title}
+                      onChange={(e) => setSeoFormData({...seoFormData, og_title: e.target.value})}
+                      placeholder={seoFormData.seo_title || "Título para compartilhamento"}
+                      className="mt-1"
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="og_description" className="text-sm font-medium text-gray-700">
+                      Descrição Open Graph
+                    </Label>
+                    <Textarea
+                      id="og_description"
+                      value={seoFormData.og_description}
+                      onChange={(e) => setSeoFormData({...seoFormData, og_description: e.target.value})}
+                      placeholder={seoFormData.seo_description || "Descrição para compartilhamento"}
+                      className="mt-1"
+                      rows={3}
+                    />
+                  </div>
+
+                  <div>
+                    <Label className="text-sm font-medium text-gray-700 flex items-center mb-2">
+                      <Image className="w-4 h-4 mr-1" />
+                      Imagem Open Graph (1200x630px)
+                    </Label>
+                    <SeoImageUpload
+                      currentImage={seoFormData.og_image}
+                      onImageChange={(url) => setSeoFormData({...seoFormData, og_image: url})}
+                      label="Imagem para redes sociais"
+                      description="Tamanho ideal: 1200x630px | Formatos: JPG, PNG, WebP"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Twitter Card */}
+              <div className="bg-gray-50 p-6 rounded-lg">
+                <h4 className="text-md font-semibold text-gray-900 mb-4 flex items-center">
+                  <svg className="w-5 h-5 mr-2 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                  </svg>
+                  Twitter Card
+                </h4>
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="twitter_title" className="text-sm font-medium text-gray-700">
+                      Título Twitter
+                    </Label>
+                    <Input
+                      id="twitter_title"
+                      value={seoFormData.twitter_title}
+                      onChange={(e) => setSeoFormData({...seoFormData, twitter_title: e.target.value})}
+                      placeholder={seoFormData.og_title || seoFormData.seo_title || "Título para Twitter"}
+                      className="mt-1"
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="twitter_description" className="text-sm font-medium text-gray-700">
+                      Descrição Twitter
+                    </Label>
+                    <Textarea
+                      id="twitter_description"
+                      value={seoFormData.twitter_description}
+                      onChange={(e) => setSeoFormData({...seoFormData, twitter_description: e.target.value})}
+                      placeholder={seoFormData.og_description || seoFormData.seo_description || "Descrição para Twitter"}
+                      className="mt-1"
+                      rows={2}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Schema.org / Dados Estruturados */}
+              <div className="bg-green-50 p-6 rounded-lg border border-green-200">
+                <h4 className="text-md font-semibold text-gray-900 mb-4 flex items-center">
+                  <Code className="w-5 h-5 mr-2 text-green-600" />
+                  Schema.org / Dados Estruturados
+                </h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="schema_company_name" className="text-sm font-medium text-gray-700 flex items-center">
+                      <Building2 className="w-4 h-4 mr-1" />
+                      Nome da Empresa
+                    </Label>
+                    <Input
+                      id="schema_company_name"
+                      value={seoFormData.schema_company_name}
+                      onChange={(e) => setSeoFormData({...seoFormData, schema_company_name: e.target.value})}
+                      placeholder="Ecko Unlimited Brasil"
+                      className="mt-1"
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="schema_contact_phone" className="text-sm font-medium text-gray-700 flex items-center">
+                      <Phone className="w-4 h-4 mr-1" />
+                      Telefone de Contato
+                    </Label>
+                    <Input
+                      id="schema_contact_phone"
+                      value={seoFormData.schema_contact_phone}
+                      onChange={(e) => setSeoFormData({...seoFormData, schema_contact_phone: e.target.value})}
+                      placeholder="+55 (11) 99999-9999"
+                      className="mt-1"
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="schema_contact_email" className="text-sm font-medium text-gray-700 flex items-center">
+                      <Mail className="w-4 h-4 mr-1" />
+                      Email de Contato
+                    </Label>
+                    <Input
+                      id="schema_contact_email"
+                      value={seoFormData.schema_contact_email}
+                      onChange={(e) => setSeoFormData({...seoFormData, schema_contact_email: e.target.value})}
+                      placeholder="contato@ecko.com.br"
+                      className="mt-1"
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="schema_address_city" className="text-sm font-medium text-gray-700 flex items-center">
+                      <MapPin className="w-4 h-4 mr-1" />
+                      Cidade
+                    </Label>
+                    <Input
+                      id="schema_address_city"
+                      value={seoFormData.schema_address_city}
+                      onChange={(e) => setSeoFormData({...seoFormData, schema_address_city: e.target.value})}
+                      placeholder="São Paulo"
+                      className="mt-1"
+                    />
+                  </div>
+                </div>
+
+                <div className="mt-4">
+                  <Label className="text-sm font-medium text-gray-700 flex items-center mb-2">
+                    <Image className="w-4 h-4 mr-1" />
+                    Logo da Empresa
+                  </Label>
+                  <SeoImageUpload
+                    currentImage={seoFormData.schema_company_logo}
+                    onImageChange={(url) => setSeoFormData({...seoFormData, schema_company_logo: url})}
+                    label="Logo para dados estruturados"
+                    description="Tamanho ideal: 512x512px | Formato quadrado recomendado"
+                  />
                 </div>
               </div>
 
