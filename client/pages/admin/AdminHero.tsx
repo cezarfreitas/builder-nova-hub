@@ -455,12 +455,67 @@ export default function AdminHero() {
           {/* Overlay Controls */}
           <Card>
             <CardHeader>
-              <CardTitle>Overlay da Imagem</CardTitle>
+              <CardTitle className="flex items-center">
+                <Image className="w-5 h-5 mr-2 text-ecko-red" />
+                Overlay com Gradientes
+              </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
+              {/* Explicação do Sistema */}
+              <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                <div className="flex items-center space-x-2 mb-2">
+                  <Lightbulb className="w-4 h-4 text-blue-600" />
+                  <h4 className="font-semibold text-blue-900 text-sm">Sistema de Overlay Profissional</h4>
+                </div>
+                <p className="text-blue-700 text-xs mb-3">
+                  O overlay usa <strong>múltiplas camadas</strong> para criar um efeito visual profissional:
+                </p>
+                <div className="space-y-1 text-xs text-blue-600">
+                  <div>• <strong>Camada Base:</strong> Cor controlável com opacidade ajustável</div>
+                  <div>• <strong>Gradiente Vertical:</strong> Preto transparente → Preto opaco (automático)</div>
+                  <div>• <strong>Gradiente Lateral:</strong> Vermelho Ecko sutil nas bordas (automático)</div>
+                </div>
+              </div>
+
+              {/* Preview do Overlay */}
+              <div className="space-y-3">
+                <label className="text-sm font-medium text-gray-900">Preview do Sistema de Overlay</label>
+                <div className="relative h-32 bg-gray-200 rounded-lg overflow-hidden border">
+                  {/* Simulação da imagem de fundo */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500"></div>
+
+                  {/* Camada 1: Overlay Base (controlável) */}
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      backgroundColor: settings.overlay_color,
+                      opacity: settings.overlay_opacity / 100
+                    }}
+                  ></div>
+
+                  {/* Camada 2: Gradiente vertical automático */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/90"></div>
+
+                  {/* Camada 3: Gradiente lateral automático */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-red-600/15 via-transparent to-red-600/15"></div>
+
+                  {/* Texto de exemplo */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="text-center text-white">
+                      <h3 className="font-bold text-lg">Título do Hero</h3>
+                      <p className="text-sm opacity-90">Subtítulo com overlay aplicado</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Controles da Camada Base */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-3">
-                  <label className="text-sm font-medium text-gray-900">Cor do Overlay</label>
+                  <label className="text-sm font-medium text-gray-900">
+                    Cor Base do Overlay
+                    <span className="text-xs text-gray-500 ml-1">(Camada 1)</span>
+                  </label>
                   <div className="flex space-x-3">
                     <input
                       type="color"
@@ -478,7 +533,10 @@ export default function AdminHero() {
 
                 <div className="space-y-3">
                   <div className="flex justify-between">
-                    <label className="text-sm font-medium text-gray-900">Opacidade</label>
+                    <label className="text-sm font-medium text-gray-900">
+                      Intensidade Base
+                      <span className="text-xs text-gray-500 ml-1">(Camada 1)</span>
+                    </label>
                     <span className="text-sm text-gray-600 bg-gray-100 px-2 py-1 rounded">{settings.overlay_opacity}%</span>
                   </div>
                   <input
@@ -491,9 +549,88 @@ export default function AdminHero() {
                     className="w-full"
                   />
                   <div className="flex justify-between text-xs text-gray-500">
-                    <span>0%</span>
-                    <span>90%</span>
+                    <span>Transparente</span>
+                    <span>Muito Escuro</span>
                   </div>
+                </div>
+              </div>
+
+              {/* Presets Rápidos */}
+              <div className="space-y-3">
+                <label className="text-sm font-medium text-gray-900">Presets de Overlay</label>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                  <button
+                    onClick={() => {
+                      updateField("overlay_color", "#000000");
+                      updateField("overlay_opacity", 70);
+                    }}
+                    className="group p-3 rounded-lg border border-gray-200 hover:border-gray-400 text-center transition-all"
+                  >
+                    <div className="relative h-12 bg-gradient-to-br from-blue-400 to-purple-500 rounded mb-2 overflow-hidden">
+                      <div className="absolute inset-0 bg-black/70"></div>
+                      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/90"></div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-red-600/15 via-transparent to-red-600/15"></div>
+                    </div>
+                    <span className="text-xs text-gray-600 font-medium">Padrão</span>
+                    <div className="text-xs text-gray-500">Preto 70%</div>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      updateField("overlay_color", "#000000");
+                      updateField("overlay_opacity", 50);
+                    }}
+                    className="group p-3 rounded-lg border border-gray-200 hover:border-gray-400 text-center transition-all"
+                  >
+                    <div className="relative h-12 bg-gradient-to-br from-blue-400 to-purple-500 rounded mb-2 overflow-hidden">
+                      <div className="absolute inset-0 bg-black/50"></div>
+                      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/90"></div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-red-600/15 via-transparent to-red-600/15"></div>
+                    </div>
+                    <span className="text-xs text-gray-600 font-medium">Suave</span>
+                    <div className="text-xs text-gray-500">Preto 50%</div>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      updateField("overlay_color", "#000000");
+                      updateField("overlay_opacity", 90);
+                    }}
+                    className="group p-3 rounded-lg border border-gray-200 hover:border-gray-400 text-center transition-all"
+                  >
+                    <div className="relative h-12 bg-gradient-to-br from-blue-400 to-purple-500 rounded mb-2 overflow-hidden">
+                      <div className="absolute inset-0 bg-black/90"></div>
+                      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/90"></div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-red-600/15 via-transparent to-red-600/15"></div>
+                    </div>
+                    <span className="text-xs text-gray-600 font-medium">Intenso</span>
+                    <div className="text-xs text-gray-500">Preto 90%</div>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      updateField("overlay_color", "#000000");
+                      updateField("overlay_opacity", 0);
+                    }}
+                    className="group p-3 rounded-lg border border-gray-200 hover:border-gray-400 text-center transition-all"
+                  >
+                    <div className="relative h-12 bg-gradient-to-br from-blue-400 to-purple-500 rounded mb-2 overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/90"></div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-red-600/15 via-transparent to-red-600/15"></div>
+                    </div>
+                    <span className="text-xs text-gray-600 font-medium">Apenas Gradientes</span>
+                    <div className="text-xs text-gray-500">Base 0%</div>
+                  </button>
+                </div>
+              </div>
+
+              {/* Informações Técnicas */}
+              <div className="bg-gray-50 p-4 rounded-lg border">
+                <h4 className="font-semibold text-gray-900 text-sm mb-2">Informações Técnicas</h4>
+                <div className="space-y-1 text-xs text-gray-600">
+                  <div><strong>Camada 1:</strong> {settings.overlay_color} com {settings.overlay_opacity}% de opacidade</div>
+                  <div><strong>Camada 2:</strong> Gradiente vertical from-black/50 via-transparent to-black/90</div>
+                  <div><strong>Camada 3:</strong> Gradiente lateral from-red-600/15 via-transparent to-red-600/15</div>
                 </div>
               </div>
             </CardContent>
