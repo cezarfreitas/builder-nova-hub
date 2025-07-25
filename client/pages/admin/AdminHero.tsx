@@ -331,6 +331,15 @@ export default function AdminHero() {
             <ExternalLink className="w-4 h-4 mr-2" />
             Ver Landing Page
           </Button>
+
+          <Button
+            onClick={() => setShowOverlay(!showOverlay)}
+            variant="outline"
+            className="border-purple-300 text-purple-700 hover:bg-purple-50"
+          >
+            <Settings className="w-4 h-4 mr-2" />
+            Overlay Visual
+          </Button>
         </div>
 
         <div className="flex items-center space-x-3">
