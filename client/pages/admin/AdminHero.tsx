@@ -23,8 +23,6 @@ import {
   Copy,
   ExternalLink,
   Sparkles,
-  ChevronDown,
-  ChevronUp,
   Palette as PaletteIcon,
   Image,
   FileText,
@@ -183,7 +181,7 @@ export default function AdminHero() {
   };
 
   // Atualizar campo específico
-  const updateField = (field: keyof HeroSettings, value: string | boolean) => {
+  const updateField = (field: keyof HeroSettings, value: string | boolean | number) => {
     setSettings((prev) => ({
       ...prev,
       [field]: value,
@@ -206,13 +204,6 @@ export default function AdminHero() {
       });
     }
   };
-
-  // Tab data
-  const tabs = [
-    { id: 'content', label: 'Conteúdo', icon: Type },
-    { id: 'visual', label: 'Imagens', icon: Image },
-    { id: 'style', label: 'Estilo', icon: PaletteIcon },
-  ] as const;
 
   // Apply preset colors
   const applyColorPreset = (preset: string) => {
@@ -254,6 +245,13 @@ export default function AdminHero() {
       });
     }
   };
+
+  // Tab data
+  const tabs = [
+    { id: 'content', label: 'Conteúdo', icon: Type },
+    { id: 'visual', label: 'Imagens', icon: Image },
+    { id: 'style', label: 'Estilo', icon: PaletteIcon },
+  ] as const;
 
   // Status da validação
   const hasErrors = Object.keys(validation).length > 0;
@@ -396,88 +394,94 @@ export default function AdminHero() {
       </div>
 
       <div className="px-6 py-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="max-w-4xl mx-auto">
+        <div className="max-w-5xl mx-auto">
+          {/* Tab Navigation */}
+          <div className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+            {/* Tab Headers */}
+            <div className="flex border-b border-gray-200">
+              {tabs.map((tab) => {
+                const Icon = tab.icon;
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`flex-1 flex items-center justify-center px-6 py-4 text-sm font-medium transition-all duration-200 ${
+                      activeTab === tab.id
+                        ? 'bg-ecko-red text-white shadow-lg'
+                        : 'bg-gray-50 text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                    }`}
+                  >
+                    <Icon className="w-4 h-4 mr-2" />
+                    {tab.label}
+                  </button>
+                );
+              })}
+            </div>
 
-            {/* Editor Panel */}
-            <div className="space-y-6">
-              
-              {/* Content Section */}
-              <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm">
-                <CardHeader 
-                  className="cursor-pointer" 
-                  onClick={() => toggleSection('content')}
-                >
-                  <CardTitle className="flex items-center justify-between text-gray-900">
-                    <div className="flex items-center">
-                      <Type className="w-5 h-5 mr-3 text-ecko-red" />
-                      Conteúdo
+            {/* Tab Content */}
+            <div className="p-8">
+              {/* Content Tab */}
+              {activeTab === 'content' && (
+                <div className="space-y-8">
+                  {/* Color Instructions */}
+                  <div className="bg-blue-50 p-4 rounded-xl border border-blue-200">
+                    <div className="flex items-center space-x-2 mb-3">
+                      <Lightbulb className="w-4 h-4 text-blue-600" />
+                      <h4 className="font-semibold text-blue-900 text-sm">Destaque de Texto</h4>
                     </div>
-                    {expandedSections.content ? 
-                      <ChevronUp className="w-5 h-5 text-gray-400" /> : 
-                      <ChevronDown className="w-5 h-5 text-gray-400" />
-                    }
-                  </CardTitle>
-                </CardHeader>
-                {expandedSections.content && (
-                  <CardContent className="space-y-6 pt-0">
-                    {/* Color Instructions */}
-                    <div className="bg-blue-50 p-4 rounded-xl border border-blue-200">
-                      <div className="flex items-center space-x-2 mb-3">
-                        <Lightbulb className="w-4 h-4 text-blue-600" />
-                        <h4 className="font-semibold text-blue-900 text-sm">Destaque de Texto</h4>
-                      </div>
-                      <p className="text-blue-700 text-xs mb-3">
-                        Use <code className="bg-blue-100 px-1 rounded text-blue-800">{"{ecko}texto{/ecko}"}</code> em qualquer campo de texto para destacar palavras.
-                      </p>
-
-                      {/* Color Examples */}
-                      <div className="flex flex-wrap gap-2">
-                        <span className="text-xs text-blue-600 mr-2">Cores disponíveis:</span>
-                        {[
-                          { name: 'ecko', color: '#dc2626' },
-                          { name: 'blue', color: '#2563eb' },
-                          { name: 'green', color: '#16a34a' },
-                          { name: 'orange', color: '#ea580c' },
-                          { name: 'yellow', color: '#ca8a04' },
-                          { name: 'white', color: '#ffffff' },
-                          { name: 'black', color: '#000000' }
-                        ].map(({ name, color }) => (
-                          <span
-                            key={name}
-                            className="inline-flex items-center px-2 py-1 rounded text-xs font-medium border"
-                            style={{
-                              backgroundColor: color === '#ffffff' ? '#f8f9fa' : color,
-                              color: ['#ffffff', '#ca8a04'].includes(color) ? '#000000' : '#ffffff',
-                              borderColor: color === '#ffffff' ? '#d1d5db' : color
-                            }}
-                          >
-                            {name}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Status Toggle */}
-                    <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
-                      <div>
-                        <p className="font-medium text-gray-900">Status da Seção</p>
-                        <p className="text-sm text-gray-600">Controla se o Hero será exibido</p>
-                      </div>
-                      <button
-                        onClick={() => updateField("enabled", !settings.enabled)}
-                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                          settings.enabled ? 'bg-green-600' : 'bg-gray-300'
-                        }`}
-                      >
+                    <p className="text-blue-700 text-xs mb-3">
+                      Use <code className="bg-blue-100 px-1 rounded text-blue-800">{"{ecko}texto{/ecko}"}</code> em qualquer campo de texto para destacar palavras.
+                    </p>
+                    
+                    {/* Color Examples */}
+                    <div className="flex flex-wrap gap-2">
+                      <span className="text-xs text-blue-600 mr-2">Cores:</span>
+                      {[
+                        { name: 'ecko', color: '#dc2626' },
+                        { name: 'blue', color: '#2563eb' },
+                        { name: 'green', color: '#16a34a' },
+                        { name: 'orange', color: '#ea580c' },
+                        { name: 'yellow', color: '#ca8a04' },
+                        { name: 'white', color: '#ffffff' },
+                        { name: 'black', color: '#000000' }
+                      ].map(({ name, color }) => (
                         <span
-                          className={`inline-block h-4 w-4 transform rounded-full bg-white transition ${
-                            settings.enabled ? 'translate-x-6' : 'translate-x-1'
-                          }`}
-                        />
-                      </button>
+                          key={name}
+                          className="inline-flex items-center px-2 py-1 rounded text-xs font-medium border"
+                          style={{
+                            backgroundColor: color === '#ffffff' ? '#f8f9fa' : color,
+                            color: ['#ffffff', '#ca8a04'].includes(color) ? '#000000' : '#ffffff',
+                            borderColor: color === '#ffffff' ? '#d1d5db' : color
+                          }}
+                        >
+                          {name}
+                        </span>
+                      ))}
                     </div>
+                  </div>
 
+                  {/* Status Toggle */}
+                  <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                    <div>
+                      <p className="font-medium text-gray-900">Status da Seção</p>
+                      <p className="text-sm text-gray-600">Controla se o Hero será exibido</p>
+                    </div>
+                    <button
+                      onClick={() => updateField("enabled", !settings.enabled)}
+                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                        settings.enabled ? 'bg-green-600' : 'bg-gray-300'
+                      }`}
+                    >
+                      <span
+                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition ${
+                          settings.enabled ? 'translate-x-6' : 'translate-x-1'
+                        }`}
+                      />
+                    </button>
+                  </div>
+
+                  {/* Content Fields */}
+                  <div className="space-y-6">
                     {/* Título */}
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
@@ -492,11 +496,7 @@ export default function AdminHero() {
                         placeholder="Digite o título principal..."
                         rows={3}
                         label=""
-                        className={`transition-all duration-200 ${
-                          validation.title
-                            ? "border-red-300 focus:border-red-500 focus:ring-red-500 bg-red-50"
-                            : "border-gray-300 focus:border-ecko-red focus:ring-ecko-red"
-                        }`}
+                        className={validation.title ? "border-red-300 bg-red-50" : ""}
                       />
                       {validation.title && (
                         <div className="flex items-center space-x-2 text-red-600 bg-red-50 p-3 rounded-lg">
@@ -508,20 +508,14 @@ export default function AdminHero() {
 
                     {/* Subtítulo */}
                     <div className="space-y-3">
-                      <label className="text-sm font-semibold text-gray-900">
-                        Subtítulo *
-                      </label>
+                      <label className="text-sm font-semibold text-gray-900">Subtítulo *</label>
                       <TokenColorEditor
                         value={settings.subtitle}
                         onChange={(value) => updateField("subtitle", value)}
                         placeholder="Digite o subtítulo..."
                         rows={2}
                         label=""
-                        className={`transition-all duration-200 ${
-                          validation.subtitle
-                            ? "border-red-300 focus:border-red-500 focus:ring-red-500 bg-red-50"
-                            : "border-gray-300 focus:border-ecko-red focus:ring-ecko-red"
-                        }`}
+                        className={validation.subtitle ? "border-red-300 bg-red-50" : ""}
                       />
                       {validation.subtitle && (
                         <div className="flex items-center space-x-2 text-red-600 bg-red-50 p-3 rounded-lg">
@@ -533,36 +527,27 @@ export default function AdminHero() {
 
                     {/* Descrição */}
                     <div className="space-y-3">
-                      <label className="text-sm font-semibold text-gray-900">
-                        Descrição
-                      </label>
+                      <label className="text-sm font-semibold text-gray-900">Descrição</label>
                       <TokenColorEditor
                         value={settings.description}
                         onChange={(value) => updateField("description", value)}
                         placeholder="Digite uma descrição detalhada..."
                         rows={3}
                         label=""
-                        className="border-gray-300 focus:border-ecko-red focus:ring-ecko-red transition-all duration-200"
                       />
                     </div>
 
                     {/* CTAs */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-3">
-                        <label className="text-sm font-semibold text-gray-900">
-                          CTA Principal *
-                        </label>
+                        <label className="text-sm font-semibold text-gray-900">CTA Principal *</label>
                         <TokenColorEditor
                           value={settings.cta_text}
                           onChange={(value) => updateField("cta_text", value)}
                           placeholder="Ex: Quero ser Revendedor"
                           rows={2}
                           label=""
-                          className={`transition-all duration-200 ${
-                            validation.cta_text
-                              ? "border-red-300 focus:border-red-500 focus:ring-red-500 bg-red-50"
-                              : "border-gray-300 focus:border-ecko-red focus:ring-ecko-red"
-                          }`}
+                          className={validation.cta_text ? "border-red-300 bg-red-50" : ""}
                         />
                         {validation.cta_text && (
                           <div className="flex items-center space-x-2 text-red-600 bg-red-50 p-2 rounded-lg">
@@ -573,150 +558,174 @@ export default function AdminHero() {
                       </div>
 
                       <div className="space-y-3">
-                        <label className="text-sm font-semibold text-gray-900">
-                          CTA Secundário
-                        </label>
+                        <label className="text-sm font-semibold text-gray-900">CTA Secundário</label>
                         <TokenColorEditor
                           value={settings.cta_secondary_text}
                           onChange={(value) => updateField("cta_secondary_text", value)}
                           placeholder="Ex: Saiba Mais"
                           rows={2}
                           label=""
-                          className="border-gray-300 focus:border-ecko-red focus:ring-ecko-red transition-all duration-200"
                         />
                       </div>
                     </div>
-                  </CardContent>
-                )}
-              </Card>
+                  </div>
+                </div>
+              )}
 
-              {/* Visual Section */}
-              <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm">
-                <CardHeader 
-                  className="cursor-pointer" 
-                  onClick={() => toggleSection('visual')}
-                >
-                  <CardTitle className="flex items-center justify-between text-gray-900">
-                    <div className="flex items-center">
-                      <Image className="w-5 h-5 mr-3 text-ecko-red" />
-                      Imagens
-                    </div>
-                    {expandedSections.visual ? 
-                      <ChevronUp className="w-5 h-5 text-gray-400" /> : 
-                      <ChevronDown className="w-5 h-5 text-gray-400" />
-                    }
-                  </CardTitle>
-                </CardHeader>
-                {expandedSections.visual && (
-                  <CardContent className="space-y-6 pt-0">
-                    <OptimizedImageUpload
-                      value={settings.logo_url}
-                      onChange={(url) => updateField("logo_url", url)}
-                      label="Logo da Empresa"
-                      maxSizeKB={200}
-                      maxWidth={800}
-                      maxHeight={400}
-                      quality={0.9}
-                      acceptedTypes={["image/png", "image/jpeg", "image/webp"]}
-                    />
-
-                    <OptimizedImageUpload
-                      value={settings.background_image}
-                      onChange={(url) => updateField("background_image", url)}
-                      label="Imagem de Background"
-                      maxSizeKB={800}
-                      maxWidth={1920}
-                      maxHeight={1080}
-                      quality={0.8}
-                      acceptedTypes={["image/jpeg", "image/png", "image/webp"]}
-                    />
-                  </CardContent>
-                )}
-              </Card>
-
-              {/* Colors Section */}
-              <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm">
-                <CardHeader 
-                  className="cursor-pointer" 
-                  onClick={() => toggleSection('colors')}
-                >
-                  <CardTitle className="flex items-center justify-between text-gray-900">
-                    <div className="flex items-center">
-                      <PaletteIcon className="w-5 h-5 mr-3 text-ecko-red" />
-                      Cores e Estilo
-                    </div>
-                    {expandedSections.colors ? 
-                      <ChevronUp className="w-5 h-5 text-gray-400" /> : 
-                      <ChevronDown className="w-5 h-5 text-gray-400" />
-                    }
-                  </CardTitle>
-                </CardHeader>
-                {expandedSections.colors && (
-                  <CardContent className="space-y-6 pt-0">
-                    {/* Color Presets */}
-                    <div className="space-y-3">
-                      <label className="text-sm font-semibold text-gray-900">Presets Rápidos</label>
-                      <div className="grid grid-cols-4 gap-2">
-                        <button
-                          onClick={() => applyColorPreset('ecko')}
-                          className="p-2 rounded-lg border border-gray-200 hover:border-red-300 transition-all group text-center"
-                        >
-                          <div className="flex space-x-1 mb-1 justify-center">
-                            <div className="w-3 h-3 bg-black rounded"></div>
-                            <div className="w-3 h-3 bg-white border rounded"></div>
-                            <div className="w-3 h-3 bg-red-600 rounded"></div>
+              {/* Visual Tab */}
+              {activeTab === 'visual' && (
+                <div className="space-y-8">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    {/* Logo Upload */}
+                    <div className="space-y-4">
+                      <h3 className="text-lg font-semibold text-gray-900 flex items-center">
+                        <Image className="w-5 h-5 mr-2 text-ecko-red" />
+                        Logo da Empresa
+                      </h3>
+                      <div className="bg-gray-50 p-4 rounded-lg">
+                        <OptimizedImageUpload
+                          value={settings.logo_url}
+                          onChange={(url) => updateField("logo_url", url)}
+                          label=""
+                          maxSizeKB={200}
+                          maxWidth={800}
+                          maxHeight={400}
+                          quality={0.9}
+                          acceptedTypes={["image/png", "image/jpeg", "image/webp"]}
+                        />
+                        {/* Logo Preview */}
+                        {settings.logo_url && (
+                          <div className="mt-4 p-3 bg-white rounded border">
+                            <p className="text-xs text-gray-600 mb-2">Preview:</p>
+                            <img
+                              src={settings.logo_url}
+                              alt="Logo preview"
+                              className="h-16 object-contain"
+                              onError={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                target.style.display = "none";
+                              }}
+                            />
                           </div>
-                          <span className="text-xs text-gray-700">Ecko</span>
-                        </button>
-
-                        <button
-                          onClick={() => applyColorPreset('luxury')}
-                          className="p-2 rounded-lg border border-gray-200 hover:border-yellow-300 transition-all group text-center"
-                        >
-                          <div className="flex space-x-1 mb-1 justify-center">
-                            <div className="w-3 h-3 bg-gray-800 rounded"></div>
-                            <div className="w-3 h-3 bg-gray-100 rounded"></div>
-                            <div className="w-3 h-3 bg-yellow-500 rounded"></div>
-                          </div>
-                          <span className="text-xs text-gray-700">Luxury</span>
-                        </button>
-
-                        <button
-                          onClick={() => applyColorPreset('vibrant')}
-                          className="p-2 rounded-lg border border-gray-200 hover:border-indigo-300 transition-all group text-center"
-                        >
-                          <div className="flex space-x-1 mb-1 justify-center">
-                            <div className="w-3 h-3 bg-indigo-600 rounded"></div>
-                            <div className="w-3 h-3 bg-white border rounded"></div>
-                            <div className="w-3 h-3 bg-amber-500 rounded"></div>
-                          </div>
-                          <span className="text-xs text-gray-700">Vibrant</span>
-                        </button>
-
-                        <button
-                          onClick={() => applyColorPreset('minimal')}
-                          className="p-2 rounded-lg border border-gray-200 hover:border-blue-300 transition-all group text-center"
-                        >
-                          <div className="flex space-x-1 mb-1 justify-center">
-                            <div className="w-3 h-3 bg-white border rounded"></div>
-                            <div className="w-3 h-3 bg-gray-900 rounded"></div>
-                            <div className="w-3 h-3 bg-blue-600 rounded"></div>
-                          </div>
-                          <span className="text-xs text-gray-700">Minimal</span>
-                        </button>
+                        )}
                       </div>
                     </div>
 
-                    {/* Individual Colors */}
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-2">
+                    {/* Background Upload */}
+                    <div className="space-y-4">
+                      <h3 className="text-lg font-semibold text-gray-900 flex items-center">
+                        <Image className="w-5 h-5 mr-2 text-ecko-red" />
+                        Imagem de Background
+                      </h3>
+                      <div className="bg-gray-50 p-4 rounded-lg">
+                        <OptimizedImageUpload
+                          value={settings.background_image}
+                          onChange={(url) => updateField("background_image", url)}
+                          label=""
+                          maxSizeKB={800}
+                          maxWidth={1920}
+                          maxHeight={1080}
+                          quality={0.8}
+                          acceptedTypes={["image/jpeg", "image/png", "image/webp"]}
+                        />
+                        {/* Background Preview */}
+                        {settings.background_image && (
+                          <div className="mt-4 p-3 bg-white rounded border">
+                            <p className="text-xs text-gray-600 mb-2">Preview:</p>
+                            <div className="relative h-32 rounded overflow-hidden">
+                              <img
+                                src={settings.background_image}
+                                alt="Background preview"
+                                className="w-full h-full object-cover"
+                                onError={(e) => {
+                                  const target = e.target as HTMLImageElement;
+                                  target.style.display = "none";
+                                }}
+                              />
+                              <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+                                <span className="text-white text-sm font-medium">Preview do Hero</span>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Style Tab */}
+              {activeTab === 'style' && (
+                <div className="space-y-8">
+                  {/* Color Presets */}
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-semibold text-gray-900 flex items-center">
+                      <PaletteIcon className="w-5 h-5 mr-2 text-ecko-red" />
+                      Presets de Cores
+                    </h3>
+                    <div className="grid grid-cols-4 gap-4">
+                      <button
+                        onClick={() => applyColorPreset('ecko')}
+                        className="p-4 rounded-lg border border-gray-200 hover:border-red-300 transition-all group text-center"
+                      >
+                        <div className="flex space-x-1 mb-2 justify-center">
+                          <div className="w-4 h-4 bg-black rounded"></div>
+                          <div className="w-4 h-4 bg-white border rounded"></div>
+                          <div className="w-4 h-4 bg-red-600 rounded"></div>
+                        </div>
+                        <span className="text-sm text-gray-700">Ecko</span>
+                      </button>
+                      
+                      <button
+                        onClick={() => applyColorPreset('luxury')}
+                        className="p-4 rounded-lg border border-gray-200 hover:border-yellow-300 transition-all group text-center"
+                      >
+                        <div className="flex space-x-1 mb-2 justify-center">
+                          <div className="w-4 h-4 bg-gray-800 rounded"></div>
+                          <div className="w-4 h-4 bg-gray-100 rounded"></div>
+                          <div className="w-4 h-4 bg-yellow-500 rounded"></div>
+                        </div>
+                        <span className="text-sm text-gray-700">Luxury</span>
+                      </button>
+                      
+                      <button
+                        onClick={() => applyColorPreset('vibrant')}
+                        className="p-4 rounded-lg border border-gray-200 hover:border-indigo-300 transition-all group text-center"
+                      >
+                        <div className="flex space-x-1 mb-2 justify-center">
+                          <div className="w-4 h-4 bg-indigo-600 rounded"></div>
+                          <div className="w-4 h-4 bg-white border rounded"></div>
+                          <div className="w-4 h-4 bg-amber-500 rounded"></div>
+                        </div>
+                        <span className="text-sm text-gray-700">Vibrant</span>
+                      </button>
+                      
+                      <button
+                        onClick={() => applyColorPreset('minimal')}
+                        className="p-4 rounded-lg border border-gray-200 hover:border-blue-300 transition-all group text-center"
+                      >
+                        <div className="flex space-x-1 mb-2 justify-center">
+                          <div className="w-4 h-4 bg-white border rounded"></div>
+                          <div className="w-4 h-4 bg-gray-900 rounded"></div>
+                          <div className="w-4 h-4 bg-blue-600 rounded"></div>
+                        </div>
+                        <span className="text-sm text-gray-700">Minimal</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Individual Colors */}
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-semibold text-gray-900">Cores Individuais</h3>
+                    <div className="grid grid-cols-2 gap-6">
+                      <div className="space-y-3">
                         <label className="text-sm font-medium text-gray-900">Fundo</label>
-                        <div className="flex space-x-2">
+                        <div className="flex space-x-3">
                           <input
                             type="color"
                             value={settings.background_color}
                             onChange={(e) => updateField("background_color", e.target.value)}
-                            className="w-10 h-10 border border-gray-300 rounded cursor-pointer"
+                            className="w-12 h-12 border border-gray-300 rounded-lg cursor-pointer"
                           />
                           <Input
                             value={settings.background_color}
@@ -726,14 +735,14 @@ export default function AdminHero() {
                         </div>
                       </div>
 
-                      <div className="space-y-2">
+                      <div className="space-y-3">
                         <label className="text-sm font-medium text-gray-900">Texto</label>
-                        <div className="flex space-x-2">
+                        <div className="flex space-x-3">
                           <input
                             type="color"
                             value={settings.text_color}
                             onChange={(e) => updateField("text_color", e.target.value)}
-                            className="w-10 h-10 border border-gray-300 rounded cursor-pointer"
+                            className="w-12 h-12 border border-gray-300 rounded-lg cursor-pointer"
                           />
                           <Input
                             value={settings.text_color}
@@ -743,14 +752,14 @@ export default function AdminHero() {
                         </div>
                       </div>
 
-                      <div className="space-y-2">
+                      <div className="space-y-3">
                         <label className="text-sm font-medium text-gray-900">Botão</label>
-                        <div className="flex space-x-2">
+                        <div className="flex space-x-3">
                           <input
                             type="color"
                             value={settings.cta_color}
                             onChange={(e) => updateField("cta_color", e.target.value)}
-                            className="w-10 h-10 border border-gray-300 rounded cursor-pointer"
+                            className="w-12 h-12 border border-gray-300 rounded-lg cursor-pointer"
                           />
                           <Input
                             value={settings.cta_color}
@@ -760,14 +769,14 @@ export default function AdminHero() {
                         </div>
                       </div>
 
-                      <div className="space-y-2">
-                        <label className="text-sm font-medium text-gray-900">Texto Botão</label>
-                        <div className="flex space-x-2">
+                      <div className="space-y-3">
+                        <label className="text-sm font-medium text-gray-900">Texto do Botão</label>
+                        <div className="flex space-x-3">
                           <input
                             type="color"
                             value={settings.cta_text_color}
                             onChange={(e) => updateField("cta_text_color", e.target.value)}
-                            className="w-10 h-10 border border-gray-300 rounded cursor-pointer"
+                            className="w-12 h-12 border border-gray-300 rounded-lg cursor-pointer"
                           />
                           <Input
                             value={settings.cta_text_color}
@@ -777,43 +786,30 @@ export default function AdminHero() {
                         </div>
                       </div>
                     </div>
-                  </CardContent>
-                )}
-              </Card>
+                  </div>
 
-              {/* Overlay Section */}
-              <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm">
-                <CardHeader
-                  className="cursor-pointer"
-                  onClick={() => toggleSection('advanced')}
-                >
-                  <CardTitle className="flex items-center justify-between text-gray-900">
-                    <div className="flex items-center">
-                      <Layers className="w-5 h-5 mr-3 text-ecko-red" />
+                  {/* Overlay Controls */}
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-semibold text-gray-900 flex items-center">
+                      <Layers className="w-5 h-5 mr-2 text-ecko-red" />
                       Overlay com Gradientes
-                    </div>
-                    {expandedSections.advanced ?
-                      <ChevronUp className="w-5 h-5 text-gray-400" /> :
-                      <ChevronDown className="w-5 h-5 text-gray-400" />
-                    }
-                  </CardTitle>
-                </CardHeader>
-                {expandedSections.advanced && (
-                  <CardContent className="space-y-4 pt-0">
-                    <div className="bg-amber-50 p-3 rounded-lg border border-amber-200">
-                      <p className="text-amber-700 text-xs">
-                        <strong>Sistema de Overlay:</strong> Usa múltiplas camadas - uma cor base controlável + gradientes automáticos (vertical e lateral) para melhor efeito visual.
+                    </h3>
+                    
+                    <div className="bg-amber-50 p-4 rounded-lg border border-amber-200">
+                      <p className="text-amber-700 text-sm">
+                        <strong>Sistema de Overlay:</strong> Usa múltiplas camadas - uma cor base controlável + gradientes automáticos para melhor efeito visual.
                       </p>
                     </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <label className="text-sm font-medium text-gray-900">Cor</label>
-                        <div className="flex space-x-2">
+
+                    <div className="grid grid-cols-2 gap-6">
+                      <div className="space-y-3">
+                        <label className="text-sm font-medium text-gray-900">Cor do Overlay</label>
+                        <div className="flex space-x-3">
                           <input
                             type="color"
                             value={settings.overlay_color}
                             onChange={(e) => updateField("overlay_color", e.target.value)}
-                            className="w-10 h-10 border border-gray-300 rounded cursor-pointer"
+                            className="w-12 h-12 border border-gray-300 rounded-lg cursor-pointer"
                           />
                           <Input
                             value={settings.overlay_color}
@@ -823,10 +819,10 @@ export default function AdminHero() {
                         </div>
                       </div>
 
-                      <div className="space-y-2">
+                      <div className="space-y-3">
                         <div className="flex justify-between">
                           <label className="text-sm font-medium text-gray-900">Opacidade</label>
-                          <span className="text-sm text-gray-600">{settings.overlay_opacity}%</span>
+                          <span className="text-sm text-gray-600 bg-gray-100 px-2 py-1 rounded">{settings.overlay_opacity}%</span>
                         </div>
                         <input
                           type="range"
@@ -837,60 +833,62 @@ export default function AdminHero() {
                           onChange={(e) => updateField("overlay_opacity", parseInt(e.target.value))}
                           className="w-full slider"
                         />
+                        <div className="flex justify-between text-xs text-gray-500">
+                          <span>0%</span>
+                          <span>90%</span>
+                        </div>
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-4 gap-2">
+                    <div className="grid grid-cols-4 gap-3">
                       <button
                         onClick={() => {
                           updateField("overlay_color", "#000000");
                           updateField("overlay_opacity", 70);
                         }}
-                        className="p-2 rounded border border-gray-200 hover:border-gray-400 text-center"
+                        className="p-3 rounded border border-gray-200 hover:border-gray-400 text-center transition-colors"
                       >
-                        <div className="w-full h-4 bg-black/70 rounded mb-1"></div>
+                        <div className="w-full h-8 bg-black/70 rounded mb-2"></div>
                         <span className="text-xs text-gray-600">Padrão</span>
                       </button>
-
+                      
                       <button
                         onClick={() => {
                           updateField("overlay_color", "#000000");
                           updateField("overlay_opacity", 50);
                         }}
-                        className="p-2 rounded border border-gray-200 hover:border-gray-400 text-center"
+                        className="p-3 rounded border border-gray-200 hover:border-gray-400 text-center transition-colors"
                       >
-                        <div className="w-full h-4 bg-black/50 rounded mb-1"></div>
+                        <div className="w-full h-8 bg-black/50 rounded mb-2"></div>
                         <span className="text-xs text-gray-600">Sutil</span>
                       </button>
-
+                      
                       <button
                         onClick={() => {
                           updateField("overlay_color", "#000000");
                           updateField("overlay_opacity", 90);
                         }}
-                        className="p-2 rounded border border-gray-200 hover:border-gray-400 text-center"
+                        className="p-3 rounded border border-gray-200 hover:border-gray-400 text-center transition-colors"
                       >
-                        <div className="w-full h-4 bg-black/90 rounded mb-1"></div>
+                        <div className="w-full h-8 bg-black/90 rounded mb-2"></div>
                         <span className="text-xs text-gray-600">Intenso</span>
                       </button>
-
+                      
                       <button
                         onClick={() => {
                           updateField("overlay_color", "#000000");
                           updateField("overlay_opacity", 0);
                         }}
-                        className="p-2 rounded border border-gray-200 hover:border-gray-400 text-center"
+                        className="p-3 rounded border border-gray-200 hover:border-gray-400 text-center transition-colors"
                       >
-                        <div className="w-full h-4 bg-transparent border border-gray-300 rounded mb-1"></div>
+                        <div className="w-full h-8 bg-transparent border border-gray-300 rounded mb-2"></div>
                         <span className="text-xs text-gray-600">Sem</span>
                       </button>
                     </div>
-                  </CardContent>
-                )}
-              </Card>
+                  </div>
+                </div>
+              )}
             </div>
-
-
           </div>
         </div>
       </div>
