@@ -819,11 +819,14 @@ export default function AdminConfiguracoes() {
                     </Label>
                     <Input
                       id="seo_canonical_url"
-                      value={seoFormData.seo_canonical_url}
+                      value={seoFormData.seo_canonical_url || seoFormData.site_domain + "/"}
                       onChange={(e) => setSeoFormData({...seoFormData, seo_canonical_url: e.target.value})}
-                      placeholder="https://revendedores.ecko.com.br/"
+                      placeholder={seoFormData.site_domain + "/"}
                       className="mt-1"
                     />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Deixe vazio para usar automaticamente: {seoFormData.site_domain}/
+                    </p>
                   </div>
                 </div>
               </div>
@@ -1061,7 +1064,7 @@ export default function AdminConfiguracoes() {
                       className="mt-1"
                     />
                     <p className="text-xs text-gray-500 mt-1">
-                      Encontre no Google Analytics 4 → Admin ��� Streams de dados
+                      Encontre no Google Analytics 4 → Admin → Streams de dados
                     </p>
                   </div>
 
