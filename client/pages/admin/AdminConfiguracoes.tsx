@@ -359,7 +359,7 @@ export default function AdminConfiguracoes() {
       const success = await saveMultipleSettings(settingsToSave);
       if (success) {
         toast({
-          title: "✅ Sucesso!",
+          title: "�� Sucesso!",
           description: "Configurações de Analytics salvas com sucesso!",
           variant: "success",
         });
@@ -769,18 +769,31 @@ export default function AdminConfiguracoes() {
                   Os dados do lead serão enviados no seguinte formato JSON:
                 </p>
                 <pre className="bg-gray-800 text-green-400 p-4 rounded text-xs overflow-x-auto">
-                  {`{
+{`{
   "lead_id": 123,
   "nome": "João Silva",
+  "email": "joao@empresa.com",
   "telefone": "(11) 99999-9999",
+  "cidade": "São Paulo",
+  "empresa": "Empresa ABC Ltda",
+  "experiencia_revenda": "sim",
   "tem_cnpj": "sim",
   "tipo_loja": "fisica",
+  "cep": "01234-567",
+  "endereco": "Rua das Flores, 123",
+  "numero": "123",
+  "complemento": "Sala 101",
+  "bairro": "Centro",
+  "estado": "SP",
+  "form_origin": "landing_page",
   "is_duplicate": false,
   "source": "direct",
   "utm_source": "google",
   "utm_medium": "cpc",
   "utm_campaign": "revendedores",
   "ip_address": "192.168.1.1",
+  "user_agent": "Mozilla/5.0...",
+  "created_at": "2024-01-15T10:30:00.000Z",
   "timestamp": "2024-01-15T10:30:00.000Z"
 }`}
                 </pre>
