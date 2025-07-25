@@ -1032,6 +1032,38 @@ export default function AdminConfiguracoes() {
                 </div>
               </div>
 
+              {/* Preview das URLs Geradas */}
+              <div className="bg-green-50 p-6 rounded-lg border border-green-200">
+                <h4 className="text-md font-semibold text-gray-900 mb-4 flex items-center">
+                  <Eye className="w-5 h-5 mr-2 text-green-600" />
+                  Preview das URLs Geradas
+                </h4>
+                <div className="space-y-3 text-sm">
+                  <div className="flex items-center justify-between bg-white p-3 rounded border">
+                    <span className="font-medium text-gray-700">URL Canônica:</span>
+                    <code className="bg-gray-100 px-2 py-1 rounded text-xs">
+                      {seoFormData.seo_canonical_url || generateUrl("/")}
+                    </code>
+                  </div>
+                  <div className="flex items-center justify-between bg-white p-3 rounded border">
+                    <span className="font-medium text-gray-700">Open Graph URL:</span>
+                    <code className="bg-gray-100 px-2 py-1 rounded text-xs">
+                      {seoFormData.og_url || generateUrl("/")}
+                    </code>
+                  </div>
+                  <div className="flex items-center justify-between bg-white p-3 rounded border">
+                    <span className="font-medium text-gray-700">Schema.org URL:</span>
+                    <code className="bg-gray-100 px-2 py-1 rounded text-xs">
+                      {generateUrl("/")}
+                    </code>
+                  </div>
+                </div>
+                <p className="text-xs text-green-600 mt-3 flex items-center">
+                  <Target className="w-3 h-3 mr-1" />
+                  Todas essas URLs serão atualizadas automaticamente quando você alterar o domínio principal
+                </p>
+              </div>
+
               <Button
                 onClick={handleSaveSeoSettings}
                 disabled={saving}
