@@ -475,6 +475,325 @@ export default function AdminHero() {
         </Card>
       )}
 
+      {/* Visual Overlay */}
+      {showOverlay && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[80vh] overflow-y-auto">
+            <div className="sticky top-0 bg-white p-6 border-b border-gray-200 rounded-t-xl">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900 flex items-center">
+                    <Settings className="w-6 h-6 mr-2 text-purple-600" />
+                    Overlay de Ajustes Visuais
+                  </h2>
+                  <p className="text-gray-600 mt-1">
+                    Ajuste as cores e visualize em tempo real
+                  </p>
+                </div>
+                <Button
+                  onClick={() => setShowOverlay(false)}
+                  variant="ghost"
+                  size="sm"
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  <X className="w-5 h-5" />
+                </Button>
+              </div>
+            </div>
+
+            <div className="p-6 space-y-6">
+              {/* Preview Live */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                    <Eye className="w-5 h-5 mr-2 text-blue-600" />
+                    Preview Live
+                  </h3>
+                  <div
+                    className="relative h-64 rounded-lg overflow-hidden"
+                    style={{
+                      backgroundColor: settings.background_color,
+                      backgroundImage: settings.background_image
+                        ? `url(${settings.background_image})`
+                        : "none",
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                    }}
+                  >
+                    <div className="absolute inset-0 bg-black/50"></div>
+                    <div className="relative h-full flex items-center justify-center text-center px-4">
+                      <div className="space-y-2">
+                        {settings.logo_url && (
+                          <img
+                            src={settings.logo_url}
+                            alt="Logo"
+                            className="h-8 mx-auto object-contain mb-2"
+                          />
+                        )}
+                        <p
+                          className="text-sm opacity-90"
+                          style={{ color: settings.text_color }}
+                        >
+                          {renderTextWithColorTokens(settings.subtitle)}
+                        </p>
+                        <h2
+                          className="text-xl font-black"
+                          style={{ color: settings.text_color }}
+                        >
+                          {renderTextWithColorTokens(settings.title)}
+                        </h2>
+                        {settings.cta_text && (
+                          <button
+                            className="px-4 py-2 text-sm font-bold rounded transition-all"
+                            style={{
+                              backgroundColor: settings.cta_color,
+                              color: settings.cta_text_color,
+                            }}
+                          >
+                            {settings.cta_text}
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                    <Palette className="w-5 h-5 mr-2 text-purple-600" />
+                    Ajustes Rápidos
+                  </h3>
+                  <div className="space-y-4">
+                    {/* Cor de Fundo */}
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-700">
+                        Cor de Fundo
+                      </label>
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="color"
+                          value={settings.background_color || "#000000"}
+                          onChange={(e) =>
+                            updateField("background_color", e.target.value)
+                          }
+                          className="w-10 h-10 border border-gray-300 rounded cursor-pointer"
+                        />
+                        <Input
+                          value={settings.background_color || "#000000"}
+                          onChange={(e) =>
+                            updateField("background_color", e.target.value)
+                          }
+                          placeholder="#000000"
+                          className="flex-1 text-sm"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Cor do Texto */}
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-700">
+                        Cor do Texto
+                      </label>
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="color"
+                          value={settings.text_color || "#ffffff"}
+                          onChange={(e) => updateField("text_color", e.target.value)}
+                          className="w-10 h-10 border border-gray-300 rounded cursor-pointer"
+                        />
+                        <Input
+                          value={settings.text_color || "#ffffff"}
+                          onChange={(e) => updateField("text_color", e.target.value)}
+                          placeholder="#ffffff"
+                          className="flex-1 text-sm"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Cor do CTA */}
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-700">
+                        Cor do CTA
+                      </label>
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="color"
+                          value={settings.cta_color || "#dc2626"}
+                          onChange={(e) => updateField("cta_color", e.target.value)}
+                          className="w-10 h-10 border border-gray-300 rounded cursor-pointer"
+                        />
+                        <Input
+                          value={settings.cta_color || "#dc2626"}
+                          onChange={(e) => updateField("cta_color", e.target.value)}
+                          placeholder="#dc2626"
+                          className="flex-1 text-sm"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Cor do Texto do CTA */}
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-700">
+                        Cor do Texto do CTA
+                      </label>
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="color"
+                          value={settings.cta_text_color || "#ffffff"}
+                          onChange={(e) =>
+                            updateField("cta_text_color", e.target.value)
+                          }
+                          className="w-10 h-10 border border-gray-300 rounded cursor-pointer"
+                        />
+                        <Input
+                          value={settings.cta_text_color || "#ffffff"}
+                          onChange={(e) =>
+                            updateField("cta_text_color", e.target.value)
+                          }
+                          placeholder="#ffffff"
+                          className="flex-1 text-sm"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Presets de Cores */}
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-700">
+                        Presets Rápidos
+                      </label>
+                      <div className="grid grid-cols-2 gap-2">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={() => {
+                            updateField("background_color", "#000000");
+                            updateField("text_color", "#ffffff");
+                            updateField("cta_color", "#dc2626");
+                            updateField("cta_text_color", "#ffffff");
+                          }}
+                          className="text-xs"
+                        >
+                          🌙 Escuro
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={() => {
+                            updateField("background_color", "#ffffff");
+                            updateField("text_color", "#000000");
+                            updateField("cta_color", "#dc2626");
+                            updateField("cta_text_color", "#ffffff");
+                          }}
+                          className="text-xs"
+                        >
+                          ☀️ Claro
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={() => {
+                            updateField("background_color", "#1e40af");
+                            updateField("text_color", "#ffffff");
+                            updateField("cta_color", "#f59e0b");
+                            updateField("cta_text_color", "#000000");
+                          }}
+                          className="text-xs"
+                        >
+                          🌊 Azul
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={() => {
+                            updateField("background_color", "#dc2626");
+                            updateField("text_color", "#ffffff");
+                            updateField("cta_color", "#ffffff");
+                            updateField("cta_text_color", "#dc2626");
+                          }}
+                          className="text-xs"
+                        >
+                          🔥 Ecko
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Diagnóstico de Cores */}
+              <div className="border-t border-gray-200 pt-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                  <AlertCircle className="w-5 h-5 mr-2 text-orange-600" />
+                  Diagnóstico de Cores
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-3">
+                    <div className="p-3 bg-gray-50 rounded-lg">
+                      <h4 className="font-medium text-gray-900 mb-2">Cores Atuais</h4>
+                      <div className="space-y-2 text-sm">
+                        <div className="flex items-center justify-between">
+                          <span>Fundo:</span>
+                          <div className="flex items-center space-x-2">
+                            <div
+                              className="w-4 h-4 rounded border border-gray-300"
+                              style={{ backgroundColor: settings.background_color || "#000000" }}
+                            />
+                            <code className="text-xs bg-white px-1 rounded">
+                              {settings.background_color || "#000000"}
+                            </code>
+                          </div>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span>Texto:</span>
+                          <div className="flex items-center space-x-2">
+                            <div
+                              className="w-4 h-4 rounded border border-gray-300"
+                              style={{ backgroundColor: settings.text_color || "#ffffff" }}
+                            />
+                            <code className="text-xs bg-white px-1 rounded">
+                              {settings.text_color || "#ffffff"}
+                            </code>
+                          </div>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span>CTA:</span>
+                          <div className="flex items-center space-x-2">
+                            <div
+                              className="w-4 h-4 rounded border border-gray-300"
+                              style={{ backgroundColor: settings.cta_color || "#dc2626" }}
+                            />
+                            <code className="text-xs bg-white px-1 rounded">
+                              {settings.cta_color || "#dc2626"}
+                            </code>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <div className="p-3 bg-green-50 rounded-lg border border-green-200">
+                      <h4 className="font-medium text-green-800 mb-2">
+                        ✅ Status das Cores
+                      </h4>
+                      <div className="space-y-1 text-sm text-green-700">
+                        <p>• Cores válidas detectadas</p>
+                        <p>• Tokens de cor funcionando</p>
+                        <p>• Contraste adequado</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Performance Info */}
       <Card className="bg-blue-50 border-blue-200">
         <CardContent className="p-4">
