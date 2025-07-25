@@ -12,7 +12,7 @@ import { Textarea } from "../../components/ui/textarea";
 import { Separator } from "../../components/ui/separator";
 import { SeoImageUpload } from "../../components/SeoImageUpload";
 import { SeoPreviewModal } from "../../components/SeoPreviewModal";
-import { useSettings } from "../../hooks/useSettings";
+import { useJsonSettings } from "../../hooks/useJsonSettings";
 import { useToast } from "../../hooks/use-toast";
 import {
   Settings,
