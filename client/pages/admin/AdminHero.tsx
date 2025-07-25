@@ -199,7 +199,6 @@ export default function AdminHero() {
   const resetSettings = () => {
     setSettings(content.hero);
     setHasChanges(false);
-    triggerPreviewAnimation();
     toast({
       title: "🔄 Configurações resetadas",
       description: "Todos os campos foram restaurados aos valores salvos.",
