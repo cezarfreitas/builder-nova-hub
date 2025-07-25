@@ -55,6 +55,9 @@ export function DynamicHead() {
       updateMetaTag('Expires', '0');
     };
 
+    // Desabilitar cache da página
+    addNoCacheHeaders();
+
     // SEO Básico
     updateMetaTag('description', getSetting('seo_description'));
     updateMetaTag('keywords', getSetting('seo_keywords'));
