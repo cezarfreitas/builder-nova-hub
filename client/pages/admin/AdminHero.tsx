@@ -1001,14 +1001,14 @@ export default function AdminHero() {
                 <div className="flex items-center space-x-2">
                   <input
                     type="color"
-                    value={settings.background_color}
+                    value={settings.background_color || "#000000"}
                     onChange={(e) =>
                       updateField("background_color", e.target.value)
                     }
                     className="w-12 h-10 border border-gray-300 rounded cursor-pointer"
                   />
                   <Input
-                    value={settings.background_color}
+                    value={settings.background_color || "#000000"}
                     onChange={(e) =>
                       updateField("background_color", e.target.value)
                     }
