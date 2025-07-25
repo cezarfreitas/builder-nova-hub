@@ -72,16 +72,20 @@ export function DynamicHead() {
       const existingFavicons = document.querySelectorAll(
         'link[rel="icon"], link[rel="shortcut icon"]',
       );
-      console.log("🗑️ Removendo", existingFavicons.length, "favicons existentes");
+      console.log(
+        "🗑️ Removendo",
+        existingFavicons.length,
+        "favicons existentes",
+      );
       existingFavicons.forEach((favicon) => favicon.remove());
 
       // Detectar tipo do arquivo
       let type = "image/x-icon";
-      if (href.endsWith('.svg')) {
+      if (href.endsWith(".svg")) {
         type = "image/svg+xml";
-      } else if (href.endsWith('.png')) {
+      } else if (href.endsWith(".png")) {
         type = "image/png";
-      } else if (href.endsWith('.jpg') || href.endsWith('.jpeg')) {
+      } else if (href.endsWith(".jpg") || href.endsWith(".jpeg")) {
         type = "image/jpeg";
       }
 

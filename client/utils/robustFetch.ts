@@ -4,10 +4,10 @@
 export async function robustFetch(
   url: string,
   options: RequestInit = {},
-  timeoutMs: number = 3000
+  timeoutMs: number = 3000,
 ): Promise<Response | null> {
   // Verificar se o fetch está disponível
-  if (typeof fetch === 'undefined') {
+  if (typeof fetch === "undefined") {
     return null;
   }
 
@@ -35,15 +35,19 @@ export async function robustFetch(
 export async function robustPost(
   url: string,
   data: any,
-  timeoutMs: number = 3000
+  timeoutMs: number = 3000,
 ): Promise<{ success: boolean; data?: any }> {
-  const response = await robustFetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
+  const response = await robustFetch(
+    url,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
     },
-    body: JSON.stringify(data),
-  }, timeoutMs);
+    timeoutMs,
+  );
 
   if (!response || !response.ok) {
     return { success: false };

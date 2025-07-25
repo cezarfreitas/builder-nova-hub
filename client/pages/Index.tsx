@@ -164,7 +164,7 @@ export default function Index() {
   useEffect(() => {
     const captureTrafficSource = async () => {
       // Verificar se o ambiente está disponível
-      if (typeof window === 'undefined' || typeof fetch === 'undefined') {
+      if (typeof window === "undefined" || typeof fetch === "undefined") {
         return;
       }
 
@@ -221,7 +221,7 @@ export default function Index() {
   useEffect(() => {
     const trackPageView = async () => {
       // Verificar se o ambiente está disponível
-      if (typeof window === 'undefined' || typeof fetch === 'undefined') {
+      if (typeof window === "undefined" || typeof fetch === "undefined") {
         return;
       }
 
