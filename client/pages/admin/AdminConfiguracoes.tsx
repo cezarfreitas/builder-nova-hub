@@ -94,23 +94,23 @@ export default function AdminConfiguracoes() {
 
   // Estados do formulário Webhook
   const [webhookFormData, setWebhookFormData] = useState({
-    webhook_url: getSetting("webhook_url") || "",
-    webhook_secret: getSetting("webhook_secret") || "",
-    webhook_timeout: getSetting("webhook_timeout") || "30",
-    webhook_retries: getSetting("webhook_retries") || "3",
+    webhook_url: getSetting("webhook", "webhook_url") || "",
+    webhook_secret: getSetting("webhook", "webhook_secret") || "",
+    webhook_timeout: getSetting("webhook", "webhook_timeout") || "30",
+    webhook_retries: getSetting("webhook", "webhook_retries") || "3",
   });
 
   // Estados do formulário Analytics
   const [analyticsFormData, setAnalyticsFormData] = useState({
-    ga4_measurement_id: getSetting("ga4_measurement_id") || "",
-    ga4_api_secret: getSetting("ga4_api_secret") || "",
-    gtag_config: getSetting("gtag_config") || "",
-    facebook_pixel_id: getSetting("facebook_pixel_id") || "",
-    facebook_access_token: getSetting("facebook_access_token") || "",
-    facebook_test_event_code: getSetting("facebook_test_event_code") || "",
-    conversions_api_enabled: getSetting("conversions_api_enabled") || "false",
-    lead_event_name: getSetting("lead_event_name") || "Lead",
-    conversion_value: getSetting("conversion_value") || "0",
+    ga4_measurement_id: getSetting("analytics", "ga4_measurement_id") || "",
+    ga4_api_secret: getSetting("analytics", "ga4_api_secret") || "",
+    gtag_config: getSetting("analytics", "gtag_config") || "",
+    facebook_pixel_id: getSetting("analytics", "facebook_pixel_id") || "",
+    facebook_access_token: getSetting("analytics", "facebook_access_token") || "",
+    facebook_test_event_code: getSetting("analytics", "facebook_test_event_code") || "",
+    conversions_api_enabled: getSetting("analytics", "conversions_api_enabled") || "false",
+    lead_event_name: getSetting("analytics", "lead_event_name") || "Lead",
+    conversion_value: getSetting("analytics", "conversion_value") || "0",
   });
 
   // Atualizar formulários quando settings carregarem
