@@ -269,7 +269,7 @@ export function MultiImageUpload({
               Selecione até {maxFiles} imagens (máximo {maxSize}MB cada)
             </p>
             <p className="text-xs text-gray-400">
-              Formatos aceitos: JPG, PNG, WebP
+              Formatos aceitos: JPG, PNG, WebP, GIF
             </p>
           </div>
 
