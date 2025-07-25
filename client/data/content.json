@@ -143,43 +143,43 @@
     "items": [
       {
         "id": 1,
-        "image_url": "/uploads/gallery/gallery-1753451138269-506176814.jpg",
+        "image_url": "/uploads/gallery/gallery-1753454897687-429252096.jpg",
         "is_active": true,
         "display_order": 1
       },
       {
         "id": 2,
-        "image_url": "/uploads/gallery/gallery-1753451139096-784972629.jpg",
+        "image_url": "/uploads/gallery/gallery-1753454899086-327960231.jpg",
         "is_active": true,
         "display_order": 2
       },
       {
         "id": 3,
-        "image_url": "/uploads/gallery/gallery-1753451140058-515744663.jpg",
+        "image_url": "/uploads/gallery/gallery-1753454900526-175068983.jpg",
         "is_active": true,
         "display_order": 3
       },
       {
         "id": 4,
-        "image_url": "/uploads/gallery/gallery-1753451140986-736486428.jpg",
+        "image_url": "/uploads/gallery/gallery-1753454901661-650318128.jpg",
         "is_active": true,
         "display_order": 4
       },
       {
         "id": 5,
-        "image_url": "/uploads/gallery/gallery-1753451141862-964283682.jpg",
+        "image_url": "/uploads/gallery/gallery-1753454902690-474065656.jpg",
         "is_active": true,
         "display_order": 5
       },
       {
         "id": 6,
-        "image_url": "/uploads/gallery/gallery-1753451142481-74077886.JPG",
+        "image_url": "/uploads/gallery/gallery-1753454903536-676397615.JPG",
         "is_active": true,
         "display_order": 6
       },
       {
         "id": 7,
-        "image_url": "/uploads/gallery/gallery-1753451143115-935096746.jpg",
+        "image_url": "/uploads/gallery/gallery-1753454904403-348350948.jpg",
         "is_active": true,
         "display_order": 7
       }
