@@ -53,6 +53,7 @@ export default function AdminConfiguracoes() {
   // Estados do formulário SEO
   const [seoFormData, setSeoFormData] = useState({
     site_domain: getSetting("site_domain") || "https://b2b.eckoshop.com.br",
+    favicon_url: getSetting("favicon_url") || "",
     seo_title: getSetting("seo_title") || "",
     seo_description: getSetting("seo_description") || "",
     seo_keywords: getSetting("seo_keywords") || "",
