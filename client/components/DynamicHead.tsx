@@ -3,7 +3,7 @@ import { useJsonSettings } from "../hooks/useJsonSettings";
 import { useHeroSettings } from "../hooks/useHeroSettings";
 
 export function DynamicHead() {
-  const { getSetting, loading, error } = useSettings();
+  const { getSetting, loading, error } = useJsonSettings();
   const {
     settings: heroSettings,
     loading: heroLoading,
