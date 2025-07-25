@@ -290,6 +290,8 @@ const App = () => (
   </BrowserRouter>
 );
 
+export default App;
+
 // Previne múltiplas chamadas de createRoot durante hot reloading
 const container = document.getElementById("root")!;
 if (!container._reactRootContainer) {
