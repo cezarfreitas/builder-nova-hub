@@ -61,6 +61,7 @@ export default function AdminHero() {
   const [hasChanges, setHasChanges] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const [validation, setValidation] = useState<{ [key: string]: string }>({});
+  const [showOverlay, setShowOverlay] = useState(false);
   const { toast } = useToast();
 
   // Debounced auto-save
