@@ -105,20 +105,8 @@ export default function AdminHero() {
 
   if (contentLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-        <div className="text-center space-y-6 p-8">
-          <div className="relative">
-            <div className="w-16 h-16 border-4 border-ecko-red border-t-transparent rounded-full animate-spin mx-auto"></div>
-            <div className="absolute inset-0 w-16 h-16 border-4 border-ecko-red/20 rounded-full mx-auto"></div>
-          </div>
-          <div className="space-y-2">
-            <h3 className="text-xl font-semibold text-gray-900">Carregando Interface</h3>
-            <p className="text-gray-600">Preparando o editor profissional do Hero...</p>
-            <div className="w-48 h-2 bg-gray-200 rounded-full mx-auto overflow-hidden">
-              <div className="h-full bg-gradient-to-r from-ecko-red to-red-500 rounded-full animate-pulse"></div>
-            </div>
-          </div>
-        </div>
+      <div className="flex items-center justify-center h-64">
+        <Loader2 className="h-8 w-8 animate-spin text-ecko-red" />
       </div>
     );
   }
