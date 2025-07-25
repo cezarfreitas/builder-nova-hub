@@ -931,6 +931,249 @@ export default function AdminConfiguracoes() {
             </div>
           )}
 
+          {activeConfigTab === "analytics" && (
+            <div className="space-y-8">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-gray-900 flex items-center">
+                  <BarChart3 className="w-6 h-6 mr-2 text-blue-600" />
+                  Analytics & META Configuration
+                </h3>
+                <div className="flex gap-2">
+                  <Button
+                    onClick={handleTestFacebookPixel}
+                    disabled={saving || !analyticsFormData.facebook_pixel_id}
+                    variant="outline"
+                    className="border-blue-300 text-blue-700 hover:bg-blue-50"
+                  >
+                    {saving ? 'Testando...' : 'Testar Pixel'}
+                  </Button>
+                </div>
+              </div>
+
+              <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                <div className="flex items-start">
+                  <div className="flex-shrink-0">
+                    <BarChart3 className="h-5 w-5 text-blue-400" />
+                  </div>
+                  <div className="ml-3">
+                    <h4 className="text-sm font-medium text-blue-800">Analytics e Conversões</h4>
+                    <p className="text-sm text-blue-700 mt-1">
+                      Configure Google Analytics 4 e Facebook Pixel para rastrear conversões e otimizar campanhas publicitárias automaticamente.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Google Analytics 4 */}
+              <div className="bg-gray-50 p-6 rounded-lg">
+                <h4 className="text-md font-semibold text-gray-900 mb-4 flex items-center">
+                  <svg className="w-5 h-5 mr-2 text-orange-500" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                  </svg>
+                  Google Analytics 4
+                </h4>
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="ga4_measurement_id" className="text-sm font-medium text-gray-700 flex items-center">
+                      <Target className="w-4 h-4 mr-1" />
+                      Measurement ID (G-XXXXXXXXXX)
+                    </Label>
+                    <Input
+                      id="ga4_measurement_id"
+                      value={analyticsFormData.ga4_measurement_id}
+                      onChange={(e) => setAnalyticsFormData({...analyticsFormData, ga4_measurement_id: e.target.value})}
+                      placeholder="G-XXXXXXXXXX"
+                      className="mt-1"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Encontre no Google Analytics 4 → Admin → Streams de dados
+                    </p>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="ga4_api_secret" className="text-sm font-medium text-gray-700 flex items-center">
+                      <Shield className="w-4 h-4 mr-1" />
+                      API Secret (Para Measurement Protocol)
+                    </Label>
+                    <Input
+                      id="ga4_api_secret"
+                      type="password"
+                      value={analyticsFormData.ga4_api_secret}
+                      onChange={(e) => setAnalyticsFormData({...analyticsFormData, ga4_api_secret: e.target.value})}
+                      placeholder="Chave secreta da API"
+                      className="mt-1"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Para envio de eventos server-side (conversões offline)
+                    </p>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="gtag_config" className="text-sm font-medium text-gray-700 flex items-center">
+                      <Code className="w-4 h-4 mr-1" />
+                      Configurações Adicionais (JSON)
+                    </Label>
+                    <Textarea
+                      id="gtag_config"
+                      value={analyticsFormData.gtag_config}
+                      onChange={(e) => setAnalyticsFormData({...analyticsFormData, gtag_config: e.target.value})}
+                      placeholder='{"custom_map": {"custom_parameter_1": "dimension1"}, "send_page_view": false}'
+                      className="mt-1"
+                      rows={3}
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Configurações JSON para gtag() - Opcional
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Facebook Pixel & Conversions API */}
+              <div className="bg-blue-50 p-6 rounded-lg border border-blue-200">
+                <h4 className="text-md font-semibold text-gray-900 mb-4 flex items-center">
+                  <Facebook className="w-5 h-5 mr-2 text-blue-600" />
+                  Facebook Pixel & Conversions API
+                </h4>
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="facebook_pixel_id" className="text-sm font-medium text-gray-700 flex items-center">
+                      <Target className="w-4 h-4 mr-1" />
+                      Pixel ID
+                    </Label>
+                    <Input
+                      id="facebook_pixel_id"
+                      value={analyticsFormData.facebook_pixel_id}
+                      onChange={(e) => setAnalyticsFormData({...analyticsFormData, facebook_pixel_id: e.target.value})}
+                      placeholder="123456789012345"
+                      className="mt-1"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Encontre no Facebook Business Manager → Pixels
+                    </p>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="facebook_access_token" className="text-sm font-medium text-gray-700 flex items-center">
+                      <Shield className="w-4 h-4 mr-1" />
+                      Access Token (Para Conversions API)
+                    </Label>
+                    <Input
+                      id="facebook_access_token"
+                      type="password"
+                      value={analyticsFormData.facebook_access_token}
+                      onChange={(e) => setAnalyticsFormData({...analyticsFormData, facebook_access_token: e.target.value})}
+                      placeholder="Token de acesso permanente"
+                      className="mt-1"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Token para envio de eventos server-side via Conversions API
+                    </p>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="facebook_test_event_code" className="text-sm font-medium text-gray-700 flex items-center">
+                      <Zap className="w-4 h-4 mr-1" />
+                      Test Event Code (Opcional)
+                    </Label>
+                    <Input
+                      id="facebook_test_event_code"
+                      value={analyticsFormData.facebook_test_event_code}
+                      onChange={(e) => setAnalyticsFormData({...analyticsFormData, facebook_test_event_code: e.target.value})}
+                      placeholder="TEST12345"
+                      className="mt-1"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Para testes no Event Manager - Deixe vazio em produção
+                    </p>
+                  </div>
+
+                  <div className="flex items-center space-x-3">
+                    <input
+                      type="checkbox"
+                      id="conversions_api_enabled"
+                      checked={analyticsFormData.conversions_api_enabled === "true"}
+                      onChange={(e) => setAnalyticsFormData({...analyticsFormData, conversions_api_enabled: e.target.checked ? "true" : "false"})}
+                      className="w-4 h-4 text-ecko-red bg-gray-100 border-gray-300 rounded focus:ring-ecko-red focus:ring-2"
+                    />
+                    <Label htmlFor="conversions_api_enabled" className="text-sm font-medium text-gray-700 flex items-center">
+                      <Users className="w-4 h-4 mr-1" />
+                      Ativar Conversions API
+                    </Label>
+                  </div>
+                </div>
+              </div>
+
+              {/* Configurações de Conversão */}
+              <div className="bg-green-50 p-6 rounded-lg border border-green-200">
+                <h4 className="text-md font-semibold text-gray-900 mb-4 flex items-center">
+                  <Target className="w-5 h-5 mr-2 text-green-600" />
+                  Configurações de Conversão Personalizada
+                </h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="lead_event_name" className="text-sm font-medium text-gray-700 flex items-center">
+                      <Zap className="w-4 h-4 mr-1" />
+                      Nome do Evento de Lead
+                    </Label>
+                    <Input
+                      id="lead_event_name"
+                      value={analyticsFormData.lead_event_name}
+                      onChange={(e) => setAnalyticsFormData({...analyticsFormData, lead_event_name: e.target.value})}
+                      placeholder="Lead"
+                      className="mt-1"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Nome do evento enviado para Facebook quando um lead é capturado
+                    </p>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="conversion_value" className="text-sm font-medium text-gray-700 flex items-center">
+                      <Target className="w-4 h-4 mr-1" />
+                      Valor da Conversão (R$)
+                    </Label>
+                    <Input
+                      id="conversion_value"
+                      type="number"
+                      step="0.01"
+                      value={analyticsFormData.conversion_value}
+                      onChange={(e) => setAnalyticsFormData({...analyticsFormData, conversion_value: e.target.value})}
+                      placeholder="0.00"
+                      className="mt-1"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Valor monetário atribuído a cada lead capturado
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mt-4 bg-white p-4 rounded border border-green-300">
+                  <h5 className="text-sm font-semibold text-gray-900 mb-2 flex items-center">
+                    <Code className="w-4 h-4 mr-1" />
+                    Eventos Automáticos Configurados
+                  </h5>
+                  <ul className="text-sm text-gray-600 space-y-1">
+                    <li>• <strong>PageView:</strong> Quando a página é carregada</li>
+                    <li>• <strong>Lead:</strong> Quando o formulário é enviado com sucesso</li>
+                    <li>• <strong>Contact:</strong> Quando o WhatsApp é clicado</li>
+                    <li>• <strong>ViewContent:</strong> Tracking de engajamento na página</li>
+                  </ul>
+                </div>
+              </div>
+
+              <Button
+                onClick={handleSaveAnalyticsSettings}
+                disabled={saving}
+                className="bg-ecko-red hover:bg-ecko-red-dark text-white px-8 py-3 text-base font-medium"
+              >
+                {saving ? 'Salvando...' : 'Salvar Configurações de Analytics'}
+              </Button>
+            </div>
+          )}
+
           {activeConfigTab === "database" && (
             <div className="space-y-8">
               <div className="flex items-center justify-between">
