@@ -207,13 +207,12 @@ export default function AdminHero() {
     }
   };
 
-  // Toggle section
-  const toggleSection = (section: keyof typeof expandedSections) => {
-    setExpandedSections(prev => ({
-      ...prev,
-      [section]: !prev[section]
-    }));
-  };
+  // Tab data
+  const tabs = [
+    { id: 'content', label: 'Conteúdo', icon: Type },
+    { id: 'visual', label: 'Imagens', icon: Image },
+    { id: 'style', label: 'Estilo', icon: PaletteIcon },
+  ] as const;
 
   // Apply preset colors
   const applyColorPreset = (preset: string) => {
