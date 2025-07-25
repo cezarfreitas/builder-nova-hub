@@ -60,29 +60,7 @@ export default function AdminHero() {
     setHasChanges(hasChanges);
   }, [settings, content.hero]);
 
-  // Auto-save silencioso
-  const autoSaveSettings = useCallback(async () => {
-    if (Object.keys(validation).length > 0) return;
-
-    try {
-      setAutoSaving(true);
-
-      const updatedContent = {
-        ...content,
-        hero: settings,
-      };
-
-      await saveContent(updatedContent);
-      setHasChanges(false);
-      setLastSaved(new Date());
-    } catch (error) {
-      console.error("Erro no auto-save:", error);
-    } finally {
-      setAutoSaving(false);
-    }
-  }, [settings, content, saveContent, validation]);
-
-  // Salvar configurações manualmente
+  // Salvar configurações
   const saveSettings = async () => {
     try {
       setSaving(true);
@@ -96,11 +74,10 @@ export default function AdminHero() {
 
       if (result.success) {
         toast({
-          title: "✨ Hero atualizado!",
-          description: "Todas as alterações foram salvas com sucesso.",
+          title: "Hero atualizado!",
+          description: "As configurações foram salvas com sucesso.",
         });
         setHasChanges(false);
-        setLastSaved(new Date());
       } else {
         throw new Error("Falha ao salvar");
       }
