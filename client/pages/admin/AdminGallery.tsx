@@ -380,7 +380,7 @@ export default function AdminGallery() {
               <MultiImageUpload
                 onUpload={addMultipleImages}
                 maxFiles={20}
-                maxSize={10}
+                maxSize={5}
                 quality={0.85}
                 maxWidth={1200}
                 maxHeight={1200}
