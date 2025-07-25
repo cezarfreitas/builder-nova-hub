@@ -217,13 +217,24 @@ export function useSettings(): UseSettingsReturn {
       try {
         setError(null);
 
-        const response = await fetch(`/api/settings/${key}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ value, type }),
-        });
+        let response;
+        try {
+          response = await fetch(`/api/settings/${key}`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ value, type }),
+            timeout: 10000, // 10 second timeout
+          });
+        } catch (fetchError) {
+          console.error("Network error saving setting:", fetchError);
+          throw new Error(`Erro de rede: ${fetchError.message}`);
+        }
+
+        if (!response) {
+          throw new Error("Nenhuma resposta recebida do servidor");
+        }
 
         const result = await response.json();
 
