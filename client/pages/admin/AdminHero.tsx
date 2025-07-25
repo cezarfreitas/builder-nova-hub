@@ -430,6 +430,17 @@ export default function AdminHero() {
                 </CardHeader>
                 {expandedSections.content && (
                   <CardContent className="space-y-6 pt-0">
+                    {/* Color Instructions */}
+                    <div className="bg-blue-50 p-4 rounded-xl border border-blue-200">
+                      <div className="flex items-center space-x-2 mb-2">
+                        <Lightbulb className="w-4 h-4 text-blue-600" />
+                        <h4 className="font-semibold text-blue-900 text-sm">Destaque de Texto</h4>
+                      </div>
+                      <p className="text-blue-700 text-xs">
+                        Use <code className="bg-blue-100 px-1 rounded text-blue-800">{"{ecko}texto{/ecko}"}</code> em qualquer campo de texto para destacar palavras em vermelho.
+                      </p>
+                    </div>
+
                     {/* Status Toggle */}
                     <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
                       <div>
