@@ -283,6 +283,10 @@ export function useSettings(): UseSettingsReturn {
           setting_type: setting.type || "text",
         }));
 
+        // Create fetch with timeout
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
         let response;
         try {
           response = await fetch("/api/settings", {
@@ -291,12 +295,15 @@ export function useSettings(): UseSettingsReturn {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({ settings: formattedSettings }),
-            timeout: 10000, // 10 second timeout
+            signal: controller.signal,
           });
         } catch (fetchError) {
+          clearTimeout(timeoutId);
           console.error("Network error saving settings:", fetchError);
           throw new Error(`Erro de rede: ${fetchError.message}`);
         }
+
+        clearTimeout(timeoutId);
 
         if (!response) {
           throw new Error("Nenhuma resposta recebida do servidor");
