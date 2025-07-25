@@ -197,13 +197,19 @@ export default function Index() {
 
         // Salvar no banco de dados MySQL
         try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 3000);
+
           const response = await fetch("/api/traffic/track", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
             body: JSON.stringify(trafficSource),
+            signal: controller.signal,
           });
+
+          clearTimeout(timeoutId);
 
           if (response.ok) {
             console.log("✅ Origem salva no banco:", sourceName);
@@ -211,7 +217,12 @@ export default function Index() {
             throw new Error("Falha na API");
           }
         } catch (apiError) {
-          console.warn("⚠️ Falha na API de tráfego:", apiError);
+          // Silently handle errors to prevent console spam
+          if (apiError instanceof Error && apiError.name === "AbortError") {
+            // Timeout - ignore silently
+          } else {
+            // Other API errors - ignore silently
+          }
         }
 
         console.log("📊 Origem capturada:", sourceName, trafficSource);
