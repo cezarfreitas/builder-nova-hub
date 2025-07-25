@@ -158,15 +158,6 @@
         "alt_text": "Lifestyle autêntico Ecko",
         "is_active": true,
         "display_order": 2
-      },
-      {
-        "id": 3,
-        "title": "Tendências Urbanas",
-        "description": "Na vanguarda da moda streetwear",
-        "image_url": "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=600&h=600&fit=crop&crop=center",
-        "alt_text": "Tendências urbanas Ecko",
-        "is_active": true,
-        "display_order": 3
       }
     ],
     "empty_state_title": "Galeria em Construção",
