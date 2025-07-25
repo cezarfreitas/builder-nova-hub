@@ -624,7 +624,7 @@ export default function AdminHero() {
                         <h4 className="font-semibold text-blue-900 text-sm">Otimização Automática</h4>
                       </div>
                       <p className="text-blue-700 text-xs">
-                        Imagens s��o automaticamente comprimidas e redimensionadas para máxima performance.
+                        Imagens são automaticamente comprimidas e redimensionadas para máxima performance.
                       </p>
                     </div>
 
@@ -938,200 +938,35 @@ export default function AdminHero() {
               </Card>
             </div>
 
-            {/* Preview Panel */}
+            {/* Preview Panel - Simplificado */}
             <div className="xl:col-span-7">
               <div className="sticky top-24">
-                <Card className="border-0 shadow-2xl bg-white overflow-hidden">
+                <Card className="border-0 shadow-lg bg-white overflow-hidden">
                   <CardHeader className="bg-gray-50 border-b">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-3">
-                        <div className="flex items-center space-x-2">
-                          <Monitor className="w-4 h-4 text-gray-600" />
-                          <span className="text-sm font-semibold text-gray-900">Preview em Tempo Real</span>
-                        </div>
-                        <div className="flex items-center space-x-1">
-                          <button
-                            onClick={() => setAutoPreview(!autoPreview)}
-                            className={`p-1 rounded-md transition-colors ${autoPreview ? 'text-green-600' : 'text-gray-400'}`}
-                          >
-                            {autoPreview ? <Play className="w-4 h-4" /> : <Pause className="w-4 h-4" />}
-                          </button>
-                          <span className="text-xs text-gray-500">Auto</span>
-                        </div>
-                      </div>
-                      
-                      <div className="flex items-center space-x-2">
-                        <div className="flex bg-gray-200 rounded-lg p-1">
-                          <button
-                            onClick={() => setPreviewDevice('desktop')}
-                            className={`p-1 rounded-md transition-colors ${previewDevice === 'desktop' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500'}`}
-                          >
-                            <Monitor className="w-4 h-4" />
-                          </button>
-                          <button
-                            onClick={() => setPreviewDevice('tablet')}
-                            className={`p-1 rounded-md transition-colors ${previewDevice === 'tablet' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500'}`}
-                          >
-                            <Tablet className="w-4 h-4" />
-                          </button>
-                          <button
-                            onClick={() => setPreviewDevice('mobile')}
-                            className={`p-1 rounded-md transition-colors ${previewDevice === 'mobile' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500'}`}
-                          >
-                            <Smartphone className="w-4 h-4" />
-                          </button>
-                        </div>
-                      </div>
+                    <div className="flex items-center space-x-3">
+                      <Monitor className="w-5 h-5 text-gray-600" />
+                      <h3 className="text-lg font-semibold text-gray-900">Preview</h3>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => window.open("/", "_blank")}
+                        className="ml-auto"
+                      >
+                        <ExternalLink className="w-4 h-4 mr-2" />
+                        Ver Landing Page
+                      </Button>
                     </div>
                   </CardHeader>
-                  
-                  <CardContent className="p-0">
-                    <div className="flex justify-center p-6 bg-gray-100">
-                      <div 
-                        ref={previewRef}
-                        className={`
-                          transition-all duration-300 bg-white shadow-lg overflow-hidden rounded-lg
-                          ${isAnimating ? 'scale-[0.98] opacity-80' : 'scale-100 opacity-100'}
-                          ${previewDevice === 'desktop' ? 'w-full max-w-4xl h-96' : 
-                            previewDevice === 'tablet' ? 'w-80 h-96' : 'w-64 h-96'}
-                        `}
-                      >
-                        <div
-                          className="h-full relative flex items-center justify-center"
-                          style={{
-                            backgroundColor: settings.background_color,
-                            backgroundImage: settings.background_image ? `url(${settings.background_image})` : "none",
-                            backgroundSize: "cover",
-                            backgroundPosition: "center",
-                          }}
-                        >
-                          {/* Overlay */}
-                          <div
-                            className="absolute inset-0 transition-all duration-300"
-                            style={{
-                              backgroundColor: settings.overlay_color,
-                              opacity: settings.overlay_opacity / 100
-                            }}
-                          ></div>
 
-                          {/* Content */}
-                          <div className={`relative text-center px-6 space-y-4 ${previewDevice === 'mobile' ? 'max-w-xs' : 'max-w-3xl'}`}>
-                            {/* Logo Preview */}
-                            {settings.logo_url && (
-                              <div className="mb-4">
-                                <img
-                                  src={settings.logo_url}
-                                  alt="Logo"
-                                  className={`mx-auto object-contain ${previewDevice === 'mobile' ? 'h-8' : 'h-12'}`}
-                                  onError={(e) => {
-                                    const target = e.target as HTMLImageElement;
-                                    target.style.display = "none";
-                                  }}
-                                />
-                              </div>
-                            )}
-
-                            {/* Subtitle */}
-                            {settings.subtitle && (
-                              <p
-                                className={`opacity-90 ${previewDevice === 'mobile' ? 'text-sm' : 'text-lg'}`}
-                                style={{ color: settings.text_color }}
-                              >
-                                {renderTextWithColorTokens(settings.subtitle)}
-                              </p>
-                            )}
-
-                            {/* Title */}
-                            <h1
-                              className={`font-black leading-tight ${
-                                previewDevice === 'mobile' ? 'text-xl' : 
-                                previewDevice === 'tablet' ? 'text-2xl' : 'text-4xl'
-                              }`}
-                              style={{ color: settings.text_color }}
-                            >
-                              {renderTextWithColorTokens(settings.title)}
-                            </h1>
-
-                            {/* Description */}
-                            {settings.description && (
-                              <p
-                                className={`opacity-90 mx-auto ${
-                                  previewDevice === 'mobile' ? 'text-xs max-w-xs' : 
-                                  previewDevice === 'tablet' ? 'text-sm max-w-sm' : 'text-lg max-w-2xl'
-                                }`}
-                                style={{ color: settings.text_color }}
-                              >
-                                {renderTextWithColorTokens(settings.description)}
-                              </p>
-                            )}
-
-                            {/* CTAs */}
-                            <div className={`flex gap-3 justify-center pt-4 ${previewDevice === 'mobile' ? 'flex-col items-center' : 'flex-row'}`}>
-                              {settings.cta_text && (
-                                <button
-                                  className={`font-bold rounded-lg transition-all duration-300 hover:scale-105 ${
-                                    previewDevice === 'mobile' ? 'px-6 py-2 text-sm' : 'px-8 py-3'
-                                  }`}
-                                  style={{
-                                    backgroundColor: settings.cta_color,
-                                    color: settings.cta_text_color,
-                                  }}
-                                >
-                                  {settings.cta_text}
-                                </button>
-                              )}
-
-                              {settings.cta_secondary_text && (
-                                <button
-                                  className={`font-bold border-2 rounded-lg transition-all duration-300 hover:scale-105 ${
-                                    previewDevice === 'mobile' ? 'px-6 py-2 text-sm' : 'px-8 py-3'
-                                  }`}
-                                  style={{
-                                    borderColor: settings.cta_color,
-                                    color: settings.text_color,
-                                    backgroundColor: "transparent",
-                                  }}
-                                >
-                                  {settings.cta_secondary_text}
-                                </button>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Performance Insights */}
-                <Card className="mt-6 border-0 shadow-lg bg-gradient-to-r from-blue-50 to-indigo-50">
                   <CardContent className="p-6">
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
-                          <BarChart3 className="w-5 h-5 text-blue-600" />
-                        </div>
-                        <div>
-                          <h3 className="font-semibold text-blue-900">Performance Insights</h3>
-                          <p className="text-sm text-blue-700">Otimizações automáticas aplicadas</p>
-                        </div>
-                      </div>
-                      <TrendingUp className="w-5 h-5 text-blue-600" />
-                    </div>
-                    
-                    <div className="grid grid-cols-3 gap-4">
-                      <div className="bg-white/60 rounded-lg p-3 text-center">
-                        <div className="text-lg font-bold text-blue-900">98%</div>
-                        <div className="text-xs text-blue-700">Performance</div>
-                      </div>
-                      <div className="bg-white/60 rounded-lg p-3 text-center">
-                        <div className="text-lg font-bold text-green-900">100%</div>
-                        <div className="text-xs text-green-700">Acessibilidade</div>
-                      </div>
-                      <div className="bg-white/60 rounded-lg p-3 text-center">
-                        <div className="text-lg font-bold text-purple-900">95%</div>
-                        <div className="text-xs text-purple-700">SEO</div>
-                      </div>
+                    <div className="bg-gray-100 rounded-lg p-4 text-center">
+                      <p className="text-gray-600 mb-2">
+                        <Eye className="w-5 h-5 inline mr-2" />
+                        Visualize as alterações em tempo real
+                      </p>
+                      <p className="text-sm text-gray-500">
+                        Clique em "Ver Landing Page" para visualizar o Hero completo
+                      </p>
                     </div>
                   </CardContent>
                 </Card>
