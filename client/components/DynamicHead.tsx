@@ -89,6 +89,9 @@ export function DynamicHead() {
     updateMetaTag("robots", getSetting("seo_robots") || "index,follow");
     updateCanonical(getSetting("seo_canonical_url"));
 
+    // Favicon
+    updateFavicon(getSetting("favicon_url"));
+
     // Open Graph
     updateMetaTag("", getSetting("og_type") || "website", "og:type");
     updateMetaTag(
