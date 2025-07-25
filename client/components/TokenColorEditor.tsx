@@ -19,6 +19,7 @@ interface TokenColorEditorProps {
   rows?: number;
   label?: string;
   className?: string;
+  showColors?: boolean;
 }
 
 // Tokens de cor pré-definidos
