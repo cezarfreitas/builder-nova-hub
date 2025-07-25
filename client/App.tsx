@@ -80,6 +80,19 @@ export default function App() {
   );
 }
 
+// Registra service worker para desabilitar cache
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(() => {
+        console.log('✅ Service Worker registrado para desabilitar cache');
+      })
+      .catch((error) => {
+        console.log('❌ Falha ao registrar Service Worker:', error);
+      });
+  });
+}
+
 // Previne múltiplas chamadas de createRoot durante hot reloading
 const container = document.getElementById("root")!;
 if (!container._reactRootContainer) {
