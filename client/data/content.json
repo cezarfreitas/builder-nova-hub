@@ -1,7 +1,7 @@
 {
   "hero": {
     "enabled": true,
-    "title": "85487",
+    "title": "SEJA PARCEIRO OFICIAL ECKO E TENHA SUCESSO",
     "subtitle": "Transforme sua paixão pelo streetwear em um negócio lucrativo",
     "description": "Junte-se aos milhares de revendedores que já transformaram seus negócios com a marca mais desejada do streetwear brasileiro",
     "cta_text": "QUERO SER REVENDEDOR OFICIAL",
@@ -12,7 +12,7 @@
     "text_color": "#ffffff",
     "cta_color": "#dc2626",
     "cta_text_color": "#ffffff",
-    "overlay_opacity": 70,
+    "overlay_opacity": 0,
     "overlay_color": "#000000"
   },
   "form": {
