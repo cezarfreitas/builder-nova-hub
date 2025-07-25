@@ -148,17 +148,17 @@ export function DynamicHead() {
     }
 
     // Schema.org (JSON-LD)
-    const schemaOrgName = getSetting("schema_org_name");
-    const schemaOrgLogo = getSetting("schema_org_logo");
-    const schemaOrgPhone = getSetting("schema_org_phone");
-    const schemaOrgType = getSetting("schema_org_type") || "Organization";
+    const schemaOrgName = getSetting("seo", "schema_company_name");
+    const schemaOrgLogo = getSetting("seo", "schema_company_logo");
+    const schemaOrgPhone = getSetting("seo", "schema_contact_phone");
+    const schemaOrgType = "Organization";
 
     if (schemaOrgName) {
       const schemaData = {
         "@context": "https://schema.org",
         "@type": schemaOrgType,
         name: schemaOrgName,
-        url: getSetting("seo_canonical_url") || window.location.origin,
+        url: getSetting("seo", "seo_canonical_url") || window.location.origin,
       };
 
       if (schemaOrgLogo) {
