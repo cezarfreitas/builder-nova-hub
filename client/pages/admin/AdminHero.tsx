@@ -93,39 +93,12 @@ export default function AdminHero() {
     }
   };
 
-  // Resetar para valores originais
-  const resetSettings = () => {
-    setSettings(content.hero);
-    setHasChanges(false);
-    toast({
-      title: "🔄 Configurações resetadas",
-      description: "Todos os campos foram restaurados aos valores salvos.",
-    });
-  };
-
   // Atualizar campo específico
   const updateField = (field: keyof HeroSettings, value: string | boolean | number) => {
     setSettings((prev) => ({
       ...prev,
       [field]: value,
     }));
-  };
-
-  // Copiar configurações
-  const copyConfig = async () => {
-    try {
-      await navigator.clipboard.writeText(JSON.stringify(settings, null, 2));
-      toast({
-        title: "📋 Configurações copiadas!",
-        description: "JSON das configurações foi copiado para a área de transferência.",
-      });
-    } catch (error) {
-      toast({
-        title: "Erro",
-        description: "Não foi possível copiar as configurações.",
-        variant: "destructive",
-      });
-    }
   };
 
   // Apply preset colors
