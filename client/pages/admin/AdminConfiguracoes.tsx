@@ -129,6 +129,18 @@ export default function AdminConfiguracoes() {
         webhook_timeout: getSetting("webhook_timeout") || "30",
         webhook_retries: getSetting("webhook_retries") || "3",
       });
+
+      setAnalyticsFormData({
+        ga4_measurement_id: getSetting("ga4_measurement_id") || "",
+        ga4_api_secret: getSetting("ga4_api_secret") || "",
+        gtag_config: getSetting("gtag_config") || "",
+        facebook_pixel_id: getSetting("facebook_pixel_id") || "",
+        facebook_access_token: getSetting("facebook_access_token") || "",
+        facebook_test_event_code: getSetting("facebook_test_event_code") || "",
+        conversions_api_enabled: getSetting("conversions_api_enabled") || "false",
+        lead_event_name: getSetting("lead_event_name") || "Lead",
+        conversion_value: getSetting("conversion_value") || "0",
+      });
     }
   }, [settings, getSetting]);
 
