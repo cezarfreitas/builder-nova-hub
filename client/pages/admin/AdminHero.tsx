@@ -168,7 +168,7 @@ export default function AdminHero() {
         throw new Error("Falha ao salvar");
       }
     } catch (error) {
-      console.error("Erro ao salvar configurações do hero:", error);
+      console.error("Erro ao salvar configuraç��es do hero:", error);
       toast({
         title: "Erro ao salvar",
         description: "Não foi possível salvar as configurações.",
@@ -460,8 +460,8 @@ export default function AdminHero() {
                     <button
                       className="px-8 py-3 font-bold border-2 rounded-lg transition-all duration-300 hover:scale-105"
                       style={{
-                        borderColor: settings.cta_color,
-                        color: settings.text_color,
+                        borderColor: settings.cta_color || "#dc2626",
+                        color: settings.text_color || "#ffffff",
                         backgroundColor: "transparent",
                       }}
                     >
