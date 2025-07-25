@@ -46,7 +46,7 @@ export default function AdminConfiguracoes() {
   const [showSeoPreview, setShowSeoPreview] = useState(false);
   const [saving, setSaving] = useState(false);
 
-  // Hook para gerenciar configurações
+  // Hook para gerenciar configurações no JSON
   const {
     settings,
     loading,
@@ -54,7 +54,7 @@ export default function AdminConfiguracoes() {
     saveSetting,
     saveMultipleSettings,
     getSetting,
-  } = useSettings();
+  } = useJsonSettings();
 
   // Helper para gerar URLs baseadas no domínio configurado
   const generateUrl = (path: string = "/") => {
