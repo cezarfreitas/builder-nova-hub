@@ -44,6 +44,7 @@ import {
   exportAnalyticsData,
   getConversionByLocation,
   getConversionByGeography,
+  testFacebookPixel,
 } from "./routes/analytics";
 import {
   trackTrafficSource,
