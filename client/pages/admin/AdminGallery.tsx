@@ -604,24 +604,23 @@ function ImageForm({
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
             <label className="block text-sm font-medium text-gray-700">
-              Título *
+              Título (opcional)
             </label>
             <Input
-              value={formData.title}
+              value={formData.title || ""}
               onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-              placeholder="Título da imagem"
-              required
+              placeholder="Título da imagem (opcional)"
             />
           </div>
 
           <div className="space-y-2">
             <label className="block text-sm font-medium text-gray-700">
-              Descrição
+              Descrição (opcional)
             </label>
             <Textarea
-              value={formData.description}
+              value={formData.description || ""}
               onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-              placeholder="Descrição da imagem"
+              placeholder="Descrição da imagem (opcional)"
               rows={3}
             />
           </div>
