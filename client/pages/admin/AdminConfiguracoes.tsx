@@ -100,7 +100,7 @@ export default function AdminConfiguracoes() {
         seo_title: getSetting("seo_title") || "",
         seo_description: getSetting("seo_description") || "",
         seo_keywords: getSetting("seo_keywords") || "",
-        seo_canonical_url: getSetting("seo_canonical_url") || "",
+        seo_canonical_url: getSetting("seo_canonical_url") || "https://b2b.eckoshop.com.br/",
         seo_robots: getSetting("seo_robots") || "index,follow",
         og_title: getSetting("og_title") || "",
         og_description: getSetting("og_description") || "",
