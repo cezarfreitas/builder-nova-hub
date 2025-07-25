@@ -179,29 +179,31 @@ export function TokenColorEditor({
         </div>
       )}
 
-      {/* Botões de cores */}
-      <div className="flex flex-wrap gap-2 p-3 bg-gray-50 rounded-lg border">
-        <div className="flex items-center gap-2 mr-4">
-          <Palette className="w-4 h-4 text-gray-600" />
-          <span className="text-xs font-medium text-gray-600">Cores:</span>
+      {/* Botões de cores - só mostra se showColors for true */}
+      {showColors && (
+        <div className="flex flex-wrap gap-2 p-3 bg-gray-50 rounded-lg border">
+          <div className="flex items-center gap-2 mr-4">
+            <Palette className="w-4 h-4 text-gray-600" />
+            <span className="text-xs font-medium text-gray-600">Cores:</span>
+          </div>
+
+          {Object.entries(COLOR_TOKENS).map(([name, color]) => (
+            <Button
+              key={name}
+              type="button"
+              onClick={() => insertColorToken(name)}
+              className="h-7 px-2 text-xs border border-gray-300 hover:border-gray-400"
+              style={{
+                backgroundColor: color === '#ffffff' ? '#f8f9fa' : color,
+                color: ['#ffffff', '#ca8a04'].includes(color) ? '#000000' : '#ffffff',
+                borderColor: color === '#ffffff' ? '#d1d5db' : color
+              }}
+            >
+              {name}
+            </Button>
+          ))}
         </div>
-        
-        {Object.entries(COLOR_TOKENS).map(([name, color]) => (
-          <Button
-            key={name}
-            type="button"
-            onClick={() => insertColorToken(name)}
-            className="h-7 px-2 text-xs border border-gray-300 hover:border-gray-400"
-            style={{ 
-              backgroundColor: color === '#ffffff' ? '#f8f9fa' : color,
-              color: ['#ffffff', '#ca8a04'].includes(color) ? '#000000' : '#ffffff',
-              borderColor: color === '#ffffff' ? '#d1d5db' : color
-            }}
-          >
-            {name}
-          </Button>
-        ))}
-      </div>
+      )}
 
       {/* Editor ou Preview */}
       {showPreview ? (
