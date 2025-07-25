@@ -38,7 +38,7 @@ export function DynamicHead() {
     // Atualizar link canonical
     const updateCanonical = (href: string) => {
       if (!href) return;
-      
+
       let canonicalLink = document.querySelector('link[rel="canonical"]') as HTMLLinkElement;
       if (!canonicalLink) {
         canonicalLink = document.createElement('link');
@@ -46,6 +46,13 @@ export function DynamicHead() {
         document.head.appendChild(canonicalLink);
       }
       canonicalLink.setAttribute('href', href);
+    };
+
+    // Adicionar headers para desabilitar cache
+    const addNoCacheHeaders = () => {
+      updateMetaTag('Cache-Control', 'no-cache, no-store, must-revalidate');
+      updateMetaTag('Pragma', 'no-cache');
+      updateMetaTag('Expires', '0');
     };
 
     // SEO Básico
