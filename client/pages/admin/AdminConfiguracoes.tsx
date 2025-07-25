@@ -698,10 +698,9 @@ export default function AdminConfiguracoes() {
             ogTitle: seoFormData.og_title || seoFormData.seo_title || "Título OG",
             ogDescription: seoFormData.og_description || seoFormData.seo_description || "Descrição OG",
             ogImage: seoFormData.og_image || "URL da imagem",
-            ogUrl: seoFormData.og_url || "URL da página",
             twitterTitle: seoFormData.twitter_title || seoFormData.seo_title || "Título Twitter",
-            twitterDescription: seoFormData.twitter_description || seoFormData.seo_description || "Descrição Twitter",
-            twitterImage: seoFormData.twitter_image || seoFormData.og_image || "URL da imagem"
+            siteName: seoFormData.og_site_name || "Ecko Revendedores",
+            canonicalUrl: seoFormData.seo_canonical_url || "https://revendedores.ecko.com.br/"
           }}
         />
       )}

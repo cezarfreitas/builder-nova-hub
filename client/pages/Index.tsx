@@ -2090,7 +2090,9 @@ export default function Index() {
                     <option value="nao">{content.form.fields.cnpj_no}</option>
                   </select>
                   {cnpjError && (
-                    <p className="text-red-400 text-xs md:text-sm mt-2">{cnpjError}</p>
+                    <p className="text-red-400 text-xs md:text-sm mt-2">
+                      {cnpjError}
+                    </p>
                   )}
                 </div>
 
