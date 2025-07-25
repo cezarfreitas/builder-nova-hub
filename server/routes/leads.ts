@@ -339,9 +339,19 @@ export async function resendWebhook(req: Request, res: Response) {
     const webhookPayload = {
       lead_id: lead.id,
       nome: lead.nome,
+      email: lead.email || "",
       telefone: lead.telefone,
-      tem_cnpj: lead.experiencia_revenda,
+      cidade: lead.cidade || "",
+      empresa: lead.empresa || "",
+      experiencia_revenda: lead.experiencia_revenda,
+      tem_cnpj: lead.experiencia_revenda, // Manter para compatibilidade
       tipo_loja: lead.tipo_loja,
+      cep: lead.cep || "",
+      endereco: lead.endereco || "",
+      numero: lead.numero || "",
+      complemento: lead.complemento || "",
+      bairro: lead.bairro || "",
+      estado: lead.estado || "",
       form_origin: lead.form_origin || null,
       is_duplicate: lead.is_duplicate,
       source: lead.source,
@@ -349,7 +359,14 @@ export async function resendWebhook(req: Request, res: Response) {
       utm_medium: lead.utm_medium || "",
       utm_campaign: lead.utm_campaign || "",
       ip_address: lead.ip_address,
-      timestamp: new Date().toISOString(),
+      user_agent: lead.user_agent || "",
+      created_at: lead.created_at,
+      updated_at: lead.updated_at,
+      webhook_sent: lead.webhook_sent,
+      webhook_status: lead.webhook_status,
+      webhook_attempts: lead.webhook_attempts,
+      last_webhook_attempt: lead.last_webhook_attempt,
+      timestamp: new Date().toISOString(), // Manter para compatibilidade
       resend: true,
     };
 
