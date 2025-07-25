@@ -1336,7 +1336,7 @@ export default function AdminConfiguracoes() {
             ogImage: seoFormData.og_image || "URL da imagem",
             twitterTitle: seoFormData.twitter_title || seoFormData.seo_title || "Título Twitter",
             siteName: seoFormData.og_site_name || "Ecko Revendedores",
-            canonicalUrl: seoFormData.seo_canonical_url || "https://revendedores.ecko.com.br/"
+            canonicalUrl: seoFormData.seo_canonical_url || seoFormData.site_domain + "/"
           }}
         />
       )}
