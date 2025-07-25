@@ -664,128 +664,124 @@ export default function AdminHero() {
                   <CardContent className="space-y-6 pt-0">
                     {/* Color Presets */}
                     <div className="space-y-3">
-                      <label className="text-sm font-semibold text-gray-900">Presets de Cores</label>
-                      <div className="grid grid-cols-2 gap-3">
+                      <label className="text-sm font-semibold text-gray-900">Presets Rápidos</label>
+                      <div className="grid grid-cols-4 gap-2">
                         <button
                           onClick={() => applyColorPreset('ecko')}
-                          className="p-3 rounded-lg border border-gray-200 hover:border-red-300 transition-all duration-200 group"
+                          className="p-2 rounded-lg border border-gray-200 hover:border-red-300 transition-all group text-center"
                         >
-                          <div className="flex space-x-1 mb-2">
-                            <div className="w-4 h-4 bg-black rounded"></div>
-                            <div className="w-4 h-4 bg-white border rounded"></div>
-                            <div className="w-4 h-4 bg-red-600 rounded"></div>
+                          <div className="flex space-x-1 mb-1 justify-center">
+                            <div className="w-3 h-3 bg-black rounded"></div>
+                            <div className="w-3 h-3 bg-white border rounded"></div>
+                            <div className="w-3 h-3 bg-red-600 rounded"></div>
                           </div>
-                          <span className="text-xs font-medium text-gray-700 group-hover:text-red-600">Ecko Official</span>
+                          <span className="text-xs text-gray-700">Ecko</span>
                         </button>
-                        
+
                         <button
                           onClick={() => applyColorPreset('luxury')}
-                          className="p-3 rounded-lg border border-gray-200 hover:border-yellow-300 transition-all duration-200 group"
+                          className="p-2 rounded-lg border border-gray-200 hover:border-yellow-300 transition-all group text-center"
                         >
-                          <div className="flex space-x-1 mb-2">
-                            <div className="w-4 h-4 bg-gray-800 rounded"></div>
-                            <div className="w-4 h-4 bg-gray-100 rounded"></div>
-                            <div className="w-4 h-4 bg-yellow-500 rounded"></div>
+                          <div className="flex space-x-1 mb-1 justify-center">
+                            <div className="w-3 h-3 bg-gray-800 rounded"></div>
+                            <div className="w-3 h-3 bg-gray-100 rounded"></div>
+                            <div className="w-3 h-3 bg-yellow-500 rounded"></div>
                           </div>
-                          <span className="text-xs font-medium text-gray-700 group-hover:text-yellow-600">Luxury</span>
+                          <span className="text-xs text-gray-700">Luxury</span>
                         </button>
-                        
+
                         <button
                           onClick={() => applyColorPreset('vibrant')}
-                          className="p-3 rounded-lg border border-gray-200 hover:border-indigo-300 transition-all duration-200 group"
+                          className="p-2 rounded-lg border border-gray-200 hover:border-indigo-300 transition-all group text-center"
                         >
-                          <div className="flex space-x-1 mb-2">
-                            <div className="w-4 h-4 bg-indigo-600 rounded"></div>
-                            <div className="w-4 h-4 bg-white border rounded"></div>
-                            <div className="w-4 h-4 bg-amber-500 rounded"></div>
+                          <div className="flex space-x-1 mb-1 justify-center">
+                            <div className="w-3 h-3 bg-indigo-600 rounded"></div>
+                            <div className="w-3 h-3 bg-white border rounded"></div>
+                            <div className="w-3 h-3 bg-amber-500 rounded"></div>
                           </div>
-                          <span className="text-xs font-medium text-gray-700 group-hover:text-indigo-600">Vibrant</span>
+                          <span className="text-xs text-gray-700">Vibrant</span>
                         </button>
-                        
+
                         <button
                           onClick={() => applyColorPreset('minimal')}
-                          className="p-3 rounded-lg border border-gray-200 hover:border-blue-300 transition-all duration-200 group"
+                          className="p-2 rounded-lg border border-gray-200 hover:border-blue-300 transition-all group text-center"
                         >
-                          <div className="flex space-x-1 mb-2">
-                            <div className="w-4 h-4 bg-white border rounded"></div>
-                            <div className="w-4 h-4 bg-gray-900 rounded"></div>
-                            <div className="w-4 h-4 bg-blue-600 rounded"></div>
+                          <div className="flex space-x-1 mb-1 justify-center">
+                            <div className="w-3 h-3 bg-white border rounded"></div>
+                            <div className="w-3 h-3 bg-gray-900 rounded"></div>
+                            <div className="w-3 h-3 bg-blue-600 rounded"></div>
                           </div>
-                          <span className="text-xs font-medium text-gray-700 group-hover:text-blue-600">Minimal</span>
+                          <span className="text-xs text-gray-700">Minimal</span>
                         </button>
                       </div>
                     </div>
 
                     {/* Individual Colors */}
                     <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-3">
-                        <label className="text-sm font-semibold text-gray-900">Cor de Fundo</label>
-                        <div className="flex items-center space-x-3">
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-gray-900">Fundo</label>
+                        <div className="flex space-x-2">
                           <input
                             type="color"
                             value={settings.background_color}
                             onChange={(e) => updateField("background_color", e.target.value)}
-                            className="w-12 h-12 border-2 border-gray-300 rounded-xl cursor-pointer hover:border-gray-400 transition-colors"
+                            className="w-10 h-10 border border-gray-300 rounded cursor-pointer"
                           />
                           <Input
                             value={settings.background_color}
                             onChange={(e) => updateField("background_color", e.target.value)}
-                            placeholder="#000000"
-                            className="flex-1 font-mono"
+                            className="flex-1 font-mono text-sm"
                           />
                         </div>
                       </div>
 
-                      <div className="space-y-3">
-                        <label className="text-sm font-semibold text-gray-900">Cor do Texto</label>
-                        <div className="flex items-center space-x-3">
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-gray-900">Texto</label>
+                        <div className="flex space-x-2">
                           <input
                             type="color"
                             value={settings.text_color}
                             onChange={(e) => updateField("text_color", e.target.value)}
-                            className="w-12 h-12 border-2 border-gray-300 rounded-xl cursor-pointer hover:border-gray-400 transition-colors"
+                            className="w-10 h-10 border border-gray-300 rounded cursor-pointer"
                           />
                           <Input
                             value={settings.text_color}
                             onChange={(e) => updateField("text_color", e.target.value)}
-                            placeholder="#ffffff"
-                            className="flex-1 font-mono"
+                            className="flex-1 font-mono text-sm"
                           />
                         </div>
                       </div>
 
-                      <div className="space-y-3">
-                        <label className="text-sm font-semibold text-gray-900">Cor do CTA</label>
-                        <div className="flex items-center space-x-3">
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-gray-900">Botão</label>
+                        <div className="flex space-x-2">
                           <input
                             type="color"
                             value={settings.cta_color}
                             onChange={(e) => updateField("cta_color", e.target.value)}
-                            className="w-12 h-12 border-2 border-gray-300 rounded-xl cursor-pointer hover:border-gray-400 transition-colors"
+                            className="w-10 h-10 border border-gray-300 rounded cursor-pointer"
                           />
                           <Input
                             value={settings.cta_color}
                             onChange={(e) => updateField("cta_color", e.target.value)}
-                            placeholder="#dc2626"
-                            className="flex-1 font-mono"
+                            className="flex-1 font-mono text-sm"
                           />
                         </div>
                       </div>
 
-                      <div className="space-y-3">
-                        <label className="text-sm font-semibold text-gray-900">Texto do CTA</label>
-                        <div className="flex items-center space-x-3">
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-gray-900">Texto Botão</label>
+                        <div className="flex space-x-2">
                           <input
                             type="color"
                             value={settings.cta_text_color}
                             onChange={(e) => updateField("cta_text_color", e.target.value)}
-                            className="w-12 h-12 border-2 border-gray-300 rounded-xl cursor-pointer hover:border-gray-400 transition-colors"
+                            className="w-10 h-10 border border-gray-300 rounded cursor-pointer"
                           />
                           <Input
                             value={settings.cta_text_color}
                             onChange={(e) => updateField("cta_text_color", e.target.value)}
-                            placeholder="#ffffff"
-                            className="flex-1 font-mono"
+                            className="flex-1 font-mono text-sm"
                           />
                         </div>
                       </div>
