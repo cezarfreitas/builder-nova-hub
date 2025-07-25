@@ -15,7 +15,7 @@ export function DynamicHead() {
 
     // Atualizar title com fallback
     const title =
-      getSetting("seo_title") ||
+      getSetting("seo", "seo_title") ||
       "Seja uma Revenda Autorizada da Ecko | Tenha os Melhores Produtos";
     document.title = title;
 
