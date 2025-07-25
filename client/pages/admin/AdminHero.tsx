@@ -430,7 +430,7 @@ export default function AdminHero() {
                 </CardHeader>
                 {expandedSections.content && (
                   <CardContent className="space-y-6 pt-0">
-                    {/* Color Instructions with Interactive Colors */}
+                    {/* Color Instructions */}
                     <div className="bg-blue-50 p-4 rounded-xl border border-blue-200">
                       <div className="flex items-center space-x-2 mb-3">
                         <Lightbulb className="w-4 h-4 text-blue-600" />
@@ -439,12 +439,32 @@ export default function AdminHero() {
                       <p className="text-blue-700 text-xs mb-3">
                         Use <code className="bg-blue-100 px-1 rounded text-blue-800">{"{ecko}texto{/ecko}"}</code> em qualquer campo de texto para destacar palavras.
                       </p>
-                      <TokenColorEditor
-                        value=""
-                        onChange={() => {}}
-                        showColors={true}
-                        className="pointer-events-none"
-                      />
+
+                      {/* Color Examples */}
+                      <div className="flex flex-wrap gap-2">
+                        <span className="text-xs text-blue-600 mr-2">Cores disponíveis:</span>
+                        {[
+                          { name: 'ecko', color: '#dc2626' },
+                          { name: 'blue', color: '#2563eb' },
+                          { name: 'green', color: '#16a34a' },
+                          { name: 'orange', color: '#ea580c' },
+                          { name: 'yellow', color: '#ca8a04' },
+                          { name: 'white', color: '#ffffff' },
+                          { name: 'black', color: '#000000' }
+                        ].map(({ name, color }) => (
+                          <span
+                            key={name}
+                            className="inline-flex items-center px-2 py-1 rounded text-xs font-medium border"
+                            style={{
+                              backgroundColor: color === '#ffffff' ? '#f8f9fa' : color,
+                              color: ['#ffffff', '#ca8a04'].includes(color) ? '#000000' : '#ffffff',
+                              borderColor: color === '#ffffff' ? '#d1d5db' : color
+                            }}
+                          >
+                            {name}
+                          </span>
+                        ))}
+                      </div>
                     </div>
 
                     {/* Status Toggle */}
