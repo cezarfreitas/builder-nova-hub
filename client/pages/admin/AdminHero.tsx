@@ -54,48 +54,10 @@ export default function AdminHero() {
     }
   }, [content.hero]);
 
-  // Detectar mudanças e validar
+  // Detectar mudanças
   useEffect(() => {
     const hasChanges = JSON.stringify(settings) !== JSON.stringify(content.hero);
     setHasChanges(hasChanges);
-
-    // Validação em tempo real
-    const newValidation: { [key: string]: string } = {};
-
-    if (!settings.title.trim()) {
-      newValidation.title = "Título é obrigatório";
-    } else if (settings.title.length > 100) {
-      newValidation.title = "Título muito longo (máx. 100 caracteres)";
-    }
-
-    if (!settings.subtitle.trim()) {
-      newValidation.subtitle = "Subtítulo é obrigatório";
-    }
-
-    if (!settings.cta_text.trim()) {
-      newValidation.cta_text = "CTA principal é obrigatório";
-    }
-
-    setValidation(newValidation);
-
-    // Auto-save após 2 segundos de inatividade
-    if (hasChanges && Object.keys(newValidation).length === 0) {
-      if (autoSaveTimeout) {
-        clearTimeout(autoSaveTimeout);
-      }
-
-      const timeout = setTimeout(() => {
-        autoSaveSettings();
-      }, 2000);
-
-      setAutoSaveTimeout(timeout);
-    }
-
-    return () => {
-      if (autoSaveTimeout) {
-        clearTimeout(autoSaveTimeout);
-      }
-    };
   }, [settings, content.hero]);
 
   // Auto-save silencioso
@@ -737,7 +699,7 @@ export default function AdminHero() {
                       </div>
 
                       <div className="space-y-3">
-                        <label className="text-sm font-medium text-gray-900">Bot��o</label>
+                        <label className="text-sm font-medium text-gray-900">Botão</label>
                         <div className="flex space-x-3">
                           <input
                             type="color"
