@@ -226,31 +226,17 @@ export default function Index() {
       }
 
       try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 3000);
-
-        const response = await fetch("/api/analytics/track-visit", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            event_type: "page_view",
-            session_id: sessionId,
-            user_id: userId,
-            page_url: window.location.href,
-            referrer: document.referrer,
-            duration_seconds: 0,
-          }),
-          signal: controller.signal,
+        const result = await robustPost("/api/analytics/track-visit", {
+          event_type: "page_view",
+          session_id: sessionId,
+          user_id: userId,
+          page_url: window.location.href,
+          referrer: document.referrer,
+          duration_seconds: 0,
         });
 
-        clearTimeout(timeoutId);
-
-        if (response.ok) {
+        if (result.success) {
           console.log("✅ Page view registrada no banco");
-        } else {
-          throw new Error("Falha na API");
         }
       } catch (e) {
         // Silently handle errors to prevent console spam
@@ -385,7 +371,7 @@ export default function Index() {
     return numbers.length === 8;
   };
 
-  // Fun�������o para buscar endereço pelo CEP
+  // Fun���������o para buscar endereço pelo CEP
   const fetchAddressByCEP = async (cep: string) => {
     const numbers = cep.replace(/\D/g, "");
 
