@@ -132,23 +132,12 @@ export default function AdminHero() {
       setAutoSaveTimeout(timeout);
     }
 
-    // Auto preview update
-    if (autoPreview && hasChanges) {
-      triggerPreviewAnimation();
-    }
-
     return () => {
       if (autoSaveTimeout) {
         clearTimeout(autoSaveTimeout);
       }
     };
-  }, [settings, content.hero, autoPreview]);
-
-  // Trigger preview animation
-  const triggerPreviewAnimation = () => {
-    setIsAnimating(true);
-    setTimeout(() => setIsAnimating(false), 300);
-  };
+  }, [settings, content.hero]);
 
   // Auto-save silencioso
   const autoSaveSettings = useCallback(async () => {
