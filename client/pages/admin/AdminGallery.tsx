@@ -171,11 +171,11 @@ export default function AdminGallery() {
 
   // Salvar imagem editada
   const saveImage = (image: GalleryItem) => {
-    // Validação básica
-    if (!image.title.trim() || !image.image_url.trim()) {
+    // Validação básica - apenas imagem é obrigatória
+    if (!image.image_url.trim()) {
       toast({
         title: "Erro de validação",
-        description: "Título e imagem são obrigatórios.",
+        description: "A imagem é obrigatória.",
         variant: "destructive",
       });
       return;
@@ -183,7 +183,7 @@ export default function AdminGallery() {
 
     setSettings(prev => ({
       ...prev,
-      items: prev.items.map(item => 
+      items: prev.items.map(item =>
         item.id === image.id ? image : item
       )
     }));
