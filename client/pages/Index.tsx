@@ -243,6 +243,11 @@ export default function Index() {
   // Track page view
   useEffect(() => {
     const trackPageView = async () => {
+      // Verificar se o ambiente está disponível
+      if (typeof window === 'undefined' || typeof fetch === 'undefined') {
+        return;
+      }
+
       try {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 3000);
