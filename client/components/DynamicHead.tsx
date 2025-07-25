@@ -65,12 +65,18 @@ export function DynamicHead() {
 
     // Atualizar favicon
     const updateFavicon = (href: string) => {
-      if (!href) return;
+      console.log("🖼️ updateFavicon chamada com:", href);
+
+      if (!href) {
+        console.log("❌ Favicon URL vazia, pulando...");
+        return;
+      }
 
       // Remover favicons existentes
       const existingFavicons = document.querySelectorAll(
         'link[rel="icon"], link[rel="shortcut icon"]',
       );
+      console.log("🗑️ Removendo", existingFavicons.length, "favicons existentes");
       existingFavicons.forEach((favicon) => favicon.remove());
 
       // Detectar tipo do arquivo
@@ -83,12 +89,15 @@ export function DynamicHead() {
         type = "image/jpeg";
       }
 
+      console.log("📎 Criando favicon com tipo:", type);
+
       // Criar novo favicon
       const faviconLink = document.createElement("link");
       faviconLink.setAttribute("rel", "icon");
       faviconLink.setAttribute("type", type);
       faviconLink.setAttribute("href", href);
       document.head.appendChild(faviconLink);
+      console.log("✅ Favicon principal adicionado");
 
       // Adicionar também como shortcut icon para compatibilidade
       const shortcutLink = document.createElement("link");
@@ -96,6 +105,7 @@ export function DynamicHead() {
       shortcutLink.setAttribute("type", type);
       shortcutLink.setAttribute("href", href);
       document.head.appendChild(shortcutLink);
+      console.log("✅ Shortcut icon adicionado");
     };
 
     // SEO Básico
