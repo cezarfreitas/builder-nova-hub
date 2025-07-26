@@ -358,6 +358,12 @@ export default function Index() {
 
   // Fun��ão para abrir formulário com origem específica
   const openFormWithOrigin = (origin: string) => {
+    // Tracking do clique no CTA
+    trackEvent('form_cta_click', {
+      form_origin: origin,
+      action: 'open_form'
+    });
+
     setFormOrigin(origin);
     setShowForm(true);
   };
