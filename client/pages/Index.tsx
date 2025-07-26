@@ -611,6 +611,12 @@ export default function Index() {
   };
 
   const scrollToContent = () => {
+    // Tracking do clique no botão do hero
+    trackEvent('hero_cta_click', {
+      cta_text: currentHero.cta_secondary_text,
+      action: 'scroll_to_content'
+    });
+
     const element = document.getElementById("content-section");
     element?.scrollIntoView({ behavior: "smooth" });
   };
