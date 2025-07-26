@@ -29,7 +29,7 @@ import {
 
 export default function AdminConfiguracoes() {
   const { toast } = useToast();
-  const [activeTab, setActiveTab] = useState<'webhook' | 'seo' | 'database'>('webhook');
+  const [activeTab, setActiveTab] = useState<'webhook' | 'seo' | 'integracoes' | 'database'>('webhook');
   const [saving, setSaving] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
 
@@ -354,7 +354,7 @@ export default function AdminConfiguracoes() {
               <CardTitle className="flex items-center justify-between">
                 <span className="flex items-center">
                   <Webhook className="w-5 h-5 mr-2 text-ecko-red" />
-                  Configuraç��es de Webhook
+                  Configurações de Webhook
                 </span>
                 <Button
                   onClick={handleTestWebhook}
