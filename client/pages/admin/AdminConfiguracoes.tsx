@@ -134,10 +134,23 @@ export default function AdminConfiguracoes() {
       schema_address_state: getSetting("schema_address_state") || "",
     };
 
+    const currentIntegracoes = {
+      ga4_measurement_id: getSetting("ga4_measurement_id") || "",
+      ga4_api_secret: getSetting("ga4_api_secret") || "",
+      ga4_conversion_name: getSetting("ga4_conversion_name") || "form_submit",
+      meta_pixel_id: getSetting("meta_pixel_id") || "",
+      meta_access_token: getSetting("meta_access_token") || "",
+      meta_conversion_name: getSetting("meta_conversion_name") || "Lead",
+      custom_conversion_enabled: getSetting("custom_conversion_enabled") || "false",
+      custom_conversion_event: getSetting("custom_conversion_event") || "lead_captured",
+      custom_conversion_value: getSetting("custom_conversion_value") || "1",
+    };
+
     const webhookChanged = JSON.stringify(webhookData) !== JSON.stringify(currentWebhook);
     const seoChanged = JSON.stringify(seoData) !== JSON.stringify(currentSeo);
-    
-    setHasChanges(webhookChanged || seoChanged);
+    const integracoesChanged = JSON.stringify(integracoesData) !== JSON.stringify(currentIntegracoes);
+
+    setHasChanges(webhookChanged || seoChanged || integracoesChanged);
   }, [webhookData, seoData, getSetting]);
 
   // Salvar configurações
