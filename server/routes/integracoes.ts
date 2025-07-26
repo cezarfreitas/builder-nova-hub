@@ -69,6 +69,8 @@ export async function sendMetaPixelEvent(leadData: any) {
     }
 
     const eventTime = Math.floor(Date.now() / 1000);
+    const testCode = settings.meta_test_code?.value;
+
     const payload = {
       data: [{
         event_name: eventName,
@@ -89,6 +91,12 @@ export async function sendMetaPixelEvent(leadData: any) {
         }
       }]
     };
+
+    // Adicionar test_event_code se configurado
+    if (testCode) {
+      payload.test_event_code = testCode;
+      console.log('🧪 Usando Test Event Code:', testCode);
+    }
 
     const response = await fetch(
       `https://graph.facebook.com/v18.0/${pixelId}/events?access_token=${accessToken}`,
