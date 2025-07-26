@@ -35,10 +35,26 @@ export function DynamicHead() {
       metaTag.setAttribute('content', content);
     };
 
+    // Validar URL
+    const isValidUrl = (url: string): boolean => {
+      try {
+        new URL(url);
+        return true;
+      } catch {
+        return false;
+      }
+    };
+
     // Atualizar link canonical
     const updateCanonical = (href: string) => {
       if (!href) {
         console.warn('⚠️  URL canônica não definida');
+        return;
+      }
+
+      // Validar URL
+      if (!isValidUrl(href)) {
+        console.warn('⚠️  URL canônica inválida:', href);
         return;
       }
 
