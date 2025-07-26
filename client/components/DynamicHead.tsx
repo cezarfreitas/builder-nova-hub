@@ -1,10 +1,8 @@
 import { useEffect } from 'react';
 import { useSettings } from '../hooks/useSettings';
-import { useHeroSettings } from '../hooks/useHeroSettings';
 
 export function DynamicHead() {
   const { getSetting, loading } = useSettings();
-  const { settings: heroSettings, loading: heroLoading } = useHeroSettings();
 
   useEffect(() => {
     if (loading) return;
