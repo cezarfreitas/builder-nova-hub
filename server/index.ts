@@ -65,6 +65,7 @@ import {
 } from "./routes/gallery";
 import contentRouter from "./routes/content";
 import { initializeDatabase, testConnection } from "./config/database";
+import { testJsonSystem } from "./routes/test-json";
 
 export function createServer() {
   const app = express();
