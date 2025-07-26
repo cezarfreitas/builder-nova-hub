@@ -225,34 +225,45 @@ export default function Index() {
   // Função para rastrear clique no WhatsApp
   const trackWhatsAppClick = async () => {
     try {
+      console.log('📱 Tracking clique no WhatsApp');
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const trackingData = {
+        session_id: sessionId,
+        user_id: userId,
+        page_url: window.location.href,
+        referrer: document.referrer || '',
+        utm_source: urlParams.get("utm_source") || "",
+        utm_medium: urlParams.get("utm_medium") || "",
+        utm_campaign: urlParams.get("utm_campaign") || "",
+        utm_term: urlParams.get("utm_term") || "",
+        utm_content: urlParams.get("utm_content") || "",
+        user_agent: navigator.userAgent,
+        duration_seconds: Math.floor((Date.now() - startTime) / 1000),
+        event_type: "whatsapp_click",
+        timestamp: new Date().toISOString(),
+        screen_resolution: `${screen.width}x${screen.height}`,
+        language: navigator.language,
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+      };
+
+      console.log('📊 Dados do clique WhatsApp:', trackingData);
+
       const response = await fetch("/api/analytics/track-visit", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          session_id: sessionId,
-          user_id: userId,
-          page_url: window.location.href,
-          referrer: document.referrer,
-          utm_source:
-            new URLSearchParams(window.location.search).get("utm_source") || "",
-          utm_medium:
-            new URLSearchParams(window.location.search).get("utm_medium") || "",
-          utm_campaign:
-            new URLSearchParams(window.location.search).get("utm_campaign") ||
-            "",
-          user_agent: navigator.userAgent,
-          duration_seconds: Math.floor((Date.now() - startTime) / 1000),
-          event_type: "whatsapp_click",
-        }),
+        body: JSON.stringify(trackingData),
       });
 
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      if (response.ok) {
+        console.log('✅ Tracking de WhatsApp enviado com sucesso');
+      } else {
+        console.warn('⚠️ Erro no tracking de WhatsApp:', response.status, response.statusText);
       }
     } catch (error) {
-      // Silenciar erros de analytics para não quebrar a aplicação
+      console.warn('⚠️ Erro ao enviar tracking de WhatsApp:', error);
     }
   };
 
