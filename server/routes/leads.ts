@@ -150,6 +150,42 @@ export const submitLead: RequestHandler = async (req, res) => {
       webhook_status: webhookStatus
     });
 
+    // Processar integrações (GA4, Meta Pixel, etc.) - sem bloquear a resposta
+    const integrationPayload = {
+      lead_id: leadId,
+      nome: validatedData.name,
+      telefone: validatedData.whatsapp,
+      tem_cnpj: validatedData.hasCnpj,
+      tipo_loja: validatedData.storeType,
+      form_origin: validatedData.formOrigin || null,
+      is_duplicate,
+      source,
+      utm_source: utm_source || '',
+      utm_medium: utm_medium || '',
+      utm_campaign: utm_campaign || '',
+      ip_address,
+      timestamp: new Date().toISOString()
+    };
+
+    // Processar integrações de forma assíncrona (não bloquear resposta)
+    setImmediate(async () => {
+      try {
+        const { processLeadIntegrations } = await import('./integracoes');
+        console.log('🔄 Processando integrações para lead:', leadId);
+
+        // Simular request/response para a função de integrações
+        const mockReq = { body: integrationPayload } as Request;
+        const mockRes = {
+          json: (data: any) => console.log('📊 Resultado integrações:', data),
+          status: () => mockRes
+        } as any as Response;
+
+        await processLeadIntegrations(mockReq, mockRes);
+      } catch (error) {
+        console.error('❌ Erro ao processar integrações:', error);
+      }
+    });
+
     // Return success response
     res.status(201).json({
       success: true,
