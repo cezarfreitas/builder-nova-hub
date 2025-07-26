@@ -208,6 +208,7 @@ export function createServer() {
   // Integration routes
   app.post("/api/integracoes/process", processLeadIntegrations);
   app.post("/api/integracoes/test", testIntegrations);
+  app.post("/api/integracoes/test-meta", testMetaPixelOnly);
 
   // SEO routes
   app.get("/robots.txt", serveRobotsTxt);
