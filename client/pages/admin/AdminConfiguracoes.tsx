@@ -1341,9 +1341,53 @@ export default function AdminConfiguracoes() {
           {/* Meta Pixel */}
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center">
-                <Target className="w-5 h-5 mr-2 text-ecko-red" />
-                Meta Pixel (Facebook/Instagram)
+              <CardTitle className="flex items-center justify-between">
+                <span className="flex items-center">
+                  <Target className="w-5 h-5 mr-2 text-ecko-red" />
+                  Meta Pixel (Facebook/Instagram)
+                </span>
+                <Button
+                  onClick={async () => {
+                    setSaving(true);
+                    try {
+                      const response = await fetch('/api/integracoes/test-meta', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' }
+                      });
+                      const result = await response.json();
+
+                      if (result.success) {
+                        toast({
+                          title: "Teste Meta Pixel concluído!",
+                          description: result.result.success
+                            ? `✅ Evento enviado com sucesso! Events received: ${result.result.eventsReceived || 0}`
+                            : `❌ Erro: ${result.result.error}`,
+                          variant: result.result.success ? "default" : "destructive"
+                        });
+                      } else {
+                        toast({
+                          title: "Erro no teste Meta Pixel",
+                          description: result.message || "Erro desconhecido",
+                          variant: "destructive",
+                        });
+                      }
+                    } catch (error) {
+                      toast({
+                        title: "Erro",
+                        description: "Erro ao executar teste do Meta Pixel",
+                        variant: "destructive",
+                      });
+                    } finally {
+                      setSaving(false);
+                    }
+                  }}
+                  disabled={saving}
+                  variant="outline"
+                  size="sm"
+                  className="border-purple-300 text-purple-700 hover:bg-purple-50"
+                >
+                  {saving ? 'Testando...' : 'Testar Meta'}
+                </Button>
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
