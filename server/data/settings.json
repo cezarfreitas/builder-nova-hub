@@ -1,0 +1,92 @@
+{
+  "seo_title": {
+    "value": "Seja uma Revenda Autorizada da Ecko | Tenha os Melhores Produtos",
+    "type": "text",
+    "updated_at": "2024-01-15T10:00:00.000Z"
+  },
+  "seo_description": {
+    "value": "Seja uma revenda autorizada da Ecko e tenha os melhores produtos de streetwear em sua loja. Transforme sua paixão em lucro com exclusividade territorial e suporte completo.",
+    "type": "text", 
+    "updated_at": "2024-01-15T10:00:00.000Z"
+  },
+  "seo_keywords": {
+    "value": "revenda autorizada ecko, melhores produtos streetwear, lojista autorizado",
+    "type": "text",
+    "updated_at": "2024-01-15T10:00:00.000Z"
+  },
+  "seo_canonical_url": {
+    "value": "https://revendedores.ecko.com.br/",
+    "type": "text",
+    "updated_at": "2024-01-15T10:00:00.000Z"
+  },
+  "og_title": {
+    "value": "Seja uma Revenda Autorizada da Ecko",
+    "type": "text",
+    "updated_at": "2024-01-15T10:00:00.000Z"
+  },
+  "og_description": {
+    "value": "Transforme sua paixão em lucro! Seja um revendedor autorizado Ecko e tenha acesso aos melhores produtos de streetwear do mercado.",
+    "type": "text",
+    "updated_at": "2024-01-15T10:00:00.000Z"
+  },
+  "og_image": {
+    "value": "https://estyle.vteximg.com.br/arquivos/ecko_mosaic5.png",
+    "type": "text",
+    "updated_at": "2024-01-15T10:00:00.000Z"
+  },
+  "og_site_name": {
+    "value": "Ecko Revendedores",
+    "type": "text",
+    "updated_at": "2024-01-15T10:00:00.000Z"
+  },
+  "webhook_url": {
+    "value": "",
+    "type": "text",
+    "updated_at": "2024-01-15T10:00:00.000Z"
+  },
+  "webhook_secret": {
+    "value": "",
+    "type": "text",
+    "updated_at": "2024-01-15T10:00:00.000Z"
+  },
+  "webhook_timeout": {
+    "value": "30",
+    "type": "number",
+    "updated_at": "2024-01-15T10:00:00.000Z"
+  },
+  "webhook_retries": {
+    "value": "3",
+    "type": "number",
+    "updated_at": "2024-01-15T10:00:00.000Z"
+  },
+  "schema_company_name": {
+    "value": "Ecko Unltd",
+    "type": "text",
+    "updated_at": "2024-01-15T10:00:00.000Z"
+  },
+  "schema_contact_phone": {
+    "value": "",
+    "type": "text",
+    "updated_at": "2024-01-15T10:00:00.000Z"
+  },
+  "schema_contact_email": {
+    "value": "",
+    "type": "text",
+    "updated_at": "2024-01-15T10:00:00.000Z"
+  },
+  "schema_address_street": {
+    "value": "",
+    "type": "text",
+    "updated_at": "2024-01-15T10:00:00.000Z"
+  },
+  "schema_address_city": {
+    "value": "",
+    "type": "text",
+    "updated_at": "2024-01-15T10:00:00.000Z"
+  },
+  "schema_address_state": {
+    "value": "",
+    "type": "text",
+    "updated_at": "2024-01-15T10:00:00.000Z"
+  }
+}
