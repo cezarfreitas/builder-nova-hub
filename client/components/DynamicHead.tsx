@@ -48,6 +48,33 @@ export function DynamicHead() {
       canonicalLink.setAttribute('href', href);
     };
 
+    // Atualizar favicon
+    const updateFavicon = (href: string) => {
+      if (!href) return;
+
+      let faviconLink = document.querySelector('link[rel="icon"]') as HTMLLinkElement;
+      if (!faviconLink) {
+        faviconLink = document.createElement('link');
+        faviconLink.setAttribute('rel', 'icon');
+        faviconLink.setAttribute('type', 'image/x-icon');
+        document.head.appendChild(faviconLink);
+      }
+      faviconLink.setAttribute('href', href);
+    };
+
+    // Atualizar Apple Touch Icon
+    const updateAppleIcon = (href: string) => {
+      if (!href) return;
+
+      let appleLink = document.querySelector('link[rel="apple-touch-icon"]') as HTMLLinkElement;
+      if (!appleLink) {
+        appleLink = document.createElement('link');
+        appleLink.setAttribute('rel', 'apple-touch-icon');
+        document.head.appendChild(appleLink);
+      }
+      appleLink.setAttribute('href', href);
+    };
+
     // Adicionar headers para desabilitar cache
     const addNoCacheHeaders = () => {
       updateMetaTag('Cache-Control', 'no-cache, no-store, must-revalidate');
