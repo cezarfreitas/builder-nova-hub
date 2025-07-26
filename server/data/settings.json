@@ -2,37 +2,37 @@
   "seo_title": {
     "value": "Seja uma Revenda Autorizada da Ecko | Tenha os Melhores Produtos",
     "type": "text",
-    "updated_at": "2024-01-15T10:00:00.000Z"
+    "updated_at": "2025-07-26T02:26:52.384Z"
   },
   "seo_description": {
     "value": "Seja uma revenda autorizada da Ecko e tenha os melhores produtos de streetwear em sua loja. Transforme sua paixão em lucro com exclusividade territorial e suporte completo.",
-    "type": "text", 
-    "updated_at": "2024-01-15T10:00:00.000Z"
+    "type": "text",
+    "updated_at": "2025-07-26T02:26:52.384Z"
   },
   "seo_keywords": {
     "value": "revenda autorizada ecko, melhores produtos streetwear, lojista autorizado",
     "type": "text",
-    "updated_at": "2024-01-15T10:00:00.000Z"
+    "updated_at": "2025-07-26T02:26:52.384Z"
   },
   "seo_canonical_url": {
-    "value": "https://revendedores.ecko.com.br",
+    "value": "https://revendedores.ecko.com.bra",
     "type": "text",
-    "updated_at": "2024-01-15T10:00:00.000Z"
+    "updated_at": "2025-07-26T02:26:52.384Z"
   },
   "og_title": {
     "value": "Seja uma Revenda Autorizada da Ecko",
     "type": "text",
-    "updated_at": "2024-01-15T10:00:00.000Z"
+    "updated_at": "2025-07-26T02:26:52.384Z"
   },
   "og_description": {
     "value": "Transforme sua paixão em lucro! Seja um revendedor autorizado Ecko e tenha acesso aos melhores produtos de streetwear do mercado.",
     "type": "text",
-    "updated_at": "2024-01-15T10:00:00.000Z"
+    "updated_at": "2025-07-26T02:26:52.384Z"
   },
   "og_image": {
     "value": "https://estyle.vteximg.com.br/arquivos/ecko_mosaic5.png",
     "type": "text",
-    "updated_at": "2024-01-15T10:00:00.000Z"
+    "updated_at": "2025-07-26T02:26:52.384Z"
   },
   "og_site_name": {
     "value": "Ecko Revendedores",
@@ -62,31 +62,76 @@
   "schema_company_name": {
     "value": "Ecko Unltd",
     "type": "text",
-    "updated_at": "2024-01-15T10:00:00.000Z"
+    "updated_at": "2025-07-26T02:26:52.385Z"
   },
   "schema_contact_phone": {
     "value": "",
     "type": "text",
-    "updated_at": "2024-01-15T10:00:00.000Z"
+    "updated_at": "2025-07-26T02:26:52.385Z"
   },
   "schema_contact_email": {
     "value": "",
     "type": "text",
-    "updated_at": "2024-01-15T10:00:00.000Z"
+    "updated_at": "2025-07-26T02:26:52.385Z"
   },
   "schema_address_street": {
     "value": "",
     "type": "text",
-    "updated_at": "2024-01-15T10:00:00.000Z"
+    "updated_at": "2025-07-26T02:26:52.385Z"
   },
   "schema_address_city": {
     "value": "",
     "type": "text",
-    "updated_at": "2024-01-15T10:00:00.000Z"
+    "updated_at": "2025-07-26T02:26:52.385Z"
   },
   "schema_address_state": {
     "value": "",
     "type": "text",
-    "updated_at": "2024-01-15T10:00:00.000Z"
+    "updated_at": "2025-07-26T02:26:52.385Z"
+  },
+  "favicon_url": {
+    "value": "",
+    "type": "text",
+    "updated_at": "2025-07-26T02:26:52.384Z"
+  },
+  "apple_icon_url": {
+    "value": "",
+    "type": "text",
+    "updated_at": "2025-07-26T02:26:52.384Z"
+  },
+  "robots_txt": {
+    "value": "User-agent: *\nDisallow: /admin\nAllow: /\n\nSitemap: https://c3866f8e929149ecbcc4e62c17424eed-a24ab870e2134f948693c85d1.fly.dev/sitemap.xml",
+    "type": "text",
+    "updated_at": "2025-07-26T02:26:52.384Z"
+  },
+  "og_url": {
+    "value": "",
+    "type": "text",
+    "updated_at": "2025-07-26T02:26:52.384Z"
+  },
+  "og_type": {
+    "value": "website",
+    "type": "text",
+    "updated_at": "2025-07-26T02:26:52.384Z"
+  },
+  "twitter_card": {
+    "value": "summary_large_image",
+    "type": "text",
+    "updated_at": "2025-07-26T02:26:52.384Z"
+  },
+  "twitter_title": {
+    "value": "",
+    "type": "text",
+    "updated_at": "2025-07-26T02:26:52.384Z"
+  },
+  "twitter_description": {
+    "value": "",
+    "type": "text",
+    "updated_at": "2025-07-26T02:26:52.384Z"
+  },
+  "twitter_image": {
+    "value": "",
+    "type": "text",
+    "updated_at": "2025-07-26T02:26:52.385Z"
   }
 }
