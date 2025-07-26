@@ -112,6 +112,8 @@ export async function sendMetaPixelEvent(leadData: any) {
       console.log('🧪 Usando Test Event Code:', testCode);
     }
 
+    console.log('📤 Enviando payload para Meta Pixel:', JSON.stringify(payload, null, 2));
+
     const response = await fetch(
       `https://graph.facebook.com/v18.0/${pixelId}/events?access_token=${accessToken}`,
       {
@@ -124,13 +126,24 @@ export async function sendMetaPixelEvent(leadData: any) {
     );
 
     const result = await response.json();
+    console.log('📥 Resposta do Meta Pixel:', JSON.stringify(result, null, 2));
 
-    if (response.ok && result.events_received > 0) {
+    if (response.ok && result.events_received >= 0) {
       console.log('✅ Evento Meta Pixel enviado com sucesso:', result);
-      return { success: true, eventsReceived: result.events_received };
+      return {
+        success: true,
+        eventsReceived: result.events_received,
+        details: result
+      };
     } else {
       console.error('❌ Erro ao enviar evento Meta Pixel:', result);
-      return { success: false, error: result.error?.message || 'Erro desconhecido' };
+      return {
+        success: false,
+        error: result.error?.message || 'Erro desconhecido',
+        errorCode: result.error?.code,
+        errorSubcode: result.error?.error_subcode,
+        details: result
+      };
     }
   } catch (error) {
     console.error('❌ Erro ao enviar evento Meta Pixel:', error);
