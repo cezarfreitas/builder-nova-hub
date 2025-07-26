@@ -1349,10 +1349,15 @@ export default function AdminConfiguracoes() {
             <CardContent className="space-y-4">
               <div className="bg-purple-50 p-4 rounded-lg border border-purple-200">
                 <h4 className="font-semibold text-purple-900 text-sm mb-2">Como configurar o Meta Pixel</h4>
-                <p className="text-purple-700 text-xs">
+                <p className="text-purple-700 text-xs mb-3">
                   Configure sua API de Conversões do Meta para rastrear leads diretamente do servidor.
                   Isso melhora a precisão do rastreamento e otimiza suas campanhas no Facebook/Instagram.
                 </p>
+                <div className="bg-purple-100 p-2 rounded border-l-4 border-purple-500">
+                  <p className="text-purple-800 text-xs font-medium">
+                    💡 Dica: Use o "Código de Teste" para debugar eventos em tempo real no Events Manager → Test Events
+                  </p>
+                </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
