@@ -218,8 +218,8 @@ export function createServer() {
   setTimeout(async () => {
     try {
       console.log("🔄 Inicializando sistema de configurações JSON...");
-      const path = require('path');
-      const fs = require('fs/promises');
+      const { default: path } = await import('path');
+      const fs = await import('fs/promises');
 
       const settingsFile = path.join(process.cwd(), 'server/data/settings.json');
       const settingsDir = path.dirname(settingsFile);
