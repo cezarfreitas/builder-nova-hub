@@ -409,7 +409,7 @@ export default function Index() {
       return false;
     }
 
-    // Se tem 10 dígitos, não deve começar com 9 (fixo)
+    // Se tem 10 d��gitos, não deve começar com 9 (fixo)
     if (numbers.length === 10 && numbers[2] === "9") {
       return false;
     }
@@ -478,6 +478,19 @@ export default function Index() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Tracking do início do envio do formulário
+    trackEvent('form_submit_start', {
+      form_origin: formOrigin || "form-inline",
+      form_data: {
+        has_name: !!formData.name,
+        has_whatsapp: !!formData.whatsapp,
+        has_cnpj: formData.hasCnpj,
+        store_type: formData.storeType,
+        city: formData.cidade,
+        state: formData.estado
+      }
+    });
 
     // Validar WhatsApp
     if (!formData.whatsapp || !validateWhatsApp(formData.whatsapp)) {
