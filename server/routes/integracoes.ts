@@ -224,17 +224,11 @@ function hashData(data: string): string {
   if (!data) return '';
 
   try {
-    const crypto = require('crypto');
-    return crypto.createHash('sha256').update(data.toLowerCase().trim()).digest('hex');
+    // Normalizar dados antes do hash
+    const normalizedData = data.toLowerCase().trim().replace(/\D/g, '');
+    return crypto.createHash('sha256').update(normalizedData).digest('hex');
   } catch (error) {
-    console.warn('⚠️  Fallback para hash simples:', error);
-    // Fallback para hash simples se crypto não estiver disponível
-    let hash = 0;
-    for (let i = 0; i < data.length; i++) {
-      const char = data.charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
-      hash = hash & hash;
-    }
-    return Math.abs(hash).toString(16);
+    console.warn('⚠️  Erro ao gerar hash SHA256:', error);
+    return '';
   }
 }
