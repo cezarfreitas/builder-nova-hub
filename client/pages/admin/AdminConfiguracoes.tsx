@@ -171,6 +171,12 @@ export default function AdminConfiguracoes() {
           value: String(value),
           type: 'text'
         }));
+      } else if (activeTab === 'integracoes') {
+        settingsToSave = Object.entries(integracoesData).map(([key, value]) => ({
+          key,
+          value: String(value),
+          type: key.includes('enabled') ? 'boolean' : 'text'
+        }));
       }
 
       const success = await saveMultipleSettings(settingsToSave);
