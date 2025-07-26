@@ -267,6 +267,52 @@ export default function Index() {
     }
   };
 
+  // Função genérica para tracking de eventos
+  const trackEvent = async (eventType: string, eventData: any = {}) => {
+    try {
+      console.log(`🎯 Tracking evento: ${eventType}`);
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const trackingData = {
+        session_id: sessionId,
+        user_id: userId,
+        page_url: window.location.href,
+        referrer: document.referrer || '',
+        utm_source: urlParams.get("utm_source") || "",
+        utm_medium: urlParams.get("utm_medium") || "",
+        utm_campaign: urlParams.get("utm_campaign") || "",
+        utm_term: urlParams.get("utm_term") || "",
+        utm_content: urlParams.get("utm_content") || "",
+        user_agent: navigator.userAgent,
+        duration_seconds: Math.floor((Date.now() - startTime) / 1000),
+        event_type: eventType,
+        timestamp: new Date().toISOString(),
+        screen_resolution: `${screen.width}x${screen.height}`,
+        language: navigator.language,
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        ...eventData
+      };
+
+      console.log(`📊 Dados do evento ${eventType}:`, trackingData);
+
+      const response = await fetch("/api/analytics/track-visit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(trackingData),
+      });
+
+      if (response.ok) {
+        console.log(`✅ Tracking de ${eventType} enviado com sucesso`);
+      } else {
+        console.warn(`⚠️ Erro no tracking de ${eventType}:`, response.status, response.statusText);
+      }
+    } catch (error) {
+      console.warn(`⚠️ Erro ao enviar tracking de ${eventType}:`, error);
+    }
+  };
+
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
@@ -310,7 +356,7 @@ export default function Index() {
     }
   };
 
-  // Função para abrir formulário com origem específica
+  // Fun��ão para abrir formulário com origem específica
   const openFormWithOrigin = (origin: string) => {
     setFormOrigin(origin);
     setShowForm(true);
