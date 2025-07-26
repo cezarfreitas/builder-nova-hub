@@ -137,51 +137,51 @@
   "meta_test_code": {
     "value": "TEST23442",
     "type": "text",
-    "updated_at": "2025-07-26T02:49:59.132Z"
+    "updated_at": "2025-07-26T03:37:23.698Z"
   },
   "ga4_measurement_id": {
     "value": "",
     "type": "text",
-    "updated_at": "2025-07-26T02:49:59.132Z"
+    "updated_at": "2025-07-26T03:37:23.698Z"
   },
   "ga4_api_secret": {
     "value": "",
     "type": "text",
-    "updated_at": "2025-07-26T02:49:59.132Z"
+    "updated_at": "2025-07-26T03:37:23.698Z"
   },
   "ga4_conversion_name": {
     "value": "form_submit",
     "type": "text",
-    "updated_at": "2025-07-26T02:49:59.132Z"
+    "updated_at": "2025-07-26T03:37:23.698Z"
   },
   "meta_pixel_id": {
     "value": "1052506589717984",
     "type": "text",
-    "updated_at": "2025-07-26T02:49:59.132Z"
+    "updated_at": "2025-07-26T03:37:23.698Z"
   },
   "meta_access_token": {
     "value": "EAAJpULqxTvgBPKU6v2ehm6ejsB04bJ9QqZCLbEVNKqDfJ8eAAwvvmjCvGbqXk8wbNNz38R2Pihn4KNdO6g6485XemIgaMDFUTa3m9XOQwQUuhmFMfkLj0QjEXntt3fcCd8ZCyZAPMlLYnF5R5JipEmVRYiwkuR34v9tnFZCNxlXYfP4FtwseiZBF2JMfOrlvBtQZDZD",
     "type": "text",
-    "updated_at": "2025-07-26T02:49:59.132Z"
+    "updated_at": "2025-07-26T03:37:23.698Z"
   },
   "meta_conversion_name": {
     "value": "Lead",
     "type": "text",
-    "updated_at": "2025-07-26T02:49:59.132Z"
+    "updated_at": "2025-07-26T03:37:23.698Z"
   },
   "custom_conversion_enabled": {
-    "value": "false",
+    "value": "true",
     "type": "boolean",
-    "updated_at": "2025-07-26T02:49:59.132Z"
+    "updated_at": "2025-07-26T03:37:23.698Z"
   },
   "custom_conversion_event": {
     "value": "lead_captured",
     "type": "text",
-    "updated_at": "2025-07-26T02:49:59.132Z"
+    "updated_at": "2025-07-26T03:37:23.698Z"
   },
   "custom_conversion_value": {
     "value": "1",
     "type": "text",
-    "updated_at": "2025-07-26T02:49:59.132Z"
+    "updated_at": "2025-07-26T03:37:23.698Z"
   }
 }
