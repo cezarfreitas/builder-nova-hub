@@ -1122,9 +1122,28 @@ export default function AdminConfiguracoes() {
           {/* Status Geral do SEO */}
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center">
-                <Settings className="w-5 h-5 mr-2 text-ecko-red" />
-                Status Geral do SEO
+              <CardTitle className="flex items-center justify-between">
+                <span className="flex items-center">
+                  <Settings className="w-5 h-5 mr-2 text-ecko-red" />
+                  Status Geral do SEO
+                </span>
+                <Button
+                  onClick={() => {
+                    const canonical = checkCanonicalUrl();
+                    toast({
+                      title: "Verificação de URL Canônica",
+                      description: canonical
+                        ? `✅ URL encontrada: ${canonical}`
+                        : "⚠️ URL canônica não encontrada no DOM",
+                      variant: canonical ? "default" : "destructive"
+                    });
+                  }}
+                  variant="outline"
+                  size="sm"
+                  className="border-blue-300 text-blue-700 hover:bg-blue-50"
+                >
+                  Verificar Canônica
+                </Button>
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -1442,7 +1461,7 @@ window.dispatchEvent(new CustomEvent('${integracoesData.custom_conversion_event}
             </CardContent>
           </Card>
 
-          {/* Resumo das Integra��ões */}
+          {/* Resumo das Integrações */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
