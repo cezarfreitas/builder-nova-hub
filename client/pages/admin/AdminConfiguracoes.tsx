@@ -151,7 +151,7 @@ export default function AdminConfiguracoes() {
     const integracoesChanged = JSON.stringify(integracoesData) !== JSON.stringify(currentIntegracoes);
 
     setHasChanges(webhookChanged || seoChanged || integracoesChanged);
-  }, [webhookData, seoData, getSetting]);
+  }, [webhookData, seoData, integracoesData, getSetting]);
 
   // Salvar configurações
   const handleSave = async () => {
