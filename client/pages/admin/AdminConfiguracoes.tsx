@@ -177,6 +177,7 @@ export default function AdminConfiguracoes() {
       meta_pixel_id: getSetting("meta_pixel_id") || "",
       meta_access_token: getSetting("meta_access_token") || "",
       meta_conversion_name: getSetting("meta_conversion_name") || "Lead",
+      meta_test_code: getSetting("meta_test_code") || "",
       custom_conversion_enabled: getSetting("custom_conversion_enabled") || "false",
       custom_conversion_event: getSetting("custom_conversion_event") || "lead_captured",
       custom_conversion_value: getSetting("custom_conversion_value") || "1",
