@@ -151,8 +151,8 @@ export function DynamicHead() {
         "@context": "https://schema.org",
         "@type": "Organization",
         "name": schemaCompanyName,
-        "url": getSetting('seo_canonical_url') || window.location.origin,
-        "logo": getSetting('og_image') || `${window.location.origin}/uploads/logo.png`,
+        "url": canonicalUrl || window.location.origin,
+        "logo": getSetting('og_image') || `${canonicalUrl || window.location.origin}/uploads/logo.png`,
         "description": getSetting('seo_description') || "Rede de revendedores autorizados"
       };
 
