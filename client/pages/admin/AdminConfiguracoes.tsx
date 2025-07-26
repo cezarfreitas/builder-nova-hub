@@ -25,6 +25,10 @@ import {
   BarChart3,
   Target,
   Zap,
+  Upload,
+  Link,
+  Twitter,
+  Smartphone,
 } from "lucide-react";
 
 export default function AdminConfiguracoes() {
