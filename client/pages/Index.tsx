@@ -75,6 +75,108 @@ export default function Index() {
     return btoa(fingerprint).slice(0, 20);
   });
 
+  // Tracking automático de visita ao carregar a página
+  useEffect(() => {
+    const trackPageVisit = async () => {
+      try {
+        console.log('🎯 Iniciando tracking de visita - Session ID:', sessionId);
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const visitData = {
+          session_id: sessionId,
+          user_id: userId,
+          page_url: window.location.href,
+          referrer: document.referrer || '',
+          utm_source: urlParams.get('utm_source') || '',
+          utm_medium: urlParams.get('utm_medium') || '',
+          utm_campaign: urlParams.get('utm_campaign') || '',
+          utm_term: urlParams.get('utm_term') || '',
+          utm_content: urlParams.get('utm_content') || '',
+          user_agent: navigator.userAgent,
+          screen_resolution: `${screen.width}x${screen.height}`,
+          language: navigator.language,
+          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+          event_type: 'page_view',
+          timestamp: new Date().toISOString()
+        };
+
+        console.log('📊 Dados de tracking sendo enviados:', visitData);
+
+        const response = await fetch('/api/analytics/track-visit', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(visitData),
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+          console.log('✅ Tracking de visita enviado com sucesso:', result);
+        } else {
+          console.warn('⚠️ Erro no tracking de visita:', response.status, response.statusText);
+        }
+      } catch (error) {
+        console.warn('⚠️ Erro ao enviar tracking de visita:', error);
+        // Não bloquear a aplicação por erro de analytics
+      }
+    };
+
+    // Executar tracking após um pequeno delay para garantir que a página carregou
+    const timer = setTimeout(trackPageVisit, 500);
+
+    return () => clearTimeout(timer);
+  }, [sessionId, userId]);
+
+  // Tracking de duração da sessão ao sair da página
+  useEffect(() => {
+    const trackSessionDuration = async () => {
+      try {
+        const durationSeconds = Math.floor((Date.now() - startTime) / 1000);
+
+        const durationData = {
+          session_id: sessionId,
+          user_id: userId,
+          duration_seconds: durationSeconds,
+          page_url: window.location.href,
+          timestamp: new Date().toISOString()
+        };
+
+        console.log('⏱️ Enviando duração da sessão:', durationData);
+
+        await fetch('/api/analytics/track-duration', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(durationData),
+        });
+      } catch (error) {
+        console.warn('⚠️ Erro ao enviar duração da sessão:', error);
+      }
+    };
+
+    // Tracking de duração quando o usuário sai da página
+    const handleBeforeUnload = () => {
+      trackSessionDuration();
+    };
+
+    // Tracking de duração quando o usuário troca de aba (visibilitychange)
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') {
+        trackSessionDuration();
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [sessionId, userId, startTime]);
+
   // Static testimonials texts
 
   const staticFAQs = [
