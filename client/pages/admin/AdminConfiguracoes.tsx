@@ -59,6 +59,18 @@ export default function AdminConfiguracoes() {
     schema_address_state: getSetting("schema_address_state") || "",
   });
 
+  const [integracoesData, setIntegracoesData] = useState({
+    ga4_measurement_id: getSetting("ga4_measurement_id") || "",
+    ga4_api_secret: getSetting("ga4_api_secret") || "",
+    ga4_conversion_name: getSetting("ga4_conversion_name") || "form_submit",
+    meta_pixel_id: getSetting("meta_pixel_id") || "",
+    meta_access_token: getSetting("meta_access_token") || "",
+    meta_conversion_name: getSetting("meta_conversion_name") || "Lead",
+    custom_conversion_enabled: getSetting("custom_conversion_enabled") || "false",
+    custom_conversion_event: getSetting("custom_conversion_event") || "lead_captured",
+    custom_conversion_value: getSetting("custom_conversion_value") || "1",
+  });
+
   // Atualizar estados quando configurações carregarem
   React.useEffect(() => {
     if (settings && Object.keys(settings).length > 0) {
