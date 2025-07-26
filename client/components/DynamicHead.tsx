@@ -250,21 +250,11 @@ export function DynamicHead() {
     const defaultLogo = "https://www.ntktextil.com.br/wp-content/uploads/2022/08/Logo-Ecko.png";
     addPreloadLink(defaultLogo);
 
-    // Preload logo customizado apenas quando disponível e diferente
-    if (heroSettings?.logo_url && heroSettings.logo_url !== defaultLogo) {
-      addPreloadLink(heroSettings.logo_url);
-    }
+    // Preload imagem de fundo padrão
+    const defaultBackground = "https://estyle.vteximg.com.br/arquivos/ecko_mosaic5.png?v=638421392678800000";
+    addPreloadLink(defaultBackground);
 
-    // Preload imagem de fundo do hero
-    if (heroSettings?.background_image) {
-      addPreloadLink(heroSettings.background_image);
-    } else {
-      // Preload imagem de fundo padrão
-      const defaultBackground = "https://estyle.vteximg.com.br/arquivos/ecko_mosaic5.png?v=638421392678800000";
-      addPreloadLink(defaultBackground);
-    }
-
-  }, [heroSettings]);
+  }, []);
 
   return null; // Este componente não renderiza nada visível
 }
