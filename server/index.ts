@@ -167,6 +167,9 @@ export function createServer() {
   app.get("/api/test-db", testDatabaseConnection);
   app.get("/api/database-info", getDatabaseInfo);
 
+  // JSON system test route
+  app.get("/api/test-json", testJsonSystem);
+
   // Initialize database (non-blocking)
   setTimeout(async () => {
     try {
