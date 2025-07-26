@@ -47,72 +47,6 @@ const PageLoading = () => (
   </div>
 );
 
-<<<<<<< HEAD
-export default function App() {
-  return (
-    <BrowserRouter>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route index element={<AdminDashboard />} />
-          </Route>
-          <Route path="/admin/leads" element={<AdminLayout />}>
-            <Route index element={<AdminLeads />} />
-          </Route>
-          <Route path="/admin/analytics" element={<AdminLayout />}>
-            <Route index element={<AdminAnalytics />} />
-          </Route>
-          <Route path="/admin/configuracoes" element={<AdminLayout />}>
-            <Route index element={<AdminConfiguracoes />} />
-          </Route>
-          <Route path="/admin/hero" element={<AdminLayout />}>
-            <Route index element={<AdminHero />} />
-          </Route>
-          <Route path="/admin/benefits" element={<AdminLayout />}>
-            <Route index element={<AdminBenefits />} />
-          </Route>
-          <Route path="/admin/testimonials" element={<AdminLayout />}>
-            <Route index element={<AdminTestimonials />} />
-          </Route>
-          <Route path="/admin/gallery" element={<AdminLayout />}>
-            <Route index element={<AdminGallery />} />
-          </Route>
-          <Route path="/admin/content" element={<AdminLayout />}>
-            <Route index element={<AdminContent />} />
-          </Route>
-          <Route path="/admin/faq" element={<AdminLayout />}>
-            <Route index element={<AdminFAQ />} />
-          </Route>
-          <Route path="/admin/form" element={<AdminLayout />}>
-            <Route index element={<AdminForm />} />
-          </Route>
-          <Route path="/admin/footer" element={<AdminLayout />}>
-            <Route index element={<AdminFooter />} />
-          </Route>
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </TooltipProvider>
-    </BrowserRouter>
-  );
-}
-
-// Registra service worker para desabilitar cache
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
-      .then(() => {
-        console.log('✅ Service Worker registrado para desabilitar cache');
-      })
-      .catch((error) => {
-        console.log('❌ Falha ao registrar Service Worker:', error);
-      });
-  });
-}
-=======
 const App = () => (
   <BrowserRouter>
     <CriticalCSS />
@@ -355,9 +289,21 @@ const App = () => (
     </TooltipProvider>
   </BrowserRouter>
 );
->>>>>>> 0b40ffd6ca133391f7be7092e460b633cd80296a
 
 export default App;
+
+// Registra service worker para desabilitar cache
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(() => {
+        console.log('✅ Service Worker registrado para desabilitar cache');
+      })
+      .catch((error) => {
+        console.log('❌ Falha ao registrar Service Worker:', error);
+      });
+  });
+}
 
 // Previne múltiplas chamadas de createRoot durante hot reloading
 const container = document.getElementById("root")!;
