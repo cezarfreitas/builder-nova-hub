@@ -812,6 +812,76 @@ export default function AdminConfiguracoes() {
             </CardContent>
           </Card>
 
+          {/* Robots.txt e Arquivos */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <FileText className="w-5 h-5 mr-2 text-ecko-red" />
+                Robots.txt e Arquivos SEO
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="bg-amber-50 p-4 rounded-lg border border-amber-200">
+                <h4 className="font-semibold text-amber-900 text-sm mb-2">Sobre o robots.txt</h4>
+                <p className="text-amber-700 text-xs">
+                  O arquivo robots.txt informa aos mecanismos de busca quais páginas podem ou não ser indexadas.
+                  As configurações abaixo serão aplicadas automaticamente ao site.
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="robots_txt">Conteúdo do robots.txt</Label>
+                <textarea
+                  id="robots_txt"
+                  className="w-full h-32 px-3 py-2 rounded-md border border-input bg-background text-sm font-mono"
+                  placeholder="User-agent: *&#10;Disallow: /admin&#10;Allow: /"
+                  value={seoData.robots_txt}
+                  onChange={(e) => setSeoData({...seoData, robots_txt: e.target.value})}
+                />
+                <p className="text-xs text-gray-500">
+                  Acessível em: {window.location.origin}/robots.txt
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="p-4 bg-green-50 rounded-lg border border-green-200">
+                  <h4 className="font-medium text-green-900 text-sm mb-2 flex items-center">
+                    <FileText className="w-4 h-4 mr-2" />
+                    Sitemap XML
+                  </h4>
+                  <p className="text-green-700 text-xs mb-2">
+                    Sitemap gerado automaticamente com todas as páginas do site.
+                  </p>
+                  <a
+                    href="/sitemap.xml"
+                    target="_blank"
+                    className="text-green-600 text-xs underline hover:text-green-800"
+                  >
+                    Ver sitemap.xml →
+                  </a>
+                </div>
+
+                <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                  <h4 className="font-medium text-blue-900 text-sm mb-2 flex items-center">
+                    <Link className="w-4 h-4 mr-2" />
+                    URLs Importantes
+                  </h4>
+                  <div className="space-y-1 text-xs">
+                    <p className="text-blue-700">
+                      <strong>Robots:</strong> {window.location.origin}/robots.txt
+                    </p>
+                    <p className="text-blue-700">
+                      <strong>Sitemap:</strong> {window.location.origin}/sitemap.xml
+                    </p>
+                    <p className="text-blue-700">
+                      <strong>Favicon:</strong> {seoData.favicon_url || 'Não configurado'}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
           {/* Schema.org */}
           <Card>
             <CardHeader>
