@@ -332,7 +332,7 @@ export default function AdminConfiguracoes() {
         let description = 'Resultados dos testes:\n';
 
         if (ga4.skipped) {
-          description += '• GA4: Não configurado\n';
+          description += '��� GA4: Não configurado\n';
         } else if (ga4.success) {
           description += '• GA4: ✅ Enviado com sucesso\n';
         } else {
@@ -371,10 +371,25 @@ export default function AdminConfiguracoes() {
     }
   };
 
+  // Verificar URL canônica atual
+  const checkCanonicalUrl = () => {
+    const canonicalLink = document.querySelector('link[rel="canonical"]') as HTMLLinkElement;
+    if (canonicalLink) {
+      console.log('🔍 URL canônica atual:', canonicalLink.href);
+      return canonicalLink.href;
+    } else {
+      console.log('⚠️  Nenhuma URL canônica encontrada');
+      return null;
+    }
+  };
+
   // Testar configurações SEO
   const handleTestSEO = async () => {
     setSaving(true);
     try {
+      // Verificar URL canônica no DOM atual
+      const currentCanonical = checkCanonicalUrl();
+
       const response = await fetch('/api/seo/meta-tags');
       const result = await response.json();
 
