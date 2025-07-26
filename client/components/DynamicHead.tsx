@@ -91,6 +91,10 @@ export function DynamicHead() {
     updateMetaTag('robots', getSetting('seo_robots') || 'index,follow');
     updateCanonical(getSetting('seo_canonical_url'));
 
+    // Favicon e Ícones
+    updateFavicon(getSetting('favicon_url') || '/favicon.ico');
+    updateAppleIcon(getSetting('apple_icon_url') || '/apple-touch-icon.png');
+
     // Open Graph
     updateMetaTag('', getSetting('og_type') || 'website', 'og:type');
     updateMetaTag('', getSetting('og_title') || getSetting('seo_title'), 'og:title');
