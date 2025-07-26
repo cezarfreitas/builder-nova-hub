@@ -67,8 +67,17 @@ import {
 import contentRouter from "./routes/content";
 import { initializeDatabase, testConnection } from "./config/database";
 import { testJsonSystem } from "./routes/test-json";
-import { processLeadIntegrations, testIntegrations, testMetaPixelOnly } from "./routes/integracoes";
-import { serveRobotsTxt, serveSitemapXml, getMetaTags, getStructuredData } from "./routes/seo";
+import {
+  processLeadIntegrations,
+  testIntegrations,
+  testMetaPixelOnly,
+} from "./routes/integracoes";
+import {
+  serveRobotsTxt,
+  serveSitemapXml,
+  getMetaTags,
+  getStructuredData,
+} from "./routes/seo";
 
 export function createServer() {
   const app = express();
@@ -81,9 +90,9 @@ export function createServer() {
   // Middleware para desabilitar cache
   app.use((req, res, next) => {
     res.set({
-      'Cache-Control': 'no-cache, no-store, must-revalidate',
-      'Pragma': 'no-cache',
-      'Expires': '0'
+      "Cache-Control": "no-cache, no-store, must-revalidate",
+      Pragma: "no-cache",
+      Expires: "0",
     });
     next();
   });
@@ -102,8 +111,11 @@ export function createServer() {
   // Settings health check
   app.get("/api/settings/health", async (_req, res) => {
     try {
-      const settingsFile = require('path').join(process.cwd(), 'server/data/settings.json');
-      const fs = require('fs/promises');
+      const settingsFile = require("path").join(
+        process.cwd(),
+        "server/data/settings.json",
+      );
+      const fs = require("fs/promises");
 
       // Verificar se o arquivo existe e é legível
       await fs.access(settingsFile);
@@ -114,13 +126,13 @@ export function createServer() {
         message: "Sistema de configurações funcionando",
         file_exists: true,
         file_size: stats.size,
-        last_modified: stats.mtime
+        last_modified: stats.mtime,
       });
     } catch (error) {
       res.status(500).json({
         success: false,
         message: "Erro no sistema de configurações",
-        error: error instanceof Error ? error.message : 'Erro desconhecido'
+        error: error instanceof Error ? error.message : "Erro desconhecido",
       });
     }
   });
@@ -221,7 +233,10 @@ export function createServer() {
     try {
       console.log("🔄 Inicializando sistema de configurações JSON...");
 
-      const settingsFile = path.join(process.cwd(), 'server/data/settings.json');
+      const settingsFile = path.join(
+        process.cwd(),
+        "server/data/settings.json",
+      );
       const settingsDir = path.dirname(settingsFile);
 
       // Criar diretório se não existir
@@ -234,10 +249,21 @@ export function createServer() {
       } catch {
         console.log("📝 Criando arquivo de configurações padrão...");
         const defaultSettings = {
-          seo_title: { value: "Seja uma Revenda Autorizada da Ecko", type: "text", updated_at: new Date().toISOString() },
-          webhook_url: { value: "", type: "text", updated_at: new Date().toISOString() }
+          seo_title: {
+            value: "Seja uma Revenda Autorizada da Ecko",
+            type: "text",
+            updated_at: new Date().toISOString(),
+          },
+          webhook_url: {
+            value: "",
+            type: "text",
+            updated_at: new Date().toISOString(),
+          },
         };
-        await fs.writeFile(settingsFile, JSON.stringify(defaultSettings, null, 2));
+        await fs.writeFile(
+          settingsFile,
+          JSON.stringify(defaultSettings, null, 2),
+        );
         console.log("✅ Arquivo de configurações criado com sucesso!");
       }
     } catch (error) {

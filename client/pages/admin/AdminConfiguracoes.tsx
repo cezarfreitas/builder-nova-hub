@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import { Button } from "../../components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "../../components/ui/card";
 import { Input } from "../../components/ui/input";
 import { Label } from "../../components/ui/label";
 import { Badge } from "../../components/ui/badge";
@@ -33,12 +38,15 @@ import {
 
 export default function AdminConfiguracoes() {
   const { toast } = useToast();
-  const [activeTab, setActiveTab] = useState<'webhook' | 'seo' | 'integracoes' | 'database'>('webhook');
+  const [activeTab, setActiveTab] = useState<
+    "webhook" | "seo" | "integracoes" | "database"
+  >("webhook");
   const [saving, setSaving] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
 
   // Hook para gerenciar configurações
-  const { settings, loading, error, saveMultipleSettings, getSetting } = useSettings();
+  const { settings, loading, error, saveMultipleSettings, getSetting } =
+    useSettings();
 
   // Estados do formulário
   const [webhookData, setWebhookData] = useState({
@@ -55,7 +63,9 @@ export default function AdminConfiguracoes() {
     seo_canonical_url: getSetting("seo_canonical_url") || "",
     favicon_url: getSetting("favicon_url") || "",
     apple_icon_url: getSetting("apple_icon_url") || "",
-    robots_txt: getSetting("robots_txt") || `User-agent: *\nDisallow: /admin\nAllow: /\n\nSitemap: ${window.location.origin}/sitemap.xml`,
+    robots_txt:
+      getSetting("robots_txt") ||
+      `User-agent: *\nDisallow: /admin\nAllow: /\n\nSitemap: ${window.location.origin}/sitemap.xml`,
     og_title: getSetting("og_title") || "",
     og_description: getSetting("og_description") || "",
     og_image: getSetting("og_image") || "",
@@ -81,8 +91,10 @@ export default function AdminConfiguracoes() {
     meta_access_token: getSetting("meta_access_token") || "",
     meta_conversion_name: getSetting("meta_conversion_name") || "Lead",
     meta_test_code: getSetting("meta_test_code") || "",
-    custom_conversion_enabled: getSetting("custom_conversion_enabled") || "false",
-    custom_conversion_event: getSetting("custom_conversion_event") || "lead_captured",
+    custom_conversion_enabled:
+      getSetting("custom_conversion_enabled") || "false",
+    custom_conversion_event:
+      getSetting("custom_conversion_event") || "lead_captured",
     custom_conversion_value: getSetting("custom_conversion_value") || "1",
   });
 
@@ -103,7 +115,9 @@ export default function AdminConfiguracoes() {
         seo_canonical_url: getSetting("seo_canonical_url") || "",
         favicon_url: getSetting("favicon_url") || "",
         apple_icon_url: getSetting("apple_icon_url") || "",
-        robots_txt: getSetting("robots_txt") || `User-agent: *\nDisallow: /admin\nAllow: /\n\nSitemap: ${window.location.origin}/sitemap.xml`,
+        robots_txt:
+          getSetting("robots_txt") ||
+          `User-agent: *\nDisallow: /admin\nAllow: /\n\nSitemap: ${window.location.origin}/sitemap.xml`,
         og_title: getSetting("og_title") || "",
         og_description: getSetting("og_description") || "",
         og_image: getSetting("og_image") || "",
@@ -129,8 +143,10 @@ export default function AdminConfiguracoes() {
         meta_access_token: getSetting("meta_access_token") || "",
         meta_conversion_name: getSetting("meta_conversion_name") || "Lead",
         meta_test_code: getSetting("meta_test_code") || "",
-        custom_conversion_enabled: getSetting("custom_conversion_enabled") || "false",
-        custom_conversion_event: getSetting("custom_conversion_event") || "lead_captured",
+        custom_conversion_enabled:
+          getSetting("custom_conversion_enabled") || "false",
+        custom_conversion_event:
+          getSetting("custom_conversion_event") || "lead_captured",
         custom_conversion_value: getSetting("custom_conversion_value") || "1",
       });
     }
@@ -144,7 +160,7 @@ export default function AdminConfiguracoes() {
       webhook_timeout: getSetting("webhook_timeout") || "30",
       webhook_retries: getSetting("webhook_retries") || "3",
     };
-    
+
     const currentSeo = {
       seo_title: getSetting("seo_title") || "",
       seo_description: getSetting("seo_description") || "",
@@ -152,7 +168,9 @@ export default function AdminConfiguracoes() {
       seo_canonical_url: getSetting("seo_canonical_url") || "",
       favicon_url: getSetting("favicon_url") || "",
       apple_icon_url: getSetting("apple_icon_url") || "",
-      robots_txt: getSetting("robots_txt") || `User-agent: *\nDisallow: /admin\nAllow: /\n\nSitemap: ${window.location.origin}/sitemap.xml`,
+      robots_txt:
+        getSetting("robots_txt") ||
+        `User-agent: *\nDisallow: /admin\nAllow: /\n\nSitemap: ${window.location.origin}/sitemap.xml`,
       og_title: getSetting("og_title") || "",
       og_description: getSetting("og_description") || "",
       og_image: getSetting("og_image") || "",
@@ -178,14 +196,18 @@ export default function AdminConfiguracoes() {
       meta_access_token: getSetting("meta_access_token") || "",
       meta_conversion_name: getSetting("meta_conversion_name") || "Lead",
       meta_test_code: getSetting("meta_test_code") || "",
-      custom_conversion_enabled: getSetting("custom_conversion_enabled") || "false",
-      custom_conversion_event: getSetting("custom_conversion_event") || "lead_captured",
+      custom_conversion_enabled:
+        getSetting("custom_conversion_enabled") || "false",
+      custom_conversion_event:
+        getSetting("custom_conversion_event") || "lead_captured",
       custom_conversion_value: getSetting("custom_conversion_value") || "1",
     };
 
-    const webhookChanged = JSON.stringify(webhookData) !== JSON.stringify(currentWebhook);
+    const webhookChanged =
+      JSON.stringify(webhookData) !== JSON.stringify(currentWebhook);
     const seoChanged = JSON.stringify(seoData) !== JSON.stringify(currentSeo);
-    const integracoesChanged = JSON.stringify(integracoesData) !== JSON.stringify(currentIntegracoes);
+    const integracoesChanged =
+      JSON.stringify(integracoesData) !== JSON.stringify(currentIntegracoes);
 
     setHasChanges(webhookChanged || seoChanged || integracoesChanged);
   }, [webhookData, seoData, integracoesData, getSetting]);
@@ -196,24 +218,29 @@ export default function AdminConfiguracoes() {
     try {
       let settingsToSave = [];
 
-      if (activeTab === 'webhook') {
+      if (activeTab === "webhook") {
         settingsToSave = Object.entries(webhookData).map(([key, value]) => ({
           key,
           value: String(value),
-          type: key.includes('timeout') || key.includes('retries') ? 'number' : 'text'
+          type:
+            key.includes("timeout") || key.includes("retries")
+              ? "number"
+              : "text",
         }));
-      } else if (activeTab === 'seo') {
+      } else if (activeTab === "seo") {
         settingsToSave = Object.entries(seoData).map(([key, value]) => ({
           key,
           value: String(value),
-          type: 'text'
+          type: "text",
         }));
-      } else if (activeTab === 'integracoes') {
-        settingsToSave = Object.entries(integracoesData).map(([key, value]) => ({
-          key,
-          value: String(value),
-          type: key.includes('enabled') ? 'boolean' : 'text'
-        }));
+      } else if (activeTab === "integracoes") {
+        settingsToSave = Object.entries(integracoesData).map(
+          ([key, value]) => ({
+            key,
+            value: String(value),
+            type: key.includes("enabled") ? "boolean" : "text",
+          }),
+        );
       }
 
       const success = await saveMultipleSettings(settingsToSave);
@@ -221,9 +248,13 @@ export default function AdminConfiguracoes() {
         toast({
           title: "Configurações salvas!",
           description: `Configurações de ${
-            activeTab === 'webhook' ? 'Webhook' :
-            activeTab === 'seo' ? 'SEO' :
-            activeTab === 'integracoes' ? 'Integrações' : 'Sistema'
+            activeTab === "webhook"
+              ? "Webhook"
+              : activeTab === "seo"
+                ? "SEO"
+                : activeTab === "integracoes"
+                  ? "Integrações"
+                  : "Sistema"
           } foram salvas com sucesso.`,
         });
         setHasChanges(false);
@@ -231,7 +262,7 @@ export default function AdminConfiguracoes() {
         throw new Error("Falha ao salvar");
       }
     } catch (error) {
-      console.error('Erro ao salvar:', error);
+      console.error("Erro ao salvar:", error);
       toast({
         title: "Erro ao salvar",
         description: "Não foi possível salvar as configurações.",
@@ -255,17 +286,17 @@ export default function AdminConfiguracoes() {
 
     setSaving(true);
     try {
-      const response = await fetch('/api/webhook/test', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/webhook/test", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           webhook_url: webhookData.webhook_url,
-          webhook_secret: webhookData.webhook_secret
+          webhook_secret: webhookData.webhook_secret,
         }),
       });
 
       const result = await response.json();
-      
+
       if (result.success) {
         toast({
           title: "Webhook testado!",
@@ -293,7 +324,7 @@ export default function AdminConfiguracoes() {
   const handleTestJsonSystem = async () => {
     setSaving(true);
     try {
-      const response = await fetch('/api/test-json');
+      const response = await fetch("/api/test-json");
       const result = await response.json();
 
       if (result.success) {
@@ -304,7 +335,8 @@ export default function AdminConfiguracoes() {
       } else {
         toast({
           title: "Erro no sistema JSON",
-          description: result.message || "Erro ao acessar arquivo de configurações.",
+          description:
+            result.message || "Erro ao acessar arquivo de configurações.",
           variant: "destructive",
         });
       }
@@ -323,34 +355,34 @@ export default function AdminConfiguracoes() {
   const handleTestIntegrations = async () => {
     setSaving(true);
     try {
-      const response = await fetch('/api/integracoes/test', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' }
+      const response = await fetch("/api/integracoes/test", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
       });
       const result = await response.json();
 
       if (result.success) {
         const { ga4, metaPixel, customEvent } = result.results;
 
-        let description = 'Resultados dos testes:\n';
+        let description = "Resultados dos testes:\n";
 
         if (ga4.skipped) {
-          description += '• GA4: Não configurado\n';
+          description += "• GA4: Não configurado\n";
         } else if (ga4.success) {
-          description += '• GA4: ✅ Enviado com sucesso\n';
+          description += "• GA4: ✅ Enviado com sucesso\n";
         } else {
           description += `• GA4: ❌ Erro - ${ga4.error}\n`;
         }
 
         if (metaPixel.skipped) {
-          description += '• Meta Pixel: Não configurado\n';
+          description += "• Meta Pixel: Não configurado\n";
         } else if (metaPixel.success) {
-          description += '• Meta Pixel: ✅ Enviado com sucesso\n';
+          description += "• Meta Pixel: ✅ Enviado com sucesso\n";
         } else {
           description += `• Meta Pixel: ❌ Erro - ${metaPixel.error}\n`;
         }
 
-        description += `• Evento Personalizado: ${customEvent.enabled ? '✅ Ativado' : '⚪ Desativado'}`;
+        description += `• Evento Personalizado: ${customEvent.enabled ? "✅ Ativado" : "⚪ Desativado"}`;
 
         toast({
           title: "Teste de integrações concluído!",
@@ -376,12 +408,14 @@ export default function AdminConfiguracoes() {
 
   // Verificar URL canônica atual
   const checkCanonicalUrl = () => {
-    const canonicalLink = document.querySelector('link[rel="canonical"]') as HTMLLinkElement;
+    const canonicalLink = document.querySelector(
+      'link[rel="canonical"]',
+    ) as HTMLLinkElement;
     if (canonicalLink) {
-      console.log('🔍 URL canônica atual:', canonicalLink.href);
+      console.log("🔍 URL canônica atual:", canonicalLink.href);
       return canonicalLink.href;
     } else {
-      console.log('⚠️  Nenhuma URL canônica encontrada');
+      console.log("⚠️  Nenhuma URL canônica encontrada");
       return null;
     }
   };
@@ -393,14 +427,14 @@ export default function AdminConfiguracoes() {
       // Verificar URL canônica no DOM atual
       const currentCanonical = checkCanonicalUrl();
 
-      const response = await fetch('/api/seo/meta-tags');
+      const response = await fetch("/api/seo/meta-tags");
       const result = await response.json();
 
       if (result.success) {
         const { metaTags } = result;
 
         // Abrir nova janela com preview das configurações SEO
-        const previewWindow = window.open('', '_blank', 'width=800,height=600');
+        const previewWindow = window.open("", "_blank", "width=800,height=600");
         if (previewWindow) {
           previewWindow.document.write(`
             <!DOCTYPE html>
@@ -447,7 +481,7 @@ export default function AdminConfiguracoes() {
                 <div class="meta-item" style="background: #e8f5e8; padding: 8px; border-radius: 4px; border-left: 4px solid #4caf50;">
                   <span class="meta-label">🎯 URL Canônica:</span><span class="meta-value" style="font-weight: bold; color: #2e7d32;">${metaTags.canonical}</span>
                   <div style="font-size: 10px; color: #666; margin-top: 4px;">
-                    ${currentCanonical ? `✅ Aplicada no DOM: ${currentCanonical}` : '⚠️ Não encontrada no DOM atual'}
+                    ${currentCanonical ? `✅ Aplicada no DOM: ${currentCanonical}` : "⚠️ Não encontrada no DOM atual"}
                   </div>
                 </div>
               </div>
@@ -506,7 +540,8 @@ export default function AdminConfiguracoes() {
 
         toast({
           title: "Preview SEO gerado!",
-          description: "Uma nova janela foi aberta com o preview das configurações SEO.",
+          description:
+            "Uma nova janela foi aberta com o preview das configurações SEO.",
         });
       } else {
         toast({
@@ -542,7 +577,9 @@ export default function AdminConfiguracoes() {
       <div className="flex items-center justify-center h-64">
         <div className="text-center space-y-4 max-w-md">
           <AlertCircle className="h-12 w-12 text-red-500 mx-auto" />
-          <h3 className="text-lg font-semibold text-gray-900">Erro ao carregar configurações</h3>
+          <h3 className="text-lg font-semibold text-gray-900">
+            Erro ao carregar configurações
+          </h3>
           <p className="text-gray-600">{error}</p>
           <Button
             onClick={() => window.location.reload()}
@@ -561,17 +598,22 @@ export default function AdminConfiguracoes() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Configurações</h1>
-          <p className="text-gray-600">Gerencie as configurações avançadas da plataforma</p>
+          <p className="text-gray-600">
+            Gerencie as configurações avançadas da plataforma
+          </p>
         </div>
-        
+
         {hasChanges && (
           <div className="flex items-center gap-4">
-            <Badge variant="outline" className="text-orange-600 border-orange-300">
+            <Badge
+              variant="outline"
+              className="text-orange-600 border-orange-300"
+            >
               <AlertCircle className="w-3 h-3 mr-1" />
               Alterações pendentes
             </Badge>
-            <Button 
-              onClick={handleSave} 
+            <Button
+              onClick={handleSave}
               disabled={saving}
               className="bg-ecko-red hover:bg-ecko-red-dark"
             >
@@ -590,44 +632,44 @@ export default function AdminConfiguracoes() {
       <div className="border-b border-gray-200">
         <nav className="-mb-px flex space-x-8">
           <button
-            onClick={() => setActiveTab('webhook')}
+            onClick={() => setActiveTab("webhook")}
             className={`py-2 px-1 border-b-2 font-medium text-sm ${
-              activeTab === 'webhook'
-                ? 'border-ecko-red text-ecko-red'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              activeTab === "webhook"
+                ? "border-ecko-red text-ecko-red"
+                : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
             }`}
           >
             <Webhook className="w-4 h-4 mr-2 inline" />
             Webhook
           </button>
           <button
-            onClick={() => setActiveTab('seo')}
+            onClick={() => setActiveTab("seo")}
             className={`py-2 px-1 border-b-2 font-medium text-sm ${
-              activeTab === 'seo'
-                ? 'border-ecko-red text-ecko-red'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              activeTab === "seo"
+                ? "border-ecko-red text-ecko-red"
+                : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
             }`}
           >
             <Search className="w-4 h-4 mr-2 inline" />
             SEO
           </button>
           <button
-            onClick={() => setActiveTab('integracoes')}
+            onClick={() => setActiveTab("integracoes")}
             className={`py-2 px-1 border-b-2 font-medium text-sm ${
-              activeTab === 'integracoes'
-                ? 'border-ecko-red text-ecko-red'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              activeTab === "integracoes"
+                ? "border-ecko-red text-ecko-red"
+                : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
             }`}
           >
             <BarChart3 className="w-4 h-4 mr-2 inline" />
             Integrações
           </button>
           <button
-            onClick={() => setActiveTab('database')}
+            onClick={() => setActiveTab("database")}
             className={`py-2 px-1 border-b-2 font-medium text-sm ${
-              activeTab === 'database'
-                ? 'border-ecko-red text-ecko-red'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              activeTab === "database"
+                ? "border-ecko-red text-ecko-red"
+                : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
             }`}
           >
             <FileText className="w-4 h-4 mr-2 inline" />
@@ -637,15 +679,18 @@ export default function AdminConfiguracoes() {
       </div>
 
       {/* Content */}
-      {activeTab === 'webhook' ? (
+      {activeTab === "webhook" ? (
         <div className="space-y-6">
           {/* Info */}
           <Card className="bg-blue-50 border-blue-200">
             <CardContent className="p-4">
-              <h4 className="font-semibold text-blue-900 text-sm mb-2">Como funciona o webhook</h4>
+              <h4 className="font-semibold text-blue-900 text-sm mb-2">
+                Como funciona o webhook
+              </h4>
               <p className="text-blue-700 text-xs">
-                Quando um lead for capturado na landing page, os dados serão enviados automaticamente 
-                para a URL configurada. Isso permite integrar com seu CRM ou sistema de e-mail marketing.
+                Quando um lead for capturado na landing page, os dados serão
+                enviados automaticamente para a URL configurada. Isso permite
+                integrar com seu CRM ou sistema de e-mail marketing.
               </p>
             </CardContent>
           </Card>
@@ -665,7 +710,7 @@ export default function AdminConfiguracoes() {
                   size="sm"
                   className="border-blue-300 text-blue-700 hover:bg-blue-50"
                 >
-                  {saving ? 'Testando...' : 'Testar'}
+                  {saving ? "Testando..." : "Testar"}
                 </Button>
               </CardTitle>
             </CardHeader>
@@ -678,9 +723,16 @@ export default function AdminConfiguracoes() {
                     type="url"
                     placeholder="https://seu-sistema.com/webhook/leads"
                     value={webhookData.webhook_url}
-                    onChange={(e) => setWebhookData({...webhookData, webhook_url: e.target.value})}
+                    onChange={(e) =>
+                      setWebhookData({
+                        ...webhookData,
+                        webhook_url: e.target.value,
+                      })
+                    }
                   />
-                  <p className="text-xs text-gray-500">URL onde os dados dos leads serão enviados via POST</p>
+                  <p className="text-xs text-gray-500">
+                    URL onde os dados dos leads serão enviados via POST
+                  </p>
                 </div>
 
                 <div className="space-y-2">
@@ -690,9 +742,16 @@ export default function AdminConfiguracoes() {
                     type="password"
                     placeholder="chave-secreta-para-validacao"
                     value={webhookData.webhook_secret}
-                    onChange={(e) => setWebhookData({...webhookData, webhook_secret: e.target.value})}
+                    onChange={(e) =>
+                      setWebhookData({
+                        ...webhookData,
+                        webhook_secret: e.target.value,
+                      })
+                    }
                   />
-                  <p className="text-xs text-gray-500">Chave secreta para validar a origem dos dados</p>
+                  <p className="text-xs text-gray-500">
+                    Chave secreta para validar a origem dos dados
+                  </p>
                 </div>
 
                 <div className="space-y-2">
@@ -703,9 +762,16 @@ export default function AdminConfiguracoes() {
                     min="5"
                     max="120"
                     value={webhookData.webhook_timeout}
-                    onChange={(e) => setWebhookData({...webhookData, webhook_timeout: e.target.value})}
+                    onChange={(e) =>
+                      setWebhookData({
+                        ...webhookData,
+                        webhook_timeout: e.target.value,
+                      })
+                    }
                   />
-                  <p className="text-xs text-gray-500">Tempo limite para esperar resposta (5-120 segundos)</p>
+                  <p className="text-xs text-gray-500">
+                    Tempo limite para esperar resposta (5-120 segundos)
+                  </p>
                 </div>
 
                 <div className="space-y-2">
@@ -716,17 +782,26 @@ export default function AdminConfiguracoes() {
                     min="1"
                     max="10"
                     value={webhookData.webhook_retries}
-                    onChange={(e) => setWebhookData({...webhookData, webhook_retries: e.target.value})}
+                    onChange={(e) =>
+                      setWebhookData({
+                        ...webhookData,
+                        webhook_retries: e.target.value,
+                      })
+                    }
                   />
-                  <p className="text-xs text-gray-500">Número de tentativas em caso de falha (1-10)</p>
+                  <p className="text-xs text-gray-500">
+                    Número de tentativas em caso de falha (1-10)
+                  </p>
                 </div>
               </div>
 
               {/* Exemplo de Payload */}
               <div className="bg-gray-50 p-4 rounded-lg">
-                <h4 className="font-medium text-gray-900 mb-3">Exemplo de Payload</h4>
+                <h4 className="font-medium text-gray-900 mb-3">
+                  Exemplo de Payload
+                </h4>
                 <pre className="bg-gray-800 text-green-400 p-3 rounded text-xs overflow-x-auto">
-{`{
+                  {`{
   "lead_id": 123,
   "nome": "João Silva",
   "telefone": "(11) 99999-9999",
@@ -739,7 +814,7 @@ export default function AdminConfiguracoes() {
             </CardContent>
           </Card>
         </div>
-      ) : activeTab === 'seo' ? (
+      ) : activeTab === "seo" ? (
         <div className="space-y-6">
           {/* SEO Básico */}
           <Card>
@@ -756,7 +831,7 @@ export default function AdminConfiguracoes() {
                   size="sm"
                   className="border-green-300 text-green-700 hover:bg-green-50"
                 >
-                  {saving ? 'Gerando...' : 'Preview SEO'}
+                  {saving ? "Gerando..." : "Preview SEO"}
                 </Button>
               </CardTitle>
             </CardHeader>
@@ -768,9 +843,13 @@ export default function AdminConfiguracoes() {
                     id="seo_title"
                     placeholder="Ex: Seja Revendedor Oficial Ecko - Oportunidade Única"
                     value={seoData.seo_title}
-                    onChange={(e) => setSeoData({...seoData, seo_title: e.target.value})}
+                    onChange={(e) =>
+                      setSeoData({ ...seoData, seo_title: e.target.value })
+                    }
                   />
-                  <p className="text-xs text-gray-500">Máx. 60 caracteres para melhor exibição</p>
+                  <p className="text-xs text-gray-500">
+                    Máx. 60 caracteres para melhor exibição
+                  </p>
                 </div>
 
                 <div className="space-y-2">
@@ -779,10 +858,17 @@ export default function AdminConfiguracoes() {
                     id="seo_canonical_url"
                     placeholder="https://seudominio.com"
                     value={seoData.seo_canonical_url}
-                    onChange={(e) => setSeoData({...seoData, seo_canonical_url: e.target.value})}
+                    onChange={(e) =>
+                      setSeoData({
+                        ...seoData,
+                        seo_canonical_url: e.target.value,
+                      })
+                    }
                   />
                   <div className="text-xs text-gray-500">
-                    <p className="mb-1">URL principal do site para evitar conteúdo duplicado</p>
+                    <p className="mb-1">
+                      URL principal do site para evitar conteúdo duplicado
+                    </p>
                     <p className="text-orange-600">
                       ⚠️ Importante: Use sempre HTTPS e sem "/" no final
                     </p>
@@ -796,7 +882,9 @@ export default function AdminConfiguracoes() {
                   id="seo_description"
                   placeholder="Descrição que aparece nos resultados do Google (máx. 160 caracteres)"
                   value={seoData.seo_description}
-                  onChange={(e) => setSeoData({...seoData, seo_description: e.target.value})}
+                  onChange={(e) =>
+                    setSeoData({ ...seoData, seo_description: e.target.value })
+                  }
                 />
                 <p className="text-xs text-gray-500">
                   {seoData.seo_description.length}/160 caracteres
@@ -809,9 +897,13 @@ export default function AdminConfiguracoes() {
                   id="seo_keywords"
                   placeholder="revendedor, ecko, streetwear, marca, parceria"
                   value={seoData.seo_keywords}
-                  onChange={(e) => setSeoData({...seoData, seo_keywords: e.target.value})}
+                  onChange={(e) =>
+                    setSeoData({ ...seoData, seo_keywords: e.target.value })
+                  }
                 />
-                <p className="text-xs text-gray-500">Separe as palavras-chave por vírgula</p>
+                <p className="text-xs text-gray-500">
+                  Separe as palavras-chave por vírgula
+                </p>
               </div>
             </CardContent>
           </Card>
@@ -826,10 +918,14 @@ export default function AdminConfiguracoes() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
-                <h4 className="font-semibold text-blue-900 text-sm mb-2">Sobre os ícones</h4>
+                <h4 className="font-semibold text-blue-900 text-sm mb-2">
+                  Sobre os ícones
+                </h4>
                 <p className="text-blue-700 text-xs">
-                  O favicon aparece na aba do navegador e favoritos. O ícone Apple é usado quando o site é salvo na tela inicial de dispositivos iOS.
-                  Recomendado: imagens quadradas (32x32px para favicon, 180x180px para Apple).
+                  O favicon aparece na aba do navegador e favoritos. O ícone
+                  Apple é usado quando o site é salvo na tela inicial de
+                  dispositivos iOS. Recomendado: imagens quadradas (32x32px para
+                  favicon, 180x180px para Apple).
                 </p>
               </div>
 
@@ -838,20 +934,30 @@ export default function AdminConfiguracoes() {
                   <Label htmlFor="favicon_url">Favicon (32x32px)</Label>
                   <SeoImageUpload
                     value={seoData.favicon_url}
-                    onChange={(url) => setSeoData({...seoData, favicon_url: url})}
+                    onChange={(url) =>
+                      setSeoData({ ...seoData, favicon_url: url })
+                    }
                     label=""
                   />
-                  <p className="text-xs text-gray-500">Imagem quadrada, formato .ico, .png ou .svg</p>
+                  <p className="text-xs text-gray-500">
+                    Imagem quadrada, formato .ico, .png ou .svg
+                  </p>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="apple_icon_url">Ícone Apple Touch (180x180px)</Label>
+                  <Label htmlFor="apple_icon_url">
+                    Ícone Apple Touch (180x180px)
+                  </Label>
                   <SeoImageUpload
                     value={seoData.apple_icon_url}
-                    onChange={(url) => setSeoData({...seoData, apple_icon_url: url})}
+                    onChange={(url) =>
+                      setSeoData({ ...seoData, apple_icon_url: url })
+                    }
                     label=""
                   />
-                  <p className="text-xs text-gray-500">Para dispositivos iOS, formato .png</p>
+                  <p className="text-xs text-gray-500">
+                    Para dispositivos iOS, formato .png
+                  </p>
                 </div>
               </div>
             </CardContent>
@@ -873,10 +979,14 @@ export default function AdminConfiguracoes() {
                     id="twitter_card"
                     className="w-full h-9 px-3 rounded-md border border-input bg-background text-sm"
                     value={seoData.twitter_card}
-                    onChange={(e) => setSeoData({...seoData, twitter_card: e.target.value})}
+                    onChange={(e) =>
+                      setSeoData({ ...seoData, twitter_card: e.target.value })
+                    }
                   >
                     <option value="summary">Summary</option>
-                    <option value="summary_large_image">Summary Large Image</option>
+                    <option value="summary_large_image">
+                      Summary Large Image
+                    </option>
                     <option value="app">App</option>
                     <option value="player">Player</option>
                   </select>
@@ -888,7 +998,9 @@ export default function AdminConfiguracoes() {
                     id="twitter_title"
                     placeholder="Título para Twitter"
                     value={seoData.twitter_title}
-                    onChange={(e) => setSeoData({...seoData, twitter_title: e.target.value})}
+                    onChange={(e) =>
+                      setSeoData({ ...seoData, twitter_title: e.target.value })
+                    }
                   />
                 </div>
 
@@ -898,7 +1010,12 @@ export default function AdminConfiguracoes() {
                     id="twitter_description"
                     placeholder="Descrição para Twitter"
                     value={seoData.twitter_description}
-                    onChange={(e) => setSeoData({...seoData, twitter_description: e.target.value})}
+                    onChange={(e) =>
+                      setSeoData({
+                        ...seoData,
+                        twitter_description: e.target.value,
+                      })
+                    }
                   />
                 </div>
 
@@ -906,7 +1023,9 @@ export default function AdminConfiguracoes() {
                   <Label htmlFor="twitter_image">Imagem Twitter</Label>
                   <SeoImageUpload
                     value={seoData.twitter_image}
-                    onChange={(url) => setSeoData({...seoData, twitter_image: url})}
+                    onChange={(url) =>
+                      setSeoData({ ...seoData, twitter_image: url })
+                    }
                     label=""
                   />
                 </div>
@@ -930,7 +1049,9 @@ export default function AdminConfiguracoes() {
                     id="og_title"
                     placeholder="Título para redes sociais"
                     value={seoData.og_title}
-                    onChange={(e) => setSeoData({...seoData, og_title: e.target.value})}
+                    onChange={(e) =>
+                      setSeoData({ ...seoData, og_title: e.target.value })
+                    }
                   />
                 </div>
 
@@ -940,7 +1061,9 @@ export default function AdminConfiguracoes() {
                     id="og_description"
                     placeholder="Descrição para redes sociais"
                     value={seoData.og_description}
-                    onChange={(e) => setSeoData({...seoData, og_description: e.target.value})}
+                    onChange={(e) =>
+                      setSeoData({ ...seoData, og_description: e.target.value })
+                    }
                   />
                 </div>
 
@@ -950,7 +1073,9 @@ export default function AdminConfiguracoes() {
                     id="og_url"
                     placeholder="URL canônica para redes sociais"
                     value={seoData.og_url}
-                    onChange={(e) => setSeoData({...seoData, og_url: e.target.value})}
+                    onChange={(e) =>
+                      setSeoData({ ...seoData, og_url: e.target.value })
+                    }
                   />
                 </div>
 
@@ -960,7 +1085,9 @@ export default function AdminConfiguracoes() {
                     id="og_type"
                     className="w-full h-9 px-3 rounded-md border border-input bg-background text-sm"
                     value={seoData.og_type}
-                    onChange={(e) => setSeoData({...seoData, og_type: e.target.value})}
+                    onChange={(e) =>
+                      setSeoData({ ...seoData, og_type: e.target.value })
+                    }
                   >
                     <option value="website">Website</option>
                     <option value="article">Article</option>
@@ -975,10 +1102,12 @@ export default function AdminConfiguracoes() {
                 <Label htmlFor="og_image">Imagem OG (1200x630px)</Label>
                 <SeoImageUpload
                   value={seoData.og_image}
-                  onChange={(url) => setSeoData({...seoData, og_image: url})}
+                  onChange={(url) => setSeoData({ ...seoData, og_image: url })}
                   label=""
                 />
-                <p className="text-xs text-gray-500">Tamanho recomendado: 1200x630px para melhor exibição</p>
+                <p className="text-xs text-gray-500">
+                  Tamanho recomendado: 1200x630px para melhor exibição
+                </p>
               </div>
             </CardContent>
           </Card>
@@ -993,10 +1122,13 @@ export default function AdminConfiguracoes() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="bg-amber-50 p-4 rounded-lg border border-amber-200">
-                <h4 className="font-semibold text-amber-900 text-sm mb-2">Sobre o robots.txt</h4>
+                <h4 className="font-semibold text-amber-900 text-sm mb-2">
+                  Sobre o robots.txt
+                </h4>
                 <p className="text-amber-700 text-xs">
-                  O arquivo robots.txt informa aos mecanismos de busca quais páginas podem ou não ser indexadas.
-                  As configurações abaixo serão aplicadas automaticamente ao site.
+                  O arquivo robots.txt informa aos mecanismos de busca quais
+                  páginas podem ou não ser indexadas. As configurações abaixo
+                  serão aplicadas automaticamente ao site.
                 </p>
               </div>
 
@@ -1007,7 +1139,9 @@ export default function AdminConfiguracoes() {
                   className="w-full h-32 px-3 py-2 rounded-md border border-input bg-background text-sm font-mono"
                   placeholder="User-agent: *&#10;Disallow: /admin&#10;Allow: /"
                   value={seoData.robots_txt}
-                  onChange={(e) => setSeoData({...seoData, robots_txt: e.target.value})}
+                  onChange={(e) =>
+                    setSeoData({ ...seoData, robots_txt: e.target.value })
+                  }
                 />
                 <p className="text-xs text-gray-500">
                   Acessível em: {window.location.origin}/robots.txt
@@ -1039,13 +1173,16 @@ export default function AdminConfiguracoes() {
                   </h4>
                   <div className="space-y-1 text-xs">
                     <p className="text-blue-700">
-                      <strong>Robots:</strong> {window.location.origin}/robots.txt
+                      <strong>Robots:</strong> {window.location.origin}
+                      /robots.txt
                     </p>
                     <p className="text-blue-700">
-                      <strong>Sitemap:</strong> {window.location.origin}/sitemap.xml
+                      <strong>Sitemap:</strong> {window.location.origin}
+                      /sitemap.xml
                     </p>
                     <p className="text-blue-700">
-                      <strong>Favicon:</strong> {seoData.favicon_url || 'Não configurado'}
+                      <strong>Favicon:</strong>{" "}
+                      {seoData.favicon_url || "Não configurado"}
                     </p>
                   </div>
                 </div>
@@ -1069,7 +1206,12 @@ export default function AdminConfiguracoes() {
                     id="schema_company_name"
                     placeholder="Ecko Unltd"
                     value={seoData.schema_company_name}
-                    onChange={(e) => setSeoData({...seoData, schema_company_name: e.target.value})}
+                    onChange={(e) =>
+                      setSeoData({
+                        ...seoData,
+                        schema_company_name: e.target.value,
+                      })
+                    }
                   />
                 </div>
 
@@ -1079,7 +1221,12 @@ export default function AdminConfiguracoes() {
                     id="schema_contact_phone"
                     placeholder="(11) 99999-9999"
                     value={seoData.schema_contact_phone}
-                    onChange={(e) => setSeoData({...seoData, schema_contact_phone: e.target.value})}
+                    onChange={(e) =>
+                      setSeoData({
+                        ...seoData,
+                        schema_contact_phone: e.target.value,
+                      })
+                    }
                   />
                 </div>
 
@@ -1090,7 +1237,12 @@ export default function AdminConfiguracoes() {
                     type="email"
                     placeholder="contato@ecko.com"
                     value={seoData.schema_contact_email}
-                    onChange={(e) => setSeoData({...seoData, schema_contact_email: e.target.value})}
+                    onChange={(e) =>
+                      setSeoData({
+                        ...seoData,
+                        schema_contact_email: e.target.value,
+                      })
+                    }
                   />
                 </div>
 
@@ -1100,7 +1252,12 @@ export default function AdminConfiguracoes() {
                     id="schema_address_street"
                     placeholder="Rua das Flores, 123"
                     value={seoData.schema_address_street}
-                    onChange={(e) => setSeoData({...seoData, schema_address_street: e.target.value})}
+                    onChange={(e) =>
+                      setSeoData({
+                        ...seoData,
+                        schema_address_street: e.target.value,
+                      })
+                    }
                   />
                 </div>
 
@@ -1110,7 +1267,12 @@ export default function AdminConfiguracoes() {
                     id="schema_address_city"
                     placeholder="São Paulo"
                     value={seoData.schema_address_city}
-                    onChange={(e) => setSeoData({...seoData, schema_address_city: e.target.value})}
+                    onChange={(e) =>
+                      setSeoData({
+                        ...seoData,
+                        schema_address_city: e.target.value,
+                      })
+                    }
                   />
                 </div>
 
@@ -1120,7 +1282,12 @@ export default function AdminConfiguracoes() {
                     id="schema_address_state"
                     placeholder="SP"
                     value={seoData.schema_address_state}
-                    onChange={(e) => setSeoData({...seoData, schema_address_state: e.target.value})}
+                    onChange={(e) =>
+                      setSeoData({
+                        ...seoData,
+                        schema_address_state: e.target.value,
+                      })
+                    }
                   />
                 </div>
               </div>
@@ -1143,7 +1310,7 @@ export default function AdminConfiguracoes() {
                       description: canonical
                         ? `✅ URL encontrada: ${canonical}`
                         : "⚠️ URL canônica não encontrada no DOM",
-                      variant: canonical ? "default" : "destructive"
+                      variant: canonical ? "default" : "destructive",
                     });
                   }}
                   variant="outline"
@@ -1157,58 +1324,80 @@ export default function AdminConfiguracoes() {
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                 <div className="flex items-center space-x-3 p-3 border rounded-lg">
-                  <div className={`w-3 h-3 rounded-full ${seoData.seo_title && seoData.seo_description ? 'bg-green-500' : 'bg-yellow-500'}`}></div>
+                  <div
+                    className={`w-3 h-3 rounded-full ${seoData.seo_title && seoData.seo_description ? "bg-green-500" : "bg-yellow-500"}`}
+                  ></div>
                   <div>
                     <p className="font-medium text-sm">SEO Básico</p>
                     <p className="text-xs text-gray-500">
-                      {seoData.seo_title && seoData.seo_description ? 'Configurado' : 'Incompleto'}
+                      {seoData.seo_title && seoData.seo_description
+                        ? "Configurado"
+                        : "Incompleto"}
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-center space-x-3 p-3 border rounded-lg">
-                  <div className={`w-3 h-3 rounded-full ${seoData.seo_canonical_url ? 'bg-green-500' : 'bg-red-500'}`}></div>
+                  <div
+                    className={`w-3 h-3 rounded-full ${seoData.seo_canonical_url ? "bg-green-500" : "bg-red-500"}`}
+                  ></div>
                   <div>
                     <p className="font-medium text-sm">URL Canônica</p>
                     <p className="text-xs text-gray-500">
-                      {seoData.seo_canonical_url ? 'Configurada' : 'Não configurada'}
+                      {seoData.seo_canonical_url
+                        ? "Configurada"
+                        : "Não configurada"}
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-center space-x-3 p-3 border rounded-lg">
-                  <div className={`w-3 h-3 rounded-full ${seoData.favicon_url || seoData.apple_icon_url ? 'bg-green-500' : 'bg-gray-300'}`}></div>
+                  <div
+                    className={`w-3 h-3 rounded-full ${seoData.favicon_url || seoData.apple_icon_url ? "bg-green-500" : "bg-gray-300"}`}
+                  ></div>
                   <div>
                     <p className="font-medium text-sm">Ícones</p>
                     <p className="text-xs text-gray-500">
-                      {seoData.favicon_url || seoData.apple_icon_url ? 'Configurado' : 'Não configurado'}
+                      {seoData.favicon_url || seoData.apple_icon_url
+                        ? "Configurado"
+                        : "Não configurado"}
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-center space-x-3 p-3 border rounded-lg">
-                  <div className={`w-3 h-3 rounded-full ${seoData.og_title && seoData.og_description ? 'bg-green-500' : 'bg-yellow-500'}`}></div>
+                  <div
+                    className={`w-3 h-3 rounded-full ${seoData.og_title && seoData.og_description ? "bg-green-500" : "bg-yellow-500"}`}
+                  ></div>
                   <div>
                     <p className="font-medium text-sm">Open Graph</p>
                     <p className="text-xs text-gray-500">
-                      {seoData.og_title && seoData.og_description ? 'Configurado' : 'Incompleto'}
+                      {seoData.og_title && seoData.og_description
+                        ? "Configurado"
+                        : "Incompleto"}
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-center space-x-3 p-3 border rounded-lg">
-                  <div className={`w-3 h-3 rounded-full ${seoData.schema_company_name ? 'bg-green-500' : 'bg-gray-300'}`}></div>
+                  <div
+                    className={`w-3 h-3 rounded-full ${seoData.schema_company_name ? "bg-green-500" : "bg-gray-300"}`}
+                  ></div>
                   <div>
                     <p className="font-medium text-sm">Schema.org</p>
                     <p className="text-xs text-gray-500">
-                      {seoData.schema_company_name ? 'Configurado' : 'Não configurado'}
+                      {seoData.schema_company_name
+                        ? "Configurado"
+                        : "Não configurado"}
                     </p>
                   </div>
                 </div>
               </div>
 
               <div className="mt-4 p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg border border-green-200">
-                <h4 className="font-semibold text-green-900 text-sm mb-2">Arquivos SEO Automáticos</h4>
+                <h4 className="font-semibold text-green-900 text-sm mb-2">
+                  Arquivos SEO Automáticos
+                </h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
                   <div className="flex items-center text-green-700">
                     <FileText className="w-4 h-4 mr-2" />
@@ -1231,7 +1420,7 @@ export default function AdminConfiguracoes() {
             </CardContent>
           </Card>
         </div>
-      ) : activeTab === 'integracoes' ? (
+      ) : activeTab === "integracoes" ? (
         <div className="space-y-6">
           {/* Card de Instruções */}
           <Card className="bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200">
@@ -1247,7 +1436,8 @@ export default function AdminConfiguracoes() {
                     Como funcionam as integrações?
                   </h3>
                   <p className="text-gray-600 text-sm mb-4">
-                    Quando um lead se cadastra, os dados são automaticamente enviados para as plataformas configuradas:
+                    Quando um lead se cadastra, os dados são automaticamente
+                    enviados para as plataformas configuradas:
                   </p>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
                     <div className="bg-white p-3 rounded-lg border border-blue-200">
@@ -1256,7 +1446,8 @@ export default function AdminConfiguracoes() {
                         <span className="font-medium">Google Analytics 4</span>
                       </div>
                       <p className="text-gray-600">
-                        Rastreia conversões em tempo real via Measurement Protocol API
+                        Rastreia conversões em tempo real via Measurement
+                        Protocol API
                       </p>
                     </div>
                     <div className="bg-white p-3 rounded-lg border border-purple-200">
@@ -1265,7 +1456,8 @@ export default function AdminConfiguracoes() {
                         <span className="font-medium">Meta Pixel</span>
                       </div>
                       <p className="text-gray-600">
-                        Otimiza campanhas do Facebook/Instagram com dados reais de conversão
+                        Otimiza campanhas do Facebook/Instagram com dados reais
+                        de conversão
                       </p>
                     </div>
                     <div className="bg-white p-3 rounded-lg border border-green-200">
@@ -1274,7 +1466,8 @@ export default function AdminConfiguracoes() {
                         <span className="font-medium">Evento Custom</span>
                       </div>
                       <p className="text-gray-600">
-                        Permite integrar com outras ferramentas de automação e analytics
+                        Permite integrar com outras ferramentas de automação e
+                        analytics
                       </p>
                     </div>
                   </div>
@@ -1293,23 +1486,35 @@ export default function AdminConfiguracoes() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
-                <h4 className="font-semibold text-blue-900 text-sm mb-2">Como configurar o GA4</h4>
+                <h4 className="font-semibold text-blue-900 text-sm mb-2">
+                  Como configurar o GA4
+                </h4>
                 <p className="text-blue-700 text-xs">
-                  Configure seu ID de medição do GA4 para rastrear automaticamente conversões quando um lead se cadastrar.
-                  O evento será enviado via Measurement Protocol API.
+                  Configure seu ID de medição do GA4 para rastrear
+                  automaticamente conversões quando um lead se cadastrar. O
+                  evento será enviado via Measurement Protocol API.
                 </p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="ga4_measurement_id">ID de Medição GA4 *</Label>
+                  <Label htmlFor="ga4_measurement_id">
+                    ID de Medição GA4 *
+                  </Label>
                   <Input
                     id="ga4_measurement_id"
                     placeholder="G-XXXXXXXXXX"
                     value={integracoesData.ga4_measurement_id}
-                    onChange={(e) => setIntegracoesData({...integracoesData, ga4_measurement_id: e.target.value})}
+                    onChange={(e) =>
+                      setIntegracoesData({
+                        ...integracoesData,
+                        ga4_measurement_id: e.target.value,
+                      })
+                    }
                   />
-                  <p className="text-xs text-gray-500">Encontre em GA4 → Admin → Streams de dados</p>
+                  <p className="text-xs text-gray-500">
+                    Encontre em GA4 → Admin → Streams de dados
+                  </p>
                 </div>
 
                 <div className="space-y-2">
@@ -1319,9 +1524,16 @@ export default function AdminConfiguracoes() {
                     type="password"
                     placeholder="ABC123..."
                     value={integracoesData.ga4_api_secret}
-                    onChange={(e) => setIntegracoesData({...integracoesData, ga4_api_secret: e.target.value})}
+                    onChange={(e) =>
+                      setIntegracoesData({
+                        ...integracoesData,
+                        ga4_api_secret: e.target.value,
+                      })
+                    }
                   />
-                  <p className="text-xs text-gray-500">Crie em GA4 → Admin → Measurement Protocol API secrets</p>
+                  <p className="text-xs text-gray-500">
+                    Crie em GA4 → Admin → Measurement Protocol API secrets
+                  </p>
                 </div>
 
                 <div className="space-y-2">
@@ -1330,9 +1542,16 @@ export default function AdminConfiguracoes() {
                     id="ga4_conversion_name"
                     placeholder="form_submit"
                     value={integracoesData.ga4_conversion_name}
-                    onChange={(e) => setIntegracoesData({...integracoesData, ga4_conversion_name: e.target.value})}
+                    onChange={(e) =>
+                      setIntegracoesData({
+                        ...integracoesData,
+                        ga4_conversion_name: e.target.value,
+                      })
+                    }
                   />
-                  <p className="text-xs text-gray-500">Nome do evento que será enviado ao GA4</p>
+                  <p className="text-xs text-gray-500">
+                    Nome do evento que será enviado ao GA4
+                  </p>
                 </div>
               </div>
             </CardContent>
@@ -1350,10 +1569,13 @@ export default function AdminConfiguracoes() {
                   onClick={async () => {
                     setSaving(true);
                     try {
-                      const response = await fetch('/api/integracoes/test-meta', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' }
-                      });
+                      const response = await fetch(
+                        "/api/integracoes/test-meta",
+                        {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
+                        },
+                      );
                       const result = await response.json();
 
                       if (result.success) {
@@ -1362,7 +1584,9 @@ export default function AdminConfiguracoes() {
                           description: result.result.success
                             ? `✅ Evento enviado com sucesso! Events received: ${result.result.eventsReceived || 0}`
                             : `❌ Erro: ${result.result.error}`,
-                          variant: result.result.success ? "default" : "destructive"
+                          variant: result.result.success
+                            ? "default"
+                            : "destructive",
                         });
                       } else {
                         toast({
@@ -1386,20 +1610,24 @@ export default function AdminConfiguracoes() {
                   size="sm"
                   className="border-purple-300 text-purple-700 hover:bg-purple-50"
                 >
-                  {saving ? 'Testando...' : 'Testar Meta'}
+                  {saving ? "Testando..." : "Testar Meta"}
                 </Button>
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="bg-purple-50 p-4 rounded-lg border border-purple-200">
-                <h4 className="font-semibold text-purple-900 text-sm mb-2">Como configurar o Meta Pixel</h4>
+                <h4 className="font-semibold text-purple-900 text-sm mb-2">
+                  Como configurar o Meta Pixel
+                </h4>
                 <p className="text-purple-700 text-xs mb-3">
-                  Configure sua API de Conversões do Meta para rastrear leads diretamente do servidor.
-                  Isso melhora a precisão do rastreamento e otimiza suas campanhas no Facebook/Instagram.
+                  Configure sua API de Conversões do Meta para rastrear leads
+                  diretamente do servidor. Isso melhora a precisão do
+                  rastreamento e otimiza suas campanhas no Facebook/Instagram.
                 </p>
                 <div className="bg-purple-100 p-2 rounded border-l-4 border-purple-500">
                   <p className="text-purple-800 text-xs font-medium">
-                    💡 Dica: Use o "Código de Teste" para debugar eventos em tempo real no Events Manager → Test Events
+                    💡 Dica: Use o "Código de Teste" para debugar eventos em
+                    tempo real no Events Manager → Test Events
                   </p>
                 </div>
               </div>
@@ -1411,9 +1639,16 @@ export default function AdminConfiguracoes() {
                     id="meta_pixel_id"
                     placeholder="123456789012345"
                     value={integracoesData.meta_pixel_id}
-                    onChange={(e) => setIntegracoesData({...integracoesData, meta_pixel_id: e.target.value})}
+                    onChange={(e) =>
+                      setIntegracoesData({
+                        ...integracoesData,
+                        meta_pixel_id: e.target.value,
+                      })
+                    }
                   />
-                  <p className="text-xs text-gray-500">Encontre em Events Manager → Data Sources</p>
+                  <p className="text-xs text-gray-500">
+                    Encontre em Events Manager → Data Sources
+                  </p>
                 </div>
 
                 <div className="space-y-2">
@@ -1423,9 +1658,16 @@ export default function AdminConfiguracoes() {
                     type="password"
                     placeholder="EAAxxxx..."
                     value={integracoesData.meta_access_token}
-                    onChange={(e) => setIntegracoesData({...integracoesData, meta_access_token: e.target.value})}
+                    onChange={(e) =>
+                      setIntegracoesData({
+                        ...integracoesData,
+                        meta_access_token: e.target.value,
+                      })
+                    }
                   />
-                  <p className="text-xs text-gray-500">Gere em Events Manager → Settings → Conversions API</p>
+                  <p className="text-xs text-gray-500">
+                    Gere em Events Manager → Settings → Conversions API
+                  </p>
                 </div>
 
                 <div className="space-y-2">
@@ -1434,20 +1676,36 @@ export default function AdminConfiguracoes() {
                     id="meta_conversion_name"
                     placeholder="Lead"
                     value={integracoesData.meta_conversion_name}
-                    onChange={(e) => setIntegracoesData({...integracoesData, meta_conversion_name: e.target.value})}
+                    onChange={(e) =>
+                      setIntegracoesData({
+                        ...integracoesData,
+                        meta_conversion_name: e.target.value,
+                      })
+                    }
                   />
-                  <p className="text-xs text-gray-500">Ex: Lead, Purchase, CompleteRegistration</p>
+                  <p className="text-xs text-gray-500">
+                    Ex: Lead, Purchase, CompleteRegistration
+                  </p>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="meta_test_code">Código de Teste (Test Event Code)</Label>
+                  <Label htmlFor="meta_test_code">
+                    Código de Teste (Test Event Code)
+                  </Label>
                   <Input
                     id="meta_test_code"
                     placeholder="TEST23442"
                     value={integracoesData.meta_test_code}
-                    onChange={(e) => setIntegracoesData({...integracoesData, meta_test_code: e.target.value})}
+                    onChange={(e) =>
+                      setIntegracoesData({
+                        ...integracoesData,
+                        meta_test_code: e.target.value,
+                      })
+                    }
                   />
-                  <p className="text-xs text-gray-500">Para debugar eventos em Events Manager → Test Events</p>
+                  <p className="text-xs text-gray-500">
+                    Para debugar eventos em Events Manager → Test Events
+                  </p>
                 </div>
               </div>
             </CardContent>
@@ -1463,21 +1721,31 @@ export default function AdminConfiguracoes() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="bg-green-50 p-4 rounded-lg border border-green-200">
-                <h4 className="font-semibold text-green-900 text-sm mb-2">Evento JavaScript Personalizado</h4>
+                <h4 className="font-semibold text-green-900 text-sm mb-2">
+                  Evento JavaScript Personalizado
+                </h4>
                 <p className="text-green-700 text-xs">
-                  Configure um evento personalizado que será disparado no frontend quando um lead se cadastrar.
-                  Útil para integrar com outras ferramentas de analytics ou automação.
+                  Configure um evento personalizado que será disparado no
+                  frontend quando um lead se cadastrar. Útil para integrar com
+                  outras ferramentas de analytics ou automação.
                 </p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="custom_conversion_enabled">Ativar Conversão</Label>
+                  <Label htmlFor="custom_conversion_enabled">
+                    Ativar Conversão
+                  </Label>
                   <select
                     id="custom_conversion_enabled"
                     className="w-full h-9 px-3 rounded-md border border-input bg-background text-sm"
                     value={integracoesData.custom_conversion_enabled}
-                    onChange={(e) => setIntegracoesData({...integracoesData, custom_conversion_enabled: e.target.value})}
+                    onChange={(e) =>
+                      setIntegracoesData({
+                        ...integracoesData,
+                        custom_conversion_enabled: e.target.value,
+                      })
+                    }
                   >
                     <option value="false">Desativado</option>
                     <option value="true">Ativado</option>
@@ -1485,33 +1753,53 @@ export default function AdminConfiguracoes() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="custom_conversion_event">Nome do Evento</Label>
+                  <Label htmlFor="custom_conversion_event">
+                    Nome do Evento
+                  </Label>
                   <Input
                     id="custom_conversion_event"
                     placeholder="lead_captured"
                     value={integracoesData.custom_conversion_event}
-                    onChange={(e) => setIntegracoesData({...integracoesData, custom_conversion_event: e.target.value})}
+                    onChange={(e) =>
+                      setIntegracoesData({
+                        ...integracoesData,
+                        custom_conversion_event: e.target.value,
+                      })
+                    }
                   />
-                  <p className="text-xs text-gray-500">Nome do evento customEvent() que será disparado</p>
+                  <p className="text-xs text-gray-500">
+                    Nome do evento customEvent() que será disparado
+                  </p>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="custom_conversion_value">Valor da Conversão</Label>
+                  <Label htmlFor="custom_conversion_value">
+                    Valor da Conversão
+                  </Label>
                   <Input
                     id="custom_conversion_value"
                     placeholder="1"
                     value={integracoesData.custom_conversion_value}
-                    onChange={(e) => setIntegracoesData({...integracoesData, custom_conversion_value: e.target.value})}
+                    onChange={(e) =>
+                      setIntegracoesData({
+                        ...integracoesData,
+                        custom_conversion_value: e.target.value,
+                      })
+                    }
                   />
-                  <p className="text-xs text-gray-500">Valor numérico enviado com o evento</p>
+                  <p className="text-xs text-gray-500">
+                    Valor numérico enviado com o evento
+                  </p>
                 </div>
               </div>
 
-              {integracoesData.custom_conversion_enabled === 'true' && (
+              {integracoesData.custom_conversion_enabled === "true" && (
                 <div className="bg-gray-50 p-4 rounded-lg">
-                  <h4 className="font-medium text-gray-900 mb-3">Evento que será disparado:</h4>
+                  <h4 className="font-medium text-gray-900 mb-3">
+                    Evento que será disparado:
+                  </h4>
                   <pre className="bg-gray-800 text-green-400 p-3 rounded text-xs overflow-x-auto">
-{`// Evento customizado disparado ao capturar lead
+                    {`// Evento customizado disparado ao capturar lead
 window.dispatchEvent(new CustomEvent('${integracoesData.custom_conversion_event}', {
   detail: {
     value: ${integracoesData.custom_conversion_value},
@@ -1544,38 +1832,52 @@ window.dispatchEvent(new CustomEvent('${integracoesData.custom_conversion_event}
                   size="sm"
                   className="border-purple-300 text-purple-700 hover:bg-purple-50"
                 >
-                  {saving ? 'Testando...' : 'Testar Integrações'}
+                  {saving ? "Testando..." : "Testar Integrações"}
                 </Button>
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="flex items-center space-x-3 p-3 border rounded-lg">
-                  <div className={`w-3 h-3 rounded-full ${integracoesData.ga4_measurement_id && integracoesData.ga4_api_secret ? 'bg-green-500' : 'bg-gray-300'}`}></div>
+                  <div
+                    className={`w-3 h-3 rounded-full ${integracoesData.ga4_measurement_id && integracoesData.ga4_api_secret ? "bg-green-500" : "bg-gray-300"}`}
+                  ></div>
                   <div>
                     <p className="font-medium text-sm">Google Analytics 4</p>
                     <p className="text-xs text-gray-500">
-                      {integracoesData.ga4_measurement_id && integracoesData.ga4_api_secret ? 'Configurado' : 'Não configurado'}
+                      {integracoesData.ga4_measurement_id &&
+                      integracoesData.ga4_api_secret
+                        ? "Configurado"
+                        : "Não configurado"}
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-center space-x-3 p-3 border rounded-lg">
-                  <div className={`w-3 h-3 rounded-full ${integracoesData.meta_pixel_id && integracoesData.meta_access_token ? 'bg-green-500' : 'bg-gray-300'}`}></div>
+                  <div
+                    className={`w-3 h-3 rounded-full ${integracoesData.meta_pixel_id && integracoesData.meta_access_token ? "bg-green-500" : "bg-gray-300"}`}
+                  ></div>
                   <div>
                     <p className="font-medium text-sm">Meta Pixel</p>
                     <p className="text-xs text-gray-500">
-                      {integracoesData.meta_pixel_id && integracoesData.meta_access_token ? 'Configurado' : 'Não configurado'}
+                      {integracoesData.meta_pixel_id &&
+                      integracoesData.meta_access_token
+                        ? "Configurado"
+                        : "Não configurado"}
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-center space-x-3 p-3 border rounded-lg">
-                  <div className={`w-3 h-3 rounded-full ${integracoesData.custom_conversion_enabled === 'true' ? 'bg-green-500' : 'bg-gray-300'}`}></div>
+                  <div
+                    className={`w-3 h-3 rounded-full ${integracoesData.custom_conversion_enabled === "true" ? "bg-green-500" : "bg-gray-300"}`}
+                  ></div>
                   <div>
                     <p className="font-medium text-sm">Evento Personalizado</p>
                     <p className="text-xs text-gray-500">
-                      {integracoesData.custom_conversion_enabled === 'true' ? 'Ativado' : 'Desativado'}
+                      {integracoesData.custom_conversion_enabled === "true"
+                        ? "Ativado"
+                        : "Desativado"}
                     </p>
                   </div>
                 </div>
@@ -1600,7 +1902,7 @@ window.dispatchEvent(new CustomEvent('${integracoesData.custom_conversion_event}
                   size="sm"
                   className="border-green-300 text-green-700 hover:bg-green-50"
                 >
-                  {saving ? 'Testando...' : 'Testar Sistema'}
+                  {saving ? "Testando..." : "Testar Sistema"}
                 </Button>
               </CardTitle>
             </CardHeader>
@@ -1608,19 +1910,35 @@ window.dispatchEvent(new CustomEvent('${integracoesData.custom_conversion_event}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label>Arquivo de Configurações</Label>
-                  <Input value="server/data/settings.json" readOnly className="bg-gray-100" />
+                  <Input
+                    value="server/data/settings.json"
+                    readOnly
+                    className="bg-gray-100"
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label>Tipo de Armazenamento</Label>
-                  <Input value="JSON File System" readOnly className="bg-gray-100" />
+                  <Input
+                    value="JSON File System"
+                    readOnly
+                    className="bg-gray-100"
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label>Backup</Label>
-                  <Input value="Não necessário" readOnly className="bg-gray-100" />
+                  <Input
+                    value="Não necessário"
+                    readOnly
+                    className="bg-gray-100"
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label>Persistência</Label>
-                  <Input value="Arquivo local" readOnly className="bg-gray-100" />
+                  <Input
+                    value="Arquivo local"
+                    readOnly
+                    className="bg-gray-100"
+                  />
                 </div>
               </div>
 
@@ -1634,7 +1952,9 @@ window.dispatchEvent(new CustomEvent('${integracoesData.custom_conversion_event}
                       Sistema JSON ativo e funcionando
                     </p>
                     <p className="text-sm text-blue-700 mt-1">
-                      Todas as configurações são salvas diretamente em arquivo JSON local. Sistema simples, rápido e sem dependências externas.
+                      Todas as configurações são salvas diretamente em arquivo
+                      JSON local. Sistema simples, rápido e sem dependências
+                      externas.
                     </p>
                   </div>
                 </div>
@@ -1643,8 +1963,16 @@ window.dispatchEvent(new CustomEvent('${integracoesData.custom_conversion_event}
               <div className="bg-amber-50 p-4 rounded-lg border border-amber-200">
                 <div className="flex items-center">
                   <div className="flex-shrink-0">
-                    <svg className="h-5 w-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                    <svg
+                      className="h-5 w-5 text-amber-400"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                        clipRule="evenodd"
+                      />
                     </svg>
                   </div>
                   <div className="ml-3">
@@ -1655,7 +1983,9 @@ window.dispatchEvent(new CustomEvent('${integracoesData.custom_conversion_event}
                       <ul className="list-disc list-inside space-y-1">
                         <li>✅ Não requer banco de dados externo</li>
                         <li>✅ Backup automático por versionamento</li>
-                        <li>✅ Performance superior (acesso direto ao arquivo)</li>
+                        <li>
+                          ✅ Performance superior (acesso direto ao arquivo)
+                        </li>
                         <li>✅ Simplicidade de configuração</li>
                         <li>✅ Zero dependências externas</li>
                       </ul>
