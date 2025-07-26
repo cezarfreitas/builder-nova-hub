@@ -110,7 +110,7 @@ const DEFAULT_SETTINGS = {
 };
 
 // Função para ler configurações do arquivo JSON
-async function readSettingsFromFile(): Promise<Record<string, any>> {
+export async function readSettingsFromFile(): Promise<Record<string, any>> {
   try {
     console.log('📖 Tentando ler configurações do arquivo:', SETTINGS_FILE);
     
