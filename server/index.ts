@@ -208,6 +208,12 @@ export function createServer() {
   app.post("/api/integracoes/process", processLeadIntegrations);
   app.post("/api/integracoes/test", testIntegrations);
 
+  // SEO routes
+  app.get("/robots.txt", serveRobotsTxt);
+  app.get("/sitemap.xml", serveSitemapXml);
+  app.get("/api/seo/meta-tags", getMetaTags);
+  app.get("/api/seo/structured-data", getStructuredData);
+
   // Initialize settings file
   setTimeout(async () => {
     try {
