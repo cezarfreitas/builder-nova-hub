@@ -98,7 +98,11 @@ export function DynamicHead() {
     updateMetaTag('description', getSetting('seo_description'));
     updateMetaTag('keywords', getSetting('seo_keywords'));
     updateMetaTag('robots', getSetting('seo_robots') || 'index,follow');
-    updateCanonical(getSetting('seo_canonical_url'));
+
+    // URL Canônica com debug
+    const canonicalUrl = getSetting('seo_canonical_url');
+    console.log('🔍 Debug URL Canônica:', canonicalUrl);
+    updateCanonical(canonicalUrl);
 
     // Favicon e Ícones
     updateFavicon(getSetting('favicon_url') || '/favicon.ico');
