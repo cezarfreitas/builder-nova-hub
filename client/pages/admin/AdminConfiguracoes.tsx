@@ -595,14 +595,28 @@ export default function AdminConfiguracoes() {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="seo_title">Título da Página</Label>
-                <Input
-                  id="seo_title"
-                  placeholder="Ex: Seja Revendedor Oficial Ecko - Oportunidade Única"
-                  value={seoData.seo_title}
-                  onChange={(e) => setSeoData({...seoData, seo_title: e.target.value})}
-                />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="seo_title">Título da Página</Label>
+                  <Input
+                    id="seo_title"
+                    placeholder="Ex: Seja Revendedor Oficial Ecko - Oportunidade Única"
+                    value={seoData.seo_title}
+                    onChange={(e) => setSeoData({...seoData, seo_title: e.target.value})}
+                  />
+                  <p className="text-xs text-gray-500">Máx. 60 caracteres para melhor exibição</p>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="seo_canonical_url">URL Canônica</Label>
+                  <Input
+                    id="seo_canonical_url"
+                    placeholder="https://seudominio.com"
+                    value={seoData.seo_canonical_url}
+                    onChange={(e) => setSeoData({...seoData, seo_canonical_url: e.target.value})}
+                  />
+                  <p className="text-xs text-gray-500">URL principal do site para evitar conteúdo duplicado</p>
+                </div>
               </div>
 
               <div className="space-y-2">
@@ -613,6 +627,9 @@ export default function AdminConfiguracoes() {
                   value={seoData.seo_description}
                   onChange={(e) => setSeoData({...seoData, seo_description: e.target.value})}
                 />
+                <p className="text-xs text-gray-500">
+                  {seoData.seo_description.length}/160 caracteres
+                </p>
               </div>
 
               <div className="space-y-2">
@@ -623,6 +640,7 @@ export default function AdminConfiguracoes() {
                   value={seoData.seo_keywords}
                   onChange={(e) => setSeoData({...seoData, seo_keywords: e.target.value})}
                 />
+                <p className="text-xs text-gray-500">Separe as palavras-chave por vírgula</p>
               </div>
             </CardContent>
           </Card>
