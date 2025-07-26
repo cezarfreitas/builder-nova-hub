@@ -96,6 +96,32 @@ export function createServer() {
     res.json({ message: "Ecko LP Server Running!" });
   });
 
+  // Settings health check
+  app.get("/api/settings/health", async (_req, res) => {
+    try {
+      const settingsFile = require('path').join(process.cwd(), 'server/data/settings.json');
+      const fs = require('fs/promises');
+
+      // Verificar se o arquivo existe e é legível
+      await fs.access(settingsFile);
+      const stats = await fs.stat(settingsFile);
+
+      res.json({
+        success: true,
+        message: "Sistema de configurações funcionando",
+        file_exists: true,
+        file_size: stats.size,
+        last_modified: stats.mtime
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "Erro no sistema de configurações",
+        error: error instanceof Error ? error.message : 'Erro desconhecido'
+      });
+    }
+  });
+
   // Demo route
   app.get("/api/demo", handleDemo);
 
