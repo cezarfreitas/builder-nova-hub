@@ -37,15 +37,24 @@ export function DynamicHead() {
 
     // Atualizar link canonical
     const updateCanonical = (href: string) => {
-      if (!href) return;
-
-      let canonicalLink = document.querySelector('link[rel="canonical"]') as HTMLLinkElement;
-      if (!canonicalLink) {
-        canonicalLink = document.createElement('link');
-        canonicalLink.setAttribute('rel', 'canonical');
-        document.head.appendChild(canonicalLink);
+      if (!href) {
+        console.warn('⚠️  URL canônica não definida');
+        return;
       }
+
+      // Remover canonical existente para evitar duplicatas
+      const existingCanonical = document.querySelector('link[rel="canonical"]');
+      if (existingCanonical) {
+        existingCanonical.remove();
+      }
+
+      // Criar novo link canonical
+      const canonicalLink = document.createElement('link');
+      canonicalLink.setAttribute('rel', 'canonical');
       canonicalLink.setAttribute('href', href);
+      document.head.appendChild(canonicalLink);
+
+      console.log('✅ URL canônica configurada:', href);
     };
 
     // Atualizar favicon
