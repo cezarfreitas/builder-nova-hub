@@ -711,6 +711,56 @@ export default function AdminConfiguracoes() {
         </div>
       ) : activeTab === 'integracoes' ? (
         <div className="space-y-6">
+          {/* Card de Instruções */}
+          <Card className="bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200">
+            <CardContent className="p-6">
+              <div className="flex items-start space-x-4">
+                <div className="flex-shrink-0">
+                  <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                    <BarChart3 className="w-6 h-6 text-white" />
+                  </div>
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                    Como funcionam as integrações?
+                  </h3>
+                  <p className="text-gray-600 text-sm mb-4">
+                    Quando um lead se cadastra, os dados são automaticamente enviados para as plataformas configuradas:
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                    <div className="bg-white p-3 rounded-lg border border-blue-200">
+                      <div className="flex items-center mb-2">
+                        <BarChart3 className="w-4 h-4 text-blue-600 mr-2" />
+                        <span className="font-medium">Google Analytics 4</span>
+                      </div>
+                      <p className="text-gray-600">
+                        Rastreia conversões em tempo real via Measurement Protocol API
+                      </p>
+                    </div>
+                    <div className="bg-white p-3 rounded-lg border border-purple-200">
+                      <div className="flex items-center mb-2">
+                        <Target className="w-4 h-4 text-purple-600 mr-2" />
+                        <span className="font-medium">Meta Pixel</span>
+                      </div>
+                      <p className="text-gray-600">
+                        Otimiza campanhas do Facebook/Instagram com dados reais de conversão
+                      </p>
+                    </div>
+                    <div className="bg-white p-3 rounded-lg border border-green-200">
+                      <div className="flex items-center mb-2">
+                        <Zap className="w-4 h-4 text-green-600 mr-2" />
+                        <span className="font-medium">Evento Custom</span>
+                      </div>
+                      <p className="text-gray-600">
+                        Permite integrar com outras ferramentas de automação e analytics
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
           {/* Google Analytics 4 */}
           <Card>
             <CardHeader>
