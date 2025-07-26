@@ -202,29 +202,29 @@ export default function AdminConfiguracoes() {
     }
   };
 
-  // Testar banco
-  const handleTestDatabase = async () => {
+  // Testar sistema JSON
+  const handleTestJsonSystem = async () => {
     setSaving(true);
     try {
-      const response = await fetch('/api/test-db');
+      const response = await fetch('/api/test-json');
       const result = await response.json();
 
       if (result.success) {
         toast({
-          title: "Conexão bem-sucedida!",
-          description: `Banco conectado. Tabelas: ${result.data.tables.length}`,
+          title: "Sistema JSON funcionando!",
+          description: `${result.data.settings_count} configurações carregadas. Tamanho: ${result.data.file_size}`,
         });
       } else {
         toast({
-          title: "Falha na conexão",
-          description: result.message || "Erro de conexão com o banco.",
+          title: "Erro no sistema JSON",
+          description: result.message || "Erro ao acessar arquivo de configurações.",
           variant: "destructive",
         });
       }
     } catch (error) {
       toast({
         title: "Erro",
-        description: "Erro ao testar conexão com o banco de dados",
+        description: "Erro ao testar sistema JSON",
         variant: "destructive",
       });
     } finally {
