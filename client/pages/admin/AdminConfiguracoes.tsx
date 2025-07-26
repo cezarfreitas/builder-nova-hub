@@ -573,60 +573,82 @@ export default function AdminConfiguracoes() {
           </Card>
         </div>
       ) : (
-        // Database
+        // Sistema JSON
         <div className="space-y-6">
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
                 <span className="flex items-center">
-                  <Database className="w-5 h-5 mr-2 text-ecko-red" />
-                  Status do Banco de Dados
+                  <FileText className="w-5 h-5 mr-2 text-ecko-red" />
+                  Sistema de Armazenamento JSON
                 </span>
                 <Button
-                  onClick={handleTestDatabase}
+                  onClick={handleTestJsonSystem}
                   disabled={saving}
                   variant="outline"
                   size="sm"
                   className="border-green-300 text-green-700 hover:bg-green-50"
                 >
-                  {saving ? 'Testando...' : 'Testar Conexão'}
+                  {saving ? 'Testando...' : 'Testar Sistema'}
                 </Button>
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label>Host</Label>
-                  <Input value="5.161.52.206" readOnly className="bg-gray-100" />
+                  <Label>Arquivo de Configurações</Label>
+                  <Input value="server/data/settings.json" readOnly className="bg-gray-100" />
                 </div>
                 <div className="space-y-2">
-                  <Label>Porta</Label>
-                  <Input value="3040" readOnly className="bg-gray-100" />
+                  <Label>Tipo de Armazenamento</Label>
+                  <Input value="JSON File System" readOnly className="bg-gray-100" />
                 </div>
                 <div className="space-y-2">
-                  <Label>Banco</Label>
-                  <Input value="lpdb" readOnly className="bg-gray-100" />
+                  <Label>Backup</Label>
+                  <Input value="Não necessário" readOnly className="bg-gray-100" />
                 </div>
                 <div className="space-y-2">
-                  <Label>Usuário</Label>
-                  <Input value="lpdb" readOnly className="bg-gray-100" />
+                  <Label>Persistência</Label>
+                  <Input value="Arquivo local" readOnly className="bg-gray-100" />
                 </div>
               </div>
 
-              <div className="bg-green-50 p-4 rounded-lg border border-green-200">
+              <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
                 <div className="flex items-center">
                   <div className="flex-shrink-0">
-                    <svg className="h-5 w-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    <FileText className="h-5 w-5 text-blue-400" />
+                  </div>
+                  <div className="ml-3">
+                    <p className="text-sm font-medium text-blue-800">
+                      Sistema JSON ativo e funcionando
+                    </p>
+                    <p className="text-sm text-blue-700 mt-1">
+                      Todas as configurações são salvas diretamente em arquivo JSON local. Sistema simples, rápido e sem dependências externas.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-amber-50 p-4 rounded-lg border border-amber-200">
+                <div className="flex items-center">
+                  <div className="flex-shrink-0">
+                    <svg className="h-5 w-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
                     </svg>
                   </div>
                   <div className="ml-3">
-                    <p className="text-sm font-medium text-green-800">
-                      Banco de dados conectado e funcionando
+                    <p className="text-sm font-medium text-amber-800">
+                      Vantagens do Sistema JSON
                     </p>
-                    <p className="text-sm text-green-700 mt-1">
-                      Todas as operações de leads e configurações estão sendo salvas corretamente.
-                    </p>
+                    <div className="text-sm text-amber-700 mt-1">
+                      <ul className="list-disc list-inside space-y-1">
+                        <li>✅ Não requer banco de dados externo</li>
+                        <li>✅ Backup automático por versionamento</li>
+                        <li>✅ Performance superior (acesso direto ao arquivo)</li>
+                        <li>✅ Simplicidade de configuração</li>
+                        <li>✅ Zero dependências externas</li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div>
