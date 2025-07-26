@@ -772,15 +772,42 @@ export default function AdminConfiguracoes() {
                     onChange={(e) => setSeoData({...seoData, og_description: e.target.value})}
                   />
                 </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="og_url">URL OG</Label>
+                  <Input
+                    id="og_url"
+                    placeholder="URL canônica para redes sociais"
+                    value={seoData.og_url}
+                    onChange={(e) => setSeoData({...seoData, og_url: e.target.value})}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="og_type">Tipo OG</Label>
+                  <select
+                    id="og_type"
+                    className="w-full h-9 px-3 rounded-md border border-input bg-background text-sm"
+                    value={seoData.og_type}
+                    onChange={(e) => setSeoData({...seoData, og_type: e.target.value})}
+                  >
+                    <option value="website">Website</option>
+                    <option value="article">Article</option>
+                    <option value="business.business">Business</option>
+                    <option value="product">Product</option>
+                    <option value="profile">Profile</option>
+                  </select>
+                </div>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="og_image">Imagem OG</Label>
+                <Label htmlFor="og_image">Imagem OG (1200x630px)</Label>
                 <SeoImageUpload
                   value={seoData.og_image}
                   onChange={(url) => setSeoData({...seoData, og_image: url})}
                   label=""
                 />
+                <p className="text-xs text-gray-500">Tamanho recomendado: 1200x630px para melhor exibição</p>
               </div>
             </CardContent>
           </Card>
