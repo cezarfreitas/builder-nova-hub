@@ -109,6 +109,12 @@ export function createServer() {
   // Webhook routes
   app.post("/api/webhook/test", testWebhook);
 
+  // Middleware de debug para settings
+  app.use("/api/settings*", (req, res, next) => {
+    console.log(`🔧 [${req.method}] ${req.path} - Body:`, req.body);
+    next();
+  });
+
   // Settings routes
   app.get("/api/settings", getSettings);
   app.get("/api/settings/hero", getHeroSettings);
