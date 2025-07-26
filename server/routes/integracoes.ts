@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { readSettingsFromFile } from './settings';
+import * as crypto from 'crypto';
 
 // Função para enviar evento para Google Analytics 4
 export async function sendGA4Event(leadData: any) {
