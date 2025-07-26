@@ -198,6 +198,38 @@ export async function processLeadIntegrations(req: Request, res: Response) {
   }
 }
 
+// Função para testar apenas o Meta Pixel
+export async function testMetaPixelOnly(req: Request, res: Response) {
+  try {
+    console.log('🧪 Testando apenas Meta Pixel...');
+
+    const testLeadData = {
+      nome: 'João Silva',
+      telefone: '11999999999', // Telefone limpo para facilitar hash
+      tem_cnpj: 'sim',
+      tipo_loja: 'fisica'
+    };
+
+    console.log('📋 Dados de teste:', testLeadData);
+
+    const result = await sendMetaPixelEvent(testLeadData);
+
+    res.json({
+      success: true,
+      message: 'Teste do Meta Pixel concluído',
+      result
+    });
+
+  } catch (error) {
+    console.error('❌ Erro ao testar Meta Pixel:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Erro ao testar Meta Pixel',
+      error: error instanceof Error ? error.message : 'Erro desconhecido'
+    });
+  }
+}
+
 // Função para testar as integrações
 export async function testIntegrations(req: Request, res: Response) {
   try {
