@@ -72,16 +72,29 @@ export async function sendMetaPixelEvent(leadData: any) {
     const eventTime = Math.floor(Date.now() / 1000);
     const testCode = settings.meta_test_code?.value;
 
+    // Preparar dados do usuário com hash SHA256
+    const phone = leadData.telefone ? leadData.telefone.replace(/\D/g, '') : '';
+    const firstName = (leadData.nome || '').split(' ')[0] || '';
+    const lastName = (leadData.nome || '').split(' ').slice(1).join(' ') || '';
+
+    const phoneHash = hashData(phone);
+    const firstNameHash = hashData(firstName);
+    const lastNameHash = hashData(lastName);
+
+    console.log('📱 Dados para hash:', { phone, firstName, lastName });
+    console.log('🔐 Hashes gerados:', { phoneHash, firstNameHash, lastNameHash });
+
+    const userData: any = {};
+    if (phoneHash) userData.ph = phoneHash;
+    if (firstNameHash) userData.fn = firstNameHash;
+    if (lastNameHash) userData.ln = lastNameHash;
+
     const payload = {
       data: [{
         event_name: eventName,
         event_time: eventTime,
         action_source: 'website',
-        user_data: {
-          ph: hashData(leadData.telefone || ''), // Phone hash
-          fn: hashData((leadData.nome || '').split(' ')[0]), // First name hash
-          ln: hashData((leadData.nome || '').split(' ').slice(1).join(' ')) // Last name hash
-        },
+        user_data: userData,
         custom_data: {
           value: 1.00,
           currency: 'BRL',
