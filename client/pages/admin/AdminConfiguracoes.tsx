@@ -31,7 +31,7 @@ export default function AdminConfiguracoes() {
   const [hasChanges, setHasChanges] = useState(false);
 
   // Hook para gerenciar configurações
-  const { settings, loading, saveMultipleSettings, getSetting } = useSettings();
+  const { settings, loading, error, saveMultipleSettings, getSetting } = useSettings();
 
   // Estados do formulário
   const [webhookData, setWebhookData] = useState({
