@@ -212,14 +212,20 @@ function generateClientId(): string {
 }
 
 function hashData(data: string): string {
-  // Implementação simples de hash - em produção, use crypto para SHA-256
   if (!data) return '';
-  
-  let hash = 0;
-  for (let i = 0; i < data.length; i++) {
-    const char = data.charCodeAt(i);
-    hash = ((hash << 5) - hash) + char;
-    hash = hash & hash; // Convert to 32-bit integer
+
+  try {
+    const crypto = require('crypto');
+    return crypto.createHash('sha256').update(data.toLowerCase().trim()).digest('hex');
+  } catch (error) {
+    console.warn('⚠️  Fallback para hash simples:', error);
+    // Fallback para hash simples se crypto não estiver disponível
+    let hash = 0;
+    for (let i = 0; i < data.length; i++) {
+      const char = data.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash;
+    }
+    return Math.abs(hash).toString(16);
   }
-  return Math.abs(hash).toString(16);
 }
