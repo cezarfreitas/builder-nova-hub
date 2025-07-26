@@ -900,9 +900,20 @@ window.dispatchEvent(new CustomEvent('${integracoesData.custom_conversion_event}
           {/* Resumo das Integrações */}
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center">
-                <Settings className="w-5 h-5 mr-2 text-ecko-red" />
-                Status das Integrações
+              <CardTitle className="flex items-center justify-between">
+                <span className="flex items-center">
+                  <Settings className="w-5 h-5 mr-2 text-ecko-red" />
+                  Status das Integrações
+                </span>
+                <Button
+                  onClick={handleTestIntegrations}
+                  disabled={saving}
+                  variant="outline"
+                  size="sm"
+                  className="border-purple-300 text-purple-700 hover:bg-purple-50"
+                >
+                  {saving ? 'Testando...' : 'Testar Integrações'}
+                </Button>
               </CardTitle>
             </CardHeader>
             <CardContent>
