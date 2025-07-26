@@ -22,6 +22,9 @@ import {
   Image,
   FileText,
   Save,
+  BarChart3,
+  Target,
+  Zap,
 } from "lucide-react";
 
 export default function AdminConfiguracoes() {
@@ -351,7 +354,7 @@ export default function AdminConfiguracoes() {
               <CardTitle className="flex items-center justify-between">
                 <span className="flex items-center">
                   <Webhook className="w-5 h-5 mr-2 text-ecko-red" />
-                  Configurações de Webhook
+                  Configuraç��es de Webhook
                 </span>
                 <Button
                   onClick={handleTestWebhook}
