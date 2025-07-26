@@ -332,7 +332,7 @@ export default function AdminConfiguracoes() {
         let description = 'Resultados dos testes:\n';
 
         if (ga4.skipped) {
-          description += '��� GA4: Não configurado\n';
+          description += '• GA4: Não configurado\n';
         } else if (ga4.success) {
           description += '• GA4: ✅ Enviado com sucesso\n';
         } else {
@@ -441,7 +441,12 @@ export default function AdminConfiguracoes() {
                 <div class="meta-item"><span class="meta-label">Título:</span><span class="meta-value">${metaTags.title}</span></div>
                 <div class="meta-item"><span class="meta-label">Descrição:</span><span class="meta-value">${metaTags.description}</span></div>
                 <div class="meta-item"><span class="meta-label">Palavras-chave:</span><span class="meta-value">${metaTags.keywords}</span></div>
-                <div class="meta-item"><span class="meta-label">URL Canônica:</span><span class="meta-value">${metaTags.canonical}</span></div>
+                <div class="meta-item" style="background: #e8f5e8; padding: 8px; border-radius: 4px; border-left: 4px solid #4caf50;">
+                  <span class="meta-label">🎯 URL Canônica:</span><span class="meta-value" style="font-weight: bold; color: #2e7d32;">${metaTags.canonical}</span>
+                  <div style="font-size: 10px; color: #666; margin-top: 4px;">
+                    ${currentCanonical ? `✅ Aplicada no DOM: ${currentCanonical}` : '⚠️ Não encontrada no DOM atual'}
+                  </div>
+                </div>
               </div>
 
               <div class="meta-section">
