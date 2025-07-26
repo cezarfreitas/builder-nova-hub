@@ -1389,6 +1389,17 @@ export default function AdminConfiguracoes() {
                   />
                   <p className="text-xs text-gray-500">Ex: Lead, Purchase, CompleteRegistration</p>
                 </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="meta_test_code">Código de Teste (Test Event Code)</Label>
+                  <Input
+                    id="meta_test_code"
+                    placeholder="TEST23442"
+                    value={integracoesData.meta_test_code}
+                    onChange={(e) => setIntegracoesData({...integracoesData, meta_test_code: e.target.value})}
+                  />
+                  <p className="text-xs text-gray-500">Para debugar eventos em Events Manager → Test Events</p>
+                </div>
               </div>
             </CardContent>
           </Card>
