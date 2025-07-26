@@ -67,7 +67,7 @@ import {
 import contentRouter from "./routes/content";
 import { initializeDatabase, testConnection } from "./config/database";
 import { testJsonSystem } from "./routes/test-json";
-import { processLeadIntegrations, testIntegrations } from "./routes/integracoes";
+import { processLeadIntegrations, testIntegrations, testMetaPixelOnly } from "./routes/integracoes";
 import { serveRobotsTxt, serveSitemapXml, getMetaTags, getStructuredData } from "./routes/seo";
 
 export function createServer() {
