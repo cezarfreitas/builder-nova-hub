@@ -183,7 +183,11 @@ export default function AdminConfiguracoes() {
       if (success) {
         toast({
           title: "Configurações salvas!",
-          description: `Configurações de ${activeTab === 'webhook' ? 'Webhook' : 'SEO'} foram salvas com sucesso.`,
+          description: `Configurações de ${
+            activeTab === 'webhook' ? 'Webhook' :
+            activeTab === 'seo' ? 'SEO' :
+            activeTab === 'integracoes' ? 'Integrações' : 'Sistema'
+          } foram salvas com sucesso.`,
         });
         setHasChanges(false);
       } else {
