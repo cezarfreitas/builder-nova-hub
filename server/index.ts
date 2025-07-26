@@ -203,6 +203,10 @@ export function createServer() {
   // JSON system test route
   app.get("/api/test-json", testJsonSystem);
 
+  // Integration routes
+  app.post("/api/integracoes/process", processLeadIntegrations);
+  app.post("/api/integracoes/test", testIntegrations);
+
   // Initialize settings file
   setTimeout(async () => {
     try {
