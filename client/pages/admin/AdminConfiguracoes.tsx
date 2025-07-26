@@ -771,14 +771,19 @@ export default function AdminConfiguracoes() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="seo_canonical_url">URL Canônica</Label>
+                  <Label htmlFor="seo_canonical_url">URL Canônica *</Label>
                   <Input
                     id="seo_canonical_url"
                     placeholder="https://seudominio.com"
                     value={seoData.seo_canonical_url}
                     onChange={(e) => setSeoData({...seoData, seo_canonical_url: e.target.value})}
                   />
-                  <p className="text-xs text-gray-500">URL principal do site para evitar conteúdo duplicado</p>
+                  <div className="text-xs text-gray-500">
+                    <p className="mb-1">URL principal do site para evitar conteúdo duplicado</p>
+                    <p className="text-orange-600">
+                      ⚠️ Importante: Use sempre HTTPS e sem "/" no final
+                    </p>
+                  </div>
                 </div>
               </div>
 
