@@ -282,6 +282,61 @@ export default function AdminConfiguracoes() {
     }
   };
 
+  // Testar integrações
+  const handleTestIntegrations = async () => {
+    setSaving(true);
+    try {
+      const response = await fetch('/api/integracoes/test', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      });
+      const result = await response.json();
+
+      if (result.success) {
+        const { ga4, metaPixel, customEvent } = result.results;
+
+        let description = 'Resultados dos testes:\n';
+
+        if (ga4.skipped) {
+          description += '• GA4: Não configurado\n';
+        } else if (ga4.success) {
+          description += '• GA4: ✅ Enviado com sucesso\n';
+        } else {
+          description += `• GA4: ❌ Erro - ${ga4.error}\n`;
+        }
+
+        if (metaPixel.skipped) {
+          description += '• Meta Pixel: Não configurado\n';
+        } else if (metaPixel.success) {
+          description += '• Meta Pixel: ✅ Enviado com sucesso\n';
+        } else {
+          description += `• Meta Pixel: ❌ Erro - ${metaPixel.error}\n`;
+        }
+
+        description += `• Evento Personalizado: ${customEvent.enabled ? '✅ Ativado' : '⚪ Desativado'}`;
+
+        toast({
+          title: "Teste de integrações concluído!",
+          description: description,
+        });
+      } else {
+        toast({
+          title: "Erro no teste de integrações",
+          description: result.message || "Erro ao testar integrações.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Erro",
+        description: "Erro ao executar teste de integrações",
+        variant: "destructive",
+      });
+    } finally {
+      setSaving(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
