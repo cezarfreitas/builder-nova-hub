@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
-import { getDatabase } from '../config/database';
 import { z } from 'zod';
+import * as fs from 'fs/promises';
+import * as path from 'path';
 
 // Schema para validação das configurações
 const SettingSchema = z.object({
@@ -11,46 +12,146 @@ const SettingSchema = z.object({
 
 const BulkSettingsSchema = z.array(SettingSchema);
 
-// Schema para configurações do hero
-const HeroSettingsSchema = z.object({
-  title: z.string().min(1).max(200),
-  subtitle: z.string().max(200).optional(),
-  description: z.string().max(1000).optional(),
-  cta_text: z.string().min(1).max(50),
-  cta_secondary_text: z.string().max(50).optional(),
-  background_image: z.string().optional().or(z.literal('')),
-  background_color: z.string().min(4).max(9), // hex color
-  text_color: z.string().min(4).max(9), // hex color
-  cta_color: z.string().min(4).max(9), // hex color
-  logo_url: z.string().optional().or(z.literal('')),
-  video_url: z.string().optional().or(z.literal('')),
-  enabled: z.boolean().default(true)
-});
+// Caminho para o arquivo de configurações
+const SETTINGS_FILE = path.join(process.cwd(), 'server/data/settings.json');
+
+// Função para ler configurações do arquivo JSON
+async function readSettingsFromFile(): Promise<Record<string, any>> {
+  try {
+    // Garantir que o diretório existe
+    const dir = path.dirname(SETTINGS_FILE);
+    await fs.mkdir(dir, { recursive: true });
+
+    const data = await fs.readFile(SETTINGS_FILE, 'utf-8');
+    return JSON.parse(data);
+  } catch (error) {
+    console.log('Arquivo de configurações não encontrado, criando configurações padrão...');
+    
+    // Configurações padrão
+    const defaultSettings = {
+      seo_title: {
+        value: "Seja uma Revenda Autorizada da Ecko | Tenha os Melhores Produtos",
+        type: "text",
+        updated_at: new Date().toISOString()
+      },
+      seo_description: {
+        value: "Seja uma revenda autorizada da Ecko e tenha os melhores produtos de streetwear em sua loja. Transforme sua paixão em lucro com exclusividade territorial e suporte completo.",
+        type: "text",
+        updated_at: new Date().toISOString()
+      },
+      seo_keywords: {
+        value: "revenda autorizada ecko, melhores produtos streetwear, lojista autorizado",
+        type: "text",
+        updated_at: new Date().toISOString()
+      },
+      webhook_url: {
+        value: "",
+        type: "text",
+        updated_at: new Date().toISOString()
+      },
+      webhook_secret: {
+        value: "",
+        type: "text",
+        updated_at: new Date().toISOString()
+      },
+      webhook_timeout: {
+        value: "30",
+        type: "number",
+        updated_at: new Date().toISOString()
+      },
+      webhook_retries: {
+        value: "3",
+        type: "number",
+        updated_at: new Date().toISOString()
+      },
+      og_title: {
+        value: "Seja uma Revenda Autorizada da Ecko",
+        type: "text",
+        updated_at: new Date().toISOString()
+      },
+      og_description: {
+        value: "Transforme sua paixão em lucro! Seja um revendedor autorizado Ecko e tenha acesso aos melhores produtos de streetwear do mercado.",
+        type: "text",
+        updated_at: new Date().toISOString()
+      },
+      og_image: {
+        value: "https://estyle.vteximg.com.br/arquivos/ecko_mosaic5.png",
+        type: "text",
+        updated_at: new Date().toISOString()
+      },
+      schema_company_name: {
+        value: "Ecko Unltd",
+        type: "text",
+        updated_at: new Date().toISOString()
+      },
+      schema_contact_phone: {
+        value: "",
+        type: "text",
+        updated_at: new Date().toISOString()
+      },
+      schema_contact_email: {
+        value: "",
+        type: "text",
+        updated_at: new Date().toISOString()
+      },
+      schema_address_street: {
+        value: "",
+        type: "text",
+        updated_at: new Date().toISOString()
+      },
+      schema_address_city: {
+        value: "",
+        type: "text",
+        updated_at: new Date().toISOString()
+      },
+      schema_address_state: {
+        value: "",
+        type: "text",
+        updated_at: new Date().toISOString()
+      }
+    };
+
+    await writeSettingsToFile(defaultSettings);
+    return defaultSettings;
+  }
+}
+
+// Função para escrever configurações no arquivo JSON
+async function writeSettingsToFile(settings: Record<string, any>): Promise<void> {
+  try {
+    // Garantir que o diretório existe
+    const dir = path.dirname(SETTINGS_FILE);
+    await fs.mkdir(dir, { recursive: true });
+
+    await fs.writeFile(SETTINGS_FILE, JSON.stringify(settings, null, 2), 'utf-8');
+    console.log('✅ Configurações salvas no arquivo JSON');
+  } catch (error) {
+    console.error('❌ Erro ao salvar configurações no arquivo:', error);
+    throw error;
+  }
+}
 
 // GET /api/settings - Obter todas as configurações
 export async function getSettings(req: Request, res: Response) {
   try {
-    const db = getDatabase();
-    const [rows] = await db.execute(
-      `SELECT setting_key, setting_value, setting_type, updated_at FROM lp_settings ORDER BY setting_key`
-    );
-    
-    // Transformar array em objeto para facilitar uso no frontend
-    const settings: Record<string, any> = {};
-    (rows as any[]).forEach(row => {
-      let value = row.setting_value;
+    const settings = await readSettingsFromFile();
+
+    // Processar tipos de dados
+    const processedSettings: Record<string, any> = {};
+    Object.entries(settings).forEach(([key, setting]: [string, any]) => {
+      let value = setting.value;
       
       // Converter tipos conforme necessário
-      switch (row.setting_type) {
+      switch (setting.type) {
         case 'boolean':
-          value = value === 'true' || value === '1';
+          value = value === 'true' || value === '1' || value === true;
           break;
         case 'number':
           value = parseFloat(value) || 0;
           break;
         case 'json':
           try {
-            value = JSON.parse(value);
+            value = typeof value === 'string' ? JSON.parse(value) : value;
           } catch {
             value = {};
           }
@@ -60,16 +161,17 @@ export async function getSettings(req: Request, res: Response) {
           break;
       }
       
-      settings[row.setting_key] = {
+      processedSettings[key] = {
         value,
-        type: row.setting_type,
-        updated_at: row.updated_at
+        type: setting.type,
+        updated_at: setting.updated_at
       };
     });
 
     res.json({
       success: true,
-      data: settings
+      data: processedSettings,
+      source: 'json_file'
     });
   } catch (error) {
     console.error('Erro ao buscar configurações:', error);
@@ -84,34 +186,29 @@ export async function getSettings(req: Request, res: Response) {
 export async function getSetting(req: Request, res: Response) {
   try {
     const { key } = req.params;
-    const db = getDatabase();
+    const settings = await readSettingsFromFile();
     
-    const [rows] = await db.execute(
-      `SELECT setting_value, setting_type, updated_at FROM lp_settings WHERE setting_key = ?`,
-      [key]
-    );
-    
-    if ((rows as any[]).length === 0) {
+    if (!settings[key]) {
       return res.status(404).json({
         success: false,
         message: 'Configuração não encontrada'
       });
     }
     
-    const row = (rows as any[])[0];
-    let value = row.setting_value;
+    const setting = settings[key];
+    let value = setting.value;
     
     // Converter tipo conforme necessário
-    switch (row.setting_type) {
+    switch (setting.type) {
       case 'boolean':
-        value = value === 'true' || value === '1';
+        value = value === 'true' || value === '1' || value === true;
         break;
       case 'number':
         value = parseFloat(value) || 0;
         break;
       case 'json':
         try {
-          value = JSON.parse(value);
+          value = typeof value === 'string' ? JSON.parse(value) : value;
         } catch {
           value = {};
         }
@@ -123,8 +220,8 @@ export async function getSetting(req: Request, res: Response) {
       data: {
         key,
         value,
-        type: row.setting_type,
-        updated_at: row.updated_at
+        type: setting.type,
+        updated_at: setting.updated_at
       }
     });
   } catch (error) {
@@ -157,24 +254,31 @@ export async function updateSetting(req: Request, res: Response) {
       });
     }
     
-    const db = getDatabase();
+    // Ler configurações atuais
+    const settings = await readSettingsFromFile();
     
     // Converter valor para string conforme o tipo
-    let stringValue = String(value);
+    let finalValue = value;
     if (type === 'json') {
-      stringValue = JSON.stringify(value);
+      finalValue = typeof value === 'string' ? value : JSON.stringify(value);
+    } else {
+      finalValue = String(value);
     }
     
-    await db.execute(
-      `INSERT INTO lp_settings (setting_key, setting_value, setting_type) VALUES (?, ?, ?)
-       ON DUPLICATE KEY UPDATE setting_value = VALUES(setting_value), setting_type = VALUES(setting_type)`,
-      [key, stringValue, type]
-    );
+    // Atualizar configuração
+    settings[key] = {
+      value: finalValue,
+      type,
+      updated_at: new Date().toISOString()
+    };
+    
+    // Salvar no arquivo
+    await writeSettingsToFile(settings);
     
     res.json({
       success: true,
       message: 'Configuração atualizada com sucesso',
-      data: { key, value, type }
+      data: { key, value: finalValue, type }
     });
   } catch (error) {
     console.error('Erro ao atualizar configuração:', error);
@@ -188,9 +292,9 @@ export async function updateSetting(req: Request, res: Response) {
 // PUT /api/settings - Atualizar múltiplas configurações
 export async function updateSettings(req: Request, res: Response) {
   try {
-    const { settings } = req.body;
+    const { settings: settingsArray } = req.body;
     
-    if (!Array.isArray(settings)) {
+    if (!Array.isArray(settingsArray)) {
       return res.status(400).json({
         success: false,
         message: 'Settings deve ser um array'
@@ -198,7 +302,7 @@ export async function updateSettings(req: Request, res: Response) {
     }
     
     // Validar todas as configurações
-    const validation = BulkSettingsSchema.safeParse(settings);
+    const validation = BulkSettingsSchema.safeParse(settingsArray);
     if (!validation.success) {
       return res.status(400).json({
         success: false,
@@ -207,38 +311,33 @@ export async function updateSettings(req: Request, res: Response) {
       });
     }
     
-    const db = getDatabase();
-    const connection = await db.getConnection();
+    // Ler configurações atuais
+    const currentSettings = await readSettingsFromFile();
     
-    try {
-      await connection.beginTransaction();
-      
-      for (const setting of settings) {
-        let stringValue = setting.setting_value || '';
-        if (setting.setting_type === 'json') {
-          stringValue = JSON.stringify(setting.setting_value);
-        }
-        
-        await connection.execute(
-          `INSERT INTO lp_settings (setting_key, setting_value, setting_type) VALUES (?, ?, ?)
-           ON DUPLICATE KEY UPDATE setting_value = VALUES(setting_value), setting_type = VALUES(setting_type)`,
-          [setting.setting_key, stringValue, setting.setting_type]
-        );
+    // Atualizar configurações
+    for (const setting of settingsArray) {
+      let finalValue = setting.setting_value || '';
+      if (setting.setting_type === 'json') {
+        finalValue = typeof setting.setting_value === 'string' 
+          ? setting.setting_value 
+          : JSON.stringify(setting.setting_value);
       }
       
-      await connection.commit();
-      
-      res.json({
-        success: true,
-        message: 'Configurações atualizadas com sucesso',
-        updated_count: settings.length
-      });
-    } catch (error) {
-      await connection.rollback();
-      throw error;
-    } finally {
-      connection.release();
+      currentSettings[setting.setting_key] = {
+        value: finalValue,
+        type: setting.setting_type,
+        updated_at: new Date().toISOString()
+      };
     }
+    
+    // Salvar no arquivo
+    await writeSettingsToFile(currentSettings);
+    
+    res.json({
+      success: true,
+      message: 'Configurações atualizadas com sucesso',
+      updated_count: settingsArray.length
+    });
   } catch (error) {
     console.error('Erro ao atualizar configurações:', error);
     res.status(500).json({
@@ -252,19 +351,22 @@ export async function updateSettings(req: Request, res: Response) {
 export async function deleteSetting(req: Request, res: Response) {
   try {
     const { key } = req.params;
-    const db = getDatabase();
     
-    const [result] = await db.execute(
-      `DELETE FROM lp_settings WHERE setting_key = ?`,
-      [key]
-    );
+    // Ler configurações atuais
+    const settings = await readSettingsFromFile();
     
-    if ((result as any).affectedRows === 0) {
+    if (!settings[key]) {
       return res.status(404).json({
         success: false,
         message: 'Configuração não encontrada'
       });
     }
+    
+    // Remover configuração
+    delete settings[key];
+    
+    // Salvar no arquivo
+    await writeSettingsToFile(settings);
     
     res.json({
       success: true,
@@ -279,14 +381,11 @@ export async function deleteSetting(req: Request, res: Response) {
   }
 }
 
-// GET /api/settings/hero - Obter configurações do hero
+// Manter compatibilidade com as funções do hero (podem ser removidas se não usadas)
 export async function getHeroSettings(req: Request, res: Response) {
   try {
-    const db = getDatabase();
-    const [rows] = await db.execute(
-      `SELECT setting_key, setting_value, setting_type FROM lp_settings WHERE setting_key LIKE 'hero_%'`
-    );
-
+    const settings = await readSettingsFromFile();
+    
     // Configurações padrão do hero
     const defaultSettings = {
       title: "Transforme sua {ecko}PAIXÃO{/ecko} em {green}LUCRO{/green}",
@@ -304,36 +403,38 @@ export async function getHeroSettings(req: Request, res: Response) {
     };
 
     // Aplicar configurações salvas sobre os padrões
-    const settings = { ...defaultSettings };
-    (rows as any[]).forEach(row => {
-      const key = row.setting_key.replace('hero_', '');
-      let value = row.setting_value;
+    const finalSettings = { ...defaultSettings };
+    Object.entries(settings).forEach(([key, setting]: [string, any]) => {
+      if (key.startsWith('hero_')) {
+        const heroKey = key.replace('hero_', '');
+        let value = setting.value;
 
-      // Converter tipos conforme necessário
-      switch (row.setting_type) {
-        case 'boolean':
-          value = value === 'true' || value === '1';
-          break;
-        case 'number':
-          value = parseFloat(value) || 0;
-          break;
-        case 'json':
-          try {
-            value = JSON.parse(value);
-          } catch {
-            value = {};
-          }
-          break;
-      }
+        // Converter tipos conforme necessário
+        switch (setting.type) {
+          case 'boolean':
+            value = value === 'true' || value === '1' || value === true;
+            break;
+          case 'number':
+            value = parseFloat(value) || 0;
+            break;
+          case 'json':
+            try {
+              value = typeof value === 'string' ? JSON.parse(value) : value;
+            } catch {
+              value = {};
+            }
+            break;
+        }
 
-      if (key in settings) {
-        settings[key] = value;
+        if (heroKey in finalSettings) {
+          finalSettings[heroKey] = value;
+        }
       }
     });
 
     res.json({
       success: true,
-      data: settings
+      data: finalSettings
     });
   } catch (error) {
     console.error('Erro ao buscar configurações do hero:', error);
@@ -344,67 +445,46 @@ export async function getHeroSettings(req: Request, res: Response) {
   }
 }
 
-// POST /api/settings/hero - Atualizar configurações do hero
 export async function updateHeroSettings(req: Request, res: Response) {
   try {
     console.log('Recebendo configurações do hero:', req.body);
 
-    // Validar dados de entrada
-    const validation = HeroSettingsSchema.safeParse(req.body);
-    if (!validation.success) {
-      console.error('Erro de validação:', validation.error.errors);
-      return res.status(400).json({
-        success: false,
-        message: 'Dados inválidos',
-        errors: validation.error.errors
-      });
+    const heroData = req.body;
+    const settings = await readSettingsFromFile();
+
+    // Mapear configurações para o formato da tabela
+    const settingsToSave = [
+      { key: 'hero_title', value: heroData.title || '', type: 'text' },
+      { key: 'hero_subtitle', value: heroData.subtitle || '', type: 'text' },
+      { key: 'hero_description', value: heroData.description || '', type: 'text' },
+      { key: 'hero_cta_text', value: heroData.cta_text || '', type: 'text' },
+      { key: 'hero_cta_secondary_text', value: heroData.cta_secondary_text || '', type: 'text' },
+      { key: 'hero_background_image', value: heroData.background_image || '', type: 'text' },
+      { key: 'hero_background_color', value: heroData.background_color || '#dc2626', type: 'text' },
+      { key: 'hero_text_color', value: heroData.text_color || '#ffffff', type: 'text' },
+      { key: 'hero_cta_color', value: heroData.cta_color || '#ffffff', type: 'text' },
+      { key: 'hero_logo_url', value: heroData.logo_url || '', type: 'text' },
+      { key: 'hero_video_url', value: heroData.video_url || '', type: 'text' },
+      { key: 'hero_enabled', value: heroData.enabled ? '1' : '0', type: 'boolean' }
+    ];
+
+    // Atualizar cada configuração
+    for (const setting of settingsToSave) {
+      settings[setting.key] = {
+        value: setting.value,
+        type: setting.type,
+        updated_at: new Date().toISOString()
+      };
     }
 
-    const settings = validation.data;
-    const db = getDatabase();
-    const connection = await db.getConnection();
+    // Salvar no arquivo
+    await writeSettingsToFile(settings);
 
-    try {
-      await connection.beginTransaction();
-
-      // Mapear configurações para o formato da tabela
-      const settingsToSave = [
-        { key: 'hero_title', value: settings.title, type: 'text' },
-        { key: 'hero_subtitle', value: settings.subtitle || '', type: 'text' },
-        { key: 'hero_description', value: settings.description || '', type: 'text' },
-        { key: 'hero_cta_text', value: settings.cta_text, type: 'text' },
-        { key: 'hero_cta_secondary_text', value: settings.cta_secondary_text || '', type: 'text' },
-        { key: 'hero_background_image', value: settings.background_image || '', type: 'text' },
-        { key: 'hero_background_color', value: settings.background_color, type: 'text' },
-        { key: 'hero_text_color', value: settings.text_color, type: 'text' },
-        { key: 'hero_cta_color', value: settings.cta_color, type: 'text' },
-        { key: 'hero_logo_url', value: settings.logo_url || '', type: 'text' },
-        { key: 'hero_video_url', value: settings.video_url || '', type: 'text' },
-        { key: 'hero_enabled', value: settings.enabled ? '1' : '0', type: 'boolean' }
-      ];
-
-      // Salvar cada configuração
-      for (const setting of settingsToSave) {
-        await connection.execute(
-          `INSERT INTO lp_settings (setting_key, setting_value, setting_type) VALUES (?, ?, ?)
-           ON DUPLICATE KEY UPDATE setting_value = VALUES(setting_value), setting_type = VALUES(setting_type)`,
-          [setting.key, setting.value, setting.type]
-        );
-      }
-
-      await connection.commit();
-
-      res.json({
-        success: true,
-        message: 'Configurações do hero atualizadas com sucesso',
-        data: settings
-      });
-    } catch (error) {
-      await connection.rollback();
-      throw error;
-    } finally {
-      connection.release();
-    }
+    res.json({
+      success: true,
+      message: 'Configurações do hero atualizadas com sucesso',
+      data: heroData
+    });
   } catch (error) {
     console.error('Erro ao atualizar configurações do hero:', error);
     res.status(500).json({
