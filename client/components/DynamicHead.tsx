@@ -113,7 +113,7 @@ export function DynamicHead() {
     updateMetaTag('', getSetting('og_title') || getSetting('seo_title'), 'og:title');
     updateMetaTag('', getSetting('og_description') || getSetting('seo_description'), 'og:description');
     updateMetaTag('', getSetting('og_image'), 'og:image');
-    updateMetaTag('', getSetting('seo_canonical_url'), 'og:url');
+    updateMetaTag('', getSetting('og_url') || canonicalUrl, 'og:url');
     updateMetaTag('', getSetting('og_site_name') || 'Ecko Revendedores', 'og:site_name');
     
     // Facebook
