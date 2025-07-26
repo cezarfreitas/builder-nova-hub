@@ -235,7 +235,28 @@ export default function AdminConfiguracoes() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <Loader2 className="h-8 w-8 animate-spin text-ecko-red" />
+        <div className="text-center space-y-4">
+          <Loader2 className="h-8 w-8 animate-spin text-ecko-red mx-auto" />
+          <p className="text-gray-600">Carregando configurações...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="text-center space-y-4 max-w-md">
+          <AlertCircle className="h-12 w-12 text-red-500 mx-auto" />
+          <h3 className="text-lg font-semibold text-gray-900">Erro ao carregar configurações</h3>
+          <p className="text-gray-600">{error}</p>
+          <Button
+            onClick={() => window.location.reload()}
+            className="bg-ecko-red hover:bg-ecko-red-dark"
+          >
+            Tentar Novamente
+          </Button>
+        </div>
       </div>
     );
   }
