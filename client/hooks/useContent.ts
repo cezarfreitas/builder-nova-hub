@@ -2,6 +2,14 @@ import { useState, useEffect } from "react";
 import contentData from "../data/content.json";
 
 export interface ContentData {
+  section_order: {
+    enabled_sections: {
+      id: string;
+      name: string;
+      enabled: boolean;
+      order: number;
+    }[];
+  };
   hero: {
     enabled: boolean;
     title: string;
@@ -129,8 +137,28 @@ export interface ContentData {
     description: string;
     button_text: string;
   };
+  about: {
+    section_tag: string;
+    section_title: string;
+    section_subtitle: string;
+    section_description: string;
+    content: string;
+    stats: {
+      id: number;
+      number: string;
+      label: string;
+      description: string;
+    }[];
+    cta_title: string;
+    cta_description: string;
+    cta_button_text: string;
+  };
   footer: {
     copyright: string;
+    social_links: {
+      facebook: string;
+      instagram: string;
+    };
   };
 }
 
@@ -147,13 +175,15 @@ export const useContent = () => {
         // Sempre usar dados do JSON para seções principais
         finalContent = {
           ...finalContent,
-          // Hero, Form, Benefits, Testimonials, Gallery, FAQ e Footer sempre do JSON
+          // Section order, Hero, Form, Benefits, Testimonials, Gallery, FAQ, About e Footer sempre do JSON
+          section_order: contentData.section_order,
           hero: contentData.hero,
           form: contentData.form,
           benefits: contentData.benefits,
           testimonials: contentData.testimonials,
           gallery: contentData.gallery,
           faq: contentData.faq,
+          about: contentData.about,
           footer: contentData.footer,
           // Outras seções podem vir do backup se válidas
           final_cta: parsed.final_cta || contentData.final_cta,

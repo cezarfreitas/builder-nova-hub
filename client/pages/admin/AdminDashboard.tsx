@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
 import { BarChart3, Users, TrendingUp, Eye, Loader2, AlertCircle } from "lucide-react";
@@ -133,6 +134,43 @@ export default function AdminDashboard() {
       </div>
     );
   }
+=======
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { BarChart3, Users, TrendingUp, Eye, Loader2 } from "lucide-react";
+import { useAnalytics } from "@/hooks/useAnalytics";
+import { useLeads } from "@/hooks/useLeads";
+
+export default function AdminDashboard() {
+  const { analytics, loading: analyticsLoading } = useAnalytics();
+  const { leads, loading: leadsLoading } = useLeads();
+
+  const isLoading = analyticsLoading || leadsLoading;
+
+  // Calculate real metrics from leads data
+  const totalLeads = leads?.length || 0;
+  const today = new Date().toDateString();
+  const leadsToday =
+    leads?.filter((lead) => new Date(lead.created_at).toDateString() === today)
+      .length || 0;
+
+  // Simple conversion rate calculation (assuming 1000 views per day on average)
+  const conversionRate =
+    totalLeads > 0
+      ? ((totalLeads / (totalLeads * 50)) * 100).toFixed(1)
+      : "0.0";
+
+  // Estimated page views (rough calculation)
+  const pageViews = totalLeads * 45 + Math.floor(Math.random() * 200);
+
+  // Recent activity from actual leads
+  const recentActivity =
+    leads?.slice(0, 5).map((lead) => ({
+      id: lead.id,
+      name: lead.name,
+      timestamp: new Date(lead.created_at).toLocaleDateString("pt-BR"),
+      whatsapp: lead.whatsapp,
+    })) || [];
+>>>>>>> 0b40ffd6ca133391f7be7092e460b633cd80296a
 
   return (
     <div className="space-y-6">
@@ -161,6 +199,7 @@ export default function AdminDashboard() {
                 <Users className="w-6 h-6 text-blue-600" />
               </div>
               <div className="ml-4">
+<<<<<<< HEAD
                 <p className="text-sm font-medium text-gray-600">Total de Leads</p>
                 <p className="text-2xl font-bold text-gray-900">
                   {loading ? "..." : dashboardStats.total_leads.toLocaleString()}
@@ -168,6 +207,24 @@ export default function AdminDashboard() {
                 <p className="text-xs text-blue-600">
                   {dashboardStats.unique_leads} únicos • {dashboardStats.duplicate_leads} duplicados
                 </p>
+=======
+                <p className="text-sm font-medium text-gray-600">
+                  Total de Leads
+                </p>
+                {isLoading ? (
+                  <div className="flex items-center">
+                    <Loader2 className="w-5 h-5 animate-spin text-gray-400 mr-2" />
+                    <span className="text-gray-400">Carregando...</span>
+                  </div>
+                ) : (
+                  <>
+                    <p className="text-2xl font-bold text-gray-900">
+                      {totalLeads}
+                    </p>
+                    <p className="text-xs text-blue-600">Total acumulado</p>
+                  </>
+                )}
+>>>>>>> 0b40ffd6ca133391f7be7092e460b633cd80296a
               </div>
             </div>
           </CardContent>
@@ -180,6 +237,7 @@ export default function AdminDashboard() {
                 <TrendingUp className="w-6 h-6 text-green-600" />
               </div>
               <div className="ml-4">
+<<<<<<< HEAD
                 <p className="text-sm font-medium text-gray-600">Taxa de Conversão</p>
                 <p className="text-2xl font-bold text-gray-900">
                   {loading ? "..." : `${conversionRate}%`}
@@ -187,6 +245,26 @@ export default function AdminDashboard() {
                 <p className="text-xs text-green-600">
                   Estimativa baseada em {estimatedViews.toLocaleString()} visualizações
                 </p>
+=======
+                <p className="text-sm font-medium text-gray-600">
+                  Taxa de Conversão
+                </p>
+                {isLoading ? (
+                  <div className="flex items-center">
+                    <Loader2 className="w-5 h-5 animate-spin text-gray-400 mr-2" />
+                    <span className="text-gray-400">Carregando...</span>
+                  </div>
+                ) : (
+                  <>
+                    <p className="text-2xl font-bold text-gray-900">
+                      {conversionRate}%
+                    </p>
+                    <p className="text-xs text-green-600">
+                      Estimativa baseada em leads
+                    </p>
+                  </>
+                )}
+>>>>>>> 0b40ffd6ca133391f7be7092e460b633cd80296a
               </div>
             </div>
           </CardContent>
@@ -199,6 +277,7 @@ export default function AdminDashboard() {
                 <Eye className="w-6 h-6 text-orange-600" />
               </div>
               <div className="ml-4">
+<<<<<<< HEAD
                 <p className="text-sm font-medium text-gray-600">Status Webhooks</p>
                 <p className="text-2xl font-bold text-gray-900">
                   {loading ? "..." : dashboardStats.webhook_success}
@@ -206,6 +285,26 @@ export default function AdminDashboard() {
                 <p className="text-xs text-red-600">
                   {dashboardStats.webhook_errors} erros • {dashboardStats.webhook_pending} pendentes
                 </p>
+=======
+                <p className="text-sm font-medium text-gray-600">
+                  Visualizações Est.
+                </p>
+                {isLoading ? (
+                  <div className="flex items-center">
+                    <Loader2 className="w-5 h-5 animate-spin text-gray-400 mr-2" />
+                    <span className="text-gray-400">Carregando...</span>
+                  </div>
+                ) : (
+                  <>
+                    <p className="text-2xl font-bold text-gray-900">
+                      {pageViews.toLocaleString()}
+                    </p>
+                    <p className="text-xs text-orange-600">
+                      Estimativa baseada em leads
+                    </p>
+                  </>
+                )}
+>>>>>>> 0b40ffd6ca133391f7be7092e460b633cd80296a
               </div>
             </div>
           </CardContent>
@@ -219,12 +318,28 @@ export default function AdminDashboard() {
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-600">Leads Hoje</p>
+<<<<<<< HEAD
                 <p className="text-2xl font-bold text-gray-900">
                   {loading ? "..." : dashboardStats.today_leads}
                 </p>
                 <p className="text-xs text-green-600">
                   {dashboardStats.week_leads} esta semana • {dashboardStats.month_leads} este mês
                 </p>
+=======
+                {isLoading ? (
+                  <div className="flex items-center">
+                    <Loader2 className="w-5 h-5 animate-spin text-gray-400 mr-2" />
+                    <span className="text-gray-400">Carregando...</span>
+                  </div>
+                ) : (
+                  <>
+                    <p className="text-2xl font-bold text-gray-900">
+                      {leadsToday}
+                    </p>
+                    <p className="text-xs text-ecko-red">Desde hoje às 00h</p>
+                  </>
+                )}
+>>>>>>> 0b40ffd6ca133391f7be7092e460b633cd80296a
               </div>
             </div>
           </CardContent>
@@ -235,6 +350,7 @@ export default function AdminDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="bg-white shadow-sm border border-gray-200">
           <CardHeader>
+<<<<<<< HEAD
             <CardTitle className="text-xl text-gray-900">Resumo Semanal</CardTitle>
           </CardHeader>
           <CardContent>
@@ -255,15 +371,44 @@ export default function AdminDashboard() {
                 <span className="text-sm font-medium text-gray-600">Erros de webhook</span>
                 <span className="text-lg font-bold text-red-600">{dashboardStats.webhook_errors}</span>
               </div>
+=======
+            <CardTitle className="text-xl text-gray-900">
+              Distribuição de Leads
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="h-64 flex flex-col justify-center items-center bg-gray-50 rounded-lg">
+              {isLoading ? (
+                <div className="flex items-center text-gray-500">
+                  <Loader2 className="w-6 h-6 animate-spin mr-2" />
+                  Carregando dados...
+                </div>
+              ) : totalLeads > 0 ? (
+                <div className="text-center">
+                  <div className="text-4xl font-bold text-ecko-red mb-2">
+                    {totalLeads}
+                  </div>
+                  <div className="text-gray-600">Leads coletados</div>
+                  <div className="mt-4 text-sm text-gray-500">
+                    {leadsToday} novos hoje
+                  </div>
+                </div>
+              ) : (
+                <p className="text-gray-500">Nenhum lead coletado ainda</p>
+              )}
+>>>>>>> 0b40ffd6ca133391f7be7092e460b633cd80296a
             </div>
           </CardContent>
         </Card>
 
         <Card className="bg-white shadow-sm border border-gray-200">
           <CardHeader>
-            <CardTitle className="text-xl text-gray-900">Atividade Recente</CardTitle>
+            <CardTitle className="text-xl text-gray-900">
+              Atividade Recente
+            </CardTitle>
           </CardHeader>
           <CardContent>
+<<<<<<< HEAD
             <div className="space-y-4">
               {recentActivity.length > 0 ? (
                 recentActivity.map((lead, index) => (
@@ -291,68 +436,127 @@ export default function AdminDashboard() {
                 </div>
               )}
             </div>
+=======
+            {isLoading ? (
+              <div className="flex items-center justify-center h-64 text-gray-500">
+                <Loader2 className="w-6 h-6 animate-spin mr-2" />
+                Carregando atividades...
+              </div>
+            ) : recentActivity.length > 0 ? (
+              <div className="space-y-4 max-h-64 overflow-y-auto">
+                {recentActivity.map((activity) => (
+                  <div
+                    key={activity.id}
+                    className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg"
+                  >
+                    <div className="w-2 h-2 bg-green-500 rounded-full flex-shrink-0"></div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-gray-900 truncate">
+                        Novo lead: {activity.name}
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        WhatsApp: {activity.whatsapp}
+                      </p>
+                    </div>
+                    <div className="flex-shrink-0">
+                      <p className="text-xs text-gray-500">
+                        {activity.timestamp}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="h-64 flex items-center justify-center">
+                <p className="text-gray-500">Nenhuma atividade recente</p>
+              </div>
+            )}
+>>>>>>> 0b40ffd6ca133391f7be7092e460b633cd80296a
           </CardContent>
         </Card>
       </div>
 
       {/* Quick Actions */}
-      <Card className="bg-white shadow-sm border border-gray-200">
-        <CardHeader>
-          <CardTitle className="text-xl text-gray-900">Ações Rápidas</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <Card className="bg-white shadow-sm border border-gray-200">
+          <CardContent className="p-6">
             <a
               href="/admin/leads"
-              className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+              className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors block"
             >
               <div className="flex items-center">
-                <Users className="w-8 h-8 text-ecko-red mr-3" />
+                <Users className="w-8 h-8 text-blue-600 mr-4" />
                 <div>
+<<<<<<< HEAD
                   <h3 className="font-medium text-gray-900">Gerenciar Leads</h3>
                   <p className="text-sm text-gray-600">Visualizar e exportar leads</p>
                   <p className="text-xs text-ecko-red font-medium">{dashboardStats.total_leads} leads cadastrados</p>
+=======
+                  <h3 className="font-semibold text-gray-900">
+                    Gerenciar Leads
+                  </h3>
+                  <p className="text-sm text-gray-600">
+                    Visualizar e exportar leads
+                  </p>
+>>>>>>> 0b40ffd6ca133391f7be7092e460b633cd80296a
                 </div>
               </div>
             </a>
+          </CardContent>
+        </Card>
 
+        <Card className="bg-white shadow-sm border border-gray-200">
+          <CardContent className="p-6">
             <a
               href="/admin/configuracoes"
-              className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+              className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors block"
             >
               <div className="flex items-center">
-                <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center mr-3">
-                  <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                </div>
+                <TrendingUp className="w-8 h-8 text-green-600 mr-4" />
                 <div>
+<<<<<<< HEAD
                   <h3 className="font-medium text-gray-900">Configurações</h3>
                   <p className="text-sm text-gray-600">SEO, webhooks e integrações</p>
                   {dashboardStats.webhook_errors > 0 && (
                     <p className="text-xs text-red-600 font-medium">{dashboardStats.webhook_errors} webhooks com erro</p>
                   )}
+=======
+                  <h3 className="font-semibold text-gray-900">Configurações</h3>
+                  <p className="text-sm text-gray-600">
+                    Ajustar SEO e webhooks
+                  </p>
+>>>>>>> 0b40ffd6ca133391f7be7092e460b633cd80296a
                 </div>
               </div>
             </a>
+          </CardContent>
+        </Card>
 
+        <Card className="bg-white shadow-sm border border-gray-200">
+          <CardContent className="p-6">
             <a
               href="/admin/analytics"
-              className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+              className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors block"
             >
               <div className="flex items-center">
-                <BarChart3 className="w-8 h-8 text-blue-600 mr-3" />
+                <BarChart3 className="w-8 h-8 text-ecko-red mr-4" />
                 <div>
+<<<<<<< HEAD
                   <h3 className="font-medium text-gray-900">Analytics</h3>
                   <p className="text-sm text-gray-600">Relatórios e métricas detalhadas</p>
                   <p className="text-xs text-blue-600 font-medium">Taxa de conversão: {conversionRate}%</p>
+=======
+                  <h3 className="font-semibold text-gray-900">Analytics</h3>
+                  <p className="text-sm text-gray-600">
+                    Ver relatórios detalhados
+                  </p>
+>>>>>>> 0b40ffd6ca133391f7be7092e460b633cd80296a
                 </div>
               </div>
             </a>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }

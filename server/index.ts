@@ -45,7 +45,13 @@ import {
   exportAnalyticsData,
   getConversionByLocation,
   getConversionByGeography,
+  testFacebookPixel,
 } from "./routes/analytics";
+import {
+  trackTrafficSource,
+  getTrafficSources as getTrafficSourcesApi,
+  getRecentTraffic,
+} from "./routes/traffic";
 import {
   getTestimonials,
   getTestimonial,
@@ -188,6 +194,12 @@ export function createServer() {
   app.get("/api/analytics/export-data", exportAnalyticsData);
   app.post("/api/analytics/track-visit", trackVisit);
   app.post("/api/analytics/track-duration", trackDuration);
+  app.post("/api/analytics/test-pixel", testFacebookPixel);
+
+  // Traffic tracking routes
+  app.post("/api/traffic/track", trackTrafficSource);
+  app.get("/api/traffic/sources", getTrafficSourcesApi);
+  app.get("/api/traffic/recent", getRecentTraffic);
 
   // Testimonials routes
   app.get("/api/testimonials", getTestimonials);

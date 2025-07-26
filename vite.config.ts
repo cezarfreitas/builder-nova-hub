@@ -11,6 +11,24 @@ export default defineConfig(({ mode }) => ({
   },
   build: {
     outDir: "dist/spa",
+    cssCodeSplit: true,
+    rollupOptions: {
+      output: {
+        // Simplified manual chunks for reliable build
+        manualChunks: {
+          vendor: ["react", "react-dom"],
+          ui: [
+            "lucide-react",
+            "@radix-ui/react-dialog",
+            "@radix-ui/react-toast",
+          ],
+        },
+        chunkFileNames: "assets/[name]-[hash].js",
+        entryFileNames: "assets/[name]-[hash].js",
+        assetFileNames: "assets/[name]-[hash].[ext]",
+      },
+    },
+    minify: true,
   },
   plugins: [react(), expressPlugin()],
   resolve: {
@@ -18,6 +36,15 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./client"),
       "@shared": path.resolve(__dirname, "./shared"),
     },
+  },
+  // Optimize dependencies
+  optimizeDeps: {
+    include: ["react", "react-dom"],
+  },
+
+  // CSS optimization
+  css: {
+    devSourcemap: false,
   },
 }));
 

@@ -1,6 +1,6 @@
 import { Request, Response, RequestHandler } from "express";
 import { z } from "zod";
-import { getDatabase } from '../config/database';
+import { getDatabase } from "../config/database";
 
 // Validation schema for lead submission
 const leadSchema = z.object({
@@ -26,14 +26,14 @@ export const submitLead: RequestHandler = async (req, res) => {
     const db = getDatabase();
 
     // Extrair informações adicionais do request
-    const ip_address = req.ip || req.connection.remoteAddress || '';
-    const user_agent = req.get('User-Agent') || '';
-    const source = req.get('Referer') || 'direct';
+    const ip_address = req.ip || req.connection.remoteAddress || "";
+    const user_agent = req.get("User-Agent") || "";
+    const source = req.get("Referer") || "direct";
 
     // Headers UTM se existirem
-    const utm_source = req.body.utm_source || '';
-    const utm_medium = req.body.utm_medium || '';
-    const utm_campaign = req.body.utm_campaign || '';
+    const utm_source = req.body.utm_source || "";
+    const utm_medium = req.body.utm_medium || "";
+    const utm_campaign = req.body.utm_campaign || "";
 
     // Verificar se é um lead duplicado (mesmo telefone)
     const telefone = validatedData.whatsapp;
@@ -41,7 +41,7 @@ export const submitLead: RequestHandler = async (req, res) => {
 
     const [existingLeads] = await db.execute(
       `SELECT id FROM leads WHERE telefone = ? LIMIT 1`,
-      [telefone]
+      [telefone],
     );
 
     const is_duplicate = (existingLeads as any[]).length > 0;
@@ -60,12 +60,12 @@ export const submitLead: RequestHandler = async (req, res) => {
         email, // Email temporário para compatibilidade
         telefone,
         validatedData.cep,
-        validatedData.endereco || '',
-        validatedData.complemento || '',
-        validatedData.bairro || '',
+        validatedData.endereco || "",
+        validatedData.complemento || "",
+        validatedData.bairro || "",
         validatedData.cidade,
         validatedData.estado,
-        '', // empresa - não capturada no formulário
+        "", // empresa - não capturada no formulário
         validatedData.hasCnpj,
         is_duplicate,
         source,
@@ -75,8 +75,8 @@ export const submitLead: RequestHandler = async (req, res) => {
         ip_address,
         user_agent,
         validatedData.storeType,
-        validatedData.formOrigin || null
-      ]
+        validatedData.formOrigin || null,
+      ],
     );
 
     const leadId = (result as any).insertId;
@@ -84,17 +84,17 @@ export const submitLead: RequestHandler = async (req, res) => {
     // Buscar configurações de webhook
     const [webhookSettings] = await db.execute(
       `SELECT setting_key, setting_value FROM lp_settings
-       WHERE setting_key IN ('webhook_url', 'webhook_secret') AND setting_value != ''`
+       WHERE setting_key IN ('webhook_url', 'webhook_secret') AND setting_value != ''`,
     );
 
     let webhookSent = false;
-    let webhookResponse = '';
-    let webhookStatus = 'pending';
+    let webhookResponse = "";
+    let webhookStatus = "pending";
 
     // Enviar webhook se configurado
     if ((webhookSettings as any[]).length > 0) {
       const settings: Record<string, string> = {};
-      (webhookSettings as any[]).forEach(setting => {
+      (webhookSettings as any[]).forEach((setting) => {
         settings[setting.setting_key] = setting.setting_value;
       });
 
@@ -103,31 +103,47 @@ export const submitLead: RequestHandler = async (req, res) => {
           const webhookPayload = {
             lead_id: leadId,
             nome: validatedData.name,
+            email: validatedData.email || "",
             telefone: validatedData.whatsapp,
-            tem_cnpj: validatedData.hasCnpj,
+            cidade: validatedData.city || "",
+            empresa: validatedData.company || "",
+            experiencia_revenda: validatedData.hasCnpj,
+            tem_cnpj: validatedData.hasCnpj, // Manter para compatibilidade
             tipo_loja: validatedData.storeType,
+            cep: validatedData.cep || "",
+            endereco: validatedData.address || "",
+            numero: validatedData.numero || "",
+            complemento: validatedData.complemento || "",
+            bairro: validatedData.bairro || "",
+            estado: validatedData.estado || "",
             form_origin: validatedData.formOrigin || null,
             is_duplicate,
             source,
-            utm_source: utm_source || '',
-            utm_medium: utm_medium || '',
-            utm_campaign: utm_campaign || '',
+            utm_source: utm_source || "",
+            utm_medium: utm_medium || "",
+            utm_campaign: utm_campaign || "",
             ip_address,
-            timestamp: new Date().toISOString()
+            user_agent: req.headers["user-agent"] || "",
+            created_at: new Date().toISOString(),
+            timestamp: new Date().toISOString(), // Manter para compatibilidade
           };
 
           const webhookResponse_result = await sendWebhook(
             settings.webhook_url,
             webhookPayload,
-            settings.webhook_secret
+            settings.webhook_secret,
           );
 
           webhookSent = true;
           webhookResponse = `${webhookResponse_result.status} - ${webhookResponse_result.statusText}`;
-          webhookStatus = webhookResponse_result.status >= 200 && webhookResponse_result.status < 300 ? 'success' : 'error';
+          webhookStatus =
+            webhookResponse_result.status >= 200 &&
+            webhookResponse_result.status < 300
+              ? "success"
+              : "error";
         } catch (error: any) {
           webhookResponse = `Error: ${error.message}`;
-          webhookStatus = 'error';
+          webhookStatus = "error";
         }
 
         // Atualizar status do webhook no banco
@@ -136,7 +152,7 @@ export const submitLead: RequestHandler = async (req, res) => {
            webhook_sent = ?, webhook_response = ?, webhook_status = ?,
            webhook_attempts = 1, last_webhook_attempt = NOW()
            WHERE id = ?`,
-          [webhookSent, webhookResponse, webhookStatus, leadId]
+          [webhookSent, webhookResponse, webhookStatus, leadId],
         );
       }
     }
@@ -147,7 +163,9 @@ export const submitLead: RequestHandler = async (req, res) => {
       telefone,
       email,
       is_duplicate,
-      webhook_status: webhookStatus
+      form_origin: validatedData.formOrigin,
+      store_type: validatedData.storeType,
+      webhook_status: webhookStatus,
     });
 
     // Processar integrações (GA4, Meta Pixel, etc.) - sem bloquear a resposta
@@ -189,7 +207,8 @@ export const submitLead: RequestHandler = async (req, res) => {
     // Return success response
     res.status(201).json({
       success: true,
-      message: "Cadastro enviado com sucesso! Nossa equipe entrará em contato em até 24h.",
+      message:
+        "Cadastro enviado com sucesso! Nossa equipe entrará em contato em até 24h.",
       lead: {
         id: leadId,
         name: validatedData.name,
@@ -227,45 +246,45 @@ export async function getLeads(req: Request, res: Response) {
     const {
       page = 1,
       limit = 10,
-      filter = 'all',
-      search = '',
-      date_from = '',
-      date_to = ''
+      filter = "all",
+      search = "",
+      date_from = "",
+      date_to = "",
     } = req.query;
 
-    let whereClause = 'WHERE 1=1';
+    let whereClause = "WHERE 1=1";
     const queryParams: any[] = [];
 
     // Filtros
-    if (filter === 'unique') {
-      whereClause += ' AND is_duplicate = FALSE';
-    } else if (filter === 'duplicate') {
-      whereClause += ' AND is_duplicate = TRUE';
-    } else if (filter === 'webhook_error') {
+    if (filter === "unique") {
+      whereClause += " AND is_duplicate = FALSE";
+    } else if (filter === "duplicate") {
+      whereClause += " AND is_duplicate = TRUE";
+    } else if (filter === "webhook_error") {
       whereClause += ' AND webhook_status = "error"';
     }
 
     // Busca por nome ou email
     if (search) {
-      whereClause += ' AND (nome LIKE ? OR email LIKE ? OR telefone LIKE ?)';
+      whereClause += " AND (nome LIKE ? OR email LIKE ? OR telefone LIKE ?)";
       const searchPattern = `%${search}%`;
       queryParams.push(searchPattern, searchPattern, searchPattern);
     }
 
     // Filtro por data
     if (date_from) {
-      whereClause += ' AND created_at >= ?';
+      whereClause += " AND created_at >= ?";
       queryParams.push(date_from);
     }
     if (date_to) {
-      whereClause += ' AND created_at <= ?';
-      queryParams.push(date_to + ' 23:59:59');
+      whereClause += " AND created_at <= ?";
+      queryParams.push(date_to + " 23:59:59");
     }
 
     // Contar total
     const [countResult] = await db.execute(
       `SELECT COUNT(*) as total FROM leads ${whereClause}`,
-      queryParams
+      queryParams,
     );
     const total = (countResult as any[])[0].total;
 
@@ -275,7 +294,7 @@ export async function getLeads(req: Request, res: Response) {
       `SELECT * FROM leads ${whereClause}
        ORDER BY created_at DESC
        LIMIT ${Number(limit)} OFFSET ${offset}`,
-      queryParams
+      queryParams,
     );
 
     res.json({
@@ -286,15 +305,15 @@ export async function getLeads(req: Request, res: Response) {
           page: Number(page),
           limit: Number(limit),
           total,
-          total_pages: Math.ceil(total / Number(limit))
-        }
-      }
+          total_pages: Math.ceil(total / Number(limit)),
+        },
+      },
     });
   } catch (error) {
-    console.error('Erro ao buscar leads:', error);
+    console.error("Erro ao buscar leads:", error);
     res.status(500).json({
       success: false,
-      message: 'Erro interno do servidor'
+      message: "Erro interno do servidor",
     });
   }
 }
@@ -307,8 +326,8 @@ export async function resendWebhook(req: Request, res: Response) {
       return res.status(status).json({
         success: false,
         message,
-        webhook_status: 'error',
-        webhook_response: message
+        webhook_status: "error",
+        webhook_response: message,
       });
     }
   };
@@ -317,19 +336,18 @@ export async function resendWebhook(req: Request, res: Response) {
     const { id } = req.params;
 
     if (!id || isNaN(Number(id))) {
-      return sendErrorResponse(400, 'ID do lead inválido');
+      return sendErrorResponse(400, "ID do lead inválido");
     }
 
     const db = getDatabase();
 
     // Buscar o lead
-    const [leadResult] = await db.execute(
-      `SELECT * FROM leads WHERE id = ?`,
-      [id]
-    );
+    const [leadResult] = await db.execute(`SELECT * FROM leads WHERE id = ?`, [
+      id,
+    ]);
 
     if ((leadResult as any[]).length === 0) {
-      return sendErrorResponse(404, 'Lead não encontrado');
+      return sendErrorResponse(404, "Lead não encontrado");
     }
 
     const lead = (leadResult as any[])[0];
@@ -337,53 +355,71 @@ export async function resendWebhook(req: Request, res: Response) {
     // Buscar configurações de webhook
     const [webhookSettings] = await db.execute(
       `SELECT setting_key, setting_value FROM lp_settings
-       WHERE setting_key IN ('webhook_url', 'webhook_secret') AND setting_value != ''`
+       WHERE setting_key IN ('webhook_url', 'webhook_secret') AND setting_value != ''`,
     );
 
     if ((webhookSettings as any[]).length === 0) {
-      return sendErrorResponse(400, 'Webhook não configurado');
+      return sendErrorResponse(400, "Webhook não configurado");
     }
 
     const settings: Record<string, string> = {};
-    (webhookSettings as any[]).forEach(setting => {
+    (webhookSettings as any[]).forEach((setting) => {
       settings[setting.setting_key] = setting.setting_value;
     });
 
     if (!settings.webhook_url) {
-      return sendErrorResponse(400, 'URL do webhook não configurada');
+      return sendErrorResponse(400, "URL do webhook não configurada");
     }
 
     // Preparar payload do webhook
     const webhookPayload = {
       lead_id: lead.id,
       nome: lead.nome,
+      email: lead.email || "",
       telefone: lead.telefone,
-      tem_cnpj: lead.experiencia_revenda,
+      cidade: lead.cidade || "",
+      empresa: lead.empresa || "",
+      experiencia_revenda: lead.experiencia_revenda,
+      tem_cnpj: lead.experiencia_revenda, // Manter para compatibilidade
       tipo_loja: lead.tipo_loja,
+      cep: lead.cep || "",
+      endereco: lead.endereco || "",
+      numero: lead.numero || "",
+      complemento: lead.complemento || "",
+      bairro: lead.bairro || "",
+      estado: lead.estado || "",
       form_origin: lead.form_origin || null,
       is_duplicate: lead.is_duplicate,
       source: lead.source,
-      utm_source: lead.utm_source || '',
-      utm_medium: lead.utm_medium || '',
-      utm_campaign: lead.utm_campaign || '',
+      utm_source: lead.utm_source || "",
+      utm_medium: lead.utm_medium || "",
+      utm_campaign: lead.utm_campaign || "",
       ip_address: lead.ip_address,
-      timestamp: new Date().toISOString(),
-      resend: true
+      user_agent: lead.user_agent || "",
+      created_at: lead.created_at,
+      updated_at: lead.updated_at,
+      webhook_sent: lead.webhook_sent,
+      webhook_status: lead.webhook_status,
+      webhook_attempts: lead.webhook_attempts,
+      last_webhook_attempt: lead.last_webhook_attempt,
+      timestamp: new Date().toISOString(), // Manter para compatibilidade
+      resend: true,
     };
 
     // Enviar webhook
-    let webhookResponse = '';
-    let webhookStatus = 'error';
+    let webhookResponse = "";
+    let webhookStatus = "error";
 
     try {
       const response = await sendWebhook(
         settings.webhook_url,
         webhookPayload,
-        settings.webhook_secret
+        settings.webhook_secret,
       );
 
       webhookResponse = `${response.status} - ${response.statusText}`;
-      webhookStatus = response.status >= 200 && response.status < 300 ? 'success' : 'error';
+      webhookStatus =
+        response.status >= 200 && response.status < 300 ? "success" : "error";
     } catch (error: any) {
       webhookResponse = `Error: ${error.message}`;
     }
@@ -394,20 +430,20 @@ export async function resendWebhook(req: Request, res: Response) {
        webhook_sent = TRUE, webhook_response = ?, webhook_status = ?,
        webhook_attempts = webhook_attempts + 1, last_webhook_attempt = NOW()
        WHERE id = ?`,
-      [webhookResponse, webhookStatus, id]
+      [webhookResponse, webhookStatus, id],
     );
 
     if (!res.headersSent) {
       res.json({
         success: true,
-        message: 'Webhook reenviado',
+        message: "Webhook reenviado",
         webhook_status: webhookStatus,
-        webhook_response: webhookResponse
+        webhook_response: webhookResponse,
       });
     }
   } catch (error) {
-    console.error('Erro ao reenviar webhook:', error);
-    return sendErrorResponse(500, 'Erro interno do servidor');
+    console.error("Erro ao reenviar webhook:", error);
+    return sendErrorResponse(500, "Erro interno do servidor");
   }
 }
 
@@ -418,33 +454,29 @@ export async function deleteLead(req: Request, res: Response) {
     const db = getDatabase();
 
     // Verificar se o lead existe
-    const [leadResult] = await db.execute(
-      `SELECT id FROM leads WHERE id = ?`,
-      [id]
-    );
+    const [leadResult] = await db.execute(`SELECT id FROM leads WHERE id = ?`, [
+      id,
+    ]);
 
     if ((leadResult as any[]).length === 0) {
       return res.status(404).json({
         success: false,
-        message: 'Lead não encontrado'
+        message: "Lead não encontrado",
       });
     }
 
     // Deletar o lead
-    await db.execute(
-      `DELETE FROM leads WHERE id = ?`,
-      [id]
-    );
+    await db.execute(`DELETE FROM leads WHERE id = ?`, [id]);
 
     res.json({
       success: true,
-      message: 'Lead excluído com sucesso'
+      message: "Lead excluído com sucesso",
     });
   } catch (error) {
-    console.error('Erro ao deletar lead:', error);
+    console.error("Erro ao deletar lead:", error);
     res.status(500).json({
       success: false,
-      message: 'Erro interno do servidor'
+      message: "Erro interno do servidor",
     });
   }
 }
@@ -481,44 +513,49 @@ export async function getLeadStats(req: Request, res: Response) {
         webhook_pending: stats.webhook_pending,
         today: stats.today_leads,
         week: stats.week_leads,
-        month: stats.month_leads
-      }
+        month: stats.month_leads,
+      },
     });
   } catch (error) {
-    console.error('Erro ao buscar estatísticas:', error);
+    console.error("Erro ao buscar estatísticas:", error);
     res.status(500).json({
       success: false,
-      message: 'Erro interno do servidor'
+      message: "Erro interno do servidor",
     });
   }
 }
 
 // Função auxiliar para enviar webhook
-async function sendWebhook(url: string, payload: any, secret?: string): Promise<any> {
+async function sendWebhook(
+  url: string,
+  payload: any,
+  secret?: string,
+): Promise<any> {
   const headers: Record<string, string> = {
-    'Content-Type': 'application/json',
-    'User-Agent': 'Ecko-LP-Webhook/1.0'
+    "Content-Type": "application/json",
+    "User-Agent": "Ecko-LP-Webhook/1.0",
   };
 
   if (secret) {
     // Adicionar assinatura se secret estiver configurado
-    const crypto = await import('crypto');
-    const signature = crypto.createHmac('sha256', secret)
+    const crypto = await import("crypto");
+    const signature = crypto
+      .createHmac("sha256", secret)
       .update(JSON.stringify(payload))
-      .digest('hex');
-    headers['X-Signature'] = `sha256=${signature}`;
+      .digest("hex");
+    headers["X-Signature"] = `sha256=${signature}`;
   }
 
   const response = await fetch(url, {
-    method: 'POST',
+    method: "POST",
     headers,
     body: JSON.stringify(payload),
-    signal: AbortSignal.timeout(30000) // 30 segundos timeout
+    signal: AbortSignal.timeout(30000), // 30 segundos timeout
   });
 
   return {
     status: response.status,
     statusText: response.statusText,
-    headers: Object.fromEntries(response.headers.entries())
+    headers: Object.fromEntries(response.headers.entries()),
   };
 }

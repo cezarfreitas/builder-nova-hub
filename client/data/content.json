@@ -1,4 +1,56 @@
 {
+  "section_order": {
+    "enabled_sections": [
+      {
+        "id": "hero",
+        "name": "Hero Section",
+        "enabled": true,
+        "order": 1
+      },
+      {
+        "id": "about",
+        "name": "Sobre a Ecko",
+        "enabled": true,
+        "order": 2
+      },
+      {
+        "id": "form",
+        "name": "Formulário",
+        "enabled": true,
+        "order": 3
+      },
+      {
+        "id": "benefits",
+        "name": "Vantagens",
+        "enabled": true,
+        "order": 4
+      },
+      {
+        "id": "gallery",
+        "name": "Galeria",
+        "enabled": true,
+        "order": 5
+      },
+      {
+        "id": "testimonials",
+        "name": "Depoimentos",
+        "enabled": true,
+        "order": 6
+      },
+      {
+        "id": "faq",
+        "name": "FAQ",
+        "enabled": true,
+        "order": 7
+      },
+      {
+        "id": "final_cta",
+        "name": "CTA Final",
+        "enabled": true,
+        "order": 8
+      }
+    ]
+  },
   "hero": {
     "enabled": true,
     "title": "SEJA PARCEIRO OFICIAL {ecko}ECKO{/ecko} E TENHA SUCESSO",
@@ -93,30 +145,48 @@
     "items": [
       {
         "id": 1,
-        "title": "Streetwear Urbano",
-        "description": "Estilo autêntico que define tendências",
-        "image_url": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&h=600&fit=crop&crop=center",
-        "alt_text": "Coleção streetwear urbano Ecko",
+        "image_url": "/uploads/gallery/gallery-1753454897687-429252096.jpg",
         "is_active": true,
         "display_order": 1
       },
       {
         "id": 2,
-        "title": "Lifestyle Autêntico",
-        "description": "Autenticidade e originalidade em cada visual",
-        "image_url": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&h=600&fit=crop&crop=center",
-        "alt_text": "Lifestyle autêntico Ecko",
+        "image_url": "/uploads/gallery/gallery-1753454899086-327960231.jpg",
         "is_active": true,
         "display_order": 2
       },
       {
         "id": 3,
-        "title": "Tendências Urbanas",
-        "description": "Na vanguarda da moda streetwear",
-        "image_url": "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=600&h=600&fit=crop&crop=center",
-        "alt_text": "Tendências urbanas Ecko",
+        "image_url": "/uploads/gallery/gallery-1753454900526-175068983.jpg",
         "is_active": true,
         "display_order": 3
+<<<<<<< HEAD
+=======
+      },
+      {
+        "id": 4,
+        "image_url": "/uploads/gallery/gallery-1753454901661-650318128.jpg",
+        "is_active": true,
+        "display_order": 4
+      },
+      {
+        "id": 5,
+        "image_url": "/uploads/gallery/gallery-1753454902690-474065656.jpg",
+        "is_active": true,
+        "display_order": 5
+      },
+      {
+        "id": 6,
+        "image_url": "/uploads/gallery/gallery-1753454903536-676397615.JPG",
+        "is_active": true,
+        "display_order": 6
+      },
+      {
+        "id": 7,
+        "image_url": "/uploads/gallery/gallery-1753454904403-348350948.jpg",
+        "is_active": true,
+        "display_order": 7
+>>>>>>> 0b40ffd6ca133391f7be7092e460b633cd80296a
       }
     ],
     "empty_state_title": "Galeria em Construção",
@@ -166,7 +236,7 @@
       }
     ],
     "cta_title": "Seja o próximo case de sucesso!",
-    "cta_description": "Junte-se aos revendedores que já transformaram seus negócios",
+    "cta_description": "Junte-se aos revendedores que já transformaram seus neg��cios",
     "cta_button_text": "QUERO SER UM CASE DE SUCESSO"
   },
   "faq": {
@@ -220,7 +290,96 @@
     "description": "Junte-se aos milhares de revendedores que já transformaram seus negócios com a marca mais desejada do streetwear brasileiro!",
     "button_text": "QUERO SER UM LOJISTA AUTORIZADO"
   },
+  "about": {
+    "section_tag": "Nossa História",
+    "section_title": "SOBRE A {ECKO}",
+    "section_subtitle": "mais de 20 anos de streetwear",
+    "section_description": "Conheça a trajetória de uma das marcas mais influentes do streetwear mundial",
+    "content": "Fundada em 1993 por Marc Milecofsky, a Ecko nasceu com o propósito de dar voz à cultura urbana e ao streetwear autêntico. Começando como uma pequena marca de camisetas em Nova Jersey, rapidamente se tornou um ícone global, sendo reconhecida por suas estampas ousadas e pela conexão genuína com a cultura hip-hop, skate e street art.\n\nA marca ganhou destaque ao vestir grandes nomes do rap, como 50 Cent, Eminem e Jay-Z, consolidando sua presença na música e na moda urbana. No Brasil, a Ecko chegou na década de 2000 e rapidamente conquistou o público jovem, tornando-se sinônimo de atitude e estilo autêntico.\n\nHoje, a Ecko continua sendo uma referência no streetwear, mantendo seu DNA rebelde e inovador, sempre conectada com as últimas tendências da cultura urbana. Com mais de duas décadas de história, a marca segue evoluindo e inspirando novas gerações de jovens que buscam autenticidade e qualidade em suas escolhas de moda.",
+    "stats": [
+      {
+        "id": 1,
+        "number": "30+",
+        "label": "Anos de História",
+        "description": "Mais de três décadas construindo a cultura streetwear"
+      },
+      {
+        "id": 2,
+        "number": "50+",
+        "label": "Países",
+        "description": "Presença global com produtos em todos os continentes"
+      },
+      {
+        "id": 3,
+        "number": "1000+",
+        "label": "Lojas Parceiras",
+        "description": "Rede de revendedores oficiais no Brasil"
+      },
+      {
+        "id": 4,
+        "number": "100M+",
+        "label": "Produtos Vendidos",
+        "description": "Milhões de peças que marcaram gerações"
+      }
+    ],
+    "cta_title": "Faça Parte Desta História",
+    "cta_description": "Torne-se um revendedor oficial e ajude a escrever o próximo capítulo da Ecko",
+    "cta_button_text": "QUERO SER PARTE DA ECKO"
+  },
   "footer": {
-    "copyright": "© 2024 Ecko. Todos os direitos reservados. Seja um revendedor oficial e transforme seu negócio."
+    "copyright": "© 2024 Ecko. Todos os direitos reservados. Seja um revendedor oficial e transforme seu negócio.",
+    "social_links": {
+      "facebook": "https://facebook.com/ecko",
+      "instagram": "https://instagram.com/ecko"
+    }
+  },
+  "settings": {
+    "general": {
+      "site_domain": "https://b2b.eckoshop.com.br",
+      "favicon_url": "/uploads/seo-1753447205980-422066206.png"
+    },
+    "seo": {
+      "seo_title": "Seja uma Revenda Autorizada da Ecko | Tenha os Melhores Produtos",
+      "seo_description": "Seja uma revenda autorizada da Ecko e tenha os melhores produtos de streetwear em sua loja. Transforme sua paixão em lucro com exclusividade territorial e suporte completo.",
+      "seo_keywords": "revenda autorizada ecko, melhores produtos streetwear, lojista autorizado",
+      "seo_canonical_url": "https://b2b.eckoshop.com.br/",
+      "seo_robots": "index,follow",
+      "og_title": "Seja uma Revenda Autorizada da Ecko",
+      "og_description": "Transforme sua paixão em lucro! Seja um revendedor autorizado Ecko e tenha acesso aos melhores produtos de streetwear do mercado.",
+      "og_image": "https://estyle.vteximg.com.br/arquivos/ecko_mosaic5.png",
+      "og_type": "website",
+      "og_url": "https://b2b.eckoshop.com.br/",
+      "og_site_name": "Ecko Revendedores",
+      "twitter_card": "summary_large_image",
+      "twitter_title": "",
+      "twitter_description": "",
+      "twitter_image": "",
+      "schema_company_name": "",
+      "schema_company_logo": "",
+      "schema_contact_phone": "",
+      "schema_contact_email": "",
+      "schema_address_street": "",
+      "schema_address_city": "",
+      "schema_address_state": "",
+      "schema_address_postal": "",
+      "schema_address_country": ""
+    },
+    "webhook": {
+      "webhook_url": "https://api.idenegociosdigitais.com.br/webhook/lp-ntk-v1",
+      "webhook_secret": "",
+      "webhook_timeout": "30",
+      "webhook_retries": "3"
+    },
+    "analytics": {
+      "ga4_measurement_id": "",
+      "ga4_api_secret": "",
+      "gtag_config": "",
+      "facebook_pixel_id": "",
+      "facebook_access_token": "",
+      "facebook_test_event_code": "",
+      "conversions_api_enabled": "true",
+      "lead_event_name": "Lead",
+      "conversion_value": "0"
+    }
   }
 }

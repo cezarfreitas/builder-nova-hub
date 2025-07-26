@@ -19,6 +19,8 @@ import {
   HelpCircle,
   FileText,
   FormInput,
+  History,
+  ArrowUpDown,
   Search,
   Webhook,
   Database,
@@ -84,19 +86,20 @@ const sidebarItems: SidebarItem[] = [
     category: "lp",
     path: "/admin/gallery",
   },
-  {
-    id: "content",
-    label: "Conteúdo",
-    icon: <FileText className="w-5 h-5" />,
-    category: "lp",
-    path: "/admin/content",
-  },
+
   {
     id: "faq",
     label: "FAQ",
     icon: <HelpCircle className="w-5 h-5" />,
     category: "lp",
     path: "/admin/faq",
+  },
+  {
+    id: "about",
+    label: "Sobre",
+    icon: <History className="w-5 h-5" />,
+    category: "lp",
+    path: "/admin/about",
   },
   {
     id: "footer",
@@ -106,6 +109,13 @@ const sidebarItems: SidebarItem[] = [
     path: "/admin/footer",
   },
   // Configurações
+  {
+    id: "order",
+    label: "Ordem",
+    icon: <ArrowUpDown className="w-5 h-5" />,
+    category: "config",
+    path: "/admin/order",
+  },
   {
     id: "configuracoes",
     label: "Configurações",

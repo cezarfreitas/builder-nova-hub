@@ -5,9 +5,18 @@ import { Card, CardContent } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
 import { DynamicHead } from "../components/DynamicHead";
 import { useToast } from "../hooks/use-toast";
-import { useSessionId } from "../hooks/useAnalytics";
+import { useSessionId } from "../hooks/useSessionId";
 import { useContent } from "../hooks/useContent";
 import { renderTextWithColorTokens } from "../utils/colorTokens";
+import { usePreloadImages } from "../hooks/useOptimizedImage";
+import { robustPost } from "../utils/robustFetch";
+import { OptimizedImage } from "../components/OptimizedImage";
+import { DeferredCSS, PreloadHeroImages } from "../components/DeferredCSS";
+import { LazySection } from "../components/LazySection";
+import {
+  ScriptOptimizer,
+  ReflowOptimizer,
+} from "../components/ScriptOptimizer";
 import {
   Accordion,
   AccordionContent,
@@ -15,15 +24,30 @@ import {
   AccordionTrigger,
 } from "../components/ui/accordion";
 import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "../components/ui/carousel";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "../components/ui/dialog";
+import {
   CheckCircle,
   Globe,
   Truck,
   HeadphonesIcon,
   Monitor,
   ArrowRight,
-  MessageCircle,
   ChevronDown,
   HelpCircle,
+  Star,
+  Image,
+  X,
 } from "lucide-react";
 
 interface LeadFormData {
@@ -69,12 +93,16 @@ export default function Index() {
   const [cepLoading, setCepLoading] = useState(false);
   const [formOrigin, setFormOrigin] = useState<string>("");
   const [startTime] = useState(Date.now());
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showWhatsApp, setShowWhatsApp] = useState(true);
+  const [whatsappClickCount, setWhatsappClickCount] = useState(0);
   const [userId] = useState(() => {
     // Gerar user_id único baseado em dados do navegador
     const fingerprint = `${navigator.userAgent}-${screen.width}x${screen.height}-${Intl.DateTimeFormat().resolvedOptions().timeZone}`;
     return btoa(fingerprint).slice(0, 20);
   });
 
+<<<<<<< HEAD
   // Tracking automático de visita ao carregar a página
   useEffect(() => {
     const trackPageVisit = async () => {
@@ -176,6 +204,17 @@ export default function Index() {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, [sessionId, userId, startTime]);
+=======
+  // Preload critical images
+  const criticalImages = [
+    "/logo-ecko.png",
+    content.gallery?.items?.[0]?.image_url || "",
+    content.gallery?.items?.[1]?.image_url || "",
+    content.gallery?.items?.[2]?.image_url || "",
+  ].filter(Boolean);
+
+  usePreloadImages(criticalImages);
+>>>>>>> 0b40ffd6ca133391f7be7092e460b633cd80296a
 
   // Static testimonials texts
 
@@ -198,7 +237,7 @@ export default function Index() {
     },
     {
       id: 3,
-      question: "Vocês oferecem exclusividade territorial?",
+      question: "Voc��s oferecem exclusividade territorial?",
       answer:
         "Sim! Dependendo da região e do perfil do parceiro, oferecemos prote��ão territorial para garantir que você tenha espaço para crescer sem concorrência direta de outros revendedores oficiais.",
       display_order: 3,
@@ -223,6 +262,7 @@ export default function Index() {
   ];
 
   // Função para rastrear clique no WhatsApp
+<<<<<<< HEAD
   const trackWhatsAppClick = async () => {
     try {
       console.log('📱 Tracking clique no WhatsApp');
@@ -312,6 +352,95 @@ export default function Index() {
       console.warn(`⚠️ Erro ao enviar tracking de ${eventType}:`, error);
     }
   };
+=======
+  // Tracking WhatsApp clicks directly via API
+
+  // Capturar informações de origem do tráfego
+  useEffect(() => {
+    const captureTrafficSource = async () => {
+      // Verificar se o ambiente está disponível
+      if (typeof window === "undefined" || typeof fetch === "undefined") {
+        return;
+      }
+
+      try {
+        const referrer = document.referrer;
+        const currentUrl = window.location.href;
+        const urlParams = new URLSearchParams(window.location.search);
+
+        // Identificar fonte do tráfego
+        let sourceName = "Direto";
+        if (referrer) {
+          if (referrer.includes("google.com")) sourceName = "Google";
+          else if (referrer.includes("facebook.com")) sourceName = "Facebook";
+          else if (referrer.includes("instagram.com")) sourceName = "Instagram";
+          else if (referrer.includes("whatsapp.com")) sourceName = "WhatsApp";
+          else if (referrer.includes("youtube.com")) sourceName = "YouTube";
+          else if (referrer.includes("tiktok.com")) sourceName = "TikTok";
+          else if (referrer.includes("linkedin.com")) sourceName = "LinkedIn";
+          else sourceName = new URL(referrer).hostname;
+        }
+
+        const trafficSource = {
+          referrer: referrer || "Direto",
+          source_name: sourceName,
+          utm_source: urlParams.get("utm_source") || "",
+          utm_medium: urlParams.get("utm_medium") || "",
+          utm_campaign: urlParams.get("utm_campaign") || "",
+          utm_term: urlParams.get("utm_term") || "",
+          utm_content: urlParams.get("utm_content") || "",
+          current_url: currentUrl,
+          timestamp: new Date().toISOString(),
+          session_id: sessionId,
+          user_id: userId,
+          page_title: document.title,
+        };
+
+        // Salvar no banco de dados MySQL
+        const result = await robustPost("/api/traffic/track", trafficSource);
+        if (result.success) {
+          console.log("✅ Origem salva no banco:", sourceName);
+        }
+
+        console.log("📊 Origem capturada:", sourceName, trafficSource);
+      } catch (error) {
+        console.warn("Erro ao capturar origem do tráfego:", error);
+      }
+    };
+
+    // Capturar origem na primeira visita
+    captureTrafficSource();
+  }, []); // Executar apenas uma vez
+
+  // Track page view
+  useEffect(() => {
+    const trackPageView = async () => {
+      // Verificar se o ambiente está disponível
+      if (typeof window === "undefined" || typeof fetch === "undefined") {
+        return;
+      }
+
+      try {
+        const result = await robustPost("/api/analytics/track-visit", {
+          event_type: "page_view",
+          session_id: sessionId,
+          user_id: userId,
+          page_url: window.location.href,
+          referrer: document.referrer,
+          duration_seconds: 0,
+        });
+
+        if (result.success) {
+          console.log("✅ Page view registrada no banco");
+        }
+      } catch (e) {
+        // Silently handle all errors
+      }
+    };
+
+    trackPageView();
+  }, [sessionId, userId]);
+>>>>>>> 0b40ffd6ca133391f7be7092e460b633cd80296a
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -356,7 +485,11 @@ export default function Index() {
     }
   };
 
+<<<<<<< HEAD
   // Fun��ão para abrir formulário com origem específica
+=======
+  // Função para abrir formulário com origem espec��fica
+>>>>>>> 0b40ffd6ca133391f7be7092e460b633cd80296a
   const openFormWithOrigin = (origin: string) => {
     // Tracking do clique no CTA
     trackEvent('form_cta_click', {
@@ -365,7 +498,7 @@ export default function Index() {
     });
 
     setFormOrigin(origin);
-    setShowForm(true);
+    setIsModalOpen(true);
   };
 
   // Função para formatar WhatsApp
@@ -439,7 +572,7 @@ export default function Index() {
     return numbers.length === 8;
   };
 
-  // Fun��ão para buscar endereço pelo CEP
+  // Fun�������o para buscar endereço pelo CEP
   const fetchAddressByCEP = async (cep: string) => {
     const numbers = cep.replace(/\D/g, "");
 
@@ -505,7 +638,7 @@ export default function Index() {
     // Validar CEP
     if (!formData.cep || !validateCEP(formData.cep)) {
       toast({
-        title: "⚠️ CEP Obrigatório",
+        title: "��️ CEP Obrigatório",
         description: "Digite um CEP válido para identificar sua localização.",
         variant: "destructive",
       });
@@ -515,7 +648,7 @@ export default function Index() {
     // Verificar se o endereço foi carregado
     if (!formData.cidade || !formData.estado) {
       toast({
-        title: "⚠️ Endereço Incompleto",
+        title: "⚠️ Endere��o Incompleto",
         description: content.form.validation_messages.address_incomplete,
         variant: "destructive",
       });
@@ -549,6 +682,7 @@ export default function Index() {
       const result = await response.json();
 
       if (result.success) {
+<<<<<<< HEAD
       toast({
         title: "✅ Cadastro enviado!",
         description:
@@ -627,6 +761,31 @@ export default function Index() {
         // Não bloquear o fluxo principal se o evento falhar
       }
     } else {
+=======
+        toast({
+          title: "✅ Cadastro enviado!",
+          description:
+            "Nossa equipe entrar�� em contato em até 24h. Obrigado pelo interesse!",
+          duration: 8000,
+        });
+        setIsSubmitted(true);
+        setFormData({
+          name: "",
+          whatsapp: "",
+          hasCnpj: "",
+          storeType: "",
+          cep: "",
+          endereco: "",
+          complemento: "",
+          bairro: "",
+          cidade: "",
+          estado: "",
+        });
+        setWhatsappError("");
+        setCnpjError("");
+        setCepError("");
+      } else {
+>>>>>>> 0b40ffd6ca133391f7be7092e460b633cd80296a
         toast({
           title: "❌ Erro no envio",
           description:
@@ -636,7 +795,7 @@ export default function Index() {
       }
     } catch (error) {
       toast({
-        title: "❌ Erro de conexão",
+        title: "�� Erro de conexão",
         description:
           "Erro ao conectar com o servidor. Verifique sua conexão e tente novamente.",
         variant: "destructive",
@@ -647,6 +806,7 @@ export default function Index() {
   };
 
   const scrollToContent = () => {
+<<<<<<< HEAD
     // Tracking do clique no botão do hero
     trackEvent('hero_cta_click', {
       cta_text: currentHero.cta_secondary_text,
@@ -655,6 +815,27 @@ export default function Index() {
 
     const element = document.getElementById("content-section");
     element?.scrollIntoView({ behavior: "smooth" });
+=======
+    // Use batched DOM operations to prevent forced reflow
+    if ((window as any).batchDOMRead) {
+      (window as any).batchDOMRead(() => {
+        const element = document.getElementById("content-section");
+        if (element) {
+          (window as any).batchDOMWrite(() => {
+            element.scrollIntoView({ behavior: "smooth", block: "start" });
+          });
+        }
+      });
+    } else {
+      // Fallback for when optimizer isn't loaded yet
+      requestAnimationFrame(() => {
+        const element = document.getElementById("content-section");
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
+    }
+>>>>>>> 0b40ffd6ca133391f7be7092e460b633cd80296a
   };
 
   if (isSubmitted) {
@@ -708,7 +889,7 @@ export default function Index() {
                   onChange={handleInputChange}
                   placeholder="Digite seu nome completo"
                   required
-                  className="h-12 text-base bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-ecko-red focus:ring-ecko-red/20"
+                  className="h-12 text-base bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:border-ecko-red focus:ring-ecko-red/20"
                 />
               </div>
 
@@ -723,12 +904,12 @@ export default function Index() {
                   onChange={handleInputChange}
                   placeholder="(11) 99999-9999"
                   required
-                  className={`h-12 text-base bg-gray-800 text-white placeholder-gray-400 focus:ring-ecko-red/20 ${
+                  className={`h-12 text-base bg-white text-gray-900 placeholder-gray-500 focus:ring-ecko-red/20 ${
                     whatsappError
                       ? "border-red-500 focus:border-red-500"
                       : formData.whatsapp && validateWhatsApp(formData.whatsapp)
                         ? "border-green-500 focus:border-green-500"
-                        : "border-gray-700 focus:border-ecko-red"
+                        : "border-gray-300 focus:border-ecko-red"
                   }`}
                 />
                 {whatsappError && (
@@ -757,14 +938,14 @@ export default function Index() {
                   onChange={handleInputChange}
                   placeholder="12345-678"
                   required
-                  className={`h-12 text-base bg-gray-800 text-white placeholder-gray-400 focus:ring-ecko-red/20 ${
+                  className={`h-12 text-base bg-white text-gray-900 placeholder-gray-500 focus:ring-ecko-red/20 ${
                     cepError
                       ? "border-red-500 focus:border-red-500"
                       : formData.cep &&
                           validateCEP(formData.cep) &&
                           formData.cidade
                         ? "border-green-500 focus:border-green-500"
-                        : "border-gray-700 focus:border-ecko-red"
+                        : "border-gray-300 focus:border-ecko-red"
                   }`}
                 />
                 {cepLoading && (
@@ -796,7 +977,7 @@ export default function Index() {
                   value={formData.hasCnpj}
                   onChange={handleInputChange}
                   required
-                  className="w-full h-12 bg-gray-800 border border-gray-700 rounded-md px-4 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-base"
+                  className="w-full h-12 bg-white border border-gray-300 rounded-md px-4 text-gray-900 focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-base"
                 >
                   <option value="">Selecione</option>
                   <option value="sim">Sim</option>
@@ -818,7 +999,7 @@ export default function Index() {
                   value={formData.storeType}
                   onChange={handleInputChange}
                   required
-                  className="w-full h-12 bg-gray-800 border border-gray-700 rounded-md px-4 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-base"
+                  className="w-full h-12 bg-white border border-gray-300 rounded-md px-4 text-gray-900 focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-base"
                 >
                   <option value="">Selecione</option>
                   <option value="fisica">Física</option>
@@ -838,9 +1019,9 @@ export default function Index() {
                     setCnpjError("");
                     setCepError("");
                   }}
-                  className="group relative overflow-hidden flex-1 h-12 border-2 border-gray-600 bg-transparent text-gray-300 hover:text-white transition-all duration-300 hover:scale-105 hover:shadow-lg rounded-lg"
+                  className="group relative overflow-hidden flex-1 h-12 border-2 border-gray-800 bg-transparent text-gray-300 hover:text-white transition-all duration-300 hover:scale-105 hover:shadow-lg rounded-lg"
                 >
-                  <span className="absolute inset-0 bg-gray-800 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                  <span className="absolute inset-0 bg-black/90 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
                   <span className="relative z-10">Voltar</span>
                 </Button>
                 <Button
@@ -848,7 +1029,7 @@ export default function Index() {
                   disabled={isSubmitting || formData.hasCnpj === "nao"}
                   className={`group relative overflow-hidden flex-1 h-12 font-bold transition-all duration-300 rounded-lg ${
                     formData.hasCnpj === "nao"
-                      ? "bg-gray-600 cursor-not-allowed"
+                      ? "bg-black/70 cursor-not-allowed"
                       : "bg-gradient-to-r from-ecko-red to-ecko-red-dark hover:from-ecko-red-dark hover:to-red-700 hover:scale-105 hover:shadow-lg hover:shadow-ecko-red/40"
                   } text-white`}
                 >
@@ -872,6 +1053,10 @@ export default function Index() {
   return (
     <>
       <DynamicHead />
+      <DeferredCSS />
+      <PreloadHeroImages />
+      <ScriptOptimizer />
+      <ReflowOptimizer />
       <main className="bg-black pb-4">
         {/* Hero Full Screen Section */}
         <section
@@ -979,7 +1164,7 @@ export default function Index() {
                   `}
                   </style>
                   <div
-                    className="hero-cta-button mb-6 sm:mb-8 group relative overflow-hidden bg-transparent border-2 font-bold px-8 sm:px-10 py-4 sm:py-5 h-auto text-base sm:text-lg uppercase tracking-wider transition-all duration-500 hover:scale-105 hover:shadow-2xl rounded-lg cursor-pointer"
+                    className="hero-cta-button mb-6 sm:mb-8 group relative overflow-hidden bg-transparent border-2 font-bold px-6 sm:px-10 py-4 sm:py-5 h-auto text-sm sm:text-lg uppercase tracking-wider transition-all duration-500 hover:scale-105 hover:shadow-2xl rounded-lg cursor-pointer min-h-[56px] w-full sm:w-auto flex items-center justify-center"
                     onClick={scrollToContent}
                     style={{
                       borderColor: currentHero.cta_color,
@@ -1054,7 +1239,7 @@ export default function Index() {
                 {/* Right Form */}
                 <div className="relative mt-6 lg:mt-0">
                   <div className="absolute -inset-2 sm:-inset-4 bg-gradient-to-r from-ecko-red via-red-500 to-ecko-red-dark rounded-3xl opacity-20 blur-xl"></div>
-                  <Card className="relative shadow-2xl border-2 border-ecko-red/40 bg-gray-900/90 backdrop-blur-lg">
+                  <Card className="relative shadow-2xl border-2 border-ecko-red/40 bg-black/90 backdrop-blur-lg">
                     <CardContent className="p-4 sm:p-6 lg:p-8">
                       <div className="text-center mb-4 sm:mb-6">
                         <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-white mb-2">
@@ -1076,7 +1261,7 @@ export default function Index() {
                             onChange={handleInputChange}
                             placeholder={content.form.fields.name_placeholder}
                             required
-                            className="h-12 text-base bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-ecko-red focus:ring-ecko-red/20"
+                            className="h-12 text-base bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:border-ecko-red focus:ring-ecko-red/20"
                           />
                         </div>
 
@@ -1093,13 +1278,13 @@ export default function Index() {
                               content.form.fields.whatsapp_placeholder
                             }
                             required
-                            className={`h-12 text-base bg-gray-800 text-white placeholder-gray-400 focus:ring-ecko-red/20 ${
+                            className={`h-12 text-base bg-white text-gray-900 placeholder-gray-500 focus:ring-ecko-red/20 ${
                               whatsappError
                                 ? "border-red-500 focus:border-red-500"
                                 : formData.whatsapp &&
                                     validateWhatsApp(formData.whatsapp)
                                   ? "border-green-500 focus:border-green-500"
-                                  : "border-gray-700 focus:border-ecko-red"
+                                  : "border-gray-300 focus:border-ecko-red"
                             }`}
                           />
                           {whatsappError && (
@@ -1128,14 +1313,14 @@ export default function Index() {
                             onChange={handleInputChange}
                             placeholder={content.form.fields.cep_placeholder}
                             required
-                            className={`h-12 text-base bg-gray-800 text-white placeholder-gray-400 focus:ring-ecko-red/20 ${
+                            className={`h-12 text-base bg-white text-gray-900 placeholder-gray-500 focus:ring-ecko-red/20 ${
                               cepError
                                 ? "border-red-500 focus:border-red-500"
                                 : formData.cep &&
                                     validateCEP(formData.cep) &&
                                     formData.cidade
                                   ? "border-green-500 focus:border-green-500"
-                                  : "border-gray-700 focus:border-ecko-red"
+                                  : "border-gray-300 focus:border-ecko-red"
                             }`}
                           />
                           {cepLoading && (
@@ -1158,7 +1343,7 @@ export default function Index() {
                             )}
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div className="grid grid-cols-2 gap-3 sm:gap-4">
                           <div>
                             <label className="block text-sm font-semibold text-gray-300 mb-2">
                               {content.form.fields.cnpj_label}
@@ -1168,7 +1353,7 @@ export default function Index() {
                               value={formData.hasCnpj}
                               onChange={handleInputChange}
                               required
-                              className="w-full h-12 border border-gray-700 rounded-md px-4 bg-gray-800 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-base"
+                              className="w-full h-12 border border-gray-300 rounded-md px-4 bg-white text-gray-900 focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-base"
                             >
                               <option value="">Selecione</option>
                               <option value="sim">
@@ -1194,10 +1379,10 @@ export default function Index() {
                               value={formData.storeType}
                               onChange={handleInputChange}
                               required
-                              className="w-full h-12 border border-gray-700 rounded-md px-4 bg-gray-800 text-white focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-base"
+                              className="w-full h-12 border border-gray-300 rounded-md px-4 bg-white text-gray-900 focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-base"
                             >
                               <option value="">Selecione</option>
-                              <option value="fisica">Física</option>
+                              <option value="fisica">F��sica</option>
                               <option value="online">Online</option>
                               <option value="ambas">Física + Online</option>
                             </select>
@@ -1207,9 +1392,9 @@ export default function Index() {
                         <Button
                           type="submit"
                           disabled={isSubmitting || formData.hasCnpj === "nao"}
-                          className={`group relative overflow-hidden w-full py-4 sm:py-5 text-sm sm:text-base lg:text-lg font-bold shadow-lg hover:shadow-2xl transition-all duration-300 h-auto min-h-[52px] rounded-lg ${
+                          className={`group relative overflow-hidden w-full py-4 sm:py-5 text-base sm:text-lg lg:text-xl font-bold shadow-lg hover:shadow-2xl transition-all duration-300 h-auto min-h-[56px] rounded-lg touch-manipulation ${
                             formData.hasCnpj === "nao"
-                              ? "bg-gray-600 cursor-not-allowed"
+                              ? "bg-black/70 cursor-not-allowed"
                               : "bg-gradient-to-r from-ecko-red to-ecko-red-dark hover:from-ecko-red-dark hover:to-red-700 hover:scale-[1.02] hover:shadow-ecko-red/40"
                           } text-white`}
                         >
@@ -1241,435 +1426,771 @@ export default function Index() {
             </div>
           </div>
         </section>
+      </main>
 
-        {/* Benefits Section */}
-        <section
-          className="py-16 md:py-20 bg-gradient-to-b from-black to-gray-900 relative overflow-hidden"
-          aria-labelledby="vantagens-heading"
-        >
-          {/* Background Pattern */}
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute inset-0 bg-gradient-to-r from-ecko-red/20 via-transparent to-ecko-red/20"></div>
-            <div className="absolute top-0 left-1/4 w-96 h-96 bg-ecko-red/5 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-ecko-red/5 rounded-full blur-3xl"></div>
-          </div>
+      {/* Dynamic Sections Based on Order Configuration */}
+      {content.section_order?.enabled_sections
+        ?.filter((section) => section.enabled)
+        ?.sort((a, b) => a.order - b.order)
+        ?.map((section) => {
+          switch (section.id) {
+            case "form":
+              return (
+                <main key="form">
+                  {/* This form section is already rendered above in hero, skip */}
+                </main>
+              );
 
-          <div className="container mx-auto px-6 max-w-6xl relative z-10">
-            {/* Section Header */}
-            <div className="text-center mb-16">
-              <div className="inline-flex items-center bg-ecko-red/20 backdrop-blur-sm border border-ecko-red/30 rounded-full px-6 py-3 mb-6">
-                <span className="text-ecko-red font-bold uppercase tracking-wider text-sm">
-                  {renderTextWithColorTokens(content.benefits.section_tag)}
-                </span>
-              </div>
-              <h2
-                id="vantagens-heading"
-                className="text-3xl md:text-5xl font-black text-white mb-6 uppercase tracking-tight leading-tight"
-              >
-                {renderTextWithColorTokens(content.benefits.section_title)}
-                <span className="block text-xl md:text-2xl text-gray-300 mt-2 font-medium normal-case tracking-normal">
-                  {renderTextWithColorTokens(content.benefits.section_subtitle)}
-                </span>
-              </h2>
-              <p className="text-gray-300 text-lg max-w-3xl mx-auto leading-relaxed">
-                {renderTextWithColorTokens(
-                  content.benefits.section_description,
-                )}
-              </p>
-            </div>
-
-            {/* Benefits Grid */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {content.benefits.cards?.map((card: any) => {
-                // Map icon names to actual icon components
-                const iconMap: { [key: string]: any } = {
-                  Globe,
-                  Truck,
-                  HeadphonesIcon,
-                  Monitor,
-                };
-                const IconComponent = iconMap[card.icon] || Globe;
-
-                return (
-                  <Card
-                    key={card.id}
-                    className="bg-gray-900/50 backdrop-blur-sm border-2 border-gray-700 hover:border-ecko-red hover:bg-gray-800/70 transition-all duration-500 group transform hover:-translate-y-2 hover:scale-105"
-                  >
-                    <CardContent className="p-6 text-center relative">
-                      <div className="w-20 h-20 bg-gradient-to-br from-ecko-red/30 to-ecko-red/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:from-ecko-red/50 group-hover:to-ecko-red/20 transition-all duration-500 group-hover:rotate-6">
-                        <IconComponent className="w-10 h-10 text-ecko-red group-hover:scale-110 transition-transform duration-300" />
-                      </div>
-                      <h3 className="text-xl font-bold text-white mb-3 uppercase tracking-wide group-hover:text-ecko-red transition-colors duration-300">
-                        {renderTextWithColorTokens(card.title)}
-                      </h3>
-                      <p className="text-gray-300 text-sm leading-relaxed">
-                        {renderTextWithColorTokens(card.description)}
-                      </p>
-                    </CardContent>
-                  </Card>
-                );
-              })}
-            </div>
-
-            {/* Bottom CTA */}
-            <div className="text-center mt-16">
-              <div className="bg-gradient-to-r from-ecko-red/10 to-ecko-red-dark/10 rounded-2xl p-6 border border-ecko-red/20 backdrop-blur-sm max-w-2xl mx-auto">
-                <div className="inline-flex items-center gap-2 text-white font-semibold text-lg mb-4">
-                  <span>
-                    {renderTextWithColorTokens(content.benefits.cta_title)}
-                  </span>
-                </div>
-                <Button
-                  onClick={() => openFormWithOrigin("benefits-cta")}
-                  className="group relative overflow-hidden bg-gradient-to-r from-ecko-red to-ecko-red-dark hover:from-ecko-red-dark hover:to-red-700 text-white px-8 py-4 font-bold text-base shadow-lg hover:shadow-2xl hover:shadow-ecko-red/40 transition-all duration-300 hover:scale-105 uppercase tracking-wider rounded-lg"
-                >
-                  <span className="absolute inset-0 bg-gradient-to-r from-red-600 to-red-800 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
-                  <span className="relative z-10 flex items-center">
-                    <span className="hidden sm:inline">
-                      {renderTextWithColorTokens(
-                        content.benefits.cta_button_text,
-                      )}
-                    </span>
-                    <span className="sm:hidden">
-                      {renderTextWithColorTokens(
-                        content.benefits.cta_button_text,
-                      )}
-                    </span>
-                    <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                </Button>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Testimonials Section */}
-        <section className="py-16 md:py-20 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden">
-          {/* Background Pattern */}
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-ecko-red/5 via-transparent to-ecko-red/5"></div>
-            <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-ecko-red/5 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-ecko-red/5 rounded-full blur-3xl"></div>
-          </div>
-
-          <div className="max-w-7xl mx-auto px-6 relative z-10">
-            {/* Section Header */}
-            <div className="text-center mb-16">
-              <div className="inline-flex items-center bg-ecko-red/20 backdrop-blur-sm border border-ecko-red/30 rounded-full px-6 py-3 mb-6">
-                <span className="text-ecko-red font-bold uppercase tracking-wider text-sm">
-                  {renderTextWithColorTokens(content.testimonials.section_tag)}
-                </span>
-              </div>
-              <h2 className="text-3xl md:text-5xl font-black text-white mb-6 leading-tight">
-                {renderTextWithColorTokens(content.testimonials.section_title)}
-                <span className="block text-xl md:text-2xl text-gray-300 mt-2 font-medium normal-case tracking-normal">
-                  {renderTextWithColorTokens(
-                    content.testimonials.section_subtitle,
-                  )}
-                </span>
-              </h2>
-              <p className="text-gray-300 text-lg max-w-3xl mx-auto leading-relaxed">
-                {renderTextWithColorTokens(
-                  content.testimonials.section_description,
-                )}
-              </p>
-            </div>
-
-            {/* Testimonials Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {content.testimonials.items
-                ?.filter((testimonial) => testimonial.is_active)
-                .slice(0, 4)
-                .map((testimonial, index) => (
+            case "benefits":
+              return (
+                <main key="benefits">
+                  {/* Section Divider */}
                   <div
-                    key={testimonial.id}
-                    className="bg-gray-900/70 backdrop-blur-sm rounded-2xl p-6 border border-gray-600/50 hover:border-ecko-red/60 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-ecko-red/20 group"
-                    style={{ animationDelay: `${index * 0.1}s` }}
+                    className="h-px mx-auto max-w-6xl opacity-20 hover:opacity-35 transition-opacity duration-700"
+                    style={{
+                      background:
+                        "linear-gradient(to right, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%)",
+                    }}
+                  />
+
+                  {/* Benefits Section */}
+                  <section
+                    className="py-16 md:py-20 bg-black relative overflow-hidden"
+                    aria-labelledby="vantagens-heading"
                   >
-                    {/* Rating Stars */}
-                    <div className="flex mb-4">
-                      {[...Array(testimonial.rating || 5)].map((_, i) => (
-                        <svg
-                          key={i}
-                          className="w-5 h-5 text-yellow-400 fill-current"
-                          viewBox="0 0 20 20"
-                        >
-                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                      ))}
+                    {/* Background Pattern */}
+                    <div className="absolute inset-0 opacity-10">
+                      <div className="absolute inset-0 bg-gradient-to-r from-ecko-red/20 via-transparent to-ecko-red/20"></div>
+                      <div className="absolute top-0 left-1/4 w-96 h-96 bg-ecko-red/5 rounded-full blur-3xl"></div>
+                      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-ecko-red/5 rounded-full blur-3xl"></div>
                     </div>
 
-                    {/* Testimonial Content */}
-                    <blockquote className="text-gray-300 mb-6 text-sm leading-relaxed">
-                      "{testimonial.content}"
-                    </blockquote>
-
-                    {/* Author Info */}
-                    <div className="flex items-center space-x-3">
-                      {testimonial.avatar_url ? (
-                        <img
-                          src={testimonial.avatar_url}
-                          alt={`${testimonial.name}, ${testimonial.role} da ${testimonial.company} - Revendedor oficial Ecko satisfeito`}
-                          className="w-12 h-12 rounded-full object-cover border-2 border-ecko-red/20"
-                          onError={(e) => {
-                            const target = e.target as HTMLImageElement;
-                            target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(testimonial.name)}&background=dc2626&color=ffffff&size=48&bold=true`;
-                          }}
-                        />
-                      ) : (
-                        <div className="w-12 h-12 bg-ecko-red rounded-full flex items-center justify-center">
-                          <span className="text-white font-bold text-lg">
-                            {testimonial.name.charAt(0).toUpperCase()}
+                    <div className="container mx-auto px-6 max-w-6xl relative z-10">
+                      {/* Section Header */}
+                      <div className="text-center mb-16">
+                        <div className="inline-flex items-center bg-ecko-red/30 backdrop-blur-sm border border-ecko-red/50 rounded-full px-6 py-3 mb-6">
+                          <span className="text-white font-bold uppercase tracking-wider text-sm">
+                            {renderTextWithColorTokens(
+                              content.benefits.section_tag,
+                            )}
                           </span>
                         </div>
-                      )}
-                      <div>
-                        <div className="font-semibold text-white">
-                          {testimonial.name}
-                        </div>
-                        {testimonial.company && (
-                          <div className="text-sm text-gray-400">
-                            {testimonial.role ? `${testimonial.role}, ` : ""}
-                            {testimonial.company}
+                        <h2
+                          id="vantagens-heading"
+                          className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6"
+                        >
+                          {renderTextWithColorTokens(
+                            content.benefits.section_title,
+                          )}
+                        </h2>
+                        <p className="text-xl md:text-2xl text-gray-300 mb-4 font-light max-w-3xl mx-auto">
+                          {renderTextWithColorTokens(
+                            content.benefits.section_subtitle,
+                          )}
+                        </p>
+                        <p className="text-lg text-gray-300 max-w-4xl mx-auto leading-relaxed">
+                          {renderTextWithColorTokens(
+                            content.benefits.section_description,
+                          )}
+                        </p>
+                      </div>
+
+                      {/* Benefits Cards */}
+                      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 mb-16">
+                        {content.benefits.cards.map((benefit, index) => (
+                          <div
+                            key={benefit.id}
+                            className="group relative"
+                            style={{ animationDelay: `${index * 100}ms` }}
+                          >
+                            <div className="h-full bg-black/80 backdrop-blur-sm border border-white rounded-2xl p-4 md:p-8 transition-all duration-500 hover:border-ecko-red/50 hover:shadow-2xl hover:shadow-ecko-red/10 hover:-translate-y-2">
+                              <div className="text-center">
+                                <div className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-3 md:mb-6 bg-gradient-to-br from-ecko-red to-ecko-red-dark rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                                  {benefit.icon === "Globe" && (
+                                    <svg
+                                      className="w-6 h-6 md:w-8 md:h-8 text-white"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      viewBox="0 0 24 24"
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                      />
+                                    </svg>
+                                  )}
+                                  {benefit.icon === "Truck" && (
+                                    <svg
+                                      className="w-6 h-6 md:w-8 md:h-8 text-white"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      viewBox="0 0 24 24"
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+                                      />
+                                    </svg>
+                                  )}
+                                  {benefit.icon === "HeadphonesIcon" && (
+                                    <svg
+                                      className="w-6 h-6 md:w-8 md:h-8 text-white"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      viewBox="0 0 24 24"
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                                      />
+                                    </svg>
+                                  )}
+                                  {benefit.icon === "Monitor" && (
+                                    <svg
+                                      className="w-6 h-6 md:w-8 md:h-8 text-white"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      viewBox="0 0 24 24"
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                                      />
+                                    </svg>
+                                  )}
+                                </div>
+                                <h3 className="text-sm md:text-xl font-bold text-white mb-2 md:mb-4 group-hover:text-ecko-red transition-colors duration-300 leading-tight">
+                                  {renderTextWithColorTokens(benefit.title)}
+                                </h3>
+                                <p className="text-xs md:text-base text-gray-300 leading-relaxed hidden md:block">
+                                  {renderTextWithColorTokens(
+                                    benefit.description,
+                                  )}
+                                </p>
+                                <p className="text-xs text-gray-300 leading-tight md:hidden">
+                                  {renderTextWithColorTokens(
+                                    benefit.description.split(".")[0] + ".",
+                                  )}
+                                </p>
+                              </div>
+                            </div>
                           </div>
+                        ))}
+                      </div>
+
+                      {/* Call to Action */}
+                      <div className="text-center">
+                        <div className="bg-black/80 backdrop-blur-sm border border-white rounded-3xl p-8 md:p-12 max-w-4xl mx-auto">
+                          <h3 className="text-2xl md:text-3xl font-bold text-white mb-6">
+                            {renderTextWithColorTokens(
+                              content.benefits.cta_title,
+                            )}
+                          </h3>
+                          <Button
+                            size="lg"
+                            className="bg-ecko-red hover:bg-ecko-red-dark text-white px-6 sm:px-8 py-4 sm:py-5 text-base sm:text-lg font-bold group relative overflow-hidden transition-all duration-300 hover:scale-105 min-h-[56px] w-full sm:w-auto touch-manipulation"
+                            onClick={() => openFormWithOrigin("cta")}
+                          >
+                            <span className="absolute inset-0 bg-gradient-to-r from-red-700 to-red-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                            <span className="relative z-10 flex items-center justify-center">
+                              {content.benefits.cta_button_text}
+                              <ArrowRight className="ml-2 w-4 sm:w-5 h-4 sm:h-5 group-hover:translate-x-1 transition-transform" />
+                            </span>
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                </main>
+              );
+
+            case "testimonials":
+              return (
+                <main key="testimonials">
+                  {/* Section Divider */}
+                  <div
+                    className="h-px mx-auto max-w-6xl opacity-20 hover:opacity-35 transition-opacity duration-700"
+                    style={{
+                      background:
+                        "linear-gradient(to right, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%)",
+                    }}
+                  />
+
+                  {/* Testimonials Section */}
+                  <section className="py-16 md:py-20 bg-black relative overflow-hidden">
+                    {/* Background Pattern */}
+                    <div className="absolute inset-0 opacity-5">
+                      <div className="absolute top-1/4 left-0 w-96 h-96 bg-ecko-red/20 rounded-full blur-3xl"></div>
+                      <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-ecko-red/20 rounded-full blur-3xl"></div>
+                    </div>
+
+                    <div className="container mx-auto px-6 max-w-6xl relative z-10">
+                      {/* Section Header */}
+                      <div className="text-center mb-16">
+                        <div className="inline-flex items-center bg-ecko-red/30 backdrop-blur-sm border border-ecko-red/50 rounded-full px-6 py-3 mb-6">
+                          <span className="text-white font-bold uppercase tracking-wider text-sm">
+                            {renderTextWithColorTokens(
+                              content.testimonials.section_tag,
+                            )}
+                          </span>
+                        </div>
+                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6">
+                          {renderTextWithColorTokens(
+                            content.testimonials.section_title,
+                          )}
+                        </h2>
+                        <p className="text-xl md:text-2xl text-gray-300 mb-4 font-light max-w-3xl mx-auto">
+                          {renderTextWithColorTokens(
+                            content.testimonials.section_subtitle,
+                          )}
+                        </p>
+                        <p className="text-lg text-gray-300 max-w-4xl mx-auto leading-relaxed">
+                          {renderTextWithColorTokens(
+                            content.testimonials.section_description,
+                          )}
+                        </p>
+                      </div>
+
+                      {/* Testimonials - Mobile Carousel */}
+                      <div className="md:hidden mb-16">
+                        <Carousel
+                          opts={{
+                            align: "start",
+                            loop: true,
+                          }}
+                          className="w-full"
+                        >
+                          <CarouselContent className="-ml-2">
+                            {content.testimonials.items
+                              ?.filter((testimonial) => testimonial.is_active)
+                              ?.sort(
+                                (a, b) => a.display_order - b.display_order,
+                              )
+                              ?.map((testimonial, index) => (
+                                <CarouselItem
+                                  key={testimonial.id}
+                                  className="pl-2 basis-4/5"
+                                >
+                                  <div className="group relative h-full">
+                                    <div className="h-full bg-black/80 backdrop-blur-sm border border-white rounded-2xl p-6 transition-all duration-500 hover:border-ecko-red/50 hover:shadow-2xl hover:shadow-ecko-red/10">
+                                      {/* Rating Stars */}
+                                      <div className="flex items-center mb-4">
+                                        {[...Array(testimonial.rating)].map(
+                                          (_, i) => (
+                                            <Star
+                                              key={i}
+                                              className="w-4 h-4 text-yellow-400 fill-current"
+                                            />
+                                          ),
+                                        )}
+                                      </div>
+
+                                      {/* Testimonial Content */}
+                                      <blockquote className="text-gray-300 leading-relaxed mb-4 italic text-sm">
+                                        "
+                                        {renderTextWithColorTokens(
+                                          testimonial.content,
+                                        )}
+                                        "
+                                      </blockquote>
+
+                                      {/* Author Info */}
+                                      <div className="flex items-center">
+                                        <OptimizedImage
+                                          src={testimonial.avatar_url}
+                                          alt={testimonial.name}
+                                          className="w-10 h-10 rounded-full border-2 border-ecko-red/30 mr-3 object-cover"
+                                          fallback="/placeholder.svg"
+                                          lazy={true}
+                                          aspectRatio="1:1"
+                                        />
+                                        <div>
+                                          <div className="font-semibold text-white text-sm group-hover:text-ecko-red transition-colors duration-300">
+                                            {renderTextWithColorTokens(
+                                              testimonial.name,
+                                            )}
+                                          </div>
+                                          <div className="text-xs text-gray-300">
+                                            {testimonial.role} •{" "}
+                                            {testimonial.company}
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </CarouselItem>
+                              ))}
+                          </CarouselContent>
+                          <CarouselPrevious className="left-0 bg-black/80 border-white text-white hover:bg-ecko-red hover:border-ecko-red" />
+                          <CarouselNext className="right-0 bg-black/80 border-white text-white hover:bg-ecko-red hover:border-ecko-red" />
+                        </Carousel>
+                      </div>
+
+                      {/* Testimonials - Desktop Grid */}
+                      <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+                        {content.testimonials.items
+                          ?.filter((testimonial) => testimonial.is_active)
+                          ?.sort((a, b) => a.display_order - b.display_order)
+                          ?.map((testimonial, index) => (
+                            <div
+                              key={testimonial.id}
+                              className="group relative"
+                              style={{ animationDelay: `${index * 150}ms` }}
+                            >
+                              <div className="h-full bg-black/80 backdrop-blur-sm border border-white rounded-2xl p-8 transition-all duration-500 hover:border-ecko-red/50 hover:shadow-2xl hover:shadow-ecko-red/10 hover:-translate-y-2">
+                                {/* Rating Stars */}
+                                <div className="flex items-center mb-6">
+                                  {[...Array(testimonial.rating)].map(
+                                    (_, i) => (
+                                      <Star
+                                        key={i}
+                                        className="w-5 h-5 text-yellow-400 fill-current"
+                                      />
+                                    ),
+                                  )}
+                                </div>
+
+                                {/* Testimonial Content */}
+                                <blockquote className="text-gray-300 leading-relaxed mb-6 italic">
+                                  "
+                                  {renderTextWithColorTokens(
+                                    testimonial.content,
+                                  )}
+                                  "
+                                </blockquote>
+
+                                {/* Author Info */}
+                                <div className="flex items-center">
+                                  <OptimizedImage
+                                    src={testimonial.avatar_url}
+                                    alt={testimonial.name}
+                                    className="w-12 h-12 rounded-full border-2 border-ecko-red/30 mr-4 object-cover"
+                                    fallback="/placeholder.svg"
+                                    lazy={true}
+                                    aspectRatio="1:1"
+                                  />
+                                  <div>
+                                    <div className="font-semibold text-white group-hover:text-ecko-red transition-colors duration-300">
+                                      {renderTextWithColorTokens(
+                                        testimonial.name,
+                                      )}
+                                    </div>
+                                    <div className="text-sm text-gray-300">
+                                      {testimonial.role} • {testimonial.company}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                      </div>
+
+                      {/* Call to Action */}
+                      <div className="text-center">
+                        <div className="bg-black/80 backdrop-blur-sm border border-white rounded-3xl p-8 md:p-12 max-w-4xl mx-auto">
+                          <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
+                            {renderTextWithColorTokens(
+                              content.testimonials.cta_title,
+                            )}
+                          </h3>
+                          <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
+                            {renderTextWithColorTokens(
+                              content.testimonials.cta_description,
+                            )}
+                          </p>
+                          <Button
+                            size="lg"
+                            className="bg-ecko-red hover:bg-ecko-red-dark text-white px-6 sm:px-8 py-4 sm:py-5 text-base sm:text-lg font-bold group relative overflow-hidden transition-all duration-300 hover:scale-105 min-h-[56px] w-full sm:w-auto touch-manipulation"
+                            onClick={() => openFormWithOrigin("cta")}
+                          >
+                            <span className="absolute inset-0 bg-gradient-to-r from-red-700 to-red-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                            <span className="relative z-10 flex items-center justify-center">
+                              {content.testimonials.cta_button_text}
+                              <ArrowRight className="ml-2 w-4 sm:w-5 h-4 sm:h-5 group-hover:translate-x-1 transition-transform" />
+                            </span>
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                </main>
+              );
+
+            case "gallery":
+              return (
+                <main key="gallery">
+                  {/* Section Divider */}
+                  <div
+                    className="h-px mx-auto max-w-6xl opacity-20 hover:opacity-35 transition-opacity duration-700"
+                    style={{
+                      background:
+                        "linear-gradient(to right, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%)",
+                    }}
+                  />
+
+                  {/* Gallery Section */}
+                  <section className="py-16 md:py-20 bg-black relative overflow-hidden">
+                    {/* Background Pattern */}
+                    <div className="absolute inset-0 opacity-5">
+                      <div className="absolute top-0 right-1/4 w-96 h-96 bg-ecko-red/20 rounded-full blur-3xl"></div>
+                      <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-ecko-red/20 rounded-full blur-3xl"></div>
+                    </div>
+
+                    <div className="container mx-auto px-6 max-w-6xl relative z-10">
+                      {/* Section Header */}
+                      <div className="text-center mb-16">
+                        <div className="inline-flex items-center bg-ecko-red/30 backdrop-blur-sm border border-ecko-red/50 rounded-full px-6 py-3 mb-6">
+                          <span className="text-white font-bold uppercase tracking-wider text-sm">
+                            {renderTextWithColorTokens(
+                              content.gallery.section_tag,
+                            )}
+                          </span>
+                        </div>
+                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6">
+                          {renderTextWithColorTokens(
+                            content.gallery.section_title,
+                          )}
+                        </h2>
+                        <p className="text-xl md:text-2xl text-gray-300 mb-4 font-light max-w-3xl mx-auto">
+                          {renderTextWithColorTokens(
+                            content.gallery.section_subtitle,
+                          )}
+                        </p>
+                        <p className="text-lg text-gray-300 max-w-4xl mx-auto leading-relaxed">
+                          {renderTextWithColorTokens(
+                            content.gallery.section_description,
+                          )}
+                        </p>
+                      </div>
+
+                      {/* Gallery Grid */}
+                      {content.gallery.items?.filter((item) => item.is_active)
+                        ?.length > 0 ? (
+                        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-16">
+                          {content.gallery.items
+                            ?.filter((item) => item.is_active)
+                            ?.sort((a, b) => a.display_order - b.display_order)
+                            ?.map((item, index) => (
+                              <div
+                                key={item.id}
+                                className="group relative overflow-hidden rounded-2xl bg-black/80 backdrop-blur-sm border border-white transition-all duration-500 hover:border-ecko-red/50 hover:shadow-2xl hover:shadow-ecko-red/10 hover:-translate-y-2"
+                                style={{ animationDelay: `${index * 100}ms` }}
+                              >
+                                <div className="aspect-square relative overflow-hidden">
+                                  <OptimizedImage
+                                    src={item.image_url}
+                                    alt={item.alt_text}
+                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                    fallback="/placeholder.svg"
+                                    lazy={index > 2}
+                                    aspectRatio="1:1"
+                                  />
+                                </div>
+                              </div>
+                            ))}
+                        </div>
+                      ) : (
+                        <div className="text-center py-16">
+                          <div className="w-24 h-24 mx-auto mb-6 bg-black/90 rounded-full flex items-center justify-center">
+                            <Image className="w-12 h-12 text-gray-600" />
+                          </div>
+                          <h3 className="text-2xl font-bold text-white mb-4">
+                            {content.gallery.empty_state_title}
+                          </h3>
+                          <p className="text-gray-300 max-w-md mx-auto">
+                            {content.gallery.empty_state_description}
+                          </p>
+                        </div>
+                      )}
+
+                      {/* Call to Action */}
+                      <div className="text-center">
+                        <div className="bg-black/80 backdrop-blur-sm border border-white rounded-3xl p-8 md:p-12 max-w-4xl mx-auto">
+                          <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
+                            {renderTextWithColorTokens(
+                              content.gallery.cta_title,
+                            )}
+                          </h3>
+                          <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
+                            {renderTextWithColorTokens(
+                              content.gallery.cta_description,
+                            )}
+                          </p>
+                          <Button
+                            size="lg"
+                            className="bg-ecko-red hover:bg-ecko-red-dark text-white px-6 sm:px-8 py-4 sm:py-5 text-base sm:text-lg font-bold group relative overflow-hidden transition-all duration-300 hover:scale-105 min-h-[56px] w-full sm:w-auto touch-manipulation"
+                            onClick={() => openFormWithOrigin("cta")}
+                          >
+                            <span className="absolute inset-0 bg-gradient-to-r from-red-700 to-red-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                            <span className="relative z-10 flex items-center justify-center text-center">
+                              <span className="flex-shrink-0">
+                                {content.gallery.cta_button_text}
+                              </span>
+                              <ArrowRight className="ml-2 w-4 sm:w-5 h-4 sm:h-5 group-hover:translate-x-1 transition-transform flex-shrink-0" />
+                            </span>
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                </main>
+              );
+
+            case "faq":
+              return (
+                <main key="faq">
+                  {/* Section Divider */}
+                  <div
+                    className="h-px mx-auto max-w-6xl opacity-20 hover:opacity-35 transition-opacity duration-700"
+                    style={{
+                      background:
+                        "linear-gradient(to right, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%)",
+                    }}
+                  />
+
+                  {/* FAQ Section */}
+                  <section className="py-16 md:py-20 bg-black relative overflow-hidden">
+                    {/* Background Pattern */}
+                    <div className="absolute inset-0 opacity-5">
+                      <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-ecko-red/20 rounded-full blur-3xl"></div>
+                      <div className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-ecko-red/20 rounded-full blur-3xl"></div>
+                    </div>
+
+                    <div className="container mx-auto px-6 max-w-4xl relative z-10">
+                      {/* Section Header */}
+                      <div className="text-center mb-16">
+                        <div className="inline-flex items-center bg-ecko-red/30 backdrop-blur-sm border border-ecko-red/50 rounded-full px-6 py-3 mb-6">
+                          <span className="text-white font-bold uppercase tracking-wider text-sm">
+                            {renderTextWithColorTokens(content.faq.section_tag)}
+                          </span>
+                        </div>
+                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6">
+                          {renderTextWithColorTokens(content.faq.section_title)}
+                        </h2>
+                        <p className="text-xl md:text-2xl text-gray-300 mb-4 font-light max-w-3xl mx-auto">
+                          {renderTextWithColorTokens(
+                            content.faq.section_subtitle,
+                          )}
+                        </p>
+                        <p className="text-lg text-gray-300 max-w-4xl mx-auto leading-relaxed">
+                          {renderTextWithColorTokens(
+                            content.faq.section_description,
+                          )}
+                        </p>
+                      </div>
+
+                      {/* FAQ Accordion */}
+                      <Accordion
+                        type="single"
+                        collapsible
+                        className="space-y-4 mb-16"
+                      >
+                        {content.faq.items
+                          ?.filter((item) => item.is_active)
+                          ?.sort((a, b) => a.display_order - b.display_order)
+                          ?.map((item) => (
+                            <AccordionItem
+                              key={item.id}
+                              value={`item-${item.id}`}
+                              className="bg-black/80 backdrop-blur-sm border border-white rounded-2xl px-6 transition-all duration-300 hover:border-ecko-red/50"
+                            >
+                              <AccordionTrigger className="text-left text-white hover:text-ecko-red transition-colors duration-300 py-6 text-lg font-semibold hover:no-underline">
+                                {renderTextWithColorTokens(item.question)}
+                              </AccordionTrigger>
+                              <AccordionContent className="text-gray-300 pb-6 leading-relaxed">
+                                {renderTextWithColorTokens(item.answer)}
+                              </AccordionContent>
+                            </AccordionItem>
+                          ))}
+                      </Accordion>
+
+                      {/* Call to Action */}
+                      <div className="text-center">
+                        <div className="bg-black/80 backdrop-blur-sm border border-white rounded-3xl p-8 md:p-12">
+                          <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
+                            {renderTextWithColorTokens(content.faq.cta_title)}
+                          </h3>
+                          <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
+                            {renderTextWithColorTokens(
+                              content.faq.cta_description,
+                            )}
+                          </p>
+                          <Button
+                            size="lg"
+                            className="bg-ecko-red hover:bg-ecko-red-dark text-white px-6 sm:px-8 py-4 sm:py-5 text-base sm:text-lg font-bold group relative overflow-hidden transition-all duration-300 hover:scale-105 min-h-[56px] w-full sm:w-auto touch-manipulation"
+                            onClick={() => openFormWithOrigin("cta")}
+                          >
+                            <span className="absolute inset-0 bg-gradient-to-r from-red-700 to-red-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                            <span className="relative z-10 flex items-center justify-center">
+                              {content.faq.cta_button_text}
+                              <ArrowRight className="ml-2 w-4 sm:w-5 h-4 sm:h-5 group-hover:translate-x-1 transition-transform" />
+                            </span>
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                </main>
+              );
+
+            case "about":
+              return (
+                <main key="about">
+                  {/* Section Divider */}
+                  <div
+                    className="h-px mx-auto max-w-6xl opacity-20 hover:opacity-35 transition-opacity duration-700"
+                    style={{
+                      background:
+                        "linear-gradient(to right, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%)",
+                    }}
+                  />
+
+                  {/* About Section */}
+                  <section id="about" className="py-20 bg-black">
+                    <div className="container mx-auto px-6">
+                      {/* Header */}
+                      <div className="text-center mb-16">
+                        <span className="inline-block px-4 py-2 bg-ecko-red text-white text-sm font-semibold rounded-full mb-4">
+                          {content.about?.section_tag || "Nossa História"}
+                        </span>
+                        <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+                          {renderTextWithColorTokens(
+                            content.about?.section_title || "SOBRE A {ECKO}",
+                          )}
+                        </h2>
+                        <p className="text-xl text-gray-300 max-w-2xl mx-auto mb-4">
+                          {content.about?.section_subtitle ||
+                            "mais de 20 anos de streetwear"}
+                        </p>
+                        <p className="text-gray-300 max-w-3xl mx-auto">
+                          {content.about?.section_description ||
+                            "Conheça a trajetória de uma das marcas mais influentes do streetwear mundial"}
+                        </p>
+                      </div>
+
+                      {/* Content */}
+                      <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
+                        {/* Story Text */}
+                        <div className="space-y-6">
+                          {content.about?.content
+                            ?.split("\n\n")
+                            .map((paragraph, index) => (
+                              <p
+                                key={index}
+                                className="text-gray-300 leading-relaxed text-lg"
+                              >
+                                {renderTextWithColorTokens(paragraph)}
+                              </p>
+                            ))}
+                        </div>
+
+                        {/* Stats */}
+                        <div className="grid grid-cols-2 gap-6">
+                          {(content.about?.stats || []).map((stat) => (
+                            <div
+                              key={stat.id}
+                              className="text-center p-6 bg-black/60 rounded-lg shadow-sm border border-white"
+                            >
+                              <div className="text-3xl md:text-4xl font-bold text-ecko-red mb-2">
+                                {stat.number}
+                              </div>
+                              <div className="text-white font-semibold mb-1">
+                                {stat.label}
+                              </div>
+                              <div className="text-sm text-gray-300">
+                                {stat.description}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* CTA */}
+                      <div className="text-center bg-black rounded-2xl p-8 md:p-12 text-white">
+                        <h3 className="text-2xl md:text-3xl font-bold mb-4">
+                          {renderTextWithColorTokens(
+                            content.about?.cta_title ||
+                              "Faça Parte Desta História",
+                          )}
+                        </h3>
+                        <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
+                          {content.about?.cta_description ||
+                            "Torne-se um revendedor oficial e ajude a escrever o próximo capítulo da Ecko"}
+                        </p>
+                        <Button
+                          size="lg"
+                          className="bg-ecko-red hover:bg-ecko-red-dark text-white px-6 sm:px-8 py-4 sm:py-5 text-base sm:text-lg font-semibold group relative overflow-hidden min-h-[56px] w-full sm:w-auto touch-manipulation"
+                          onClick={() => openFormWithOrigin("cta")}
+                        >
+                          <span className="absolute inset-0 bg-gradient-to-r from-red-700 to-red-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                          <span className="relative z-10 flex items-center justify-center">
+                            {content.about?.cta_button_text ||
+                              "QUERO SER PARTE DA ECKO"}
+                            <ArrowRight className="ml-2 w-4 sm:w-5 h-4 sm:h-5 group-hover:translate-x-1 transition-transform" />
+                          </span>
+                        </Button>
+                      </div>
+                    </div>
+                  </section>
+                </main>
+              );
+
+            case "final_cta":
+              return (
+                <main key="final_cta">
+                  {/* Section Divider */}
+                  <div
+                    className="h-px mx-auto max-w-6xl opacity-20 hover:opacity-35 transition-opacity duration-700"
+                    style={{
+                      background:
+                        "linear-gradient(to right, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%)",
+                    }}
+                  />
+
+                  {/* Final CTA Section */}
+                  <section className="py-16 md:py-20 bg-ecko-red">
+                    <div className="container mx-auto px-6 text-center">
+                      <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6">
+                        {renderTextWithColorTokens(content.final_cta.title)}
+                      </h2>
+                      <p className="text-xl md:text-2xl text-white mb-8 max-w-4xl mx-auto font-light leading-relaxed">
+                        {renderTextWithColorTokens(
+                          content.final_cta.description,
                         )}
-                      </div>
+                      </p>
+                      <Button
+                        size="lg"
+                        onClick={() => openFormWithOrigin("cta")}
+                        className="bg-white hover:bg-gray-100 text-ecko-red px-6 sm:px-8 py-4 sm:py-5 text-base sm:text-lg font-bold group relative overflow-hidden transition-all duration-300 hover:scale-105 shadow-2xl min-h-[56px] w-full sm:w-auto touch-manipulation"
+                      >
+                        <span className="absolute inset-0 bg-gradient-to-r from-gray-100 to-gray-200 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                        <span className="relative z-10 flex items-center justify-center">
+                          <span className="hidden sm:inline">
+                            {content.final_cta.button_text}
+                          </span>
+                          <span className="sm:hidden">
+                            SER LOJISTA AUTORIZADO
+                          </span>
+                          <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
+                        </span>
+                      </Button>
                     </div>
-                  </div>
-                ))}
-            </div>
+                  </section>
+                </main>
+              );
 
-            {/* CTA Section for Testimonials */}
-            <div className="text-center mt-12">
-              <div className="bg-gradient-to-r from-ecko-red/10 to-ecko-red-dark/10 rounded-2xl p-6 border border-ecko-red/20 backdrop-blur-sm max-w-2xl mx-auto">
-                <h3 className="text-xl font-bold text-white mb-3">
-                  {renderTextWithColorTokens(content.testimonials.cta_title)}
-                </h3>
-                <p className="text-gray-300 mb-4">
-                  {renderTextWithColorTokens(
-                    content.testimonials.cta_description,
-                  )}
-                </p>
-                <Button
-                  onClick={() => openFormWithOrigin("testimonials-cta")}
-                  className="group relative overflow-hidden bg-gradient-to-r from-ecko-red to-ecko-red-dark hover:from-ecko-red-dark hover:to-red-700 text-white px-8 py-4 font-bold text-base shadow-lg hover:shadow-2xl hover:shadow-ecko-red/40 transition-all duration-300 hover:scale-105 uppercase tracking-wider rounded-lg"
-                >
-                  <span className="absolute inset-0 bg-gradient-to-r from-red-600 to-red-800 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
-                  <span className="relative z-10 flex items-center">
-                    <span className="hidden sm:inline">
-                      {renderTextWithColorTokens(
-                        content.testimonials.cta_button_text,
-                      )}
-                    </span>
-                    <span className="sm:hidden">
-                      {renderTextWithColorTokens(
-                        content.testimonials.cta_button_text,
-                      )}
-                    </span>
-                    <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                </Button>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Gallery Section */}
-        <section className="py-16 md:py-20 bg-gradient-to-b from-black to-gray-900 relative overflow-hidden">
-          {/* Background Pattern */}
-          <div className="absolute inset-0 opacity-5">
-            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-ecko-red/10 via-transparent to-ecko-red/10"></div>
-            <div className="absolute top-1/4 left-1/3 w-72 h-72 bg-ecko-red/10 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-1/4 right-1/3 w-72 h-72 bg-ecko-red/10 rounded-full blur-3xl"></div>
-          </div>
-
-          <div className="container mx-auto px-6 max-w-7xl relative z-10">
-            {/* Section Header */}
-            <div className="text-center mb-16">
-              <div className="inline-flex items-center bg-ecko-red/20 backdrop-blur-sm border border-ecko-red/30 rounded-full px-6 py-3 mb-6">
-                <span className="text-ecko-red font-bold uppercase tracking-wider text-sm">
-                  {renderTextWithColorTokens(content.gallery.section_tag)}
-                </span>
-              </div>
-              <h2 className="text-3xl md:text-5xl font-black text-white mb-6 uppercase tracking-tight leading-tight">
-                {renderTextWithColorTokens(content.gallery.section_title)}
-                <span className="block text-xl md:text-2xl text-gray-300 mt-2 font-medium normal-case tracking-normal">
-                  {renderTextWithColorTokens(content.gallery.section_subtitle)}
-                </span>
-              </h2>
-              <p className="text-gray-300 text-lg max-w-3xl mx-auto leading-relaxed">
-                {renderTextWithColorTokens(content.gallery.section_description)}
-              </p>
-            </div>
-
-            {/* Gallery Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-              {content.gallery.items?.length > 0 ? (
-                content.gallery.items
-                  .filter((image) => image.is_active)
-                  .slice(0, 8)
-                  .map((image, index) => (
-                    <div
-                      key={image.id || index}
-                      className="group relative bg-gray-900 rounded-xl md:rounded-2xl overflow-hidden border border-gray-600 hover:border-ecko-red transition-all duration-500 transform hover:-translate-y-1 hover:scale-105"
-                    >
-                      <div className="aspect-square overflow-hidden">
-                        <img
-                          src={image.image_url}
-                          alt={image.alt_text || image.title}
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                        />
-                      </div>
-
-                      {/* Border Glow Effect */}
-                      <div className="absolute inset-0 rounded-xl md:rounded-2xl bg-gradient-to-r from-ecko-red/20 via-transparent to-ecko-red/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
-                    </div>
-                  ))
-              ) : (
-                <div className="col-span-full text-center py-12">
-                  <div className="text-gray-400 mb-4">
-                    <h3 className="text-xl font-bold mb-2">
-                      {renderTextWithColorTokens(
-                        content.gallery.empty_state_title,
-                      )}
-                    </h3>
-                    <p>
-                      {renderTextWithColorTokens(
-                        content.gallery.empty_state_description,
-                      )}
-                    </p>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* CTA Section for Gallery */}
-            <div className="text-center mt-12 md:mt-16">
-              <div className="bg-gradient-to-r from-ecko-red/10 to-ecko-red-dark/10 rounded-2xl p-6 border border-ecko-red/20 backdrop-blur-sm max-w-2xl mx-auto">
-                <h3 className="text-2xl font-bold text-white mb-3">
-                  {renderTextWithColorTokens(content.gallery.cta_title)}
-                </h3>
-                <p className="text-gray-300 mb-6">
-                  {renderTextWithColorTokens(content.gallery.cta_description)}
-                </p>
-                <Button
-                  onClick={() => openFormWithOrigin("gallery-cta")}
-                  className="group relative overflow-hidden bg-gradient-to-r from-ecko-red to-ecko-red-dark hover:from-ecko-red-dark hover:to-red-700 text-white px-8 py-4 font-bold text-base shadow-lg hover:shadow-2xl hover:shadow-ecko-red/40 transition-all duration-300 hover:scale-105 uppercase tracking-wider rounded-lg"
-                >
-                  <span className="absolute inset-0 bg-gradient-to-r from-red-600 to-red-800 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
-                  <span className="relative z-10 flex items-center">
-                    <span className="hidden sm:inline">
-                      {renderTextWithColorTokens(
-                        content.gallery.cta_button_text,
-                      )}
-                    </span>
-                    <span className="sm:hidden">
-                      {renderTextWithColorTokens(
-                        content.gallery.cta_button_text,
-                      )}
-                    </span>
-                    <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                </Button>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* FAQ Section */}
-        <section className="py-16 md:py-20 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden">
-          <div className="container mx-auto px-6 max-w-4xl relative z-10">
-            {/* Section Header */}
-            <div className="text-center mb-16">
-              <div className="inline-flex items-center bg-ecko-red/20 backdrop-blur-sm border border-ecko-red/30 rounded-full px-6 py-3 mb-6">
-                <span className="text-ecko-red font-bold uppercase tracking-wider text-sm">
-                  {renderTextWithColorTokens(content.faq.section_tag)}
-                </span>
-              </div>
-              <h2 className="text-3xl md:text-5xl font-black text-white mb-6 leading-tight">
-                {renderTextWithColorTokens(content.faq.section_title)}
-                <span className="block text-xl md:text-2xl text-gray-300 mt-2 font-medium normal-case tracking-normal">
-                  {renderTextWithColorTokens(content.faq.section_subtitle)}
-                </span>
-              </h2>
-              <p className="text-gray-300 text-lg max-w-3xl mx-auto leading-relaxed">
-                {renderTextWithColorTokens(content.faq.section_description)}
-              </p>
-            </div>
-
-            {/* FAQ Accordion */}
-            <Accordion type="single" collapsible className="space-y-4">
-              {content.faq.items
-                ?.filter((faq) => faq.is_active)
-                .sort((a, b) => a.display_order - b.display_order)
-                .map((faq) => (
-                  <AccordionItem
-                    key={faq.id}
-                    value={`item-${faq.id}`}
-                    className="bg-gray-900/50 backdrop-blur-sm border border-gray-700 rounded-xl px-6 hover:border-ecko-red/50 transition-colors duration-300"
-                  >
-                    <AccordionTrigger className="text-left text-white hover:text-ecko-red py-6 text-lg font-semibold">
-                      {renderTextWithColorTokens(faq.question)}
-                    </AccordionTrigger>
-                    <AccordionContent className="text-gray-300 pb-6 text-base leading-relaxed">
-                      {renderTextWithColorTokens(faq.answer)}
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
-            </Accordion>
-
-            {/* FAQ CTA */}
-            <div className="text-center mt-12">
-              <div className="bg-gradient-to-r from-ecko-red/10 to-ecko-red-dark/10 rounded-2xl p-6 border border-ecko-red/20 backdrop-blur-sm">
-                <h3 className="text-xl font-bold text-white mb-3">
-                  {renderTextWithColorTokens(content.faq.cta_title)}
-                </h3>
-                <p className="text-gray-300 mb-4">
-                  {renderTextWithColorTokens(content.faq.cta_description)}
-                </p>
-                <Button
-                  onClick={() => openFormWithOrigin("faq-cta")}
-                  className="group relative overflow-hidden bg-gradient-to-r from-ecko-red to-ecko-red-dark hover:from-ecko-red-dark hover:to-red-700 text-white px-8 py-4 font-bold text-base shadow-lg hover:shadow-2xl hover:shadow-ecko-red/40 transition-all duration-300 hover:scale-105 uppercase tracking-wider rounded-lg"
-                >
-                  <span className="absolute inset-0 bg-gradient-to-r from-red-600 to-red-800 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
-                  <span className="relative z-10 flex items-center">
-                    {renderTextWithColorTokens(content.faq.cta_button_text)}
-                    <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                </Button>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Final CTA Section */}
-        <section className="py-16 md:py-20 bg-ecko-red">
-          <div className="container mx-auto px-4 sm:px-6 max-w-4xl text-center">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white mb-4 sm:mb-6 uppercase tracking-wide leading-tight">
-              <span className="block sm:inline">PRONTO PARA FAZER PARTE</span>
-              <span className="block sm:inline"> DA FAMÍLIA ECKO?</span>
-            </h2>
-            <p className="text-lg sm:text-xl text-white/90 mb-6 sm:mb-8 px-2 leading-relaxed">
-              Junte-se aos milhares de revendedores que já transformaram seus
-              negócios com a marca mais desejada do streetwear brasileiro!
-            </p>
-
-            <Button
-              onClick={() => openFormWithOrigin("main-cta")}
-              className="group relative overflow-hidden bg-white hover:bg-gray-50 text-ecko-red text-base sm:text-lg px-8 sm:px-10 py-4 sm:py-5 h-auto font-black shadow-2xl hover:shadow-black/40 transition-all duration-300 hover:scale-105 uppercase tracking-wider w-full sm:w-auto max-w-sm sm:max-w-none mx-auto rounded-lg border-2 border-white hover:border-gray-200"
-            >
-              <span className="absolute inset-0 bg-gradient-to-r from-gray-50 to-gray-100 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
-              <span className="relative z-10 flex items-center">
-                <span className="hidden sm:inline">
-                  QUERO SER UM LOJISTA AUTORIZADO
-                </span>
-                <span className="sm:hidden">SER LOJISTA AUTORIZADO</span>
-                <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
-              </span>
-            </Button>
-          </div>
-        </section>
-      </main>
+            default:
+              return null;
+          }
+        })}
 
       {/* Footer */}
       <footer className="bg-black border-t border-gray-800">
@@ -1691,8 +2212,16 @@ export default function Index() {
             {/* Social Links */}
             <div className="flex space-x-6">
               <a
-                href="#"
-                className="text-gray-400 hover:text-ecko-red transition-colors"
+                href={content.footer?.social_links?.facebook || "#"}
+                target={
+                  content.footer?.social_links?.facebook ? "_blank" : "_self"
+                }
+                rel={
+                  content.footer?.social_links?.facebook
+                    ? "noopener noreferrer"
+                    : ""
+                }
+                className="text-gray-300 hover:text-ecko-red transition-colors"
               >
                 <span className="sr-only">Facebook</span>
                 <svg
@@ -1708,8 +2237,16 @@ export default function Index() {
                 </svg>
               </a>
               <a
-                href="#"
-                className="text-gray-400 hover:text-ecko-red transition-colors"
+                href={content.footer?.social_links?.instagram || "#"}
+                target={
+                  content.footer?.social_links?.instagram ? "_blank" : "_self"
+                }
+                rel={
+                  content.footer?.social_links?.instagram
+                    ? "noopener noreferrer"
+                    : ""
+                }
+                className="text-gray-300 hover:text-ecko-red transition-colors"
               >
                 <span className="sr-only">Instagram</span>
                 <svg
@@ -1728,17 +2265,284 @@ export default function Index() {
             </div>
 
             {/* Copyright */}
-            <div className="border-t border-gray-800 pt-6 w-full">
-              <p className="text-gray-500 text-sm">
+            <div className="border-t border-gray-800 pt-6 w-full flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
+              <p className="text-gray-300 text-sm">
                 {renderTextWithColorTokens(
                   content.footer?.copyright ||
                     "© 2024 Ecko. Todos os direitos reservados. Seja um revendedor oficial e transforme seu negócio.",
                 )}
               </p>
+              <a
+                href="/admin"
+                className="text-gray-300 hover:text-ecko-red text-xs transition-colors"
+              >
+                Admin
+              </a>
             </div>
           </div>
         </div>
       </footer>
+
+      {/* Form Modal */}
+      <Dialog
+        open={isModalOpen}
+        onOpenChange={(open) => {
+          setIsModalOpen(open);
+          if (!open) {
+            setFormOrigin("");
+            setIsSubmitted(false);
+          }
+        }}
+      >
+        <DialogContent className="max-w-md mx-auto bg-black/95 border-2 border-ecko-red/40 text-white max-h-[90vh] overflow-y-auto p-4 md:p-6">
+          <DialogHeader>
+            <DialogTitle className="text-center text-xl font-bold text-white mb-4">
+              {renderTextWithColorTokens(content.form.title)}
+            </DialogTitle>
+          </DialogHeader>
+
+          {!isSubmitted ? (
+            <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
+              <div>
+                <label className="block text-xs md:text-sm font-semibold text-gray-300 mb-1 md:mb-2">
+                  {content.form.fields.name_label}
+                </label>
+                <Input
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  placeholder={content.form.fields.name_placeholder}
+                  required
+                  className="h-11 md:h-12 text-sm md:text-base bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:border-ecko-red focus:ring-ecko-red/20"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs md:text-sm font-semibold text-gray-300 mb-1 md:mb-2">
+                  {content.form.fields.whatsapp_label}
+                </label>
+                <Input
+                  name="whatsapp"
+                  type="tel"
+                  value={formData.whatsapp}
+                  onChange={handleInputChange}
+                  placeholder={content.form.fields.whatsapp_placeholder}
+                  required
+                  className={`h-11 md:h-12 text-sm md:text-base bg-white text-gray-900 placeholder-gray-500 focus:ring-ecko-red/20 ${
+                    whatsappError
+                      ? "border-red-500 focus:border-red-500"
+                      : validateWhatsApp(formData.whatsapp) && formData.whatsapp
+                        ? "border-green-500 focus:border-green-500"
+                        : "border-gray-300 focus:border-ecko-red"
+                  }`}
+                />
+                {whatsappError && (
+                  <p className="text-red-400 text-sm mt-2">{whatsappError}</p>
+                )}
+                {formData.whatsapp &&
+                  !whatsappError &&
+                  validateWhatsApp(formData.whatsapp) && (
+                    <p className="text-green-400 text-sm mt-2 font-medium">
+                      ✅ WhatsApp válido
+                    </p>
+                  )}
+              </div>
+
+              <div>
+                <label className="block text-xs md:text-sm font-semibold text-gray-300 mb-1 md:mb-2">
+                  {content.form.fields.cep_label}
+                </label>
+                <Input
+                  name="cep"
+                  type="text"
+                  value={formData.cep}
+                  onChange={handleInputChange}
+                  placeholder={content.form.fields.cep_placeholder}
+                  required
+                  className={`h-11 md:h-12 text-sm md:text-base bg-white text-gray-900 placeholder-gray-500 focus:ring-ecko-red/20 ${
+                    cepError
+                      ? "border-red-500 focus:border-red-500"
+                      : cepLoading
+                        ? "border-yellow-500 focus:border-yellow-500"
+                        : formData.cidade && formData.estado
+                          ? "border-green-500 focus:border-green-500"
+                          : "border-gray-300 focus:border-ecko-red"
+                  }`}
+                  disabled={cepLoading}
+                />
+                {cepError && (
+                  <p className="text-red-400 text-sm mt-2">{cepError}</p>
+                )}
+                {cepLoading && (
+                  <p className="text-yellow-400 text-sm mt-2">
+                    Buscando CEP...
+                  </p>
+                )}
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+                <div>
+                  <label className="block text-xs md:text-sm font-semibold text-gray-300 mb-1 md:mb-2">
+                    {content.form.fields.cnpj_label}
+                  </label>
+                  <select
+                    name="hasCnpj"
+                    value={formData.hasCnpj}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full h-11 md:h-12 border border-gray-300 rounded-md px-3 md:px-4 bg-white text-gray-900 focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-sm md:text-base"
+                  >
+                    <option value="">Selecione</option>
+                    <option value="sim">{content.form.fields.cnpj_yes}</option>
+                    <option value="nao">{content.form.fields.cnpj_no}</option>
+                  </select>
+                  {cnpjError && (
+                    <p className="text-red-400 text-xs md:text-sm mt-2">
+                      {cnpjError}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-xs md:text-sm font-semibold text-gray-300 mb-1 md:mb-2">
+                    {content.form.fields.store_type_label}
+                  </label>
+                  <select
+                    name="storeType"
+                    value={formData.storeType}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full h-11 md:h-12 border border-gray-300 rounded-md px-3 md:px-4 bg-white text-gray-900 focus:border-ecko-red focus:ring-2 focus:ring-ecko-red/20 focus:outline-none text-sm md:text-base"
+                  >
+                    <option value="">Selecione</option>
+                    <option value="fisica">Física</option>
+                    <option value="online">Online</option>
+                    <option value="ambas">Física + Online</option>
+                  </select>
+                </div>
+              </div>
+
+              <Button
+                type="submit"
+                disabled={isSubmitting || formData.hasCnpj === "nao"}
+                className={`w-full h-12 md:h-14 font-bold text-sm md:text-base transition-all duration-300 mt-4 md:mt-6 ${
+                  formData.hasCnpj === "nao"
+                    ? "bg-black/70 cursor-not-allowed"
+                    : "bg-gradient-to-r from-ecko-red to-ecko-red-dark hover:from-ecko-red-dark hover:to-red-700 hover:scale-[1.02] hover:shadow-ecko-red/40"
+                } text-white shadow-lg`}
+              >
+                {isSubmitting ? (
+                  <div className="flex items-center justify-center">
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                    {content.form.submit_button_loading}
+                  </div>
+                ) : (
+                  content.form.submit_button
+                )}
+              </Button>
+            </form>
+          ) : (
+            <div className="text-center py-8">
+              <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
+              <h3 className="text-xl font-bold text-white mb-2">
+                Cadastro Realizado!
+              </h3>
+              <p className="text-gray-300 mb-6">
+                Obrigado pelo interesse! Nossa equipe entrará em contato em
+                breve.
+              </p>
+              <Button
+                onClick={() => {
+                  setIsModalOpen(false);
+                  setIsSubmitted(false);
+                  setFormOrigin("");
+                  setFormData({
+                    name: "",
+                    whatsapp: "",
+                    hasCnpj: "",
+                    storeType: "",
+                    cep: "",
+                    endereco: "",
+                    complemento: "",
+                    bairro: "",
+                    cidade: "",
+                    estado: "",
+                  });
+                }}
+                className="bg-ecko-red hover:bg-ecko-red-dark text-white"
+              >
+                Fechar
+              </Button>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* WhatsApp Floating Button */}
+      {showWhatsApp && (
+        <div
+          className="fixed bottom-4 sm:bottom-6 right-4 sm:right-6 z-[9999] animate-in slide-in-from-right-4 slide-in-from-bottom-4 duration-700"
+          style={{
+            position: "fixed",
+            zIndex: 9999,
+            pointerEvents: "auto",
+          }}
+        >
+          {/* Main WhatsApp Button */}
+          <div className="relative group">
+            {/* Pulse Animation Ring */}
+            <div className="absolute -inset-1 bg-green-400 rounded-full animate-ping opacity-75"></div>
+            <div className="absolute -inset-2 bg-green-300 rounded-full animate-pulse opacity-50"></div>
+
+            {/* Notification Badge */}
+            <div className="absolute -top-2 -right-2 bg-ecko-red text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold shadow-lg border-2 border-white animate-bounce">
+              {whatsappClickCount > 0 ? whatsappClickCount : 1}
+            </div>
+
+            {/* Main Button */}
+            <Button
+              onClick={async () => {
+                // Track WhatsApp click via API only
+                try {
+                  const response = await fetch("/api/analytics/track-visit", {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                      event_type: "whatsapp_click",
+                      session_id: sessionId,
+                      user_id: userId,
+                      page_url: window.location.href,
+                      event_data: {
+                        button_type: "floating",
+                        timestamp: new Date().toISOString(),
+                      },
+                    }),
+                  });
+
+                  if (response.ok) {
+                    console.log("✅ WhatsApp click registrado no banco");
+                    setWhatsappClickCount((prev) => prev + 1);
+                  } else {
+                    console.warn("⚠️ Erro ao registrar click no banco");
+                  }
+                } catch (e) {
+                  console.warn("Erro ao rastrear click:", e);
+                }
+
+                openFormWithOrigin("whatsapp-float");
+              }}
+              className="relative bg-green-500 hover:bg-green-600 text-white rounded-full w-16 h-16 shadow-2xl transition-all duration-300 hover:scale-110 group border-4 border-white"
+              title="💬 Nova mensagem - Clique para se tornar revendedor Ecko!"
+            >
+              <svg className="w-7 h-7" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.465 3.516z" />
+              </svg>
+            </Button>
+          </div>
+        </div>
+      )}
     </>
   );
 }

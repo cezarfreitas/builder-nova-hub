@@ -12,6 +12,7 @@ import { Textarea } from "../../components/ui/textarea";
 import { useToast } from "../../hooks/use-toast";
 import { useContent } from "../../hooks/useContent";
 import { SmartImageUpload } from "../../components/SmartImageUpload";
+import { MultiImageUpload } from "../../components/MultiImageUpload";
 import { TokenColorEditor } from "../../components/TokenColorEditor";
 import { renderTextWithColorTokens } from "../../utils/colorTokens";
 import {
@@ -30,15 +31,15 @@ import {
   Settings,
   Check,
   AlertCircle,
-  Loader2
+  Loader2,
 } from "lucide-react";
 
 interface GalleryItem {
   id: number;
-  title: string;
-  description: string;
+  title?: string;
+  description?: string;
   image_url: string;
-  alt_text: string;
+  alt_text?: string;
   is_active: boolean;
   display_order: number;
 }
@@ -64,7 +65,7 @@ export default function AdminGallery() {
   const [showForm, setShowForm] = useState(false);
   const [editingImage, setEditingImage] = useState<GalleryItem | null>(null);
   const [hasChanges, setHasChanges] = useState(false);
-  const [validation, setValidation] = useState<{[key: string]: string}>({});
+  const [validation, setValidation] = useState<{ [key: string]: string }>({});
   const { toast } = useToast();
 
   // Sincronizar com o conteúdo JSON quando carregado
@@ -76,7 +77,8 @@ export default function AdminGallery() {
 
   // Detectar mudanças
   useEffect(() => {
-    const hasChanges = JSON.stringify(settings) !== JSON.stringify(content.gallery);
+    const hasChanges =
+      JSON.stringify(settings) !== JSON.stringify(content.gallery);
     setHasChanges(hasChanges);
   }, [settings, content.gallery]);
 
@@ -115,31 +117,52 @@ export default function AdminGallery() {
 
   // Atualizar campo de texto
   const updateField = (field: keyof GallerySettings, value: string) => {
-    setSettings(prev => ({
+    setSettings((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
   // Adicionar nova imagem
   const addImage = () => {
-    const newId = Math.max(...settings.items.map(img => img.id), 0) + 1;
+    const newId = Math.max(...settings.items.map((img) => img.id), 0) + 1;
     const newImage: GalleryItem = {
       id: newId,
-      title: "",
-      description: "",
       image_url: "",
-      alt_text: "",
       is_active: true,
-      display_order: settings.items.length + 1
+      display_order: settings.items.length + 1,
     };
 
-    setSettings(prev => ({
+    setSettings((prev) => ({
       ...prev,
-      items: [...prev.items, newImage]
+      items: [...prev.items, newImage],
     }));
     setEditingImage(newImage);
     setShowForm(true);
+  };
+
+  // Adicionar múltiplas imagens
+  const addMultipleImages = (urls: string[]) => {
+    const newImages: GalleryItem[] = urls.map((url, index) => {
+      const newId =
+        Math.max(...settings.items.map((img) => img.id), 0) + index + 1;
+      return {
+        id: newId,
+        image_url: url,
+        is_active: true,
+        display_order: settings.items.length + index + 1,
+      };
+    });
+
+    setSettings((prev) => ({
+      ...prev,
+      items: [...prev.items, ...newImages],
+    }));
+
+    toast({
+      title: "Imagens adicionadas!",
+      description: `${urls.length} ${urls.length === 1 ? "imagem foi adicionada" : "imagens foram adicionadas"} à galeria.`,
+    });
   };
 
   // Editar imagem
@@ -150,48 +173,112 @@ export default function AdminGallery() {
 
   // Salvar imagem editada
   const saveImage = (image: GalleryItem) => {
-    // Validação básica
-    if (!image.title.trim() || !image.image_url.trim()) {
+    // Validação básica - apenas imagem é obrigatória
+    if (!image.image_url.trim()) {
       toast({
         title: "Erro de validação",
-        description: "Título e imagem são obrigatórios.",
+        description: "A imagem é obrigatória.",
         variant: "destructive",
       });
       return;
     }
 
-    setSettings(prev => ({
+    setSettings((prev) => ({
       ...prev,
-      items: prev.items.map(item => 
-        item.id === image.id ? image : item
-      )
+      items: prev.items.map((item) => (item.id === image.id ? image : item)),
     }));
     setShowForm(false);
     setEditingImage(null);
   };
 
   // Excluir imagem
-  const deleteImage = (id: number) => {
+  const deleteImage = async (id: number) => {
     if (confirm("Tem certeza que deseja excluir esta imagem?")) {
-      setSettings(prev => ({
-        ...prev,
-        items: prev.items.filter(item => item.id !== id)
-      }));
-      toast({
-        title: "Imagem excluída",
-        description: "A imagem foi removida com sucesso.",
-      });
+      const imageToDelete = settings.items.find((item) => item.id === id);
+      const newSettings = {
+        ...settings,
+        items: settings.items.filter((item) => item.id !== id),
+      };
+
+      setSettings(newSettings);
+
+      // Auto-save após exclusão
+      try {
+        const updatedContent = {
+          ...content,
+          gallery: newSettings,
+        };
+
+        const result = await saveContent(updatedContent);
+
+        if (result.success) {
+          // Tentar remover arquivo físico se for upload local
+          if (imageToDelete?.image_url.startsWith("/uploads/")) {
+            const filename = imageToDelete.image_url.split("/").pop();
+            if (filename) {
+              try {
+                await fetch(`/api/uploads/${filename}`, {
+                  method: "DELETE",
+                });
+              } catch (deleteError) {
+                console.warn("Erro ao deletar arquivo físico:", deleteError);
+                // Não mostrar erro ao usuário, pois a imagem já foi removida do JSON
+              }
+            }
+          }
+
+          toast({
+            title: "Imagem excluída",
+            description: "A imagem foi removida e salva automaticamente.",
+          });
+        } else {
+          throw new Error("Falha ao salvar");
+        }
+      } catch (error) {
+        console.error("Erro ao salvar após exclusão:", error);
+        toast({
+          title: "Imagem removida localmente",
+          description:
+            "Clique em 'Salvar Alterações' para confirmar a exclusão.",
+          variant: "destructive",
+        });
+      }
     }
   };
 
   // Toggle ativo/inativo
-  const toggleImage = (id: number) => {
-    setSettings(prev => ({
-      ...prev,
-      items: prev.items.map(item => 
-        item.id === id ? { ...item, is_active: !item.is_active } : item
-      )
-    }));
+  const toggleImage = async (id: number) => {
+    const newSettings = {
+      ...settings,
+      items: settings.items.map((item) =>
+        item.id === id ? { ...item, is_active: !item.is_active } : item,
+      ),
+    };
+
+    setSettings(newSettings);
+
+    // Auto-save após toggle
+    try {
+      const updatedContent = {
+        ...content,
+        gallery: newSettings,
+      };
+
+      await saveContent(updatedContent);
+
+      const toggledImage = newSettings.items.find((item) => item.id === id);
+      toast({
+        title: `Imagem ${toggledImage?.is_active ? "ativada" : "desativada"}`,
+        description: "Alteração salva automaticamente.",
+      });
+    } catch (error) {
+      console.error("Erro ao salvar toggle:", error);
+      toast({
+        title: "Status alterado localmente",
+        description: "Clique em 'Salvar Alterações' para confirmar.",
+        variant: "destructive",
+      });
+    }
   };
 
   // Reordenar imagens
@@ -199,16 +286,16 @@ export default function AdminGallery() {
     const newItems = [...settings.items];
     const [movedItem] = newItems.splice(fromIndex, 1);
     newItems.splice(toIndex, 0, movedItem);
-    
+
     // Atualizar display_order
     const reorderedItems = newItems.map((item, index) => ({
       ...item,
-      display_order: index + 1
+      display_order: index + 1,
     }));
 
-    setSettings(prev => ({
+    setSettings((prev) => ({
       ...prev,
-      items: reorderedItems
+      items: reorderedItems,
     }));
   };
 
@@ -226,17 +313,22 @@ export default function AdminGallery() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Galeria</h1>
-          <p className="text-gray-600">Gerencie as imagens e textos da galeria</p>
+          <p className="text-gray-600">
+            Gerencie as imagens e textos da galeria
+          </p>
         </div>
-        
+
         {hasChanges && (
           <div className="flex items-center gap-4">
-            <Badge variant="outline" className="text-orange-600 border-orange-300">
+            <Badge
+              variant="outline"
+              className="text-orange-600 border-orange-300"
+            >
               <AlertCircle className="w-3 h-3 mr-1" />
               Alterações pendentes
             </Badge>
-            <Button 
-              onClick={saveSettings} 
+            <Button
+              onClick={saveSettings}
               disabled={saving}
               className="bg-ecko-red hover:bg-ecko-red-dark"
             >
@@ -255,22 +347,22 @@ export default function AdminGallery() {
       <div className="border-b border-gray-200">
         <nav className="-mb-px flex space-x-8">
           <button
-            onClick={() => setActiveTab('galeria')}
+            onClick={() => setActiveTab("galeria")}
             className={`py-2 px-1 border-b-2 font-medium text-sm ${
-              activeTab === 'galeria'
-                ? 'border-ecko-red text-ecko-red'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              activeTab === "galeria"
+                ? "border-ecko-red text-ecko-red"
+                : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
             }`}
           >
             <Images className="w-4 h-4 mr-2 inline" />
             Imagens
           </button>
           <button
-            onClick={() => setActiveTab('textos')}
+            onClick={() => setActiveTab("textos")}
             className={`py-2 px-1 border-b-2 font-medium text-sm ${
-              activeTab === 'textos'
-                ? 'border-ecko-red text-ecko-red'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              activeTab === "textos"
+                ? "border-ecko-red text-ecko-red"
+                : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
             }`}
           >
             <FileText className="w-4 h-4 mr-2 inline" />
@@ -280,13 +372,27 @@ export default function AdminGallery() {
       </div>
 
       {/* Content */}
-      {activeTab === 'galeria' ? (
+      {activeTab === "galeria" ? (
         <div className="space-y-6">
-          {/* Add Button */}
+          {/* Upload Area */}
+          <Card className="bg-white border border-gray-200">
+            <CardContent className="p-6">
+              <MultiImageUpload
+                onUpload={addMultipleImages}
+                maxFiles={20}
+                maxSize={5}
+                quality={0.85}
+                maxWidth={1200}
+                maxHeight={1200}
+              />
+            </CardContent>
+          </Card>
+
+          {/* Add Single Button */}
           <div className="flex justify-end">
-            <Button onClick={addImage} className="bg-ecko-red hover:bg-ecko-red-dark">
+            <Button onClick={addImage} variant="outline">
               <Plus className="w-4 h-4 mr-2" />
-              Adicionar Imagem
+              Adicionar Imagem Individual
             </Button>
           </div>
 
@@ -295,86 +401,102 @@ export default function AdminGallery() {
             {settings.items
               .sort((a, b) => a.display_order - b.display_order)
               .map((image, index) => (
-              <Card key={image.id} className="bg-white border border-gray-200 overflow-hidden">
-                <div className="relative">
-                  {image.image_url ? (
-                    <img
-                      src={image.image_url}
-                      alt={image.alt_text}
-                      className="w-full h-48 object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-48 bg-gray-100 flex items-center justify-center">
-                      <Image className="w-12 h-12 text-gray-400" />
+                <Card
+                  key={image.id}
+                  className="bg-white border border-gray-200 overflow-hidden"
+                >
+                  <div className="relative">
+                    {image.image_url ? (
+                      <img
+                        src={image.image_url}
+                        alt={image.alt_text}
+                        className="w-full h-48 object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-48 bg-gray-100 flex items-center justify-center">
+                        <Image className="w-12 h-12 text-gray-400" />
+                      </div>
+                    )}
+
+                    <div className="absolute top-2 left-2">
+                      <div className="cursor-grab bg-white/80 rounded p-1">
+                        <GripVertical className="w-4 h-4 text-gray-600" />
+                      </div>
                     </div>
-                  )}
-                  
-                  <div className="absolute top-2 left-2">
-                    <div className="cursor-grab bg-white/80 rounded p-1">
-                      <GripVertical className="w-4 h-4 text-gray-600" />
+
+                    <div className="absolute top-2 right-2">
+                      <Badge
+                        variant={image.is_active ? "default" : "secondary"}
+                      >
+                        {image.is_active ? "Ativo" : "Inativo"}
+                      </Badge>
                     </div>
                   </div>
 
-                  <div className="absolute top-2 right-2">
-                    <Badge variant={image.is_active ? "default" : "secondary"}>
-                      {image.is_active ? "Ativo" : "Inativo"}
-                    </Badge>
-                  </div>
-                </div>
-                
-                <CardContent className="p-4">
-                  <h3 className="font-semibold text-gray-900 mb-1 truncate">
-                    {image.title || "Sem título"}
-                  </h3>
-                  <p className="text-sm text-gray-600 mb-3 line-clamp-2">
-                    {image.description || "Sem descrição"}
-                  </p>
-                  
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs text-gray-500">
-                      Ordem: {image.display_order}
-                    </span>
-                    
-                    <div className="flex items-center space-x-1">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => toggleImage(image.id)}
-                      >
-                        {image.is_active ? (
-                          <EyeOff className="w-4 h-4" />
-                        ) : (
-                          <Eye className="w-4 h-4" />
-                        )}
-                      </Button>
-                      
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => editImage(image)}
-                      >
-                        <Edit2 className="w-4 h-4" />
-                      </Button>
-                      
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => deleteImage(image.id)}
-                        className="text-red-600 hover:text-red-700"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
+                  <CardContent className="p-4">
+                    {image.title && (
+                      <h3 className="font-semibold text-gray-900 mb-1 truncate">
+                        {image.title}
+                      </h3>
+                    )}
+                    {image.description && (
+                      <p className="text-sm text-gray-600 mb-3 line-clamp-2">
+                        {image.description}
+                      </p>
+                    )}
+                    {!image.title && !image.description && (
+                      <div className="mb-3 text-xs text-gray-500">
+                        Imagem #{image.display_order}
+                      </div>
+                    )}
+
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-gray-500">
+                        Ordem: {image.display_order}
+                      </span>
+
+                      <div className="flex items-center space-x-1">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => toggleImage(image.id)}
+                        >
+                          {image.is_active ? (
+                            <EyeOff className="w-4 h-4" />
+                          ) : (
+                            <Eye className="w-4 h-4" />
+                          )}
+                        </Button>
+
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => editImage(image)}
+                        >
+                          <Edit2 className="w-4 h-4" />
+                        </Button>
+
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => deleteImage(image.id)}
+                          className="text-red-600 hover:text-red-700"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      </div>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-            
+                  </CardContent>
+                </Card>
+              ))}
+
             {settings.items.length === 0 && (
               <div className="col-span-full text-center py-12 text-gray-500">
                 <Images className="w-12 h-12 mx-auto mb-4 text-gray-300" />
                 <p>Nenhuma imagem na galeria</p>
-                <p className="text-sm">Clique em "Adicionar Imagem" para começar</p>
+                <p className="text-sm">
+                  Clique em "Adicionar Imagem" para começar
+                </p>
               </div>
             )}
           </div>
@@ -396,7 +518,7 @@ export default function AdminGallery() {
                 </label>
                 <TokenColorEditor
                   value={settings.section_tag}
-                  onChange={(value) => updateField('section_tag', value)}
+                  onChange={(value) => updateField("section_tag", value)}
                   placeholder="Ex: Lifestyle Gallery"
                   rows={2}
                   label=""
@@ -409,7 +531,7 @@ export default function AdminGallery() {
                 </label>
                 <TokenColorEditor
                   value={settings.section_title}
-                  onChange={(value) => updateField('section_title', value)}
+                  onChange={(value) => updateField("section_title", value)}
                   placeholder="Ex: COLEÇÃO LIFESTYLE"
                   rows={2}
                   label=""
@@ -422,7 +544,7 @@ export default function AdminGallery() {
                 </label>
                 <TokenColorEditor
                   value={settings.section_subtitle}
-                  onChange={(value) => updateField('section_subtitle', value)}
+                  onChange={(value) => updateField("section_subtitle", value)}
                   placeholder="Ex: Viva o estilo Ecko"
                   rows={2}
                   label=""
@@ -435,7 +557,9 @@ export default function AdminGallery() {
                 </label>
                 <TokenColorEditor
                   value={settings.section_description}
-                  onChange={(value) => updateField('section_description', value)}
+                  onChange={(value) =>
+                    updateField("section_description", value)
+                  }
                   placeholder="Descreva a galeria..."
                   rows={3}
                   label=""
@@ -449,7 +573,9 @@ export default function AdminGallery() {
                   </label>
                   <TokenColorEditor
                     value={settings.empty_state_title}
-                    onChange={(value) => updateField('empty_state_title', value)}
+                    onChange={(value) =>
+                      updateField("empty_state_title", value)
+                    }
                     placeholder="Ex: Galeria em Construção"
                     rows={2}
                     label=""
@@ -462,7 +588,9 @@ export default function AdminGallery() {
                   </label>
                   <TokenColorEditor
                     value={settings.empty_state_description}
-                    onChange={(value) => updateField('empty_state_description', value)}
+                    onChange={(value) =>
+                      updateField("empty_state_description", value)
+                    }
                     placeholder="Ex: Em breve nossa galeria estará repleta..."
                     rows={2}
                     label=""
@@ -476,7 +604,7 @@ export default function AdminGallery() {
                 </label>
                 <TokenColorEditor
                   value={settings.cta_title}
-                  onChange={(value) => updateField('cta_title', value)}
+                  onChange={(value) => updateField("cta_title", value)}
                   placeholder="Ex: Tenha Estes Produtos em Sua Loja!"
                   rows={2}
                   label=""
@@ -489,7 +617,7 @@ export default function AdminGallery() {
                 </label>
                 <TokenColorEditor
                   value={settings.cta_description}
-                  onChange={(value) => updateField('cta_description', value)}
+                  onChange={(value) => updateField("cta_description", value)}
                   placeholder="Ex: Produtos com alta demanda e excelente margem..."
                   rows={2}
                   label=""
@@ -502,7 +630,7 @@ export default function AdminGallery() {
                 </label>
                 <TokenColorEditor
                   value={settings.cta_button_text}
-                  onChange={(value) => updateField('cta_button_text', value)}
+                  onChange={(value) => updateField("cta_button_text", value)}
                   placeholder="Ex: QUERO ESSES PRODUTOS NA MINHA LOJA"
                   rows={2}
                   label=""
@@ -529,11 +657,11 @@ export default function AdminGallery() {
 }
 
 // Componente para formulário de imagem
-function ImageForm({ 
-  image, 
-  onSave, 
-  onClose 
-}: { 
+function ImageForm({
+  image,
+  onSave,
+  onClose,
+}: {
   image: GalleryItem;
   onSave: (image: GalleryItem) => void;
   onClose: () => void;
@@ -550,7 +678,7 @@ function ImageForm({
       <div className="bg-white rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl font-bold text-gray-900">
-            {formData.id ? 'Editar Imagem' : 'Nova Imagem'}
+            {formData.id ? "Editar Imagem" : "Nova Imagem"}
           </h2>
           <Button variant="outline" size="sm" onClick={onClose}>
             <X className="w-4 h-4" />
@@ -560,24 +688,30 @@ function ImageForm({
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
             <label className="block text-sm font-medium text-gray-700">
-              Título *
+              Título (opcional)
             </label>
             <Input
-              value={formData.title}
-              onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-              placeholder="Título da imagem"
-              required
+              value={formData.title || ""}
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, title: e.target.value }))
+              }
+              placeholder="Título da imagem (opcional)"
             />
           </div>
 
           <div className="space-y-2">
             <label className="block text-sm font-medium text-gray-700">
-              Descrição
+              Descrição (opcional)
             </label>
             <Textarea
-              value={formData.description}
-              onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-              placeholder="Descrição da imagem"
+              value={formData.description || ""}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  description: e.target.value,
+                }))
+              }
+              placeholder="Descrição da imagem (opcional)"
               rows={3}
             />
           </div>
@@ -588,7 +722,9 @@ function ImageForm({
             </label>
             <SmartImageUpload
               value={formData.image_url}
-              onChange={(url) => setFormData(prev => ({ ...prev, image_url: url }))}
+              onChange={(url) =>
+                setFormData((prev) => ({ ...prev, image_url: url }))
+              }
               uploadEndpoint="/api/upload/gallery"
               folder="gallery"
               aspectRatio="1:1"
@@ -599,12 +735,14 @@ function ImageForm({
 
           <div className="space-y-2">
             <label className="block text-sm font-medium text-gray-700">
-              Texto Alternativo (Alt Text)
+              Texto Alternativo (opcional)
             </label>
             <Input
-              value={formData.alt_text}
-              onChange={(e) => setFormData(prev => ({ ...prev, alt_text: e.target.value }))}
-              placeholder="Descrição para acessibilidade"
+              value={formData.alt_text || ""}
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, alt_text: e.target.value }))
+              }
+              placeholder="Descrição para acessibilidade (opcional)"
             />
           </div>
 
@@ -613,8 +751,13 @@ function ImageForm({
               Status
             </label>
             <select
-              value={formData.is_active ? 'true' : 'false'}
-              onChange={(e) => setFormData(prev => ({ ...prev, is_active: e.target.value === 'true' }))}
+              value={formData.is_active ? "true" : "false"}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  is_active: e.target.value === "true",
+                }))
+              }
               className="w-full border border-gray-300 rounded-md px-3 py-2"
             >
               <option value="true">Ativo</option>
@@ -626,7 +769,10 @@ function ImageForm({
             <Button type="button" variant="outline" onClick={onClose}>
               Cancelar
             </Button>
-            <Button type="submit" className="bg-ecko-red hover:bg-ecko-red-dark">
+            <Button
+              type="submit"
+              className="bg-ecko-red hover:bg-ecko-red-dark"
+            >
               <Save className="w-4 h-4 mr-2" />
               Salvar Imagem
             </Button>
