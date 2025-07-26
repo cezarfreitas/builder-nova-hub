@@ -654,6 +654,237 @@ export default function AdminConfiguracoes() {
             </CardContent>
           </Card>
         </div>
+      ) : activeTab === 'integracoes' ? (
+        <div className="space-y-6">
+          {/* Google Analytics 4 */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <BarChart3 className="w-5 h-5 mr-2 text-ecko-red" />
+                Google Analytics 4 (GA4)
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                <h4 className="font-semibold text-blue-900 text-sm mb-2">Como configurar o GA4</h4>
+                <p className="text-blue-700 text-xs">
+                  Configure seu ID de medição do GA4 para rastrear automaticamente conversões quando um lead se cadastrar.
+                  O evento será enviado via Measurement Protocol API.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="ga4_measurement_id">ID de Medição GA4 *</Label>
+                  <Input
+                    id="ga4_measurement_id"
+                    placeholder="G-XXXXXXXXXX"
+                    value={integracoesData.ga4_measurement_id}
+                    onChange={(e) => setIntegracoesData({...integracoesData, ga4_measurement_id: e.target.value})}
+                  />
+                  <p className="text-xs text-gray-500">Encontre em GA4 → Admin → Streams de dados</p>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="ga4_api_secret">API Secret *</Label>
+                  <Input
+                    id="ga4_api_secret"
+                    type="password"
+                    placeholder="ABC123..."
+                    value={integracoesData.ga4_api_secret}
+                    onChange={(e) => setIntegracoesData({...integracoesData, ga4_api_secret: e.target.value})}
+                  />
+                  <p className="text-xs text-gray-500">Crie em GA4 → Admin → Measurement Protocol API secrets</p>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="ga4_conversion_name">Nome do Evento</Label>
+                  <Input
+                    id="ga4_conversion_name"
+                    placeholder="form_submit"
+                    value={integracoesData.ga4_conversion_name}
+                    onChange={(e) => setIntegracoesData({...integracoesData, ga4_conversion_name: e.target.value})}
+                  />
+                  <p className="text-xs text-gray-500">Nome do evento que será enviado ao GA4</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Meta Pixel */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Target className="w-5 h-5 mr-2 text-ecko-red" />
+                Meta Pixel (Facebook/Instagram)
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="bg-purple-50 p-4 rounded-lg border border-purple-200">
+                <h4 className="font-semibold text-purple-900 text-sm mb-2">Como configurar o Meta Pixel</h4>
+                <p className="text-purple-700 text-xs">
+                  Configure sua API de Conversões do Meta para rastrear leads diretamente do servidor.
+                  Isso melhora a precisão do rastreamento e otimiza suas campanhas no Facebook/Instagram.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="meta_pixel_id">Pixel ID *</Label>
+                  <Input
+                    id="meta_pixel_id"
+                    placeholder="123456789012345"
+                    value={integracoesData.meta_pixel_id}
+                    onChange={(e) => setIntegracoesData({...integracoesData, meta_pixel_id: e.target.value})}
+                  />
+                  <p className="text-xs text-gray-500">Encontre em Events Manager → Data Sources</p>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="meta_access_token">Access Token *</Label>
+                  <Input
+                    id="meta_access_token"
+                    type="password"
+                    placeholder="EAAxxxx..."
+                    value={integracoesData.meta_access_token}
+                    onChange={(e) => setIntegracoesData({...integracoesData, meta_access_token: e.target.value})}
+                  />
+                  <p className="text-xs text-gray-500">Gere em Events Manager → Settings → Conversions API</p>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="meta_conversion_name">Nome do Evento</Label>
+                  <Input
+                    id="meta_conversion_name"
+                    placeholder="Lead"
+                    value={integracoesData.meta_conversion_name}
+                    onChange={(e) => setIntegracoesData({...integracoesData, meta_conversion_name: e.target.value})}
+                  />
+                  <p className="text-xs text-gray-500">Ex: Lead, Purchase, CompleteRegistration</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Conversão Personalizada */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Zap className="w-5 h-5 mr-2 text-ecko-red" />
+                Conversão Personalizada
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="bg-green-50 p-4 rounded-lg border border-green-200">
+                <h4 className="font-semibold text-green-900 text-sm mb-2">Evento JavaScript Personalizado</h4>
+                <p className="text-green-700 text-xs">
+                  Configure um evento personalizado que será disparado no frontend quando um lead se cadastrar.
+                  Útil para integrar com outras ferramentas de analytics ou automação.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="custom_conversion_enabled">Ativar Conversão</Label>
+                  <select
+                    id="custom_conversion_enabled"
+                    className="w-full h-9 px-3 rounded-md border border-input bg-background text-sm"
+                    value={integracoesData.custom_conversion_enabled}
+                    onChange={(e) => setIntegracoesData({...integracoesData, custom_conversion_enabled: e.target.value})}
+                  >
+                    <option value="false">Desativado</option>
+                    <option value="true">Ativado</option>
+                  </select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="custom_conversion_event">Nome do Evento</Label>
+                  <Input
+                    id="custom_conversion_event"
+                    placeholder="lead_captured"
+                    value={integracoesData.custom_conversion_event}
+                    onChange={(e) => setIntegracoesData({...integracoesData, custom_conversion_event: e.target.value})}
+                  />
+                  <p className="text-xs text-gray-500">Nome do evento customEvent() que será disparado</p>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="custom_conversion_value">Valor da Conversão</Label>
+                  <Input
+                    id="custom_conversion_value"
+                    placeholder="1"
+                    value={integracoesData.custom_conversion_value}
+                    onChange={(e) => setIntegracoesData({...integracoesData, custom_conversion_value: e.target.value})}
+                  />
+                  <p className="text-xs text-gray-500">Valor numérico enviado com o evento</p>
+                </div>
+              </div>
+
+              {integracoesData.custom_conversion_enabled === 'true' && (
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className="font-medium text-gray-900 mb-3">Evento que será disparado:</h4>
+                  <pre className="bg-gray-800 text-green-400 p-3 rounded text-xs overflow-x-auto">
+{`// Evento customizado disparado ao capturar lead
+window.dispatchEvent(new CustomEvent('${integracoesData.custom_conversion_event}', {
+  detail: {
+    value: ${integracoesData.custom_conversion_value},
+    timestamp: new Date().toISOString(),
+    leadData: {
+      nome: "Nome do Lead",
+      telefone: "Telefone do Lead",
+      // ... outros dados
+    }
+  }
+}));`}
+                  </pre>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Resumo das Integrações */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Settings className="w-5 h-5 mr-2 text-ecko-red" />
+                Status das Integrações
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="flex items-center space-x-3 p-3 border rounded-lg">
+                  <div className={`w-3 h-3 rounded-full ${integracoesData.ga4_measurement_id && integracoesData.ga4_api_secret ? 'bg-green-500' : 'bg-gray-300'}`}></div>
+                  <div>
+                    <p className="font-medium text-sm">Google Analytics 4</p>
+                    <p className="text-xs text-gray-500">
+                      {integracoesData.ga4_measurement_id && integracoesData.ga4_api_secret ? 'Configurado' : 'Não configurado'}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center space-x-3 p-3 border rounded-lg">
+                  <div className={`w-3 h-3 rounded-full ${integracoesData.meta_pixel_id && integracoesData.meta_access_token ? 'bg-green-500' : 'bg-gray-300'}`}></div>
+                  <div>
+                    <p className="font-medium text-sm">Meta Pixel</p>
+                    <p className="text-xs text-gray-500">
+                      {integracoesData.meta_pixel_id && integracoesData.meta_access_token ? 'Configurado' : 'Não configurado'}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center space-x-3 p-3 border rounded-lg">
+                  <div className={`w-3 h-3 rounded-full ${integracoesData.custom_conversion_enabled === 'true' ? 'bg-green-500' : 'bg-gray-300'}`}></div>
+                  <div>
+                    <p className="font-medium text-sm">Evento Personalizado</p>
+                    <p className="text-xs text-gray-500">
+                      {integracoesData.custom_conversion_enabled === 'true' ? 'Ativado' : 'Desativado'}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       ) : (
         // Sistema JSON
         <div className="space-y-6">
