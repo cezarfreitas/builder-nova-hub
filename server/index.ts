@@ -66,6 +66,7 @@ import {
 import contentRouter from "./routes/content";
 import { initializeDatabase, testConnection } from "./config/database";
 import { testJsonSystem } from "./routes/test-json";
+import { processLeadIntegrations, testIntegrations } from "./routes/integracoes";
 
 export function createServer() {
   const app = express();
