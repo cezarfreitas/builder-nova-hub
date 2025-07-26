@@ -112,8 +112,8 @@ export function DynamicHead() {
     // Twitter Card
     updateMetaTag('twitter:card', getSetting('twitter_card') || 'summary_large_image');
     updateMetaTag('twitter:title', getSetting('twitter_title') || getSetting('og_title') || getSetting('seo_title'));
-    updateMetaTag('twitter:description', getSetting('og_description') || getSetting('seo_description'));
-    updateMetaTag('twitter:image', getSetting('og_image'));
+    updateMetaTag('twitter:description', getSetting('twitter_description') || getSetting('og_description') || getSetting('seo_description'));
+    updateMetaTag('twitter:image', getSetting('twitter_image') || getSetting('og_image'));
     
     const twitterSite = getSetting('twitter_site');
     if (twitterSite) {
