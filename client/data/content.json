@@ -160,8 +160,6 @@
         "image_url": "/uploads/gallery/gallery-1753454900526-175068983.jpg",
         "is_active": true,
         "display_order": 3
-<<<<<<< HEAD
-=======
       },
       {
         "id": 4,
@@ -186,7 +184,6 @@
         "image_url": "/uploads/gallery/gallery-1753454904403-348350948.jpg",
         "is_active": true,
         "display_order": 7
->>>>>>> 0b40ffd6ca133391f7be7092e460b633cd80296a
       }
     ],
     "empty_state_title": "Galeria em Construção",
@@ -319,7 +316,7 @@
         "id": 4,
         "number": "100M+",
         "label": "Produtos Vendidos",
-        "description": "Milhões de peças que marcaram gerações"
+        "description": "Milhões de pe��as que marcaram gerações"
       }
     ],
     "cta_title": "Faça Parte Desta História",
