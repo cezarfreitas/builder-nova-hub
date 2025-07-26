@@ -71,8 +71,10 @@ export async function serveSitemapXml(req: Request, res: Response) {
 export async function getMetaTags(req: Request, res: Response) {
   try {
     const settings = await readSettingsFromFile();
-    const baseUrl = settings.seo_canonical_url?.value || `${req.protocol}://${req.get('host')}`;
-    
+    const protocol = req.protocol || 'https';
+    const host = req.get('host') || 'localhost:3000';
+    const baseUrl = settings.seo_canonical_url?.value || `${protocol}://${host}`;
+
     const metaTags = {
       // SEO Básico
       title: settings.seo_title?.value || 'Seja uma Revenda Autorizada da Ecko',
