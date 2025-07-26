@@ -202,6 +202,37 @@ export function createServer() {
   // JSON system test route
   app.get("/api/test-json", testJsonSystem);
 
+  // Initialize settings file
+  setTimeout(async () => {
+    try {
+      console.log("🔄 Inicializando sistema de configurações JSON...");
+      const path = require('path');
+      const fs = require('fs/promises');
+
+      const settingsFile = path.join(process.cwd(), 'server/data/settings.json');
+      const settingsDir = path.dirname(settingsFile);
+
+      // Criar diretório se não existir
+      await fs.mkdir(settingsDir, { recursive: true });
+
+      // Verificar se arquivo existe
+      try {
+        await fs.access(settingsFile);
+        console.log("✅ Arquivo de configurações encontrado");
+      } catch {
+        console.log("📝 Criando arquivo de configurações padrão...");
+        const defaultSettings = {
+          seo_title: { value: "Seja uma Revenda Autorizada da Ecko", type: "text", updated_at: new Date().toISOString() },
+          webhook_url: { value: "", type: "text", updated_at: new Date().toISOString() }
+        };
+        await fs.writeFile(settingsFile, JSON.stringify(defaultSettings, null, 2));
+        console.log("✅ Arquivo de configurações criado com sucesso!");
+      }
+    } catch (error) {
+      console.error("❌ Erro ao inicializar configurações:", error);
+    }
+  }, 500);
+
   // Initialize database (non-blocking)
   setTimeout(async () => {
     try {
