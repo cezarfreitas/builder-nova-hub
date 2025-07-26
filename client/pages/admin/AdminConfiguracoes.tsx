@@ -1098,6 +1098,81 @@ export default function AdminConfiguracoes() {
               </div>
             </CardContent>
           </Card>
+
+          {/* Status Geral do SEO */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Settings className="w-5 h-5 mr-2 text-ecko-red" />
+                Status Geral do SEO
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="flex items-center space-x-3 p-3 border rounded-lg">
+                  <div className={`w-3 h-3 rounded-full ${seoData.seo_title && seoData.seo_description ? 'bg-green-500' : 'bg-yellow-500'}`}></div>
+                  <div>
+                    <p className="font-medium text-sm">SEO Básico</p>
+                    <p className="text-xs text-gray-500">
+                      {seoData.seo_title && seoData.seo_description ? 'Configurado' : 'Incompleto'}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center space-x-3 p-3 border rounded-lg">
+                  <div className={`w-3 h-3 rounded-full ${seoData.favicon_url || seoData.apple_icon_url ? 'bg-green-500' : 'bg-gray-300'}`}></div>
+                  <div>
+                    <p className="font-medium text-sm">Ícones</p>
+                    <p className="text-xs text-gray-500">
+                      {seoData.favicon_url || seoData.apple_icon_url ? 'Configurado' : 'Não configurado'}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center space-x-3 p-3 border rounded-lg">
+                  <div className={`w-3 h-3 rounded-full ${seoData.og_title && seoData.og_description ? 'bg-green-500' : 'bg-yellow-500'}`}></div>
+                  <div>
+                    <p className="font-medium text-sm">Open Graph</p>
+                    <p className="text-xs text-gray-500">
+                      {seoData.og_title && seoData.og_description ? 'Configurado' : 'Incompleto'}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center space-x-3 p-3 border rounded-lg">
+                  <div className={`w-3 h-3 rounded-full ${seoData.schema_company_name ? 'bg-green-500' : 'bg-gray-300'}`}></div>
+                  <div>
+                    <p className="font-medium text-sm">Schema.org</p>
+                    <p className="text-xs text-gray-500">
+                      {seoData.schema_company_name ? 'Configurado' : 'Não configurado'}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-4 p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg border border-green-200">
+                <h4 className="font-semibold text-green-900 text-sm mb-2">Arquivos SEO Automáticos</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                  <div className="flex items-center text-green-700">
+                    <FileText className="w-4 h-4 mr-2" />
+                    <span>robots.txt - Configurado dinamicamente</span>
+                  </div>
+                  <div className="flex items-center text-green-700">
+                    <Globe className="w-4 h-4 mr-2" />
+                    <span>sitemap.xml - Gerado automaticamente</span>
+                  </div>
+                  <div className="flex items-center text-green-700">
+                    <Link className="w-4 h-4 mr-2" />
+                    <span>Meta tags - Aplicadas dinamicamente</span>
+                  </div>
+                  <div className="flex items-center text-green-700">
+                    <Search className="w-4 h-4 mr-2" />
+                    <span>Schema.org - JSON-LD automático</span>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       ) : activeTab === 'integracoes' ? (
         <div className="space-y-6">
