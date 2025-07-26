@@ -645,6 +645,104 @@ export default function AdminConfiguracoes() {
             </CardContent>
           </Card>
 
+          {/* Favicon e Ícones */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Smartphone className="w-5 h-5 mr-2 text-ecko-red" />
+                Favicon e Ícones
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                <h4 className="font-semibold text-blue-900 text-sm mb-2">Sobre os ícones</h4>
+                <p className="text-blue-700 text-xs">
+                  O favicon aparece na aba do navegador e favoritos. O ícone Apple é usado quando o site é salvo na tela inicial de dispositivos iOS.
+                  Recomendado: imagens quadradas (32x32px para favicon, 180x180px para Apple).
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="favicon_url">Favicon (32x32px)</Label>
+                  <SeoImageUpload
+                    value={seoData.favicon_url}
+                    onChange={(url) => setSeoData({...seoData, favicon_url: url})}
+                    label=""
+                  />
+                  <p className="text-xs text-gray-500">Imagem quadrada, formato .ico, .png ou .svg</p>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="apple_icon_url">Ícone Apple Touch (180x180px)</Label>
+                  <SeoImageUpload
+                    value={seoData.apple_icon_url}
+                    onChange={(url) => setSeoData({...seoData, apple_icon_url: url})}
+                    label=""
+                  />
+                  <p className="text-xs text-gray-500">Para dispositivos iOS, formato .png</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Twitter Cards */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Twitter className="w-5 h-5 mr-2 text-ecko-red" />
+                Twitter Cards
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="twitter_card">Tipo de Card</Label>
+                  <select
+                    id="twitter_card"
+                    className="w-full h-9 px-3 rounded-md border border-input bg-background text-sm"
+                    value={seoData.twitter_card}
+                    onChange={(e) => setSeoData({...seoData, twitter_card: e.target.value})}
+                  >
+                    <option value="summary">Summary</option>
+                    <option value="summary_large_image">Summary Large Image</option>
+                    <option value="app">App</option>
+                    <option value="player">Player</option>
+                  </select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="twitter_title">Título Twitter</Label>
+                  <Input
+                    id="twitter_title"
+                    placeholder="Título para Twitter"
+                    value={seoData.twitter_title}
+                    onChange={(e) => setSeoData({...seoData, twitter_title: e.target.value})}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="twitter_description">Descrição Twitter</Label>
+                  <Input
+                    id="twitter_description"
+                    placeholder="Descrição para Twitter"
+                    value={seoData.twitter_description}
+                    onChange={(e) => setSeoData({...seoData, twitter_description: e.target.value})}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="twitter_image">Imagem Twitter</Label>
+                  <SeoImageUpload
+                    value={seoData.twitter_image}
+                    onChange={(url) => setSeoData({...seoData, twitter_image: url})}
+                    label=""
+                  />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
           {/* Open Graph */}
           <Card>
             <CardHeader>
