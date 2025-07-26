@@ -371,6 +371,138 @@ export default function AdminConfiguracoes() {
     }
   };
 
+  // Testar configurações SEO
+  const handleTestSEO = async () => {
+    setSaving(true);
+    try {
+      const response = await fetch('/api/seo/meta-tags');
+      const result = await response.json();
+
+      if (result.success) {
+        const { metaTags } = result;
+
+        // Abrir nova janela com preview das configurações SEO
+        const previewWindow = window.open('', '_blank', 'width=800,height=600');
+        if (previewWindow) {
+          previewWindow.document.write(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+              <title>Preview SEO - ${metaTags.title}</title>
+              <meta name="description" content="${metaTags.description}">
+              <meta name="keywords" content="${metaTags.keywords}">
+              <link rel="canonical" href="${metaTags.canonical}">
+              <link rel="icon" href="${metaTags.favicon}">
+              <link rel="apple-touch-icon" href="${metaTags.appleIcon}">
+
+              <!-- Open Graph -->
+              <meta property="og:title" content="${metaTags.ogTitle}">
+              <meta property="og:description" content="${metaTags.ogDescription}">
+              <meta property="og:image" content="${metaTags.ogImage}">
+              <meta property="og:url" content="${metaTags.ogUrl}">
+              <meta property="og:type" content="${metaTags.ogType}">
+
+              <!-- Twitter -->
+              <meta name="twitter:card" content="${metaTags.twitterCard}">
+              <meta name="twitter:title" content="${metaTags.twitterTitle}">
+              <meta name="twitter:description" content="${metaTags.twitterDescription}">
+              <meta name="twitter:image" content="${metaTags.twitterImage}">
+
+              <style>
+                body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
+                .meta-section { margin-bottom: 30px; padding: 15px; border: 1px solid #ddd; border-radius: 8px; }
+                .meta-title { color: #1a73e8; font-size: 18px; margin-bottom: 10px; }
+                .meta-item { margin-bottom: 8px; }
+                .meta-label { font-weight: bold; color: #333; }
+                .meta-value { color: #666; margin-left: 10px; }
+                pre { background: #f5f5f5; padding: 10px; border-radius: 4px; overflow-x: auto; }
+              </style>
+            </head>
+            <body>
+              <h1>Preview das Configurações SEO</h1>
+
+              <div class="meta-section">
+                <div class="meta-title">🔍 SEO Básico</div>
+                <div class="meta-item"><span class="meta-label">Título:</span><span class="meta-value">${metaTags.title}</span></div>
+                <div class="meta-item"><span class="meta-label">Descrição:</span><span class="meta-value">${metaTags.description}</span></div>
+                <div class="meta-item"><span class="meta-label">Palavras-chave:</span><span class="meta-value">${metaTags.keywords}</span></div>
+                <div class="meta-item"><span class="meta-label">URL Canônica:</span><span class="meta-value">${metaTags.canonical}</span></div>
+              </div>
+
+              <div class="meta-section">
+                <div class="meta-title">📱 Ícones</div>
+                <div class="meta-item"><span class="meta-label">Favicon:</span><span class="meta-value">${metaTags.favicon}</span></div>
+                <div class="meta-item"><span class="meta-label">Apple Touch Icon:</span><span class="meta-value">${metaTags.appleIcon}</span></div>
+              </div>
+
+              <div class="meta-section">
+                <div class="meta-title">📖 Open Graph (Facebook)</div>
+                <div class="meta-item"><span class="meta-label">Título:</span><span class="meta-value">${metaTags.ogTitle}</span></div>
+                <div class="meta-item"><span class="meta-label">Descrição:</span><span class="meta-value">${metaTags.ogDescription}</span></div>
+                <div class="meta-item"><span class="meta-label">Imagem:</span><span class="meta-value">${metaTags.ogImage}</span></div>
+                <div class="meta-item"><span class="meta-label">URL:</span><span class="meta-value">${metaTags.ogUrl}</span></div>
+                <div class="meta-item"><span class="meta-label">Tipo:</span><span class="meta-value">${metaTags.ogType}</span></div>
+              </div>
+
+              <div class="meta-section">
+                <div class="meta-title">🐦 Twitter Cards</div>
+                <div class="meta-item"><span class="meta-label">Card Type:</span><span class="meta-value">${metaTags.twitterCard}</span></div>
+                <div class="meta-item"><span class="meta-label">Título:</span><span class="meta-value">${metaTags.twitterTitle}</span></div>
+                <div class="meta-item"><span class="meta-label">Descrição:</span><span class="meta-value">${metaTags.twitterDescription}</span></div>
+                <div class="meta-item"><span class="meta-label">Imagem:</span><span class="meta-value">${metaTags.twitterImage}</span></div>
+              </div>
+
+              <div class="meta-section">
+                <div class="meta-title">📋 Meta Tags HTML</div>
+                <pre>&lt;title&gt;${metaTags.title}&lt;/title&gt;
+&lt;meta name="description" content="${metaTags.description}"&gt;
+&lt;meta name="keywords" content="${metaTags.keywords}"&gt;
+&lt;link rel="canonical" href="${metaTags.canonical}"&gt;
+&lt;link rel="icon" href="${metaTags.favicon}"&gt;
+
+&lt;!-- Open Graph --&gt;
+&lt;meta property="og:title" content="${metaTags.ogTitle}"&gt;
+&lt;meta property="og:description" content="${metaTags.ogDescription}"&gt;
+&lt;meta property="og:image" content="${metaTags.ogImage}"&gt;
+
+&lt;!-- Twitter --&gt;
+&lt;meta name="twitter:card" content="${metaTags.twitterCard}"&gt;
+&lt;meta name="twitter:title" content="${metaTags.twitterTitle}"&gt;</pre>
+              </div>
+
+              <div style="margin-top: 30px; text-align: center;">
+                <button onclick="window.close()" style="padding: 10px 20px; background: #1a73e8; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                  Fechar Preview
+                </button>
+              </div>
+            </body>
+            </html>
+          `);
+          previewWindow.document.close();
+        }
+
+        toast({
+          title: "Preview SEO gerado!",
+          description: "Uma nova janela foi aberta com o preview das configurações SEO.",
+        });
+      } else {
+        toast({
+          title: "Erro no teste SEO",
+          description: result.message || "Erro ao gerar preview SEO.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Erro",
+        description: "Erro ao executar teste SEO",
+        variant: "destructive",
+      });
+    } finally {
+      setSaving(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
