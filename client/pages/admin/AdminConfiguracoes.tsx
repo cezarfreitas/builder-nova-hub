@@ -721,9 +721,20 @@ export default function AdminConfiguracoes() {
           {/* SEO Básico */}
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center">
-                <Search className="w-5 h-5 mr-2 text-ecko-red" />
-                SEO Básico
+              <CardTitle className="flex items-center justify-between">
+                <span className="flex items-center">
+                  <Search className="w-5 h-5 mr-2 text-ecko-red" />
+                  SEO Básico
+                </span>
+                <Button
+                  onClick={handleTestSEO}
+                  disabled={saving}
+                  variant="outline"
+                  size="sm"
+                  className="border-green-300 text-green-700 hover:bg-green-50"
+                >
+                  {saving ? 'Gerando...' : 'Preview SEO'}
+                </Button>
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
