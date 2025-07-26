@@ -126,26 +126,66 @@ export function DynamicHead() {
     }
 
     // Schema.org (JSON-LD)
-    const schemaOrgName = getSetting('schema_org_name');
-    const schemaOrgLogo = getSetting('schema_org_logo');
-    const schemaOrgPhone = getSetting('schema_org_phone');
-    const schemaOrgType = getSetting('schema_org_type') || 'Organization';
-    
-    if (schemaOrgName) {
-      const schemaData = {
+    const schemaCompanyName = getSetting('schema_company_name');
+    const schemaContactPhone = getSetting('schema_contact_phone');
+    const schemaContactEmail = getSetting('schema_contact_email');
+    const schemaAddressStreet = getSetting('schema_address_street');
+    const schemaAddressCity = getSetting('schema_address_city');
+    const schemaAddressState = getSetting('schema_address_state');
+
+    if (schemaCompanyName) {
+      const schemaData: any = {
         "@context": "https://schema.org",
-        "@type": schemaOrgType,
-        "name": schemaOrgName,
+        "@type": "Organization",
+        "name": schemaCompanyName,
         "url": getSetting('seo_canonical_url') || window.location.origin,
+        "logo": getSetting('og_image') || `${window.location.origin}/uploads/logo.png`,
+        "description": getSetting('seo_description') || "Rede de revendedores autorizados"
       };
 
-      if (schemaOrgLogo) {
-        (schemaData as any).logo = schemaOrgLogo;
+      // Informações de contato
+      if (schemaContactPhone || schemaContactEmail) {
+        schemaData.contactPoint = {
+          "@type": "ContactPoint",
+          "contactType": "customer service",
+          "availableLanguage": "Portuguese"
+        };
+
+        if (schemaContactPhone) {
+          schemaData.contactPoint.telephone = schemaContactPhone;
+        }
+
+        if (schemaContactEmail) {
+          schemaData.contactPoint.email = schemaContactEmail;
+        }
       }
 
-      if (schemaOrgPhone) {
-        (schemaData as any).telephone = schemaOrgPhone;
+      // Endereço
+      if (schemaAddressStreet || schemaAddressCity || schemaAddressState) {
+        schemaData.address = {
+          "@type": "PostalAddress",
+          "addressCountry": "BR"
+        };
+
+        if (schemaAddressStreet) {
+          schemaData.address.streetAddress = schemaAddressStreet;
+        }
+
+        if (schemaAddressCity) {
+          schemaData.address.addressLocality = schemaAddressCity;
+        }
+
+        if (schemaAddressState) {
+          schemaData.address.addressRegion = schemaAddressState;
+        }
       }
+
+      // Redes sociais
+      schemaData.sameAs = [
+        "https://www.facebook.com/ecko",
+        "https://www.instagram.com/ecko",
+        "https://twitter.com/ecko"
+      ];
 
       // Remover script anterior se existir
       const existingScript = document.querySelector('script[type="application/ld+json"]');
