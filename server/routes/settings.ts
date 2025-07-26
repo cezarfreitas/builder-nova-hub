@@ -112,14 +112,24 @@ const DEFAULT_SETTINGS = {
 // Função para ler configurações do arquivo JSON
 async function readSettingsFromFile(): Promise<Record<string, any>> {
   try {
-    // Garantir que o diretório existe
-    const dir = path.dirname(SETTINGS_FILE);
-    await fs.mkdir(dir, { recursive: true });
+    console.log('📖 Tentando ler configurações do arquivo:', SETTINGS_FILE);
+    
+    // Verificar se o arquivo existe primeiro
+    try {
+      await fs.access(SETTINGS_FILE);
+    } catch {
+      console.log('📁 Arquivo não existe, criando com configurações padrão...');
+      await writeSettingsToFile(DEFAULT_SETTINGS);
+      return DEFAULT_SETTINGS;
+    }
 
     const data = await fs.readFile(SETTINGS_FILE, 'utf-8');
-    return JSON.parse(data);
+    const settings = JSON.parse(data);
+    console.log('✅ Configurações carregadas com sucesso');
+    return settings;
   } catch (error) {
-    console.log('✅ Criando arquivo de configurações com valores padrão...');
+    console.error('❌ Erro ao ler configurações:', error);
+    console.log('🔄 Usando configurações padrão como fallback');
     await writeSettingsToFile(DEFAULT_SETTINGS);
     return DEFAULT_SETTINGS;
   }
@@ -128,14 +138,16 @@ async function readSettingsFromFile(): Promise<Record<string, any>> {
 // Função para escrever configurações no arquivo JSON
 async function writeSettingsToFile(settings: Record<string, any>): Promise<void> {
   try {
+    console.log('💾 Salvando configurações no arquivo:', SETTINGS_FILE);
+    
     // Garantir que o diretório existe
     const dir = path.dirname(SETTINGS_FILE);
     await fs.mkdir(dir, { recursive: true });
 
     await fs.writeFile(SETTINGS_FILE, JSON.stringify(settings, null, 2), 'utf-8');
-    console.log('✅ Configurações salvas no arquivo JSON');
+    console.log('✅ Configurações salvas com sucesso');
   } catch (error) {
-    console.error('❌ Erro ao salvar configurações no arquivo:', error);
+    console.error('❌ Erro ao salvar configurações:', error);
     throw error;
   }
 }
@@ -143,11 +155,24 @@ async function writeSettingsToFile(settings: Record<string, any>): Promise<void>
 // GET /api/settings - Obter todas as configurações
 export async function getSettings(req: Request, res: Response) {
   try {
+    console.log('🔄 Requisição GET /api/settings recebida');
+    
     const settings = await readSettingsFromFile();
 
     // Processar tipos de dados
     const processedSettings: Record<string, any> = {};
     Object.entries(settings).forEach(([key, setting]: [string, any]) => {
+      // Verificar se o setting tem a estrutura correta
+      if (!setting || typeof setting !== 'object') {
+        console.warn(`⚠️ Setting inválido para chave ${key}:`, setting);
+        processedSettings[key] = {
+          value: setting || '',
+          type: 'text',
+          updated_at: new Date().toISOString()
+        };
+        return;
+      }
+
       let value = setting.value;
       
       // Converter tipos conforme necessário
@@ -172,21 +197,25 @@ export async function getSettings(req: Request, res: Response) {
       
       processedSettings[key] = {
         value,
-        type: setting.type,
-        updated_at: setting.updated_at
+        type: setting.type || 'text',
+        updated_at: setting.updated_at || new Date().toISOString()
       };
     });
+
+    console.log(`✅ Retornando ${Object.keys(processedSettings).length} configurações`);
 
     res.json({
       success: true,
       data: processedSettings,
-      source: 'json_file'
+      source: 'json_file',
+      count: Object.keys(processedSettings).length
     });
   } catch (error) {
-    console.error('Erro ao buscar configurações:', error);
+    console.error('❌ Erro em GET /api/settings:', error);
     res.status(500).json({
       success: false,
-      message: 'Erro interno do servidor'
+      message: 'Erro interno do servidor',
+      error: error instanceof Error ? error.message : 'Erro desconhecido'
     });
   }
 }
@@ -195,6 +224,8 @@ export async function getSettings(req: Request, res: Response) {
 export async function getSetting(req: Request, res: Response) {
   try {
     const { key } = req.params;
+    console.log(`🔄 Requisição GET /api/settings/${key} recebida`);
+    
     const settings = await readSettingsFromFile();
     
     if (!settings[key]) {
@@ -234,7 +265,7 @@ export async function getSetting(req: Request, res: Response) {
       }
     });
   } catch (error) {
-    console.error('Erro ao buscar configuração:', error);
+    console.error('❌ Erro em GET /api/settings/:key:', error);
     res.status(500).json({
       success: false,
       message: 'Erro interno do servidor'
@@ -247,6 +278,8 @@ export async function updateSetting(req: Request, res: Response) {
   try {
     const { key } = req.params;
     const { value, type = 'text' } = req.body;
+    
+    console.log(`🔄 Requisição PUT /api/settings/${key} recebida`, { value, type });
     
     // Validar entrada
     const validation = SettingSchema.safeParse({
@@ -290,7 +323,7 @@ export async function updateSetting(req: Request, res: Response) {
       data: { key, value: finalValue, type }
     });
   } catch (error) {
-    console.error('Erro ao atualizar configuração:', error);
+    console.error('❌ Erro em PUT /api/settings/:key:', error);
     res.status(500).json({
       success: false,
       message: 'Erro interno do servidor'
@@ -302,6 +335,8 @@ export async function updateSetting(req: Request, res: Response) {
 export async function updateSettings(req: Request, res: Response) {
   try {
     const { settings: settingsArray } = req.body;
+    
+    console.log('🔄 Requisição PUT /api/settings recebida', { count: settingsArray?.length });
     
     if (!Array.isArray(settingsArray)) {
       return res.status(400).json({
@@ -348,7 +383,7 @@ export async function updateSettings(req: Request, res: Response) {
       updated_count: settingsArray.length
     });
   } catch (error) {
-    console.error('Erro ao atualizar configurações:', error);
+    console.error('❌ Erro em PUT /api/settings:', error);
     res.status(500).json({
       success: false,
       message: 'Erro interno do servidor'
@@ -360,6 +395,8 @@ export async function updateSettings(req: Request, res: Response) {
 export async function deleteSetting(req: Request, res: Response) {
   try {
     const { key } = req.params;
+    
+    console.log(`🔄 Requisição DELETE /api/settings/${key} recebida`);
     
     // Ler configurações atuais
     const settings = await readSettingsFromFile();
@@ -382,7 +419,122 @@ export async function deleteSetting(req: Request, res: Response) {
       message: 'Configuração removida com sucesso'
     });
   } catch (error) {
-    console.error('Erro ao deletar configuração:', error);
+    console.error('❌ Erro em DELETE /api/settings/:key:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Erro interno do servidor'
+    });
+  }
+}
+
+// Funções para manter compatibilidade com hero settings
+export async function getHeroSettings(req: Request, res: Response) {
+  try {
+    console.log('🔄 Requisição GET /api/settings/hero recebida');
+    
+    const settings = await readSettingsFromFile();
+    
+    // Configurações padrão do hero
+    const defaultSettings = {
+      title: "Transforme sua {ecko}PAIXÃO{/ecko} em {green}LUCRO{/green}",
+      subtitle: "Oportunidade {red}única{/red} de negócio",
+      description: "Junte-se à rede de revendedores {ecko}Ecko{/ecko} e maximize seus {green}lucros{/green} com produtos de alta qualidade e suporte completo.",
+      cta_text: "Quero ser Revendedor",
+      cta_secondary_text: "Descubra Como Funciona",
+      background_image: "https://estyle.vteximg.com.br/arquivos/ecko_mosaic5.png?v=638421392678800000",
+      background_color: "#dc2626",
+      text_color: "#ffffff",
+      cta_color: "#ffffff",
+      logo_url: "https://www.ntktextil.com.br/wp-content/uploads/2022/08/Logo-Ecko.png",
+      video_url: "",
+      enabled: true
+    };
+
+    // Aplicar configurações salvas sobre os padrões
+    const finalSettings = { ...defaultSettings };
+    Object.entries(settings).forEach(([key, setting]: [string, any]) => {
+      if (key.startsWith('hero_')) {
+        const heroKey = key.replace('hero_', '');
+        let value = setting.value;
+
+        // Converter tipos conforme necessário
+        switch (setting.type) {
+          case 'boolean':
+            value = value === 'true' || value === '1' || value === true;
+            break;
+          case 'number':
+            value = parseFloat(value) || 0;
+            break;
+          case 'json':
+            try {
+              value = typeof value === 'string' ? JSON.parse(value) : value;
+            } catch {
+              value = {};
+            }
+            break;
+        }
+
+        if (heroKey in finalSettings) {
+          finalSettings[heroKey] = value;
+        }
+      }
+    });
+
+    res.json({
+      success: true,
+      data: finalSettings
+    });
+  } catch (error) {
+    console.error('❌ Erro em GET /api/settings/hero:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Erro interno do servidor'
+    });
+  }
+}
+
+export async function updateHeroSettings(req: Request, res: Response) {
+  try {
+    console.log('🔄 Requisição POST /api/settings/hero recebida');
+
+    const heroData = req.body;
+    const settings = await readSettingsFromFile();
+
+    // Mapear configurações para o formato da tabela
+    const settingsToSave = [
+      { key: 'hero_title', value: heroData.title || '', type: 'text' },
+      { key: 'hero_subtitle', value: heroData.subtitle || '', type: 'text' },
+      { key: 'hero_description', value: heroData.description || '', type: 'text' },
+      { key: 'hero_cta_text', value: heroData.cta_text || '', type: 'text' },
+      { key: 'hero_cta_secondary_text', value: heroData.cta_secondary_text || '', type: 'text' },
+      { key: 'hero_background_image', value: heroData.background_image || '', type: 'text' },
+      { key: 'hero_background_color', value: heroData.background_color || '#dc2626', type: 'text' },
+      { key: 'hero_text_color', value: heroData.text_color || '#ffffff', type: 'text' },
+      { key: 'hero_cta_color', value: heroData.cta_color || '#ffffff', type: 'text' },
+      { key: 'hero_logo_url', value: heroData.logo_url || '', type: 'text' },
+      { key: 'hero_video_url', value: heroData.video_url || '', type: 'text' },
+      { key: 'hero_enabled', value: heroData.enabled ? '1' : '0', type: 'boolean' }
+    ];
+
+    // Atualizar cada configuração
+    for (const setting of settingsToSave) {
+      settings[setting.key] = {
+        value: setting.value,
+        type: setting.type,
+        updated_at: new Date().toISOString()
+      };
+    }
+
+    // Salvar no arquivo
+    await writeSettingsToFile(settings);
+
+    res.json({
+      success: true,
+      message: 'Configurações do hero atualizadas com sucesso',
+      data: heroData
+    });
+  } catch (error) {
+    console.error('❌ Erro em POST /api/settings/hero:', error);
     res.status(500).json({
       success: false,
       message: 'Erro interno do servidor'
