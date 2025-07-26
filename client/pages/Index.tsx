@@ -371,29 +371,67 @@ export default function Index() {
       const result = await response.json();
 
       if (result.success) {
-        toast({
-          title: "✅ Cadastro enviado!",
-          description:
-            "Nossa equipe entrará em contato em até 24h. Obrigado pelo interesse!",
-          duration: 8000,
-        });
-        setIsSubmitted(true);
-        setFormData({
-          name: "",
-          whatsapp: "",
-          hasCnpj: "",
-          storeType: "",
-          cep: "",
-          endereco: "",
-          complemento: "",
-          bairro: "",
-          cidade: "",
-          estado: "",
-        });
-        setWhatsappError("");
-        setCnpjError("");
-        setCepError("");
-      } else {
+      toast({
+        title: "✅ Cadastro enviado!",
+        description:
+          "Nossa equipe entrará em contato em até 24h. Obrigado pelo interesse!",
+        duration: 8000,
+      });
+      setIsSubmitted(true);
+      setFormData({
+        name: "",
+        whatsapp: "",
+        hasCnpj: "",
+        storeType: "",
+        cep: "",
+        endereco: "",
+        complemento: "",
+        bairro: "",
+        cidade: "",
+        estado: "",
+      });
+      setWhatsappError("");
+      setCnpjError("");
+      setCepError("");
+
+      // Disparar evento personalizado para integrações
+      try {
+        // Buscar configurações de evento personalizado
+        const settingsResponse = await fetch('/api/settings');
+        const settingsResult = await settingsResponse.json();
+
+        if (settingsResult.success) {
+          const customEnabled = settingsResult.data?.custom_conversion_enabled?.value === 'true';
+
+          if (customEnabled) {
+            const eventName = settingsResult.data?.custom_conversion_event?.value || 'lead_captured';
+            const eventValue = parseFloat(settingsResult.data?.custom_conversion_value?.value || '1');
+
+            // Disparar evento personalizado
+            const customEvent = new CustomEvent(eventName, {
+              detail: {
+                value: eventValue,
+                timestamp: new Date().toISOString(),
+                leadData: {
+                  nome: formData.name,
+                  telefone: formData.whatsapp,
+                  tem_cnpj: formData.hasCnpj,
+                  tipo_loja: formData.storeType,
+                  form_origin: formOrigin || "form-inline",
+                  lead_id: result.lead?.id
+                }
+              }
+            });
+
+            window.dispatchEvent(customEvent);
+            console.log(`🎯 Evento personalizado disparado: ${eventName}`, customEvent.detail);
+          }
+        }
+      } catch (error) {
+        console.warn('⚠️  Erro ao processar evento personalizado:', error);
+        // Não bloquear o fluxo principal se o evento falhar
+      }
+    } else {
         toast({
           title: "❌ Erro no envio",
           description:
