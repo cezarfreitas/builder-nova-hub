@@ -283,8 +283,22 @@ function hashData(data: string): string {
 
   try {
     // Normalizar dados antes do hash
-    const normalizedData = data.toLowerCase().trim().replace(/\D/g, '');
-    return crypto.createHash('sha256').update(normalizedData).digest('hex');
+    let normalizedData = data.toLowerCase().trim();
+
+    // Para telefones: remover todos os caracteres não numéricos
+    if (/\d/.test(normalizedData)) {
+      normalizedData = normalizedData.replace(/\D/g, '');
+      // Se for telefone brasileiro, garantir que tenha código do país
+      if (normalizedData.length === 11 && normalizedData.startsWith('1')) {
+        normalizedData = '55' + normalizedData;
+      } else if (normalizedData.length === 10) {
+        normalizedData = '55' + normalizedData;
+      }
+    }
+
+    const hash = crypto.createHash('sha256').update(normalizedData).digest('hex');
+    console.log(`🔐 Hash gerado para "${data}" -> "${normalizedData}" -> ${hash.substring(0, 10)}...`);
+    return hash;
   } catch (error) {
     console.warn('⚠️  Erro ao gerar hash SHA256:', error);
     return '';
