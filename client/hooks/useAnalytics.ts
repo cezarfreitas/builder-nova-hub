@@ -159,3 +159,15 @@ export function useAnalytics(selectedPeriod: number = 30) {
     refreshData,
   };
 }
+
+// Hook para gerar e manter session ID único por sessão
+export function useSessionId(): string {
+  const sessionId = useMemo(() => {
+    // Gerar um session ID único baseado em timestamp + random
+    const timestamp = Date.now();
+    const random = Math.random().toString(36).substr(2, 9);
+    return `session_${timestamp}_${random}`;
+  }, []);
+
+  return sessionId;
+}
