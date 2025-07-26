@@ -25,21 +25,31 @@ export function useSettings(): UseSettingsReturn {
 
   const refreshSettings = useCallback(async () => {
     try {
+      console.log('🔄 Carregando configurações...');
       setLoading(true);
       setError(null);
 
       const response = await fetch('/api/settings');
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      
       const result = await response.json();
 
       if (result.success) {
+        console.log('✅ Configurações carregadas:', result.count, 'itens');
         setSettings(result.data);
       } else {
         throw new Error(result.message || 'Erro ao carregar configurações');
       }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Erro desconhecido';
+      console.error('❌ Erro ao carregar configurações:', err);
       setError(errorMessage);
-      console.error('Erro ao carregar configurações:', err);
+      
+      // Em caso de erro, usar configurações padrão vazias para não quebrar a interface
+      setSettings({});
     } finally {
       setLoading(false);
     }
@@ -47,6 +57,7 @@ export function useSettings(): UseSettingsReturn {
 
   const saveSetting = useCallback(async (key: string, value: any, type: string = 'text'): Promise<boolean> => {
     try {
+      console.log(`💾 Salvando configuração ${key}:`, value);
       setError(null);
       
       const response = await fetch(`/api/settings/${key}`, {
@@ -57,9 +68,14 @@ export function useSettings(): UseSettingsReturn {
         body: JSON.stringify({ value, type }),
       });
 
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
       const result = await response.json();
 
       if (result.success) {
+        console.log('✅ Configuração salva com sucesso');
         // Atualizar estado local
         setSettings(prev => ({
           ...prev,
@@ -75,14 +91,15 @@ export function useSettings(): UseSettingsReturn {
       }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Erro desconhecido';
+      console.error('❌ Erro ao salvar configuração:', err);
       setError(errorMessage);
-      console.error('Erro ao salvar configuração:', err);
       return false;
     }
   }, []);
 
   const saveMultipleSettings = useCallback(async (settingsArray: Array<{key: string, value: any, type?: string}>): Promise<boolean> => {
     try {
+      console.log(`💾 Salvando ${settingsArray.length} configurações...`);
       setError(null);
       
       const formattedSettings = settingsArray.map(setting => ({
@@ -99,9 +116,14 @@ export function useSettings(): UseSettingsReturn {
         body: JSON.stringify({ settings: formattedSettings }),
       });
 
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
       const result = await response.json();
 
       if (result.success) {
+        console.log('✅ Configurações salvas com sucesso');
         // Atualizar estado local
         const newSettings = { ...settings };
         settingsArray.forEach(setting => {
@@ -118,8 +140,8 @@ export function useSettings(): UseSettingsReturn {
       }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Erro desconhecido';
+      console.error('❌ Erro ao salvar configurações:', err);
       setError(errorMessage);
-      console.error('Erro ao salvar configurações:', err);
       return false;
     }
   }, [settings]);
