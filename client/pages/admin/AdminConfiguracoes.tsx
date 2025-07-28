@@ -1352,7 +1352,13 @@ export default function AdminConfiguracoes() {
       {hasChanges && (
         <div className="fixed bottom-6 right-6">
           <Button
-            onClick={activeTab === "seo" ? saveSeoSettings : handleSave}
+            onClick={
+              activeTab === "seo"
+                ? saveSeoSettings
+                : activeTab === "integracoes"
+                  ? saveIntegrationsSettings
+                  : handleSave
+            }
             disabled={saving}
             className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg"
           >
