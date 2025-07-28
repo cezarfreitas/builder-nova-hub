@@ -12,6 +12,8 @@ import { Textarea } from "../../components/ui/textarea";
 import { useToast } from "../../hooks/use-toast";
 import { useContent } from "../../hooks/useContent";
 import { TokenColorEditor } from "../../components/TokenColorEditor";
+import { OptimizedImageUpload } from "../../components/OptimizedImageUpload";
+import { renderTextWithColorTokens } from "../../utils/colorTokens";
 import { renderTextWithColorTokens } from "../../utils/colorTokens";
 import {
   Save,
@@ -23,6 +25,10 @@ import {
   History,
   Plus,
   Trash2,
+  Image,
+  Palette,
+  Sliders,
+  Settings,
 } from "lucide-react";
 
 interface AboutSettings {
@@ -40,6 +46,17 @@ interface AboutSettings {
   cta_title: string;
   cta_description: string;
   cta_button_text: string;
+  background_type: string;
+  background_color: string;
+  background_image: string;
+  overlay_enabled: boolean;
+  overlay_color: string;
+  overlay_opacity: number;
+  overlay_blend_mode: string;
+  overlay_gradient_enabled: boolean;
+  overlay_gradient_start: string;
+  overlay_gradient_end: string;
+  overlay_gradient_direction: string;
 }
 
 export default function AdminAbout() {
@@ -47,7 +64,7 @@ export default function AdminAbout() {
   const [settings, setSettings] = useState<AboutSettings>(content.about);
   const [saving, setSaving] = useState(false);
   const [activeTab, setActiveTab] = useState<
-    "textos" | "historia" | "estatisticas" | "cta"
+    "textos" | "historia" | "estatisticas" | "background" | "cta"
   >("textos");
   const [hasChanges, setHasChanges] = useState(false);
   const { toast } = useToast();
