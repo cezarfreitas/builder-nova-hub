@@ -756,7 +756,7 @@ export default function Index() {
           </div>
 
           {/* Content - Sempre visível */}
-          <div className="relative z-20 text-center px-4 sm:px-6 max-w-4xl mx-auto">
+          <div className="relative z-20 text-center px-4 sm:px-6 max-w-4xl mx-auto hero-content">
             {/* Logo com skeleton */}
             <div className="flex items-center justify-center pt-4 sm:pt-8 lg:pt-12 mb-8 sm:mb-10 lg:mb-12">
               {currentHero.logo_url ? (
