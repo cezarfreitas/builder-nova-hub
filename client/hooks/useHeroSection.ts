@@ -44,39 +44,46 @@ const defaultHeroSettings: HeroSettings = {
 
 export function useHeroSection() {
   const [heroSettings, setHeroSettings] = useState<HeroSettings>(defaultHeroSettings);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false); // Começar sem loading para mostrar padrões imediatamente
   const [error, setError] = useState<string | null>(null);
 
-  // Carregar configurações do hero
+  // Carregar configurações do hero de forma otimizada
   const loadHeroSettings = useCallback(async () => {
     try {
-      setLoading(true);
+      // Não definir loading como true para evitar flickering
       setError(null);
 
-      const response = await fetch('/api/hero');
-      
+      const response = await fetch('/api/hero', {
+        method: 'GET',
+        headers: {
+          'Cache-Control': 'no-cache',
+          'Pragma': 'no-cache'
+        }
+      });
+
       if (!response.ok) {
         throw new Error(`Erro ao carregar configurações: ${response.status}`);
       }
 
       const data = await response.json();
-      
+
       // Garantir que todas as propriedades necessárias existam
       const completeSettings = {
         ...defaultHeroSettings,
         ...data
       };
-      
-      setHeroSettings(completeSettings);
+
+      // Atualizar apenas se houve mudanças reais
+      const hasChanges = JSON.stringify(completeSettings) !== JSON.stringify(heroSettings);
+      if (hasChanges) {
+        setHeroSettings(completeSettings);
+      }
     } catch (err) {
       console.error('Erro ao carregar configurações do hero:', err);
       setError(err instanceof Error ? err.message : 'Erro desconhecido');
-      // Em caso de erro, usar configurações padrão
-      setHeroSettings(defaultHeroSettings);
-    } finally {
-      setLoading(false);
+      // Manter configurações atuais em caso de erro
     }
-  }, []);
+  }, [heroSettings]);
 
   // Salvar configurações do hero
   const saveHeroSettings = useCallback(async (settings: HeroSettings) => {
