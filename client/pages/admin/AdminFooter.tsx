@@ -300,7 +300,9 @@ export default function AdminFooter() {
 
                   {/* Copyright */}
                   <p className="text-gray-400 text-sm leading-relaxed max-w-2xl mx-auto">
-                    {settings.copyright || "© 2024 Ecko. Todos os direitos reservados."}
+                    {renderTextWithColorTokens(
+                      settings.copyright || "© 2024 Ecko. Todos os direitos reservados."
+                    )}
                   </p>
                 </div>
               </div>
