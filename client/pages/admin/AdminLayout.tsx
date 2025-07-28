@@ -207,15 +207,26 @@ export default function AdminLayout() {
 
             {/* Footer */}
             <div className="flex-shrink-0 px-4 py-3 border-t border-gray-200">
-              <div className="flex items-center">
-                <div className="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center">
-                  <span className="text-xs font-medium text-gray-700">CF</span>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <div className="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center">
+                    <span className="text-xs font-medium text-gray-700">CF</span>
+                  </div>
+                  <div className="ml-2">
+                    <p className="text-xs font-medium text-gray-900">
+                      Cezar Freitas
+                    </p>
+                  </div>
                 </div>
-                <div className="ml-2">
-                  <p className="text-xs font-medium text-gray-900">
-                    Cezar Freitas
-                  </p>
-                </div>
+                <Button
+                  onClick={logout}
+                  variant="ghost"
+                  size="sm"
+                  className="h-6 w-6 p-0 text-gray-500 hover:text-red-600"
+                  title="Sair"
+                >
+                  <LogOut className="w-3 h-3" />
+                </Button>
               </div>
             </div>
           </div>
