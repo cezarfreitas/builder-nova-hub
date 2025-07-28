@@ -805,10 +805,33 @@ export default function AdminConfiguracoes() {
                           </div>
                         </div>
                       ) : (
-                        <div className="space-y-2">
+                        <div className="space-y-3">
                           <p className="text-red-800 font-medium">
                             ❌ Erro na integração
                           </p>
+
+                          {/* Status do Pixel */}
+                          <div className="bg-white p-3 rounded border">
+                            <h5 className="font-medium text-gray-900 mb-2 flex items-center">
+                              <span className={`w-2 h-2 rounded-full mr-2 ${testResults.pixelTest?.success ? 'bg-green-500' : 'bg-red-500'}`}></span>
+                              Meta Pixel
+                            </h5>
+                            <p className={`text-sm ${testResults.pixelTest?.success ? 'text-green-700' : 'text-red-700'}`}>
+                              {testResults.pixelTest?.success ? 'Funcionando' : `Erro: ${testResults.pixelTest?.message || 'Falha no teste'}`}
+                            </p>
+                          </div>
+
+                          {/* Status da API de Conversões */}
+                          <div className="bg-white p-3 rounded border">
+                            <h5 className="font-medium text-gray-900 mb-2 flex items-center">
+                              <span className={`w-2 h-2 rounded-full mr-2 ${testResults.conversionTest?.success ? 'bg-green-500' : 'bg-red-500'}`}></span>
+                              API de Conversões
+                            </h5>
+                            <p className={`text-sm ${testResults.conversionTest?.success ? 'text-green-700' : 'text-red-700'}`}>
+                              {testResults.conversionTest?.success ? 'Funcionando' : `Erro: ${testResults.conversionTest?.message || 'Falha no teste'}`}
+                            </p>
+                          </div>
+
                           <p className="text-red-700 text-sm">
                             {testResults.error}
                           </p>
