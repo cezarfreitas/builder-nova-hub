@@ -180,8 +180,10 @@ export async function trackMetaEvent(req: Request, res: Response) {
     const result = await sendMetaTrackingEvent(eventData);
 
     res.json({
-      success: true,
-      message: `Evento ${eventData.event_name} processado`,
+      success: result.success,
+      message: result.success
+        ? `Evento ${eventData.event_name} enviado com sucesso para a Meta!`
+        : `Falha ao enviar evento ${eventData.event_name} para a Meta`,
       result,
     });
   } catch (error) {
