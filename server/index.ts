@@ -72,6 +72,7 @@ import {
 } from "./routes/gallery";
 import contentRouter from "./routes/content";
 import aboutRouter from "./routes/about";
+import heroRouter from "./routes/hero";
 import { initializeDatabase, testConnection } from "./config/database";
 import { testJsonSystem } from "./routes/test-json";
 import {
@@ -225,6 +226,9 @@ export function createServer() {
 
   // About section routes
   app.use("/api/content/about", aboutRouter);
+
+  // Hero section routes
+  app.use("/api/hero", heroRouter);
 
   // Database test routes
   app.get("/api/test-db", testDatabaseConnection);
