@@ -922,7 +922,17 @@ export default function AdminAnalytics() {
           </CardHeader>
           <CardContent>
             <div style={{ height: "300px" }}>
-              <Line data={dailyVisitsData} options={chartOptions} />
+              {dailyStats && dailyStats.length > 0 ? (
+                <Line data={dailyVisitsData} options={chartOptions} />
+              ) : (
+                <div className="flex items-center justify-center h-full">
+                  <div className="text-center text-gray-500">
+                    <Eye className="w-12 h-12 mx-auto mb-4 text-gray-300" />
+                    <p>Sem dados de visitas para exibir</p>
+                    <p className="text-sm">Aguarde novos dados serem coletados</p>
+                  </div>
+                </div>
+              )}
             </div>
           </CardContent>
         </Card>
