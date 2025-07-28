@@ -948,17 +948,15 @@ export default function AdminConfiguracoes() {
                   </div>
 
                   <div className="md:col-span-2">
-                    <Label htmlFor="og_image">
-                      Imagem para Redes Sociais (URL)
-                    </Label>
-                    <Input
-                      id="og_image"
+                    <Label>Imagem para Redes Sociais</Label>
+                    <CompactImageUpload
                       value={seoData.og_image}
-                      onChange={(e) => {
-                        setSeoData({ ...seoData, og_image: e.target.value });
+                      onChange={(url) => {
+                        setSeoData({ ...seoData, og_image: url });
                         setHasChanges(true);
                       }}
-                      placeholder="https://exemplo.com/imagem-para-redes-sociais.jpg"
+                      placeholder="Upload da imagem Open Graph"
+                      type="seo"
                     />
                     <p className="text-xs text-gray-500 mt-1">
                       Recomendado: 1200x630px. Será exibida quando seu site for
