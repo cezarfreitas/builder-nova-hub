@@ -745,36 +745,36 @@ export default function Index() {
               )}
             </div>
 
-            {/* Textos do Hero - Renderização imediata */}
+            {/* Textos do Hero - Sempre visível com fallbacks */}
             {/* Subtitle */}
-            {currentHero.subtitle && (
-              <div
-                className="text-lg sm:text-xl lg:text-2xl mb-2 sm:mb-4 font-medium opacity-90 px-2"
-                style={{ color: currentHero.text_color }}
-              >
-                {renderTextWithColorTokens(currentHero.subtitle)}
-              </div>
-            )}
+            <div
+              className="text-lg sm:text-xl lg:text-2xl mb-2 sm:mb-4 font-medium opacity-90 px-2"
+              style={{ color: currentHero.text_color || '#ffffff' }}
+            >
+              {currentHero.subtitle ? renderTextWithColorTokens(currentHero.subtitle) : 'O maior programa de parceria do streetwear'}
+            </div>
 
             {/* Main Message */}
-            {currentHero.title && (
-              <div
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black mb-4 sm:mb-6 leading-tight px-2"
-                style={{ color: currentHero.text_color }}
-              >
-                {renderTextWithColorTokens(currentHero.title)}
-              </div>
-            )}
+            <div
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black mb-4 sm:mb-6 leading-tight px-2"
+              style={{ color: currentHero.text_color || '#ffffff' }}
+            >
+              {currentHero.title ? renderTextWithColorTokens(currentHero.title) : (
+                <>
+                  SEJA UM <span style={{ color: '#dc2626' }}>REVENDEDOR</span> OFICIAL
+                </>
+              )}
+            </div>
 
             {/* Description */}
-            {currentHero.description && (
-              <div
-                className="text-lg sm:text-xl lg:text-2xl mb-8 sm:mb-10 lg:mb-12 font-medium max-w-2xl mx-auto px-2 opacity-90"
-                style={{ color: currentHero.text_color }}
-              >
-                {renderTextWithColorTokens(currentHero.description)}
-              </div>
-            )}
+            <div
+              className="text-lg sm:text-xl lg:text-2xl mb-8 sm:mb-10 lg:mb-12 font-medium max-w-2xl mx-auto px-2 opacity-90"
+              style={{ color: currentHero.text_color || '#ffffff' }}
+            >
+              {currentHero.description ? renderTextWithColorTokens(currentHero.description) :
+                'Transforme sua paixão por streetwear em um negócio lucrativo. Junte-se a milhares de revendedores que já fazem parte da família Ecko e descobra como vender produtos autênticos com margens exclusivas.'
+              }
+            </div>
 
             {/* CTA Buttons - Renderização imediata */}
             <div className="flex flex-col items-center">
