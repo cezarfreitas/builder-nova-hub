@@ -722,7 +722,7 @@ export default function Index() {
                   `}
                   </style>
                   <div
-                    className="hero-cta-button mb-6 sm:mb-8 group relative overflow-hidden bg-transparent border-2 font-bold px-8 sm:px-10 py-4 sm:py-5 h-auto text-base sm:text-lg uppercase tracking-wider transition-all duration-500 hover:scale-105 hover:shadow-2xl rounded-lg cursor-pointer"
+                    className="hero-cta-button mb-6 sm:mb-8 group relative overflow-hidden bg-transparent border-2 font-bold px-8 sm:px-10 py-4 sm:py-5 h-auto text-base sm:text-lg uppercase tracking-wider rounded-lg cursor-pointer"
                     onClick={scrollToContent}
                     style={{
                       borderColor: currentHero.cta_color,
@@ -730,7 +730,7 @@ export default function Index() {
                     }}
                   >
                     <span
-                      className="absolute inset-0 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"
+                      className="absolute inset-0 transform scale-x-0 group-hover:scale-x-100 origin-left"
                       style={{ backgroundColor: currentHero.cta_color }}
                     ></span>
                     <span
