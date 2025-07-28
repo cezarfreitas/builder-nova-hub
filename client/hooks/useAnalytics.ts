@@ -141,8 +141,12 @@ export function useAnalytics(selectedPeriod: number = 30) {
         // Fetch traffic sources (optional)
         try {
           const trafficResponse = await fetch(
-            `/api/traffic/sources?days=${selectedPeriod}`,
-            { headers: { "Content-Type": "application/json" } },
+            `/api/analytics/traffic-sources?days=${selectedPeriod}`,
+            {
+              headers: { "Content-Type": "application/json" },
+              credentials: 'same-origin',
+              signal: AbortSignal.timeout(8000),
+            },
           );
           if (trafficResponse.ok) {
             const trafficResult = await trafficResponse.json();
