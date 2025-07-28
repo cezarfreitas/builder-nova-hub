@@ -2359,7 +2359,7 @@ export default function Index() {
             {/* Content */}
             <div className="grid lg:grid-cols-2 gap-8 sm:gap-10 md:gap-12 items-center mb-8 sm:mb-12 md:mb-16">
               {/* Story Text */}
-              <div className="space-y-6">
+              <div className="space-y-4 sm:space-y-6">
                 {content.about?.content
                   ?.split("\n\n")
                   .map((paragraph, index) => (
