@@ -209,18 +209,7 @@ export const useMetaTracking = () => {
     });
   }, [sendEvent, conversionName]);
 
-  // Automatizar Page View no mount
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      trackPageView({
-        page_title: document.title,
-        page_url: window.location.href,
-        referrer: document.referrer,
-      });
-    }, 1000); // Aguarda 1s para garantir que a página carregou
-
-    return () => clearTimeout(timer);
-  }, [trackPageView]);
+  // PageView automático removido - deve ser chamado manualmente onde necessário
 
   return {
     trackPageView,
