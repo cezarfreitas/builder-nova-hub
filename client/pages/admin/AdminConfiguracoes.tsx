@@ -1362,7 +1362,12 @@ export default function AdminConfiguracoes() {
             ) : (
               <>
                 <Save className="w-4 h-4 mr-2" />
-                Salvar Alterações
+                {activeTab === "seo"
+                  ? "Salvar SEO (JSON)"
+                  : activeTab === "integracoes"
+                    ? "Salvar Integrações (JSON)"
+                    : "Salvar Alterações"
+                }
               </>
             )}
           </Button>
