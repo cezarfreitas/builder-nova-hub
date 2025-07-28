@@ -90,7 +90,11 @@ export function useAnalytics(selectedPeriod: number = 30) {
         try {
           const dailyResponse = await fetch(
             `/api/analytics/daily-stats?days=${selectedPeriod}`,
-            { headers: { "Content-Type": "application/json" } },
+            {
+              headers: { "Content-Type": "application/json" },
+              credentials: 'same-origin',
+              signal: AbortSignal.timeout(8000), // 8s timeout para requisições secundárias
+            },
           );
           if (dailyResponse.ok) {
             const dailyResult = await dailyResponse.json();
