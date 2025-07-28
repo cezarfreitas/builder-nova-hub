@@ -42,6 +42,7 @@ import {
   Eye as ViewIcon,
   CheckCircle2,
   AlertTriangle,
+  ArrowRight,
 } from "lucide-react";
 
 export default function AdminConfiguracoes() {
