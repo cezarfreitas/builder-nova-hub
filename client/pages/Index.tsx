@@ -709,31 +709,35 @@ export default function Index() {
         <section
           className="h-screen relative flex flex-col justify-center items-center overflow-hidden"
           style={{
-            backgroundColor: currentHero.background_color,
-            color: currentHero.text_color,
+            backgroundColor: currentHero.background_color || '#000000',
+            color: currentHero.text_color || '#ffffff',
           }}
         >
-          {/* Background Image */}
+          {/* Background Layer - Sempre visível */}
           <div className="absolute inset-0">
-            {currentHero.background_image ? (
+            {/* Background color sempre presente */}
+            <div
+              className="w-full h-full"
+              style={{ backgroundColor: currentHero.background_color || '#000000' }}
+            />
+
+            {/* Background image só renderiza quando carregada */}
+            {currentHero.background_image && backgroundLoaded && (
               <img
                 src={currentHero.background_image}
                 alt="Background do Hero"
-                className="w-full h-full object-cover hero-image"
-                loading="eager"
-                fetchpriority="high"
-              />
-            ) : (
-              <div
-                className="w-full h-full"
-                style={{ backgroundColor: currentHero.background_color }}
+                className="absolute inset-0 w-full h-full object-cover hero-image"
+                style={{ zIndex: 1 }}
               />
             )}
 
-            {/* Multiple Overlay Layers for Better Effect */}
-            <div className="absolute inset-0 bg-black/70 z-10"></div>
-            <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/90 z-10"></div>
-            <div className="absolute inset-0 bg-gradient-to-r from-ecko-red/15 via-transparent to-ecko-red/15 z-10"></div>
+            {/* Overlays otimizados */}
+            <div className="absolute inset-0 z-10" style={{
+              background: 'linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.5), rgba(0,0,0,0.9))'
+            }}></div>
+            <div className="absolute inset-0 z-10" style={{
+              background: 'linear-gradient(to right, rgba(220,38,38,0.15), transparent, rgba(220,38,38,0.15))'
+            }}></div>
           </div>
 
           {/* Content */}
