@@ -637,7 +637,9 @@ export default function AdminHero() {
                   className="absolute inset-0"
                   style={{
                     background: localSettings.overlay_gradient_enabled ?
-                      `linear-gradient(${localSettings.overlay_gradient_direction || 'to bottom'}, ${localSettings.overlay_gradient_start || '#000000'}, ${localSettings.overlay_gradient_end || '#333333'})` :
+                      (localSettings.overlay_gradient_direction?.startsWith('radial-gradient') ?
+                        localSettings.overlay_gradient_direction :
+                        `linear-gradient(${localSettings.overlay_gradient_direction || 'to bottom'}, ${localSettings.overlay_gradient_start || '#000000'}, ${localSettings.overlay_gradient_end || '#333333'})`) :
                       localSettings.overlay_color || "#000000",
                     opacity: (localSettings.overlay_opacity || 70) / 100,
                     mixBlendMode: localSettings.overlay_blend_mode || "normal",

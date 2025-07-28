@@ -15,6 +15,6 @@
   "overlay_gradient_enabled": true,
   "overlay_gradient_start": "#000000",
   "overlay_gradient_end": "#333333",
-  "overlay_gradient_direction": "to bottom",
+  "overlay_gradient_direction": "radial-gradient(circle at center, transparent 0%, black 60%)",
   "logo_url": "/uploads/hero/hero-1753674394918-81681447.png"
 }
