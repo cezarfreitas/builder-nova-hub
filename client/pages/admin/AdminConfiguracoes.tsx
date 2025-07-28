@@ -51,6 +51,8 @@ export default function AdminConfiguracoes() {
   >("webhook");
   const [saving, setSaving] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
+  const [testing, setTesting] = useState(false);
+  const [testResults, setTestResults] = useState<any>(null);
 
   // Hook para gerenciar configurações
   const { settings, loading, error, saveSettings, getSetting } =
