@@ -11,6 +11,7 @@ import {
 import { Alert, AlertDescription } from "../../components/ui/alert";
 import { Eye, EyeOff, Lock, User } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
+import { config } from "../../utils/environment";
 
 export default function AdminLogin() {
   const [username, setUsername] = useState("");
