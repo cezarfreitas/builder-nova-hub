@@ -11,6 +11,7 @@ import { Label } from "../../components/ui/label";
 import { Badge } from "../../components/ui/badge";
 import { SeoImageUpload } from "../../components/SeoImageUpload";
 import { SeoPreviewModal } from "../../components/SeoPreviewModal";
+import { CompactImageUpload } from "../../components/CompactImageUpload";
 import { MetaTrackingInfo } from "../../components/MetaTrackingInfo";
 import { useSettings } from "../../hooks/useSettings";
 import { useToast } from "../../hooks/use-toast";
