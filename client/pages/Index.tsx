@@ -2060,9 +2060,9 @@ export default function Index() {
                   {renderTextWithColorTokens(content.gallery.section_tag)}
                 </span>
               </div>
-              <h2 className="text-3xl md:text-5xl font-black text-white mb-6 uppercase tracking-tight leading-tight">
+              <h2 className="text-2xl sm:text-3xl md:text-5xl font-black text-white mb-4 sm:mb-6 uppercase tracking-tight leading-tight">
                 {renderTextWithColorTokens(content.gallery.section_title)}
-                <span className="block text-xl md:text-2xl text-gray-300 mt-2 font-medium normal-case tracking-normal">
+                <span className="block text-lg sm:text-xl md:text-2xl text-gray-300 mt-1 sm:mt-2 font-medium normal-case tracking-normal">
                   {renderTextWithColorTokens(content.gallery.section_subtitle)}
                 </span>
               </h2>
