@@ -999,8 +999,8 @@ export default function Index() {
         </section>
       </main>
 
-      {/* Dynamic Sections Based on Order Configuration */}
-      {content.section_order?.enabled_sections
+      {/* Sistema de ordenação dinâmica removido para evitar duplicações */}
+      {false && content.section_order?.enabled_sections
         ?.filter((section) => section.enabled)
         ?.sort((a, b) => a.order - b.order)
         ?.map((section) => {
