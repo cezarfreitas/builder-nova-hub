@@ -132,7 +132,7 @@ export default function Index() {
       id: 2,
       question: "Qual o investimento mínimo para começar?",
       answer:
-        "O investimento inicial varia conforme o tipo de loja e regi��o. Oferecemos condições especiais para novos parceiros, incluindo facilidades de pagamento e lotes mínimos acess��veis. Consulte nossa equipe para uma proposta personalizada.",
+        "O investimento inicial varia conforme o tipo de loja e região. Oferecemos condições especiais para novos parceiros, incluindo facilidades de pagamento e lotes mínimos acessíveis. Consulte nossa equipe para uma proposta personalizada.",
       display_order: 2,
       is_active: true,
     },
@@ -419,7 +419,7 @@ export default function Index() {
     // Validar WhatsApp
     if (!formData.whatsapp || !validateWhatsApp(formData.whatsapp)) {
       toast({
-        title: "⚠������ WhatsApp Inválido",
+        title: "⚠���� WhatsApp Inválido",
         description: content.form.validation_messages.whatsapp_invalid,
         variant: "destructive",
       });
