@@ -110,17 +110,29 @@ export async function sendMetaTrackingEvent(eventData: MetaTrackingEvent) {
     console.log(`📄 Response Body:`, JSON.stringify(result, null, 2));
 
     if (response.ok && result.events_received >= 0) {
-      console.log(`✅ Evento ${eventData.event_name} enviado com sucesso:`, result);
+      console.log(`✅ Evento ${eventData.event_name} enviado com sucesso para a Meta!`);
+      console.log(`📈 Eventos recebidos: ${result.events_received}`);
       return {
         success: true,
         eventsReceived: result.events_received,
         details: result,
       };
     } else {
-      console.error(`❌ Erro ao enviar evento ${eventData.event_name}:`, result);
+      console.error(`❌ ERRO Meta API - Status: ${response.status}`);
+      console.error(`❌ Response completa:`, result);
+
+      let errorMessage = "Erro na API da Meta";
+      if (result.error) {
+        errorMessage = result.error.message || errorMessage;
+        console.error(`❌ Erro específico: ${result.error.code} - ${result.error.message}`);
+        if (result.error.error_subcode) {
+          console.error(`❌ Sub-código: ${result.error.error_subcode}`);
+        }
+      }
+
       return {
         success: false,
-        error: result.error?.message || "Erro desconhecido",
+        error: errorMessage,
         errorCode: result.error?.code,
         errorSubcode: result.error?.error_subcode,
         details: result,
