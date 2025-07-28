@@ -2063,7 +2063,10 @@ export default function Index() {
                     value={`item-${faq.id}`}
                     className="bg-gray-900/50 backdrop-blur-sm border border-gray-700 rounded-xl px-6 hover:border-ecko-red/50 transition-colors duration-300"
                   >
-                    <AccordionTrigger className="text-left text-white hover:text-ecko-red py-6 text-lg font-semibold">
+                    <AccordionTrigger
+                      className="text-left text-white hover:text-ecko-red py-6 text-lg font-semibold"
+                      onClick={() => handleFAQClick(faq.id, faq.question)}
+                    >
                       {renderTextWithColorTokens(faq.question)}
                     </AccordionTrigger>
                     <AccordionContent className="text-gray-300 pb-6 text-base leading-relaxed">
