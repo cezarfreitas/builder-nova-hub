@@ -75,19 +75,20 @@ export default function AdminAbout() {
   const [hasChanges, setHasChanges] = useState(false);
   const { toast } = useToast();
 
-  // Sincronizar com o conteúdo JSON quando carregado
+  // Sincronizar com os dados carregados
   useEffect(() => {
-    if (content.about) {
-      setSettings(content.about);
+    if (aboutData) {
+      setSettings(aboutData);
     }
-  }, [content.about]);
+  }, [aboutData]);
 
   // Detectar mudanças
   useEffect(() => {
-    const hasChanges =
-      JSON.stringify(settings) !== JSON.stringify(content.about);
-    setHasChanges(hasChanges);
-  }, [settings, content.about]);
+    if (settings && aboutData) {
+      const hasChanges = JSON.stringify(settings) !== JSON.stringify(aboutData);
+      setHasChanges(hasChanges);
+    }
+  }, [settings, aboutData]);
 
   // Salvar configurações
   const saveSettings = async () => {
