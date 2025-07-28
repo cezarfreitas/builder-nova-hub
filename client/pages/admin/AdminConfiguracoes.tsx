@@ -629,6 +629,11 @@ export default function AdminConfiguracoes() {
                   </ul>
                 </div>
               </div>
+
+              {/* Implementação Info */}
+              <div className="mt-8">
+                <MetaTrackingInfo />
+              </div>
             </CardContent>
           </Card>
         )}
