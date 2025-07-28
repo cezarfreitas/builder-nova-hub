@@ -461,10 +461,9 @@ export default function AdminAnalytics() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Analytics</h1>
+          <h1 className="text-3xl font-bold text-gray-900">📊 Analytics Dashboard</h1>
           <p className="text-gray-600 mt-2">
-            Análise completa de conversão, tráfego e performance da landing
-            page.
+            Visão completa de leads, conversões, tráfego e performance em tempo real
           </p>
         </div>
 
