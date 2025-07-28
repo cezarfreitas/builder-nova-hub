@@ -129,7 +129,7 @@ export default function AdminAbout() {
       id: Math.max(...settings.stats.map((s) => s.id), 0) + 1,
       number: "0+",
       label: "Nova Estatística",
-      description: "Descrição da estat��stica",
+      description: "Descrição da estatística",
     };
     updateField("stats", [...settings.stats, newStat]);
   };
@@ -258,6 +258,49 @@ export default function AdminAbout() {
       {/* Content */}
       {activeTab === "textos" ? (
         <div className="space-y-6">
+          {/* Color Instructions */}
+          <Card className="bg-blue-50 border-blue-200">
+            <CardContent className="p-4">
+              <div className="flex items-center space-x-2 mb-3">
+                <Lightbulb className="w-4 h-4 text-blue-600" />
+                <h4 className="font-semibold text-blue-900 text-sm">Destaque de Texto</h4>
+              </div>
+              <p className="text-blue-700 text-xs mb-3">
+                Use <code className="bg-blue-100 px-1 rounded text-blue-800">{"{ecko}texto{/ecko}"}</code> em qualquer campo de texto para destacar palavras com a cor da marca.
+              </p>
+
+              {/* Color Examples */}
+              <div className="flex flex-wrap gap-2">
+                <span className="text-xs text-blue-600 mr-2">Cores disponíveis:</span>
+                {[
+                  { name: 'ecko', color: '#dc2626' },
+                  { name: 'blue', color: '#2563eb' },
+                  { name: 'green', color: '#16a34a' },
+                  { name: 'orange', color: '#ea580c' },
+                  { name: 'yellow', color: '#ca8a04' },
+                  { name: 'white', color: '#ffffff' },
+                  { name: 'black', color: '#000000' }
+                ].map(({ name, color }) => (
+                  <span
+                    key={name}
+                    className="inline-flex items-center px-2 py-1 rounded text-xs font-medium border"
+                    style={{
+                      backgroundColor: color === '#ffffff' ? '#f8f9fa' : color,
+                      color: ['#ffffff', '#ca8a04'].includes(color) ? '#000000' : '#ffffff',
+                      borderColor: color === '#ffffff' ? '#d1d5db' : color
+                    }}
+                  >
+                    {name}
+                  </span>
+                ))}
+              </div>
+
+              <div className="mt-3 text-xs text-blue-600">
+                <p><strong>Exemplo:</strong> "SOBRE A {"{ecko}"}ECKO{"{/ecko}"}" destacará "ECKO" em vermelho</p>
+              </div>
+            </CardContent>
+          </Card>
+
           {/* Textos da Seção */}
           <Card className="bg-white shadow-sm border border-gray-200">
             <CardHeader>
