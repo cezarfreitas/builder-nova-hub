@@ -500,6 +500,7 @@ export default function Index() {
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
+                  onFocus={() => trackContactIntent('focus', 'name_input')}
                   placeholder="Digite seu nome completo"
                   required
                   className="h-12 text-base bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-ecko-red focus:ring-ecko-red/20"
