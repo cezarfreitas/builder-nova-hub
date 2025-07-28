@@ -75,7 +75,7 @@ export default function Index() {
   const galleryRef = useSectionTracking('gallery');
   const faqRef = useSectionTracking('faq');
 
-  // Simplificado: não precisamos controlar estado de loading de imagens
+  // Simplificado: n��o precisamos controlar estado de loading de imagens
 
   const [formData, setFormData] = useState<LeadFormData>({
     name: "",
@@ -1710,6 +1710,7 @@ export default function Index() {
         {/* This content below will be removed and replaced with dynamic sections above */}
         {/* Benefits Section */}
         <section
+          ref={benefitsRef}
           className="py-16 md:py-20 bg-gradient-to-b from-black to-gray-900 relative overflow-hidden"
           aria-labelledby="vantagens-heading"
         >
