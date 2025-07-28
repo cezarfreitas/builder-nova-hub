@@ -73,6 +73,29 @@ export default function AdminAnalytics() {
 
   const isLoading = loading;
 
+  // Verificar status do tracking
+  useEffect(() => {
+    const checkTrackingStatus = async () => {
+      try {
+        const response = await fetch('/api/analytics/overview?days=1');
+        const result = await response.json();
+
+        if (result.success && result.data?.traffic?.total_page_views > 0) {
+          setTrackingStatus('active');
+        } else {
+          setTrackingStatus('inactive');
+        }
+      } catch (error) {
+        console.warn('Erro ao verificar status do tracking:', error);
+        setTrackingStatus('inactive');
+      }
+    };
+
+    if (!loading) {
+      checkTrackingStatus();
+    }
+  }, [loading, overview]);
+
   // Auto-refresh every 2 minutes (reduced frequency)
   useEffect(() => {
     const interval = setInterval(() => {
