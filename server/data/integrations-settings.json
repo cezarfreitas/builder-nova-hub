@@ -1,0 +1,17 @@
+{
+  "ga4_measurement_id": "",
+  "ga4_api_secret": "",
+  "ga4_conversion_name": "form_submit",
+  "meta_pixel_id": "",
+  "meta_access_token": "",
+  "meta_conversion_name": "Lead",
+  "meta_test_code": "",
+  "meta_tracking_enabled": "true",
+  "meta_track_pageview": "true",
+  "meta_track_scroll": "true",
+  "meta_track_time": "true",
+  "meta_track_interactions": "true",
+  "custom_conversion_enabled": "false",
+  "custom_conversion_event": "lead_captured",
+  "custom_conversion_value": "1"
+}
