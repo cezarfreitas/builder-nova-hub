@@ -7,6 +7,7 @@ import { DynamicHead } from "../components/DynamicHead";
 import { useToast } from "../hooks/use-toast";
 import { useSessionId } from "../hooks/useAnalytics";
 import { useContent } from "../hooks/useContent";
+import { useHeroSection } from "../hooks/useHeroSection";
 import { renderTextWithColorTokens } from "../utils/colorTokens";
 import {
   Accordion,
@@ -45,9 +46,7 @@ export default function Index() {
   const { toast } = useToast();
   const sessionId = useSessionId();
   const { content, loading: contentLoading } = useContent();
-
-  // Dynamic hero settings from JSON
-  const currentHero = content.hero;
+  const { heroSettings: currentHero, loading: heroLoading } = useHeroSection();
 
   const [formData, setFormData] = useState<LeadFormData>({
     name: "",
