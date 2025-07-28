@@ -1037,20 +1037,15 @@ export default function AdminConfiguracoes() {
                   </div>
 
                   <div className="md:col-span-2">
-                    <Label htmlFor="twitter_image">
-                      Imagem para Twitter (URL)
-                    </Label>
-                    <Input
-                      id="twitter_image"
+                    <Label>Imagem para Twitter</Label>
+                    <CompactImageUpload
                       value={seoData.twitter_image}
-                      onChange={(e) => {
-                        setSeoData({
-                          ...seoData,
-                          twitter_image: e.target.value,
-                        });
+                      onChange={(url) => {
+                        setSeoData({ ...seoData, twitter_image: url });
                         setHasChanges(true);
                       }}
-                      placeholder="https://exemplo.com/imagem-twitter.jpg"
+                      placeholder="Upload da imagem Twitter"
+                      type="seo"
                     />
                   </div>
                 </div>
