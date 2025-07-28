@@ -10,11 +10,11 @@
   "cta_color": "#dc2626",
   "cta_text_color": "#ffffff",
   "overlay_color": "#000000",
-  "overlay_opacity": 70,
-  "overlay_blend_mode": "normal",
-  "overlay_gradient_enabled": true,
+  "overlay_opacity": 69,
+  "overlay_blend_mode": "multiply",
+  "overlay_gradient_enabled": false,
   "overlay_gradient_start": "#000000",
   "overlay_gradient_end": "#333333",
-  "overlay_gradient_direction": "to top",
+  "overlay_gradient_direction": "to bottom",
   "logo_url": "/uploads/hero/hero-1753674394918-81681447.png"
 }
