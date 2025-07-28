@@ -322,7 +322,7 @@ export default function AdminAnalytics() {
   // Renderizar mesmo sem dados completos, mas com verificações de segurança
   if (!overview) {
     return (
-      <div className="space-y-6 p-6 bg-gray-50 min-h-screen">
+      <div className="space-y-6 p-6 bg-gray-50 min-h-screen text-gray-900 dark:bg-gray-50 dark:text-gray-900">
         <div className="text-center py-12">
           <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-gray-400" />
           <p className="text-gray-600">Carregando dados de analytics...</p>
