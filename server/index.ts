@@ -266,6 +266,9 @@ export function createServer() {
   // SEO Settings routes
   app.use("/api/seo-settings", seoSettingsRouter);
 
+  // Integrations Settings routes
+  app.use("/api/integrations-settings", integrationsSettingsRouter);
+
   // Initialize settings file
   setTimeout(async () => {
     try {
