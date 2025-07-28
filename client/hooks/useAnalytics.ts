@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
+import { robustFetchJson } from "../utils/robustFetch";
 
 export interface AnalyticsData {
   totalLeads: number;
