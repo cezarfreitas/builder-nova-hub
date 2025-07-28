@@ -65,7 +65,8 @@
     "cta_color": "#dc2626",
     "cta_text_color": "#ffffff",
     "overlay_opacity": 0,
-    "overlay_color": "#000000"
+    "overlay_color": "#000000",
+    "overlay_gradient_enabled": false
   },
   "form": {
     "main_title": "SEJA PARCEIRO OFICIAL ECKO E TENHA SUCESSO",
