@@ -101,15 +101,7 @@ export default function AdminAbout() {
     }
   };
 
-  // Resetar para valores originais
-  const resetSettings = () => {
-    setSettings(content.about);
-    setHasChanges(false);
-    toast({
-      title: "Resetado",
-      description: "Configurações resetadas para os valores salvos.",
-    });
-  };
+
 
   // Atualizar campo específico
   const updateField = (field: keyof AboutSettings, value: string | any) => {
