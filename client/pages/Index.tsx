@@ -2014,7 +2014,7 @@ export default function Index() {
                 <h3 className="text-lg sm:text-xl font-bold text-white mb-2 sm:mb-3">
                   {renderTextWithColorTokens(content.testimonials.cta_title)}
                 </h3>
-                <p className="text-gray-300 mb-4">
+                <p className="text-gray-300 text-sm sm:text-base mb-3 sm:mb-4">
                   {renderTextWithColorTokens(
                     content.testimonials.cta_description,
                   )}
