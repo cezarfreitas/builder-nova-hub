@@ -522,6 +522,9 @@ export default function AdminHero() {
                       <option value="to left">Horizontal (Direita → Esquerda)</option>
                       <option value="to bottom right">Diagonal (Topo-Esq → Base-Dir)</option>
                       <option value="to bottom left">Diagonal (Topo-Dir → Base-Esq)</option>
+                      <option value="radial-gradient(circle, transparent 30%, black 70%)">Radial Centro Transparente</option>
+                      <option value="radial-gradient(ellipse at center, black 20%, transparent 50%, black 80%)">Preto → Transparente → Preto</option>
+                      <option value="radial-gradient(circle at center, transparent 0%, black 60%)">Transparente Centro → Preto</option>
                     </select>
                   </div>
                 </>
