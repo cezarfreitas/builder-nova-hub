@@ -16,10 +16,11 @@ import {
   Copyright,
   AlertCircle,
   Loader2,
-  Lightbulb,
   Link as LinkIcon,
   Facebook,
   Instagram,
+  Type,
+  Eye,
 } from "lucide-react";
 
 interface FooterSettings {
@@ -34,6 +35,7 @@ export default function AdminFooter() {
   const { content, loading: contentLoading, saveContent } = useContent();
   const [settings, setSettings] = useState<FooterSettings>(content.footer);
   const [saving, setSaving] = useState(false);
+  const [activeTab, setActiveTab] = useState<"textos" | "social" | "preview">("textos");
   const [hasChanges, setHasChanges] = useState(false);
   const { toast } = useToast();
 
@@ -44,31 +46,38 @@ export default function AdminFooter() {
     }
   }, [content.footer]);
 
-  const handleSave = async () => {
-    if (!hasChanges) return;
+  // Detectar mudanças
+  useEffect(() => {
+    const hasChanges = JSON.stringify(settings) !== JSON.stringify(content.footer);
+    setHasChanges(hasChanges);
+  }, [settings, content.footer]);
 
-    setSaving(true);
+  // Salvar configurações
+  const saveSettings = async () => {
     try {
+      setSaving(true);
+
       const updatedContent = {
         ...content,
         footer: settings,
       };
 
-      const success = await saveContent(updatedContent);
-      
-      if (success) {
+      const result = await saveContent(updatedContent);
+
+      if (result.success) {
         toast({
-          title: "✅ Footer atualizado!",
-          description: "As configurações do footer foram salvas com sucesso.",
+          title: "Footer atualizado!",
+          description: "As configurações foram salvas com sucesso.",
         });
         setHasChanges(false);
       } else {
         throw new Error("Falha ao salvar");
       }
     } catch (error) {
+      console.error("Erro ao salvar footer:", error);
       toast({
-        title: "❌ Erro ao salvar",
-        description: "Erro ao salvar as configurações do footer. Tente novamente.",
+        title: "Erro ao salvar",
+        description: "Não foi possível salvar as configurações.",
         variant: "destructive",
       });
     } finally {
@@ -76,24 +85,23 @@ export default function AdminFooter() {
     }
   };
 
-  const handleInputChange = (field: string, value: string) => {
-    setSettings(prev => {
-      if (field.includes('.')) {
-        const [parent, child] = field.split('.');
-        return {
-          ...prev,
-          [parent]: {
-            ...prev[parent as keyof FooterSettings],
-            [child]: value,
-          },
-        };
-      }
-      return {
-        ...prev,
-        [field]: value,
-      };
-    });
-    setHasChanges(true);
+  // Atualizar campo específico
+  const updateField = (field: keyof FooterSettings, value: any) => {
+    setSettings((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  // Atualizar campo de link social
+  const updateSocialLink = (platform: string, value: string) => {
+    setSettings((prev) => ({
+      ...prev,
+      social_links: {
+        ...prev.social_links,
+        [platform]: value,
+      },
+    }));
   };
 
   if (contentLoading) {
