@@ -2066,7 +2066,7 @@ export default function Index() {
                   {renderTextWithColorTokens(content.gallery.section_subtitle)}
                 </span>
               </h2>
-              <p className="text-gray-300 text-lg max-w-3xl mx-auto leading-relaxed">
+              <p className="text-gray-300 text-sm sm:text-base md:text-lg max-w-3xl mx-auto leading-relaxed px-2">
                 {renderTextWithColorTokens(content.gallery.section_description)}
               </p>
             </div>
