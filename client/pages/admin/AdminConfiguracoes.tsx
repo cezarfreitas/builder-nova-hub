@@ -276,14 +276,28 @@ export default function AdminConfiguracoes() {
     setTestResults(null);
 
     try {
-      // Primeiro verificar configuração
+      // Verificar se as configurações locais estão preenchidas primeiro
+      const pixelId = integracoesData.meta_pixel_id?.trim();
+      const accessToken = integracoesData.meta_access_token?.trim();
+
+      if (!pixelId || !accessToken) {
+        toast({
+          title: "⚠️ Configurações obrigatórias",
+          description: "Preencha Pixel ID e Access Token antes de testar.",
+          variant: "destructive",
+        });
+        setTesting(false);
+        return;
+      }
+
+      // Verificar configuração no servidor
       const configResponse = await fetch("/api/meta/config");
       const configResult = await configResponse.json();
 
       if (!configResult.configured) {
         toast({
-          title: "⚠️ Configuração incompleta",
-          description: "Configure Pixel ID e Access Token antes de testar.",
+          title: "⚠️ Configuração não salva",
+          description: "Salve as configurações antes de testar a integração.",
           variant: "destructive",
         });
         setTesting(false);
@@ -947,7 +961,7 @@ export default function AdminConfiguracoes() {
                     />
                     <p className="text-xs text-gray-500 mt-1">
                       Separe por vírgulas. Foque nas mais importantes para seu
-                      negócio.
+                      neg��cio.
                     </p>
                   </div>
 
