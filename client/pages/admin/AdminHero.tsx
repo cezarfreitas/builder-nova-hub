@@ -102,7 +102,7 @@ export default function AdminHero() {
       console.error("Erro ao salvar hero:", error);
       toast({
         title: "Erro ao salvar",
-        description: "Não foi possível salvar as configura��ões.",
+        description: "Não foi possível salvar as configurações.",
         variant: "destructive",
       });
     } finally {
