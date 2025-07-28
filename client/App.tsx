@@ -92,7 +92,9 @@ const App = () => (
           path="/admin/leads"
           element={
             <Suspense fallback={<PageLoading />}>
-              <AdminLayout />
+              <ProtectedRoute>
+                <AdminLayout />
+              </ProtectedRoute>
             </Suspense>
           }
         >
@@ -109,7 +111,9 @@ const App = () => (
           path="/admin/analytics"
           element={
             <Suspense fallback={<PageLoading />}>
-              <AdminLayout />
+              <ProtectedRoute>
+                <AdminLayout />
+              </ProtectedRoute>
             </Suspense>
           }
         >
@@ -126,7 +130,9 @@ const App = () => (
           path="/admin/configuracoes"
           element={
             <Suspense fallback={<PageLoading />}>
-              <AdminLayout />
+              <ProtectedRoute>
+                <AdminLayout />
+              </ProtectedRoute>
             </Suspense>
           }
         >
@@ -143,7 +149,9 @@ const App = () => (
           path="/admin/hero"
           element={
             <Suspense fallback={<PageLoading />}>
-              <AdminLayout />
+              <ProtectedRoute>
+                <AdminLayout />
+              </ProtectedRoute>
             </Suspense>
           }
         >
@@ -160,7 +168,9 @@ const App = () => (
           path="/admin/benefits"
           element={
             <Suspense fallback={<PageLoading />}>
-              <AdminLayout />
+              <ProtectedRoute>
+                <AdminLayout />
+              </ProtectedRoute>
             </Suspense>
           }
         >
@@ -177,7 +187,9 @@ const App = () => (
           path="/admin/testimonials"
           element={
             <Suspense fallback={<PageLoading />}>
-              <AdminLayout />
+              <ProtectedRoute>
+                <AdminLayout />
+              </ProtectedRoute>
             </Suspense>
           }
         >
@@ -194,7 +206,9 @@ const App = () => (
           path="/admin/gallery"
           element={
             <Suspense fallback={<PageLoading />}>
-              <AdminLayout />
+              <ProtectedRoute>
+                <AdminLayout />
+              </ProtectedRoute>
             </Suspense>
           }
         >
@@ -211,7 +225,9 @@ const App = () => (
           path="/admin/faq"
           element={
             <Suspense fallback={<PageLoading />}>
-              <AdminLayout />
+              <ProtectedRoute>
+                <AdminLayout />
+              </ProtectedRoute>
             </Suspense>
           }
         >
@@ -228,7 +244,9 @@ const App = () => (
           path="/admin/form"
           element={
             <Suspense fallback={<PageLoading />}>
-              <AdminLayout />
+              <ProtectedRoute>
+                <AdminLayout />
+              </ProtectedRoute>
             </Suspense>
           }
         >
@@ -245,7 +263,9 @@ const App = () => (
           path="/admin/footer"
           element={
             <Suspense fallback={<PageLoading />}>
-              <AdminLayout />
+              <ProtectedRoute>
+                <AdminLayout />
+              </ProtectedRoute>
             </Suspense>
           }
         >
@@ -262,7 +282,9 @@ const App = () => (
           path="/admin/about"
           element={
             <Suspense fallback={<PageLoading />}>
-              <AdminLayout />
+              <ProtectedRoute>
+                <AdminLayout />
+              </ProtectedRoute>
             </Suspense>
           }
         >
@@ -279,7 +301,9 @@ const App = () => (
           path="/admin/order"
           element={
             <Suspense fallback={<PageLoading />}>
-              <AdminLayout />
+              <ProtectedRoute>
+                <AdminLayout />
+              </ProtectedRoute>
             </Suspense>
           }
         >
