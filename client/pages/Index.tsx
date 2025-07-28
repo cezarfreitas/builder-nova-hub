@@ -196,10 +196,10 @@ export default function Index() {
 
   // Função para rastrear clique no WhatsApp usando o novo sistema
   const trackWhatsAppClick = async () => {
-    if (isTrackingEnabled && pageType === 'lp') {
-      trackEvent('whatsapp_click', {
-        button_location: 'floating_button',
-        page_section: 'global'
+    if (isTrackingEnabled && pageType === "lp") {
+      trackEvent("whatsapp_click", {
+        button_location: "floating_button",
+        page_section: "global",
       });
     }
   };

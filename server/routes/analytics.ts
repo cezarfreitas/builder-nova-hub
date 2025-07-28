@@ -681,8 +681,12 @@ export async function trackVisit(req: Request, res: Response) {
       ],
     );
 
-    console.log(`✅ [DATABASE] Evento ${event_type || "page_view"} salvo com sucesso`);
-    console.log(`✅ [DATABASE] Session ${session_id} registrada na tabela analytics_events`);
+    console.log(
+      `✅ [DATABASE] Evento ${event_type || "page_view"} salvo com sucesso`,
+    );
+    console.log(
+      `✅ [DATABASE] Session ${session_id} registrada na tabela analytics_events`,
+    );
 
     res.json({
       success: true,
@@ -1094,7 +1098,7 @@ export async function testFacebookPixel(req: Request, res: Response) {
 export async function testTracking(req: Request, res: Response) {
   try {
     const db = getDatabase();
-    
+
     // Verificar dados recentes (últimas 24 horas)
     const [recentEvents] = await db.execute(`
       SELECT 
@@ -1122,7 +1126,7 @@ export async function testTracking(req: Request, res: Response) {
     const isTrackingActive = stats.total_events > 0;
     const hasRecentActivity = stats.last_event !== null;
 
-    console.log('📊 [TEST] Status do tracking:');
+    console.log("📊 [TEST] Status do tracking:");
     console.log(`📊 [TEST] Eventos nas últimas 24h: ${stats.total_events}`);
     console.log(`📊 [TEST] Sessões únicas: ${stats.unique_sessions}`);
     console.log(`📊 [TEST] Usuários únicos: ${stats.unique_users}`);
@@ -1147,18 +1151,17 @@ export async function testTracking(req: Request, res: Response) {
           last_lead: leadStats.last_lead,
           test_time: new Date().toISOString(),
         },
-        message: isTrackingActive 
-          ? 'Tracking está ativo e salvando dados no banco'
-          : 'Tracking não está registrando eventos recentes'
-      }
+        message: isTrackingActive
+          ? "Tracking está ativo e salvando dados no banco"
+          : "Tracking não está registrando eventos recentes",
+      },
     });
-
   } catch (error) {
-    console.error('Erro ao testar tracking:', error);
+    console.error("Erro ao testar tracking:", error);
     res.status(500).json({
       success: false,
-      message: 'Erro ao verificar status do tracking',
-      error: error.message
+      message: "Erro ao verificar status do tracking",
+      error: error.message,
     });
   }
 }

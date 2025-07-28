@@ -210,7 +210,9 @@ export default function AdminLayout() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
                   <div className="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center">
-                    <span className="text-xs font-medium text-gray-700">CF</span>
+                    <span className="text-xs font-medium text-gray-700">
+                      CF
+                    </span>
                   </div>
                   <div className="ml-2">
                     <p className="text-xs font-medium text-gray-900">

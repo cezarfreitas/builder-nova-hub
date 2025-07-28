@@ -19,7 +19,7 @@ export const useAuth = () => {
         if (authData) {
           const parsed = JSON.parse(authData);
           const now = new Date().getTime();
-          
+
           // Verifica se o token não expirou (24 horas)
           if (parsed.expires && now < parsed.expires) {
             setAuthState({ isAuthenticated: true, loading: false });
@@ -33,14 +33,17 @@ export const useAuth = () => {
         console.error("Erro ao verificar autenticação:", error);
         localStorage.removeItem("admin-auth");
       }
-      
+
       setAuthState({ isAuthenticated: false, loading: false });
     };
 
     checkAuth();
   }, []);
 
-  const login = async (username: string, password: string): Promise<boolean> => {
+  const login = async (
+    username: string,
+    password: string,
+  ): Promise<boolean> => {
     try {
       // Validação simples: admin/admin
       if (username === "admin" && password === "admin") {
@@ -48,14 +51,14 @@ export const useAuth = () => {
           authenticated: true,
           user: "admin",
           loginTime: new Date().toISOString(),
-          expires: new Date().getTime() + (24 * 60 * 60 * 1000), // 24 horas
+          expires: new Date().getTime() + 24 * 60 * 60 * 1000, // 24 horas
         };
-        
+
         localStorage.setItem("admin-auth", JSON.stringify(authData));
         setAuthState({ isAuthenticated: true, loading: false });
         return true;
       }
-      
+
       return false;
     } catch (error) {
       console.error("Erro no login:", error);

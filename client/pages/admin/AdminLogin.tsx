@@ -2,7 +2,12 @@ import React, { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "../../components/ui/card";
 import { Alert, AlertDescription } from "../../components/ui/alert";
 import { Eye, EyeOff, Lock, User } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
@@ -54,7 +59,7 @@ export default function AdminLogin() {
             <p className="text-gray-500 mt-2">Acesse o painel administrativo</p>
           </div>
         </CardHeader>
-        
+
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
@@ -62,9 +67,12 @@ export default function AdminLogin() {
                 <AlertDescription>{error}</AlertDescription>
               </Alert>
             )}
-            
+
             <div className="space-y-2">
-              <label htmlFor="username" className="text-sm font-medium text-gray-700">
+              <label
+                htmlFor="username"
+                className="text-sm font-medium text-gray-700"
+              >
                 Usuário
               </label>
               <div className="relative">
@@ -81,9 +89,12 @@ export default function AdminLogin() {
                 />
               </div>
             </div>
-            
+
             <div className="space-y-2">
-              <label htmlFor="password" className="text-sm font-medium text-gray-700">
+              <label
+                htmlFor="password"
+                className="text-sm font-medium text-gray-700"
+              >
                 Senha
               </label>
               <div className="relative">
@@ -112,7 +123,7 @@ export default function AdminLogin() {
                 </button>
               </div>
             </div>
-            
+
             <Button
               type="submit"
               className="w-full bg-red-600 hover:bg-red-700"
@@ -128,7 +139,7 @@ export default function AdminLogin() {
               )}
             </Button>
           </form>
-          
+
           <div className="mt-6 text-center">
             <p className="text-xs text-gray-500">
               Para acessar, use: <strong>admin / admin</strong>

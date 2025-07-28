@@ -39,9 +39,11 @@ const AdminOrder = lazy(() => import("./pages/admin/AdminOrder"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 // Componente de proteção de rotas
-const ProtectedRoute = lazy(() => import("./components/ProtectedRoute").then(module => ({
-  default: module.ProtectedRoute
-})));
+const ProtectedRoute = lazy(() =>
+  import("./components/ProtectedRoute").then((module) => ({
+    default: module.ProtectedRoute,
+  })),
+);
 
 // Loading component
 const PageLoading = () => (
@@ -333,14 +335,15 @@ const App = () => (
 export default App;
 
 // Registra service worker para desabilitar cache
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
       .then(() => {
-        console.log('✅ Service Worker registrado para desabilitar cache');
+        console.log("✅ Service Worker registrado para desabilitar cache");
       })
       .catch((error) => {
-        console.log('❌ Falha ao registrar Service Worker:', error);
+        console.log("❌ Falha ao registrar Service Worker:", error);
       });
   });
 }

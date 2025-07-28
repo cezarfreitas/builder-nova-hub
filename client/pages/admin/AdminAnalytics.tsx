@@ -58,7 +58,9 @@ ChartJS.register(
 
 export default function AdminAnalytics() {
   const [selectedPeriod, setSelectedPeriod] = useState(30);
-  const [trackingStatus, setTrackingStatus] = useState<'checking' | 'active' | 'inactive'>('checking');
+  const [trackingStatus, setTrackingStatus] = useState<
+    "checking" | "active" | "inactive"
+  >("checking");
   const {
     overview,
     dailyStats,
@@ -77,17 +79,17 @@ export default function AdminAnalytics() {
   useEffect(() => {
     const checkTrackingStatus = async () => {
       try {
-        const response = await fetch('/api/analytics/overview?days=1');
+        const response = await fetch("/api/analytics/overview?days=1");
         const result = await response.json();
 
         if (result.success && result.data?.traffic?.total_page_views > 0) {
-          setTrackingStatus('active');
+          setTrackingStatus("active");
         } else {
-          setTrackingStatus('inactive');
+          setTrackingStatus("inactive");
         }
       } catch (error) {
-        console.warn('Erro ao verificar status do tracking:', error);
-        setTrackingStatus('inactive');
+        console.warn("Erro ao verificar status do tracking:", error);
+        setTrackingStatus("inactive");
       }
     };
 
@@ -288,7 +290,9 @@ export default function AdminAnalytics() {
           <div className="bg-red-50 border border-red-200 rounded-lg p-6">
             <div className="text-red-600 mb-4">
               <AlertTriangle className="w-12 h-12 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold mb-2">Erro de Conectividade</h3>
+              <h3 className="text-lg font-semibold mb-2">
+                Erro de Conectividade
+              </h3>
               <p className="text-sm">
                 {error || "Não foi possível carregar os dados de analytics"}
               </p>
@@ -332,135 +336,144 @@ export default function AdminAnalytics() {
   }
 
   // Dados para gráfico de leads diários - com verificação de segurança
-  const dailyLeadsData = dailyStats && dailyStats.length > 0 ? {
-    labels: dailyStats.map((stat) => {
-      const date = new Date(stat.date);
-      return date.toLocaleDateString("pt-BR", {
-        day: "2-digit",
-        month: "2-digit",
-      });
-    }),
-    datasets: [
-      {
-        label: "Total de Leads",
-        data: dailyStats.map((stat) => stat.total_leads || 0),
-        borderColor: "#dc2626",
-        backgroundColor: "rgba(220, 38, 38, 0.1)",
-        fill: true,
-        tension: 0.4,
-      },
-      {
-        label: "Leads Únicos",
-        data: dailyStats.map((stat) => stat.unique_leads || 0),
-        borderColor: "#16a34a",
-        backgroundColor: "rgba(22, 163, 74, 0.1)",
-        fill: true,
-        tension: 0.4,
-      },
-    ],
-  } : {
-    labels: ['Sem dados'],
-    datasets: [
-      {
-        label: "Total de Leads",
-        data: [0],
-        borderColor: "#dc2626",
-        backgroundColor: "rgba(220, 38, 38, 0.1)",
-        fill: true,
-        tension: 0.4,
-      },
-      {
-        label: "Leads Únicos",
-        data: [0],
-        borderColor: "#16a34a",
-        backgroundColor: "rgba(22, 163, 74, 0.1)",
-        fill: true,
-        tension: 0.4,
-      },
-    ],
-  };
+  const dailyLeadsData =
+    dailyStats && dailyStats.length > 0
+      ? {
+          labels: dailyStats.map((stat) => {
+            const date = new Date(stat.date);
+            return date.toLocaleDateString("pt-BR", {
+              day: "2-digit",
+              month: "2-digit",
+            });
+          }),
+          datasets: [
+            {
+              label: "Total de Leads",
+              data: dailyStats.map((stat) => stat.total_leads || 0),
+              borderColor: "#dc2626",
+              backgroundColor: "rgba(220, 38, 38, 0.1)",
+              fill: true,
+              tension: 0.4,
+            },
+            {
+              label: "Leads Únicos",
+              data: dailyStats.map((stat) => stat.unique_leads || 0),
+              borderColor: "#16a34a",
+              backgroundColor: "rgba(22, 163, 74, 0.1)",
+              fill: true,
+              tension: 0.4,
+            },
+          ],
+        }
+      : {
+          labels: ["Sem dados"],
+          datasets: [
+            {
+              label: "Total de Leads",
+              data: [0],
+              borderColor: "#dc2626",
+              backgroundColor: "rgba(220, 38, 38, 0.1)",
+              fill: true,
+              tension: 0.4,
+            },
+            {
+              label: "Leads Únicos",
+              data: [0],
+              borderColor: "#16a34a",
+              backgroundColor: "rgba(22, 163, 74, 0.1)",
+              fill: true,
+              tension: 0.4,
+            },
+          ],
+        };
 
   // Dados para gráfico de visitas diárias - com verificação de segurança
-  const dailyVisitsData = dailyStats && dailyStats.length > 0 ? {
-    labels: dailyStats.map((stat) => {
-      const date = new Date(stat.date);
-      return date.toLocaleDateString("pt-BR", {
-        day: "2-digit",
-        month: "2-digit",
-      });
-    }),
-    datasets: [
-      {
-        label: "Sessões",
-        data: dailyStats.map((stat) => stat.sessions || 0),
-        borderColor: "#2563eb",
-        backgroundColor: "rgba(37, 99, 235, 0.1)",
-        fill: true,
-        tension: 0.4,
-      },
-      {
-        label: "Page Views",
-        data: dailyStats.map((stat) => stat.page_views || 0),
-        borderColor: "#7c3aed",
-        backgroundColor: "rgba(124, 58, 237, 0.1)",
-        fill: true,
-        tension: 0.4,
-      },
-    ],
-  } : {
-    labels: ['Sem dados'],
-    datasets: [
-      {
-        label: "Sessões",
-        data: [0],
-        borderColor: "#2563eb",
-        backgroundColor: "rgba(37, 99, 235, 0.1)",
-        fill: true,
-        tension: 0.4,
-      },
-      {
-        label: "Page Views",
-        data: [0],
-        borderColor: "#7c3aed",
-        backgroundColor: "rgba(124, 58, 237, 0.1)",
-        fill: true,
-        tension: 0.4,
-      },
-    ],
-  };
+  const dailyVisitsData =
+    dailyStats && dailyStats.length > 0
+      ? {
+          labels: dailyStats.map((stat) => {
+            const date = new Date(stat.date);
+            return date.toLocaleDateString("pt-BR", {
+              day: "2-digit",
+              month: "2-digit",
+            });
+          }),
+          datasets: [
+            {
+              label: "Sessões",
+              data: dailyStats.map((stat) => stat.sessions || 0),
+              borderColor: "#2563eb",
+              backgroundColor: "rgba(37, 99, 235, 0.1)",
+              fill: true,
+              tension: 0.4,
+            },
+            {
+              label: "Page Views",
+              data: dailyStats.map((stat) => stat.page_views || 0),
+              borderColor: "#7c3aed",
+              backgroundColor: "rgba(124, 58, 237, 0.1)",
+              fill: true,
+              tension: 0.4,
+            },
+          ],
+        }
+      : {
+          labels: ["Sem dados"],
+          datasets: [
+            {
+              label: "Sessões",
+              data: [0],
+              borderColor: "#2563eb",
+              backgroundColor: "rgba(37, 99, 235, 0.1)",
+              fill: true,
+              tension: 0.4,
+            },
+            {
+              label: "Page Views",
+              data: [0],
+              borderColor: "#7c3aed",
+              backgroundColor: "rgba(124, 58, 237, 0.1)",
+              fill: true,
+              tension: 0.4,
+            },
+          ],
+        };
 
   // Dados para gráfico de conversão
-  const conversionData = dailyStats && dailyStats.length > 0 ? {
-    labels: dailyStats.map((stat) => {
-      const date = new Date(stat.date);
-      return date.toLocaleDateString("pt-BR", {
-        day: "2-digit",
-        month: "2-digit",
-      });
-    }),
-    datasets: [
-      {
-        label: "Taxa de Conversão (%)",
-        data: dailyStats.map((stat) => stat.conversion_rate || 0),
-        borderColor: "#2563eb",
-        backgroundColor: "rgba(37, 99, 235, 0.1)",
-        fill: true,
-        tension: 0.4,
-      },
-    ],
-  } : {
-    labels: ['Sem dados'],
-    datasets: [
-      {
-        label: "Taxa de Conversão (%)",
-        data: [0],
-        borderColor: "#2563eb",
-        backgroundColor: "rgba(37, 99, 235, 0.1)",
-        fill: true,
-        tension: 0.4,
-      },
-    ],
-  };
+  const conversionData =
+    dailyStats && dailyStats.length > 0
+      ? {
+          labels: dailyStats.map((stat) => {
+            const date = new Date(stat.date);
+            return date.toLocaleDateString("pt-BR", {
+              day: "2-digit",
+              month: "2-digit",
+            });
+          }),
+          datasets: [
+            {
+              label: "Taxa de Conversão (%)",
+              data: dailyStats.map((stat) => stat.conversion_rate || 0),
+              borderColor: "#2563eb",
+              backgroundColor: "rgba(37, 99, 235, 0.1)",
+              fill: true,
+              tension: 0.4,
+            },
+          ],
+        }
+      : {
+          labels: ["Sem dados"],
+          datasets: [
+            {
+              label: "Taxa de Conversão (%)",
+              data: [0],
+              borderColor: "#2563eb",
+              backgroundColor: "rgba(37, 99, 235, 0.1)",
+              fill: true,
+              tension: 0.4,
+            },
+          ],
+        };
 
   // Dados para gráfico de horários
   const hourlyData =
@@ -578,21 +591,23 @@ export default function AdminAnalytics() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <div className="flex items-center gap-3 mb-2">
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">📊 Analytics Dashboard</h1>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+              📊 Analytics Dashboard
+            </h1>
             <div className="flex items-center gap-2">
-              {trackingStatus === 'checking' && (
+              {trackingStatus === "checking" && (
                 <div className="flex items-center text-yellow-600">
                   <Activity className="w-4 h-4 animate-pulse mr-1" />
                   <span className="text-sm">Verificando...</span>
                 </div>
               )}
-              {trackingStatus === 'active' && (
+              {trackingStatus === "active" && (
                 <div className="flex items-center text-green-600">
                   <CheckCircle className="w-4 h-4 mr-1" />
                   <span className="text-sm">Tracking Ativo</span>
                 </div>
               )}
-              {trackingStatus === 'inactive' && (
+              {trackingStatus === "inactive" && (
                 <div className="flex items-center text-red-600">
                   <AlertCircle className="w-4 h-4 mr-1" />
                   <span className="text-sm">Sem Dados Recentes</span>
@@ -601,7 +616,8 @@ export default function AdminAnalytics() {
             </div>
           </div>
           <p className="text-gray-600 dark:text-gray-300 mt-2">
-            Visão completa de leads, conversões, tráfego e performance em tempo real
+            Visão completa de leads, conversões, tráfego e performance em tempo
+            real
           </p>
         </div>
 
@@ -647,25 +663,41 @@ export default function AdminAnalytics() {
         <CardHeader>
           <CardTitle className="flex items-center">
             <BarChart3 className="w-6 h-6 mr-3 text-indigo-600" />
-            Resumo do Período - {selectedPeriod === 1 ? "Hoje" : selectedPeriod === 0 ? "Ontem" : `Últimos ${selectedPeriod} dias`}
+            Resumo do Período -{" "}
+            {selectedPeriod === 1
+              ? "Hoje"
+              : selectedPeriod === 0
+                ? "Ontem"
+                : `Últimos ${selectedPeriod} dias`}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="text-center">
-              <p className="text-2xl font-bold text-indigo-900">{overview?.leads?.total || 0}</p>
+              <p className="text-2xl font-bold text-indigo-900">
+                {overview?.leads?.total || 0}
+              </p>
               <p className="text-sm text-indigo-600">Total de Leads</p>
             </div>
             <div className="text-center">
-              <p className="text-2xl font-bold text-blue-900">{overview?.traffic?.total_page_views || 0}</p>
+              <p className="text-2xl font-bold text-blue-900">
+                {overview?.traffic?.total_page_views || 0}
+              </p>
               <p className="text-sm text-blue-600">Page Views</p>
             </div>
             <div className="text-center">
-              <p className="text-2xl font-bold text-green-900">{overview?.traffic?.unique_users || 0}</p>
+              <p className="text-2xl font-bold text-green-900">
+                {overview?.traffic?.unique_users || 0}
+              </p>
               <p className="text-sm text-green-600">Usuários Únicos</p>
             </div>
             <div className="text-center">
-              <p className="text-2xl font-bold text-purple-900">{overview?.leads?.conversion_rate ? overview.leads.conversion_rate.toFixed(2) : '0.00'}%</p>
+              <p className="text-2xl font-bold text-purple-900">
+                {overview?.leads?.conversion_rate
+                  ? overview.leads.conversion_rate.toFixed(2)
+                  : "0.00"}
+                %
+              </p>
               <p className="text-sm text-purple-600">Taxa de Conversão</p>
             </div>
           </div>
@@ -689,8 +721,8 @@ export default function AdminAnalytics() {
                   {overview?.leads?.total || 0}
                 </p>
                 <p className="text-xs text-blue-600">
-                  +{overview?.leads?.period || 0} nos últimos {overview?.period_days || 30}{" "}
-                  dias
+                  +{overview?.leads?.period || 0} nos últimos{" "}
+                  {overview?.period_days || 30} dias
                 </p>
               </div>
             </div>
@@ -734,7 +766,8 @@ export default function AdminAnalytics() {
                   {overview?.traffic?.unique_users || 0}
                 </p>
                 <p className="text-xs text-purple-600">
-                  {overview?.traffic?.avg_sessions_per_user || 0} sessões/usuário
+                  {overview?.traffic?.avg_sessions_per_user || 0}{" "}
+                  sessões/usuário
                 </p>
               </div>
             </div>
@@ -1003,7 +1036,9 @@ export default function AdminAnalytics() {
                   <div className="text-center text-gray-500">
                     <Eye className="w-12 h-12 mx-auto mb-4 text-gray-300" />
                     <p>Sem dados de visitas para exibir</p>
-                    <p className="text-sm">Aguarde novos dados serem coletados</p>
+                    <p className="text-sm">
+                      Aguarde novos dados serem coletados
+                    </p>
                   </div>
                 </div>
               )}
@@ -1039,20 +1074,23 @@ export default function AdminAnalytics() {
           </CardHeader>
           <CardContent>
             <div style={{ height: "300px" }}>
-              <Doughnut data={{
-                labels: ["Loja Física", "Online", "Ambas"],
-                datasets: [
-                  {
-                    data: [
-                      overview?.store_types?.fisica || 0,
-                      overview?.store_types?.online || 0,
-                      overview?.store_types?.ambas || 0,
-                    ],
-                    backgroundColor: ["#dc2626", "#16a34a", "#2563eb"],
-                    borderWidth: 0,
-                  },
-                ],
-              }} options={doughnutOptions} />
+              <Doughnut
+                data={{
+                  labels: ["Loja Física", "Online", "Ambas"],
+                  datasets: [
+                    {
+                      data: [
+                        overview?.store_types?.fisica || 0,
+                        overview?.store_types?.online || 0,
+                        overview?.store_types?.ambas || 0,
+                      ],
+                      backgroundColor: ["#dc2626", "#16a34a", "#2563eb"],
+                      borderWidth: 0,
+                    },
+                  ],
+                }}
+                options={doughnutOptions}
+              />
             </div>
           </CardContent>
         </Card>
