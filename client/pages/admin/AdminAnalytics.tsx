@@ -249,7 +249,7 @@ export default function AdminAnalytics() {
     );
   }
 
-  if (error || !overview) {
+  if (error) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
@@ -262,6 +262,18 @@ export default function AdminAnalytics() {
           >
             Tentar Novamente
           </Button>
+        </div>
+      </div>
+    );
+  }
+
+  // Renderizar mesmo sem dados completos, mas com verificações de segurança
+  if (!overview) {
+    return (
+      <div className="space-y-6 p-6">
+        <div className="text-center py-12">
+          <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-gray-400" />
+          <p className="text-gray-600">Carregando dados de analytics...</p>
         </div>
       </div>
     );
