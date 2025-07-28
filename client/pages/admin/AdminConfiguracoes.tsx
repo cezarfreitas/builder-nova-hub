@@ -390,11 +390,33 @@ export default function AdminConfiguracoes() {
             </CardHeader>
             <CardContent className="space-y-6">
               {/* Meta Pixel */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold flex items-center">
-                  <Target className="w-5 h-5 mr-2 text-ecko-red" />
-                  Meta Pixel (Facebook/Instagram)
-                </h3>
+              <div className="space-y-6">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-semibold flex items-center">
+                    <Target className="w-5 h-5 mr-2 text-blue-600" />
+                    Meta Facebook Conversions API
+                  </h3>
+                  <Button
+                    onClick={testMetaTracking}
+                    disabled={testing}
+                    variant="outline"
+                    size="sm"
+                  >
+                    {testing ? (
+                      <>
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        Testando...
+                      </>
+                    ) : (
+                      <>
+                        <TestTube className="w-4 h-4 mr-2" />
+                        Testar Integração
+                      </>
+                    )}
+                  </Button>
+                </div>
+
+                {/* Configurações básicas */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="meta_pixel_id">Pixel ID</Label>
@@ -422,7 +444,19 @@ export default function AdminConfiguracoes() {
                     />
                   </div>
                   <div>
-                    <Label htmlFor="meta_test_code">Código de Teste</Label>
+                    <Label htmlFor="meta_conversion_name">Nome da Conversão</Label>
+                    <Input
+                      id="meta_conversion_name"
+                      value={integracoesData.meta_conversion_name}
+                      onChange={(e) => {
+                        setIntegracoesData({...integracoesData, meta_conversion_name: e.target.value});
+                        setHasChanges(true);
+                      }}
+                      placeholder="Lead"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="meta_test_code">Código de Teste (Opcional)</Label>
                     <Input
                       id="meta_test_code"
                       value={integracoesData.meta_test_code}
@@ -433,6 +467,164 @@ export default function AdminConfiguracoes() {
                       placeholder="TEST23442"
                     />
                   </div>
+                </div>
+
+                {/* Configurações de rastreamento avançado */}
+                <div className="border-t pt-4">
+                  <h4 className="font-medium mb-4 flex items-center">
+                    <Activity className="w-4 h-4 mr-2 text-green-600" />
+                    Rastreamento Automático da Landing Page
+                  </h4>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        id="meta_tracking_enabled"
+                        checked={integracoesData.meta_tracking_enabled === "true"}
+                        onChange={(e) => {
+                          setIntegracoesData({
+                            ...integracoesData,
+                            meta_tracking_enabled: e.target.checked ? "true" : "false"
+                          });
+                          setHasChanges(true);
+                        }}
+                        className="rounded"
+                      />
+                      <Label htmlFor="meta_tracking_enabled" className="flex items-center cursor-pointer">
+                        <CheckCircle2 className="w-4 h-4 mr-1 text-green-500" />
+                        Ativar Rastreamento Geral
+                      </Label>
+                    </div>
+
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        id="meta_track_pageview"
+                        checked={integracoesData.meta_track_pageview === "true"}
+                        onChange={(e) => {
+                          setIntegracoesData({
+                            ...integracoesData,
+                            meta_track_pageview: e.target.checked ? "true" : "false"
+                          });
+                          setHasChanges(true);
+                        }}
+                        className="rounded"
+                      />
+                      <Label htmlFor="meta_track_pageview" className="flex items-center cursor-pointer">
+                        <ViewIcon className="w-4 h-4 mr-1 text-blue-500" />
+                        Rastrear Visualizações de Página
+                      </Label>
+                    </div>
+
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        id="meta_track_scroll"
+                        checked={integracoesData.meta_track_scroll === "true"}
+                        onChange={(e) => {
+                          setIntegracoesData({
+                            ...integracoesData,
+                            meta_track_scroll: e.target.checked ? "true" : "false"
+                          });
+                          setHasChanges(true);
+                        }}
+                        className="rounded"
+                      />
+                      <Label htmlFor="meta_track_scroll" className="flex items-center cursor-pointer">
+                        <ArrowRight className="w-4 h-4 mr-1 text-purple-500" />
+                        Rastrear Profundidade de Scroll
+                      </Label>
+                    </div>
+
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        id="meta_track_time"
+                        checked={integracoesData.meta_track_time === "true"}
+                        onChange={(e) => {
+                          setIntegracoesData({
+                            ...integracoesData,
+                            meta_track_time: e.target.checked ? "true" : "false"
+                          });
+                          setHasChanges(true);
+                        }}
+                        className="rounded"
+                      />
+                      <Label htmlFor="meta_track_time" className="flex items-center cursor-pointer">
+                        <Clock className="w-4 h-4 mr-1 text-orange-500" />
+                        Rastrear Tempo na Página
+                      </Label>
+                    </div>
+
+                    <div className="flex items-center space-x-2 md:col-span-2">
+                      <input
+                        type="checkbox"
+                        id="meta_track_interactions"
+                        checked={integracoesData.meta_track_interactions === "true"}
+                        onChange={(e) => {
+                          setIntegracoesData({
+                            ...integracoesData,
+                            meta_track_interactions: e.target.checked ? "true" : "false"
+                          });
+                          setHasChanges(true);
+                        }}
+                        className="rounded"
+                      />
+                      <Label htmlFor="meta_track_interactions" className="flex items-center cursor-pointer">
+                        <MousePointer className="w-4 h-4 mr-1 text-red-500" />
+                        Rastrear Interações (Cliques, Hover, FAQ, etc.)
+                      </Label>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Resultado dos testes */}
+                {testResults && (
+                  <div className="border-t pt-4">
+                    <h4 className="font-medium mb-3 flex items-center">
+                      {testResults.success ? (
+                        <CheckCircle2 className="w-4 h-4 mr-2 text-green-600" />
+                      ) : (
+                        <AlertTriangle className="w-4 h-4 mr-2 text-red-600" />
+                      )}
+                      Resultado do Teste
+                    </h4>
+
+                    <div className={`p-3 rounded-lg ${
+                      testResults.success ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'
+                    }`}>
+                      {testResults.success ? (
+                        <div className="space-y-2">
+                          <p className="text-green-800 font-medium">✅ Integração funcionando corretamente!</p>
+                          <p className="text-green-700 text-sm">
+                            Eventos estão sendo enviados para o Meta Facebook com sucesso.
+                          </p>
+                          {testResults.eventTest?.result?.eventsReceived !== undefined && (
+                            <p className="text-green-600 text-sm">
+                              Eventos recebidos: {testResults.eventTest.result.eventsReceived}
+                            </p>
+                          )}
+                        </div>
+                      ) : (
+                        <div className="space-y-2">
+                          <p className="text-red-800 font-medium">❌ Erro na integração</p>
+                          <p className="text-red-700 text-sm">{testResults.error}</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* Informações importantes */}
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                  <h4 className="font-medium text-blue-900 mb-2">ℹ️ Informações Importantes</h4>
+                  <ul className="text-blue-800 text-sm space-y-1">
+                    <li>• O rastreamento é feito via Conversions API para máxima precisão</li>
+                    <li>• Todos os eventos são enviados automaticamente na landing page</li>
+                    <li>• Use o código de teste durante desenvolvimento para não afetar dados reais</li>
+                    <li>• Configure eventos personalizados conforme sua estratégia de marketing</li>
+                  </ul>
                 </div>
               </div>
             </CardContent>
