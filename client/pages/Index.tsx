@@ -60,6 +60,9 @@ export default function Index() {
     error: heroError,
   } = useHeroSection();
 
+  // Novo sistema de tracking controlado
+  const { trackEvent, isTrackingEnabled, pageType } = useAnalyticsTracking();
+
   // Meta tracking hooks
   const {
     trackPageView,
@@ -177,7 +180,7 @@ export default function Index() {
       id: 4,
       question: "Como funciona o suporte pós-venda?",
       answer:
-        "Nossa equipe oferece suporte completo: treinamento de produto, materiais de marketing, orientação sobre displays e estratégias de venda. Além disso, você terá um consultor dedicado para acompanhar seu desenvolvimento.",
+        "Nossa equipe oferece suporte completo: treinamento de produto, materiais de marketing, orienta��ão sobre displays e estratégias de venda. Além disso, você terá um consultor dedicado para acompanhar seu desenvolvimento.",
       display_order: 4,
       is_active: true,
     },
