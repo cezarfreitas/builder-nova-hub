@@ -630,6 +630,18 @@ export default function Index() {
     );
   }
 
+  // Preload das imagens do Hero se existirem
+  useEffect(() => {
+    if (currentHero.background_image) {
+      const img = new Image();
+      img.src = currentHero.background_image;
+    }
+    if (currentHero.logo_url) {
+      const img = new Image();
+      img.src = currentHero.logo_url;
+    }
+  }, [currentHero.background_image, currentHero.logo_url]);
+
   return (
     <>
       <DynamicHead />
