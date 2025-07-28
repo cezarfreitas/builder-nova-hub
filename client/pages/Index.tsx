@@ -2167,7 +2167,7 @@ export default function Index() {
 
       {/* Footer */}
       <footer className="bg-black">
-        <div className="container mx-auto px-6 py-8">
+        <div className="container mx-auto px-6" style={{ paddingTop: '30px', paddingBottom: '30px' }}>
           <div className="flex flex-col items-center justify-center text-center space-y-4">
             {/* Social Links */}
             <div className="flex space-x-4">
