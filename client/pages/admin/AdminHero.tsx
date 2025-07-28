@@ -634,7 +634,7 @@ export default function AdminHero() {
 
                   <div className="space-y-2">
                     <label className="block text-sm font-medium text-gray-700">
-                      Direç��o do Gradiente
+                      Direção do Gradiente
                     </label>
                     <select
                       value={localSettings.overlay_gradient_direction || "to bottom"}
