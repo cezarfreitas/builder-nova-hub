@@ -100,7 +100,7 @@ export default function AdminAbout() {
 
 
   // Atualizar campo específico
-  const updateField = (field: keyof AboutSettings, value: string | any) => {
+  const updateField = (field: keyof AboutSettings, value: any) => {
     setSettings((prev) => ({
       ...prev,
       [field]: value,
