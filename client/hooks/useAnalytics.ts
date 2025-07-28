@@ -59,12 +59,12 @@ export function useAnalytics(selectedPeriod: number = 30) {
         }
 
         // Fetch analytics overview data using robust fetch
-        console.log("🔄 [ANALYTICS] Buscando overview...");
+        devLog("🔄 [ANALYTICS] Buscando overview...");
 
         const overviewResult = await robustFetchJson(
           `/api/analytics/overview?days=${selectedPeriod}`,
           {
-            timeout: 10000,
+            timeout: config.apiTimeout,
           },
         );
 
@@ -72,7 +72,7 @@ export function useAnalytics(selectedPeriod: number = 30) {
           throw new Error(overviewResult.message || "Erro na API de overview");
         }
 
-        console.log(
+        devLog(
           "✅ [ANALYTICS] Dados do overview carregados:",
           overviewResult.data,
         );
