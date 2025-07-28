@@ -141,13 +141,7 @@ export default function AdminLogin() {
             </Button>
           </form>
 
-          {config.showDemoCredentials && (
-            <div className="mt-6 text-center">
-              <p className="text-xs text-gray-500">
-                Para acessar, use: <strong>admin / Designer@13</strong>
-              </p>
-            </div>
-          )}
+
         </CardContent>
       </Card>
     </div>
