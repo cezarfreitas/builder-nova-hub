@@ -13,12 +13,15 @@
   "scripts": {
     "dev": "vite",
     "build": "npm run build:client && npm run build:server",
+    "build:prod": "NODE_ENV=production npm run build:client && npm run build:server",
     "build:client": "vite build",
     "build:server": "vite build --config vite.config.server.ts",
     "start": "node dist/server/node-build.mjs",
+    "start:prod": "NODE_ENV=production node dist/server/node-build.mjs",
     "test": "vitest --run",
     "format.fix": "prettier --write .",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "deploy": "npm run build:prod && npm run start:prod"
   },
   "dependencies": {
     "@types/multer": "^2.0.0",
