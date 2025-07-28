@@ -197,7 +197,7 @@ export const useMetaTracking = () => {
   // Track Form Abandonment
   const trackFormAbandonment = useCallback((fieldsCompleted: number, totalFields: number) => {
     sendEvent({
-      event_name: 'Lead',
+      event_name: conversionName,
       custom_data: {
         content_type: 'form_abandonment',
         content_category: 'form_exit',
