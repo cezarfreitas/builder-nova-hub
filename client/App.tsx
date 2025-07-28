@@ -62,10 +62,20 @@ const App = () => (
       <Routes>
         <Route path="/" element={<Index />} />
         <Route
+          path="/admin/login"
+          element={
+            <Suspense fallback={<PageLoading />}>
+              <AdminLogin />
+            </Suspense>
+          }
+        />
+        <Route
           path="/admin"
           element={
             <Suspense fallback={<PageLoading />}>
-              <AdminLayout />
+              <ProtectedRoute>
+                <AdminLayout />
+              </ProtectedRoute>
             </Suspense>
           }
         >
