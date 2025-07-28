@@ -8,6 +8,7 @@ import { useToast } from "../hooks/use-toast";
 import { useSessionId } from "../hooks/useAnalytics";
 import { useContent } from "../hooks/useContent";
 import { useHeroSection } from "../hooks/useHeroSection";
+import { useMetaTracking, useScrollTracking, useTimeTracking } from "../hooks/useMetaTracking";
 import { renderTextWithColorTokens } from "../utils/colorTokens";
 import { generateGradientCSS } from "../components/AdvancedGradientOverlay";
 import {
