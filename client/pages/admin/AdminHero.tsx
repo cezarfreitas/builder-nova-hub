@@ -29,6 +29,32 @@ import {
 
 
 
+// Função para gerar CSS do gradiente
+const generateGradientCSS = (settings: any) => {
+  if (!settings.overlay_gradient_enabled) return settings.overlay_color || '#000000';
+
+  const hexToRgba = (hex: string, opacity: number) => {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    return `rgba(${r}, ${g}, ${b}, ${opacity / 100})`;
+  };
+
+  const startColor = hexToRgba(settings.overlay_gradient_start || '#000000', settings.overlay_gradient_start_opacity || 80);
+  const centerColor = hexToRgba(settings.overlay_gradient_center_color || '#000000', settings.overlay_gradient_center_opacity || 0);
+  const endColor = hexToRgba(settings.overlay_gradient_end || '#000000', settings.overlay_gradient_end_opacity || 90);
+
+  const startPos = settings.overlay_gradient_start_position || 20;
+  const centerPos = settings.overlay_gradient_center_position || 50;
+  const endPos = settings.overlay_gradient_end_position || 80;
+
+  if (settings.overlay_gradient_direction === 'radial') {
+    return `radial-gradient(ellipse at center, ${startColor} ${startPos}%, ${centerColor} ${centerPos}%, ${endColor} ${endPos}%)`;
+  } else {
+    return `linear-gradient(${settings.overlay_gradient_direction || 'to bottom'}, ${startColor} ${startPos}%, ${centerColor} ${centerPos}%, ${endColor} ${endPos}%)`;
+  }
+};
+
 export default function AdminHero() {
   const {
     heroSettings: settings,
@@ -247,7 +273,7 @@ export default function AdminHero() {
             <CardContent className="space-y-4">
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">
-                  Subtítulo
+                  Subt��tulo
                 </label>
                 <TokenColorEditor
                   value={localSettings.subtitle || ""}
