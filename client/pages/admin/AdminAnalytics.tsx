@@ -605,10 +605,10 @@ export default function AdminAnalytics() {
                   Usuários Únicos
                 </p>
                 <p className="text-2xl font-bold text-purple-900">
-                  {overview.traffic.unique_users}
+                  {overview?.traffic?.unique_users || 0}
                 </p>
                 <p className="text-xs text-purple-600">
-                  {overview.traffic.avg_sessions_per_user} sessões/usuário
+                  {overview?.traffic?.avg_sessions_per_user || 0} sessões/usuário
                 </p>
               </div>
             </div>
