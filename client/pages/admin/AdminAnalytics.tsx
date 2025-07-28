@@ -573,7 +573,7 @@ export default function AdminAnalytics() {
   };
 
   return (
-    <div className="space-y-6 p-6 bg-gray-50 min-h-screen">
+    <div className="space-y-6 p-6 bg-gray-50 min-h-screen text-gray-900 dark:bg-gray-50 dark:text-gray-900">
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
