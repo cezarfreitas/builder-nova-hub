@@ -695,12 +695,27 @@ export default function Index() {
   return (
     <>
       <DynamicHead />
+      {/* Preload crítico de imagens */}
+      <head>
+        {currentHero.background_image && (
+          <link rel="preload" as="image" href={currentHero.background_image} />
+        )}
+        {currentHero.logo_url && (
+          <link rel="preload" as="image" href={currentHero.logo_url} />
+        )}
+      </head>
       <style>
         {`
           .hero-image {
             display: block !important;
             opacity: 1 !important;
             visibility: visible !important;
+            will-change: auto;
+          }
+          .hero-content {
+            will-change: auto;
+            backface-visibility: hidden;
+            transform: translateZ(0);
           }
         `}
       </style>
