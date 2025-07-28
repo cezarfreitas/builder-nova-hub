@@ -589,7 +589,7 @@ export default function Index() {
                   !whatsappError &&
                   validateWhatsApp(formData.whatsapp) && (
                     <p className="text-green-400 text-sm mt-2 font-medium leading-tight">
-                      �� WhatsApp válido
+                      ✅ WhatsApp válido
                     </p>
                   )}
               </div>
@@ -2080,7 +2080,7 @@ export default function Index() {
                   .map((image, index) => (
                     <div
                       key={image.id || index}
-                      className="group relative bg-gray-900 rounded-xl md:rounded-2xl overflow-hidden border border-gray-600 hover:border-ecko-red transition-all duration-500 transform hover:-translate-y-1 hover:scale-105"
+                      className="group relative bg-gray-900 rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden border border-gray-600 hover:border-ecko-red transition-all duration-500 transform hover:-translate-y-1 hover:scale-105"
                     >
                       <div className="aspect-square overflow-hidden">
                         <img
