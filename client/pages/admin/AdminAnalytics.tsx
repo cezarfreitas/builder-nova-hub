@@ -938,7 +938,7 @@ export default function AdminAnalytics() {
 
         {/* Leads Únicos */}
         <Card className="bg-gradient-to-br from-ecko-red/10 to-ecko-red/20 border-ecko-red/30">
-          <CardContent className="p-6">
+          <CardContent className="p-6 text-gray-900">
             <div className="flex items-center">
               <div className="p-2 bg-ecko-red rounded-lg">
                 <Users className="w-6 h-6 text-white" />
