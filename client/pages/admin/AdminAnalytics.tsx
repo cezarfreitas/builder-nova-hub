@@ -515,19 +515,19 @@ export default function AdminAnalytics() {
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="text-center">
-              <p className="text-2xl font-bold text-indigo-900">{overview.leads.total}</p>
+              <p className="text-2xl font-bold text-indigo-900">{overview?.leads?.total || 0}</p>
               <p className="text-sm text-indigo-600">Total de Leads</p>
             </div>
             <div className="text-center">
-              <p className="text-2xl font-bold text-blue-900">{overview.traffic.total_page_views}</p>
+              <p className="text-2xl font-bold text-blue-900">{overview?.traffic?.total_page_views || 0}</p>
               <p className="text-sm text-blue-600">Page Views</p>
             </div>
             <div className="text-center">
-              <p className="text-2xl font-bold text-green-900">{overview.traffic.unique_users}</p>
+              <p className="text-2xl font-bold text-green-900">{overview?.traffic?.unique_users || 0}</p>
               <p className="text-sm text-green-600">Usuários Únicos</p>
             </div>
             <div className="text-center">
-              <p className="text-2xl font-bold text-purple-900">{overview.leads.conversion_rate.toFixed(2)}%</p>
+              <p className="text-2xl font-bold text-purple-900">{overview?.leads?.conversion_rate ? overview.leads.conversion_rate.toFixed(2) : '0.00'}%</p>
               <p className="text-sm text-purple-600">Taxa de Conversão</p>
             </div>
           </div>
