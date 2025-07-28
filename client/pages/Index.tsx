@@ -705,7 +705,7 @@ export default function Index() {
       </style>
       <main className="bg-black pb-4">
         {/* Hero Full Screen Section */}
-        <section className="h-screen relative flex flex-col justify-center items-center overflow-hidden bg-black text-white">
+        <section ref={heroRef} className="h-screen relative flex flex-col justify-center items-center overflow-hidden bg-black text-white">
           {heroLoading ? (
             <div className="text-center">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
@@ -1595,7 +1595,7 @@ export default function Index() {
                         </p>
                         <p className="text-gray-600 max-w-3xl mx-auto">
                           {content.about?.section_description ||
-                            "Conheça a trajetória de uma das marcas mais influentes do streetwear mundial"}
+                            "Conheça a trajet��ria de uma das marcas mais influentes do streetwear mundial"}
                         </p>
                       </div>
 
