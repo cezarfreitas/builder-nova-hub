@@ -244,16 +244,32 @@ export async function testMetaTrackingEvent(req: Request, res: Response) {
 // Endpoint para verificar configuração do Meta Pixel
 export async function checkMetaPixelConfig(req: Request, res: Response) {
   try {
-    const settings = await readSettingsFromFile();
-    
+    // Primeiro tenta ler do novo sistema de integrações
+    let pixelId, accessToken, testCode, conversionName;
+    const integrationsSettings = readIntegrationsSettings();
+
+    if (integrationsSettings) {
+      pixelId = integrationsSettings.meta_pixel_id;
+      accessToken = integrationsSettings.meta_access_token;
+      testCode = integrationsSettings.meta_test_code;
+      conversionName = integrationsSettings.meta_conversion_name;
+    } else {
+      // Fallback para o sistema antigo
+      const settings = await readSettingsFromFile();
+      pixelId = settings.meta_pixel_id?.value;
+      accessToken = settings.meta_access_token?.value;
+      testCode = settings.meta_test_code?.value;
+      conversionName = settings.meta_conversion_name?.value;
+    }
+
     const config = {
-      pixel_id: settings.meta_pixel_id?.value ? "Configurado" : "Não configurado",
-      access_token: settings.meta_access_token?.value ? "Configurado" : "Não configurado",
-      test_code: settings.meta_test_code?.value || "Nenhum",
-      conversion_name: settings.meta_conversion_name?.value || "Lead",
+      pixel_id: pixelId ? "Configurado" : "Não configurado",
+      access_token: accessToken ? "Configurado" : "Não configurado",
+      test_code: testCode || "Nenhum",
+      conversion_name: conversionName || "Lead",
     };
 
-    const isConfigured = !!(settings.meta_pixel_id?.value && settings.meta_access_token?.value);
+    const isConfigured = !!(pixelId && accessToken);
 
     res.json({
       success: true,
