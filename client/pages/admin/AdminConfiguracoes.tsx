@@ -355,7 +355,6 @@ export default function AdminConfiguracoes() {
 
         setTestResults({
           success: true,
-          configCheck: configResult,
           pixelTest: pixelTestResult,
           conversionTest: conversionTestResult,
         });
