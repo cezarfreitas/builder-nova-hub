@@ -1089,3 +1089,76 @@ export async function testFacebookPixel(req: Request, res: Response) {
     });
   }
 }
+
+// GET /api/analytics/tracking-test - Testar se o tracking está funcionando
+export async function testTracking(req: Request, res: Response) {
+  try {
+    const db = getDatabase();
+    
+    // Verificar dados recentes (últimas 24 horas)
+    const [recentEvents] = await db.execute(`
+      SELECT 
+        COUNT(*) as total_events,
+        COUNT(DISTINCT session_id) as unique_sessions,
+        COUNT(DISTINCT user_id) as unique_users,
+        COUNT(CASE WHEN event_type = 'page_view' THEN 1 END) as page_views,
+        COUNT(CASE WHEN event_type = 'whatsapp_click' THEN 1 END) as whatsapp_clicks,
+        MAX(created_at) as last_event
+      FROM analytics_events 
+      WHERE created_at >= DATE_SUB(NOW(), INTERVAL 24 HOUR)
+    `);
+
+    const [recentLeads] = await db.execute(`
+      SELECT 
+        COUNT(*) as total_leads,
+        MAX(created_at) as last_lead
+      FROM leads 
+      WHERE created_at >= DATE_SUB(NOW(), INTERVAL 24 HOUR)
+    `);
+
+    const stats = (recentEvents as any[])[0];
+    const leadStats = (recentLeads as any[])[0];
+
+    const isTrackingActive = stats.total_events > 0;
+    const hasRecentActivity = stats.last_event !== null;
+
+    console.log('📊 [TEST] Status do tracking:');
+    console.log(`📊 [TEST] Eventos nas últimas 24h: ${stats.total_events}`);
+    console.log(`📊 [TEST] Sessões únicas: ${stats.unique_sessions}`);
+    console.log(`📊 [TEST] Usuários únicos: ${stats.unique_users}`);
+    console.log(`📊 [TEST] Leads nas últimas 24h: ${leadStats.total_leads}`);
+    console.log(`📊 [TEST] Último evento: ${stats.last_event}`);
+
+    res.json({
+      success: true,
+      data: {
+        tracking_active: isTrackingActive,
+        has_recent_activity: hasRecentActivity,
+        last_24h_stats: {
+          total_events: stats.total_events,
+          unique_sessions: stats.unique_sessions,
+          unique_users: stats.unique_users,
+          page_views: stats.page_views,
+          whatsapp_clicks: stats.whatsapp_clicks,
+          total_leads: leadStats.total_leads,
+        },
+        timestamps: {
+          last_event: stats.last_event,
+          last_lead: leadStats.last_lead,
+          test_time: new Date().toISOString(),
+        },
+        message: isTrackingActive 
+          ? 'Tracking está ativo e salvando dados no banco'
+          : 'Tracking não está registrando eventos recentes'
+      }
+    });
+
+  } catch (error) {
+    console.error('Erro ao testar tracking:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Erro ao verificar status do tracking',
+      error: error.message
+    });
+  }
+}
