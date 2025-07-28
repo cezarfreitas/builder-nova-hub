@@ -1079,20 +1079,15 @@ export default function AdminConfiguracoes() {
                   </div>
 
                   <div>
-                    <Label htmlFor="apple_icon_url">
-                      Ícone Apple Touch (URL)
-                    </Label>
-                    <Input
-                      id="apple_icon_url"
+                    <Label>Ícone Apple Touch</Label>
+                    <CompactImageUpload
                       value={seoData.apple_icon_url}
-                      onChange={(e) => {
-                        setSeoData({
-                          ...seoData,
-                          apple_icon_url: e.target.value,
-                        });
+                      onChange={(url) => {
+                        setSeoData({ ...seoData, apple_icon_url: url });
                         setHasChanges(true);
                       }}
-                      placeholder="https://exemplo.com/apple-touch-icon.png"
+                      placeholder="Upload do ícone Apple"
+                      type="seo"
                     />
                     <p className="text-xs text-gray-500 mt-1">
                       Recomendado: 180x180px (.png)
