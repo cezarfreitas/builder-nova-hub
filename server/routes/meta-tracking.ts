@@ -256,9 +256,12 @@ export async function testMetaTrackingEvent(req: Request, res: Response) {
 
     const result = await sendMetaTrackingEvent(testEventData);
 
+    // Retornar o resultado real da Meta API
     res.json({
-      success: true,
-      message: `Teste do evento ${event_name} concluído`,
+      success: result.success,
+      message: result.success
+        ? `Teste do evento ${event_name} enviado com sucesso para a Meta!`
+        : `Falha no teste do evento ${event_name}`,
       result,
     });
   } catch (error) {
