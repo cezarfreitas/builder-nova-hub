@@ -874,6 +874,24 @@ export default function AdminAnalytics() {
           </CardContent>
         </Card>
 
+        {/* Gráfico de Visitas Diárias */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center">
+              <Eye className="w-5 h-5 mr-2 text-blue-600" />
+              Visitas Diárias
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div style={{ height: "300px" }}>
+              <Line data={dailyVisitsData} options={chartOptions} />
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Segunda linha de gráficos */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Gráfico de Taxa de Conversão */}
         <Card>
           <CardHeader>
@@ -1421,7 +1439,7 @@ export default function AdminAnalytics() {
                         <div>
                           <p className="font-medium">{city.cidade}</p>
                           <p className="text-xs text-gray-500">
-                            {city.estado} • {city.with_cnpj} com CNPJ ��{" "}
+                            {city.estado} • {city.with_cnpj} com CNPJ •{" "}
                             {city.webhook_success_rate}% sucesso
                           </p>
                         </div>
