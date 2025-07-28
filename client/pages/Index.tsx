@@ -1881,68 +1881,124 @@ export default function Index() {
               </p>
             </div>
 
-            {/* Testimonials Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {content.testimonials.items
-                ?.filter((testimonial) => testimonial.is_active)
-                .slice(0, 4)
-                .map((testimonial, index) => (
-                  <div
-                    key={testimonial.id}
-                    className="bg-gray-900/70 backdrop-blur-sm rounded-2xl p-6 border border-gray-600/50 hover:border-ecko-red/60 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-ecko-red/20 group"
-                    style={{ animationDelay: `${index * 0.1}s` }}
-                  >
-                    {/* Rating Stars */}
-                    <div className="flex mb-4">
-                      {[...Array(testimonial.rating || 5)].map((_, i) => (
-                        <svg
-                          key={i}
-                          className="w-5 h-5 text-yellow-400 fill-current"
-                          viewBox="0 0 20 20"
-                        >
-                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                      ))}
-                    </div>
-
-                    {/* Testimonial Content */}
-                    <blockquote className="text-gray-300 mb-6 text-sm leading-relaxed">
-                      "{testimonial.content}"
-                    </blockquote>
-
-                    {/* Author Info */}
-                    <div className="flex items-center space-x-3">
-                      {testimonial.avatar_url ? (
-                        <img
-                          src={testimonial.avatar_url}
-                          alt={`${testimonial.name}, ${testimonial.role} da ${testimonial.company} - Revendedor oficial Ecko satisfeito`}
-                          className="w-12 h-12 rounded-full object-cover border-2 border-ecko-red/20"
-                          onError={(e) => {
-                            const target = e.target as HTMLImageElement;
-                            target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(testimonial.name)}&background=dc2626&color=ffffff&size=48&bold=true`;
-                          }}
-                        />
-                      ) : (
-                        <div className="w-12 h-12 bg-ecko-red rounded-full flex items-center justify-center">
-                          <span className="text-white font-bold text-lg">
-                            {testimonial.name.charAt(0).toUpperCase()}
-                          </span>
-                        </div>
-                      )}
-                      <div>
-                        <div className="font-semibold text-white">
-                          {testimonial.name}
-                        </div>
-                        {testimonial.company && (
-                          <div className="text-sm text-gray-400">
-                            {testimonial.role ? `${testimonial.role}, ` : ""}
-                            {testimonial.company}
+            {/* Testimonials Carousel */}
+            <div
+              className="relative max-w-4xl mx-auto"
+              onMouseEnter={() => setIsCarouselPaused(true)}
+              onMouseLeave={() => setIsCarouselPaused(false)}
+            >
+              <div className="overflow-hidden rounded-2xl">
+                <div
+                  className="flex transition-transform duration-500 ease-in-out"
+                  style={{ transform: `translateX(-${currentTestimonial * 100}%)` }}
+                >
+                  {content.testimonials.items
+                    ?.filter((testimonial) => testimonial.is_active)
+                    .map((testimonial, index) => (
+                      <div
+                        key={testimonial.id}
+                        className="w-full flex-shrink-0 px-4"
+                      >
+                        <div className="bg-gray-900/70 backdrop-blur-sm rounded-2xl p-6 md:p-8 border border-gray-600/50 hover:border-ecko-red/60 transition-all duration-300 group min-h-[300px] flex flex-col justify-between">
+                          {/* Rating Stars */}
+                          <div className="flex justify-center mb-4">
+                            {[...Array(testimonial.rating || 5)].map((_, i) => (
+                              <svg
+                                key={i}
+                                className="w-5 h-5 text-yellow-400 fill-current mx-0.5"
+                                viewBox="0 0 20 20"
+                              >
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                              </svg>
+                            ))}
                           </div>
-                        )}
+
+                          {/* Testimonial Content */}
+                          <blockquote className="text-gray-300 mb-6 text-center text-base md:text-lg leading-relaxed flex-grow flex items-center justify-center">
+                            "{testimonial.content}"
+                          </blockquote>
+
+                          {/* Author Info */}
+                          <div className="flex items-center justify-center space-x-4">
+                            {testimonial.avatar_url ? (
+                              <img
+                                src={testimonial.avatar_url}
+                                alt={`${testimonial.name}, ${testimonial.role} da ${testimonial.company} - Revendedor oficial Ecko satisfeito`}
+                                className="w-14 h-14 rounded-full object-cover border-2 border-ecko-red/20"
+                                onError={(e) => {
+                                  const target = e.target as HTMLImageElement;
+                                  target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(testimonial.name)}&background=dc2626&color=ffffff&size=56&bold=true`;
+                                }}
+                              />
+                            ) : (
+                              <div className="w-14 h-14 bg-ecko-red rounded-full flex items-center justify-center">
+                                <span className="text-white font-bold text-xl">
+                                  {testimonial.name.charAt(0).toUpperCase()}
+                                </span>
+                              </div>
+                            )}
+                            <div className="text-center">
+                              <div className="font-semibold text-white text-lg">
+                                {testimonial.name}
+                              </div>
+                              {testimonial.company && (
+                                <div className="text-sm text-gray-400">
+                                  {testimonial.role ? `${testimonial.role}, ` : ""}
+                                  {testimonial.company}
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                ))}
+                    ))}
+                </div>
+              </div>
+
+              {/* Carousel Indicators */}
+              <div className="flex justify-center space-x-3 mt-6">
+                {content.testimonials.items
+                  ?.filter((testimonial) => testimonial.is_active)
+                  .map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentTestimonial(index)}
+                      className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                        index === currentTestimonial
+                          ? 'bg-ecko-red scale-110'
+                          : 'bg-gray-600 hover:bg-gray-500'
+                      }`}
+                      aria-label={`Ver depoimento ${index + 1}`}
+                    />
+                  ))}
+              </div>
+
+              {/* Navigation Arrows */}
+              <button
+                onClick={() => {
+                  const activeTestimonials = content.testimonials.items?.filter(item => item.is_active) || [];
+                  setCurrentTestimonial(prev => prev === 0 ? activeTestimonials.length - 1 : prev - 1);
+                }}
+                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-ecko-red/20 hover:bg-ecko-red/40 text-white p-3 rounded-full transition-all duration-300 hover:scale-110 backdrop-blur-sm border border-ecko-red/30"
+                aria-label="Depoimento anterior"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+
+              <button
+                onClick={() => {
+                  const activeTestimonials = content.testimonials.items?.filter(item => item.is_active) || [];
+                  setCurrentTestimonial(prev => (prev + 1) % activeTestimonials.length);
+                }}
+                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-ecko-red/20 hover:bg-ecko-red/40 text-white p-3 rounded-full transition-all duration-300 hover:scale-110 backdrop-blur-sm border border-ecko-red/30"
+                aria-label="Próximo depoimento"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
             </div>
 
             {/* CTA Section for Testimonials */}
