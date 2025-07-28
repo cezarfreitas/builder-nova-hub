@@ -156,7 +156,20 @@ export function useAnalytics(selectedPeriod: number = 30) {
       }
     } catch (error) {
       console.error("❌ Erro ao carregar analytics:", error);
-      setError(error instanceof Error ? error.message : "Erro desconhecido");
+
+      // Retry logic
+      if (retries > 0 && error.name !== 'AbortError') {
+        console.log(`🔄 Tentando novamente em 2s... (${retries} tentativas restantes)`);
+        setTimeout(() => {
+          fetchAnalytics(retries - 1);
+        }, 2000);
+        return;
+      }
+
+      // Set error after all retries exhausted
+      const errorMessage = error instanceof Error ? error.message : "Erro desconhecido";
+      setError(`Falha ao carregar dados: ${errorMessage}`);
+      console.error("❌ Todas as tentativas falharam:", errorMessage);
 
       // Set empty/zero data instead of mock data
       setOverview({
