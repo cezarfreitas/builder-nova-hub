@@ -20,6 +20,7 @@ import Index from "./pages/Index";
 
 // Lazy load admin pages para melhorar performance inicial
 const AdminLayout = lazy(() => import("./pages/admin/AdminLayout"));
+const AdminLogin = lazy(() => import("./pages/admin/AdminLogin"));
 const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
 const AdminLeads = lazy(() => import("./pages/admin/AdminLeads"));
 const AdminConfiguracoes = lazy(
@@ -36,6 +37,11 @@ const AdminFooter = lazy(() => import("./pages/admin/AdminFooter"));
 const AdminAbout = lazy(() => import("./pages/admin/AdminAbout"));
 const AdminOrder = lazy(() => import("./pages/admin/AdminOrder"));
 const NotFound = lazy(() => import("./pages/NotFound"));
+
+// Componente de proteção de rotas
+const ProtectedRoute = lazy(() => import("./components/ProtectedRoute").then(module => ({
+  default: module.ProtectedRoute
+})));
 
 // Loading component
 const PageLoading = () => (
