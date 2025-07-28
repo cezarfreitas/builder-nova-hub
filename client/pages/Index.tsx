@@ -270,6 +270,20 @@ export default function Index() {
     return () => window.removeEventListener('beforeunload', handleBeforeUnload);
   }, [showForm, trackingFormStarted, isSubmitted, formData, trackFormAbandonment]);
 
+  // Auto-rotate testimonials carousel
+  useEffect(() => {
+    if (isCarouselPaused || !content.testimonials?.items) return;
+
+    const activeTestimonials = content.testimonials.items.filter(item => item.is_active);
+    if (activeTestimonials.length <= 1) return;
+
+    const interval = setInterval(() => {
+      setCurrentTestimonial(prev => (prev + 1) % activeTestimonials.length);
+    }, 4000); // Change every 4 seconds
+
+    return () => clearInterval(interval);
+  }, [isCarouselPaused, content.testimonials?.items]);
+
   // Função para formatar WhatsApp
   const formatWhatsApp = (value: string): string => {
     // Remove tudo que não é número
