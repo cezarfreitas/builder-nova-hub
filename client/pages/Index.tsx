@@ -669,7 +669,7 @@ export default function Index() {
               <img
                 src={currentHero.background_image}
                 alt="Background do Hero"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover hero-image"
                 loading="eager"
                 fetchpriority="high"
               />
@@ -694,7 +694,7 @@ export default function Index() {
                 <img
                   src={currentHero.logo_url}
                   alt="Logo Ecko - Marca líder em streetwear brasileiro"
-                  className="w-40 h-16 sm:w-48 sm:h-20 lg:w-56 lg:h-24 xl:w-64 xl:h-28 object-contain"
+                  className="w-40 h-16 sm:w-48 sm:h-20 lg:w-56 lg:h-24 xl:w-64 xl:h-28 object-contain hero-image"
                   loading="eager"
                   fetchpriority="high"
                 />
