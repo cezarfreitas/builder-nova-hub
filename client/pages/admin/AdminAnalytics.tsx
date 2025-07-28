@@ -1030,7 +1030,7 @@ export default function AdminAnalytics() {
         </Card>
 
         {/* Gráfico de Tipos de Loja */}
-        <Card>
+        <Card className="bg-white shadow-sm">
           <CardHeader>
             <CardTitle className="flex items-center">
               <BarChart3 className="w-5 h-5 mr-2 text-purple-600" />
