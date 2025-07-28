@@ -1,25 +1,15 @@
-import { useState, useEffect, createContext, useContext, ReactNode } from "react";
+import { useState, useEffect } from "react";
 
-interface AuthContextType {
+interface AuthState {
   isAuthenticated: boolean;
-  login: (username: string, password: string) => Promise<boolean>;
-  logout: () => void;
   loading: boolean;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
 export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
-  return context;
-};
-
-export const useAuthProvider = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [authState, setAuthState] = useState<AuthState>({
+    isAuthenticated: false,
+    loading: true,
+  });
 
   // Verifica se já existe uma sessão ativa ao carregar a página
   useEffect(() => {
@@ -32,7 +22,8 @@ export const useAuthProvider = () => {
           
           // Verifica se o token não expirou (24 horas)
           if (parsed.expires && now < parsed.expires) {
-            setIsAuthenticated(true);
+            setAuthState({ isAuthenticated: true, loading: false });
+            return;
           } else {
             // Remove dados expirados
             localStorage.removeItem("admin-auth");
@@ -41,9 +32,9 @@ export const useAuthProvider = () => {
       } catch (error) {
         console.error("Erro ao verificar autenticação:", error);
         localStorage.removeItem("admin-auth");
-      } finally {
-        setLoading(false);
       }
+      
+      setAuthState({ isAuthenticated: false, loading: false });
     };
 
     checkAuth();
@@ -61,7 +52,7 @@ export const useAuthProvider = () => {
         };
         
         localStorage.setItem("admin-auth", JSON.stringify(authData));
-        setIsAuthenticated(true);
+        setAuthState({ isAuthenticated: true, loading: false });
         return true;
       }
       
@@ -74,27 +65,13 @@ export const useAuthProvider = () => {
 
   const logout = () => {
     localStorage.removeItem("admin-auth");
-    setIsAuthenticated(false);
+    setAuthState({ isAuthenticated: false, loading: false });
   };
 
   return {
-    isAuthenticated,
+    isAuthenticated: authState.isAuthenticated,
+    loading: authState.loading,
     login,
     logout,
-    loading,
   };
-};
-
-interface AuthProviderProps {
-  children: ReactNode;
-}
-
-export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const auth = useAuthProvider();
-  
-  return (
-    <AuthContext.Provider value={auth}>
-      {children}
-    </AuthContext.Provider>
-  );
 };
