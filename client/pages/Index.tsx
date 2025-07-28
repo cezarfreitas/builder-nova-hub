@@ -120,7 +120,7 @@ export default function Index() {
       id: 2,
       question: "Qual o investimento mínimo para começar?",
       answer:
-        "O investimento inicial varia conforme o tipo de loja e regi��o. Oferecemos condições especiais para novos parceiros, incluindo facilidades de pagamento e lotes mínimos acessíveis. Consulte nossa equipe para uma proposta personalizada.",
+        "O investimento inicial varia conforme o tipo de loja e regi��o. Oferecemos condições especiais para novos parceiros, incluindo facilidades de pagamento e lotes mínimos acess��veis. Consulte nossa equipe para uma proposta personalizada.",
       display_order: 2,
       is_active: true,
     },
@@ -1790,7 +1790,7 @@ export default function Index() {
                       <h3 className="text-sm sm:text-xl font-bold text-white mb-2 sm:mb-3 uppercase tracking-wide group-hover:text-ecko-red transition-colors duration-300">
                         {renderTextWithColorTokens(card.title)}
                       </h3>
-                      <p className="text-gray-300 text-sm leading-relaxed">
+                      <p className="text-gray-300 text-xs sm:text-sm leading-relaxed">
                         {renderTextWithColorTokens(card.description)}
                       </p>
                     </CardContent>
@@ -2265,7 +2265,7 @@ export default function Index() {
               </h3>
               <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
                 {content.about?.cta_description ||
-                  "Torne-se um revendedor oficial e ajude a escrever o próximo capítulo da Ecko"}
+                  "Torne-se um revendedor oficial e ajude a escrever o próximo cap��tulo da Ecko"}
               </p>
               <Button
                 size="lg"
