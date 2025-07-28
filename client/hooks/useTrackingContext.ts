@@ -83,7 +83,7 @@ export const useAnalyticsTracking = () => {
         console.warn("⚠️ [TRACKING] Erro ao rastrear visita:", response.status);
       }
     } catch (error) {
-      console.error("❌ Erro no tracking:", error);
+      console.error("❌ [TRACKING] Erro no tracking:", error);
     }
   };
 
