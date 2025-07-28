@@ -235,15 +235,15 @@ export default function AdminAbout() {
         </nav>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-2">
-        {/* Configurações */}
+      {/* Content */}
+      {activeTab === 'textos' ? (
         <div className="space-y-6">
-          {/* Textos do Header */}
+          {/* Textos da Seção */}
           <Card className="bg-white shadow-sm border border-gray-200">
             <CardHeader>
               <CardTitle className="text-gray-900 flex items-center">
                 <Type className="w-5 h-5 mr-2 text-ecko-red" />
-                Textos do Header
+                Textos da Seção
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -251,10 +251,12 @@ export default function AdminAbout() {
                 <label className="block text-sm font-medium text-gray-700">
                   Tag da Seção
                 </label>
-                <Input
+                <TokenColorEditor
                   value={settings.section_tag}
-                  onChange={(e) => updateField("section_tag", e.target.value)}
+                  onChange={(value) => updateField("section_tag", value)}
                   placeholder="Nossa História"
+                  rows={2}
+                  label=""
                 />
               </div>
 
@@ -265,8 +267,8 @@ export default function AdminAbout() {
                 <TokenColorEditor
                   value={settings.section_title}
                   onChange={(value) => updateField("section_title", value)}
-                  placeholder="SOBRE A {ECKO}"
-                  rows={1}
+                  placeholder="SOBRE A {ecko}ECKO{/ecko}"
+                  rows={2}
                   label=""
                 />
               </div>
@@ -275,31 +277,32 @@ export default function AdminAbout() {
                 <label className="block text-sm font-medium text-gray-700">
                   Subtítulo
                 </label>
-                <Input
+                <TokenColorEditor
                   value={settings.section_subtitle}
-                  onChange={(e) =>
-                    updateField("section_subtitle", e.target.value)
-                  }
+                  onChange={(value) => updateField("section_subtitle", value)}
                   placeholder="mais de 20 anos de streetwear"
+                  rows={2}
+                  label=""
                 />
               </div>
 
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">
-                  Descrição
+                  Descrição da Seção
                 </label>
-                <Textarea
+                <TokenColorEditor
                   value={settings.section_description}
-                  onChange={(e) =>
-                    updateField("section_description", e.target.value)
-                  }
+                  onChange={(value) => updateField("section_description", value)}
                   placeholder="Conheça a trajetória de uma das marcas..."
-                  rows={2}
+                  rows={3}
+                  label=""
                 />
               </div>
             </CardContent>
           </Card>
-
+        </div>
+      ) : activeTab === 'historia' ? (
+        <div className="space-y-6">
           {/* Conteúdo da História */}
           <Card className="bg-white shadow-sm border border-gray-200">
             <CardHeader>
@@ -327,33 +330,26 @@ export default function AdminAbout() {
               </div>
             </CardContent>
           </Card>
+        </div>
+      ) : activeTab === 'estatisticas' ? (
+        <div className="space-y-6">
+          {/* Botão Adicionar */}
+          <div className="flex justify-end">
+            <Button
+              onClick={addStat}
+              className="bg-ecko-red hover:bg-ecko-red-dark"
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              Adicionar Estatística
+            </Button>
+          </div>
 
           {/* Estatísticas */}
-          <Card className="bg-white shadow-sm border border-gray-200">
-            <CardHeader>
-              <CardTitle className="text-gray-900 flex items-center justify-between">
-                <div className="flex items-center">
-                  <BarChart3 className="w-5 h-5 mr-2 text-ecko-red" />
-                  Estatísticas
-                </div>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={addStat}
-                  className="text-ecko-red border-ecko-red hover:bg-ecko-red hover:text-white"
-                >
-                  <Plus className="w-4 h-4 mr-2" />
-                  Adicionar
-                </Button>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {settings.stats.map((stat) => (
-                <div
-                  key={stat.id}
-                  className="p-4 border border-gray-200 rounded-lg space-y-3"
-                >
-                  <div className="flex items-center justify-between">
+          <div className="space-y-4">
+            {settings.stats.map((stat) => (
+              <Card key={stat.id} className="bg-white border border-gray-200">
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between mb-4">
                     <span className="text-sm font-medium text-gray-700">
                       Estatística #{stat.id}
                     </span>
@@ -367,7 +363,7 @@ export default function AdminAbout() {
                     </Button>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-2 gap-3 mb-3">
                     <div className="space-y-1">
                       <label className="block text-xs font-medium text-gray-600">
                         Número
@@ -378,7 +374,6 @@ export default function AdminAbout() {
                           updateStat(stat.id, "number", e.target.value)
                         }
                         placeholder="30+"
-                        size="sm"
                       />
                     </div>
                     <div className="space-y-1">
@@ -391,7 +386,6 @@ export default function AdminAbout() {
                           updateStat(stat.id, "label", e.target.value)
                         }
                         placeholder="Anos de História"
-                        size="sm"
                       />
                     </div>
                   </div>
@@ -400,21 +394,30 @@ export default function AdminAbout() {
                     <label className="block text-xs font-medium text-gray-600">
                       Descrição
                     </label>
-                    <Textarea
+                    <TokenColorEditor
                       value={stat.description}
-                      onChange={(e) =>
-                        updateStat(stat.id, "description", e.target.value)
-                      }
+                      onChange={(value) => updateStat(stat.id, "description", value)}
                       placeholder="Mais de três décadas construindo..."
                       rows={2}
+                      label=""
                     />
                   </div>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
+                </CardContent>
+              </Card>
+            ))}
 
-          {/* CTA */}
+            {settings.stats.length === 0 && (
+              <div className="text-center py-12 text-gray-500">
+                <BarChart3 className="w-12 h-12 mx-auto mb-4 text-gray-300" />
+                <p>Nenhuma estatística cadastrada</p>
+                <p className="text-sm">Clique em "Adicionar Estatística" para começar</p>
+              </div>
+            )}
+          </div>
+        </div>
+      ) : (
+        // CTA
+        <div className="space-y-6">
           <Card className="bg-white shadow-sm border border-gray-200">
             <CardHeader>
               <CardTitle className="text-gray-900 flex items-center">
@@ -431,7 +434,7 @@ export default function AdminAbout() {
                   value={settings.cta_title}
                   onChange={(value) => updateField("cta_title", value)}
                   placeholder="Faça Parte Desta História"
-                  rows={1}
+                  rows={2}
                   label=""
                 />
               </div>
@@ -440,13 +443,12 @@ export default function AdminAbout() {
                 <label className="block text-sm font-medium text-gray-700">
                   Descrição do CTA
                 </label>
-                <Textarea
+                <TokenColorEditor
                   value={settings.cta_description}
-                  onChange={(e) =>
-                    updateField("cta_description", e.target.value)
-                  }
+                  onChange={(value) => updateField("cta_description", value)}
                   placeholder="Torne-se um revendedor oficial..."
-                  rows={2}
+                  rows={3}
+                  label=""
                 />
               </div>
 
@@ -454,102 +456,18 @@ export default function AdminAbout() {
                 <label className="block text-sm font-medium text-gray-700">
                   Texto do Botão
                 </label>
-                <Input
+                <TokenColorEditor
                   value={settings.cta_button_text}
-                  onChange={(e) =>
-                    updateField("cta_button_text", e.target.value)
-                  }
+                  onChange={(value) => updateField("cta_button_text", value)}
                   placeholder="QUERO SER PARTE DA ECKO"
+                  rows={2}
+                  label=""
                 />
               </div>
             </CardContent>
           </Card>
         </div>
-
-        {/* Preview */}
-        {previewMode && (
-          <div className="lg:sticky lg:top-6">
-            <Card className="bg-gradient-to-b from-gray-50 to-white">
-              <CardHeader>
-                <CardTitle className="text-gray-900 flex items-center">
-                  <Eye className="w-5 h-5 mr-2 text-ecko-red" />
-                  Preview da Seção
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                {/* Header Preview */}
-                <div className="text-center">
-                  <span className="inline-block px-3 py-1 bg-ecko-red/10 text-ecko-red text-xs font-semibold rounded-full mb-2">
-                    {settings.section_tag}
-                  </span>
-                  <h2 className="text-xl font-bold text-gray-900 mb-2">
-                    {renderTextWithColorTokens(settings.section_title)}
-                  </h2>
-                  <p className="text-sm text-gray-600 mb-2">
-                    {settings.section_subtitle}
-                  </p>
-                  <p className="text-xs text-gray-600">
-                    {settings.section_description}
-                  </p>
-                </div>
-
-                {/* Content Preview */}
-                <div className="space-y-3">
-                  {settings.content
-                    .split("\n\n")
-                    .slice(0, 2)
-                    .map((paragraph, index) => (
-                      <p
-                        key={index}
-                        className="text-xs text-gray-700 leading-relaxed"
-                      >
-                        {renderTextWithColorTokens(paragraph)}
-                      </p>
-                    ))}
-                  {settings.content.split("\n\n").length > 2 && (
-                    <p className="text-xs text-gray-500 italic">...</p>
-                  )}
-                </div>
-
-                {/* Stats Preview */}
-                <div className="grid grid-cols-2 gap-2">
-                  {settings.stats.slice(0, 4).map((stat) => (
-                    <div
-                      key={stat.id}
-                      className="text-center p-3 bg-white rounded border border-gray-100"
-                    >
-                      <div className="text-lg font-bold text-ecko-red mb-1">
-                        {stat.number}
-                      </div>
-                      <div className="text-xs text-gray-900 font-semibold mb-1">
-                        {stat.label}
-                      </div>
-                      <div className="text-xs text-gray-600">
-                        {stat.description.length > 30
-                          ? stat.description.substring(0, 30) + "..."
-                          : stat.description}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                {/* CTA Preview */}
-                <div className="text-center bg-black rounded-lg p-4 text-white">
-                  <h3 className="text-sm font-bold mb-2">
-                    {renderTextWithColorTokens(settings.cta_title)}
-                  </h3>
-                  <p className="text-xs text-gray-300 mb-3">
-                    {settings.cta_description}
-                  </p>
-                  <div className="bg-ecko-red text-white px-4 py-2 rounded text-xs font-semibold">
-                    {settings.cta_button_text}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        )}
-      </div>
+      )}
     </div>
   );
 }
