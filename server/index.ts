@@ -26,6 +26,7 @@ import {
   uploadHero,
   uploadGallery,
   uploadSeoImage,
+  uploadHeroImage,
   uploadGalleryImage,
   deleteUploadedImage,
   listUploadedImages,
@@ -176,7 +177,7 @@ export function createServer() {
   // Upload routes
   app.post("/api/uploads/seo-image", upload.single("image"), uploadSeoImage);
   app.post("/api/uploads/avatar", uploadAvatar.single("image"), uploadSeoImage);
-  app.post("/api/uploads/hero", uploadHero.single("image"), uploadSeoImage);
+  app.post("/api/uploads/hero", uploadHero.single("image"), uploadHeroImage);
   app.post(
     "/api/upload/gallery",
     uploadGallery.single("image"),
