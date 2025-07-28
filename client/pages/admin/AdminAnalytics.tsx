@@ -570,6 +570,36 @@ export default function AdminAnalytics() {
         </div>
       </div>
 
+      {/* Resumo de Tráfego */}
+      <Card className="bg-gradient-to-br from-indigo-50 to-blue-100 border-indigo-200">
+        <CardHeader>
+          <CardTitle className="flex items-center">
+            <BarChart3 className="w-6 h-6 mr-3 text-indigo-600" />
+            Resumo do Período - {selectedPeriod === 1 ? "Hoje" : selectedPeriod === 0 ? "Ontem" : `Últimos ${selectedPeriod} dias`}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="text-center">
+              <p className="text-2xl font-bold text-indigo-900">{overview.leads.total}</p>
+              <p className="text-sm text-indigo-600">Total de Leads</p>
+            </div>
+            <div className="text-center">
+              <p className="text-2xl font-bold text-blue-900">{overview.traffic.total_page_views}</p>
+              <p className="text-sm text-blue-600">Page Views</p>
+            </div>
+            <div className="text-center">
+              <p className="text-2xl font-bold text-green-900">{overview.traffic.unique_users}</p>
+              <p className="text-sm text-green-600">Usuários Únicos</p>
+            </div>
+            <div className="text-center">
+              <p className="text-2xl font-bold text-purple-900">{overview.leads.conversion_rate.toFixed(2)}%</p>
+              <p className="text-sm text-purple-600">Taxa de Conversão</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Cards de Overview */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {/* Total de Leads */}
@@ -795,7 +825,7 @@ export default function AdminAnalytics() {
                   </p>
                   <button
                     onClick={() => {
-                      console.log("🔄 Atualizando dados...");
+                      console.log("�� Atualizando dados...");
                       refreshData();
                     }}
                     className="text-xs text-green-600 underline hover:text-green-800"
