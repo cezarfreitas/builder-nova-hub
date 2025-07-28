@@ -207,7 +207,7 @@ export const useMetaTracking = () => {
         timestamp: new Date().toISOString(),
       },
     });
-  }, [sendEvent]);
+  }, [sendEvent, conversionName]);
 
   // Automatizar Page View no mount
   useEffect(() => {
