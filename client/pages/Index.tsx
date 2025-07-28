@@ -648,7 +648,7 @@ export default function Index() {
               <img
                 src={currentHero.background_image}
                 alt="Background do Hero"
-                className="w-full h-full object-cover transition-opacity duration-500"
+                className="w-full h-full object-cover"
                 loading="eager"
                 fetchpriority="high"
               />
@@ -674,20 +674,8 @@ export default function Index() {
                   src={currentHero.logo_url}
                   alt="Logo Ecko - Marca líder em streetwear brasileiro"
                   className="w-40 h-16 sm:w-48 sm:h-20 lg:w-56 lg:h-24 xl:w-64 xl:h-28 object-contain"
-                  onError={(e) => {
-                    // Fallback para logo de texto se a imagem falhar
-                    const target = e.target as HTMLImageElement;
-                    target.style.display = "none";
-                    const parent = target.parentElement;
-                    if (parent && !parent.querySelector(".text-logo")) {
-                      const textLogo = document.createElement("div");
-                      textLogo.className =
-                        "text-logo text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-white text-center py-4";
-                      textLogo.innerHTML =
-                        '<span class="text-ecko-red">ECKO</span><span class="text-white"> UNLTD</span>';
-                      parent.appendChild(textLogo);
-                    }
-                  }}
+                  loading="eager"
+                  fetchpriority="high"
                 />
               </div>
             )}
@@ -695,7 +683,7 @@ export default function Index() {
             {/* Subtitle */}
             {currentHero.subtitle && (
               <div
-                className="text-lg sm:text-xl lg:text-2xl mb-2 sm:mb-4 font-medium opacity-90 px-2 transition-all duration-500"
+                className="text-lg sm:text-xl lg:text-2xl mb-2 sm:mb-4 font-medium opacity-90 px-2"
                 style={{ color: currentHero.text_color }}
               >
                 {renderTextWithColorTokens(currentHero.subtitle)}
