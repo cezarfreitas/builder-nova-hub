@@ -71,6 +71,7 @@ import {
   reorderGalleryImages,
 } from "./routes/gallery";
 import contentRouter from "./routes/content";
+import aboutRouter from "./routes/about";
 import { initializeDatabase, testConnection } from "./config/database";
 import { testJsonSystem } from "./routes/test-json";
 import {
