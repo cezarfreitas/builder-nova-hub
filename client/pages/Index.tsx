@@ -1784,8 +1784,8 @@ export default function Index() {
                     className="bg-gray-900/50 backdrop-blur-sm border-2 border-gray-700 hover:border-ecko-red hover:bg-gray-800/70 transition-all duration-500 group transform hover:-translate-y-2 hover:scale-105"
                   >
                     <CardContent className="p-3 sm:p-6 text-center relative">
-                      <div className="w-20 h-20 bg-gradient-to-br from-ecko-red/30 to-ecko-red/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:from-ecko-red/50 group-hover:to-ecko-red/20 transition-all duration-500 group-hover:rotate-6">
-                        <IconComponent className="w-10 h-10 text-ecko-red group-hover:scale-110 transition-transform duration-300" />
+                      <div className="w-12 h-12 sm:w-20 sm:h-20 bg-gradient-to-br from-ecko-red/30 to-ecko-red/10 rounded-xl sm:rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-6 group-hover:from-ecko-red/50 group-hover:to-ecko-red/20 transition-all duration-500 group-hover:rotate-6">
+                        <IconComponent className="w-6 h-6 sm:w-10 sm:h-10 text-ecko-red group-hover:scale-110 transition-transform duration-300" />
                       </div>
                       <h3 className="text-xl font-bold text-white mb-3 uppercase tracking-wide group-hover:text-ecko-red transition-colors duration-300">
                         {renderTextWithColorTokens(card.title)}
