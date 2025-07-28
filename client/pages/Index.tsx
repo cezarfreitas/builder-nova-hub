@@ -325,7 +325,7 @@ export default function Index() {
     return limited;
   };
 
-  // Funç��o para validar WhatsApp
+  // Função para validar WhatsApp
   const validateWhatsApp = (whatsapp: string): boolean => {
     // Remove formatação
     const numbers = whatsapp.replace(/\D/g, "");
