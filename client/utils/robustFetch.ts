@@ -116,19 +116,19 @@ export async function robustFetch(
       text: () => response.text(),
     };
   } catch (nativeFetchError) {
-    console.warn(
+    devWarn(
       `⚠️ [ROBUST] Fetch nativo falhou para ${url}:`,
       nativeFetchError,
     );
 
     // Se fetch nativo falhar, usar XMLHttpRequest
     try {
-      console.log(`🔄 [ROBUST] Tentando XMLHttpRequest para ${url}`);
+      devLog(`🔄 [ROBUST] Tentando XMLHttpRequest para ${url}`);
       const response = await createXHRFetch(url, options);
-      console.log(`✅ [ROBUST] XMLHttpRequest bem-sucedido para ${url}`);
+      devLog(`✅ [ROBUST] XMLHttpRequest bem-sucedido para ${url}`);
       return response;
     } catch (xhrError) {
-      console.error(
+      devError(
         `❌ [ROBUST] Ambos fetch nativo e XMLHttpRequest falharam para ${url}:`,
         xhrError,
       );
