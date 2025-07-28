@@ -1,6 +1,28 @@
 import { Request, Response } from "express";
 import { readSettingsFromFile } from "./settings";
 import * as crypto from "crypto";
+import { readFileSync, existsSync } from 'fs';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+// ES module compatibility
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Função para ler configurações de integrações do novo sistema JSON
+function readIntegrationsSettings() {
+  try {
+    const integrationsPath = join(__dirname, '../data/integrations-settings.json');
+    if (!existsSync(integrationsPath)) {
+      return null;
+    }
+    const data = readFileSync(integrationsPath, 'utf8');
+    return JSON.parse(data);
+  } catch (error) {
+    console.error('Erro ao ler configurações de integrações:', error);
+    return null;
+  }
+}
 
 interface MetaTrackingEvent {
   event_name: string;
