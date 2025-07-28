@@ -501,30 +501,7 @@ export default function Index() {
       const result = await response.json();
 
       if (result.success) {
-        // 🎯 Disparar conversão para Meta quando formulário for enviado com sucesso
-        try {
-          // Verificar se o tracking está habilitado
-          const configResponse = await fetch('/api/integrations-settings');
-          const configResult = await configResponse.json();
-
-          if (configResult.success && configResult.data.meta_tracking_enabled === 'true') {
-            console.log('🎯 Disparando conversão para Meta - formulário enviado com sucesso');
-            console.log('📊 Dados do lead:', {
-              cidade: formData.cidade,
-              estado: formData.estado,
-              storeType: formData.storeType,
-              formOrigin: formOrigin || 'form-inline'
-            });
-
-            // Usar trackButtonClick que irá usar o nome de conversão configurado dinamicamente
-            trackButtonClick(`form_submission_${formData.storeType || 'unknown'}`, 'lead_conversion');
-          } else {
-            console.log('⏸️ Tracking de conversões desabilitado nas configurações');
-          }
-        } catch (conversionError) {
-          console.error('❌ Erro no tracking de conversão:', conversionError);
-        }
-
+        // ✅ Primeiro, executar todas as ações de sucesso
         toast({
           title: "✅ Cadastro enviado!",
           description:
