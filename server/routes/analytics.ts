@@ -681,7 +681,8 @@ export async function trackVisit(req: Request, res: Response) {
       ],
     );
 
-    console.log(`✅ Evento ${event_type || "page_view"} registrado no banco`);
+    console.log(`✅ [DATABASE] Evento ${event_type || "page_view"} salvo com sucesso`);
+    console.log(`✅ [DATABASE] Session ${session_id} registrada na tabela analytics_events`);
 
     res.json({
       success: true,
@@ -802,7 +803,7 @@ export async function trackDuration(req: Request, res: Response) {
       message: "Duração atualizada com sucesso",
     });
   } catch (error) {
-    console.error("Erro ao atualizar duraç��o:", error);
+    console.error("Erro ao atualizar duração:", error);
     res.status(500).json({
       success: false,
       message: "Erro interno do servidor",
