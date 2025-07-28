@@ -50,6 +50,22 @@ export default function Index() {
   const { content, loading: contentLoading } = useContent();
   const { heroSettings: currentHero, loading: heroLoading, error: heroError } = useHeroSection();
 
+  // Meta tracking hooks
+  const {
+    trackFormView,
+    trackFormStart,
+    trackButtonClick,
+    trackVideoPlay,
+    trackFAQClick,
+    trackSectionView,
+    trackContactIntent,
+    trackFormAbandonment,
+  } = useMetaTracking();
+
+  // Auto-tracking hooks
+  useScrollTracking();
+  useTimeTracking();
+
   // Simplificado: não precisamos controlar estado de loading de imagens
 
   const [formData, setFormData] = useState<LeadFormData>({
@@ -248,7 +264,7 @@ export default function Index() {
       return false;
     }
 
-    // Se tem 10 dígitos, não deve começar com 9 (fixo)
+    // Se tem 10 dígitos, n��o deve começar com 9 (fixo)
     if (numbers.length === 10 && numbers[2] === "9") {
       return false;
     }
