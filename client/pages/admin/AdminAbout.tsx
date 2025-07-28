@@ -92,34 +92,13 @@ export default function AdminAbout() {
 
   // Salvar configurações
   const saveSettings = async () => {
-    try {
-      setSaving(true);
+    if (!settings) return;
 
-      const updatedContent = {
-        ...content,
-        about: settings,
-      };
+    const result = await saveAboutData(settings);
 
-      const result = await saveContent(updatedContent);
-
-      if (result.success) {
-        toast({
-          title: "Seção Sobre atualizada!",
-          description: "As configurações foram salvas com sucesso.",
-        });
-        setHasChanges(false);
-      } else {
-        throw new Error("Falha ao salvar");
-      }
-    } catch (error) {
-      console.error("Erro ao salvar seção Sobre:", error);
-      toast({
-        title: "Erro ao salvar",
-        description: "Não foi possível salvar as configurações.",
-        variant: "destructive",
-      });
-    } finally {
-      setSaving(false);
+    if (result.success) {
+      setAboutData(settings);
+      setHasChanges(false);
     }
   };
 
