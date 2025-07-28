@@ -10,7 +10,7 @@ import { Badge } from "../../components/ui/badge";
 import { Input } from "../../components/ui/input";
 import { Textarea } from "../../components/ui/textarea";
 import { useToast } from "../../hooks/use-toast";
-import { useContent } from "../../hooks/useContent";
+import { useAboutSection } from "../../hooks/useAboutSection";
 import { TokenColorEditor } from "../../components/TokenColorEditor";
 import { OptimizedImageUpload } from "../../components/OptimizedImageUpload";
 import { renderTextWithColorTokens } from "../../utils/colorTokens";
