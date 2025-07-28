@@ -796,57 +796,46 @@ export default function Index() {
               }
             </div>
 
-            {/* CTA Buttons */}
-            {currentHero.cta_secondary_text && (
-              <div className="flex flex-col items-center">
-                <>
-                  <style>
-                    {`
-                    .hero-cta-button:hover .hero-cta-text {
-                      color: ${currentHero.cta_text_color || "#dc2626"} !important;
-                    }
-                  `}
-                  </style>
-                  <div
-                    className="hero-cta-button mb-6 sm:mb-8 group relative overflow-hidden bg-transparent border-2 font-bold px-8 sm:px-10 py-4 sm:py-5 h-auto text-base sm:text-lg uppercase tracking-wider rounded-lg cursor-pointer"
-                    onClick={scrollToContent}
-                    style={{
-                      borderColor: currentHero.cta_color,
-                      color: currentHero.text_color || "#ffffff",
-                    }}
-                  >
-                    <span
-                      className="absolute inset-0 transform scale-x-0 group-hover:scale-x-100 origin-left"
-                      style={{ backgroundColor: currentHero.cta_color }}
-                    ></span>
-                    <span
-                      className="hero-cta-text relative z-10 flex items-center transition-colors duration-300"
-                      style={{ color: currentHero.text_color || "#ffffff" }}
-                    >
-                      {currentHero.cta_secondary_text}
-                      <ChevronDown className="ml-2 w-6 h-6 group-hover:animate-bounce" />
-                    </span>
-                  </div>
-                </>
-
-                {/* Scroll Indicator */}
-                <div
-                  onClick={scrollToContent}
-                  className="flex flex-col items-center animate-bounce cursor-pointer hover:scale-110 transition-transform duration-300"
+            {/* CTA Buttons - Renderização imediata */}
+            <div className="flex flex-col items-center">
+              <div
+                className="hero-cta-button mb-6 sm:mb-8 group relative overflow-hidden bg-transparent border-2 font-bold px-8 sm:px-10 py-4 sm:py-5 h-auto text-base sm:text-lg uppercase tracking-wider rounded-lg cursor-pointer"
+                onClick={scrollToContent}
+                style={{
+                  borderColor: currentHero.cta_color || '#dc2626',
+                  color: currentHero.text_color || '#ffffff',
+                }}
+              >
+                <span
+                  className="absolute inset-0 transform scale-x-0 group-hover:scale-x-100 origin-left"
+                  style={{ backgroundColor: currentHero.cta_color || '#dc2626' }}
+                ></span>
+                <span
+                  className="hero-cta-text relative z-10 flex items-center"
+                  style={{ color: currentHero.text_color || '#ffffff' }}
                 >
-                  <div
-                    className="w-1 h-12 bg-gradient-to-b to-transparent rounded-full mb-2"
-                    style={{
-                      background: `linear-gradient(to bottom, ${currentHero.cta_color}, transparent)`,
-                    }}
-                  ></div>
-                  <ChevronDown
-                    className="w-6 h-6 animate-pulse hover:text-white transition-colors"
-                    style={{ color: currentHero.cta_color }}
-                  />
-                </div>
+                  {currentHero.cta_secondary_text || 'DESCUBRA COMO'}
+                  <ChevronDown className="ml-2 w-6 h-6" />
+                </span>
               </div>
-            )}
+
+              {/* Scroll Indicator otimizado */}
+              <div
+                onClick={scrollToContent}
+                className="flex flex-col items-center cursor-pointer"
+              >
+                <div
+                  className="w-1 h-12 rounded-full mb-2"
+                  style={{
+                    background: `linear-gradient(to bottom, ${currentHero.cta_color || '#dc2626'}, transparent)`,
+                  }}
+                ></div>
+                <ChevronDown
+                  className="w-6 h-6"
+                  style={{ color: currentHero.cta_color || '#dc2626' }}
+                />
+              </div>
+            </div>
           </div>
         </section>
 
