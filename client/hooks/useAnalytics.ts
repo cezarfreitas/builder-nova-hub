@@ -177,14 +177,19 @@ export function useAnalytics(selectedPeriod: number = 30) {
 
         // Fetch location conversion (optional)
         try {
+          const locationController = new AbortController();
+          const locationTimeoutId = setTimeout(() => locationController.abort(), 8000);
+
           const locationResponse = await fetch(
             `/api/analytics/conversion-by-location?days=${selectedPeriod}`,
             {
               headers: { "Content-Type": "application/json" },
               credentials: 'same-origin',
-              signal: AbortSignal.timeout(8000),
+              signal: locationController.signal,
             },
           );
+
+          clearTimeout(locationTimeoutId);
           if (locationResponse.ok) {
             const locationResult = await locationResponse.json();
             if (locationResult.success) {
