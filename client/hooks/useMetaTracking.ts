@@ -23,13 +23,18 @@ export const useMetaTracking = () => {
   useEffect(() => {
     const loadConversionName = async () => {
       try {
-        const response = await fetch("/api/integrations-settings");
-        const result = await response.json();
+        console.log('🔄 [META] Carregando nome da conversão...');
+
+        const result = await robustFetchJson("/api/integrations-settings", {
+          timeout: 6000,
+        });
+
         if (result.success && result.data.meta_conversion_name) {
+          console.log('✅ [META] Nome da conversão carregado:', result.data.meta_conversion_name);
           setConversionName(result.data.meta_conversion_name);
         }
       } catch (error) {
-        console.error("Erro ao carregar nome da conversão:", error);
+        console.error("⚠️ [META] Erro ao carregar nome da conversão:", error);
         // Fallback para o sistema antigo
         const name = getSetting("meta_conversion_name");
         if (name) setConversionName(name);
