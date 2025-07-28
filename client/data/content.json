@@ -8,32 +8,32 @@
         "order": 1
       },
       {
-        "id": "about",
-        "name": "Sobre a Ecko",
-        "enabled": true,
-        "order": 2
-      },
-      {
         "id": "form",
         "name": "Formulário",
         "enabled": true,
-        "order": 3
+        "order": 2
       },
       {
         "id": "benefits",
         "name": "Vantagens",
         "enabled": true,
-        "order": 4
+        "order": 3
       },
       {
         "id": "gallery",
         "name": "Galeria",
         "enabled": true,
-        "order": 5
+        "order": 4
       },
       {
         "id": "testimonials",
         "name": "Depoimentos",
+        "enabled": true,
+        "order": 5
+      },
+      {
+        "id": "about",
+        "name": "Sobre a Ecko",
         "enabled": true,
         "order": 6
       },
