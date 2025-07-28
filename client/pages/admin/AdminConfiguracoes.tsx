@@ -335,10 +335,8 @@ export default function AdminConfiguracoes() {
             currency: "BRL"
           },
           user_data: {
-            client_ip_address: "test",
-            client_user_agent: navigator.userAgent,
-            fbc: `fb.1.${Date.now()}.test_fbc_parameter`,
-            fbp: `fb.1.${Date.now()}.test_fbp_parameter`
+            client_user_agent: navigator.userAgent
+            // Remover client_ip_address, fbc e fbp - deixar o backend gerar corretamente
           }
         }),
       });
