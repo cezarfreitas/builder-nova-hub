@@ -18,6 +18,13 @@ export interface HeroSettings {
   overlay_gradient_start: string;
   overlay_gradient_end: string;
   overlay_gradient_direction: string;
+  overlay_gradient_center_color: string;
+  overlay_gradient_start_opacity: number;
+  overlay_gradient_center_opacity: number;
+  overlay_gradient_end_opacity: number;
+  overlay_gradient_start_position: number;
+  overlay_gradient_center_position: number;
+  overlay_gradient_end_position: number;
   logo_url: string;
 }
 
@@ -37,8 +44,15 @@ const defaultHeroSettings: HeroSettings = {
   overlay_blend_mode: "normal",
   overlay_gradient_enabled: true,
   overlay_gradient_start: "#000000",
-  overlay_gradient_end: "#333333",
-  overlay_gradient_direction: "radial-gradient(ellipse at center, black 20%, transparent 50%, black 80%)",
+  overlay_gradient_end: "#000000",
+  overlay_gradient_direction: "radial",
+  overlay_gradient_center_color: "#000000",
+  overlay_gradient_start_opacity: 80,
+  overlay_gradient_center_opacity: 0,
+  overlay_gradient_end_opacity: 90,
+  overlay_gradient_start_position: 20,
+  overlay_gradient_center_position: 50,
+  overlay_gradient_end_position: 80,
   logo_url: ""
 };
 
