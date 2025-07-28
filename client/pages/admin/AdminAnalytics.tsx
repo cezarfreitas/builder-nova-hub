@@ -296,6 +296,35 @@ export default function AdminAnalytics() {
     ],
   };
 
+  // Dados para gráfico de visitas diárias
+  const dailyVisitsData = {
+    labels: dailyStats.map((stat) => {
+      const date = new Date(stat.date);
+      return date.toLocaleDateString("pt-BR", {
+        day: "2-digit",
+        month: "2-digit",
+      });
+    }),
+    datasets: [
+      {
+        label: "Sessões",
+        data: dailyStats.map((stat) => stat.sessions || 0),
+        borderColor: "#2563eb",
+        backgroundColor: "rgba(37, 99, 235, 0.1)",
+        fill: true,
+        tension: 0.4,
+      },
+      {
+        label: "Page Views",
+        data: dailyStats.map((stat) => stat.page_views || 0),
+        borderColor: "#7c3aed",
+        backgroundColor: "rgba(124, 58, 237, 0.1)",
+        fill: true,
+        tension: 0.4,
+      },
+    ],
+  };
+
   // Dados para gráfico de conversão
   const conversionData = {
     labels: dailyStats.map((stat) => {
@@ -1392,7 +1421,7 @@ export default function AdminAnalytics() {
                         <div>
                           <p className="font-medium">{city.cidade}</p>
                           <p className="text-xs text-gray-500">
-                            {city.estado} • {city.with_cnpj} com CNPJ •{" "}
+                            {city.estado} • {city.with_cnpj} com CNPJ ��{" "}
                             {city.webhook_success_rate}% sucesso
                           </p>
                         </div>
