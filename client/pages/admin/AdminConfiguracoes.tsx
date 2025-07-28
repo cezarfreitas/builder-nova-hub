@@ -767,21 +767,42 @@ export default function AdminConfiguracoes() {
                       }`}
                     >
                       {testResults.success ? (
-                        <div className="space-y-2">
+                        <div className="space-y-3">
                           <p className="text-green-800 font-medium">
                             ✅ Integração funcionando corretamente!
                           </p>
-                          <p className="text-green-700 text-sm">
-                            Eventos estão sendo enviados para o Meta Facebook
-                            com sucesso.
-                          </p>
-                          {testResults.eventTest?.result?.eventsReceived !==
-                            undefined && (
-                            <p className="text-green-600 text-sm">
-                              Eventos recebidos:{" "}
-                              {testResults.eventTest.result.eventsReceived}
+
+                          {/* Resultado do Pixel */}
+                          <div className="bg-white p-3 rounded border">
+                            <h5 className="font-medium text-gray-900 mb-2 flex items-center">
+                              <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                              Meta Pixel
+                            </h5>
+                            <p className="text-green-700 text-sm">
+                              Eventos do Pixel sendo enviados com sucesso
                             </p>
-                          )}
+                            {testResults.pixelTest?.result?.eventsReceived !== undefined && (
+                              <p className="text-green-600 text-xs mt-1">
+                                Eventos recebidos: {testResults.pixelTest.result.eventsReceived}
+                              </p>
+                            )}
+                          </div>
+
+                          {/* Resultado da API de Conversões */}
+                          <div className="bg-white p-3 rounded border">
+                            <h5 className="font-medium text-gray-900 mb-2 flex items-center">
+                              <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                              API de Conversões
+                            </h5>
+                            <p className="text-green-700 text-sm">
+                              API de Conversões funcionando corretamente
+                            </p>
+                            {testResults.conversionTest?.result?.eventsReceived !== undefined && (
+                              <p className="text-green-600 text-xs mt-1">
+                                Eventos recebidos: {testResults.conversionTest.result.eventsReceived}
+                              </p>
+                            )}
+                          </div>
                         </div>
                       ) : (
                         <div className="space-y-2">
