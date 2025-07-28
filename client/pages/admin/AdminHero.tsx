@@ -117,6 +117,71 @@ export default function AdminHero() {
     }));
   };
 
+  // Aplicar presets de gradiente
+  const applyPreset = (presetName: string) => {
+    const presets = {
+      blackTransparentBlack: {
+        overlay_gradient_direction: 'radial',
+        overlay_gradient_start: '#000000',
+        overlay_gradient_center_color: '#000000',
+        overlay_gradient_end: '#000000',
+        overlay_gradient_start_opacity: 90,
+        overlay_gradient_center_opacity: 0,
+        overlay_gradient_end_opacity: 95,
+        overlay_gradient_start_position: 20,
+        overlay_gradient_center_position: 50,
+        overlay_gradient_end_position: 80,
+        overlay_gradient_enabled: true
+      },
+      centerTransparent: {
+        overlay_gradient_direction: 'radial',
+        overlay_gradient_start: '#000000',
+        overlay_gradient_center_color: '#000000',
+        overlay_gradient_end: '#000000',
+        overlay_gradient_start_opacity: 0,
+        overlay_gradient_center_opacity: 0,
+        overlay_gradient_end_opacity: 80,
+        overlay_gradient_start_position: 0,
+        overlay_gradient_center_position: 30,
+        overlay_gradient_end_position: 70,
+        overlay_gradient_enabled: true
+      },
+      darkEdges: {
+        overlay_gradient_direction: 'radial',
+        overlay_gradient_start: '#000000',
+        overlay_gradient_center_color: '#000000',
+        overlay_gradient_end: '#000000',
+        overlay_gradient_start_opacity: 30,
+        overlay_gradient_center_opacity: 10,
+        overlay_gradient_end_opacity: 70,
+        overlay_gradient_start_position: 10,
+        overlay_gradient_center_position: 40,
+        overlay_gradient_end_position: 90,
+        overlay_gradient_enabled: true
+      },
+      vignette: {
+        overlay_gradient_direction: 'radial',
+        overlay_gradient_start: '#000000',
+        overlay_gradient_center_color: '#000000',
+        overlay_gradient_end: '#000000',
+        overlay_gradient_start_opacity: 0,
+        overlay_gradient_center_opacity: 20,
+        overlay_gradient_end_opacity: 60,
+        overlay_gradient_start_position: 30,
+        overlay_gradient_center_position: 60,
+        overlay_gradient_end_position: 100,
+        overlay_gradient_enabled: true
+      }
+    };
+
+    const preset = presets[presetName as keyof typeof presets];
+    if (preset) {
+      Object.entries(preset).forEach(([key, value]) => {
+        updateField(key as any, value);
+      });
+    }
+  };
+
   if (contentLoading || !localSettings) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
@@ -273,7 +338,7 @@ export default function AdminHero() {
             <CardContent className="space-y-4">
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">
-                  Subt��tulo
+                  Subtítulo
                 </label>
                 <TokenColorEditor
                   value={localSettings.subtitle || ""}
