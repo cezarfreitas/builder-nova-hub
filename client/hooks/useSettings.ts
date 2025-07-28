@@ -32,15 +32,14 @@ export function useSettings(): UseSettingsResult {
       setLoading(true);
       setError(null);
 
-      const response = await fetch('/api/settings');
-      
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-      }
-      
-      const result = await response.json();
-      
+      console.log('🔄 [SETTINGS] Carregando configurações...');
+
+      const result = await robustFetchJson('/api/settings', {
+        timeout: 8000,
+      });
+
       if (result.success) {
+        console.log('✅ [SETTINGS] Configurações carregadas com sucesso');
         setSettings(result.data || {});
       } else {
         throw new Error(result.message || "Erro ao carregar configurações");
