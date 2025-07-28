@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useLocation, Outlet } from "react-router-dom";
 import { Button } from "../../components/ui/button";
 import { Card, CardContent } from "../../components/ui/card";
+import { useAuth } from "../../hooks/useAuth";
 import {
   Settings,
   Users,
@@ -23,6 +24,7 @@ import {
   Search,
   Webhook,
   Database,
+  LogOut,
 } from "lucide-react";
 
 interface SidebarItem {
