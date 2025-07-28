@@ -214,6 +214,7 @@ export default function AdminConfiguracoes() {
 
   // Carregar configurações de SEO e Integrações ao montar o componente
   useEffect(() => {
+    console.log('🚀 useEffect executado - carregando configurações...');
     const loadSeoSettings = async () => {
       try {
         const response = await fetch('/api/seo-settings');
