@@ -31,25 +31,40 @@ export function useAnalytics(selectedPeriod: number = 30) {
   const [locationConversion, setLocationConversion] = useState(null);
   const [geographyConversion, setGeographyConversion] = useState(null);
 
-  const fetchAnalytics = async () => {
+  const fetchAnalytics = async (retries = 3) => {
     setLoading(true);
     setError(null);
 
     try {
+      console.log(`🔄 Buscando analytics (tentativa ${4 - retries}/3)...`);
+
       // Fetch analytics overview data from database
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
+
       const overviewResponse = await fetch(
         `/api/analytics/overview?days=${selectedPeriod}`,
+        {
+          signal: controller.signal,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
       );
+
+      clearTimeout(timeoutId);
+
       if (!overviewResponse.ok) {
-        throw new Error(`Erro ao buscar overview: ${overviewResponse.status}`);
+        throw new Error(`HTTP ${overviewResponse.status}: ${overviewResponse.statusText}`);
       }
+
       const overviewResult = await overviewResponse.json();
 
       if (!overviewResult.success) {
         throw new Error(overviewResult.message || "Erro na API de overview");
       }
 
-      console.log("✅ Dados do banco carregados:", overviewResult.data);
+      console.log("✅ Dados do overview carregados:", overviewResult.data);
       setOverview(overviewResult.data);
 
       // Fetch daily stats
