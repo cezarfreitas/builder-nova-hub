@@ -163,7 +163,11 @@ export function useAnalytics(selectedPeriod: number = 30) {
         try {
           const locationResponse = await fetch(
             `/api/analytics/conversion-by-location?days=${selectedPeriod}`,
-            { headers: { "Content-Type": "application/json" } },
+            {
+              headers: { "Content-Type": "application/json" },
+              credentials: 'same-origin',
+              signal: AbortSignal.timeout(8000),
+            },
           );
           if (locationResponse.ok) {
             const locationResult = await locationResponse.json();
