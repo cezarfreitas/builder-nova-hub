@@ -154,8 +154,8 @@ export const useAnalyticsTracking = () => {
 
         navigator.sendBeacon("/api/analytics/track-duration", data);
       } else {
-        // Fallback para fetch normal
-        await fetch("/api/analytics/track-duration", {
+        // Fallback para robustFetch
+        await robustFetch("/api/analytics/track-duration", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -164,6 +164,7 @@ export const useAnalyticsTracking = () => {
             session_id: sessionId,
             duration_seconds: duration,
           }),
+          timeout: 5000,
         });
       }
 
