@@ -56,6 +56,7 @@ export default function AdminConfiguracoes() {
   const [hasChanges, setHasChanges] = useState(false);
   const [testing, setTesting] = useState(false);
   const [testResults, setTestResults] = useState<any>(null);
+  const [integrationsLoaded, setIntegrationsLoaded] = useState(false);
 
   // Hook para gerenciar configurações
   const { settings, loading, error, saveSettings, getSetting } = useSettings();
