@@ -749,6 +749,327 @@ export default function AdminConfiguracoes() {
             </CardContent>
           </Card>
         )}
+
+        {activeTab === "seo" && (
+          <div className="space-y-6">
+            {/* SEO Básico */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <Search className="w-5 h-5 mr-2" />
+                  SEO Básico
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="md:col-span-2">
+                    <Label htmlFor="seo_title">Título da Página (Title Tag)</Label>
+                    <Input
+                      id="seo_title"
+                      value={seoData.seo_title}
+                      onChange={(e) => {
+                        setSeoData({ ...seoData, seo_title: e.target.value });
+                        setHasChanges(true);
+                      }}
+                      placeholder="Seja uma Revenda Autorizada da Ecko | Tenha os Melhores Produtos"
+                      maxLength={60}
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      {seoData.seo_title.length}/60 caracteres (ideal: 50-60)
+                    </p>
+                  </div>
+
+                  <div className="md:col-span-2">
+                    <Label htmlFor="seo_description">Meta Description</Label>
+                    <textarea
+                      id="seo_description"
+                      value={seoData.seo_description}
+                      onChange={(e) => {
+                        setSeoData({ ...seoData, seo_description: e.target.value });
+                        setHasChanges(true);
+                      }}
+                      placeholder="Seja uma revenda autorizada da Ecko e tenha os melhores produtos de streetwear em sua loja..."
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
+                      rows={3}
+                      maxLength={160}
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      {seoData.seo_description.length}/160 caracteres (ideal: 150-160)
+                    </p>
+                  </div>
+
+                  <div className="md:col-span-2">
+                    <Label htmlFor="seo_keywords">Palavras-chave (Keywords)</Label>
+                    <Input
+                      id="seo_keywords"
+                      value={seoData.seo_keywords}
+                      onChange={(e) => {
+                        setSeoData({ ...seoData, seo_keywords: e.target.value });
+                        setHasChanges(true);
+                      }}
+                      placeholder="revenda autorizada ecko, melhores produtos streetwear, lojista autorizado"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Separe por vírgulas. Foque nas mais importantes para seu negócio.
+                    </p>
+                  </div>
+
+                  <div className="md:col-span-2">
+                    <Label htmlFor="seo_canonical_url">URL Canônica</Label>
+                    <Input
+                      id="seo_canonical_url"
+                      value={seoData.seo_canonical_url}
+                      onChange={(e) => {
+                        setSeoData({ ...seoData, seo_canonical_url: e.target.value });
+                        setHasChanges(true);
+                      }}
+                      placeholder="https://revendedores.ecko.com.br"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      URL principal do seu site. Evita problemas de conteúdo duplicado.
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Open Graph (Facebook) */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <Globe className="w-5 h-5 mr-2 text-blue-600" />
+                  Open Graph (Facebook/LinkedIn)
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="md:col-span-2">
+                    <Label htmlFor="og_title">Título para Redes Sociais</Label>
+                    <Input
+                      id="og_title"
+                      value={seoData.og_title}
+                      onChange={(e) => {
+                        setSeoData({ ...seoData, og_title: e.target.value });
+                        setHasChanges(true);
+                      }}
+                      placeholder="Seja uma Revenda Autorizada da Ecko"
+                    />
+                  </div>
+
+                  <div className="md:col-span-2">
+                    <Label htmlFor="og_description">Descrição para Redes Sociais</Label>
+                    <textarea
+                      id="og_description"
+                      value={seoData.og_description}
+                      onChange={(e) => {
+                        setSeoData({ ...seoData, og_description: e.target.value });
+                        setHasChanges(true);
+                      }}
+                      placeholder="Transforme sua paixão em lucro! Seja um revendedor autorizado Ecko..."
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
+                      rows={3}
+                    />
+                  </div>
+
+                  <div className="md:col-span-2">
+                    <Label htmlFor="og_image">Imagem para Redes Sociais (URL)</Label>
+                    <Input
+                      id="og_image"
+                      value={seoData.og_image}
+                      onChange={(e) => {
+                        setSeoData({ ...seoData, og_image: e.target.value });
+                        setHasChanges(true);
+                      }}
+                      placeholder="https://exemplo.com/imagem-para-redes-sociais.jpg"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Recomendado: 1200x630px. Será exibida quando seu site for compartilhado.
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Twitter Cards */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <Twitter className="w-5 h-5 mr-2 text-blue-400" />
+                  Twitter Cards
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="twitter_card">Tipo de Card</Label>
+                    <select
+                      id="twitter_card"
+                      value={seoData.twitter_card}
+                      onChange={(e) => {
+                        setSeoData({ ...seoData, twitter_card: e.target.value });
+                        setHasChanges(true);
+                      }}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
+                    >
+                      <option value="summary">Summary</option>
+                      <option value="summary_large_image">Summary com Imagem Grande</option>
+                      <option value="app">App</option>
+                      <option value="player">Player</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="twitter_title">Título para Twitter</Label>
+                    <Input
+                      id="twitter_title"
+                      value={seoData.twitter_title}
+                      onChange={(e) => {
+                        setSeoData({ ...seoData, twitter_title: e.target.value });
+                        setHasChanges(true);
+                      }}
+                      placeholder="Seja uma Revenda Autorizada da Ecko"
+                    />
+                  </div>
+
+                  <div className="md:col-span-2">
+                    <Label htmlFor="twitter_description">Descrição para Twitter</Label>
+                    <textarea
+                      id="twitter_description"
+                      value={seoData.twitter_description}
+                      onChange={(e) => {
+                        setSeoData({ ...seoData, twitter_description: e.target.value });
+                        setHasChanges(true);
+                      }}
+                      placeholder="Transforme sua paixão em lucro! Seja um revendedor autorizado Ecko..."
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
+                      rows={2}
+                    />
+                  </div>
+
+                  <div className="md:col-span-2">
+                    <Label htmlFor="twitter_image">Imagem para Twitter (URL)</Label>
+                    <Input
+                      id="twitter_image"
+                      value={seoData.twitter_image}
+                      onChange={(e) => {
+                        setSeoData({ ...seoData, twitter_image: e.target.value });
+                        setHasChanges(true);
+                      }}
+                      placeholder="https://exemplo.com/imagem-twitter.jpg"
+                    />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Favicons */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <Smartphone className="w-5 h-5 mr-2 text-purple-600" />
+                  Favicons e Ícones
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="favicon_url">Favicon (URL)</Label>
+                    <Input
+                      id="favicon_url"
+                      value={seoData.favicon_url}
+                      onChange={(e) => {
+                        setSeoData({ ...seoData, favicon_url: e.target.value });
+                        setHasChanges(true);
+                      }}
+                      placeholder="https://exemplo.com/favicon.ico"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Recomendado: 32x32px ou 16x16px (.ico, .png)
+                    </p>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="apple_icon_url">Ícone Apple Touch (URL)</Label>
+                    <Input
+                      id="apple_icon_url"
+                      value={seoData.apple_icon_url}
+                      onChange={(e) => {
+                        setSeoData({ ...seoData, apple_icon_url: e.target.value });
+                        setHasChanges(true);
+                      }}
+                      placeholder="https://exemplo.com/apple-touch-icon.png"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Recomendado: 180x180px (.png)
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Preview SEO */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <ViewIcon className="w-5 h-5 mr-2 text-green-600" />
+                  Preview do Google
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="bg-gray-50 p-4 rounded-lg border">
+                  <div className="max-w-2xl">
+                    <div className="text-blue-600 text-lg hover:underline cursor-pointer">
+                      {seoData.seo_title || "Título da sua página aparecerá aqui"}
+                    </div>
+                    <div className="text-green-700 text-sm mt-1">
+                      {seoData.seo_canonical_url || "https://seusite.com.br"}
+                    </div>
+                    <div className="text-gray-600 text-sm mt-2 leading-relaxed">
+                      {seoData.seo_description || "A descrição da sua página aparecerá aqui. Certifique-se de que seja atrativa e informativa para aumentar o CTR."}
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* SEO Tips */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <AlertCircle className="w-5 h-5 mr-2 text-yellow-600" />
+                  Dicas de SEO
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                  <h4 className="font-medium text-yellow-900 mb-3">💡 Melhores Práticas</h4>
+                  <ul className="text-yellow-800 text-sm space-y-2">
+                    <li className="flex items-start">
+                      <span className="text-yellow-600 mr-2">•</span>
+                      <span><strong>Título:</strong> Use palavras-chave importantes no início. Máximo 60 caracteres.</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-yellow-600 mr-2">•</span>
+                      <span><strong>Descrição:</strong> Seja persuasivo e inclua call-to-action. 150-160 caracteres.</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-yellow-600 mr-2">•</span>
+                      <span><strong>Imagens:</strong> Use imagens de alta qualidade e otimizadas para web.</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-yellow-600 mr-2">•</span>
+                      <span><strong>URL Canônica:</strong> Sempre use HTTPS e evite URLs com parâmetros desnecessários.</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-yellow-600 mr-2">•</span>
+                      <span><strong>Keywords:</strong> Foque na intenção de busca do seu público-alvo.</span>
+                    </li>
+                  </ul>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
       </div>
 
       {/* Botão de salvar */}
