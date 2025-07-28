@@ -987,7 +987,7 @@ export default function AdminAnalytics() {
         </Card>
 
         {/* Gráfico de Visitas Diárias */}
-        <Card>
+        <Card className="bg-white shadow-sm">
           <CardHeader>
             <CardTitle className="flex items-center">
               <Eye className="w-5 h-5 mr-2 text-blue-600" />
