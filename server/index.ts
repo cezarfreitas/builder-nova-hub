@@ -223,6 +223,9 @@ export function createServer() {
   // Content routes
   app.use("/api", contentRouter);
 
+  // About section routes
+  app.use("/api/content/about", aboutRouter);
+
   // Database test routes
   app.get("/api/test-db", testDatabaseConnection);
   app.get("/api/database-info", getDatabaseInfo);
