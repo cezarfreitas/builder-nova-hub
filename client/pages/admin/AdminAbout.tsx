@@ -14,7 +14,6 @@ import { useContent } from "../../hooks/useContent";
 import { TokenColorEditor } from "../../components/TokenColorEditor";
 import { OptimizedImageUpload } from "../../components/OptimizedImageUpload";
 import { renderTextWithColorTokens } from "../../utils/colorTokens";
-import { renderTextWithColorTokens } from "../../utils/colorTokens";
 import {
   Save,
   Type,
@@ -130,7 +129,7 @@ export default function AdminAbout() {
       id: Math.max(...settings.stats.map((s) => s.id), 0) + 1,
       number: "0+",
       label: "Nova Estatística",
-      description: "Descrição da estatística",
+      description: "Descrição da estat��stica",
     };
     updateField("stats", [...settings.stats, newStat]);
   };
