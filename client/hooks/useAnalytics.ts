@@ -145,28 +145,21 @@ export function useAnalytics(selectedPeriod: number = 30) {
 
         // Fetch geography conversion (optional)
         try {
-          const geographyController = new AbortController();
-          const geographyTimeoutId = setTimeout(() => geographyController.abort(), 8000);
+          console.log('🔄 [ANALYTICS] Buscando geography conversion...');
 
-          const geographyResponse = await fetch(
+          const geographyResult = await robustFetchJson(
             `/api/analytics/conversion-by-geography?days=${selectedPeriod}`,
             {
-              headers: { "Content-Type": "application/json" },
-              credentials: 'same-origin',
-              signal: geographyController.signal,
-            },
+              timeout: 8000,
+            }
           );
 
-          clearTimeout(geographyTimeoutId);
-          if (geographyResponse.ok) {
-            const geographyResult = await geographyResponse.json();
-            if (geographyResult.success) {
-              console.log("✅ Geography conversion carregado");
-              setGeographyConversion(geographyResult.data);
-            }
+          if (geographyResult.success) {
+            console.log("✅ [ANALYTICS] Geography conversion carregado");
+            setGeographyConversion(geographyResult.data);
           }
         } catch (error) {
-          console.warn("⚠️ Geography conversion não disponível:", error);
+          console.warn("⚠️ [ANALYTICS] Geography conversion não disponível:", error);
         }
       } catch (error) {
         console.error("❌ Erro ao carregar analytics:", error);
