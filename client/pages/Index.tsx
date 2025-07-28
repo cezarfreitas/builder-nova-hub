@@ -589,7 +589,7 @@ export default function Index() {
                   !whatsappError &&
                   validateWhatsApp(formData.whatsapp) && (
                     <p className="text-green-400 text-sm mt-2 font-medium leading-tight">
-                      ✅ WhatsApp válido
+                      �� WhatsApp válido
                     </p>
                   )}
               </div>
@@ -2072,7 +2072,7 @@ export default function Index() {
             </div>
 
             {/* Gallery Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
               {content.gallery.items?.length > 0 ? (
                 content.gallery.items
                   .filter((image) => image.is_active)
