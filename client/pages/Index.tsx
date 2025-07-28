@@ -14,6 +14,7 @@ import {
   useTimeTracking,
 } from "../hooks/useMetaTracking";
 import { useSectionTracking } from "../hooks/useSectionTracking";
+import { useAnalyticsTracking } from "../hooks/useTrackingContext";
 import { renderTextWithColorTokens } from "../utils/colorTokens";
 import { generateGradientCSS } from "../components/AdvancedGradientOverlay";
 import {
