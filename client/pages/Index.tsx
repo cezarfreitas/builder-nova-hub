@@ -403,7 +403,7 @@ export default function Index() {
     // Validar WhatsApp
     if (!formData.whatsapp || !validateWhatsApp(formData.whatsapp)) {
       toast({
-        title: "⚠���� WhatsApp Inválido",
+        title: "������ WhatsApp Inválido",
         description: content.form.validation_messages.whatsapp_invalid,
         variant: "destructive",
       });
@@ -2052,7 +2052,7 @@ export default function Index() {
             <div className="absolute bottom-1/4 right-1/3 w-72 h-72 bg-ecko-red/10 rounded-full blur-3xl"></div>
           </div>
 
-          <div className="container mx-auto px-6 max-w-7xl relative z-10">
+          <div className="container mx-auto px-4 sm:px-6 max-w-7xl relative z-10">
             {/* Section Header */}
             <div className="text-center mb-16">
               <div className="inline-flex items-center bg-ecko-red/20 backdrop-blur-sm border border-ecko-red/30 rounded-full px-6 py-3 mb-6">
