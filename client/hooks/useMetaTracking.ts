@@ -1,5 +1,6 @@
 import { useEffect, useCallback, useState } from "react";
 import { useSettings } from "./useSettings";
+import { robustFetchJson } from "../utils/robustFetch";
 
 interface TrackingEvent {
   event_name: string;
