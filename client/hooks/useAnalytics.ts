@@ -68,14 +68,23 @@ export function useAnalytics(selectedPeriod: number = 30) {
       setOverview(overviewResult.data);
 
       // Fetch daily stats
-      const dailyResponse = await fetch(
-        `/api/analytics/daily-stats?days=${selectedPeriod}`,
-      );
-      if (dailyResponse.ok) {
-        const dailyResult = await dailyResponse.json();
-        if (dailyResult.success) {
-          setDailyStats(dailyResult.data || []);
+      try {
+        const dailyResponse = await fetch(
+          `/api/analytics/daily-stats?days=${selectedPeriod}`,
+          { headers: { 'Content-Type': 'application/json' } }
+        );
+        if (dailyResponse.ok) {
+          const dailyResult = await dailyResponse.json();
+          if (dailyResult.success) {
+            console.log("✅ Daily stats carregados:", dailyResult.data?.length || 0, "dias");
+            setDailyStats(dailyResult.data || []);
+          }
+        } else {
+          console.warn("⚠️ Erro ao buscar daily stats:", dailyResponse.status);
         }
+      } catch (error) {
+        console.warn("⚠️ Erro no fetch de daily stats:", error);
+        setDailyStats([]); // fallback para array vazio
       }
 
       // Fetch time analysis
