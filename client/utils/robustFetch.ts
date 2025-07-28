@@ -16,10 +16,13 @@ export interface FetchResponse {
 }
 
 // Implementação usando XMLHttpRequest como fallback
-function createXHRFetch(url: string, options: FetchOptions = {}): Promise<FetchResponse> {
+function createXHRFetch(
+  url: string,
+  options: FetchOptions = {},
+): Promise<FetchResponse> {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
-    const method = options.method || 'GET';
+    const method = options.method || "GET";
     const timeout = options.timeout || 10000;
 
     xhr.timeout = timeout;
@@ -33,7 +36,10 @@ function createXHRFetch(url: string, options: FetchOptions = {}): Promise<FetchR
     }
 
     // Handle credentials
-    if (options.credentials === 'include' || options.credentials === 'same-origin') {
+    if (
+      options.credentials === "include" ||
+      options.credentials === "same-origin"
+    ) {
       xhr.withCredentials = true;
     }
 
@@ -46,7 +52,7 @@ function createXHRFetch(url: string, options: FetchOptions = {}): Promise<FetchR
           try {
             return JSON.parse(xhr.responseText);
           } catch (e) {
-            throw new Error('Invalid JSON response');
+            throw new Error("Invalid JSON response");
           }
         },
         text: async () => xhr.responseText,
@@ -63,7 +69,7 @@ function createXHRFetch(url: string, options: FetchOptions = {}): Promise<FetchR
     };
 
     xhr.onabort = () => {
-      reject(new Error('Request aborted'));
+      reject(new Error("Request aborted"));
     };
 
     try {
@@ -75,26 +81,32 @@ function createXHRFetch(url: string, options: FetchOptions = {}): Promise<FetchR
 }
 
 // Função principal que tenta fetch nativo primeiro, depois XMLHttpRequest
-export async function robustFetch(url: string, options: FetchOptions = {}): Promise<FetchResponse> {
+export async function robustFetch(
+  url: string,
+  options: FetchOptions = {},
+): Promise<FetchResponse> {
   // Primeiro, tentar fetch nativo
   try {
     console.log(`🌐 [ROBUST] Tentando fetch nativo para ${url}`);
-    
+
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), options.timeout || 10000);
+    const timeoutId = setTimeout(
+      () => controller.abort(),
+      options.timeout || 10000,
+    );
 
     const response = await fetch(url, {
-      method: options.method || 'GET',
+      method: options.method || "GET",
       headers: options.headers,
       body: options.body,
-      credentials: options.credentials || 'same-origin',
+      credentials: options.credentials || "same-origin",
       signal: controller.signal,
     });
 
     clearTimeout(timeoutId);
-    
+
     console.log(`✅ [ROBUST] Fetch nativo bem-sucedido para ${url}`);
-    
+
     return {
       ok: response.ok,
       status: response.status,
@@ -103,8 +115,11 @@ export async function robustFetch(url: string, options: FetchOptions = {}): Prom
       text: () => response.text(),
     };
   } catch (nativeFetchError) {
-    console.warn(`⚠️ [ROBUST] Fetch nativo falhou para ${url}:`, nativeFetchError);
-    
+    console.warn(
+      `⚠️ [ROBUST] Fetch nativo falhou para ${url}:`,
+      nativeFetchError,
+    );
+
     // Se fetch nativo falhar, usar XMLHttpRequest
     try {
       console.log(`🔄 [ROBUST] Tentando XMLHttpRequest para ${url}`);
@@ -112,17 +127,25 @@ export async function robustFetch(url: string, options: FetchOptions = {}): Prom
       console.log(`✅ [ROBUST] XMLHttpRequest bem-sucedido para ${url}`);
       return response;
     } catch (xhrError) {
-      console.error(`❌ [ROBUST] Ambos fetch nativo e XMLHttpRequest falharam para ${url}:`, xhrError);
-      throw new Error(`Falha em todas as tentativas de requisição: ${nativeFetchError.message} | ${xhrError.message}`);
+      console.error(
+        `❌ [ROBUST] Ambos fetch nativo e XMLHttpRequest falharam para ${url}:`,
+        xhrError,
+      );
+      throw new Error(
+        `Falha em todas as tentativas de requisição: ${nativeFetchError.message} | ${xhrError.message}`,
+      );
     }
   }
 }
 
 // Versão específica para JSON APIs
-export async function robustFetchJson<T = any>(url: string, options: FetchOptions = {}): Promise<T> {
+export async function robustFetchJson<T = any>(
+  url: string,
+  options: FetchOptions = {},
+): Promise<T> {
   const defaultHeaders = {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
+    "Content-Type": "application/json",
+    Accept: "application/json",
   };
 
   const mergedOptions: FetchOptions = {
@@ -134,7 +157,7 @@ export async function robustFetchJson<T = any>(url: string, options: FetchOption
   };
 
   const response = await robustFetch(url, mergedOptions);
-  
+
   if (!response.ok) {
     throw new Error(`HTTP ${response.status}: ${response.statusText}`);
   }

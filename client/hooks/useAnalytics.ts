@@ -41,45 +41,51 @@ export function useAnalytics(selectedPeriod: number = 30) {
         console.log(`🔄 Buscando analytics (tentativa ${4 - retries}/3)...`);
 
         // Verificar se estamos no ambiente correto
-        if (typeof window === 'undefined') {
-          throw new Error('Fetch só pode ser executado no cliente');
+        if (typeof window === "undefined") {
+          throw new Error("Fetch só pode ser executado no cliente");
         }
 
         // Teste de conectividade básica antes de tentar analytics
         try {
-          await robustFetchJson('/api/database-test', { timeout: 5000 });
-          console.log('✅ [ANALYTICS] Conectividade básica OK');
+          await robustFetchJson("/api/database-test", { timeout: 5000 });
+          console.log("✅ [ANALYTICS] Conectividade básica OK");
         } catch (connectivityError) {
-          console.warn('⚠️ [ANALYTICS] Problema de conectividade detectado:', connectivityError);
+          console.warn(
+            "⚠️ [ANALYTICS] Problema de conectividade detectado:",
+            connectivityError,
+          );
           // Continuar mesmo assim, mas com timeout menor
         }
 
         // Fetch analytics overview data using robust fetch
-        console.log('🔄 [ANALYTICS] Buscando overview...');
+        console.log("🔄 [ANALYTICS] Buscando overview...");
 
         const overviewResult = await robustFetchJson(
           `/api/analytics/overview?days=${selectedPeriod}`,
           {
             timeout: 10000,
-          }
+          },
         );
 
         if (!overviewResult.success) {
           throw new Error(overviewResult.message || "Erro na API de overview");
         }
 
-        console.log("✅ [ANALYTICS] Dados do overview carregados:", overviewResult.data);
+        console.log(
+          "✅ [ANALYTICS] Dados do overview carregados:",
+          overviewResult.data,
+        );
         setOverview(overviewResult.data);
 
         // Fetch daily stats
         try {
-          console.log('🔄 [ANALYTICS] Buscando daily stats...');
+          console.log("🔄 [ANALYTICS] Buscando daily stats...");
 
           const dailyResult = await robustFetchJson(
             `/api/analytics/daily-stats?days=${selectedPeriod}`,
             {
               timeout: 8000,
-            }
+            },
           );
 
           if (dailyResult.success) {
@@ -97,13 +103,13 @@ export function useAnalytics(selectedPeriod: number = 30) {
 
         // Fetch time analysis (optional)
         try {
-          console.log('🔄 [ANALYTICS] Buscando time analysis...');
+          console.log("🔄 [ANALYTICS] Buscando time analysis...");
 
           const timeResult = await robustFetchJson(
             `/api/analytics/time-analysis?days=${selectedPeriod}`,
             {
               timeout: 8000,
-            }
+            },
           );
 
           if (timeResult.success) {
@@ -116,13 +122,13 @@ export function useAnalytics(selectedPeriod: number = 30) {
 
         // Fetch traffic sources (optional)
         try {
-          console.log('🔄 [ANALYTICS] Buscando traffic sources...');
+          console.log("🔄 [ANALYTICS] Buscando traffic sources...");
 
           const trafficResult = await robustFetchJson(
             `/api/analytics/traffic-sources?days=${selectedPeriod}`,
             {
               timeout: 8000,
-            }
+            },
           );
 
           if (trafficResult.success) {
@@ -135,13 +141,13 @@ export function useAnalytics(selectedPeriod: number = 30) {
 
         // Fetch location conversion (optional)
         try {
-          console.log('🔄 [ANALYTICS] Buscando location conversion...');
+          console.log("🔄 [ANALYTICS] Buscando location conversion...");
 
           const locationResult = await robustFetchJson(
             `/api/analytics/conversion-by-location?days=${selectedPeriod}`,
             {
               timeout: 8000,
-            }
+            },
           );
 
           if (locationResult.success) {
@@ -149,18 +155,21 @@ export function useAnalytics(selectedPeriod: number = 30) {
             setLocationConversion(locationResult.data);
           }
         } catch (error) {
-          console.warn("⚠️ [ANALYTICS] Location conversion não disponível:", error);
+          console.warn(
+            "⚠️ [ANALYTICS] Location conversion não disponível:",
+            error,
+          );
         }
 
         // Fetch geography conversion (optional)
         try {
-          console.log('🔄 [ANALYTICS] Buscando geography conversion...');
+          console.log("🔄 [ANALYTICS] Buscando geography conversion...");
 
           const geographyResult = await robustFetchJson(
             `/api/analytics/conversion-by-geography?days=${selectedPeriod}`,
             {
               timeout: 8000,
-            }
+            },
           );
 
           if (geographyResult.success) {
@@ -168,13 +177,20 @@ export function useAnalytics(selectedPeriod: number = 30) {
             setGeographyConversion(geographyResult.data);
           }
         } catch (error) {
-          console.warn("⚠️ [ANALYTICS] Geography conversion não disponível:", error);
+          console.warn(
+            "⚠️ [ANALYTICS] Geography conversion não disponível:",
+            error,
+          );
         }
       } catch (error) {
         console.error("❌ [ANALYTICS] Erro ao carregar analytics:", error);
 
         // Retry logic - mas só se não for erro de conectividade básica
-        if (retries > 0 && !error.message.includes('Failed to fetch') && error.name !== "AbortError") {
+        if (
+          retries > 0 &&
+          !error.message.includes("Failed to fetch") &&
+          error.name !== "AbortError"
+        ) {
           console.log(
             `🔄 [ANALYTICS] Tentando novamente em 3s... (${retries} tentativas restantes)`,
           );
@@ -189,13 +205,21 @@ export function useAnalytics(selectedPeriod: number = 30) {
           error instanceof Error ? error.message : "Erro desconhecido";
 
         // Verificar se é problema de conectividade
-        if (errorMessage.includes('Failed to fetch') || errorMessage.includes('Network error')) {
-          setError(`Problemas de conectividade detectados. Verifique sua conexão.`);
+        if (
+          errorMessage.includes("Failed to fetch") ||
+          errorMessage.includes("Network error")
+        ) {
+          setError(
+            `Problemas de conectividade detectados. Verifique sua conexão.`,
+          );
         } else {
           setError(`Falha ao carregar dados: ${errorMessage}`);
         }
 
-        console.error("❌ [ANALYTICS] Todas as tentativas falharam:", errorMessage);
+        console.error(
+          "❌ [ANALYTICS] Todas as tentativas falharam:",
+          errorMessage,
+        );
 
         // Set empty/zero data instead of mock data
         setOverview({

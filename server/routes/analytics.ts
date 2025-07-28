@@ -4,11 +4,11 @@ import { getDatabase } from "../config/database";
 // GET /api/analytics/overview - Métricas gerais
 export async function getAnalyticsOverview(req: Request, res: Response) {
   try {
-    console.log('📊 [API] Iniciando getAnalyticsOverview...');
+    console.log("📊 [API] Iniciando getAnalyticsOverview...");
 
     const db = getDatabase();
     if (!db) {
-      throw new Error('Conexão com banco de dados não disponível');
+      throw new Error("Conexão com banco de dados não disponível");
     }
     const { days = 30, yesterday } = req.query;
 
@@ -211,7 +211,7 @@ export async function getAnalyticsOverview(req: Request, res: Response) {
       },
     };
 
-    console.log('✅ [API] getAnalyticsOverview respondendo com sucesso');
+    console.log("✅ [API] getAnalyticsOverview respondendo com sucesso");
     res.json(responseData);
   } catch (error) {
     console.error("❌ [API] Erro ao buscar overview analytics:", error);
@@ -224,9 +224,15 @@ export async function getAnalyticsOverview(req: Request, res: Response) {
         store_types: { fisica: 0, online: 0, ambas: 0 },
         webhooks: { success: 0, errors: 0 },
         traffic: {
-          total_sessions: 0, unique_users: 0, total_page_views: 0,
-          period_page_views: 0, unique_page_views: 0, avg_session_duration: 0,
-          pages_per_session: 0, bounce_rate: 0, whatsapp_clicks: 0
+          total_sessions: 0,
+          unique_users: 0,
+          total_page_views: 0,
+          period_page_views: 0,
+          unique_page_views: 0,
+          avg_session_duration: 0,
+          pages_per_session: 0,
+          bounce_rate: 0,
+          whatsapp_clicks: 0,
         },
         conversion: { rate: 0, period_rate: 0 },
         period_days: Number(req.query.days || 30),
@@ -234,7 +240,7 @@ export async function getAnalyticsOverview(req: Request, res: Response) {
       },
     };
 
-    console.log('⚠️ [API] Respondendo com dados fallback devido a erro');
+    console.log("⚠️ [API] Respondendo com dados fallback devido a erro");
     res.status(200).json(fallbackData);
   }
 }
@@ -242,11 +248,11 @@ export async function getAnalyticsOverview(req: Request, res: Response) {
 // GET /api/analytics/daily-stats - Estatísticas diárias
 export async function getDailyStats(req: Request, res: Response) {
   try {
-    console.log('📊 [API] Iniciando getDailyStats...');
+    console.log("📊 [API] Iniciando getDailyStats...");
 
     const db = getDatabase();
     if (!db) {
-      throw new Error('Conexão com banco de dados não disponível');
+      throw new Error("Conexão com banco de dados não disponível");
     }
     const { days = 30, yesterday } = req.query;
 
@@ -377,7 +383,7 @@ export async function getDailyStats(req: Request, res: Response) {
       (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
     );
 
-    console.log('✅ [API] getDailyStats respondendo com sucesso');
+    console.log("✅ [API] getDailyStats respondendo com sucesso");
     res.json({
       success: true,
       data: dailyStats,
@@ -386,7 +392,7 @@ export async function getDailyStats(req: Request, res: Response) {
     console.error("❌ [API] Erro ao buscar estatísticas diárias:", error);
 
     // Responder com array vazio em vez de erro
-    console.log('⚠️ [API] Respondendo com array vazio devido a erro');
+    console.log("⚠️ [API] Respondendo com array vazio devido a erro");
     res.status(200).json({
       success: true,
       data: [],
