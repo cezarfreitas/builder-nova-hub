@@ -169,24 +169,30 @@ export function OptimizedImageUpload({
 
         setUploadProgress(75);
 
-        // Converter para base64 ou upload para servidor
-        const reader = new FileReader();
-        reader.onload = () => {
-          const result = reader.result as string;
-          onChange(result);
-          setUploadProgress(100);
+        // Upload para servidor
+        const formData = new FormData();
+        formData.append('image', blob, `hero-${Date.now()}.${outputFormat === 'png' ? 'png' : 'jpg'}`);
 
-          toast({
-            title: "Imagem otimizada!",
-            description: `Compressão: ${stats.compressionRatio}% • Tamanho final: ${Math.round(blob.size / 1024)}KB`,
-          });
-        };
+        const response = await fetch('/api/uploads/hero', {
+          method: 'POST',
+          body: formData,
+        });
 
-        reader.onerror = () => {
-          throw new Error("Erro ao processar a imagem");
-        };
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(`Erro no upload: ${errorText}`);
+        }
 
-        reader.readAsDataURL(blob);
+        const result = await response.json();
+        const imageUrl = result.url || result.path;
+
+        onChange(imageUrl);
+        setUploadProgress(100);
+
+        toast({
+          title: "Imagem otimizada e salva!",
+          description: `Compressão: ${stats.compressionRatio}% • Tamanho final: ${Math.round(blob.size / 1024)}KB`,
+        });
       } catch (error) {
         console.error("Erro no upload:", error);
         toast({
