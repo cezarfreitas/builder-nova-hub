@@ -234,7 +234,7 @@ export async function getAnalyticsOverview(req: Request, res: Response) {
       },
     };
 
-    console.log('⚠️ [API] Respondendo com dados fallback devido a erro');
+    console.log('��️ [API] Respondendo com dados fallback devido a erro');
     res.status(200).json(fallbackData);
   }
 }
@@ -242,7 +242,12 @@ export async function getAnalyticsOverview(req: Request, res: Response) {
 // GET /api/analytics/daily-stats - Estatísticas diárias
 export async function getDailyStats(req: Request, res: Response) {
   try {
+    console.log('📊 [API] Iniciando getDailyStats...');
+
     const db = getDatabase();
+    if (!db) {
+      throw new Error('Conexão com banco de dados não disponível');
+    }
     const { days = 30, yesterday } = req.query;
 
     // Buscar leads por dia
