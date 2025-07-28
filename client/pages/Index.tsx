@@ -501,6 +501,50 @@ export default function Index() {
       const result = await response.json();
 
       if (result.success) {
+        // 🎯 Disparar conversão para Meta quando formulário for enviado com sucesso
+        try {
+          const conversionResponse = await fetch('/api/meta/track-event', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              event_name: 'Lead', // Será substituído pelo nome configurado no backend
+              event_source_url: window.location.href,
+              action_source: 'website',
+              custom_data: {
+                content_type: 'form_submission',
+                content_category: 'lead_generation',
+                content_name: 'revenda_autorizada_form',
+                value: 1.00,
+                currency: 'BRL',
+                form_origin: formOrigin || 'form-inline',
+                user_data: {
+                  name: formData.name,
+                  phone: formData.whatsapp,
+                  city: formData.cidade,
+                  state: formData.estado,
+                  store_type: formData.storeType,
+                  has_cnpj: formData.hasCnpj,
+                }
+              },
+              user_data: {
+                client_user_agent: navigator.userAgent,
+                // fbc, fbp e client_ip serão gerados automaticamente no backend
+              }
+            }),
+          });
+
+          const conversionResult = await conversionResponse.json();
+          if (conversionResult.success) {
+            console.log('🎯 Conversão enviada com sucesso para Meta:', conversionResult);
+          } else {
+            console.error('❌ Erro ao enviar conversão para Meta:', conversionResult);
+          }
+        } catch (conversionError) {
+          console.error('❌ Erro no tracking de conversão:', conversionError);
+        }
+
         toast({
           title: "✅ Cadastro enviado!",
           description:
@@ -2523,7 +2567,7 @@ export default function Index() {
               <p className="text-gray-400 text-sm">
                 {renderTextWithColorTokens(
                   content.footer?.copyright ||
-                    "© 2024 Ecko. Todos os direitos reservados. Seja um revendedor oficial e transforme seu negócio.",
+                    "�� 2024 Ecko. Todos os direitos reservados. Seja um revendedor oficial e transforme seu negócio.",
                 )}
               </p>
             </div>
