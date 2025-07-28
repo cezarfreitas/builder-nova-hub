@@ -1595,7 +1595,7 @@ export default function Index() {
                         </p>
                         <p className="text-gray-600 max-w-3xl mx-auto">
                           {content.about?.section_description ||
-                            "Conheça a trajet��ria de uma das marcas mais influentes do streetwear mundial"}
+                            "Conheça a trajetória de uma das marcas mais influentes do streetwear mundial"}
                         </p>
                       </div>
 
@@ -2141,6 +2141,7 @@ export default function Index() {
 
         {/* About Section */}
         <section
+          ref={aboutRef}
           id="about"
           className="py-20 relative overflow-hidden"
           style={{
