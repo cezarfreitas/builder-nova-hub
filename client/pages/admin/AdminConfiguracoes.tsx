@@ -185,14 +185,6 @@ export default function AdminConfiguracoes() {
             setting_type: "number",
           },
         ];
-      } else if (activeTab === "integracoes") {
-        settingsToSave = Object.entries(integracoesData).map(
-          ([key, value]) => ({
-            setting_key: key,
-            setting_value: value,
-            setting_type: key.includes("enabled") ? "boolean" : "text",
-          }),
-        );
       }
 
       const success = await saveSettings(settingsToSave);
