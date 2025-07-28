@@ -249,6 +249,11 @@ export default function Index() {
     trackFAQClick(faqId.toString(), question);
   };
 
+  // Helper function for responsive carousel navigation
+  const getCarouselStepsPerSlide = () => {
+    return window.innerWidth >= 768 ? 2 : 1; // 2 columns on desktop, 1 on mobile
+  };
+
   // Track form abandonment if user leaves with filled fields
   useEffect(() => {
     const handleBeforeUnload = () => {
