@@ -28,6 +28,7 @@ import {
   Palette,
   Sliders,
   Settings,
+  Lightbulb,
 } from "lucide-react";
 
 interface AboutSettings {
