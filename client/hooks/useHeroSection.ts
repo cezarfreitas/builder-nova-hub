@@ -88,7 +88,12 @@ export function useHeroSection() {
     } catch (err) {
       console.error('Erro ao carregar configurações do hero:', err);
       setError(err instanceof Error ? err.message : 'Erro desconhecido');
-      // Manter configurações atuais em caso de erro
+
+      // Garantir que sempre temos configurações válidas
+      setHeroSettings(prev => ({
+        ...defaultHeroSettings,
+        ...prev // Manter qualquer configuração que já existia
+      }));
     }
   }, []); // Remover heroSettings da dependência para evitar loop
 
