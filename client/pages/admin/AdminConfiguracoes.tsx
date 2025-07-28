@@ -253,7 +253,7 @@ export default function AdminConfiguracoes() {
     }
   };
 
-  // Carregar configurações de SEO ao montar o componente
+  // Carregar configurações de SEO e Integrações ao montar o componente
   useEffect(() => {
     const loadSeoSettings = async () => {
       try {
@@ -268,7 +268,21 @@ export default function AdminConfiguracoes() {
       }
     };
 
+    const loadIntegrationsSettings = async () => {
+      try {
+        const response = await fetch('/api/integrations-settings');
+        const result = await response.json();
+
+        if (result.success) {
+          setIntegracoesData(result.data);
+        }
+      } catch (error) {
+        console.error('Erro ao carregar configurações de integrações:', error);
+      }
+    };
+
     loadSeoSettings();
+    loadIntegrationsSettings();
   }, []);
 
   const testMetaTracking = async () => {
