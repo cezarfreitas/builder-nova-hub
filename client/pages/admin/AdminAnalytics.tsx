@@ -578,7 +578,7 @@ export default function AdminAnalytics() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <div className="flex items-center gap-3 mb-2">
-            <h1 className="text-3xl font-bold text-gray-900">📊 Analytics Dashboard</h1>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">📊 Analytics Dashboard</h1>
             <div className="flex items-center gap-2">
               {trackingStatus === 'checking' && (
                 <div className="flex items-center text-yellow-600">
