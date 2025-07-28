@@ -110,13 +110,6 @@ const sidebarItems: SidebarItem[] = [
   },
   // Configurações
   {
-    id: "order",
-    label: "Ordem",
-    icon: <ArrowUpDown className="w-5 h-5" />,
-    category: "config",
-    path: "/admin/order",
-  },
-  {
     id: "configuracoes",
     label: "Configurações",
     icon: <Settings className="w-5 h-5" />,
