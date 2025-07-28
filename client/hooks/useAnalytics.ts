@@ -88,28 +88,21 @@ export function useAnalytics(selectedPeriod: number = 30) {
 
         // Fetch time analysis (optional)
         try {
-          const timeController = new AbortController();
-          const timeTimeoutId = setTimeout(() => timeController.abort(), 8000);
+          console.log('🔄 [ANALYTICS] Buscando time analysis...');
 
-          const timeResponse = await fetch(
+          const timeResult = await robustFetchJson(
             `/api/analytics/time-analysis?days=${selectedPeriod}`,
             {
-              headers: { "Content-Type": "application/json" },
-              credentials: 'same-origin',
-              signal: timeController.signal,
-            },
+              timeout: 8000,
+            }
           );
 
-          clearTimeout(timeTimeoutId);
-          if (timeResponse.ok) {
-            const timeResult = await timeResponse.json();
-            if (timeResult.success) {
-              console.log("✅ Time analysis carregado");
-              setTimeAnalysis(timeResult.data);
-            }
+          if (timeResult.success) {
+            console.log("✅ [ANALYTICS] Time analysis carregado");
+            setTimeAnalysis(timeResult.data);
           }
         } catch (error) {
-          console.warn("⚠️ Time analysis não disponível:", error);
+          console.warn("⚠️ [ANALYTICS] Time analysis não disponível:", error);
         }
 
         // Fetch traffic sources (optional)
