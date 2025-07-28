@@ -1890,7 +1890,9 @@ export default function Index() {
               <div className="overflow-hidden rounded-2xl">
                 <div
                   className="flex transition-transform duration-500 ease-in-out"
-                  style={{ transform: `translateX(-${currentTestimonial * 100}%)` }}
+                  style={{
+                    transform: `translateX(-${currentTestimonial * (window.innerWidth >= 768 ? 50 : 100)}%)`
+                  }}
                 >
                   {content.testimonials.items
                     ?.filter((testimonial) => testimonial.is_active)
