@@ -11,6 +11,7 @@ import { Badge } from "../../components/ui/badge";
 import { TokenColorEditor } from "../../components/TokenColorEditor";
 import { renderTextWithColorTokens } from "../../utils/colorTokens";
 import { OptimizedImageUpload } from "../../components/OptimizedImageUpload";
+import AdvancedGradientOverlay, { generateGradientCSS } from "../../components/AdvancedGradientOverlay";
 import { useToast } from "../../hooks/use-toast";
 import { useHeroSection } from "../../hooks/useHeroSection";
 import {
