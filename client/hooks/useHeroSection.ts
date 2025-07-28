@@ -68,23 +68,13 @@ export function useHeroSection() {
       setError(null);
       setLoading(true);
 
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
+      console.log('🔄 [HERO] Carregando configurações do hero...');
 
-      const response = await fetch('/api/hero', {
-        signal: controller.signal,
-        headers: {
-          'Content-Type': 'application/json'
-        }
+      const data = await robustFetchJson('/api/hero', {
+        timeout: 10000,
       });
 
-      clearTimeout(timeoutId);
-
-      if (!response.ok) {
-        throw new Error(`Erro ${response.status}: ${response.statusText}`);
-      }
-
-      const data = await response.json();
+      console.log('✅ [HERO] Configurações do hero carregadas com sucesso');
       setHeroSettings(data);
       setLoading(false);
     } catch (err) {
