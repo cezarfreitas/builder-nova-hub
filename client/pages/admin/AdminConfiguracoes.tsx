@@ -176,7 +176,7 @@ export default function AdminConfiguracoes() {
       
       if (success) {
         toast({
-          title: "✅ Configurações salvas!",
+          title: "✅ Configura��ões salvas!",
           description: "As configurações foram atualizadas com sucesso.",
         });
         setHasChanges(false);
@@ -191,6 +191,72 @@ export default function AdminConfiguracoes() {
       });
     } finally {
       setSaving(false);
+    }
+  };
+
+  const testMetaTracking = async () => {
+    setTesting(true);
+    setTestResults(null);
+
+    try {
+      // Primeiro verificar configuração
+      const configResponse = await fetch('/api/meta/config');
+      const configResult = await configResponse.json();
+
+      if (!configResult.configured) {
+        toast({
+          title: "⚠️ Configuração incompleta",
+          description: "Configure Pixel ID e Access Token antes de testar.",
+          variant: "destructive",
+        });
+        setTesting(false);
+        return;
+      }
+
+      // Testar evento PageView
+      const testResponse = await fetch('/api/meta/test-event', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          event_name: 'PageView',
+          custom_data: {
+            content_type: 'admin_test',
+            content_category: 'configuration_test',
+            page_title: 'Admin Test - Meta Tracking',
+          }
+        })
+      });
+
+      const testResult = await testResponse.json();
+
+      if (testResult.success) {
+        toast({
+          title: "✅ Teste bem-sucedido!",
+          description: "Evento enviado para Meta com sucesso.",
+        });
+
+        setTestResults({
+          success: true,
+          configCheck: configResult,
+          eventTest: testResult,
+        });
+      } else {
+        throw new Error(testResult.message || 'Falha no teste');
+      }
+
+    } catch (error) {
+      toast({
+        title: "❌ Erro no teste",
+        description: error instanceof Error ? error.message : "Erro desconhecido",
+        variant: "destructive",
+      });
+
+      setTestResults({
+        success: false,
+        error: error instanceof Error ? error.message : "Erro desconhecido",
+      });
+    } finally {
+      setTesting(false);
     }
   };
 
