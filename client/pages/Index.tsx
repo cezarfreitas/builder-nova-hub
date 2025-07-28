@@ -362,7 +362,7 @@ export default function Index() {
     // Limita a 8 dígitos
     const limited = numbers.slice(0, 8);
 
-    // Aplica formata��ão
+    // Aplica formatação
     if (limited.length <= 5) {
       return limited;
     } else {
