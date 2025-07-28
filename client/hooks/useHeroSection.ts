@@ -84,24 +84,23 @@ export function useHeroSection() {
       });
 
       if (!response.ok) {
-        throw new Error(`Erro ao salvar configurações: ${response.status}`);
+        throw new Error('Erro ao salvar');
       }
 
       const result = await response.json();
-      
+
       if (result.success) {
         setHeroSettings(settings);
         return { success: true };
       } else {
-        throw new Error(result.error || 'Erro ao salvar configurações');
+        throw new Error('Erro ao salvar');
       }
     } catch (err) {
       console.error('Erro ao salvar configurações do hero:', err);
-      const errorMessage = err instanceof Error ? err.message : 'Erro desconhecido ao salvar';
-      setError(errorMessage);
-      return { 
-        success: false, 
-        error: errorMessage 
+      setError('Erro ao salvar');
+      return {
+        success: false,
+        error: 'Erro ao salvar'
       };
     }
   }, []);
