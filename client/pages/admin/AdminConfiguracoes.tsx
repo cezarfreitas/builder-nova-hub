@@ -85,23 +85,21 @@ export default function AdminConfiguracoes() {
   });
 
   const [integracoesData, setIntegracoesData] = useState({
-    ga4_measurement_id: getSetting("ga4_measurement_id") || "",
-    ga4_api_secret: getSetting("ga4_api_secret") || "",
-    ga4_conversion_name: getSetting("ga4_conversion_name") || "form_submit",
-    meta_pixel_id: getSetting("meta_pixel_id") || "",
-    meta_access_token: getSetting("meta_access_token") || "",
-    meta_conversion_name: getSetting("meta_conversion_name") || "Lead",
-    meta_test_code: getSetting("meta_test_code") || "",
-    meta_tracking_enabled: getSetting("meta_tracking_enabled") || "true",
-    meta_track_pageview: getSetting("meta_track_pageview") || "true",
-    meta_track_scroll: getSetting("meta_track_scroll") || "true",
-    meta_track_time: getSetting("meta_track_time") || "true",
-    meta_track_interactions: getSetting("meta_track_interactions") || "true",
-    custom_conversion_enabled:
-      getSetting("custom_conversion_enabled") || "false",
-    custom_conversion_event:
-      getSetting("custom_conversion_event") || "lead_captured",
-    custom_conversion_value: getSetting("custom_conversion_value") || "1",
+    ga4_measurement_id: "",
+    ga4_api_secret: "",
+    ga4_conversion_name: "form_submit",
+    meta_pixel_id: "",
+    meta_access_token: "",
+    meta_conversion_name: "Lead",
+    meta_test_code: "",
+    meta_tracking_enabled: "true",
+    meta_track_pageview: "true",
+    meta_track_scroll: "true",
+    meta_track_time: "true",
+    meta_track_interactions: "true",
+    custom_conversion_enabled: "false",
+    custom_conversion_event: "lead_captured",
+    custom_conversion_value: "1",
   });
 
   // Atualizar dados quando as configurações carregarem
@@ -862,7 +860,7 @@ export default function AdminConfiguracoes() {
                             )}
                           </div>
 
-                          {/* Resultado da API de Conversões */}
+                          {/* Resultado da API de Convers��es */}
                           <div className="bg-white p-3 rounded border">
                             <h5 className="font-medium text-gray-900 mb-2 flex items-center">
                               <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
