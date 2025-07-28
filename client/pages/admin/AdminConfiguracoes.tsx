@@ -285,6 +285,42 @@ export default function AdminConfiguracoes() {
     loadIntegrationsSettings();
   }, []);
 
+  // Função específica para salvar configurações de Integrações em JSON exclusivo
+  const saveIntegrationsSettings = async () => {
+    setSaving(true);
+    try {
+      const response = await fetch('/api/integrations-settings', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(integracoesData)
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        toast({
+          title: "✅ Integrações configuradas!",
+          description: "Configurações de integrações salvas em arquivo exclusivo",
+          variant: "default",
+        });
+        setHasChanges(false);
+      } else {
+        throw new Error(result.message || 'Erro ao salvar configurações de integrações');
+      }
+    } catch (error: any) {
+      console.error('Erro ao salvar configurações de integrações:', error);
+      toast({
+        title: "❌ Erro ao salvar integrações",
+        description: error.message || "Erro ao salvar configurações de integrações",
+        variant: "destructive",
+      });
+    } finally {
+      setSaving(false);
+    }
+  };
+
   const testMetaTracking = async () => {
     setTesting(true);
     setTestResults(null);
