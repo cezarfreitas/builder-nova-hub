@@ -1897,7 +1897,7 @@ export default function Index() {
                     .map((testimonial, index) => (
                       <div
                         key={testimonial.id}
-                        className="w-full flex-shrink-0 px-4"
+                        className="w-full md:w-1/2 flex-shrink-0 px-2 md:px-4"
                       >
                         <div className="bg-gray-900/70 backdrop-blur-sm rounded-2xl p-6 md:p-8 border border-gray-600/50 hover:border-ecko-red/60 transition-all duration-300 group min-h-[300px] flex flex-col justify-between">
                           {/* Rating Stars */}
