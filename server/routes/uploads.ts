@@ -35,7 +35,7 @@ const fileFilter = (req: Express.Request, file: Express.Multer.File, cb: multer.
   cb(null, true);
 };
 
-// Fun��ão para formatar tamanho de arquivo
+// Função para formatar tamanho de arquivo
 const formatFileSize = (bytes: number): string => {
   if (bytes === 0) return '0 Bytes';
   const k = 1024;
