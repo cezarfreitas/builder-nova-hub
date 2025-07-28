@@ -77,6 +77,16 @@ export function useHeroSection() {
       const hasChanges = JSON.stringify(completeSettings) !== JSON.stringify(heroSettings);
       if (hasChanges) {
         setHeroSettings(completeSettings);
+
+        // Atualizar cache local
+        try {
+          localStorage.setItem('hero_settings_cache', JSON.stringify({
+            data: completeSettings,
+            timestamp: Date.now()
+          }));
+        } catch (e) {
+          console.warn('Erro ao salvar cache:', e);
+        }
       }
     } catch (err) {
       console.error('Erro ao carregar configurações do hero:', err);
