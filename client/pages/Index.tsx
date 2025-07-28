@@ -221,6 +221,8 @@ export default function Index() {
   const openFormWithOrigin = (origin: string) => {
     setFormOrigin(origin);
     setShowForm(true);
+    trackFormView();
+    trackButtonClick(`open_form_${origin}`, origin);
   };
 
   // Função para formatar WhatsApp
