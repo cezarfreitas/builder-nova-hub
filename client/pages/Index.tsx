@@ -2133,9 +2133,7 @@ export default function Index() {
                       )}
                     </span>
                     <span className="sm:hidden">
-                      {renderTextWithColorTokens(
-                        content.gallery.cta_button_text,
-                      )}
+                      QUERO ESSES PRODUTOS
                     </span>
                     <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </span>
