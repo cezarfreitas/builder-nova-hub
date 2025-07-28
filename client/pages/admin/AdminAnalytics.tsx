@@ -962,7 +962,7 @@ export default function AdminAnalytics() {
       {/* Gráficos Principais */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Gráfico de Leads Diários */}
-        <Card>
+        <Card className="bg-white shadow-sm">
           <CardHeader>
             <CardTitle className="flex items-center">
               <TrendingUp className="w-5 h-5 mr-2 text-ecko-red" />
