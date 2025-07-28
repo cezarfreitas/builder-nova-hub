@@ -9,6 +9,7 @@ import { useSessionId } from "../hooks/useAnalytics";
 import { useContent } from "../hooks/useContent";
 import { useHeroSection } from "../hooks/useHeroSection";
 import { useMetaTracking, useScrollTracking, useTimeTracking } from "../hooks/useMetaTracking";
+import { useSectionTracking } from "../hooks/useSectionTracking";
 import { renderTextWithColorTokens } from "../utils/colorTokens";
 import { generateGradientCSS } from "../components/AdvancedGradientOverlay";
 import {
@@ -272,7 +273,7 @@ export default function Index() {
       return false;
     }
 
-    // Se tem 11 dígitos, o 3º dígito deve ser 9 (celular)
+    // Se tem 11 dígitos, o 3�� dígito deve ser 9 (celular)
     if (numbers.length === 11 && numbers[2] !== "9") {
       return false;
     }
