@@ -87,26 +87,38 @@ export function useAnalytics(selectedPeriod: number = 30) {
         setDailyStats([]); // fallback para array vazio
       }
 
-      // Fetch time analysis
-      const timeResponse = await fetch(
-        `/api/analytics/time-analysis?days=${selectedPeriod}`,
-      );
-      if (timeResponse.ok) {
-        const timeResult = await timeResponse.json();
-        if (timeResult.success) {
-          setTimeAnalysis(timeResult.data);
+      // Fetch time analysis (optional)
+      try {
+        const timeResponse = await fetch(
+          `/api/analytics/time-analysis?days=${selectedPeriod}`,
+          { headers: { 'Content-Type': 'application/json' } }
+        );
+        if (timeResponse.ok) {
+          const timeResult = await timeResponse.json();
+          if (timeResult.success) {
+            console.log("✅ Time analysis carregado");
+            setTimeAnalysis(timeResult.data);
+          }
         }
+      } catch (error) {
+        console.warn("⚠️ Time analysis não disponível:", error);
       }
 
-      // Fetch traffic sources
-      const trafficResponse = await fetch(
-        `/api/traffic/sources?days=${selectedPeriod}`,
-      );
-      if (trafficResponse.ok) {
-        const trafficResult = await trafficResponse.json();
-        if (trafficResult.success) {
-          setTrafficSources(trafficResult.data);
+      // Fetch traffic sources (optional)
+      try {
+        const trafficResponse = await fetch(
+          `/api/traffic/sources?days=${selectedPeriod}`,
+          { headers: { 'Content-Type': 'application/json' } }
+        );
+        if (trafficResponse.ok) {
+          const trafficResult = await trafficResponse.json();
+          if (trafficResult.success) {
+            console.log("✅ Traffic sources carregado");
+            setTrafficSources(trafficResult.data);
+          }
         }
+      } catch (error) {
+        console.warn("⚠️ Traffic sources não disponível:", error);
       }
 
       // Fetch location conversion
