@@ -229,10 +229,14 @@ export default function AdminConfiguracoes() {
 
     const loadIntegrationsSettings = async () => {
       try {
+        console.log('🔄 Carregando configurações de integrações...');
         const response = await fetch('/api/integrations-settings');
         const result = await response.json();
 
+        console.log('📄 Resultado das integrações:', result);
+
         if (result.success) {
+          console.log('✅ Aplicando dados das integrações:', result.data);
           setIntegracoesData(result.data);
         }
       } catch (error) {
