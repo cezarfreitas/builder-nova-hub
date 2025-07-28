@@ -7,10 +7,10 @@
   "meta_conversion_name": "Lead Ecko",
   "meta_test_code": "TEST71486",
   "meta_tracking_enabled": "true",
-  "meta_track_pageview": "true",
+  "meta_track_pageview": "false",
   "meta_track_scroll": "false",
   "meta_track_time": "false",
-  "meta_track_interactions": "true",
+  "meta_track_interactions": "false",
   "custom_conversion_enabled": "false",
   "custom_conversion_event": "lead_captured",
   "custom_conversion_value": "1"

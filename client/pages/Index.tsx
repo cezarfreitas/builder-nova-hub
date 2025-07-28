@@ -61,6 +61,7 @@ export default function Index() {
 
   // Meta tracking hooks
   const {
+    trackPageView,
     trackFormView,
     trackFormStart,
     trackButtonClick,
@@ -74,6 +75,19 @@ export default function Index() {
   // Auto-tracking hooks
   useScrollTracking();
   useTimeTracking();
+
+  // Track PageView apenas uma vez quando a página carrega
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      trackPageView({
+        page_title: document.title,
+        page_url: window.location.href,
+        referrer: document.referrer,
+      });
+    }, 1000); // Aguarda 1s para garantir que a página carregou
+
+    return () => clearTimeout(timer);
+  }, []); // Array vazio para executar apenas uma vez
 
   // Section tracking refs
   const heroRef = useSectionTracking("hero");
@@ -474,7 +488,7 @@ export default function Index() {
 
       if (result.success) {
         toast({
-          title: "✅ Cadastro enviado!",
+          title: "�� Cadastro enviado!",
           description:
             "Nossa equipe entrará em contato em até 24h. Obrigado pelo interesse!",
           duration: 8000,
