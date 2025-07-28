@@ -184,7 +184,11 @@ export function useAnalytics(selectedPeriod: number = 30) {
         try {
           const geographyResponse = await fetch(
             `/api/analytics/conversion-by-geography?days=${selectedPeriod}`,
-            { headers: { "Content-Type": "application/json" } },
+            {
+              headers: { "Content-Type": "application/json" },
+              credentials: 'same-origin',
+              signal: AbortSignal.timeout(8000),
+            },
           );
           if (geographyResponse.ok) {
             const geographyResult = await geographyResponse.json();
