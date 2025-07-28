@@ -168,9 +168,9 @@ export const useAnalyticsTracking = () => {
         });
       }
 
-      console.log(`✅ Duração da sessão rastreada: ${duration}s`);
+      console.log(`✅ [TRACKING] Duração da sessão rastreada: ${duration}s`);
     } catch (error) {
-      console.error("❌ Erro ao rastrear duração:", error);
+      console.error("❌ [TRACKING] Erro ao rastrear duração:", error);
     }
   };
 
