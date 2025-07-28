@@ -753,13 +753,21 @@ export default function AdminAbout() {
               <div
                 className="relative h-64 rounded-lg overflow-hidden"
                 style={{
-                  background: settings.background_type === "gradient"
-                    ? `linear-gradient(${settings.overlay_gradient_direction || 'to bottom'}, ${settings.overlay_gradient_start || '#000000'}, ${settings.overlay_gradient_end || '#333333'})`
+                  ...(settings.background_type === "gradient"
+                    ? {
+                        background: `linear-gradient(${settings.overlay_gradient_direction || 'to bottom'}, ${settings.overlay_gradient_start || '#000000'}, ${settings.overlay_gradient_end || '#333333'})`
+                      }
                     : settings.background_type === "image" && settings.background_image
-                    ? `url(${settings.background_image})`
-                    : settings.background_color || "#ffffff",
-                  backgroundSize: settings.background_type === "image" ? "cover" : "auto",
-                  backgroundPosition: settings.background_type === "image" ? "center" : "auto",
+                    ? {
+                        backgroundImage: `url(${settings.background_image})`,
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                        backgroundRepeat: "no-repeat"
+                      }
+                    : {
+                        backgroundColor: settings.background_color || "#ffffff"
+                      }
+                  )
                 }}
               >
                 {/* Overlay */}
