@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import { readSettingsFromFile } from "./settings";
 import * as crypto from "crypto";
-import { readFileSync, existsSync } from 'fs';
-import { join, dirname } from 'path';
-import { fileURLToPath } from 'url';
+import { readFileSync, existsSync } from "fs";
+import { join, dirname } from "path";
+import { fileURLToPath } from "url";
 
 // ES module compatibility
 const __filename = fileURLToPath(import.meta.url);
@@ -12,14 +12,17 @@ const __dirname = dirname(__filename);
 // Função para ler configurações de integrações do novo sistema JSON
 function readIntegrationsSettings() {
   try {
-    const integrationsPath = join(__dirname, '../data/integrations-settings.json');
+    const integrationsPath = join(
+      __dirname,
+      "../data/integrations-settings.json",
+    );
     if (!existsSync(integrationsPath)) {
       return null;
     }
-    const data = readFileSync(integrationsPath, 'utf8');
+    const data = readFileSync(integrationsPath, "utf8");
     return JSON.parse(data);
   } catch (error) {
-    console.error('Erro ao ler configurações de integrações:', error);
+    console.error("Erro ao ler configurações de integrações:", error);
     return null;
   }
 }
@@ -51,24 +54,31 @@ export async function sendMetaTrackingEvent(eventData: MetaTrackingEvent) {
     }
 
     console.log(`🔍 Verificando credenciais Meta:`);
-    console.log(`🎯 Pixel ID: ${pixelId ? `${pixelId.substring(0, 8)}...` : 'VAZIO'}`);
-    console.log(`🔑 Access Token: ${accessToken ? `${accessToken.substring(0, 20)}...` : 'VAZIO'}`);
-    console.log(`🧪 Test Code: ${testCode || 'Nenhum'}`);
+    console.log(
+      `🎯 Pixel ID: ${pixelId ? `${pixelId.substring(0, 8)}...` : "VAZIO"}`,
+    );
+    console.log(
+      `🔑 Access Token: ${accessToken ? `${accessToken.substring(0, 20)}...` : "VAZIO"}`,
+    );
+    console.log(`🧪 Test Code: ${testCode || "Nenhum"}`);
 
     if (!pixelId || !accessToken) {
-      console.error("❌ Meta Pixel não configurado - Pixel ID ou Access Token vazio");
+      console.error(
+        "❌ Meta Pixel não configurado - Pixel ID ou Access Token vazio",
+      );
       return {
         success: false,
-        error: "Configuração incompleta - Pixel ID ou Access Token não configurado",
-        missingConfig: { pixelId: !pixelId, accessToken: !accessToken }
+        error:
+          "Configuração incompleta - Pixel ID ou Access Token não configurado",
+        missingConfig: { pixelId: !pixelId, accessToken: !accessToken },
       };
     }
 
-    if (pixelId.trim() === '' || accessToken.trim() === '') {
+    if (pixelId.trim() === "" || accessToken.trim() === "") {
       console.error("❌ Meta Pixel mal configurado - valores vazios após trim");
       return {
         success: false,
-        error: "Configuração inválida - Pixel ID ou Access Token estão vazios"
+        error: "Configuração inválida - Pixel ID ou Access Token estão vazios",
       };
     }
 
@@ -121,13 +131,17 @@ export async function sendMetaTrackingEvent(eventData: MetaTrackingEvent) {
       body: JSON.stringify(basePayload),
     });
 
-    console.log(`📊 Response Status: ${response.status} ${response.statusText}`);
+    console.log(
+      `📊 Response Status: ${response.status} ${response.statusText}`,
+    );
 
     const result = await response.json();
     console.log(`📄 Response Body:`, JSON.stringify(result, null, 2));
 
     if (response.ok && result.events_received >= 0) {
-      console.log(`✅ Evento ${eventData.event_name} enviado com sucesso para a Meta!`);
+      console.log(
+        `✅ Evento ${eventData.event_name} enviado com sucesso para a Meta!`,
+      );
       console.log(`📈 Eventos recebidos: ${result.events_received}`);
       return {
         success: true,
@@ -141,7 +155,9 @@ export async function sendMetaTrackingEvent(eventData: MetaTrackingEvent) {
       let errorMessage = "Erro na API da Meta";
       if (result.error) {
         errorMessage = result.error.message || errorMessage;
-        console.error(`❌ Erro específico: ${result.error.code} - ${result.error.message}`);
+        console.error(
+          `❌ Erro específico: ${result.error.code} - ${result.error.message}`,
+        );
         if (result.error.error_subcode) {
           console.error(`❌ Sub-código: ${result.error.error_subcode}`);
         }
@@ -209,7 +225,7 @@ export async function trackMetaEventsBatch(req: Request, res: Response) {
     }
 
     const results = [];
-    
+
     for (const eventData of events) {
       // Adicionar dados da requisição ao evento
       eventData.custom_data = {
@@ -310,8 +326,8 @@ export async function checkMetaPixelConfig(req: Request, res: Response) {
       success: true,
       configured: isConfigured,
       config,
-      message: isConfigured 
-        ? "Meta Pixel está configurado corretamente" 
+      message: isConfigured
+        ? "Meta Pixel está configurado corretamente"
         : "Meta Pixel precisa ser configurado",
     });
   } catch (error) {
@@ -341,7 +357,7 @@ function generateFbp(): string {
 
 function getClientIP(req?: Request): string {
   if (!req) return "";
-  
+
   return (
     (req.headers["x-forwarded-for"] as string)?.split(",")[0] ||
     (req.headers["x-real-ip"] as string) ||

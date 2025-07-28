@@ -181,12 +181,12 @@ export default function AdminConfiguracoes() {
   const saveSeoSettings = async () => {
     setSaving(true);
     try {
-      const response = await fetch('/api/seo-settings', {
-        method: 'PUT',
+      const response = await fetch("/api/seo-settings", {
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(seoData)
+        body: JSON.stringify(seoData),
       });
 
       const result = await response.json();
@@ -199,10 +199,12 @@ export default function AdminConfiguracoes() {
         });
         setHasChanges(false);
       } else {
-        throw new Error(result.message || 'Erro ao salvar configurações de SEO');
+        throw new Error(
+          result.message || "Erro ao salvar configurações de SEO",
+        );
       }
     } catch (error: any) {
-      console.error('Erro ao salvar configurações de SEO:', error);
+      console.error("Erro ao salvar configurações de SEO:", error);
       toast({
         title: "❌ Erro ao salvar SEO",
         description: error.message || "Erro ao salvar configurações de SEO",
@@ -217,20 +219,20 @@ export default function AdminConfiguracoes() {
   useEffect(() => {
     const loadSeoSettings = async () => {
       try {
-        const response = await fetch('/api/seo-settings');
+        const response = await fetch("/api/seo-settings");
         const result = await response.json();
 
         if (result.success) {
           setSeoData(result.data);
         }
       } catch (error) {
-        console.error('Erro ao carregar configurações de SEO:', error);
+        console.error("Erro ao carregar configurações de SEO:", error);
       }
     };
 
     const loadIntegrationsSettings = async () => {
       try {
-        const response = await fetch('/api/integrations-settings');
+        const response = await fetch("/api/integrations-settings");
         const result = await response.json();
 
         if (result.success) {
@@ -238,7 +240,7 @@ export default function AdminConfiguracoes() {
           setIntegrationsLoaded(true);
         }
       } catch (error) {
-        console.error('Erro ao carregar configurações de integrações:', error);
+        console.error("Erro ao carregar configurações de integrações:", error);
       }
     };
 
@@ -250,12 +252,12 @@ export default function AdminConfiguracoes() {
   const saveIntegrationsSettings = async () => {
     setSaving(true);
     try {
-      const response = await fetch('/api/integrations-settings', {
-        method: 'PUT',
+      const response = await fetch("/api/integrations-settings", {
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(integracoesData)
+        body: JSON.stringify(integracoesData),
       });
 
       const result = await response.json();
@@ -263,18 +265,22 @@ export default function AdminConfiguracoes() {
       if (result.success) {
         toast({
           title: "✅ Integrações configuradas!",
-          description: "Configurações de integrações salvas em arquivo exclusivo",
+          description:
+            "Configurações de integrações salvas em arquivo exclusivo",
           variant: "default",
         });
         setHasChanges(false);
       } else {
-        throw new Error(result.message || 'Erro ao salvar configurações de integrações');
+        throw new Error(
+          result.message || "Erro ao salvar configurações de integrações",
+        );
       }
     } catch (error: any) {
-      console.error('Erro ao salvar configurações de integrações:', error);
+      console.error("Erro ao salvar configurações de integrações:", error);
       toast({
         title: "❌ Erro ao salvar integrações",
-        description: error.message || "Erro ao salvar configurações de integrações",
+        description:
+          error.message || "Erro ao salvar configurações de integrações",
         variant: "destructive",
       });
     } finally {
@@ -331,19 +337,20 @@ export default function AdminConfiguracoes() {
           custom_data: {
             content_type: "admin_conversion_test",
             content_category: "api_test",
-            value: 1.00,
-            currency: "BRL"
+            value: 1.0,
+            currency: "BRL",
           },
           user_data: {
-            client_user_agent: navigator.userAgent
+            client_user_agent: navigator.userAgent,
             // Remover client_ip_address, fbc e fbp - deixar o backend gerar corretamente
-          }
+          },
         }),
       });
 
       const conversionTestResult = await conversionTestResponse.json();
 
-      const allTestsSuccess = pixelTestResult.success && conversionTestResult.success;
+      const allTestsSuccess =
+        pixelTestResult.success && conversionTestResult.success;
 
       if (allTestsSuccess) {
         toast({
@@ -358,8 +365,10 @@ export default function AdminConfiguracoes() {
         });
       } else {
         const errors = [];
-        if (!pixelTestResult.success) errors.push("Pixel: " + pixelTestResult.message);
-        if (!conversionTestResult.success) errors.push("Conversões: " + conversionTestResult.message);
+        if (!pixelTestResult.success)
+          errors.push("Pixel: " + pixelTestResult.message);
+        if (!conversionTestResult.success)
+          errors.push("Conversões: " + conversionTestResult.message);
 
         throw new Error("Falhas encontradas: " + errors.join(", "));
       }
@@ -375,8 +384,12 @@ export default function AdminConfiguracoes() {
         success: false,
         error: error instanceof Error ? error.message : "Erro desconhecido",
         pixelTest: { success: false, message: "Não testado devido ao erro" },
-        conversionTest: { success: false, message: "Não testado devido ao erro" },
-        configurationIssue: !integracoesData.meta_pixel_id || !integracoesData.meta_access_token
+        conversionTest: {
+          success: false,
+          message: "Não testado devido ao erro",
+        },
+        configurationIssue:
+          !integracoesData.meta_pixel_id || !integracoesData.meta_access_token,
       });
     } finally {
       setTesting(false);
@@ -793,10 +806,16 @@ export default function AdminConfiguracoes() {
                             </h5>
                             <div className="space-y-1 text-xs">
                               <p className="text-blue-700">
-                                <strong>Pixel ID:</strong> {integracoesData.meta_pixel_id ? `${integracoesData.meta_pixel_id.substring(0, 8)}...` : 'Não configurado'}
+                                <strong>Pixel ID:</strong>{" "}
+                                {integracoesData.meta_pixel_id
+                                  ? `${integracoesData.meta_pixel_id.substring(0, 8)}...`
+                                  : "Não configurado"}
                               </p>
                               <p className="text-blue-700">
-                                <strong>Access Token:</strong> {integracoesData.meta_access_token ? `${integracoesData.meta_access_token.substring(0, 12)}...` : 'Não configurado'}
+                                <strong>Access Token:</strong>{" "}
+                                {integracoesData.meta_access_token
+                                  ? `${integracoesData.meta_access_token.substring(0, 12)}...`
+                                  : "Não configurado"}
                               </p>
                             </div>
                           </div>
@@ -810,9 +829,11 @@ export default function AdminConfiguracoes() {
                             <p className="text-green-700 text-sm">
                               Eventos do Pixel sendo enviados com sucesso
                             </p>
-                            {testResults.pixelTest?.result?.eventsReceived !== undefined && (
+                            {testResults.pixelTest?.result?.eventsReceived !==
+                              undefined && (
                               <p className="text-green-600 text-xs mt-1">
-                                Eventos recebidos: {testResults.pixelTest.result.eventsReceived}
+                                Eventos recebidos:{" "}
+                                {testResults.pixelTest.result.eventsReceived}
                               </p>
                             )}
                           </div>
@@ -826,9 +847,14 @@ export default function AdminConfiguracoes() {
                             <p className="text-green-700 text-sm">
                               API de Conversões funcionando corretamente
                             </p>
-                            {testResults.conversionTest?.result?.eventsReceived !== undefined && (
+                            {testResults.conversionTest?.result
+                              ?.eventsReceived !== undefined && (
                               <p className="text-green-600 text-xs mt-1">
-                                Eventos recebidos: {testResults.conversionTest.result.eventsReceived}
+                                Eventos recebidos:{" "}
+                                {
+                                  testResults.conversionTest.result
+                                    .eventsReceived
+                                }
                               </p>
                             )}
                           </div>
@@ -845,11 +871,20 @@ export default function AdminConfiguracoes() {
                               ⚠️ Configurações Atuais
                             </h5>
                             <div className="space-y-1 text-xs">
-                              <p className={`${integracoesData.meta_pixel_id ? 'text-green-700' : 'text-red-700'}`}>
-                                <strong>Pixel ID:</strong> {integracoesData.meta_pixel_id || 'Não configurado'}
+                              <p
+                                className={`${integracoesData.meta_pixel_id ? "text-green-700" : "text-red-700"}`}
+                              >
+                                <strong>Pixel ID:</strong>{" "}
+                                {integracoesData.meta_pixel_id ||
+                                  "Não configurado"}
                               </p>
-                              <p className={`${integracoesData.meta_access_token ? 'text-green-700' : 'text-red-700'}`}>
-                                <strong>Access Token:</strong> {integracoesData.meta_access_token ? `${integracoesData.meta_access_token.substring(0, 12)}...` : 'Não configurado'}
+                              <p
+                                className={`${integracoesData.meta_access_token ? "text-green-700" : "text-red-700"}`}
+                              >
+                                <strong>Access Token:</strong>{" "}
+                                {integracoesData.meta_access_token
+                                  ? `${integracoesData.meta_access_token.substring(0, 12)}...`
+                                  : "Não configurado"}
                               </p>
                             </div>
                           </div>
@@ -857,22 +892,34 @@ export default function AdminConfiguracoes() {
                           {/* Status do Pixel */}
                           <div className="bg-white p-3 rounded border">
                             <h5 className="font-medium text-gray-900 mb-2 flex items-center">
-                              <span className={`w-2 h-2 rounded-full mr-2 ${testResults.pixelTest?.success ? 'bg-green-500' : 'bg-red-500'}`}></span>
+                              <span
+                                className={`w-2 h-2 rounded-full mr-2 ${testResults.pixelTest?.success ? "bg-green-500" : "bg-red-500"}`}
+                              ></span>
                               Meta Pixel
                             </h5>
-                            <p className={`text-sm ${testResults.pixelTest?.success ? 'text-green-700' : 'text-red-700'}`}>
-                              {testResults.pixelTest?.success ? 'Funcionando' : `Erro: ${testResults.pixelTest?.message || 'Falha no teste'}`}
+                            <p
+                              className={`text-sm ${testResults.pixelTest?.success ? "text-green-700" : "text-red-700"}`}
+                            >
+                              {testResults.pixelTest?.success
+                                ? "Funcionando"
+                                : `Erro: ${testResults.pixelTest?.message || "Falha no teste"}`}
                             </p>
                           </div>
 
                           {/* Status da API de Conversões */}
                           <div className="bg-white p-3 rounded border">
                             <h5 className="font-medium text-gray-900 mb-2 flex items-center">
-                              <span className={`w-2 h-2 rounded-full mr-2 ${testResults.conversionTest?.success ? 'bg-green-500' : 'bg-red-500'}`}></span>
+                              <span
+                                className={`w-2 h-2 rounded-full mr-2 ${testResults.conversionTest?.success ? "bg-green-500" : "bg-red-500"}`}
+                              ></span>
                               API de Conversões
                             </h5>
-                            <p className={`text-sm ${testResults.conversionTest?.success ? 'text-green-700' : 'text-red-700'}`}>
-                              {testResults.conversionTest?.success ? 'Funcionando' : `Erro: ${testResults.conversionTest?.message || 'Falha no teste'}`}
+                            <p
+                              className={`text-sm ${testResults.conversionTest?.success ? "text-green-700" : "text-red-700"}`}
+                            >
+                              {testResults.conversionTest?.success
+                                ? "Funcionando"
+                                : `Erro: ${testResults.conversionTest?.message || "Falha no teste"}`}
                             </p>
                           </div>
 
@@ -1321,8 +1368,7 @@ export default function AdminConfiguracoes() {
                   ? "Salvar SEO (JSON)"
                   : activeTab === "integracoes"
                     ? "Salvar Integrações (JSON)"
-                    : "Salvar Alterações"
-                }
+                    : "Salvar Alterações"}
               </>
             )}
           </Button>

@@ -81,21 +81,21 @@ export default function Index() {
     const checkAndTrackPageView = async () => {
       try {
         // Verificar se o tracking de PageView está habilitado
-        const response = await fetch('/api/integrations-settings');
+        const response = await fetch("/api/integrations-settings");
         const result = await response.json();
 
-        if (result.success && result.data.meta_track_pageview === 'true') {
-          console.log('📊 Disparando PageView único da landing page');
+        if (result.success && result.data.meta_track_pageview === "true") {
+          console.log("📊 Disparando PageView único da landing page");
           trackPageView({
             page_title: document.title,
             page_url: window.location.href,
             referrer: document.referrer,
           });
         } else {
-          console.log('⏸️ PageView tracking desabilitado nas configurações');
+          console.log("⏸️ PageView tracking desabilitado nas configurações");
         }
       } catch (error) {
-        console.error('Erro ao verificar configuração de PageView:', error);
+        console.error("Erro ao verificar configuração de PageView:", error);
       }
     };
 
@@ -529,28 +529,37 @@ export default function Index() {
         setTimeout(async () => {
           try {
             // Verificar se o tracking está habilitado
-            const configResponse = await fetch('/api/integrations-settings');
+            const configResponse = await fetch("/api/integrations-settings");
             const configResult = await configResponse.json();
 
-            if (configResult.success && configResult.data.meta_tracking_enabled === 'true') {
-              console.log('🎯 Disparando conversão para Meta - formulário enviado com sucesso');
-              console.log('📊 Dados do lead:', {
+            if (
+              configResult.success &&
+              configResult.data.meta_tracking_enabled === "true"
+            ) {
+              console.log(
+                "🎯 Disparando conversão para Meta - formulário enviado com sucesso",
+              );
+              console.log("📊 Dados do lead:", {
                 cidade: formData.cidade,
                 estado: formData.estado,
                 storeType: formData.storeType,
-                formOrigin: formOrigin || 'form-inline'
+                formOrigin: formOrigin || "form-inline",
               });
 
               // Usar trackButtonClick que irá usar o nome de conversão configurado dinamicamente
-              trackButtonClick(`form_submission_${formData.storeType || 'unknown'}`, 'lead_conversion');
+              trackButtonClick(
+                `form_submission_${formData.storeType || "unknown"}`,
+                "lead_conversion",
+              );
             } else {
-              console.log('⏸️ Tracking de conversões desabilitado nas configurações');
+              console.log(
+                "⏸️ Tracking de conversões desabilitado nas configurações",
+              );
             }
           } catch (conversionError) {
-            console.error('❌ Erro no tracking de conversão:', conversionError);
+            console.error("❌ Erro no tracking de conversão:", conversionError);
           }
         }, 100); // Executar depois de 100ms para não bloquear o fluxo principal
-
       } else {
         toast({
           title: "❌ Erro no envio",
