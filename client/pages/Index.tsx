@@ -653,7 +653,10 @@ export default function Index() {
               </div>
 
               <div>
-                <label htmlFor="hasCnpj-main" className="block text-sm font-semibold text-gray-300 mb-2">
+                <label
+                  htmlFor="hasCnpj-main"
+                  className="block text-sm font-semibold text-gray-300 mb-2"
+                >
                   Possui CNPJ?
                 </label>
                 <select
@@ -676,7 +679,10 @@ export default function Index() {
               </div>
 
               <div>
-                <label htmlFor="storeType-main" className="block text-sm font-semibold text-gray-300 mb-2">
+                <label
+                  htmlFor="storeType-main"
+                  className="block text-sm font-semibold text-gray-300 mb-2"
+                >
                   Tipo de Negócio
                 </label>
                 <select
@@ -1042,7 +1048,10 @@ export default function Index() {
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                           <div>
-                            <label htmlFor="hasCnpj-modal" className="block text-sm font-semibold text-gray-300 mb-2">
+                            <label
+                              htmlFor="hasCnpj-modal"
+                              className="block text-sm font-semibold text-gray-300 mb-2"
+                            >
                               {content.form.fields.cnpj_label}
                             </label>
                             <select
@@ -1069,7 +1078,10 @@ export default function Index() {
                           </div>
 
                           <div>
-                            <label htmlFor="storeType-modal" className="block text-sm font-semibold text-gray-300 mb-2">
+                            <label
+                              htmlFor="storeType-modal"
+                              className="block text-sm font-semibold text-gray-300 mb-2"
+                            >
                               {content.form.fields.store_type_label}
                             </label>
                             <select
