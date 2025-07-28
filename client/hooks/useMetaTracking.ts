@@ -101,7 +101,7 @@ export const useMetaTracking = () => {
   // Track Button Click
   const trackButtonClick = useCallback((buttonName: string, section?: string) => {
     sendEvent({
-      event_name: 'Lead',
+      event_name: conversionName,
       custom_data: {
         content_type: 'button_click',
         content_name: buttonName,
