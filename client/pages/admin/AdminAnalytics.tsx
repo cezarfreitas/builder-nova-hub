@@ -898,9 +898,9 @@ export default function AdminAnalytics() {
                 datasets: [
                   {
                     data: [
-                      overview.store_types.fisica || 0,
-                      overview.store_types.online || 0,
-                      overview.store_types.ambas || 0,
+                      overview?.store_types?.fisica || 0,
+                      overview?.store_types?.online || 0,
+                      overview?.store_types?.ambas || 0,
                     ],
                     backgroundColor: ["#dc2626", "#16a34a", "#2563eb"],
                     borderWidth: 0,
