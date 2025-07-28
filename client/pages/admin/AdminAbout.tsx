@@ -60,9 +60,15 @@ interface AboutSettings {
 }
 
 export default function AdminAbout() {
-  const { content, loading: contentLoading, saveContent } = useContent();
-  const [settings, setSettings] = useState<AboutSettings>(content.about);
-  const [saving, setSaving] = useState(false);
+  const {
+    settings: aboutData,
+    loading: contentLoading,
+    saving,
+    saveSettings: saveAboutData,
+    setSettings: setAboutData
+  } = useAboutSection();
+
+  const [settings, setSettings] = useState<AboutSettings | null>(null);
   const [activeTab, setActiveTab] = useState<
     "textos" | "historia" | "estatisticas" | "background" | "cta"
   >("textos");
