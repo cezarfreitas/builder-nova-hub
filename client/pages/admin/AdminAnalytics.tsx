@@ -577,7 +577,29 @@ export default function AdminAnalytics() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">📊 Analytics Dashboard</h1>
+          <div className="flex items-center gap-3 mb-2">
+            <h1 className="text-3xl font-bold text-gray-900">📊 Analytics Dashboard</h1>
+            <div className="flex items-center gap-2">
+              {trackingStatus === 'checking' && (
+                <div className="flex items-center text-yellow-600">
+                  <Activity className="w-4 h-4 animate-pulse mr-1" />
+                  <span className="text-sm">Verificando...</span>
+                </div>
+              )}
+              {trackingStatus === 'active' && (
+                <div className="flex items-center text-green-600">
+                  <CheckCircle className="w-4 h-4 mr-1" />
+                  <span className="text-sm">Tracking Ativo</span>
+                </div>
+              )}
+              {trackingStatus === 'inactive' && (
+                <div className="flex items-center text-red-600">
+                  <AlertCircle className="w-4 h-4 mr-1" />
+                  <span className="text-sm">Sem Dados Recentes</span>
+                </div>
+              )}
+            </div>
+          </div>
           <p className="text-gray-600 mt-2">
             Visão completa de leads, conversões, tráfego e performance em tempo real
           </p>
