@@ -180,6 +180,12 @@ export default function Index() {
   ) => {
     const { name, value } = e.target;
 
+    // Track form start only once
+    if (!trackingFormStarted && value.trim()) {
+      setTrackingFormStarted(true);
+      trackFormStart();
+    }
+
     if (name === "whatsapp") {
       // Formatação do WhatsApp
       const formattedValue = formatWhatsApp(value);
