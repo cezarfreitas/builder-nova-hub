@@ -45,46 +45,21 @@ export function useAnalytics(selectedPeriod: number = 30) {
           throw new Error('Fetch só pode ser executado no cliente');
         }
 
-        // Fetch analytics overview data from database
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => {
-          console.warn('⏰ Timeout de 10s atingido, abortando requisição');
-          controller.abort();
-        }, 10000); // 10s timeout
+        // Fetch analytics overview data using robust fetch
+        console.log('🔄 [ANALYTICS] Buscando overview...');
 
-        let overviewResponse;
-        try {
-          overviewResponse = await fetch(
-            `/api/analytics/overview?days=${selectedPeriod}`,
-            {
-              signal: controller.signal,
-              headers: {
-                "Content-Type": "application/json",
-              },
-              credentials: 'same-origin',
-            },
-          );
-        } catch (fetchError) {
-          clearTimeout(timeoutId);
-          console.error('❌ Erro direto no fetch overview:', fetchError);
-          throw new Error(`Falha na conexão com servidor: ${fetchError.message}`);
-        }
-
-        clearTimeout(timeoutId);
-
-        if (!overviewResponse.ok) {
-          throw new Error(
-            `HTTP ${overviewResponse.status}: ${overviewResponse.statusText}`,
-          );
-        }
-
-        const overviewResult = await overviewResponse.json();
+        const overviewResult = await robustFetchJson(
+          `/api/analytics/overview?days=${selectedPeriod}`,
+          {
+            timeout: 10000,
+          }
+        );
 
         if (!overviewResult.success) {
           throw new Error(overviewResult.message || "Erro na API de overview");
         }
 
-        console.log("✅ Dados do overview carregados:", overviewResult.data);
+        console.log("✅ [ANALYTICS] Dados do overview carregados:", overviewResult.data);
         setOverview(overviewResult.data);
 
         // Fetch daily stats
