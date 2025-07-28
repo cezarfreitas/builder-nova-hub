@@ -693,7 +693,7 @@ export default function Index() {
             {/* Main Message */}
             {currentHero.title && (
               <div
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black mb-4 sm:mb-6 leading-tight px-2 transition-all duration-500"
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black mb-4 sm:mb-6 leading-tight px-2"
                 style={{ color: currentHero.text_color }}
               >
                 {renderTextWithColorTokens(currentHero.title)}
@@ -703,7 +703,7 @@ export default function Index() {
             {/* Description */}
             {currentHero.description && (
               <div
-                className="text-lg sm:text-xl lg:text-2xl mb-8 sm:mb-10 lg:mb-12 font-medium max-w-2xl mx-auto px-2 opacity-90 transition-all duration-500"
+                className="text-lg sm:text-xl lg:text-2xl mb-8 sm:mb-10 lg:mb-12 font-medium max-w-2xl mx-auto px-2 opacity-90"
                 style={{ color: currentHero.text_color }}
               >
                 {renderTextWithColorTokens(currentHero.description)}
