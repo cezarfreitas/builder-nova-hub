@@ -507,9 +507,42 @@ export default function AdminHero() {
                     </div>
                   </div>
 
+                  {/* Presets de Gradiente */}
                   <div className="space-y-2">
                     <label className="block text-sm font-medium text-gray-700">
-                      Direção do Gradiente
+                      Presets Populares
+                    </label>
+                    <div className="grid grid-cols-2 gap-2">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          updateField("overlay_gradient_direction", "radial-gradient(ellipse at center, black 20%, transparent 50%, black 80%)");
+                          updateField("overlay_gradient_enabled", true);
+                        }}
+                        className="text-xs"
+                      >
+                        Preto → Transparente → Preto
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          updateField("overlay_gradient_direction", "radial-gradient(circle at center, transparent 0%, black 60%)");
+                          updateField("overlay_gradient_enabled", true);
+                        }}
+                        className="text-xs"
+                      >
+                        Centro Transparente
+                      </Button>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-700">
+                      Direç��o do Gradiente
                     </label>
                     <select
                       value={localSettings.overlay_gradient_direction || "to bottom"}
