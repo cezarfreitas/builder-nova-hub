@@ -648,10 +648,13 @@ export async function trackVisit(req: Request, res: Response) {
         .toString("base64")
         .slice(0, 50);
 
-    // Debug log
-    console.log(
-      `📊 Rastreando evento: ${event_type || "page_view"} para session ${session_id}`,
-    );
+    // Debug logs
+    console.log(`📊 [TRACKING] Evento: ${event_type || "page_view"}`);
+    console.log(`📊 [TRACKING] Session: ${session_id}`);
+    console.log(`📊 [TRACKING] User: ${computedUserId}`);
+    console.log(`📊 [TRACKING] Page: ${page_url || "N/A"}`);
+    console.log(`📊 [TRACKING] IP: ${ip_address}`);
+    console.log(`📊 [TRACKING] Timestamp: ${new Date().toISOString()}`);
 
     // Inserir evento de visita
     await db.execute(
@@ -799,7 +802,7 @@ export async function trackDuration(req: Request, res: Response) {
       message: "Duração atualizada com sucesso",
     });
   } catch (error) {
-    console.error("Erro ao atualizar duração:", error);
+    console.error("Erro ao atualizar duraç��o:", error);
     res.status(500).json({
       success: false,
       message: "Erro interno do servidor",
