@@ -378,7 +378,7 @@ export default function AdminAnalytics() {
   };
 
   // Dados para gráfico de conversão
-  const conversionData = {
+  const conversionData = dailyStats && dailyStats.length > 0 ? {
     labels: dailyStats.map((stat) => {
       const date = new Date(stat.date);
       return date.toLocaleDateString("pt-BR", {
@@ -389,7 +389,19 @@ export default function AdminAnalytics() {
     datasets: [
       {
         label: "Taxa de Conversão (%)",
-        data: dailyStats.map((stat) => stat.conversion_rate),
+        data: dailyStats.map((stat) => stat.conversion_rate || 0),
+        borderColor: "#2563eb",
+        backgroundColor: "rgba(37, 99, 235, 0.1)",
+        fill: true,
+        tension: 0.4,
+      },
+    ],
+  } : {
+    labels: ['Sem dados'],
+    datasets: [
+      {
+        label: "Taxa de Conversão (%)",
+        data: [0],
         borderColor: "#2563eb",
         backgroundColor: "rgba(37, 99, 235, 0.1)",
         fill: true,
