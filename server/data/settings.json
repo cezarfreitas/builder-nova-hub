@@ -137,76 +137,76 @@
   "meta_test_code": {
     "value": "",
     "type": "text",
-    "updated_at": "2025-07-28T15:03:24.162Z"
+    "updated_at": "2025-07-28T15:03:49.892Z"
   },
   "ga4_measurement_id": {
     "value": "",
     "type": "text",
-    "updated_at": "2025-07-28T15:03:24.162Z"
+    "updated_at": "2025-07-28T15:03:49.892Z"
   },
   "ga4_api_secret": {
     "value": "",
     "type": "text",
-    "updated_at": "2025-07-28T15:03:24.162Z"
+    "updated_at": "2025-07-28T15:03:49.892Z"
   },
   "ga4_conversion_name": {
     "value": "form_submit",
     "type": "text",
-    "updated_at": "2025-07-28T15:03:24.162Z"
+    "updated_at": "2025-07-28T15:03:49.892Z"
   },
   "meta_pixel_id": {
-    "value": "1052506589717984",
-    "type": "text",
-    "updated_at": "2025-07-28T15:03:24.162Z"
-  },
-  "meta_access_token": {
     "value": "",
     "type": "text",
-    "updated_at": "2025-07-28T15:03:24.162Z"
+    "updated_at": "2025-07-28T15:03:49.892Z"
+  },
+  "meta_access_token": {
+    "value": "EAAJpULqxTvgBPFixTwUhJtFZAKjRxd57ZCLeYX06xWesDOSWs57YZBnggrHplWdkHKKrneY13iABRsZAyHJH5EqGaXfFM8Ec11I19v06qQpY8ptFdPzkZA1ZApuNdzYZCNEZCGeBPHotpPmbUE3AlpvEB5kszogOjw9Y2i60Co9iMxutLacXijiYxM8owbIH48PecAZDZD",
+    "type": "text",
+    "updated_at": "2025-07-28T15:03:49.892Z"
   },
   "meta_conversion_name": {
     "value": "Lead",
     "type": "text",
-    "updated_at": "2025-07-28T15:03:24.162Z"
+    "updated_at": "2025-07-28T15:03:49.892Z"
   },
   "custom_conversion_enabled": {
     "value": "false",
     "type": "boolean",
-    "updated_at": "2025-07-28T15:03:24.162Z"
+    "updated_at": "2025-07-28T15:03:49.892Z"
   },
   "custom_conversion_event": {
     "value": "lead_captured",
     "type": "text",
-    "updated_at": "2025-07-28T15:03:24.162Z"
+    "updated_at": "2025-07-28T15:03:49.892Z"
   },
   "custom_conversion_value": {
     "value": "1",
     "type": "text",
-    "updated_at": "2025-07-28T15:03:24.162Z"
+    "updated_at": "2025-07-28T15:03:49.892Z"
   },
   "meta_tracking_enabled": {
     "value": "true",
     "type": "boolean",
-    "updated_at": "2025-07-28T15:03:24.162Z"
+    "updated_at": "2025-07-28T15:03:49.892Z"
   },
   "meta_track_pageview": {
     "value": "true",
     "type": "text",
-    "updated_at": "2025-07-28T15:03:24.162Z"
+    "updated_at": "2025-07-28T15:03:49.892Z"
   },
   "meta_track_scroll": {
     "value": "true",
     "type": "text",
-    "updated_at": "2025-07-28T15:03:24.162Z"
+    "updated_at": "2025-07-28T15:03:49.892Z"
   },
   "meta_track_time": {
     "value": "true",
     "type": "text",
-    "updated_at": "2025-07-28T15:03:24.162Z"
+    "updated_at": "2025-07-28T15:03:49.892Z"
   },
   "meta_track_interactions": {
     "value": "true",
     "type": "text",
-    "updated_at": "2025-07-28T15:03:24.162Z"
+    "updated_at": "2025-07-28T15:03:49.892Z"
   }
 }

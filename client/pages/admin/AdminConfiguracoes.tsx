@@ -377,6 +377,9 @@ export default function AdminConfiguracoes() {
       setTestResults({
         success: false,
         error: error instanceof Error ? error.message : "Erro desconhecido",
+        pixelTest: { success: false, message: "Não testado devido ao erro" },
+        conversionTest: { success: false, message: "Não testado devido ao erro" },
+        configurationIssue: !integracoesData.meta_pixel_id || !integracoesData.meta_access_token
       });
     } finally {
       setTesting(false);
