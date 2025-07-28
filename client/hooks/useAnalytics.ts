@@ -31,7 +31,7 @@ export function useAnalytics(selectedPeriod: number = 30) {
   const [locationConversion, setLocationConversion] = useState(null);
   const [geographyConversion, setGeographyConversion] = useState(null);
 
-  const fetchAnalytics = async (retries = 3) => {
+  const fetchAnalytics = useCallback(async (retries = 3) => {
     setLoading(true);
     setError(null);
 
@@ -198,15 +198,15 @@ export function useAnalytics(selectedPeriod: number = 30) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [selectedPeriod]);
 
-  const refreshData = () => {
+  const refreshData = useCallback(() => {
     fetchAnalytics();
-  };
+  }, [fetchAnalytics]);
 
   useEffect(() => {
     fetchAnalytics();
-  }, [selectedPeriod]);
+  }, [fetchAnalytics]);
 
   return {
     overview,
