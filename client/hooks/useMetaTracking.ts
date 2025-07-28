@@ -192,7 +192,7 @@ export const useMetaTracking = () => {
         timestamp: new Date().toISOString(),
       },
     });
-  }, [sendEvent]);
+  }, [sendEvent, conversionName]);
 
   // Track Form Abandonment
   const trackFormAbandonment = useCallback((fieldsCompleted: number, totalFields: number) => {
