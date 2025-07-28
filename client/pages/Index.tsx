@@ -403,7 +403,7 @@ export default function Index() {
     // Validar WhatsApp
     if (!formData.whatsapp || !validateWhatsApp(formData.whatsapp)) {
       toast({
-        title: "⚠���� WhatsApp Inválido",
+        title: "������ WhatsApp Inválido",
         description: content.form.validation_messages.whatsapp_invalid,
         variant: "destructive",
       });
@@ -2118,7 +2118,7 @@ export default function Index() {
                 <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-2 sm:mb-3">
                   {renderTextWithColorTokens(content.gallery.cta_title)}
                 </h3>
-                <p className="text-gray-300 mb-6">
+                <p className="text-gray-300 text-sm sm:text-base mb-4 sm:mb-6">
                   {renderTextWithColorTokens(content.gallery.cta_description)}
                 </p>
                 <Button
