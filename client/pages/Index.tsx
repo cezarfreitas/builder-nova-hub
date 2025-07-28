@@ -111,7 +111,7 @@ export default function Index() {
       id: 4,
       question: "Como funciona o suporte pós-venda?",
       answer:
-        "Nossa equipe oferece suporte completo: treinamento de produto, materiais de marketing, orientação sobre displays e estratégias de venda. Além disso, você terá um consultor dedicado para acompanhar seu desenvolvimento.",
+        "Nossa equipe oferece suporte completo: treinamento de produto, materiais de marketing, orientação sobre displays e estratégias de venda. Além disso, você ter�� um consultor dedicado para acompanhar seu desenvolvimento.",
       display_order: 4,
       is_active: true,
     },
@@ -635,15 +635,11 @@ export default function Index() {
     );
   }
 
-  // Sistema avançado de preload com cache e priority loading
+  // Sistema simplificado de preload sem estados complexos
   useEffect(() => {
-    let backgroundImg: HTMLImageElement | null = null;
-    let logoImg: HTMLImageElement | null = null;
-
-    const preloadImage = (src: string, onLoad: () => void): HTMLImageElement => {
+    const preloadImage = (src: string): void => {
       const img = new Image();
       img.onload = () => {
-        onLoad();
         // Cache no localStorage para próximas visitas
         try {
           localStorage.setItem(`hero_image_${btoa(src)}`, Date.now().toString());
@@ -651,46 +647,21 @@ export default function Index() {
           console.warn('Cache storage failed:', e);
         }
       };
-      img.onerror = () => onLoad(); // Evitar travamento se imagem falhar
+      img.onerror = () => {
+        console.warn('Failed to preload image:', src);
+      };
       img.src = src;
-      return img;
     };
 
-    // Preload background com prioridade máxima
-    if (currentHero.background_image && !backgroundLoaded) {
-      backgroundImg = preloadImage(currentHero.background_image, () => {
-        setBackgroundLoaded(true);
-      });
-    } else if (!currentHero.background_image) {
-      setBackgroundLoaded(true);
+    // Preload imagens quando disponíveis
+    if (currentHero.background_image) {
+      preloadImage(currentHero.background_image);
     }
 
-    // Preload logo
-    if (currentHero.logo_url && !logoLoaded) {
-      logoImg = preloadImage(currentHero.logo_url, () => {
-        setLogoLoaded(true);
-      });
-    } else if (!currentHero.logo_url) {
-      setLogoLoaded(true);
+    if (currentHero.logo_url) {
+      preloadImage(currentHero.logo_url);
     }
-
-    // Cleanup
-    return () => {
-      if (backgroundImg) {
-        backgroundImg.onload = null;
-        backgroundImg.onerror = null;
-      }
-      if (logoImg) {
-        logoImg.onload = null;
-        logoImg.onerror = null;
-      }
-    };
-  }, [currentHero.background_image, currentHero.logo_url]); // Remover backgroundLoaded e logoLoaded das dependências
-
-  // Controlar quando todas as imagens estão prontas
-  useEffect(() => {
-    setImagesLoaded(backgroundLoaded && logoLoaded);
-  }, [backgroundLoaded, logoLoaded]);
+  }, [currentHero.background_image, currentHero.logo_url]);
 
   return (
     <>
