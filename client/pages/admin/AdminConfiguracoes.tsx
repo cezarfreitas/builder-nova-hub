@@ -528,12 +528,12 @@ export default function AdminConfiguracoes() {
                     {testing ? (
                       <>
                         <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                        Testando...
+                        Testando Pixel e API...
                       </>
                     ) : (
                       <>
                         <TestTube className="w-4 h-4 mr-2" />
-                        Testar Integração
+                        Testar Pixel e API de Conversões
                       </>
                     )}
                   </Button>
