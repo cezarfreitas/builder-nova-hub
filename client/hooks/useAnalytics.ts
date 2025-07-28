@@ -64,38 +64,25 @@ export function useAnalytics(selectedPeriod: number = 30) {
 
         // Fetch daily stats
         try {
-          // Criar timeout manual para compatibilidade
-          const dailyController = new AbortController();
-          const dailyTimeoutId = setTimeout(() => dailyController.abort(), 8000);
+          console.log('🔄 [ANALYTICS] Buscando daily stats...');
 
-          const dailyResponse = await fetch(
+          const dailyResult = await robustFetchJson(
             `/api/analytics/daily-stats?days=${selectedPeriod}`,
             {
-              headers: { "Content-Type": "application/json" },
-              credentials: 'same-origin',
-              signal: dailyController.signal,
-            },
+              timeout: 8000,
+            }
           );
 
-          clearTimeout(dailyTimeoutId);
-          if (dailyResponse.ok) {
-            const dailyResult = await dailyResponse.json();
-            if (dailyResult.success) {
-              console.log(
-                "✅ Daily stats carregados:",
-                dailyResult.data?.length || 0,
-                "dias",
-              );
-              setDailyStats(dailyResult.data || []);
-            }
-          } else {
-            console.warn(
-              "⚠️ Erro ao buscar daily stats:",
-              dailyResponse.status,
+          if (dailyResult.success) {
+            console.log(
+              "✅ [ANALYTICS] Daily stats carregados:",
+              dailyResult.data?.length || 0,
+              "dias",
             );
+            setDailyStats(dailyResult.data || []);
           }
         } catch (error) {
-          console.warn("⚠️ Erro no fetch de daily stats:", error);
+          console.warn("⚠️ [ANALYTICS] Erro no fetch de daily stats:", error);
           setDailyStats([]); // fallback para array vazio
         }
 
