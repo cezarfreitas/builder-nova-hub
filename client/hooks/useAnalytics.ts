@@ -121,7 +121,11 @@ export function useAnalytics(selectedPeriod: number = 30) {
         try {
           const timeResponse = await fetch(
             `/api/analytics/time-analysis?days=${selectedPeriod}`,
-            { headers: { "Content-Type": "application/json" } },
+            {
+              headers: { "Content-Type": "application/json" },
+              credentials: 'same-origin',
+              signal: AbortSignal.timeout(8000),
+            },
           );
           if (timeResponse.ok) {
             const timeResult = await timeResponse.json();
