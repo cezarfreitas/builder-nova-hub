@@ -419,7 +419,7 @@ export default function Index() {
     // Validar WhatsApp
     if (!formData.whatsapp || !validateWhatsApp(formData.whatsapp)) {
       toast({
-        title: "⚠���� WhatsApp Inválido",
+        title: "⚠������ WhatsApp Inválido",
         description: content.form.validation_messages.whatsapp_invalid,
         variant: "destructive",
       });
@@ -2402,7 +2402,7 @@ export default function Index() {
               </h3>
               <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
                 {content.about?.cta_description ||
-                  "Torne-se um revendedor oficial e ajude a escrever o próximo cap��tulo da Ecko"}
+                  "Torne-se um revendedor oficial e ajude a escrever o próximo capítulo da Ecko"}
               </p>
               <Button
                 size="lg"
