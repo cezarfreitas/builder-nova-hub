@@ -583,10 +583,10 @@ export default function AdminAnalytics() {
                   Taxa de Conversão
                 </p>
                 <p className="text-2xl font-bold text-green-900">
-                  {overview.conversion.rate}%
+                  {overview?.conversion?.rate || 0}%
                 </p>
                 <p className="text-xs text-green-600">
-                  {overview.conversion.period_rate}% no período
+                  {overview?.conversion?.period_rate || 0}% no período
                 </p>
               </div>
             </div>
