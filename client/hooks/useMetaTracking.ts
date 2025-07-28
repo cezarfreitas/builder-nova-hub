@@ -16,6 +16,27 @@ interface PageViewData {
 
 export const useMetaTracking = () => {
   const { getSetting } = useSettings();
+  const [conversionName, setConversionName] = useState('Lead');
+
+  // Buscar nome da conversão das configurações de integração
+  useEffect(() => {
+    const loadConversionName = async () => {
+      try {
+        const response = await fetch('/api/integrations-settings');
+        const result = await response.json();
+        if (result.success && result.data.meta_conversion_name) {
+          setConversionName(result.data.meta_conversion_name);
+        }
+      } catch (error) {
+        console.error('Erro ao carregar nome da conversão:', error);
+        // Fallback para o sistema antigo
+        const name = getSetting('meta_conversion_name');
+        if (name) setConversionName(name);
+      }
+    };
+
+    loadConversionName();
+  }, [getSetting]);
 
   // Função para enviar eventos para o backend
   const sendEvent = useCallback(async (eventData: TrackingEvent) => {
