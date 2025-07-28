@@ -757,105 +757,97 @@ export default function Index() {
 
           {/* Content - Sempre visível */}
           <div className="relative z-20 text-center px-4 sm:px-6 max-w-4xl mx-auto hero-content">
-            {/* Logo - Aguardar carregamento */}
-            {!heroLoading && (
-              <div className="flex items-center justify-center pt-4 sm:pt-8 lg:pt-12 mb-8 sm:mb-10 lg:mb-12">
-                {currentHero.logo_url ? (
-                  <img
-                    src={currentHero.logo_url}
-                    alt="Logo Ecko - Marca líder em streetwear brasileiro"
-                    className="w-40 h-16 sm:w-48 sm:h-20 lg:w-56 lg:h-24 xl:w-64 xl:h-28 object-contain hero-image"
-                    loading="eager"
-                    fetchpriority="high"
-                  />
-                ) : (
-                  <div className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-white text-center py-4">
-                    <span className="text-ecko-red">ECKO</span>
-                    <span className="text-white"> UNLTD</span>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* Aguardar carregamento dos dados antes de renderizar */}
-            {!heroLoading && (
-              <>
-                {/* Subtitle */}
-                {currentHero.subtitle && (
-                  <div
-                    className="text-lg sm:text-xl lg:text-2xl mb-2 sm:mb-4 font-medium opacity-90 px-2"
-                    style={{ color: currentHero.text_color }}
-                  >
-                    {renderTextWithColorTokens(currentHero.subtitle)}
-                  </div>
-                )}
-
-                {/* Main Message */}
-                {currentHero.title && (
-                  <div
-                    className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black mb-4 sm:mb-6 leading-tight px-2"
-                    style={{ color: currentHero.text_color }}
-                  >
-                    {renderTextWithColorTokens(currentHero.title)}
-                  </div>
-                )}
-
-                {/* Description */}
-                {currentHero.description && (
-                  <div
-                    className="text-lg sm:text-xl lg:text-2xl mb-8 sm:mb-10 lg:mb-12 font-medium max-w-2xl mx-auto px-2 opacity-90"
-                    style={{ color: currentHero.text_color }}
-                  >
-                    {renderTextWithColorTokens(currentHero.description)}
-                  </div>
-                )}
-              </>
-            )}
-
-            {/* CTA Buttons - Aguardar carregamento */}
-            {!heroLoading && (
-              <div className="flex flex-col items-center">
-                {currentHero.cta_secondary_text && (
-                  <div
-                    className="hero-cta-button mb-6 sm:mb-8 group relative overflow-hidden bg-transparent border-2 font-bold px-8 sm:px-10 py-4 sm:py-5 h-auto text-base sm:text-lg uppercase tracking-wider rounded-lg cursor-pointer"
-                    onClick={scrollToContent}
-                    style={{
-                      borderColor: currentHero.cta_color,
-                      color: currentHero.text_color,
-                    }}
-                  >
-                    <span
-                      className="absolute inset-0 transform scale-x-0 group-hover:scale-x-100 origin-left"
-                      style={{ backgroundColor: currentHero.cta_color }}
-                    ></span>
-                    <span
-                      className="hero-cta-text relative z-10 flex items-center"
-                      style={{ color: currentHero.text_color }}
-                    >
-                      {renderTextWithColorTokens(currentHero.cta_secondary_text)}
-                      <ChevronDown className="ml-2 w-6 h-6" />
-                    </span>
-                  </div>
-                )}
-
-                {/* Scroll Indicator */}
-                <div
-                  onClick={scrollToContent}
-                  className="flex flex-col items-center cursor-pointer"
-                >
-                  <div
-                    className="w-1 h-12 rounded-full mb-2"
-                    style={{
-                      background: `linear-gradient(to bottom, ${currentHero.cta_color}, transparent)`,
-                    }}
-                  ></div>
-                  <ChevronDown
-                    className="w-6 h-6"
-                    style={{ color: currentHero.cta_color }}
-                  />
+            {/* Logo - Renderização imediata */}
+            <div className="flex items-center justify-center pt-4 sm:pt-8 lg:pt-12 mb-8 sm:mb-10 lg:mb-12">
+              {currentHero.logo_url ? (
+                <img
+                  src={currentHero.logo_url}
+                  alt="Logo Ecko - Marca líder em streetwear brasileiro"
+                  className="w-40 h-16 sm:w-48 sm:h-20 lg:w-56 lg:h-24 xl:w-64 xl:h-28 object-contain hero-image"
+                  loading="eager"
+                  fetchpriority="high"
+                />
+              ) : (
+                <div className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-white text-center py-4">
+                  <span className="text-ecko-red">ECKO</span>
+                  <span className="text-white"> UNLTD</span>
                 </div>
+              )}
+            </div>
+
+            {/* Textos do Hero - Renderização imediata */}
+            {/* Subtitle */}
+            {currentHero.subtitle && (
+              <div
+                className="text-lg sm:text-xl lg:text-2xl mb-2 sm:mb-4 font-medium opacity-90 px-2"
+                style={{ color: currentHero.text_color }}
+              >
+                {renderTextWithColorTokens(currentHero.subtitle)}
               </div>
             )}
+
+            {/* Main Message */}
+            {currentHero.title && (
+              <div
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black mb-4 sm:mb-6 leading-tight px-2"
+                style={{ color: currentHero.text_color }}
+              >
+                {renderTextWithColorTokens(currentHero.title)}
+              </div>
+            )}
+
+            {/* Description */}
+            {currentHero.description && (
+              <div
+                className="text-lg sm:text-xl lg:text-2xl mb-8 sm:mb-10 lg:mb-12 font-medium max-w-2xl mx-auto px-2 opacity-90"
+                style={{ color: currentHero.text_color }}
+              >
+                {renderTextWithColorTokens(currentHero.description)}
+              </div>
+            )}
+
+            {/* CTA Buttons - Renderização imediata */}
+            <div className="flex flex-col items-center">
+              {currentHero.cta_secondary_text && (
+                <div
+                  className="hero-cta-button mb-6 sm:mb-8 group relative overflow-hidden bg-transparent border-2 font-bold px-8 sm:px-10 py-4 sm:py-5 h-auto text-base sm:text-lg uppercase tracking-wider rounded-lg cursor-pointer"
+                  onClick={scrollToContent}
+                  style={{
+                    borderColor: currentHero.cta_color,
+                    color: currentHero.text_color,
+                  }}
+                >
+                  <span
+                    className="absolute inset-0 transform scale-x-0 group-hover:scale-x-100 origin-left"
+                    style={{ backgroundColor: currentHero.cta_color }}
+                  ></span>
+                  <span
+                    className="hero-cta-text relative z-10 flex items-center"
+                    style={{ color: currentHero.text_color }}
+                  >
+                    {renderTextWithColorTokens(currentHero.cta_secondary_text)}
+                    <ChevronDown className="ml-2 w-6 h-6" />
+                  </span>
+                </div>
+              )}
+
+              {/* Scroll Indicator */}
+              <div
+                onClick={scrollToContent}
+                className="flex flex-col items-center cursor-pointer"
+              >
+                <div
+                  className="w-1 h-12 rounded-full mb-2"
+                  style={{
+                    background: `linear-gradient(to bottom, ${currentHero.cta_color}, transparent)`,
+                  }}
+                ></div>
+                <ChevronDown
+                  className="w-6 h-6"
+                  style={{ color: currentHero.cta_color }}
+                />
+              </div>
+            </div>
           </div>
         </section>
 
