@@ -203,14 +203,19 @@ export function useAnalytics(selectedPeriod: number = 30) {
 
         // Fetch geography conversion (optional)
         try {
+          const geographyController = new AbortController();
+          const geographyTimeoutId = setTimeout(() => geographyController.abort(), 8000);
+
           const geographyResponse = await fetch(
             `/api/analytics/conversion-by-geography?days=${selectedPeriod}`,
             {
               headers: { "Content-Type": "application/json" },
               credentials: 'same-origin',
-              signal: AbortSignal.timeout(8000),
+              signal: geographyController.signal,
             },
           );
+
+          clearTimeout(geographyTimeoutId);
           if (geographyResponse.ok) {
             const geographyResult = await geographyResponse.json();
             if (geographyResult.success) {
