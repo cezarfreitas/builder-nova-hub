@@ -325,7 +325,7 @@ export default function AdminConfiguracoes() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          event_name: "Lead",
+          event_name: integracoesData.meta_conversion_name || "Lead",
           event_source_url: window.location.href,
           action_source: "website",
           custom_data: {
