@@ -85,7 +85,6 @@ export default function AdminAbout() {
           description: "As configurações foram salvas com sucesso.",
         });
         setHasChanges(false);
-        setLastSaved(new Date());
       } else {
         throw new Error("Falha ao salvar");
       }
