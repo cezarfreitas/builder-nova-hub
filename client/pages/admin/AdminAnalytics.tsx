@@ -328,8 +328,8 @@ export default function AdminAnalytics() {
     ],
   };
 
-  // Dados para gráfico de visitas diárias
-  const dailyVisitsData = {
+  // Dados para gráfico de visitas diárias - com verificação de segurança
+  const dailyVisitsData = dailyStats && dailyStats.length > 0 ? {
     labels: dailyStats.map((stat) => {
       const date = new Date(stat.date);
       return date.toLocaleDateString("pt-BR", {
@@ -349,6 +349,26 @@ export default function AdminAnalytics() {
       {
         label: "Page Views",
         data: dailyStats.map((stat) => stat.page_views || 0),
+        borderColor: "#7c3aed",
+        backgroundColor: "rgba(124, 58, 237, 0.1)",
+        fill: true,
+        tension: 0.4,
+      },
+    ],
+  } : {
+    labels: ['Sem dados'],
+    datasets: [
+      {
+        label: "Sessões",
+        data: [0],
+        borderColor: "#2563eb",
+        backgroundColor: "rgba(37, 99, 235, 0.1)",
+        fill: true,
+        tension: 0.4,
+      },
+      {
+        label: "Page Views",
+        data: [0],
         borderColor: "#7c3aed",
         backgroundColor: "rgba(124, 58, 237, 0.1)",
         fill: true,
