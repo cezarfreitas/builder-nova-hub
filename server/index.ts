@@ -167,7 +167,7 @@ export function createServer() {
 
   // Middleware de debug para settings
   app.use("/api/settings*", (req, res, next) => {
-    console.log(`���� [${req.method}] ${req.path} - Body:`, req.body);
+    console.log(`🔧 [${req.method}] ${req.path} - Body:`, req.body);
     next();
   });
 
