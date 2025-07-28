@@ -184,7 +184,7 @@ export const useMetaTracking = () => {
   // Track Contact Intent (hover em botões de contato, focus em campos)
   const trackContactIntent = useCallback((action: string, element?: string) => {
     sendEvent({
-      event_name: 'Lead',
+      event_name: conversionName,
       custom_data: {
         content_type: 'contact_intent',
         content_category: action, // 'hover', 'focus', 'click'
