@@ -109,7 +109,7 @@ export const useMetaTracking = () => {
         timestamp: new Date().toISOString(),
       },
     });
-  }, [sendEvent]);
+  }, [sendEvent, conversionName]);
 
   // Track Scroll Depth
   const trackScrollDepth = useCallback((percentage: number) => {
