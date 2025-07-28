@@ -2166,80 +2166,59 @@ export default function Index() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-black border-t border-gray-800">
-        <div className="container mx-auto px-6 py-12">
-          <div className="flex flex-col items-center justify-center text-center space-y-6">
-            {/* Logo */}
-            <div className="flex items-center">
-              <img
-                src="/logo-ecko.png"
-                alt="Ecko Logo"
-                className="h-8 w-auto"
-                onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  target.style.display = "none";
-                }}
-              />
-            </div>
-
+      <footer className="bg-black">
+        <div className="container mx-auto px-6 py-8">
+          <div className="flex flex-col items-center justify-center text-center space-y-4">
             {/* Social Links */}
-            <div className="flex space-x-6">
-              <a
-                href={content.footer?.social_links?.facebook || "#"}
-                target={
-                  content.footer?.social_links?.facebook ? "_blank" : "_self"
-                }
-                rel={
-                  content.footer?.social_links?.facebook
-                    ? "noopener noreferrer"
-                    : ""
-                }
-                className="text-gray-400 hover:text-ecko-red transition-colors"
-              >
-                <span className="sr-only">Facebook</span>
-                <svg
-                  className="w-6 h-6"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
+            <div className="flex space-x-4">
+              {content.footer?.social_links?.facebook && (
+                <a
+                  href={content.footer.social_links.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-400 hover:text-white transition-colors"
                 >
-                  <path
-                    fillRule="evenodd"
-                    d="M20 10C20 4.477 15.523 0 10 0S0 4.477 0 10c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V10h2.54V7.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V10h2.773l-.443 2.89h-2.33v6.988C16.343 19.128 20 14.991 20 10z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </a>
-              <a
-                href={content.footer?.social_links?.instagram || "#"}
-                target={
-                  content.footer?.social_links?.instagram ? "_blank" : "_self"
-                }
-                rel={
-                  content.footer?.social_links?.instagram
-                    ? "noopener noreferrer"
-                    : ""
-                }
-                className="text-gray-400 hover:text-ecko-red transition-colors"
-              >
-                <span className="sr-only">Instagram</span>
-                <svg
-                  className="w-6 h-6"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
+                  <span className="sr-only">Facebook</span>
+                  <svg
+                    className="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M20 10C20 4.477 15.523 0 10 0S0 4.477 0 10c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V10h2.54V7.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V10h2.773l-.443 2.89h-2.33v6.988C16.343 19.128 20 14.991 20 10z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </a>
+              )}
+              {content.footer?.social_links?.instagram && (
+                <a
+                  href={content.footer.social_links.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-400 hover:text-white transition-colors"
                 >
-                  <path
-                    fillRule="evenodd"
-                    d="M12.017 0H7.983C3.577 0 0 3.577 0 7.983v4.034C0 16.423 3.577 20 7.983 20h4.034C16.423 20 20 16.423 20 12.017V7.983C20 3.577 16.423 0 12.017 0zM18.444 12.017c0 3.551-2.876 6.427-6.427 6.427H7.983c-3.551 0-6.427-2.876-6.427-6.427V7.983c0-3.551 2.876-6.427 6.427-6.427h4.034c3.551 0 6.427 2.876 6.427 6.427v4.034z"
-                    clipRule="evenodd"
-                  />
-                  <path d="M10 5c-2.761 0-5 2.239-5 5s2.239 5 5 5 5-2.239 5-5-2.239-5-5-5zm0 8.333c-1.841 0-3.333-1.492-3.333-3.333S8.159 6.667 10 6.667s3.333 1.492 3.333 3.333S11.841 13.333 10 13.333zm5.208-8.541c0 .69-.559 1.25-1.25 1.25s-1.25-.56-1.25-1.25.559-1.25 1.25-1.25 1.25.56 1.25 1.25z" />
-                </svg>
-              </a>
+                  <span className="sr-only">Instagram</span>
+                  <svg
+                    className="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M12.017 0H7.983C3.577 0 0 3.577 0 7.983v4.034C0 16.423 3.577 20 7.983 20h4.034C16.423 20 20 16.423 20 12.017V7.983C20 3.577 16.423 0 12.017 0zM18.444 12.017c0 3.551-2.876 6.427-6.427 6.427H7.983c-3.551 0-6.427-2.876-6.427-6.427V7.983c0-3.551 2.876-6.427 6.427-6.427h4.034c3.551 0 6.427 2.876 6.427 6.427v4.034z"
+                      clipRule="evenodd"
+                    />
+                    <path d="M10 5c-2.761 0-5 2.239-5 5s2.239 5 5 5 5-2.239 5-5-2.239-5-5-5zm0 8.333c-1.841 0-3.333-1.492-3.333-3.333S8.159 6.667 10 6.667s3.333 1.492 3.333 3.333S11.841 13.333 10 13.333zm5.208-8.541c0 .69-.559 1.25-1.25 1.25s-1.25-.56-1.25-1.25.559-1.25 1.25-1.25 1.25.56 1.25 1.25z" />
+                  </svg>
+                </a>
+              )}
             </div>
 
             {/* Copyright */}
-            <div className="border-t border-gray-800 pt-6 w-full">
-              <p className="text-gray-500 text-sm">
+            <div className="w-full">
+              <p className="text-gray-400 text-sm">
                 {renderTextWithColorTokens(
                   content.footer?.copyright ||
                     "© 2024 Ecko. Todos os direitos reservados. Seja um revendedor oficial e transforme seu negócio.",
