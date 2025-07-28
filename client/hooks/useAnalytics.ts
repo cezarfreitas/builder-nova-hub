@@ -45,6 +45,15 @@ export function useAnalytics(selectedPeriod: number = 30) {
           throw new Error('Fetch só pode ser executado no cliente');
         }
 
+        // Teste de conectividade básica antes de tentar analytics
+        try {
+          await robustFetchJson('/api/database-test', { timeout: 5000 });
+          console.log('✅ [ANALYTICS] Conectividade básica OK');
+        } catch (connectivityError) {
+          console.warn('⚠️ [ANALYTICS] Problema de conectividade detectado:', connectivityError);
+          // Continuar mesmo assim, mas com timeout menor
+        }
+
         // Fetch analytics overview data using robust fetch
         console.log('🔄 [ANALYTICS] Buscando overview...');
 
