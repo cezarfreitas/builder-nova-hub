@@ -90,23 +90,24 @@ export async function sendMetaTrackingEvent(eventData: MetaTrackingEvent) {
       basePayload.test_event_code = testCode;
     }
 
-    console.log(
-      `📤 Enviando evento ${eventData.event_name} para Meta Pixel:`,
-      JSON.stringify(basePayload, null, 2),
-    );
+    const url = `https://graph.facebook.com/v18.0/${pixelId}/events?access_token=${accessToken}`;
 
-    const response = await fetch(
-      `https://graph.facebook.com/v18.0/${pixelId}/events?access_token=${accessToken}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(basePayload),
+    console.log(`📤 Enviando evento ${eventData.event_name} para Meta Pixel:`);
+    console.log(`🎯 URL: ${url.substring(0, 80)}...`);
+    console.log(`📋 Payload:`, JSON.stringify(basePayload, null, 2));
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-    );
+      body: JSON.stringify(basePayload),
+    });
+
+    console.log(`📊 Response Status: ${response.status} ${response.statusText}`);
 
     const result = await response.json();
+    console.log(`📄 Response Body:`, JSON.stringify(result, null, 2));
 
     if (response.ok && result.events_received >= 0) {
       console.log(`✅ Evento ${eventData.event_name} enviado com sucesso:`, result);
