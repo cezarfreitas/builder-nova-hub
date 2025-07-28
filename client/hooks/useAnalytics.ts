@@ -107,28 +107,21 @@ export function useAnalytics(selectedPeriod: number = 30) {
 
         // Fetch traffic sources (optional)
         try {
-          const trafficController = new AbortController();
-          const trafficTimeoutId = setTimeout(() => trafficController.abort(), 8000);
+          console.log('🔄 [ANALYTICS] Buscando traffic sources...');
 
-          const trafficResponse = await fetch(
+          const trafficResult = await robustFetchJson(
             `/api/analytics/traffic-sources?days=${selectedPeriod}`,
             {
-              headers: { "Content-Type": "application/json" },
-              credentials: 'same-origin',
-              signal: trafficController.signal,
-            },
+              timeout: 8000,
+            }
           );
 
-          clearTimeout(trafficTimeoutId);
-          if (trafficResponse.ok) {
-            const trafficResult = await trafficResponse.json();
-            if (trafficResult.success) {
-              console.log("✅ Traffic sources carregado");
-              setTrafficSources(trafficResult.data);
-            }
+          if (trafficResult.success) {
+            console.log("✅ [ANALYTICS] Traffic sources carregado");
+            setTrafficSources(trafficResult.data);
           }
         } catch (error) {
-          console.warn("⚠️ Traffic sources não disponível:", error);
+          console.warn("⚠️ [ANALYTICS] Traffic sources não disponível:", error);
         }
 
         // Fetch location conversion (optional)
