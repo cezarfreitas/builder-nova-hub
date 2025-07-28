@@ -839,6 +839,21 @@ export default function AdminConfiguracoes() {
                             ❌ Erro na integração
                           </p>
 
+                          {/* Configurações atuais */}
+                          <div className="bg-yellow-50 p-3 rounded border border-yellow-200">
+                            <h5 className="font-medium text-yellow-900 mb-2">
+                              ⚠️ Configurações Atuais
+                            </h5>
+                            <div className="space-y-1 text-xs">
+                              <p className={`${integracoesData.meta_pixel_id ? 'text-green-700' : 'text-red-700'}`}>
+                                <strong>Pixel ID:</strong> {integracoesData.meta_pixel_id || 'Não configurado'}
+                              </p>
+                              <p className={`${integracoesData.meta_access_token ? 'text-green-700' : 'text-red-700'}`}>
+                                <strong>Access Token:</strong> {integracoesData.meta_access_token ? `${integracoesData.meta_access_token.substring(0, 12)}...` : 'Não configurado'}
+                              </p>
+                            </div>
+                          </div>
+
                           {/* Status do Pixel */}
                           <div className="bg-white p-3 rounded border">
                             <h5 className="font-medium text-gray-900 mb-2 flex items-center">
