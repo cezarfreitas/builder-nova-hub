@@ -1015,7 +1015,7 @@ export default function AdminAnalytics() {
       {/* Segunda linha de gráficos */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Gráfico de Taxa de Conversão */}
-        <Card>
+        <Card className="bg-white shadow-sm">
           <CardHeader>
             <CardTitle className="flex items-center">
               <Target className="w-5 h-5 mr-2 text-green-600" />
