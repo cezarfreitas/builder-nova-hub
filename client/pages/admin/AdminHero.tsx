@@ -52,7 +52,9 @@ export default function AdminHero() {
   const { content, loading: contentLoading, saveContent } = useContent();
   const [settings, setSettings] = useState<HeroSettings>(content.hero);
   const [saving, setSaving] = useState(false);
-  const [activeTab, setActiveTab] = useState<"textos" | "visual" | "overlay" | "cta" | "preview">("textos");
+  const [activeTab, setActiveTab] = useState<
+    "textos" | "visual" | "overlay" | "cta" | "preview"
+  >("textos");
   const [hasChanges, setHasChanges] = useState(false);
   const { toast } = useToast();
 
@@ -65,7 +67,8 @@ export default function AdminHero() {
 
   // Detectar mudanças
   useEffect(() => {
-    const hasChanges = JSON.stringify(settings) !== JSON.stringify(content.hero);
+    const hasChanges =
+      JSON.stringify(settings) !== JSON.stringify(content.hero);
     setHasChanges(hasChanges);
   }, [settings, content.hero]);
 
@@ -133,7 +136,11 @@ export default function AdminHero() {
           onClick={() => setShowPreview(!showPreview)}
           className="flex items-center"
         >
-          {showPreview ? <EyeOff className="w-4 h-4 mr-2" /> : <Eye className="w-4 h-4 mr-2" />}
+          {showPreview ? (
+            <EyeOff className="w-4 h-4 mr-2" />
+          ) : (
+            <Eye className="w-4 h-4 mr-2" />
+          )}
           {showPreview ? "Ocultar Preview" : "Mostrar Preview"}
         </Button>
       </div>
@@ -189,7 +196,9 @@ export default function AdminHero() {
                 </label>
                 <Input
                   value={settings.cta_secondary_text || ""}
-                  onChange={(e) => handleInputChange("cta_secondary_text", e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange("cta_secondary_text", e.target.value)
+                  }
                   placeholder="DESCUBRA COMO"
                 />
               </div>
@@ -247,12 +256,16 @@ export default function AdminHero() {
                     <Input
                       type="color"
                       value={settings.background_color || "#000000"}
-                      onChange={(e) => handleInputChange("background_color", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("background_color", e.target.value)
+                      }
                       className="w-12 h-10 p-1 border rounded"
                     />
                     <Input
                       value={settings.background_color || "#000000"}
-                      onChange={(e) => handleInputChange("background_color", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("background_color", e.target.value)
+                      }
                       placeholder="#000000"
                     />
                   </div>
@@ -266,12 +279,16 @@ export default function AdminHero() {
                     <Input
                       type="color"
                       value={settings.text_color || "#ffffff"}
-                      onChange={(e) => handleInputChange("text_color", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("text_color", e.target.value)
+                      }
                       className="w-12 h-10 p-1 border rounded"
                     />
                     <Input
                       value={settings.text_color || "#ffffff"}
-                      onChange={(e) => handleInputChange("text_color", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("text_color", e.target.value)
+                      }
                       placeholder="#ffffff"
                     />
                   </div>
@@ -287,12 +304,16 @@ export default function AdminHero() {
                     <Input
                       type="color"
                       value={settings.cta_color || "#dc2626"}
-                      onChange={(e) => handleInputChange("cta_color", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("cta_color", e.target.value)
+                      }
                       className="w-12 h-10 p-1 border rounded"
                     />
                     <Input
                       value={settings.cta_color || "#dc2626"}
-                      onChange={(e) => handleInputChange("cta_color", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("cta_color", e.target.value)
+                      }
                       placeholder="#dc2626"
                     />
                   </div>
@@ -306,12 +327,16 @@ export default function AdminHero() {
                     <Input
                       type="color"
                       value={settings.overlay_color || "#000000"}
-                      onChange={(e) => handleInputChange("overlay_color", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("overlay_color", e.target.value)
+                      }
                       className="w-12 h-10 p-1 border rounded"
                     />
                     <Input
                       value={settings.overlay_color || "#000000"}
-                      onChange={(e) => handleInputChange("overlay_color", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("overlay_color", e.target.value)
+                      }
                       placeholder="#000000"
                     />
                   </div>
@@ -327,7 +352,12 @@ export default function AdminHero() {
                   min="0"
                   max="100"
                   value={settings.overlay_opacity || 70}
-                  onChange={(e) => handleInputChange("overlay_opacity", parseInt(e.target.value))}
+                  onChange={(e) =>
+                    handleInputChange(
+                      "overlay_opacity",
+                      parseInt(e.target.value),
+                    )
+                  }
                   className="w-full"
                 />
               </div>
@@ -343,17 +373,19 @@ export default function AdminHero() {
                 <CardTitle>Preview</CardTitle>
               </CardHeader>
               <CardContent>
-                <div 
+                <div
                   className="relative h-64 rounded-lg overflow-hidden"
                   style={{
                     backgroundColor: settings.background_color || "#000000",
-                    backgroundImage: settings.background_image ? `url(${settings.background_image})` : undefined,
+                    backgroundImage: settings.background_image
+                      ? `url(${settings.background_image})`
+                      : undefined,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                     color: settings.text_color || "#ffffff",
                   }}
                 >
-                  <div 
+                  <div
                     className="absolute inset-0"
                     style={{
                       backgroundColor: settings.overlay_color || "#000000",

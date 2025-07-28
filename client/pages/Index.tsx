@@ -1001,18 +1001,18 @@ export default function Index() {
 
       {/* Dynamic Sections Based on Order Configuration */}
       {content.section_order?.enabled_sections
-        ?.filter(section => section.enabled)
+        ?.filter((section) => section.enabled)
         ?.sort((a, b) => a.order - b.order)
-        ?.map(section => {
+        ?.map((section) => {
           switch (section.id) {
-            case 'form':
+            case "form":
               return (
                 <main key="form">
                   {/* This form section is already rendered above in hero, skip */}
                 </main>
               );
 
-            case 'benefits':
+            case "benefits":
               return (
                 <main key="benefits">
                   {/* Benefits Section */}
@@ -1032,20 +1032,28 @@ export default function Index() {
                       <div className="text-center mb-16">
                         <div className="inline-flex items-center bg-ecko-red/20 backdrop-blur-sm border border-ecko-red/30 rounded-full px-6 py-3 mb-6">
                           <span className="text-ecko-red font-bold uppercase tracking-wider text-sm">
-                            {renderTextWithColorTokens(content.benefits.section_tag)}
+                            {renderTextWithColorTokens(
+                              content.benefits.section_tag,
+                            )}
                           </span>
                         </div>
                         <h2
                           id="vantagens-heading"
                           className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6"
                         >
-                          {renderTextWithColorTokens(content.benefits.section_title)}
+                          {renderTextWithColorTokens(
+                            content.benefits.section_title,
+                          )}
                         </h2>
                         <p className="text-xl md:text-2xl text-gray-300 mb-4 font-light max-w-3xl mx-auto">
-                          {renderTextWithColorTokens(content.benefits.section_subtitle)}
+                          {renderTextWithColorTokens(
+                            content.benefits.section_subtitle,
+                          )}
                         </p>
                         <p className="text-lg text-gray-400 max-w-4xl mx-auto leading-relaxed">
-                          {renderTextWithColorTokens(content.benefits.section_description)}
+                          {renderTextWithColorTokens(
+                            content.benefits.section_description,
+                          )}
                         </p>
                       </div>
 
@@ -1061,23 +1069,63 @@ export default function Index() {
                               <div className="text-center">
                                 <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-br from-ecko-red to-ecko-red-dark rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
                                   {benefit.icon === "Globe" && (
-                                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    <svg
+                                      className="w-8 h-8 text-white"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      viewBox="0 0 24 24"
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                      />
                                     </svg>
                                   )}
                                   {benefit.icon === "Truck" && (
-                                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                                    <svg
+                                      className="w-8 h-8 text-white"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      viewBox="0 0 24 24"
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+                                      />
                                     </svg>
                                   )}
                                   {benefit.icon === "HeadphonesIcon" && (
-                                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                                    <svg
+                                      className="w-8 h-8 text-white"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      viewBox="0 0 24 24"
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                                      />
                                     </svg>
                                   )}
                                   {benefit.icon === "Monitor" && (
-                                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                    <svg
+                                      className="w-8 h-8 text-white"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      viewBox="0 0 24 24"
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                                      />
                                     </svg>
                                   )}
                                 </div>
@@ -1085,7 +1133,9 @@ export default function Index() {
                                   {renderTextWithColorTokens(benefit.title)}
                                 </h3>
                                 <p className="text-gray-300 leading-relaxed">
-                                  {renderTextWithColorTokens(benefit.description)}
+                                  {renderTextWithColorTokens(
+                                    benefit.description,
+                                  )}
                                 </p>
                               </div>
                             </div>
@@ -1097,7 +1147,9 @@ export default function Index() {
                       <div className="text-center">
                         <div className="bg-gradient-to-r from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-3xl p-8 md:p-12 max-w-4xl mx-auto">
                           <h3 className="text-2xl md:text-3xl font-bold text-white mb-6">
-                            {renderTextWithColorTokens(content.benefits.cta_title)}
+                            {renderTextWithColorTokens(
+                              content.benefits.cta_title,
+                            )}
                           </h3>
                           <Button
                             size="lg"
@@ -1117,7 +1169,7 @@ export default function Index() {
                 </main>
               );
 
-            case 'testimonials':
+            case "testimonials":
               return (
                 <main key="testimonials">
                   {/* Testimonials Section */}
@@ -1133,17 +1185,25 @@ export default function Index() {
                       <div className="text-center mb-16">
                         <div className="inline-flex items-center bg-ecko-red/20 backdrop-blur-sm border border-ecko-red/30 rounded-full px-6 py-3 mb-6">
                           <span className="text-ecko-red font-bold uppercase tracking-wider text-sm">
-                            {renderTextWithColorTokens(content.testimonials.section_tag)}
+                            {renderTextWithColorTokens(
+                              content.testimonials.section_tag,
+                            )}
                           </span>
                         </div>
                         <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6">
-                          {renderTextWithColorTokens(content.testimonials.section_title)}
+                          {renderTextWithColorTokens(
+                            content.testimonials.section_title,
+                          )}
                         </h2>
                         <p className="text-xl md:text-2xl text-gray-300 mb-4 font-light max-w-3xl mx-auto">
-                          {renderTextWithColorTokens(content.testimonials.section_subtitle)}
+                          {renderTextWithColorTokens(
+                            content.testimonials.section_subtitle,
+                          )}
                         </p>
                         <p className="text-lg text-gray-400 max-w-4xl mx-auto leading-relaxed">
-                          {renderTextWithColorTokens(content.testimonials.section_description)}
+                          {renderTextWithColorTokens(
+                            content.testimonials.section_description,
+                          )}
                         </p>
                       </div>
 
@@ -1161,17 +1221,23 @@ export default function Index() {
                               <div className="h-full bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-8 transition-all duration-500 hover:border-ecko-red/50 hover:shadow-2xl hover:shadow-ecko-red/10 hover:-translate-y-2">
                                 {/* Rating Stars */}
                                 <div className="flex items-center mb-6">
-                                  {[...Array(testimonial.rating)].map((_, i) => (
-                                    <Star
-                                      key={i}
-                                      className="w-5 h-5 text-yellow-400 fill-current"
-                                    />
-                                  ))}
+                                  {[...Array(testimonial.rating)].map(
+                                    (_, i) => (
+                                      <Star
+                                        key={i}
+                                        className="w-5 h-5 text-yellow-400 fill-current"
+                                      />
+                                    ),
+                                  )}
                                 </div>
 
                                 {/* Testimonial Content */}
                                 <blockquote className="text-gray-300 leading-relaxed mb-6 italic">
-                                  "{renderTextWithColorTokens(testimonial.content)}"
+                                  "
+                                  {renderTextWithColorTokens(
+                                    testimonial.content,
+                                  )}
+                                  "
                                 </blockquote>
 
                                 {/* Author Info */}
@@ -1181,13 +1247,16 @@ export default function Index() {
                                     alt={testimonial.name}
                                     className="w-12 h-12 rounded-full border-2 border-ecko-red/30 mr-4 object-cover"
                                     onError={(e) => {
-                                      const target = e.target as HTMLImageElement;
+                                      const target =
+                                        e.target as HTMLImageElement;
                                       target.src = "/placeholder.svg";
                                     }}
                                   />
                                   <div>
                                     <div className="font-semibold text-white group-hover:text-ecko-red transition-colors duration-300">
-                                      {renderTextWithColorTokens(testimonial.name)}
+                                      {renderTextWithColorTokens(
+                                        testimonial.name,
+                                      )}
                                     </div>
                                     <div className="text-sm text-gray-400">
                                       {testimonial.role} • {testimonial.company}
@@ -1203,10 +1272,14 @@ export default function Index() {
                       <div className="text-center">
                         <div className="bg-gradient-to-r from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-3xl p-8 md:p-12 max-w-4xl mx-auto">
                           <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
-                            {renderTextWithColorTokens(content.testimonials.cta_title)}
+                            {renderTextWithColorTokens(
+                              content.testimonials.cta_title,
+                            )}
                           </h3>
                           <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
-                            {renderTextWithColorTokens(content.testimonials.cta_description)}
+                            {renderTextWithColorTokens(
+                              content.testimonials.cta_description,
+                            )}
                           </p>
                           <Button
                             size="lg"
@@ -1226,7 +1299,7 @@ export default function Index() {
                 </main>
               );
 
-            case 'gallery':
+            case "gallery":
               return (
                 <main key="gallery">
                   {/* Gallery Section */}
@@ -1242,22 +1315,31 @@ export default function Index() {
                       <div className="text-center mb-16">
                         <div className="inline-flex items-center bg-ecko-red/20 backdrop-blur-sm border border-ecko-red/30 rounded-full px-6 py-3 mb-6">
                           <span className="text-ecko-red font-bold uppercase tracking-wider text-sm">
-                            {renderTextWithColorTokens(content.gallery.section_tag)}
+                            {renderTextWithColorTokens(
+                              content.gallery.section_tag,
+                            )}
                           </span>
                         </div>
                         <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6">
-                          {renderTextWithColorTokens(content.gallery.section_title)}
+                          {renderTextWithColorTokens(
+                            content.gallery.section_title,
+                          )}
                         </h2>
                         <p className="text-xl md:text-2xl text-gray-300 mb-4 font-light max-w-3xl mx-auto">
-                          {renderTextWithColorTokens(content.gallery.section_subtitle)}
+                          {renderTextWithColorTokens(
+                            content.gallery.section_subtitle,
+                          )}
                         </p>
                         <p className="text-lg text-gray-400 max-w-4xl mx-auto leading-relaxed">
-                          {renderTextWithColorTokens(content.gallery.section_description)}
+                          {renderTextWithColorTokens(
+                            content.gallery.section_description,
+                          )}
                         </p>
                       </div>
 
                       {/* Gallery Grid */}
-                      {content.gallery.items?.filter((item) => item.is_active)?.length > 0 ? (
+                      {content.gallery.items?.filter((item) => item.is_active)
+                        ?.length > 0 ? (
                         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
                           {content.gallery.items
                             ?.filter((item) => item.is_active)
@@ -1274,7 +1356,8 @@ export default function Index() {
                                     alt={item.alt_text}
                                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                     onError={(e) => {
-                                      const target = e.target as HTMLImageElement;
+                                      const target =
+                                        e.target as HTMLImageElement;
                                       target.src = "/placeholder.svg";
                                     }}
                                   />
@@ -1284,7 +1367,9 @@ export default function Index() {
                                       {renderTextWithColorTokens(item.title)}
                                     </h3>
                                     <p className="text-sm text-gray-300">
-                                      {renderTextWithColorTokens(item.description)}
+                                      {renderTextWithColorTokens(
+                                        item.description,
+                                      )}
                                     </p>
                                   </div>
                                 </div>
@@ -1309,10 +1394,14 @@ export default function Index() {
                       <div className="text-center">
                         <div className="bg-gradient-to-r from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-3xl p-8 md:p-12 max-w-4xl mx-auto">
                           <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
-                            {renderTextWithColorTokens(content.gallery.cta_title)}
+                            {renderTextWithColorTokens(
+                              content.gallery.cta_title,
+                            )}
                           </h3>
                           <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
-                            {renderTextWithColorTokens(content.gallery.cta_description)}
+                            {renderTextWithColorTokens(
+                              content.gallery.cta_description,
+                            )}
                           </p>
                           <Button
                             size="lg"
@@ -1332,7 +1421,7 @@ export default function Index() {
                 </main>
               );
 
-            case 'faq':
+            case "faq":
               return (
                 <main key="faq">
                   {/* FAQ Section */}
@@ -1355,15 +1444,23 @@ export default function Index() {
                           {renderTextWithColorTokens(content.faq.section_title)}
                         </h2>
                         <p className="text-xl md:text-2xl text-gray-300 mb-4 font-light max-w-3xl mx-auto">
-                          {renderTextWithColorTokens(content.faq.section_subtitle)}
+                          {renderTextWithColorTokens(
+                            content.faq.section_subtitle,
+                          )}
                         </p>
                         <p className="text-lg text-gray-400 max-w-4xl mx-auto leading-relaxed">
-                          {renderTextWithColorTokens(content.faq.section_description)}
+                          {renderTextWithColorTokens(
+                            content.faq.section_description,
+                          )}
                         </p>
                       </div>
 
                       {/* FAQ Accordion */}
-                      <Accordion type="single" collapsible className="space-y-4 mb-16">
+                      <Accordion
+                        type="single"
+                        collapsible
+                        className="space-y-4 mb-16"
+                      >
                         {content.faq.items
                           ?.filter((item) => item.is_active)
                           ?.sort((a, b) => a.display_order - b.display_order)
@@ -1390,7 +1487,9 @@ export default function Index() {
                             {renderTextWithColorTokens(content.faq.cta_title)}
                           </h3>
                           <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
-                            {renderTextWithColorTokens(content.faq.cta_description)}
+                            {renderTextWithColorTokens(
+                              content.faq.cta_description,
+                            )}
                           </p>
                           <Button
                             size="lg"
@@ -1410,11 +1509,14 @@ export default function Index() {
                 </main>
               );
 
-            case 'about':
+            case "about":
               return (
                 <main key="about">
                   {/* About Section */}
-                  <section id="about" className="py-20 bg-gradient-to-b from-gray-50 to-white">
+                  <section
+                    id="about"
+                    className="py-20 bg-gradient-to-b from-gray-50 to-white"
+                  >
                     <div className="container mx-auto px-6">
                       {/* Header */}
                       <div className="text-center mb-16">
@@ -1423,14 +1525,16 @@ export default function Index() {
                         </span>
                         <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
                           {renderTextWithColorTokens(
-                            content.about?.section_title || "SOBRE A {ECKO}"
+                            content.about?.section_title || "SOBRE A {ECKO}",
                           )}
                         </h2>
                         <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-4">
-                          {content.about?.section_subtitle || "mais de 20 anos de streetwear"}
+                          {content.about?.section_subtitle ||
+                            "mais de 20 anos de streetwear"}
                         </p>
                         <p className="text-gray-600 max-w-3xl mx-auto">
-                          {content.about?.section_description || "Conheça a trajetória de uma das marcas mais influentes do streetwear mundial"}
+                          {content.about?.section_description ||
+                            "Conheça a trajetória de uma das marcas mais influentes do streetwear mundial"}
                         </p>
                       </div>
 
@@ -1438,17 +1542,25 @@ export default function Index() {
                       <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
                         {/* Story Text */}
                         <div className="space-y-6">
-                          {content.about?.content?.split('\n\n').map((paragraph, index) => (
-                            <p key={index} className="text-gray-700 leading-relaxed text-lg">
-                              {renderTextWithColorTokens(paragraph)}
-                            </p>
-                          ))}
+                          {content.about?.content
+                            ?.split("\n\n")
+                            .map((paragraph, index) => (
+                              <p
+                                key={index}
+                                className="text-gray-700 leading-relaxed text-lg"
+                              >
+                                {renderTextWithColorTokens(paragraph)}
+                              </p>
+                            ))}
                         </div>
 
                         {/* Stats */}
                         <div className="grid grid-cols-2 gap-6">
                           {(content.about?.stats || []).map((stat) => (
-                            <div key={stat.id} className="text-center p-6 bg-white rounded-lg shadow-sm border border-gray-100">
+                            <div
+                              key={stat.id}
+                              className="text-center p-6 bg-white rounded-lg shadow-sm border border-gray-100"
+                            >
                               <div className="text-3xl md:text-4xl font-bold text-ecko-red mb-2">
                                 {stat.number}
                               </div>
@@ -1467,11 +1579,13 @@ export default function Index() {
                       <div className="text-center bg-black rounded-2xl p-8 md:p-12 text-white">
                         <h3 className="text-2xl md:text-3xl font-bold mb-4">
                           {renderTextWithColorTokens(
-                            content.about?.cta_title || "Faça Parte Desta História"
+                            content.about?.cta_title ||
+                              "Faça Parte Desta História",
                           )}
                         </h3>
                         <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
-                          {content.about?.cta_description || "Torne-se um revendedor oficial e ajude a escrever o próximo capítulo da Ecko"}
+                          {content.about?.cta_description ||
+                            "Torne-se um revendedor oficial e ajude a escrever o próximo capítulo da Ecko"}
                         </p>
                         <Button
                           size="lg"
@@ -1480,7 +1594,8 @@ export default function Index() {
                         >
                           <span className="absolute inset-0 bg-gradient-to-r from-red-700 to-red-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
                           <span className="relative z-10 flex items-center">
-                            {content.about?.cta_button_text || "QUERO SER PARTE DA ECKO"}
+                            {content.about?.cta_button_text ||
+                              "QUERO SER PARTE DA ECKO"}
                             <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                           </span>
                         </Button>
@@ -1490,7 +1605,7 @@ export default function Index() {
                 </main>
               );
 
-            case 'final_cta':
+            case "final_cta":
               return (
                 <main key="final_cta">
                   {/* Final CTA Section */}
@@ -1500,7 +1615,9 @@ export default function Index() {
                         {renderTextWithColorTokens(content.final_cta.title)}
                       </h2>
                       <p className="text-xl md:text-2xl text-red-100 mb-8 max-w-4xl mx-auto font-light leading-relaxed">
-                        {renderTextWithColorTokens(content.final_cta.description)}
+                        {renderTextWithColorTokens(
+                          content.final_cta.description,
+                        )}
                       </p>
                       <Button
                         size="lg"
@@ -1512,7 +1629,9 @@ export default function Index() {
                           <span className="hidden sm:inline">
                             {content.final_cta.button_text}
                           </span>
-                          <span className="sm:hidden">SER LOJISTA AUTORIZADO</span>
+                          <span className="sm:hidden">
+                            SER LOJISTA AUTORIZADO
+                          </span>
                           <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
                         </span>
                       </Button>
@@ -1957,7 +2076,10 @@ export default function Index() {
         </section>
 
         {/* About Section */}
-        <section id="about" className="py-20 bg-gradient-to-b from-gray-50 to-white">
+        <section
+          id="about"
+          className="py-20 bg-gradient-to-b from-gray-50 to-white"
+        >
           <div className="container mx-auto px-6">
             {/* Header */}
             <div className="text-center mb-16">
@@ -1966,14 +2088,16 @@ export default function Index() {
               </span>
               <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
                 {renderTextWithColorTokens(
-                  content.about?.section_title || "SOBRE A {ECKO}"
+                  content.about?.section_title || "SOBRE A {ECKO}",
                 )}
               </h2>
               <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-4">
-                {content.about?.section_subtitle || "mais de 20 anos de streetwear"}
+                {content.about?.section_subtitle ||
+                  "mais de 20 anos de streetwear"}
               </p>
               <p className="text-gray-600 max-w-3xl mx-auto">
-                {content.about?.section_description || "Conheça a trajetória de uma das marcas mais influentes do streetwear mundial"}
+                {content.about?.section_description ||
+                  "Conheça a trajetória de uma das marcas mais influentes do streetwear mundial"}
               </p>
             </div>
 
@@ -1981,17 +2105,25 @@ export default function Index() {
             <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
               {/* Story Text */}
               <div className="space-y-6">
-                {content.about?.content?.split('\n\n').map((paragraph, index) => (
-                  <p key={index} className="text-gray-700 leading-relaxed text-lg">
-                    {renderTextWithColorTokens(paragraph)}
-                  </p>
-                ))}
+                {content.about?.content
+                  ?.split("\n\n")
+                  .map((paragraph, index) => (
+                    <p
+                      key={index}
+                      className="text-gray-700 leading-relaxed text-lg"
+                    >
+                      {renderTextWithColorTokens(paragraph)}
+                    </p>
+                  ))}
               </div>
 
               {/* Stats */}
               <div className="grid grid-cols-2 gap-6">
                 {(content.about?.stats || []).map((stat) => (
-                  <div key={stat.id} className="text-center p-6 bg-white rounded-lg shadow-sm border border-gray-100">
+                  <div
+                    key={stat.id}
+                    className="text-center p-6 bg-white rounded-lg shadow-sm border border-gray-100"
+                  >
                     <div className="text-3xl md:text-4xl font-bold text-ecko-red mb-2">
                       {stat.number}
                     </div>
@@ -2010,11 +2142,12 @@ export default function Index() {
             <div className="text-center bg-black rounded-2xl p-8 md:p-12 text-white">
               <h3 className="text-2xl md:text-3xl font-bold mb-4">
                 {renderTextWithColorTokens(
-                  content.about?.cta_title || "Faça Parte Desta História"
+                  content.about?.cta_title || "Faça Parte Desta História",
                 )}
               </h3>
               <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
-                {content.about?.cta_description || "Torne-se um revendedor oficial e ajude a escrever o próximo capítulo da Ecko"}
+                {content.about?.cta_description ||
+                  "Torne-se um revendedor oficial e ajude a escrever o próximo capítulo da Ecko"}
               </p>
               <Button
                 size="lg"
@@ -2053,8 +2186,14 @@ export default function Index() {
             <div className="flex space-x-6">
               <a
                 href={content.footer?.social_links?.facebook || "#"}
-                target={content.footer?.social_links?.facebook ? "_blank" : "_self"}
-                rel={content.footer?.social_links?.facebook ? "noopener noreferrer" : ""}
+                target={
+                  content.footer?.social_links?.facebook ? "_blank" : "_self"
+                }
+                rel={
+                  content.footer?.social_links?.facebook
+                    ? "noopener noreferrer"
+                    : ""
+                }
                 className="text-gray-400 hover:text-ecko-red transition-colors"
               >
                 <span className="sr-only">Facebook</span>
@@ -2072,8 +2211,14 @@ export default function Index() {
               </a>
               <a
                 href={content.footer?.social_links?.instagram || "#"}
-                target={content.footer?.social_links?.instagram ? "_blank" : "_self"}
-                rel={content.footer?.social_links?.instagram ? "noopener noreferrer" : ""}
+                target={
+                  content.footer?.social_links?.instagram ? "_blank" : "_self"
+                }
+                rel={
+                  content.footer?.social_links?.instagram
+                    ? "noopener noreferrer"
+                    : ""
+                }
                 className="text-gray-400 hover:text-ecko-red transition-colors"
               >
                 <span className="sr-only">Instagram</span>

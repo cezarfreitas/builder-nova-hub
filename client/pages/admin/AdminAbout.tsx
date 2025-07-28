@@ -46,7 +46,9 @@ export default function AdminAbout() {
   const { content, loading: contentLoading, saveContent } = useContent();
   const [settings, setSettings] = useState<AboutSettings>(content.about);
   const [saving, setSaving] = useState(false);
-  const [activeTab, setActiveTab] = useState<"textos" | "historia" | "estatisticas" | "cta">("textos");
+  const [activeTab, setActiveTab] = useState<
+    "textos" | "historia" | "estatisticas" | "cta"
+  >("textos");
   const [hasChanges, setHasChanges] = useState(false);
   const { toast } = useToast();
 
@@ -97,8 +99,6 @@ export default function AdminAbout() {
     }
   };
 
-
-
   // Atualizar campo específico
   const updateField = (field: keyof AboutSettings, value: any) => {
     setSettings((prev) => ({
@@ -148,12 +148,17 @@ export default function AdminAbout() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Sobre a Ecko</h1>
-          <p className="text-gray-600">Gerencie o conteúdo da seção sobre a história da marca</p>
+          <p className="text-gray-600">
+            Gerencie o conteúdo da seção sobre a história da marca
+          </p>
         </div>
 
         {hasChanges && (
           <div className="flex items-center gap-4">
-            <Badge variant="outline" className="text-orange-600 border-orange-300">
+            <Badge
+              variant="outline"
+              className="text-orange-600 border-orange-300"
+            >
               <AlertCircle className="w-3 h-3 mr-1" />
               Alterações pendentes
             </Badge>
@@ -177,44 +182,44 @@ export default function AdminAbout() {
       <div className="border-b border-gray-200">
         <nav className="-mb-px flex space-x-8">
           <button
-            onClick={() => setActiveTab('textos')}
+            onClick={() => setActiveTab("textos")}
             className={`py-2 px-1 border-b-2 font-medium text-sm ${
-              activeTab === 'textos'
-                ? 'border-ecko-red text-ecko-red'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              activeTab === "textos"
+                ? "border-ecko-red text-ecko-red"
+                : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
             }`}
           >
             <Type className="w-4 h-4 mr-2 inline" />
             Textos
           </button>
           <button
-            onClick={() => setActiveTab('historia')}
+            onClick={() => setActiveTab("historia")}
             className={`py-2 px-1 border-b-2 font-medium text-sm ${
-              activeTab === 'historia'
-                ? 'border-ecko-red text-ecko-red'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              activeTab === "historia"
+                ? "border-ecko-red text-ecko-red"
+                : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
             }`}
           >
             <History className="w-4 h-4 mr-2 inline" />
             História
           </button>
           <button
-            onClick={() => setActiveTab('estatisticas')}
+            onClick={() => setActiveTab("estatisticas")}
             className={`py-2 px-1 border-b-2 font-medium text-sm ${
-              activeTab === 'estatisticas'
-                ? 'border-ecko-red text-ecko-red'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              activeTab === "estatisticas"
+                ? "border-ecko-red text-ecko-red"
+                : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
             }`}
           >
             <BarChart3 className="w-4 h-4 mr-2 inline" />
             Estatísticas
           </button>
           <button
-            onClick={() => setActiveTab('cta')}
+            onClick={() => setActiveTab("cta")}
             className={`py-2 px-1 border-b-2 font-medium text-sm ${
-              activeTab === 'cta'
-                ? 'border-ecko-red text-ecko-red'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              activeTab === "cta"
+                ? "border-ecko-red text-ecko-red"
+                : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
             }`}
           >
             <Target className="w-4 h-4 mr-2 inline" />
@@ -224,7 +229,7 @@ export default function AdminAbout() {
       </div>
 
       {/* Content */}
-      {activeTab === 'textos' ? (
+      {activeTab === "textos" ? (
         <div className="space-y-6">
           {/* Textos da Seção */}
           <Card className="bg-white shadow-sm border border-gray-200">
@@ -280,7 +285,9 @@ export default function AdminAbout() {
                 </label>
                 <TokenColorEditor
                   value={settings.section_description}
-                  onChange={(value) => updateField("section_description", value)}
+                  onChange={(value) =>
+                    updateField("section_description", value)
+                  }
                   placeholder="Conheça a trajetória de uma das marcas..."
                   rows={3}
                   label=""
@@ -289,7 +296,7 @@ export default function AdminAbout() {
             </CardContent>
           </Card>
         </div>
-      ) : activeTab === 'historia' ? (
+      ) : activeTab === "historia" ? (
         <div className="space-y-6">
           {/* Conteúdo da História */}
           <Card className="bg-white shadow-sm border border-gray-200">
@@ -319,7 +326,7 @@ export default function AdminAbout() {
             </CardContent>
           </Card>
         </div>
-      ) : activeTab === 'estatisticas' ? (
+      ) : activeTab === "estatisticas" ? (
         <div className="space-y-6">
           {/* Botão Adicionar */}
           <div className="flex justify-end">
@@ -384,7 +391,9 @@ export default function AdminAbout() {
                     </label>
                     <TokenColorEditor
                       value={stat.description}
-                      onChange={(value) => updateStat(stat.id, "description", value)}
+                      onChange={(value) =>
+                        updateStat(stat.id, "description", value)
+                      }
                       placeholder="Mais de três décadas construindo..."
                       rows={2}
                       label=""
@@ -398,7 +407,9 @@ export default function AdminAbout() {
               <div className="text-center py-12 text-gray-500">
                 <BarChart3 className="w-12 h-12 mx-auto mb-4 text-gray-300" />
                 <p>Nenhuma estatística cadastrada</p>
-                <p className="text-sm">Clique em "Adicionar Estatística" para começar</p>
+                <p className="text-sm">
+                  Clique em "Adicionar Estatística" para começar
+                </p>
               </div>
             )}
           </div>

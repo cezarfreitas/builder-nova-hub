@@ -36,7 +36,9 @@ export default function AdminFooter() {
   const { content, loading: contentLoading, saveContent } = useContent();
   const [settings, setSettings] = useState<FooterSettings>(content.footer);
   const [saving, setSaving] = useState(false);
-  const [activeTab, setActiveTab] = useState<"textos" | "social" | "preview">("textos");
+  const [activeTab, setActiveTab] = useState<"textos" | "social" | "preview">(
+    "textos",
+  );
   const [hasChanges, setHasChanges] = useState(false);
   const { toast } = useToast();
 
@@ -49,7 +51,8 @@ export default function AdminFooter() {
 
   // Detectar mudanças
   useEffect(() => {
-    const hasChanges = JSON.stringify(settings) !== JSON.stringify(content.footer);
+    const hasChanges =
+      JSON.stringify(settings) !== JSON.stringify(content.footer);
     setHasChanges(hasChanges);
   }, [settings, content.footer]);
 
@@ -122,12 +125,17 @@ export default function AdminFooter() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Footer</h1>
-          <p className="text-gray-600">Gerencie as informações e links do rodapé</p>
+          <p className="text-gray-600">
+            Gerencie as informações e links do rodapé
+          </p>
         </div>
 
         {hasChanges && (
           <div className="flex items-center gap-4">
-            <Badge variant="outline" className="text-orange-600 border-orange-300">
+            <Badge
+              variant="outline"
+              className="text-orange-600 border-orange-300"
+            >
               <AlertCircle className="w-3 h-3 mr-1" />
               Alterações pendentes
             </Badge>
@@ -151,33 +159,33 @@ export default function AdminFooter() {
       <div className="border-b border-gray-200">
         <nav className="-mb-px flex space-x-8">
           <button
-            onClick={() => setActiveTab('textos')}
+            onClick={() => setActiveTab("textos")}
             className={`py-2 px-1 border-b-2 font-medium text-sm ${
-              activeTab === 'textos'
-                ? 'border-ecko-red text-ecko-red'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              activeTab === "textos"
+                ? "border-ecko-red text-ecko-red"
+                : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
             }`}
           >
             <Type className="w-4 h-4 mr-2 inline" />
             Textos
           </button>
           <button
-            onClick={() => setActiveTab('social')}
+            onClick={() => setActiveTab("social")}
             className={`py-2 px-1 border-b-2 font-medium text-sm ${
-              activeTab === 'social'
-                ? 'border-ecko-red text-ecko-red'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              activeTab === "social"
+                ? "border-ecko-red text-ecko-red"
+                : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
             }`}
           >
             <LinkIcon className="w-4 h-4 mr-2 inline" />
             Redes Sociais
           </button>
           <button
-            onClick={() => setActiveTab('preview')}
+            onClick={() => setActiveTab("preview")}
             className={`py-2 px-1 border-b-2 font-medium text-sm ${
-              activeTab === 'preview'
-                ? 'border-ecko-red text-ecko-red'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              activeTab === "preview"
+                ? "border-ecko-red text-ecko-red"
+                : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
             }`}
           >
             <Eye className="w-4 h-4 mr-2 inline" />
@@ -187,7 +195,7 @@ export default function AdminFooter() {
       </div>
 
       {/* Content */}
-      {activeTab === 'textos' ? (
+      {activeTab === "textos" ? (
         <div className="space-y-6">
           <Card className="bg-white shadow-sm border border-gray-200">
             <CardHeader>
@@ -209,13 +217,14 @@ export default function AdminFooter() {
                   label=""
                 />
                 <p className="text-xs text-gray-500">
-                  Use {"{ecko}texto{/ecko}"} para destacar partes do texto com a cor da marca
+                  Use {"{ecko}texto{/ecko}"} para destacar partes do texto com a
+                  cor da marca
                 </p>
               </div>
             </CardContent>
           </Card>
         </div>
-      ) : activeTab === 'social' ? (
+      ) : activeTab === "social" ? (
         <div className="space-y-6">
           <Card className="bg-white shadow-sm border border-gray-200">
             <CardHeader>
@@ -244,7 +253,9 @@ export default function AdminFooter() {
                 </label>
                 <Input
                   value={settings.social_links?.instagram || ""}
-                  onChange={(e) => updateSocialLink("instagram", e.target.value)}
+                  onChange={(e) =>
+                    updateSocialLink("instagram", e.target.value)
+                  }
                   placeholder="https://instagram.com/eckounltd"
                 />
               </div>
@@ -255,7 +266,8 @@ export default function AdminFooter() {
                   <h4 className="font-medium text-blue-900 text-sm">Dica</h4>
                 </div>
                 <p className="text-sm text-blue-700">
-                  Cole os links completos das redes sociais. Deixe em branco os campos que não deseja exibir no rodapé.
+                  Cole os links completos das redes sociais. Deixe em branco os
+                  campos que não deseja exibir no rodapé.
                 </p>
               </div>
             </CardContent>
@@ -301,7 +313,8 @@ export default function AdminFooter() {
                   {/* Copyright */}
                   <p className="text-gray-400 text-sm leading-relaxed max-w-2xl mx-auto">
                     {renderTextWithColorTokens(
-                      settings.copyright || "© 2024 Ecko. Todos os direitos reservados."
+                      settings.copyright ||
+                        "© 2024 Ecko. Todos os direitos reservados.",
                     )}
                   </p>
                 </div>
