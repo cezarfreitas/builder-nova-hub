@@ -798,7 +798,7 @@ export default function AdminAnalytics() {
                 <p className="text-xs text-indigo-600">
                   {overview.traffic.total_page_views > 0
                     ? `${((overview.traffic.unique_page_views / overview.traffic.total_page_views) * 100).toFixed(1)}% de unicidade`
-                    : "Sem dados de p��gina"}
+                    : "Sem dados de página"}
                 </p>
               </div>
             </div>
@@ -1225,7 +1225,7 @@ export default function AdminAnalytics() {
         </Card>
       )}
 
-      {/* Conversão por Localização da Página */}
+      {/* Conversão por Localizaç��o da Página */}
       {locationConversion && (
         <Card>
           <CardHeader>
