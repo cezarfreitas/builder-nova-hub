@@ -2341,23 +2341,23 @@ export default function Index() {
               <span className="inline-block px-3 sm:px-4 py-1.5 sm:py-2 bg-ecko-red/10 text-ecko-red text-xs sm:text-sm font-semibold rounded-full mb-3 sm:mb-4">
                 {content.about?.section_tag || "Nossa História"}
               </span>
-              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 sm:mb-4">
                 {renderTextWithColorTokens(
                   content.about?.section_title || "SOBRE A {ECKO}",
                 )}
               </h2>
-              <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-4">
+              <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto mb-3 sm:mb-4 px-2">
                 {content.about?.section_subtitle ||
                   "mais de 20 anos de streetwear"}
               </p>
-              <p className="text-gray-600 max-w-3xl mx-auto">
+              <p className="text-sm sm:text-base text-gray-600 max-w-3xl mx-auto px-2">
                 {content.about?.section_description ||
                   "Conheça a trajetória de uma das marcas mais influentes do streetwear mundial"}
               </p>
             </div>
 
             {/* Content */}
-            <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
+            <div className="grid lg:grid-cols-2 gap-8 sm:gap-10 md:gap-12 items-center mb-8 sm:mb-12 md:mb-16">
               {/* Story Text */}
               <div className="space-y-6">
                 {content.about?.content
