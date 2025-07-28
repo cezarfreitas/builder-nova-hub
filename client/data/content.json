@@ -188,7 +188,9 @@
         "id": 6,
         "image_url": "/uploads/gallery/gallery-1753454903536-676397615.JPG",
         "is_active": true,
-        "display_order": 6
+        "display_order": 6,
+        "title": "Ecko",
+        "alt_text": "Ecko"
       },
       {
         "id": 7,
