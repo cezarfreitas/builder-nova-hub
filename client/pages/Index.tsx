@@ -2035,7 +2035,7 @@ export default function Index() {
                         content.testimonials.cta_button_text,
                       )}
                     </span>
-                    <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="ml-1 sm:ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </Button>
               </div>
