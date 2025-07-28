@@ -2335,7 +2335,7 @@ export default function Index() {
             />
           )}
 
-          <div className="container mx-auto px-6 relative z-10">
+          <div className="container mx-auto px-4 sm:px-6 relative z-10">
             {/* Header */}
             <div className="text-center mb-16">
               <span className="inline-block px-4 py-2 bg-ecko-red/10 text-ecko-red text-sm font-semibold rounded-full mb-4">
