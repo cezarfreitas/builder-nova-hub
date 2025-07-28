@@ -73,7 +73,7 @@ export default function AdminHero() {
       console.error("Erro ao salvar hero:", error);
       toast({
         title: "Erro ao salvar",
-        description: "Não foi possível salvar as configurações.",
+        description: "Não foi possível salvar as configura��ões.",
         variant: "destructive",
       });
     } finally {
@@ -620,75 +620,75 @@ export default function AdminHero() {
               <div
                 className="relative h-96 rounded-lg overflow-hidden"
                 style={{
-                  backgroundColor: settings.background_color || "#000000",
-                  backgroundImage: settings.background_image ? `url(${settings.background_image})` : undefined,
+                  backgroundColor: localSettings.background_color || "#000000",
+                  backgroundImage: localSettings.background_image ? `url(${localSettings.background_image})` : undefined,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
-                  color: settings.text_color || "#ffffff",
+                  color: localSettings.text_color || "#ffffff",
                 }}
               >
                 {/* Overlay */}
                 <div
                   className="absolute inset-0"
                   style={{
-                    background: settings.overlay_gradient_enabled ?
-                      `linear-gradient(${settings.overlay_gradient_direction || 'to bottom'}, ${settings.overlay_gradient_start || '#000000'}, ${settings.overlay_gradient_end || '#333333'})` :
-                      settings.overlay_color || "#000000",
-                    opacity: (settings.overlay_opacity || 70) / 100,
-                    mixBlendMode: settings.overlay_blend_mode || "normal",
+                    background: localSettings.overlay_gradient_enabled ?
+                      `linear-gradient(${localSettings.overlay_gradient_direction || 'to bottom'}, ${localSettings.overlay_gradient_start || '#000000'}, ${localSettings.overlay_gradient_end || '#333333'})` :
+                      localSettings.overlay_color || "#000000",
+                    opacity: (localSettings.overlay_opacity || 70) / 100,
+                    mixBlendMode: localSettings.overlay_blend_mode || "normal",
                   }}
                 />
 
                 {/* Content */}
                 <div className="relative z-10 p-8 h-full flex flex-col justify-center text-center">
-                  {settings.logo_url && (
+                  {localSettings.logo_url && (
                     <img
-                      src={settings.logo_url}
+                      src={localSettings.logo_url}
                       alt="Logo"
                       className="w-24 h-12 object-contain mx-auto mb-6"
                     />
                   )}
 
-                  {settings.subtitle && (
+                  {localSettings.subtitle && (
                     <p className="text-lg mb-4 opacity-90">
-                      {renderTextWithColorTokens(settings.subtitle)}
+                      {renderTextWithColorTokens(localSettings.subtitle)}
                     </p>
                   )}
 
-                  {settings.title && (
+                  {localSettings.title && (
                     <h1 className="text-3xl md:text-4xl font-bold mb-6">
-                      {renderTextWithColorTokens(settings.title)}
+                      {renderTextWithColorTokens(localSettings.title)}
                     </h1>
                   )}
 
-                  {settings.description && (
+                  {localSettings.description && (
                     <p className="text-lg mb-8 opacity-80 max-w-2xl mx-auto">
-                      {renderTextWithColorTokens(settings.description)}
+                      {renderTextWithColorTokens(localSettings.description)}
                     </p>
                   )}
 
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    {settings.cta_primary_text && (
+                    {localSettings.cta_primary_text && (
                       <button
                         className="px-8 py-3 rounded-lg text-lg font-bold shadow-lg hover:shadow-xl transition-all"
                         style={{
-                          backgroundColor: settings.cta_color || "#dc2626",
-                          color: settings.cta_text_color || "#ffffff",
+                          backgroundColor: localSettings.cta_color || "#dc2626",
+                          color: localSettings.cta_text_color || "#ffffff",
                         }}
                       >
-                        {renderTextWithColorTokens(settings.cta_primary_text)}
+                        {renderTextWithColorTokens(localSettings.cta_primary_text)}
                       </button>
                     )}
 
-                    {settings.cta_secondary_text && (
+                    {localSettings.cta_secondary_text && (
                       <button
                         className="px-8 py-3 rounded-lg text-lg font-bold border-2 hover:bg-white hover:text-black transition-all"
                         style={{
-                          borderColor: settings.text_color || "#ffffff",
-                          color: settings.text_color || "#ffffff",
+                          borderColor: localSettings.text_color || "#ffffff",
+                          color: localSettings.text_color || "#ffffff",
                         }}
                       >
-                        {renderTextWithColorTokens(settings.cta_secondary_text)}
+                        {renderTextWithColorTokens(localSettings.cta_secondary_text)}
                       </button>
                     )}
                   </div>
