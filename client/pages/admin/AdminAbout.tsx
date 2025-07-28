@@ -137,7 +137,7 @@ export default function AdminAbout() {
     updateField("stats", updatedStats);
   };
 
-  if (contentLoading) {
+  if (contentLoading || !settings) {
     return (
       <div className="flex items-center justify-center h-64">
         <Loader2 className="h-8 w-8 animate-spin text-ecko-red" />
