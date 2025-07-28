@@ -1,4 +1,5 @@
 // Utility para fazer requisições HTTP robustas que funcionam mesmo com interceptadores como FullStory
+import { devLog, devWarn, devError, config } from './environment';
 export interface FetchOptions {
   method?: string;
   headers?: Record<string, string>;
