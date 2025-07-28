@@ -257,16 +257,36 @@ export default function AdminAnalytics() {
   if (error) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <p className="text-red-600 mb-4">
-            {error || "Erro ao carregar dados"}
-          </p>
-          <Button
-            onClick={refreshData}
-            className="bg-ecko-red hover:bg-ecko-red-dark"
-          >
-            Tentar Novamente
-          </Button>
+        <div className="text-center max-w-md">
+          <div className="bg-red-50 border border-red-200 rounded-lg p-6">
+            <div className="text-red-600 mb-4">
+              <AlertTriangle className="w-12 h-12 mx-auto mb-4" />
+              <h3 className="text-lg font-semibold mb-2">Erro de Conectividade</h3>
+              <p className="text-sm">
+                {error || "Não foi possível carregar os dados de analytics"}
+              </p>
+            </div>
+            <Button
+              onClick={refreshData}
+              disabled={loading}
+              className="bg-ecko-red hover:bg-ecko-red-dark"
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Tentando...
+                </>
+              ) : (
+                <>
+                  <RefreshCw className="w-4 h-4 mr-2" />
+                  Tentar Novamente
+                </>
+              )}
+            </Button>
+            <p className="text-xs text-gray-500 mt-2">
+              O sistema tentará automaticamente em alguns segundos
+            </p>
+          </div>
         </div>
       </div>
     );
