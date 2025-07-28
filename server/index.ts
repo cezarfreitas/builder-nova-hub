@@ -262,6 +262,9 @@ export function createServer() {
   app.get("/api/seo/meta-tags", getMetaTags);
   app.get("/api/seo/structured-data", getStructuredData);
 
+  // SEO Settings routes
+  app.use("/api/seo-settings", seoSettingsRouter);
+
   // Initialize settings file
   setTimeout(async () => {
     try {
