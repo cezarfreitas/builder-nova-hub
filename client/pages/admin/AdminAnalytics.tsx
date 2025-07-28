@@ -38,6 +38,9 @@ import {
   MapPin,
   BarChart3,
   Loader2,
+  Activity,
+  CheckCircle,
+  AlertCircle,
 } from "lucide-react";
 
 // Registrar componentes do Chart.js
