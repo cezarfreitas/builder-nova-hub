@@ -9,6 +9,7 @@ import { useSessionId } from "../hooks/useAnalytics";
 import { useContent } from "../hooks/useContent";
 import { useHeroSection } from "../hooks/useHeroSection";
 import { renderTextWithColorTokens } from "../utils/colorTokens";
+import { generateGradientCSS } from "../components/AdvancedGradientOverlay";
 import {
   Accordion,
   AccordionContent,
@@ -697,11 +698,7 @@ export default function Index() {
                 <div
                   className="absolute inset-0 z-10"
                   style={{
-                    background: currentHero.overlay_gradient_enabled ?
-                      (currentHero.overlay_gradient_direction?.startsWith('radial-gradient') ?
-                        currentHero.overlay_gradient_direction :
-                        `linear-gradient(${currentHero.overlay_gradient_direction || 'to bottom'}, ${currentHero.overlay_gradient_start || '#000000'}, ${currentHero.overlay_gradient_end || '#333333'})`) :
-                      currentHero.overlay_color || "#000000",
+                    background: generateGradientCSS(currentHero),
                     opacity: (currentHero.overlay_opacity || 70) / 100,
                     mixBlendMode: currentHero.overlay_blend_mode || "normal",
                   }}
