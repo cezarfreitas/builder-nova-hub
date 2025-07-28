@@ -43,59 +43,32 @@ const defaultHeroSettings: HeroSettings = {
 };
 
 export function useHeroSection() {
-  const [heroSettings, setHeroSettings] = useState<HeroSettings>(defaultHeroSettings);
-  const [loading, setLoading] = useState(false); // Começar sem loading para mostrar padrões imediatamente
+  const [heroSettings, setHeroSettings] = useState<HeroSettings | null>(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Carregar configurações do hero de forma otimizada
+  // Carregar configurações do hero apenas da API
   const loadHeroSettings = useCallback(async () => {
     try {
-      // Não definir loading como true para evitar flickering
       setError(null);
+      setLoading(true);
 
-      const response = await fetch('/api/hero', {
-        method: 'GET',
-        headers: {
-          'Cache-Control': 'no-cache',
-          'Pragma': 'no-cache'
-        }
-      });
+      const response = await fetch('/api/hero');
 
       if (!response.ok) {
-        throw new Error(`Erro ao carregar configurações: ${response.status}`);
+        throw new Error('Erro ao carregar');
       }
 
       const data = await response.json();
-
-      // Garantir que todas as propriedades necessárias existam
-      const completeSettings = {
-        ...defaultHeroSettings,
-        ...data
-      };
-
-      // Sempre atualizar com os dados da API
-      setHeroSettings(completeSettings);
-
-      // Atualizar cache local
-      try {
-        localStorage.setItem('hero_settings_cache', JSON.stringify({
-          data: completeSettings,
-          timestamp: Date.now()
-        }));
-      } catch (e) {
-        console.warn('Erro ao salvar cache:', e);
-      }
+      setHeroSettings(data);
+      setLoading(false);
     } catch (err) {
       console.error('Erro ao carregar configurações do hero:', err);
-      setError(err instanceof Error ? err.message : 'Erro desconhecido');
-
-      // Garantir que sempre temos configurações válidas
-      setHeroSettings(prev => ({
-        ...defaultHeroSettings,
-        ...prev // Manter qualquer configuração que já existia
-      }));
+      setError('Erro ao carregar');
+      setLoading(false);
+      setHeroSettings(null);
     }
-  }, []); // Remover heroSettings da dependência para evitar loop
+  }, []);
 
   // Salvar configurações do hero
   const saveHeroSettings = useCallback(async (settings: HeroSettings) => {
@@ -148,43 +121,8 @@ export function useHeroSection() {
 
   // Carregar configurações na inicialização
   useEffect(() => {
-    let isMounted = true;
-
-    const initializeHeroSettings = async () => {
-      // Tentar carregar cache local primeiro
-      try {
-        const cached = localStorage.getItem('hero_settings_cache');
-        if (cached) {
-          const cachedData = JSON.parse(cached);
-          const cacheTime = cachedData.timestamp;
-          const now = Date.now();
-
-          // Cache válido por 5 minutos
-          if (now - cacheTime < 5 * 60 * 1000) {
-            if (isMounted) {
-              setHeroSettings({
-                ...defaultHeroSettings,
-                ...cachedData.data
-              });
-            }
-          }
-        }
-      } catch (e) {
-        console.warn('Erro ao carregar cache:', e);
-      }
-
-      // Carregar dados da API
-      if (isMounted) {
-        await loadHeroSettings();
-      }
-    };
-
-    initializeHeroSettings();
-
-    return () => {
-      isMounted = false;
-    };
-  }, []); // Array vazia para executar apenas uma vez
+    loadHeroSettings();
+  }, [loadHeroSettings]);
 
   return {
     heroSettings,
