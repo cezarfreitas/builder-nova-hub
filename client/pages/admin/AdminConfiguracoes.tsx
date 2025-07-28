@@ -301,19 +301,8 @@ export default function AdminConfiguracoes() {
         return;
       }
 
-      // Verificar configuração no servidor
-      const configResponse = await fetch("/api/meta/config");
-      const configResult = await configResponse.json();
-
-      if (!configResult.configured) {
-        toast({
-          title: "⚠️ Configuração não salva",
-          description: "Salve as configurações antes de testar a integração.",
-          variant: "destructive",
-        });
-        setTesting(false);
-        return;
-      }
+      // As configurações já foram validadas localmente acima
+      // Não precisamos verificar o servidor pois agora usamos JSON exclusivo
 
       // Testar evento PageView (Pixel)
       const pixelTestResponse = await fetch("/api/meta/test-event", {
