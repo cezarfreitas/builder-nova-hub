@@ -560,10 +560,10 @@ export default function AdminAnalytics() {
                   Total de Leads
                 </p>
                 <p className="text-2xl font-bold text-blue-900">
-                  {overview.leads.total}
+                  {overview?.leads?.total || 0}
                 </p>
                 <p className="text-xs text-blue-600">
-                  +{overview.leads.period} nos últimos {overview.period_days}{" "}
+                  +{overview?.leads?.period || 0} nos últimos {overview?.period_days || 30}{" "}
                   dias
                 </p>
               </div>
