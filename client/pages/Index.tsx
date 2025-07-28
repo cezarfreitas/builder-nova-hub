@@ -313,7 +313,7 @@ export default function Index() {
     // Limita a 11 dígitos (DDD + 9 dígitos)
     const limited = numbers.slice(0, 11);
 
-    // Aplica formataç��o
+    // Aplica formatação
     if (limited.length <= 2) {
       return limited;
     } else if (limited.length <= 7) {
