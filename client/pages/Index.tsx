@@ -1783,7 +1783,7 @@ export default function Index() {
                     key={card.id}
                     className="bg-gray-900/50 backdrop-blur-sm border-2 border-gray-700 hover:border-ecko-red hover:bg-gray-800/70 transition-all duration-500 group transform hover:-translate-y-2 hover:scale-105"
                   >
-                    <CardContent className="p-6 text-center relative">
+                    <CardContent className="p-3 sm:p-6 text-center relative">
                       <div className="w-20 h-20 bg-gradient-to-br from-ecko-red/30 to-ecko-red/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:from-ecko-red/50 group-hover:to-ecko-red/20 transition-all duration-500 group-hover:rotate-6">
                         <IconComponent className="w-10 h-10 text-ecko-red group-hover:scale-110 transition-transform duration-300" />
                       </div>
