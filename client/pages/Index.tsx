@@ -346,7 +346,7 @@ export default function Index() {
       return false;
     }
 
-    // Se tem 10 dígitos, n����o deve começar com 9 (fixo)
+    // Se tem 10 dígitos, não deve começar com 9 (fixo)
     if (numbers.length === 10 && numbers[2] === "9") {
       return false;
     }
