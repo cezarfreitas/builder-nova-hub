@@ -516,6 +516,7 @@ export default function Index() {
                   type="tel"
                   value={formData.whatsapp}
                   onChange={handleInputChange}
+                  onFocus={() => trackContactIntent('focus', 'whatsapp_input')}
                   placeholder="(11) 99999-9999"
                   required
                   className={`h-12 text-base bg-gray-800 text-white placeholder-gray-400 focus:ring-ecko-red/20 ${
