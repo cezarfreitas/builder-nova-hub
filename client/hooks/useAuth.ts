@@ -45,8 +45,8 @@ export const useAuth = () => {
     password: string,
   ): Promise<boolean> => {
     try {
-      // Validação simples: admin/admin
-      if (username === "admin" && password === "admin") {
+      // Validação simples: admin/Designer@13
+      if (username === "admin" && password === "Designer@13") {
         const authData = {
           authenticated: true,
           user: "admin",
