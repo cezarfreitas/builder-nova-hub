@@ -262,7 +262,7 @@ export default function Index() {
     // Remove tudo que não é número
     const numbers = value.replace(/\D/g, "");
 
-    // Limita a 8 dígitos
+    // Limita a 8 d��gitos
     const limited = numbers.slice(0, 8);
 
     // Aplica formata��ão
@@ -740,20 +740,31 @@ export default function Index() {
             }}></div>
           </div>
 
-          {/* Content */}
+          {/* Content - Sempre visível */}
           <div className="relative z-20 text-center px-4 sm:px-6 max-w-4xl mx-auto">
-            {/* Logo */}
-            {currentHero.logo_url && (
-              <div className="flex items-center justify-center pt-4 sm:pt-8 lg:pt-12 mb-8 sm:mb-10 lg:mb-12">
-                <img
-                  src={currentHero.logo_url}
-                  alt="Logo Ecko - Marca líder em streetwear brasileiro"
-                  className="w-40 h-16 sm:w-48 sm:h-20 lg:w-56 lg:h-24 xl:w-64 xl:h-28 object-contain hero-image"
-                  loading="eager"
-                  fetchpriority="high"
-                />
-              </div>
-            )}
+            {/* Logo com skeleton */}
+            <div className="flex items-center justify-center pt-4 sm:pt-8 lg:pt-12 mb-8 sm:mb-10 lg:mb-12">
+              {currentHero.logo_url ? (
+                logoLoaded ? (
+                  <img
+                    src={currentHero.logo_url}
+                    alt="Logo Ecko - Marca líder em streetwear brasileiro"
+                    className="w-40 h-16 sm:w-48 sm:h-20 lg:w-56 lg:h-24 xl:w-64 xl:h-28 object-contain hero-image"
+                  />
+                ) : (
+                  <div
+                    className="w-40 h-16 sm:w-48 sm:h-20 lg:w-56 lg:h-24 xl:w-64 xl:h-28 bg-gray-700/50 rounded-lg animate-pulse"
+                    style={{ backgroundColor: 'rgba(255,255,255,0.1)' }}
+                  />
+                )
+              ) : (
+                // Fallback text logo sempre visível
+                <div className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-white text-center py-4">
+                  <span className="text-ecko-red">ECKO</span>
+                  <span className="text-white"> UNLTD</span>
+                </div>
+              )}
+            </div>
 
             {/* Subtitle */}
             {currentHero.subtitle && (
