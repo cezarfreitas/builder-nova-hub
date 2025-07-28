@@ -75,7 +75,7 @@ export default function Index() {
   const galleryRef = useSectionTracking('gallery');
   const faqRef = useSectionTracking('faq');
 
-  // Simplificado: n��o precisamos controlar estado de loading de imagens
+  // Simplificado: não precisamos controlar estado de loading de imagens
 
   const [formData, setFormData] = useState<LeadFormData>({
     name: "",
@@ -244,6 +244,27 @@ export default function Index() {
   const handleFAQClick = (faqId: number, question: string) => {
     trackFAQClick(faqId.toString(), question);
   };
+
+  // Track form abandonment if user leaves with filled fields
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      if (showForm && trackingFormStarted && !isSubmitted) {
+        const totalFields = 8; // name, whatsapp, hasCnpj, storeType, cep, endereco, cidade, estado
+        let filledFields = 0;
+
+        Object.values(formData).forEach(value => {
+          if (value && value.trim()) filledFields++;
+        });
+
+        if (filledFields > 0) {
+          trackFormAbandonment(filledFields, totalFields);
+        }
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [showForm, trackingFormStarted, isSubmitted, formData, trackFormAbandonment]);
 
   // Função para formatar WhatsApp
   const formatWhatsApp = (value: string): string => {
