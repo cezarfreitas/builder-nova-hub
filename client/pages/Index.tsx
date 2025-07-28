@@ -140,7 +140,7 @@ export default function Index() {
       id: 3,
       question: "Vocês oferecem exclusividade territorial?",
       answer:
-        "Sim! Dependendo da região e do perfil do parceiro, oferecemos prote��ão territorial para garantir que você tenha espaço para crescer sem concorrência direta de outros revendedores oficiais.",
+        "Sim! Dependendo da região e do perfil do parceiro, oferecemos proteção territorial para garantir que você tenha espaço para crescer sem concorrência direta de outros revendedores oficiais.",
       display_order: 3,
       is_active: true,
     },
