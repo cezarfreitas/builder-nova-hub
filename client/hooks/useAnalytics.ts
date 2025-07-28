@@ -39,7 +39,7 @@ export function useAnalytics(selectedPeriod: number = 30) {
       setError(null);
 
       try {
-        console.log(`🔄 Buscando analytics (tentativa ${4 - retries}/3)...`);
+        devLog(`🔄 Buscando analytics (tentativa ${4 - retries}/3)...`);
 
         // Verificar se estamos no ambiente correto
         if (typeof window === "undefined") {
