@@ -85,11 +85,14 @@ export default function Index() {
         const result = await response.json();
 
         if (result.success && result.data.meta_track_pageview === 'true') {
+          console.log('📊 Disparando PageView único da landing page');
           trackPageView({
             page_title: document.title,
             page_url: window.location.href,
             referrer: document.referrer,
           });
+        } else {
+          console.log('⏸️ PageView tracking desabilitado nas configurações');
         }
       } catch (error) {
         console.error('Erro ao verificar configuração de PageView:', error);
