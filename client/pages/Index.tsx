@@ -76,16 +76,27 @@ export default function Index() {
   useScrollTracking();
   useTimeTracking();
 
-  // Track PageView apenas uma vez quando a página carrega
+  // Track PageView apenas uma vez quando a página carrega (se habilitado)
   useEffect(() => {
-    const timer = setTimeout(() => {
-      trackPageView({
-        page_title: document.title,
-        page_url: window.location.href,
-        referrer: document.referrer,
-      });
-    }, 1000); // Aguarda 1s para garantir que a página carregou
+    const checkAndTrackPageView = async () => {
+      try {
+        // Verificar se o tracking de PageView está habilitado
+        const response = await fetch('/api/integrations-settings');
+        const result = await response.json();
 
+        if (result.success && result.data.meta_track_pageview === 'true') {
+          trackPageView({
+            page_title: document.title,
+            page_url: window.location.href,
+            referrer: document.referrer,
+          });
+        }
+      } catch (error) {
+        console.error('Erro ao verificar configuração de PageView:', error);
+      }
+    };
+
+    const timer = setTimeout(checkAndTrackPageView, 1000);
     return () => clearTimeout(timer);
   }, []); // Array vazio para executar apenas uma vez
 
@@ -488,7 +499,7 @@ export default function Index() {
 
       if (result.success) {
         toast({
-          title: "�� Cadastro enviado!",
+          title: "✅ Cadastro enviado!",
           description:
             "Nossa equipe entrará em contato em até 24h. Obrigado pelo interesse!",
           duration: 8000,
