@@ -12,7 +12,7 @@ import { TokenColorEditor } from "../../components/TokenColorEditor";
 import { renderTextWithColorTokens } from "../../utils/colorTokens";
 import { OptimizedImageUpload } from "../../components/OptimizedImageUpload";
 import { useToast } from "../../hooks/use-toast";
-import { useContent } from "../../hooks/useContent";
+import { useHeroSection } from "../../hooks/useHeroSection";
 import {
   Save,
   Eye,
@@ -27,59 +27,38 @@ import {
   Sliders,
 } from "lucide-react";
 
-interface HeroSettings {
-  title: string;
-  subtitle: string;
-  description: string;
-  background_image: string;
-  background_color: string;
-  text_color: string;
-  cta_primary_text: string;
-  cta_secondary_text: string;
-  cta_color: string;
-  cta_text_color: string;
-  overlay_color: string;
-  overlay_opacity: number;
-  overlay_blend_mode: string;
-  overlay_gradient_enabled: boolean;
-  overlay_gradient_start: string;
-  overlay_gradient_end: string;
-  overlay_gradient_direction: string;
-  logo_url: string;
-}
+
 
 export default function AdminHero() {
-  const { content, loading: contentLoading, saveContent } = useContent();
-  const [settings, setSettings] = useState<HeroSettings>(content.hero);
+  const {
+    heroSettings: settings,
+    loading: contentLoading,
+    saveHeroSettings,
+    updateField: updateHeroField
+  } = useHeroSection();
   const [saving, setSaving] = useState(false);
   const [activeTab, setActiveTab] = useState<"textos" | "visual" | "overlay" | "cta" | "preview">("textos");
   const [hasChanges, setHasChanges] = useState(false);
+  const [localSettings, setLocalSettings] = useState(settings);
   const { toast } = useToast();
 
-  // Sincronizar com o conteúdo JSON quando carregado
+  // Sincronizar com as configurações do hero quando carregadas
   useEffect(() => {
-    if (content.hero) {
-      setSettings(content.hero);
-    }
-  }, [content.hero]);
+    setLocalSettings(settings);
+  }, [settings]);
 
   // Detectar mudanças
   useEffect(() => {
-    const hasChanges = JSON.stringify(settings) !== JSON.stringify(content.hero);
+    const hasChanges = JSON.stringify(localSettings) !== JSON.stringify(settings);
     setHasChanges(hasChanges);
-  }, [settings, content.hero]);
+  }, [localSettings, settings]);
 
   // Salvar configurações
   const saveSettings = async () => {
     try {
       setSaving(true);
 
-      const updatedContent = {
-        ...content,
-        hero: settings,
-      };
-
-      const result = await saveContent(updatedContent);
+      const result = await saveHeroSettings(localSettings);
 
       if (result.success) {
         toast({
@@ -88,7 +67,7 @@ export default function AdminHero() {
         });
         setHasChanges(false);
       } else {
-        throw new Error("Falha ao salvar");
+        throw new Error(result.error || "Falha ao salvar");
       }
     } catch (error) {
       console.error("Erro ao salvar hero:", error);
@@ -103,8 +82,8 @@ export default function AdminHero() {
   };
 
   // Atualizar campo específico
-  const updateField = (field: keyof HeroSettings, value: any) => {
-    setSettings((prev) => ({
+  const updateField = (field: keyof typeof settings, value: any) => {
+    setLocalSettings((prev) => ({
       ...prev,
       [field]: value,
     }));
@@ -269,7 +248,7 @@ export default function AdminHero() {
                   Subtítulo
                 </label>
                 <TokenColorEditor
-                  value={settings.subtitle || ""}
+                  value={localSettings.subtitle || ""}
                   onChange={(value) => updateField("subtitle", value)}
                   placeholder="O maior programa de parceria do streetwear"
                   rows={2}
@@ -282,7 +261,7 @@ export default function AdminHero() {
                   Título Principal
                 </label>
                 <TokenColorEditor
-                  value={settings.title || ""}
+                  value={localSettings.title || ""}
                   onChange={(value) => updateField("title", value)}
                   placeholder="SEJA UM {ecko}REVENDEDOR{/ecko} OFICIAL"
                   rows={3}
@@ -295,7 +274,7 @@ export default function AdminHero() {
                   Descrição
                 </label>
                 <TokenColorEditor
-                  value={settings.description || ""}
+                  value={localSettings.description || ""}
                   onChange={(value) => updateField("description", value)}
                   placeholder="Transforme sua paixão em negócio..."
                   rows={4}
@@ -321,7 +300,7 @@ export default function AdminHero() {
                   Logo
                 </label>
                 <OptimizedImageUpload
-                  value={settings.logo_url || ""}
+                  value={localSettings.logo_url || ""}
                   onChange={(url) => updateField("logo_url", url)}
                   onClear={() => updateField("logo_url", "")}
                 />
@@ -332,7 +311,7 @@ export default function AdminHero() {
                   Imagem de Fundo
                 </label>
                 <OptimizedImageUpload
-                  value={settings.background_image || ""}
+                  value={localSettings.background_image || ""}
                   onChange={(url) => updateField("background_image", url)}
                   onClear={() => updateField("background_image", "")}
                 />
