@@ -234,7 +234,7 @@ export async function getAnalyticsOverview(req: Request, res: Response) {
       },
     };
 
-    console.log('��️ [API] Respondendo com dados fallback devido a erro');
+    console.log('⚠️ [API] Respondendo com dados fallback devido a erro');
     res.status(200).json(fallbackData);
   }
 }
@@ -377,15 +377,19 @@ export async function getDailyStats(req: Request, res: Response) {
       (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
     );
 
+    console.log('✅ [API] getDailyStats respondendo com sucesso');
     res.json({
       success: true,
       data: dailyStats,
     });
   } catch (error) {
-    console.error("Erro ao buscar estatísticas diárias:", error);
-    res.status(500).json({
-      success: false,
-      message: "Erro interno do servidor",
+    console.error("❌ [API] Erro ao buscar estatísticas diárias:", error);
+
+    // Responder com array vazio em vez de erro
+    console.log('⚠️ [API] Respondendo com array vazio devido a erro');
+    res.status(200).json({
+      success: true,
+      data: [],
     });
   }
 }
