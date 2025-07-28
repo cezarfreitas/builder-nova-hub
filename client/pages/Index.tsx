@@ -693,13 +693,19 @@ export default function Index() {
                   />
                 )}
 
-                {/* Overlays */}
-                <div className="absolute inset-0 z-10" style={{
-                  background: 'linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.5), rgba(0,0,0,0.9))'
-                }}></div>
-                <div className="absolute inset-0 z-10" style={{
-                  background: 'linear-gradient(to right, rgba(220,38,38,0.15), transparent, rgba(220,38,38,0.15))'
-                }}></div>
+                {/* Overlay dinâmico */}
+                <div
+                  className="absolute inset-0 z-10"
+                  style={{
+                    background: currentHero.overlay_gradient_enabled ?
+                      (currentHero.overlay_gradient_direction?.startsWith('radial-gradient') ?
+                        currentHero.overlay_gradient_direction :
+                        `linear-gradient(${currentHero.overlay_gradient_direction || 'to bottom'}, ${currentHero.overlay_gradient_start || '#000000'}, ${currentHero.overlay_gradient_end || '#333333'})`) :
+                      currentHero.overlay_color || "#000000",
+                    opacity: (currentHero.overlay_opacity || 70) / 100,
+                    mixBlendMode: currentHero.overlay_blend_mode || "normal",
+                  }}
+                ></div>
               </div>
 
               {/* Content */}
