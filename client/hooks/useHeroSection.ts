@@ -53,10 +53,20 @@ export function useHeroSection() {
       setError(null);
       setLoading(true);
 
-      const response = await fetch('/api/hero');
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
+
+      const response = await fetch('/api/hero', {
+        signal: controller.signal,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      clearTimeout(timeoutId);
 
       if (!response.ok) {
-        throw new Error('Erro ao carregar');
+        throw new Error(`Erro ${response.status}: ${response.statusText}`);
       }
 
       const data = await response.json();
@@ -64,7 +74,19 @@ export function useHeroSection() {
       setLoading(false);
     } catch (err) {
       console.error('Erro ao carregar configurações do hero:', err);
-      setError('Erro ao carregar');
+
+      if (err instanceof Error) {
+        if (err.name === 'AbortError') {
+          setError('Timeout - Servidor não responde');
+        } else if (err.message.includes('fetch')) {
+          setError('Erro de conexão');
+        } else {
+          setError(err.message);
+        }
+      } else {
+        setError('Erro ao carregar');
+      }
+
       setLoading(false);
       setHeroSettings(null);
     }
