@@ -1063,15 +1063,15 @@ export default function AdminConfiguracoes() {
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="favicon_url">Favicon (URL)</Label>
-                    <Input
-                      id="favicon_url"
+                    <Label>Favicon</Label>
+                    <CompactImageUpload
                       value={seoData.favicon_url}
-                      onChange={(e) => {
-                        setSeoData({ ...seoData, favicon_url: e.target.value });
+                      onChange={(url) => {
+                        setSeoData({ ...seoData, favicon_url: url });
                         setHasChanges(true);
                       }}
-                      placeholder="https://exemplo.com/favicon.ico"
+                      placeholder="Upload do favicon"
+                      type="seo"
                     />
                     <p className="text-xs text-gray-500 mt-1">
                       Recomendado: 32x32px ou 16x16px (.ico, .png)
