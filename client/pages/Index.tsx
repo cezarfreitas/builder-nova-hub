@@ -99,6 +99,10 @@ export default function Index() {
   const [formOrigin, setFormOrigin] = useState<string>("");
   const [startTime] = useState(Date.now());
   const [trackingFormStarted, setTrackingFormStarted] = useState(false);
+
+  // Testimonials carousel state
+  const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [isCarouselPaused, setIsCarouselPaused] = useState(false);
   const [userId] = useState(() => {
     // Gerar user_id único baseado em dados do navegador
     const fingerprint = `${navigator.userAgent}-${screen.width}x${screen.height}-${Intl.DateTimeFormat().resolvedOptions().timeZone}`;
