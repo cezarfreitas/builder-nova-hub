@@ -632,33 +632,7 @@ export default function Index() {
     );
   }
 
-  // Sistema simplificado de preload sem estados complexos
-  useEffect(() => {
-    const preloadImage = (src: string): void => {
-      const img = new Image();
-      img.onload = () => {
-        // Cache no localStorage para próximas visitas
-        try {
-          localStorage.setItem(`hero_image_${btoa(src)}`, Date.now().toString());
-        } catch (e) {
-          console.warn('Cache storage failed:', e);
-        }
-      };
-      img.onerror = () => {
-        console.warn('Failed to preload image:', src);
-      };
-      img.src = src;
-    };
 
-    // Preload imagens quando disponíveis
-    if (currentHero.background_image) {
-      preloadImage(currentHero.background_image);
-    }
-
-    if (currentHero.logo_url) {
-      preloadImage(currentHero.logo_url);
-    }
-  }, [currentHero.background_image, currentHero.logo_url]);
 
   return (
     <>
