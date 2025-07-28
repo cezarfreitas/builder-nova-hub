@@ -509,9 +509,15 @@ export default function Index() {
 
           if (configResult.success && configResult.data.meta_tracking_enabled === 'true') {
             console.log('🎯 Disparando conversão para Meta - formulário enviado com sucesso');
+            console.log('📊 Dados do lead:', {
+              cidade: formData.cidade,
+              estado: formData.estado,
+              storeType: formData.storeType,
+              formOrigin: formOrigin || 'form-inline'
+            });
 
             // Usar trackButtonClick que irá usar o nome de conversão configurado dinamicamente
-            trackButtonClick('form_submission_success', 'lead_generation');
+            trackButtonClick(`form_submission_${formData.storeType || 'unknown'}`, 'lead_conversion');
           } else {
             console.log('⏸️ Tracking de conversões desabilitado nas configurações');
           }
