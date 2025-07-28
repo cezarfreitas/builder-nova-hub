@@ -162,24 +162,31 @@ export function useAnalytics(selectedPeriod: number = 30) {
           console.warn("⚠️ [ANALYTICS] Geography conversion não disponível:", error);
         }
       } catch (error) {
-        console.error("❌ Erro ao carregar analytics:", error);
+        console.error("❌ [ANALYTICS] Erro ao carregar analytics:", error);
 
-        // Retry logic
-        if (retries > 0 && error.name !== "AbortError") {
+        // Retry logic - mas só se não for erro de conectividade básica
+        if (retries > 0 && !error.message.includes('Failed to fetch') && error.name !== "AbortError") {
           console.log(
-            `🔄 Tentando novamente em 2s... (${retries} tentativas restantes)`,
+            `🔄 [ANALYTICS] Tentando novamente em 3s... (${retries} tentativas restantes)`,
           );
           setTimeout(() => {
             fetchAnalytics(retries - 1);
-          }, 2000);
+          }, 3000);
           return;
         }
 
         // Set error after all retries exhausted
         const errorMessage =
           error instanceof Error ? error.message : "Erro desconhecido";
-        setError(`Falha ao carregar dados: ${errorMessage}`);
-        console.error("❌ Todas as tentativas falharam:", errorMessage);
+
+        // Verificar se é problema de conectividade
+        if (errorMessage.includes('Failed to fetch') || errorMessage.includes('Network error')) {
+          setError(`Problemas de conectividade detectados. Verifique sua conexão.`);
+        } else {
+          setError(`Falha ao carregar dados: ${errorMessage}`);
+        }
+
+        console.error("❌ [ANALYTICS] Todas as tentativas falharam:", errorMessage);
 
         // Set empty/zero data instead of mock data
         setOverview({
