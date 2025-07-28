@@ -232,6 +232,10 @@ export default function Index() {
     trackButtonClick(`open_form_${origin}`, origin);
   };
 
+  const handleFAQClick = (faqId: number, question: string) => {
+    trackFAQClick(faqId.toString(), question);
+  };
+
   // Função para formatar WhatsApp
   const formatWhatsApp = (value: string): string => {
     // Remove tudo que não é número
