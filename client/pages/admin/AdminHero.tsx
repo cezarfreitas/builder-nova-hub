@@ -389,12 +389,12 @@ export default function AdminHero() {
                   <div className="flex items-center space-x-2">
                     <Input
                       type="color"
-                      value={settings.overlay_color || "#000000"}
+                      value={localSettings.overlay_color || "#000000"}
                       onChange={(e) => updateField("overlay_color", e.target.value)}
                       className="w-12 h-10 p-1 border rounded"
                     />
                     <Input
-                      value={settings.overlay_color || "#000000"}
+                      value={localSettings.overlay_color || "#000000"}
                       onChange={(e) => updateField("overlay_color", e.target.value)}
                       placeholder="#000000"
                     />
@@ -403,13 +403,13 @@ export default function AdminHero() {
 
                 <div className="space-y-2">
                   <label className="block text-sm font-medium text-gray-700">
-                    Opacidade: {settings.overlay_opacity || 70}%
+                    Opacidade: {localSettings.overlay_opacity || 70}%
                   </label>
                   <Input
                     type="range"
                     min="0"
                     max="100"
-                    value={settings.overlay_opacity || 70}
+                    value={localSettings.overlay_opacity || 70}
                     onChange={(e) => updateField("overlay_opacity", parseInt(e.target.value))}
                     className="w-full"
                   />
@@ -421,7 +421,7 @@ export default function AdminHero() {
                   Modo de Mistura
                 </label>
                 <select
-                  value={settings.overlay_blend_mode || "normal"}
+                  value={localSettings.overlay_blend_mode || "normal"}
                   onChange={(e) => updateField("overlay_blend_mode", e.target.value)}
                   className="w-full border border-gray-300 rounded-md px-3 py-2"
                 >
@@ -453,7 +453,7 @@ export default function AdminHero() {
                 <label className="flex items-center space-x-2">
                   <input
                     type="checkbox"
-                    checked={settings.overlay_gradient_enabled || false}
+                    checked={localSettings.overlay_gradient_enabled || false}
                     onChange={(e) => updateField("overlay_gradient_enabled", e.target.checked)}
                     className="rounded border-gray-300"
                   />
@@ -463,7 +463,7 @@ export default function AdminHero() {
                 </label>
               </div>
 
-              {settings.overlay_gradient_enabled && (
+              {localSettings.overlay_gradient_enabled && (
                 <>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
@@ -473,12 +473,12 @@ export default function AdminHero() {
                       <div className="flex items-center space-x-2">
                         <Input
                           type="color"
-                          value={settings.overlay_gradient_start || "#000000"}
+                          value={localSettings.overlay_gradient_start || "#000000"}
                           onChange={(e) => updateField("overlay_gradient_start", e.target.value)}
                           className="w-12 h-10 p-1 border rounded"
                         />
                         <Input
-                          value={settings.overlay_gradient_start || "#000000"}
+                          value={localSettings.overlay_gradient_start || "#000000"}
                           onChange={(e) => updateField("overlay_gradient_start", e.target.value)}
                           placeholder="#000000"
                         />
@@ -492,12 +492,12 @@ export default function AdminHero() {
                       <div className="flex items-center space-x-2">
                         <Input
                           type="color"
-                          value={settings.overlay_gradient_end || "#333333"}
+                          value={localSettings.overlay_gradient_end || "#333333"}
                           onChange={(e) => updateField("overlay_gradient_end", e.target.value)}
                           className="w-12 h-10 p-1 border rounded"
                         />
                         <Input
-                          value={settings.overlay_gradient_end || "#333333"}
+                          value={localSettings.overlay_gradient_end || "#333333"}
                           onChange={(e) => updateField("overlay_gradient_end", e.target.value)}
                           placeholder="#333333"
                         />
@@ -510,7 +510,7 @@ export default function AdminHero() {
                       Direção do Gradiente
                     </label>
                     <select
-                      value={settings.overlay_gradient_direction || "to bottom"}
+                      value={localSettings.overlay_gradient_direction || "to bottom"}
                       onChange={(e) => updateField("overlay_gradient_direction", e.target.value)}
                       className="w-full border border-gray-300 rounded-md px-3 py-2"
                     >
@@ -543,7 +543,7 @@ export default function AdminHero() {
                   Texto do Botão Principal
                 </label>
                 <TokenColorEditor
-                  value={settings.cta_primary_text || ""}
+                  value={localSettings.cta_primary_text || ""}
                   onChange={(value) => updateField("cta_primary_text", value)}
                   placeholder="QUERO SER REVENDEDOR"
                   rows={2}
@@ -556,7 +556,7 @@ export default function AdminHero() {
                   Texto do Botão Secundário
                 </label>
                 <TokenColorEditor
-                  value={settings.cta_secondary_text || ""}
+                  value={localSettings.cta_secondary_text || ""}
                   onChange={(value) => updateField("cta_secondary_text", value)}
                   placeholder="DESCUBRA COMO"
                   rows={2}
@@ -572,12 +572,12 @@ export default function AdminHero() {
                   <div className="flex items-center space-x-2">
                     <Input
                       type="color"
-                      value={settings.cta_color || "#dc2626"}
+                      value={localSettings.cta_color || "#dc2626"}
                       onChange={(e) => updateField("cta_color", e.target.value)}
                       className="w-12 h-10 p-1 border rounded"
                     />
                     <Input
-                      value={settings.cta_color || "#dc2626"}
+                      value={localSettings.cta_color || "#dc2626"}
                       onChange={(e) => updateField("cta_color", e.target.value)}
                       placeholder="#dc2626"
                     />
@@ -591,12 +591,12 @@ export default function AdminHero() {
                   <div className="flex items-center space-x-2">
                     <Input
                       type="color"
-                      value={settings.cta_text_color || "#ffffff"}
+                      value={localSettings.cta_text_color || "#ffffff"}
                       onChange={(e) => updateField("cta_text_color", e.target.value)}
                       className="w-12 h-10 p-1 border rounded"
                     />
                     <Input
-                      value={settings.cta_text_color || "#ffffff"}
+                      value={localSettings.cta_text_color || "#ffffff"}
                       onChange={(e) => updateField("cta_text_color", e.target.value)}
                       placeholder="#ffffff"
                     />
