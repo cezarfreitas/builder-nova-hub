@@ -80,16 +80,21 @@ export default function AdminAnalytics() {
   useEffect(() => {
     const checkTrackingStatus = async () => {
       try {
-        const response = await fetch("/api/analytics/overview?days=1");
-        const result = await response.json();
+        console.log('🔍 [TRACKING] Verificando status do tracking...');
+
+        const result = await robustFetchJson("/api/analytics/overview?days=1", {
+          timeout: 8000,
+        });
 
         if (result.success && result.data?.traffic?.total_page_views > 0) {
+          console.log('✅ [TRACKING] Status: ATIVO');
           setTrackingStatus("active");
         } else {
+          console.log('⚠️ [TRACKING] Status: INATIVO (sem dados)');
           setTrackingStatus("inactive");
         }
       } catch (error) {
-        console.warn("Erro ao verificar status do tracking:", error);
+        console.warn("❌ [TRACKING] Erro ao verificar status:", error);
         setTrackingStatus("inactive");
       }
     };
