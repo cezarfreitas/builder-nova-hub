@@ -653,10 +653,11 @@ export default function Index() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-300 mb-2">
+                <label htmlFor="hasCnpj-main" className="block text-sm font-semibold text-gray-300 mb-2">
                   Possui CNPJ?
                 </label>
                 <select
+                  id="hasCnpj-main"
                   name="hasCnpj"
                   value={formData.hasCnpj}
                   onChange={handleInputChange}
@@ -675,10 +676,11 @@ export default function Index() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-300 mb-2">
+                <label htmlFor="storeType-main" className="block text-sm font-semibold text-gray-300 mb-2">
                   Tipo de Negócio
                 </label>
                 <select
+                  id="storeType-main"
                   name="storeType"
                   value={formData.storeType}
                   onChange={handleInputChange}
@@ -1040,10 +1042,11 @@ export default function Index() {
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                           <div>
-                            <label className="block text-sm font-semibold text-gray-300 mb-2">
+                            <label htmlFor="hasCnpj-modal" className="block text-sm font-semibold text-gray-300 mb-2">
                               {content.form.fields.cnpj_label}
                             </label>
                             <select
+                              id="hasCnpj-modal"
                               name="hasCnpj"
                               value={formData.hasCnpj}
                               onChange={handleInputChange}
@@ -1066,10 +1069,11 @@ export default function Index() {
                           </div>
 
                           <div>
-                            <label className="block text-sm font-semibold text-gray-300 mb-2">
+                            <label htmlFor="storeType-modal" className="block text-sm font-semibold text-gray-300 mb-2">
                               {content.form.fields.store_type_label}
                             </label>
                             <select
+                              id="storeType-modal"
                               name="storeType"
                               value={formData.storeType}
                               onChange={handleInputChange}
@@ -2276,7 +2280,7 @@ export default function Index() {
               <span className="block sm:inline">PRONTO PARA FAZER PARTE</span>
               <span className="block sm:inline"> DA FAMÍLIA ECKO?</span>
             </h2>
-            <p className="text-lg sm:text-xl text-white/90 mb-6 sm:mb-8 px-2 leading-relaxed">
+            <p className="text-lg sm:text-xl text-white mb-6 sm:mb-8 px-2 leading-relaxed">
               Junte-se aos milhares de revendedores que já transformaram seus
               negócios com a marca mais desejada do streetwear brasileiro!
             </p>
