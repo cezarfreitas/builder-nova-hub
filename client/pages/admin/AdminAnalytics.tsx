@@ -600,7 +600,7 @@ export default function AdminAnalytics() {
               )}
             </div>
           </div>
-          <p className="text-gray-600 mt-2">
+          <p className="text-gray-600 dark:text-gray-300 mt-2">
             Visão completa de leads, conversões, tráfego e performance em tempo real
           </p>
         </div>
