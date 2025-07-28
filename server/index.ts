@@ -249,6 +249,12 @@ export function createServer() {
   app.post("/api/integracoes/test", testIntegrations);
   app.post("/api/integracoes/test-meta", testMetaPixelOnly);
 
+  // Meta tracking routes
+  app.post("/api/meta/track-event", trackMetaEvent);
+  app.post("/api/meta/track-events-batch", trackMetaEventsBatch);
+  app.post("/api/meta/test-event", testMetaTrackingEvent);
+  app.get("/api/meta/config", checkMetaPixelConfig);
+
   // SEO routes
   app.get("/robots.txt", serveRobotsTxt);
   app.get("/sitemap.xml", serveSitemapXml);
