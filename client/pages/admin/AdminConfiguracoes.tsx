@@ -235,6 +235,7 @@ export default function AdminConfiguracoes() {
 
         if (result.success) {
           setIntegracoesData(result.data);
+          setIntegrationsLoaded(true);
         }
       } catch (error) {
         console.error('Erro ao carregar configurações de integrações:', error);
