@@ -48,10 +48,7 @@ export default function Index() {
   const { content, loading: contentLoading } = useContent();
   const { heroSettings: currentHero, loading: heroLoading } = useHeroSection();
 
-  // Estado para controlar quando as imagens estão carregadas
-  const [imagesLoaded, setImagesLoaded] = useState(false);
-  const [backgroundLoaded, setBackgroundLoaded] = useState(false);
-  const [logoLoaded, setLogoLoaded] = useState(false);
+  // Simplificado: não precisamos controlar estado de loading de imagens
 
   const [formData, setFormData] = useState<LeadFormData>({
     name: "",
@@ -111,7 +108,7 @@ export default function Index() {
       id: 4,
       question: "Como funciona o suporte pós-venda?",
       answer:
-        "Nossa equipe oferece suporte completo: treinamento de produto, materiais de marketing, orientação sobre displays e estratégias de venda. Além disso, você ter�� um consultor dedicado para acompanhar seu desenvolvimento.",
+        "Nossa equipe oferece suporte completo: treinamento de produto, materiais de marketing, orientação sobre displays e estratégias de venda. Além disso, você terá um consultor dedicado para acompanhar seu desenvolvimento.",
       display_order: 4,
       is_active: true,
     },
