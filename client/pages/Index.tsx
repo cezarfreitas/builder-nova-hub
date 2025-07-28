@@ -180,7 +180,7 @@ export default function Index() {
       id: 4,
       question: "Como funciona o suporte pós-venda?",
       answer:
-        "Nossa equipe oferece suporte completo: treinamento de produto, materiais de marketing, orienta��ão sobre displays e estratégias de venda. Além disso, você terá um consultor dedicado para acompanhar seu desenvolvimento.",
+        "Nossa equipe oferece suporte completo: treinamento de produto, materiais de marketing, orientação sobre displays e estratégias de venda. Além disso, você terá um consultor dedicado para acompanhar seu desenvolvimento.",
       display_order: 4,
       is_active: true,
     },
@@ -194,37 +194,13 @@ export default function Index() {
     },
   ];
 
-  // Função para rastrear clique no WhatsApp
+  // Função para rastrear clique no WhatsApp usando o novo sistema
   const trackWhatsAppClick = async () => {
-    try {
-      const response = await fetch("/api/analytics/track-visit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          session_id: sessionId,
-          user_id: userId,
-          page_url: window.location.href,
-          referrer: document.referrer,
-          utm_source:
-            new URLSearchParams(window.location.search).get("utm_source") || "",
-          utm_medium:
-            new URLSearchParams(window.location.search).get("utm_medium") || "",
-          utm_campaign:
-            new URLSearchParams(window.location.search).get("utm_campaign") ||
-            "",
-          user_agent: navigator.userAgent,
-          duration_seconds: Math.floor((Date.now() - startTime) / 1000),
-          event_type: "whatsapp_click",
-        }),
+    if (isTrackingEnabled && pageType === 'lp') {
+      trackEvent('whatsapp_click', {
+        button_location: 'floating_button',
+        page_section: 'global'
       });
-
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-      }
-    } catch (error) {
-      // Silenciar erros de analytics para não quebrar a aplicação
     }
   };
 
