@@ -639,10 +639,10 @@ export default function Index() {
       <DynamicHead />
       {/* Preload crítico de imagens */}
       <head>
-        {currentHero.background_image && (
+        {currentHero?.background_image && (
           <link rel="preload" as="image" href={currentHero.background_image} />
         )}
-        {currentHero.logo_url && (
+        {currentHero?.logo_url && (
           <link rel="preload" as="image" href={currentHero.logo_url} />
         )}
       </head>
