@@ -645,6 +645,15 @@ export default function Index() {
   return (
     <>
       <DynamicHead />
+      <style>
+        {`
+          .hero-image {
+            display: block !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+          }
+        `}
+      </style>
       <main className="bg-black pb-4">
         {/* Hero Full Screen Section */}
         <section
