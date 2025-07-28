@@ -112,42 +112,11 @@ export default function AdminConfiguracoes() {
         webhook_retries: getSetting("webhook_retries") || "3",
       });
 
-      setSeoData({
-        seo_title: getSetting("seo_title") || "",
-        seo_description: getSetting("seo_description") || "",
-        seo_keywords: getSetting("seo_keywords") || "",
-        seo_canonical_url: getSetting("seo_canonical_url") || "",
-        og_title: getSetting("og_title") || "",
-        og_description: getSetting("og_description") || "",
-        og_image: getSetting("og_image") || "",
-        twitter_card: getSetting("twitter_card") || "summary_large_image",
-        twitter_title: getSetting("twitter_title") || "",
-        twitter_description: getSetting("twitter_description") || "",
-        twitter_image: getSetting("twitter_image") || "",
-        favicon_url: getSetting("favicon_url") || "",
-        apple_icon_url: getSetting("apple_icon_url") || "",
-      });
+      // SEO data agora é carregado do sistema JSON exclusivo
+      // setSeoData removido - carregado via useEffect separado
 
-      setIntegracoesData({
-        ga4_measurement_id: getSetting("ga4_measurement_id") || "",
-        ga4_api_secret: getSetting("ga4_api_secret") || "",
-        ga4_conversion_name: getSetting("ga4_conversion_name") || "form_submit",
-        meta_pixel_id: getSetting("meta_pixel_id") || "",
-        meta_access_token: getSetting("meta_access_token") || "",
-        meta_conversion_name: getSetting("meta_conversion_name") || "Lead",
-        meta_test_code: getSetting("meta_test_code") || "",
-        meta_tracking_enabled: getSetting("meta_tracking_enabled") || "true",
-        meta_track_pageview: getSetting("meta_track_pageview") || "true",
-        meta_track_scroll: getSetting("meta_track_scroll") || "true",
-        meta_track_time: getSetting("meta_track_time") || "true",
-        meta_track_interactions:
-          getSetting("meta_track_interactions") || "true",
-        custom_conversion_enabled:
-          getSetting("custom_conversion_enabled") || "false",
-        custom_conversion_event:
-          getSetting("custom_conversion_event") || "lead_captured",
-        custom_conversion_value: getSetting("custom_conversion_value") || "1",
-      });
+      // Integrações data agora é carregado do sistema JSON exclusivo
+      // setIntegracoesData removido - carregado via useEffect separado
     }
   }, [settings, loading, getSetting]);
 
