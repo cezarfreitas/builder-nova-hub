@@ -26,16 +26,16 @@ export const devError = (message: string, ...args: any[]) => {
 export const config = {
   // Timeouts mais agressivos em produção
   apiTimeout: isProduction ? 5000 : 10000,
-  
+
   // Retry logic menos agressivo em produção
   maxRetries: isProduction ? 2 : 3,
-  
+
   // Intervalo de auto-refresh
   autoRefreshInterval: isProduction ? 300000 : 120000, // 5min prod, 2min dev
-  
+
   // Logs detalhados apenas em dev
   enableDetailedLogs: isDevelopment,
-  
+
   // Credenciais de demo (removidas em produção)
   showDemoCredentials: isDevelopment,
 };

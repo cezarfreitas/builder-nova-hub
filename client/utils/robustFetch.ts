@@ -1,5 +1,5 @@
 // Utility para fazer requisições HTTP robustas que funcionam mesmo com interceptadores como FullStory
-import { devLog, devWarn, devError, config } from './environment';
+import { devLog, devWarn, devError, config } from "./environment";
 export interface FetchOptions {
   method?: string;
   headers?: Record<string, string>;
@@ -116,10 +116,7 @@ export async function robustFetch(
       text: () => response.text(),
     };
   } catch (nativeFetchError) {
-    devWarn(
-      `⚠️ [ROBUST] Fetch nativo falhou para ${url}:`,
-      nativeFetchError,
-    );
+    devWarn(`⚠️ [ROBUST] Fetch nativo falhou para ${url}:`, nativeFetchError);
 
     // Se fetch nativo falhar, usar XMLHttpRequest
     try {

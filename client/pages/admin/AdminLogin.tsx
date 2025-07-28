@@ -140,8 +140,6 @@ export default function AdminLogin() {
               )}
             </Button>
           </form>
-
-
         </CardContent>
       </Card>
     </div>

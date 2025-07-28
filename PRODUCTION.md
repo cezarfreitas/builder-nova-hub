@@ -2,7 +2,7 @@
 
 ## 📋 Pré-requisitos
 
-- Node.js 18+ 
+- Node.js 18+
 - MySQL 8.0+
 - Ambiente com SSL/HTTPS
 - Proxy reverso (Nginx recomendado)
@@ -10,6 +10,7 @@
 ## 🔐 Credenciais de Acesso
 
 ### Admin Principal
+
 - **Usuário:** `admin`
 - **Senha:** `Designer@13`
 
@@ -260,7 +261,7 @@ pm2 restart ecko-admin
 Em produção, o sistema é otimizado para:
 
 - ⚡ **Timeouts reduzidos**: 5s vs 10s dev
-- 🔄 **Menos retries**: 2 vs 3 dev  
+- 🔄 **Menos retries**: 2 vs 3 dev
 - ⏱️ **Auto-refresh menos frequente**: 5min vs 2min dev
 - 🗜️ **Compressão ativa**: Gzip para todos assets
 - 💾 **Cache otimizado**: 1h para assets, 5min para APIs
