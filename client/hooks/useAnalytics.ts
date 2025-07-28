@@ -39,19 +39,35 @@ export function useAnalytics(selectedPeriod: number = 30) {
       try {
         console.log(`🔄 Buscando analytics (tentativa ${4 - retries}/3)...`);
 
+        // Verificar se estamos no ambiente correto
+        if (typeof window === 'undefined') {
+          throw new Error('Fetch só pode ser executado no cliente');
+        }
+
         // Fetch analytics overview data from database
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
+        const timeoutId = setTimeout(() => {
+          console.warn('⏰ Timeout de 10s atingido, abortando requisição');
+          controller.abort();
+        }, 10000); // 10s timeout
 
-        const overviewResponse = await fetch(
-          `/api/analytics/overview?days=${selectedPeriod}`,
-          {
-            signal: controller.signal,
-            headers: {
-              "Content-Type": "application/json",
+        let overviewResponse;
+        try {
+          overviewResponse = await fetch(
+            `/api/analytics/overview?days=${selectedPeriod}`,
+            {
+              signal: controller.signal,
+              headers: {
+                "Content-Type": "application/json",
+              },
+              credentials: 'same-origin',
             },
-          },
-        );
+          );
+        } catch (fetchError) {
+          clearTimeout(timeoutId);
+          console.error('❌ Erro direto no fetch overview:', fetchError);
+          throw new Error(`Falha na conexão com servidor: ${fetchError.message}`);
+        }
 
         clearTimeout(timeoutId);
 
