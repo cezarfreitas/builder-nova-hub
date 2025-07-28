@@ -704,13 +704,15 @@ export default function Index() {
               style={{ backgroundColor: currentHero.background_color || '#000000' }}
             />
 
-            {/* Background image só renderiza quando carregada */}
-            {currentHero.background_image && backgroundLoaded && (
+            {/* Background image */}
+            {currentHero.background_image && (
               <img
                 src={currentHero.background_image}
                 alt="Background do Hero"
                 className="absolute inset-0 w-full h-full object-cover hero-image"
                 style={{ zIndex: 1 }}
+                loading="eager"
+                fetchpriority="high"
               />
             )}
 
