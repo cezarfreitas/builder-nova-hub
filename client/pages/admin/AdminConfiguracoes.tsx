@@ -290,8 +290,8 @@ export default function AdminConfiguracoes() {
         return;
       }
 
-      // Testar evento PageView
-      const testResponse = await fetch("/api/meta/test-event", {
+      // Testar evento PageView (Pixel)
+      const pixelTestResponse = await fetch("/api/meta/test-event", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -304,21 +304,53 @@ export default function AdminConfiguracoes() {
         }),
       });
 
-      const testResult = await testResponse.json();
+      const pixelTestResult = await pixelTestResponse.json();
 
-      if (testResult.success) {
+      // Testar API de Conversões
+      const conversionTestResponse = await fetch("/api/meta/track-event", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          event_name: "Lead",
+          event_source_url: window.location.href,
+          action_source: "website",
+          custom_data: {
+            content_type: "admin_conversion_test",
+            content_category: "api_test",
+            value: 1.00,
+            currency: "BRL"
+          },
+          user_data: {
+            client_ip_address: "test",
+            client_user_agent: navigator.userAgent,
+            fbc: "test_fbc",
+            fbp: "test_fbp"
+          }
+        }),
+      });
+
+      const conversionTestResult = await conversionTestResponse.json();
+
+      const allTestsSuccess = pixelTestResult.success && conversionTestResult.success;
+
+      if (allTestsSuccess) {
         toast({
-          title: "✅ Teste bem-sucedido!",
-          description: "Evento enviado para Meta com sucesso.",
+          title: "✅ Testes bem-sucedidos!",
+          description: "Pixel e API de Conversões funcionando corretamente.",
         });
 
         setTestResults({
           success: true,
           configCheck: configResult,
-          eventTest: testResult,
+          pixelTest: pixelTestResult,
+          conversionTest: conversionTestResult,
         });
       } else {
-        throw new Error(testResult.message || "Falha no teste");
+        const errors = [];
+        if (!pixelTestResult.success) errors.push("Pixel: " + pixelTestResult.message);
+        if (!conversionTestResult.success) errors.push("Conversões: " + conversionTestResult.message);
+
+        throw new Error("Falhas encontradas: " + errors.join(", "));
       }
     } catch (error) {
       toast({
