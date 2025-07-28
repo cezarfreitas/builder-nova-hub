@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { robustFetchJson } from '../utils/robustFetch';
 
 interface SettingItem {
   setting_key: string;
