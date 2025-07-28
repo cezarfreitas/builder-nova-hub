@@ -376,7 +376,7 @@ export default function Index() {
     return numbers.length === 8;
   };
 
-  // Fun����ão para buscar endereço pelo CEP
+  // Função para buscar endereço pelo CEP
   const fetchAddressByCEP = async (cep: string) => {
     const numbers = cep.replace(/\D/g, "");
 
