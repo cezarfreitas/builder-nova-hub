@@ -97,9 +97,9 @@ export const useAnalyticsTracking = () => {
     }
 
     try {
-      console.log(`📊 Rastreando evento: ${eventType}`);
+      console.log(`📊 [TRACKING] Rastreando evento: ${eventType}`);
 
-      const response = await fetch("/api/analytics/track-visit", {
+      const response = await robustFetch("/api/analytics/track-visit", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -121,6 +121,7 @@ export const useAnalyticsTracking = () => {
           event_type: eventType,
           ...eventData,
         }),
+        timeout: 8000,
       });
 
       if (response.ok) {
