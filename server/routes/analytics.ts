@@ -4,7 +4,12 @@ import { getDatabase } from "../config/database";
 // GET /api/analytics/overview - Métricas gerais
 export async function getAnalyticsOverview(req: Request, res: Response) {
   try {
+    console.log('📊 [API] Iniciando getAnalyticsOverview...');
+
     const db = getDatabase();
+    if (!db) {
+      throw new Error('Conexão com banco de dados não disponível');
+    }
     const { days = 30, yesterday } = req.query;
 
     let dateFromStr: string;
