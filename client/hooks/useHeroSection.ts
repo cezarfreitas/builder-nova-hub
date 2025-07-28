@@ -73,27 +73,24 @@ export function useHeroSection() {
         ...data
       };
 
-      // Atualizar apenas se houve mudanças reais
-      const hasChanges = JSON.stringify(completeSettings) !== JSON.stringify(heroSettings);
-      if (hasChanges) {
-        setHeroSettings(completeSettings);
+      // Sempre atualizar com os dados da API
+      setHeroSettings(completeSettings);
 
-        // Atualizar cache local
-        try {
-          localStorage.setItem('hero_settings_cache', JSON.stringify({
-            data: completeSettings,
-            timestamp: Date.now()
-          }));
-        } catch (e) {
-          console.warn('Erro ao salvar cache:', e);
-        }
+      // Atualizar cache local
+      try {
+        localStorage.setItem('hero_settings_cache', JSON.stringify({
+          data: completeSettings,
+          timestamp: Date.now()
+        }));
+      } catch (e) {
+        console.warn('Erro ao salvar cache:', e);
       }
     } catch (err) {
       console.error('Erro ao carregar configurações do hero:', err);
       setError(err instanceof Error ? err.message : 'Erro desconhecido');
       // Manter configurações atuais em caso de erro
     }
-  }, [heroSettings]);
+  }, []); // Remover heroSettings da dependência para evitar loop
 
   // Salvar configurações do hero
   const saveHeroSettings = useCallback(async (settings: HeroSettings) => {
@@ -144,31 +141,45 @@ export function useHeroSection() {
     setHeroSettings(defaultHeroSettings);
   }, []);
 
-  // Tentar carregar do cache primeiro, depois da API
+  // Carregar configurações na inicialização
   useEffect(() => {
-    // Tentar carregar cache local primeiro
-    try {
-      const cached = localStorage.getItem('hero_settings_cache');
-      if (cached) {
-        const cachedData = JSON.parse(cached);
-        const cacheTime = cachedData.timestamp;
-        const now = Date.now();
+    let isMounted = true;
 
-        // Cache válido por 5 minutos
-        if (now - cacheTime < 5 * 60 * 1000) {
-          setHeroSettings({
-            ...defaultHeroSettings,
-            ...cachedData.data
-          });
+    const initializeHeroSettings = async () => {
+      // Tentar carregar cache local primeiro
+      try {
+        const cached = localStorage.getItem('hero_settings_cache');
+        if (cached) {
+          const cachedData = JSON.parse(cached);
+          const cacheTime = cachedData.timestamp;
+          const now = Date.now();
+
+          // Cache válido por 5 minutos
+          if (now - cacheTime < 5 * 60 * 1000) {
+            if (isMounted) {
+              setHeroSettings({
+                ...defaultHeroSettings,
+                ...cachedData.data
+              });
+            }
+          }
         }
+      } catch (e) {
+        console.warn('Erro ao carregar cache:', e);
       }
-    } catch (e) {
-      console.warn('Erro ao carregar cache:', e);
-    }
 
-    // Carregar dados da API em background
-    loadHeroSettings();
-  }, [loadHeroSettings]);
+      // Carregar dados da API
+      if (isMounted) {
+        await loadHeroSettings();
+      }
+    };
+
+    initializeHeroSettings();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []); // Array vazia para executar apenas uma vez
 
   return {
     heroSettings,
