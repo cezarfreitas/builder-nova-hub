@@ -35,6 +35,13 @@ import {
   Link,
   Twitter,
   Smartphone,
+  TestTube,
+  Activity,
+  MousePointer,
+  Clock,
+  Eye as ViewIcon,
+  CheckCircle2,
+  AlertTriangle,
 } from "lucide-react";
 
 export default function AdminConfiguracoes() {
