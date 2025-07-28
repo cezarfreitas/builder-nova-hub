@@ -685,7 +685,7 @@ export default function Index() {
         logoImg.onerror = null;
       }
     };
-  }, [currentHero.background_image, currentHero.logo_url, backgroundLoaded, logoLoaded]);
+  }, [currentHero.background_image, currentHero.logo_url]); // Remover backgroundLoaded e logoLoaded das dependências
 
   // Controlar quando todas as imagens estão prontas
   useEffect(() => {
