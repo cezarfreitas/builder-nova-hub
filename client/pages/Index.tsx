@@ -635,17 +635,62 @@ export default function Index() {
     );
   }
 
-  // Preload das imagens do Hero se existirem
+  // Sistema avançado de preload com cache e priority loading
   useEffect(() => {
-    if (currentHero.background_image) {
+    let backgroundImg: HTMLImageElement | null = null;
+    let logoImg: HTMLImageElement | null = null;
+
+    const preloadImage = (src: string, onLoad: () => void): HTMLImageElement => {
       const img = new Image();
-      img.src = currentHero.background_image;
+      img.onload = () => {
+        onLoad();
+        // Cache no localStorage para próximas visitas
+        try {
+          localStorage.setItem(`hero_image_${btoa(src)}`, Date.now().toString());
+        } catch (e) {
+          console.warn('Cache storage failed:', e);
+        }
+      };
+      img.onerror = () => onLoad(); // Evitar travamento se imagem falhar
+      img.src = src;
+      return img;
+    };
+
+    // Preload background com prioridade máxima
+    if (currentHero.background_image && !backgroundLoaded) {
+      backgroundImg = preloadImage(currentHero.background_image, () => {
+        setBackgroundLoaded(true);
+      });
+    } else if (!currentHero.background_image) {
+      setBackgroundLoaded(true);
     }
-    if (currentHero.logo_url) {
-      const img = new Image();
-      img.src = currentHero.logo_url;
+
+    // Preload logo
+    if (currentHero.logo_url && !logoLoaded) {
+      logoImg = preloadImage(currentHero.logo_url, () => {
+        setLogoLoaded(true);
+      });
+    } else if (!currentHero.logo_url) {
+      setLogoLoaded(true);
     }
-  }, [currentHero.background_image, currentHero.logo_url]);
+
+    // Cleanup
+    return () => {
+      if (backgroundImg) {
+        backgroundImg.onload = null;
+        backgroundImg.onerror = null;
+      }
+      if (logoImg) {
+        logoImg.onload = null;
+        logoImg.onerror = null;
+      }
+    };
+  }, [currentHero.background_image, currentHero.logo_url, backgroundLoaded, logoLoaded]);
+
+  // Controlar quando todas as imagens estão prontas
+  useEffect(() => {
+    setImagesLoaded(backgroundLoaded && logoLoaded);
+  }, [backgroundLoaded, logoLoaded]);
 
   return (
     <>
