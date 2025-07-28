@@ -121,26 +121,38 @@ export function useAnalytics(selectedPeriod: number = 30) {
         console.warn("⚠️ Traffic sources não disponível:", error);
       }
 
-      // Fetch location conversion
-      const locationResponse = await fetch(
-        `/api/analytics/conversion-by-location?days=${selectedPeriod}`,
-      );
-      if (locationResponse.ok) {
-        const locationResult = await locationResponse.json();
-        if (locationResult.success) {
-          setLocationConversion(locationResult.data);
+      // Fetch location conversion (optional)
+      try {
+        const locationResponse = await fetch(
+          `/api/analytics/conversion-by-location?days=${selectedPeriod}`,
+          { headers: { 'Content-Type': 'application/json' } }
+        );
+        if (locationResponse.ok) {
+          const locationResult = await locationResponse.json();
+          if (locationResult.success) {
+            console.log("✅ Location conversion carregado");
+            setLocationConversion(locationResult.data);
+          }
         }
+      } catch (error) {
+        console.warn("⚠️ Location conversion não disponível:", error);
       }
 
-      // Fetch geography conversion
-      const geographyResponse = await fetch(
-        `/api/analytics/conversion-by-geography?days=${selectedPeriod}`,
-      );
-      if (geographyResponse.ok) {
-        const geographyResult = await geographyResponse.json();
-        if (geographyResult.success) {
-          setGeographyConversion(geographyResult.data);
+      // Fetch geography conversion (optional)
+      try {
+        const geographyResponse = await fetch(
+          `/api/analytics/conversion-by-geography?days=${selectedPeriod}`,
+          { headers: { 'Content-Type': 'application/json' } }
+        );
+        if (geographyResponse.ok) {
+          const geographyResult = await geographyResponse.json();
+          if (geographyResult.success) {
+            console.log("✅ Geography conversion carregado");
+            setGeographyConversion(geographyResult.data);
+          }
         }
+      } catch (error) {
+        console.warn("⚠️ Geography conversion não disponível:", error);
       }
     } catch (error) {
       console.error("❌ Erro ao carregar analytics:", error);
