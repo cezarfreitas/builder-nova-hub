@@ -442,6 +442,318 @@ export default function AdminAbout() {
             )}
           </div>
         </div>
+      ) : activeTab === "background" ? (
+        <div className="space-y-6">
+          {/* Tipo de Background */}
+          <Card className="bg-white shadow-sm border border-gray-200">
+            <CardHeader>
+              <CardTitle className="text-gray-900 flex items-center">
+                <Palette className="w-5 h-5 mr-2 text-ecko-red" />
+                Tipo de Background
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Selecione o tipo de background
+                </label>
+                <div className="grid grid-cols-3 gap-4">
+                  <button
+                    type="button"
+                    onClick={() => updateField("background_type", "color")}
+                    className={`p-4 rounded-lg border-2 transition-all ${
+                      (settings.background_type || "color") === "color"
+                        ? "border-ecko-red bg-ecko-red/5"
+                        : "border-gray-200 hover:border-gray-300"
+                    }`}
+                  >
+                    <Palette className="w-6 h-6 mx-auto mb-2 text-ecko-red" />
+                    <div className="text-sm font-medium">Cor Sólida</div>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => updateField("background_type", "image")}
+                    className={`p-4 rounded-lg border-2 transition-all ${
+                      settings.background_type === "image"
+                        ? "border-ecko-red bg-ecko-red/5"
+                        : "border-gray-200 hover:border-gray-300"
+                    }`}
+                  >
+                    <Image className="w-6 h-6 mx-auto mb-2 text-ecko-red" />
+                    <div className="text-sm font-medium">Imagem</div>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => updateField("background_type", "gradient")}
+                    className={`p-4 rounded-lg border-2 transition-all ${
+                      settings.background_type === "gradient"
+                        ? "border-ecko-red bg-ecko-red/5"
+                        : "border-gray-200 hover:border-gray-300"
+                    }`}
+                  >
+                    <Sliders className="w-6 h-6 mx-auto mb-2 text-ecko-red" />
+                    <div className="text-sm font-medium">Gradiente</div>
+                  </button>
+                </div>
+              </div>
+
+              {/* Configurações específicas por tipo */}
+              {(!settings.background_type || settings.background_type === "color") && (
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Cor de Fundo
+                  </label>
+                  <div className="flex items-center space-x-2">
+                    <Input
+                      type="color"
+                      value={settings.background_color || "#ffffff"}
+                      onChange={(e) => updateField("background_color", e.target.value)}
+                      className="w-12 h-10 p-1 border rounded"
+                    />
+                    <Input
+                      value={settings.background_color || "#ffffff"}
+                      onChange={(e) => updateField("background_color", e.target.value)}
+                      placeholder="#ffffff"
+                    />
+                  </div>
+                </div>
+              )}
+
+              {settings.background_type === "image" && (
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Imagem de Fundo
+                  </label>
+                  <OptimizedImageUpload
+                    value={settings.background_image || ""}
+                    onChange={(url) => updateField("background_image", url)}
+                    onClear={() => updateField("background_image", "")}
+                  />
+                </div>
+              )}
+
+              {settings.background_type === "gradient" && (
+                <div className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <label className="block text-sm font-medium text-gray-700">
+                        Cor Inicial
+                      </label>
+                      <div className="flex items-center space-x-2">
+                        <Input
+                          type="color"
+                          value={settings.overlay_gradient_start || "#000000"}
+                          onChange={(e) => updateField("overlay_gradient_start", e.target.value)}
+                          className="w-12 h-10 p-1 border rounded"
+                        />
+                        <Input
+                          value={settings.overlay_gradient_start || "#000000"}
+                          onChange={(e) => updateField("overlay_gradient_start", e.target.value)}
+                          placeholder="#000000"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="block text-sm font-medium text-gray-700">
+                        Cor Final
+                      </label>
+                      <div className="flex items-center space-x-2">
+                        <Input
+                          type="color"
+                          value={settings.overlay_gradient_end || "#333333"}
+                          onChange={(e) => updateField("overlay_gradient_end", e.target.value)}
+                          className="w-12 h-10 p-1 border rounded"
+                        />
+                        <Input
+                          value={settings.overlay_gradient_end || "#333333"}
+                          onChange={(e) => updateField("overlay_gradient_end", e.target.value)}
+                          placeholder="#333333"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-700">
+                      Direção do Gradiente
+                    </label>
+                    <select
+                      value={settings.overlay_gradient_direction || "to bottom"}
+                      onChange={(e) => updateField("overlay_gradient_direction", e.target.value)}
+                      className="w-full border border-gray-300 rounded-md px-3 py-2"
+                    >
+                      <option value="to bottom">Vertical (Topo → Base)</option>
+                      <option value="to top">Vertical (Base → Topo)</option>
+                      <option value="to right">Horizontal (Esquerda → Direita)</option>
+                      <option value="to left">Horizontal (Direita → Esquerda)</option>
+                      <option value="to bottom right">Diagonal (Topo-Esq → Base-Dir)</option>
+                      <option value="to bottom left">Diagonal (Topo-Dir → Base-Esq)</option>
+                    </select>
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Overlay */}
+          <Card className="bg-white shadow-sm border border-gray-200">
+            <CardHeader>
+              <CardTitle className="text-gray-900 flex items-center">
+                <Settings className="w-5 h-5 mr-2 text-ecko-red" />
+                Overlay
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    checked={settings.overlay_enabled || false}
+                    onChange={(e) => updateField("overlay_enabled", e.target.checked)}
+                    className="rounded border-gray-300"
+                  />
+                  <span className="text-sm font-medium text-gray-700">
+                    Ativar overlay
+                  </span>
+                </label>
+              </div>
+
+              {settings.overlay_enabled && (
+                <>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <label className="block text-sm font-medium text-gray-700">
+                        Cor do Overlay
+                      </label>
+                      <div className="flex items-center space-x-2">
+                        <Input
+                          type="color"
+                          value={settings.overlay_color || "#000000"}
+                          onChange={(e) => updateField("overlay_color", e.target.value)}
+                          className="w-12 h-10 p-1 border rounded"
+                        />
+                        <Input
+                          value={settings.overlay_color || "#000000"}
+                          onChange={(e) => updateField("overlay_color", e.target.value)}
+                          placeholder="#000000"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="block text-sm font-medium text-gray-700">
+                        Opacidade: {settings.overlay_opacity || 50}%
+                      </label>
+                      <Input
+                        type="range"
+                        min="0"
+                        max="100"
+                        value={settings.overlay_opacity || 50}
+                        onChange={(e) => updateField("overlay_opacity", parseInt(e.target.value))}
+                        className="w-full"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-700">
+                      Modo de Mistura
+                    </label>
+                    <select
+                      value={settings.overlay_blend_mode || "normal"}
+                      onChange={(e) => updateField("overlay_blend_mode", e.target.value)}
+                      className="w-full border border-gray-300 rounded-md px-3 py-2"
+                    >
+                      <option value="normal">Normal</option>
+                      <option value="multiply">Multiply</option>
+                      <option value="screen">Screen</option>
+                      <option value="overlay">Overlay</option>
+                      <option value="soft-light">Soft Light</option>
+                      <option value="hard-light">Hard Light</option>
+                      <option value="color-dodge">Color Dodge</option>
+                      <option value="color-burn">Color Burn</option>
+                      <option value="darken">Darken</option>
+                      <option value="lighten">Lighten</option>
+                    </select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        checked={settings.overlay_gradient_enabled || false}
+                        onChange={(e) => updateField("overlay_gradient_enabled", e.target.checked)}
+                        className="rounded border-gray-300"
+                      />
+                      <span className="text-sm font-medium text-gray-700">
+                        Usar gradiente no overlay
+                      </span>
+                    </label>
+                  </div>
+                </>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Preview */}
+          <Card className="bg-gray-50">
+            <CardHeader>
+              <CardTitle className="text-gray-900 flex items-center">
+                <Image className="w-5 h-5 mr-2 text-ecko-red" />
+                Preview do Background
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div
+                className="relative h-64 rounded-lg overflow-hidden"
+                style={{
+                  background: settings.background_type === "gradient"
+                    ? `linear-gradient(${settings.overlay_gradient_direction || 'to bottom'}, ${settings.overlay_gradient_start || '#000000'}, ${settings.overlay_gradient_end || '#333333'})`
+                    : settings.background_type === "image" && settings.background_image
+                    ? `url(${settings.background_image})`
+                    : settings.background_color || "#ffffff",
+                  backgroundSize: settings.background_type === "image" ? "cover" : "auto",
+                  backgroundPosition: settings.background_type === "image" ? "center" : "auto",
+                }}
+              >
+                {/* Overlay */}
+                {settings.overlay_enabled && (
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      background: settings.overlay_gradient_enabled
+                        ? `linear-gradient(${settings.overlay_gradient_direction || 'to bottom'}, ${settings.overlay_gradient_start || '#000000'}, ${settings.overlay_gradient_end || '#333333'})`
+                        : settings.overlay_color || "#000000",
+                      opacity: (settings.overlay_opacity || 50) / 100,
+                      mixBlendMode: settings.overlay_blend_mode || "normal",
+                    }}
+                  />
+                )}
+
+                {/* Content Preview */}
+                <div className="relative z-10 p-6 h-full flex flex-col justify-center text-center">
+                  <div className="text-white">
+                    <p className="text-sm mb-2 opacity-90">
+                      {settings.section_tag || "Nossa História"}
+                    </p>
+                    <h2 className="text-xl font-bold mb-2">
+                      {renderTextWithColorTokens(settings.section_title || "SOBRE A {ecko}ECKO{/ecko}")}
+                    </h2>
+                    <p className="text-sm mb-4 opacity-80">
+                      {settings.section_subtitle || "mais de 20 anos de streetwear"}
+                    </p>
+                    <p className="text-xs opacity-70">
+                      Preview do background aplicado à seção About
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       ) : (
         // CTA
         <div className="space-y-6">
