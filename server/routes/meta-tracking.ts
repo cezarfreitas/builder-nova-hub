@@ -50,9 +50,26 @@ export async function sendMetaTrackingEvent(eventData: MetaTrackingEvent) {
       testCode = settings.meta_test_code?.value;
     }
 
+    console.log(`🔍 Verificando credenciais Meta:`);
+    console.log(`🎯 Pixel ID: ${pixelId ? `${pixelId.substring(0, 8)}...` : 'VAZIO'}`);
+    console.log(`🔑 Access Token: ${accessToken ? `${accessToken.substring(0, 20)}...` : 'VAZIO'}`);
+    console.log(`🧪 Test Code: ${testCode || 'Nenhum'}`);
+
     if (!pixelId || !accessToken) {
-      console.log("Meta Pixel não configurado - pulando envio");
-      return { success: true, skipped: true };
+      console.error("❌ Meta Pixel não configurado - Pixel ID ou Access Token vazio");
+      return {
+        success: false,
+        error: "Configuração incompleta - Pixel ID ou Access Token não configurado",
+        missingConfig: { pixelId: !pixelId, accessToken: !accessToken }
+      };
+    }
+
+    if (pixelId.trim() === '' || accessToken.trim() === '') {
+      console.error("❌ Meta Pixel mal configurado - valores vazios após trim");
+      return {
+        success: false,
+        error: "Configuração inválida - Pixel ID ou Access Token estão vazios"
+      };
     }
 
     const eventTime = Math.floor(Date.now() / 1000);
