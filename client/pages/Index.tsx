@@ -2078,9 +2078,40 @@ export default function Index() {
         {/* About Section */}
         <section
           id="about"
-          className="py-20 bg-gradient-to-b from-gray-50 to-white"
+          className="py-20 relative overflow-hidden"
+          style={{
+            ...(content.about?.background_type === "gradient"
+              ? {
+                  background: `linear-gradient(${content.about.overlay_gradient_direction || 'to bottom'}, ${content.about.overlay_gradient_start || '#f9fafb'}, ${content.about.overlay_gradient_end || '#ffffff'})`
+                }
+              : content.about?.background_type === "image" && content.about.background_image
+              ? {
+                  backgroundImage: `url(${content.about.background_image})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat"
+                }
+              : {
+                  backgroundColor: content.about?.background_color || '#f9fafb'
+                }
+            )
+          }}
         >
-          <div className="container mx-auto px-6">
+          {/* Overlay */}
+          {content.about?.overlay_enabled && (
+            <div
+              className="absolute inset-0"
+              style={{
+                background: content.about.overlay_gradient_enabled
+                  ? `linear-gradient(${content.about.overlay_gradient_direction || 'to bottom'}, ${content.about.overlay_gradient_start || '#000000'}, ${content.about.overlay_gradient_end || '#333333'})`
+                  : content.about.overlay_color || "#000000",
+                opacity: (content.about.overlay_opacity || 50) / 100,
+                mixBlendMode: content.about.overlay_blend_mode || "normal",
+              }}
+            />
+          )}
+
+          <div className="container mx-auto px-6 relative z-10">
             {/* Header */}
             <div className="text-center mb-16">
               <span className="inline-block px-4 py-2 bg-ecko-red/10 text-ecko-red text-sm font-semibold rounded-full mb-4">
