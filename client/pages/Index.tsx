@@ -2301,7 +2301,7 @@ export default function Index() {
         <section
           ref={aboutRef}
           id="about"
-          className="py-20 relative overflow-hidden"
+          className="py-12 sm:py-16 md:py-20 relative overflow-hidden"
           style={{
             ...(content.about?.background_type === "gradient"
               ? {
