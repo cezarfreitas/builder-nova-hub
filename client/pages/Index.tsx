@@ -507,47 +507,13 @@ export default function Index() {
           const configResponse = await fetch('/api/integrations-settings');
           const configResult = await configResponse.json();
 
-          if (!configResult.success || configResult.data.meta_tracking_enabled !== 'true') {
-            console.log('⏸️ Tracking de conversões desabilitado nas configurações');
-            return;
-          }
-          const conversionResponse = await fetch('/api/meta/track-event', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              event_name: 'Lead', // Será substituído pelo nome configurado no backend
-              event_source_url: window.location.href,
-              action_source: 'website',
-              custom_data: {
-                content_type: 'form_submission',
-                content_category: 'lead_generation',
-                content_name: 'revenda_autorizada_form',
-                value: 1.00,
-                currency: 'BRL',
-                form_origin: formOrigin || 'form-inline',
-                user_data: {
-                  name: formData.name,
-                  phone: formData.whatsapp,
-                  city: formData.cidade,
-                  state: formData.estado,
-                  store_type: formData.storeType,
-                  has_cnpj: formData.hasCnpj,
-                }
-              },
-              user_data: {
-                client_user_agent: navigator.userAgent,
-                // fbc, fbp e client_ip serão gerados automaticamente no backend
-              }
-            }),
-          });
+          if (configResult.success && configResult.data.meta_tracking_enabled === 'true') {
+            console.log('🎯 Disparando conversão para Meta - formulário enviado com sucesso');
 
-          const conversionResult = await conversionResponse.json();
-          if (conversionResult.success) {
-            console.log('🎯 Conversão enviada com sucesso para Meta:', conversionResult);
+            // Usar trackButtonClick que irá usar o nome de conversão configurado dinamicamente
+            trackButtonClick('form_submission_success', 'lead_generation');
           } else {
-            console.error('❌ Erro ao enviar conversão para Meta:', conversionResult);
+            console.log('⏸️ Tracking de conversões desabilitado nas configurações');
           }
         } catch (conversionError) {
           console.error('❌ Erro no tracking de conversão:', conversionError);
