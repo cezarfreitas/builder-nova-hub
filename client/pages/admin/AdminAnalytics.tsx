@@ -279,8 +279,8 @@ export default function AdminAnalytics() {
     );
   }
 
-  // Dados para gráfico de leads diários
-  const dailyLeadsData = {
+  // Dados para gráfico de leads diários - com verificação de segurança
+  const dailyLeadsData = dailyStats && dailyStats.length > 0 ? {
     labels: dailyStats.map((stat) => {
       const date = new Date(stat.date);
       return date.toLocaleDateString("pt-BR", {
@@ -291,7 +291,7 @@ export default function AdminAnalytics() {
     datasets: [
       {
         label: "Total de Leads",
-        data: dailyStats.map((stat) => stat.total_leads),
+        data: dailyStats.map((stat) => stat.total_leads || 0),
         borderColor: "#dc2626",
         backgroundColor: "rgba(220, 38, 38, 0.1)",
         fill: true,
@@ -299,7 +299,27 @@ export default function AdminAnalytics() {
       },
       {
         label: "Leads Únicos",
-        data: dailyStats.map((stat) => stat.unique_leads),
+        data: dailyStats.map((stat) => stat.unique_leads || 0),
+        borderColor: "#16a34a",
+        backgroundColor: "rgba(22, 163, 74, 0.1)",
+        fill: true,
+        tension: 0.4,
+      },
+    ],
+  } : {
+    labels: ['Sem dados'],
+    datasets: [
+      {
+        label: "Total de Leads",
+        data: [0],
+        borderColor: "#dc2626",
+        backgroundColor: "rgba(220, 38, 38, 0.1)",
+        fill: true,
+        tension: 0.4,
+      },
+      {
+        label: "Leads Únicos",
+        data: [0],
         borderColor: "#16a34a",
         backgroundColor: "rgba(22, 163, 74, 0.1)",
         fill: true,
