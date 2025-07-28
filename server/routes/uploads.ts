@@ -1,35 +1,47 @@
-import { Request, Response } from 'express';
-import multer from 'multer';
-import path from 'path';
-import fs from 'fs';
-import sharp from 'sharp';
+import { Request, Response } from "express";
+import multer from "multer";
+import path from "path";
+import fs from "fs";
+import sharp from "sharp";
 
 // Configuração do multer para upload
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadPath = path.join(process.cwd(), 'public', 'uploads');
-    
+    const uploadPath = path.join(process.cwd(), "public", "uploads");
+
     // Criar diretório se não existir
     if (!fs.existsSync(uploadPath)) {
       fs.mkdirSync(uploadPath, { recursive: true });
     }
-    
+
     cb(null, uploadPath);
   },
   filename: (req, file, cb) => {
     // Gerar nome único para o arquivo
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
     const ext = path.extname(file.originalname);
     cb(null, `seo-${uniqueSuffix}${ext}`);
-  }
+  },
 });
 
 // Filtro para aceitar apenas imagens com validação de peso
-const fileFilter = (req: Express.Request, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
-  const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'];
+const fileFilter = (
+  req: Express.Request,
+  file: Express.Multer.File,
+  cb: multer.FileFilterCallback,
+) => {
+  const allowedTypes = [
+    "image/jpeg",
+    "image/jpg",
+    "image/png",
+    "image/webp",
+    "image/gif",
+  ];
 
   if (!allowedTypes.includes(file.mimetype)) {
-    return cb(new Error('Tipo de arquivo não permitido. Use: JPEG, PNG, WebP ou GIF'));
+    return cb(
+      new Error("Tipo de arquivo não permitido. Use: JPEG, PNG, WebP ou GIF"),
+    );
   }
 
   cb(null, true);
@@ -37,17 +49,17 @@ const fileFilter = (req: Express.Request, file: Express.Multer.File, cb: multer.
 
 // Função para formatar tamanho de arquivo
 const formatFileSize = (bytes: number): string => {
-  if (bytes === 0) return '0 Bytes';
+  if (bytes === 0) return "0 Bytes";
   const k = 1024;
-  const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+  const sizes = ["Bytes", "KB", "MB", "GB"];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
 };
 
 // Storage específico para galeria
 const galleryStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadPath = path.join(process.cwd(), 'public', 'uploads', 'gallery');
+    const uploadPath = path.join(process.cwd(), "public", "uploads", "gallery");
 
     // Criar diretório se não existir
     if (!fs.existsSync(uploadPath)) {
@@ -58,10 +70,10 @@ const galleryStorage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     // Gerar nome único para o arquivo
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
     const ext = path.extname(file.originalname);
     cb(null, `gallery-${uniqueSuffix}${ext}`);
-  }
+  },
 });
 
 // Upload específico para galeria
@@ -69,8 +81,8 @@ export const uploadGallery = multer({
   storage: galleryStorage,
   fileFilter,
   limits: {
-    fileSize: 5 * 1024 * 1024 // 5MB
-  }
+    fileSize: 5 * 1024 * 1024, // 5MB
+  },
 });
 
 // Diferentes configurações de upload por tipo
@@ -79,78 +91,83 @@ export const upload = multer({
   fileFilter,
   limits: {
     fileSize: 10 * 1024 * 1024, // 10MB máximo
-  }
+  },
 });
 
 // Upload específico para avatares (menores)
 export const uploadAvatar = multer({
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
-      const uploadPath = path.join(process.cwd(), 'public', 'uploads', 'avatars');
+      const uploadPath = path.join(
+        process.cwd(),
+        "public",
+        "uploads",
+        "avatars",
+      );
       if (!fs.existsSync(uploadPath)) {
         fs.mkdirSync(uploadPath, { recursive: true });
       }
       cb(null, uploadPath);
     },
     filename: (req, file, cb) => {
-      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+      const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
       const ext = path.extname(file.originalname);
       cb(null, `avatar-${uniqueSuffix}${ext}`);
-    }
+    },
   }),
   fileFilter,
   limits: {
     fileSize: 2 * 1024 * 1024, // 2MB para avatares
-  }
+  },
 });
 
 // Upload para hero/background (maiores mas com compressão)
 export const uploadHero = multer({
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
-      const uploadPath = path.join(process.cwd(), 'public', 'uploads', 'hero');
+      const uploadPath = path.join(process.cwd(), "public", "uploads", "hero");
       if (!fs.existsSync(uploadPath)) {
         fs.mkdirSync(uploadPath, { recursive: true });
       }
       cb(null, uploadPath);
     },
     filename: (req, file, cb) => {
-      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+      const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
       const ext = path.extname(file.originalname);
       cb(null, `hero-${uniqueSuffix}${ext}`);
-    }
+    },
   }),
   fileFilter,
   limits: {
     fileSize: 15 * 1024 * 1024, // 15MB para imagens de hero
-  }
+  },
 });
 
 // POST /api/uploads/seo-image - Upload de imagem para SEO
 // POST /api/uploads/hero - Upload específico para imagens do Hero
 export async function uploadHeroImage(req: Request, res: Response) {
   try {
-    console.log('Hero upload request received');
-    console.log('Request file:', req.file);
+    console.log("Hero upload request received");
+    console.log("Request file:", req.file);
 
     if (!req.file) {
-      console.log('No file in request');
+      console.log("No file in request");
       return res.status(400).json({
         success: false,
-        message: 'Nenhum arquivo enviado'
+        message: "Nenhum arquivo enviado",
       });
     }
 
     const file = req.file;
     const originalSizeFormatted = formatFileSize(file.size);
 
-    console.log('Hero file received:', {
+    console.log("Hero file received:", {
       filename: file.filename,
       originalname: file.originalname,
       size: file.size,
       sizeFormatted: originalSizeFormatted,
       mimetype: file.mimetype,
-      path: file.path
+      path: file.path,
     });
 
     // URL relativa para acessar a imagem
@@ -158,61 +175,61 @@ export async function uploadHeroImage(req: Request, res: Response) {
 
     res.json({
       success: true,
-      message: 'Imagem do hero enviada com sucesso',
+      message: "Imagem do hero enviada com sucesso",
       filename: file.filename,
       url: imageUrl,
       path: imageUrl,
       size: file.size,
       sizeFormatted: originalSizeFormatted,
-      mimetype: file.mimetype
+      mimetype: file.mimetype,
     });
-
   } catch (error) {
-    console.error('Erro no upload do hero:', error);
+    console.error("Erro no upload do hero:", error);
     res.status(500).json({
       success: false,
-      message: 'Erro interno do servidor',
-      error: error instanceof Error ? error.message : 'Erro desconhecido'
+      message: "Erro interno do servidor",
+      error: error instanceof Error ? error.message : "Erro desconhecido",
     });
   }
 }
 
 export async function uploadSeoImage(req: Request, res: Response) {
   try {
-    console.log('Upload request received');
-    console.log('Request file:', req.file);
-    console.log('Request body:', req.body);
+    console.log("Upload request received");
+    console.log("Request file:", req.file);
+    console.log("Request body:", req.body);
 
     if (!req.file) {
-      console.log('No file in request');
+      console.log("No file in request");
       return res.status(400).json({
         success: false,
-        message: 'Nenhum arquivo enviado'
+        message: "Nenhum arquivo enviado",
       });
     }
 
     const file = req.file;
     const originalSizeFormatted = formatFileSize(file.size);
 
-    console.log('File received:', {
+    console.log("File received:", {
       filename: file.filename,
       originalname: file.originalname,
       size: file.size,
       sizeFormatted: originalSizeFormatted,
       mimetype: file.mimetype,
-      path: file.path
+      path: file.path,
     });
 
     // Validação adicional de peso por tipo de uso
     const maxSizes = {
-      avatar: 2 * 1024 * 1024,    // 2MB
-      hero: 15 * 1024 * 1024,     // 15MB
-      gallery: 5 * 1024 * 1024,   // 5MB
-      seo: 10 * 1024 * 1024       // 10MB
+      avatar: 2 * 1024 * 1024, // 2MB
+      hero: 15 * 1024 * 1024, // 15MB
+      gallery: 5 * 1024 * 1024, // 5MB
+      seo: 10 * 1024 * 1024, // 10MB
     };
 
-    const uploadType = req.body.type || 'seo';
-    const maxSize = maxSizes[uploadType as keyof typeof maxSizes] || maxSizes.seo;
+    const uploadType = req.body.type || "seo";
+    const maxSize =
+      maxSizes[uploadType as keyof typeof maxSizes] || maxSizes.seo;
 
     if (file.size > maxSize) {
       // Remover arquivo que excede o limite
@@ -228,8 +245,8 @@ export async function uploadSeoImage(req: Request, res: Response) {
           currentSizeFormatted: originalSizeFormatted,
           maxSize: maxSize,
           maxSizeFormatted: formatFileSize(maxSize),
-          uploadType: uploadType
-        }
+          uploadType: uploadType,
+        },
       });
     }
 
@@ -244,7 +261,10 @@ export async function uploadSeoImage(req: Request, res: Response) {
       const ext = path.extname(file.filename);
       const nameWithoutExt = path.basename(file.filename, ext);
       const compressedFilename = `${nameWithoutExt}-compressed${ext}`;
-      const compressedPath = path.join(path.dirname(file.path), compressedFilename);
+      const compressedPath = path.join(
+        path.dirname(file.path),
+        compressedFilename,
+      );
 
       // Determinar configurações de compactação baseadas no tamanho
       const isLargeFile = file.size > 2 * 1024 * 1024; // > 2MB
@@ -266,42 +286,42 @@ export async function uploadSeoImage(req: Request, res: Response) {
       }
 
       // Configurações específicas por tipo de upload
-      if (uploadType === 'avatar') {
+      if (uploadType === "avatar") {
         quality = 90;
         maxWidth = 400;
         maxHeight = 400;
-      } else if (uploadType === 'hero') {
+      } else if (uploadType === "hero") {
         quality = isVeryLargeFile ? 75 : 85;
         maxWidth = 1920;
         maxHeight = 1080;
       }
 
-      const isJpeg = file.mimetype === 'image/jpeg' || file.mimetype === 'image/jpg';
-      const isPng = file.mimetype === 'image/png';
-      const isWebp = file.mimetype === 'image/webp';
+      const isJpeg =
+        file.mimetype === "image/jpeg" || file.mimetype === "image/jpg";
+      const isPng = file.mimetype === "image/png";
+      const isWebp = file.mimetype === "image/webp";
 
-      let sharpInstance = sharp(file.path)
-        .resize(maxWidth, maxHeight, {
-          fit: 'inside',
-          withoutEnlargement: true
-        });
+      let sharpInstance = sharp(file.path).resize(maxWidth, maxHeight, {
+        fit: "inside",
+        withoutEnlargement: true,
+      });
 
       if (isJpeg) {
         sharpInstance = sharpInstance.jpeg({
           quality: quality,
           progressive: true,
-          mozjpeg: true
+          mozjpeg: true,
         });
       } else if (isPng) {
         sharpInstance = sharpInstance.png({
           quality: Math.min(quality, 90), // PNG qualidade máxima 90
           compressionLevel: isLargeFile ? 9 : 6,
-          progressive: true
+          progressive: true,
         });
       } else if (isWebp) {
         sharpInstance = sharpInstance.webp({
           quality: quality,
-          progressive: true
+          progressive: true,
         });
       }
 
@@ -311,7 +331,7 @@ export async function uploadSeoImage(req: Request, res: Response) {
       // Verificar se a compactação funcionou
       if (fs.existsSync(compressedPath)) {
         const compressedStats = fs.statSync(compressedPath);
-        const reductionPercent = ((1 - compressedStats.size / file.size) * 100);
+        const reductionPercent = (1 - compressedStats.size / file.size) * 100;
 
         // Usar versão compactada se reduziu o tamanho ou se o arquivo original era muito grande
         if (compressedStats.size < file.size || isLargeFile) {
@@ -328,10 +348,10 @@ export async function uploadSeoImage(req: Request, res: Response) {
             reduction: `${reductionPercent.toFixed(1)}%`,
             quality: quality,
             maxDimensions: `${maxWidth}x${maxHeight}`,
-            wasCompressed: true
+            wasCompressed: true,
           };
 
-          console.log('Image compressed successfully:', compressionInfo);
+          console.log("Image compressed successfully:", compressionInfo);
         } else {
           // Se a compactação não reduziu o tamanho, manter original
           fs.unlinkSync(compressedPath);
@@ -339,33 +359,36 @@ export async function uploadSeoImage(req: Request, res: Response) {
             originalSize: file.size,
             originalSizeFormatted: originalSizeFormatted,
             wasCompressed: false,
-            reason: 'Original file was already compressed'
+            reason: "Original file was already compressed",
           };
-          console.log('Keeping original file (already compressed)');
+          console.log("Keeping original file (already compressed)");
         }
       } else {
-        console.log('Compression failed, keeping original');
+        console.log("Compression failed, keeping original");
         compressionInfo = {
           originalSize: file.size,
           originalSizeFormatted: originalSizeFormatted,
           wasCompressed: false,
-          reason: 'Compression process failed'
+          reason: "Compression process failed",
         };
       }
     } catch (error) {
-      console.error('Image compression failed, using original:', error);
+      console.error("Image compression failed, using original:", error);
       compressionInfo = {
         originalSize: file.size,
         originalSizeFormatted: originalSizeFormatted,
         wasCompressed: false,
-        reason: `Compression error: ${error.message}`
+        reason: `Compression error: ${error.message}`,
       };
     }
 
     // Usar URL relativa para evitar problemas de CORS/URL
     // Se está em subpasta (hero, avatars), incluir no path
-    const subPath = file.path.includes('hero') ? 'hero/' :
-                   file.path.includes('avatars') ? 'avatars/' : '';
+    const subPath = file.path.includes("hero")
+      ? "hero/"
+      : file.path.includes("avatars")
+        ? "avatars/"
+        : "";
     const imageUrl = `/uploads/${subPath}${finalFilename}`;
 
     // Metadados completos da imagem
@@ -378,13 +401,13 @@ export async function uploadSeoImage(req: Request, res: Response) {
       url: imageUrl,
       path: finalPath,
       uploadType: uploadType,
-      compression: compressionInfo
+      compression: compressionInfo,
     };
 
-    console.log('Upload successful, returning:', imageInfo);
+    console.log("Upload successful, returning:", imageInfo);
 
     // Mensagem dinâmica baseada na compactação
-    let message = 'Imagem enviada com sucesso';
+    let message = "Imagem enviada com sucesso";
     if (compressionInfo?.wasCompressed) {
       message += ` e compactada (redução de ${compressionInfo.reduction})`;
     }
@@ -392,14 +415,14 @@ export async function uploadSeoImage(req: Request, res: Response) {
     res.json({
       success: true,
       message: message,
-      data: imageInfo
+      data: imageInfo,
     });
   } catch (error) {
-    console.error('Erro no upload:', error);
+    console.error("Erro no upload:", error);
     res.status(500).json({
       success: false,
-      message: 'Erro interno do servidor',
-      error: error instanceof Error ? error.message : 'Erro desconhecido'
+      message: "Erro interno do servidor",
+      error: error instanceof Error ? error.message : "Erro desconhecido",
     });
   }
 }
@@ -408,13 +431,13 @@ export async function uploadSeoImage(req: Request, res: Response) {
 export async function deleteUploadedImage(req: Request, res: Response) {
   try {
     const { filename } = req.params;
-    const filePath = path.join(process.cwd(), 'public', 'uploads', filename);
+    const filePath = path.join(process.cwd(), "public", "uploads", filename);
 
     // Verificar se arquivo existe
     if (!fs.existsSync(filePath)) {
       return res.status(404).json({
         success: false,
-        message: 'Arquivo não encontrado'
+        message: "Arquivo não encontrado",
       });
     }
 
@@ -423,13 +446,13 @@ export async function deleteUploadedImage(req: Request, res: Response) {
 
     res.json({
       success: true,
-      message: 'Arquivo deletado com sucesso'
+      message: "Arquivo deletado com sucesso",
     });
   } catch (error) {
-    console.error('Erro ao deletar arquivo:', error);
+    console.error("Erro ao deletar arquivo:", error);
     res.status(500).json({
       success: false,
-      message: 'Erro interno do servidor'
+      message: "Erro interno do servidor",
     });
   }
 }
@@ -442,7 +465,7 @@ export async function uploadGalleryImage(req: Request, res: Response) {
     if (!file) {
       return res.status(400).json({
         success: false,
-        message: 'Nenhum arquivo foi enviado'
+        message: "Nenhum arquivo foi enviado",
       });
     }
 
@@ -462,8 +485,8 @@ export async function uploadGalleryImage(req: Request, res: Response) {
           currentSize: file.size,
           currentSizeFormatted: originalSizeFormatted,
           maxSize: maxSize,
-          maxSizeFormatted: formatFileSize(maxSize)
-        }
+          maxSizeFormatted: formatFileSize(maxSize),
+        },
       });
     }
 
@@ -476,7 +499,10 @@ export async function uploadGalleryImage(req: Request, res: Response) {
       const ext = path.extname(file.filename);
       const nameWithoutExt = path.basename(file.filename, ext);
       const compressedFilename = `${nameWithoutExt}-compressed${ext}`;
-      const compressedPath = path.join(path.dirname(file.path), compressedFilename);
+      const compressedPath = path.join(
+        path.dirname(file.path),
+        compressedFilename,
+      );
 
       // Configurações de compactação para galeria (otimizada para modal)
       const isLargeFile = file.size > 2 * 1024 * 1024; // > 2MB
@@ -497,31 +523,30 @@ export async function uploadGalleryImage(req: Request, res: Response) {
         maxHeight = 1100;
       }
 
-      let sharpInstance = sharp(file.path)
-        .resize(maxWidth, maxHeight, {
-          fit: 'inside',
-          withoutEnlargement: true
-        });
+      let sharpInstance = sharp(file.path).resize(maxWidth, maxHeight, {
+        fit: "inside",
+        withoutEnlargement: true,
+      });
 
-      if (file.mimetype.includes('jpeg') || file.mimetype.includes('jpg')) {
+      if (file.mimetype.includes("jpeg") || file.mimetype.includes("jpg")) {
         sharpInstance = sharpInstance.jpeg({
           quality: quality,
           progressive: true,
           mozjpeg: true,
-          optimiseScans: true // Otimização adicional
+          optimiseScans: true, // Otimização adicional
         });
-      } else if (file.mimetype.includes('png')) {
+      } else if (file.mimetype.includes("png")) {
         sharpInstance = sharpInstance.png({
           quality: Math.min(quality, 95), // Aumentar qualidade máxima para PNG
           compressionLevel: isVeryLargeFile ? 7 : 5, // Compressão adaptativa
           progressive: true,
-          palette: false // Manter cores verdadeiras
+          palette: false, // Manter cores verdadeiras
         });
-      } else if (file.mimetype.includes('webp')) {
+      } else if (file.mimetype.includes("webp")) {
         sharpInstance = sharpInstance.webp({
           quality: quality,
           progressive: true,
-          effort: 4 // Mais esforço na compactação para melhor qualidade
+          effort: 4, // Mais esforço na compactação para melhor qualidade
         });
       }
 
@@ -529,7 +554,8 @@ export async function uploadGalleryImage(req: Request, res: Response) {
 
       if (fs.existsSync(compressedPath)) {
         const compressedStats = fs.statSync(compressedPath);
-        const reductionPercent = ((file.size - compressedStats.size) / file.size) * 100;
+        const reductionPercent =
+          ((file.size - compressedStats.size) / file.size) * 100;
 
         // Usar versão compactada se reduziu tamanho OU se arquivo original era muito grande
         if (compressedStats.size < file.size || isLargeFile) {
@@ -543,18 +569,18 @@ export async function uploadGalleryImage(req: Request, res: Response) {
             reduction: `${reductionPercent.toFixed(1)}%`,
             quality: quality,
             maxDimensions: `${maxWidth}x${maxHeight}`,
-            wasCompressed: true
+            wasCompressed: true,
           };
         } else {
           fs.unlinkSync(compressedPath);
           compressionInfo = {
             wasCompressed: false,
-            reason: 'Original já otimizado'
+            reason: "Original já otimizado",
           };
         }
       }
     } catch (error) {
-      console.error('Compression failed for gallery image:', error);
+      console.error("Compression failed for gallery image:", error);
       compressionInfo = { wasCompressed: false };
     }
 
@@ -567,10 +593,10 @@ export async function uploadGalleryImage(req: Request, res: Response) {
       sizeFormatted: formatFileSize(finalSize),
       mimetype: file.mimetype,
       url: imageUrl,
-      compression: compressionInfo
+      compression: compressionInfo,
     };
 
-    let message = 'Imagem da galeria enviada com sucesso';
+    let message = "Imagem da galeria enviada com sucesso";
     if (compressionInfo?.wasCompressed) {
       message += ` e compactada (redução de ${compressionInfo.reduction})`;
     }
@@ -578,14 +604,14 @@ export async function uploadGalleryImage(req: Request, res: Response) {
     res.json({
       success: true,
       message: message,
-      data: imageInfo
+      data: imageInfo,
     });
   } catch (error) {
-    console.error('Erro no upload da galeria:', error);
+    console.error("Erro no upload da galeria:", error);
     res.status(500).json({
       success: false,
-      message: 'Erro interno do servidor',
-      error: error instanceof Error ? error.message : 'Erro desconhecido'
+      message: "Erro interno do servidor",
+      error: error instanceof Error ? error.message : "Erro desconhecido",
     });
   }
 }
@@ -593,44 +619,48 @@ export async function uploadGalleryImage(req: Request, res: Response) {
 // GET /api/uploads - Listar imagens enviadas
 export async function listUploadedImages(req: Request, res: Response) {
   try {
-    const uploadsPath = path.join(process.cwd(), 'public', 'uploads');
-    
+    const uploadsPath = path.join(process.cwd(), "public", "uploads");
+
     if (!fs.existsSync(uploadsPath)) {
       return res.json({
         success: true,
-        data: []
+        data: [],
       });
     }
 
-    const files = fs.readdirSync(uploadsPath)
-      .filter(file => {
+    const files = fs
+      .readdirSync(uploadsPath)
+      .filter((file) => {
         const ext = path.extname(file).toLowerCase();
-        return ['.jpg', '.jpeg', '.png', '.webp', '.gif'].includes(ext);
+        return [".jpg", ".jpeg", ".png", ".webp", ".gif"].includes(ext);
       })
-      .map(filename => {
+      .map((filename) => {
         const filePath = path.join(uploadsPath, filename);
         const stats = fs.statSync(filePath);
-        const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
-        
+        const baseUrl = process.env.BASE_URL || "http://localhost:3000";
+
         return {
           filename,
           url: `${baseUrl}/uploads/${filename}`,
           size: stats.size,
           created_at: stats.birthtime,
-          modified_at: stats.mtime
+          modified_at: stats.mtime,
         };
       })
-      .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+      .sort(
+        (a, b) =>
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+      );
 
     res.json({
       success: true,
-      data: files
+      data: files,
     });
   } catch (error) {
-    console.error('Erro ao listar arquivos:', error);
+    console.error("Erro ao listar arquivos:", error);
     res.status(500).json({
       success: false,
-      message: 'Erro interno do servidor'
+      message: "Erro interno do servidor",
     });
   }
 }

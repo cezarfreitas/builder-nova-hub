@@ -57,8 +57,7 @@ export default function AdminConfiguracoes() {
   const [testResults, setTestResults] = useState<any>(null);
 
   // Hook para gerenciar configurações
-  const { settings, loading, error, saveSettings, getSetting } =
-    useSettings();
+  const { settings, loading, error, saveSettings, getSetting } = useSettings();
 
   // Estados do formulário
   const [webhookData, setWebhookData] = useState({
@@ -97,8 +96,10 @@ export default function AdminConfiguracoes() {
     meta_track_scroll: getSetting("meta_track_scroll") || "true",
     meta_track_time: getSetting("meta_track_time") || "true",
     meta_track_interactions: getSetting("meta_track_interactions") || "true",
-    custom_conversion_enabled: getSetting("custom_conversion_enabled") || "false",
-    custom_conversion_event: getSetting("custom_conversion_event") || "lead_captured",
+    custom_conversion_enabled:
+      getSetting("custom_conversion_enabled") || "false",
+    custom_conversion_event:
+      getSetting("custom_conversion_event") || "lead_captured",
     custom_conversion_value: getSetting("custom_conversion_value") || "1",
   });
 
@@ -140,9 +141,12 @@ export default function AdminConfiguracoes() {
         meta_track_pageview: getSetting("meta_track_pageview") || "true",
         meta_track_scroll: getSetting("meta_track_scroll") || "true",
         meta_track_time: getSetting("meta_track_time") || "true",
-        meta_track_interactions: getSetting("meta_track_interactions") || "true",
-        custom_conversion_enabled: getSetting("custom_conversion_enabled") || "false",
-        custom_conversion_event: getSetting("custom_conversion_event") || "lead_captured",
+        meta_track_interactions:
+          getSetting("meta_track_interactions") || "true",
+        custom_conversion_enabled:
+          getSetting("custom_conversion_enabled") || "false",
+        custom_conversion_event:
+          getSetting("custom_conversion_event") || "lead_captured",
         custom_conversion_value: getSetting("custom_conversion_value") || "1",
       });
     }
@@ -151,31 +155,53 @@ export default function AdminConfiguracoes() {
   const handleSave = async () => {
     setSaving(true);
     try {
-      let settingsToSave: Array<{setting_key: string, setting_value: string, setting_type: string}> = [];
+      let settingsToSave: Array<{
+        setting_key: string;
+        setting_value: string;
+        setting_type: string;
+      }> = [];
 
       if (activeTab === "webhook") {
         settingsToSave = [
-          { setting_key: "webhook_url", setting_value: webhookData.webhook_url, setting_type: "text" },
-          { setting_key: "webhook_secret", setting_value: webhookData.webhook_secret, setting_type: "text" },
-          { setting_key: "webhook_timeout", setting_value: webhookData.webhook_timeout, setting_type: "number" },
-          { setting_key: "webhook_retries", setting_value: webhookData.webhook_retries, setting_type: "number" },
+          {
+            setting_key: "webhook_url",
+            setting_value: webhookData.webhook_url,
+            setting_type: "text",
+          },
+          {
+            setting_key: "webhook_secret",
+            setting_value: webhookData.webhook_secret,
+            setting_type: "text",
+          },
+          {
+            setting_key: "webhook_timeout",
+            setting_value: webhookData.webhook_timeout,
+            setting_type: "number",
+          },
+          {
+            setting_key: "webhook_retries",
+            setting_value: webhookData.webhook_retries,
+            setting_type: "number",
+          },
         ];
       } else if (activeTab === "seo") {
         settingsToSave = Object.entries(seoData).map(([key, value]) => ({
           setting_key: key,
           setting_value: value,
-          setting_type: "text"
+          setting_type: "text",
         }));
       } else if (activeTab === "integracoes") {
-        settingsToSave = Object.entries(integracoesData).map(([key, value]) => ({
-          setting_key: key,
-          setting_value: value,
-          setting_type: key.includes("enabled") ? "boolean" : "text"
-        }));
+        settingsToSave = Object.entries(integracoesData).map(
+          ([key, value]) => ({
+            setting_key: key,
+            setting_value: value,
+            setting_type: key.includes("enabled") ? "boolean" : "text",
+          }),
+        );
       }
 
       const success = await saveSettings(settingsToSave);
-      
+
       if (success) {
         toast({
           title: "✅ Configurações salvas!",
@@ -202,7 +228,7 @@ export default function AdminConfiguracoes() {
 
     try {
       // Primeiro verificar configuração
-      const configResponse = await fetch('/api/meta/config');
+      const configResponse = await fetch("/api/meta/config");
       const configResult = await configResponse.json();
 
       if (!configResult.configured) {
@@ -216,17 +242,17 @@ export default function AdminConfiguracoes() {
       }
 
       // Testar evento PageView
-      const testResponse = await fetch('/api/meta/test-event', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const testResponse = await fetch("/api/meta/test-event", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          event_name: 'PageView',
+          event_name: "PageView",
           custom_data: {
-            content_type: 'admin_test',
-            content_category: 'configuration_test',
-            page_title: 'Admin Test - Meta Tracking',
-          }
-        })
+            content_type: "admin_test",
+            content_category: "configuration_test",
+            page_title: "Admin Test - Meta Tracking",
+          },
+        }),
       });
 
       const testResult = await testResponse.json();
@@ -243,13 +269,13 @@ export default function AdminConfiguracoes() {
           eventTest: testResult,
         });
       } else {
-        throw new Error(testResult.message || 'Falha no teste');
+        throw new Error(testResult.message || "Falha no teste");
       }
-
     } catch (error) {
       toast({
         title: "❌ Erro no teste",
-        description: error instanceof Error ? error.message : "Erro desconhecido",
+        description:
+          error instanceof Error ? error.message : "Erro desconhecido",
         variant: "destructive",
       });
 
@@ -278,7 +304,9 @@ export default function AdminConfiguracoes() {
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="text-center">
           <AlertCircle className="w-8 h-8 mx-auto mb-4 text-red-600" />
-          <p className="text-red-600">Erro ao carregar configurações: {error}</p>
+          <p className="text-red-600">
+            Erro ao carregar configurações: {error}
+          </p>
         </div>
       </div>
     );
@@ -333,7 +361,10 @@ export default function AdminConfiguracoes() {
                   id="webhook_url"
                   value={webhookData.webhook_url}
                   onChange={(e) => {
-                    setWebhookData({ ...webhookData, webhook_url: e.target.value });
+                    setWebhookData({
+                      ...webhookData,
+                      webhook_url: e.target.value,
+                    });
                     setHasChanges(true);
                   }}
                   placeholder="https://example.com/webhook"
@@ -346,7 +377,10 @@ export default function AdminConfiguracoes() {
                   type="password"
                   value={webhookData.webhook_secret}
                   onChange={(e) => {
-                    setWebhookData({ ...webhookData, webhook_secret: e.target.value });
+                    setWebhookData({
+                      ...webhookData,
+                      webhook_secret: e.target.value,
+                    });
                     setHasChanges(true);
                   }}
                   placeholder="sua_chave_secreta"
@@ -360,7 +394,10 @@ export default function AdminConfiguracoes() {
                     type="number"
                     value={webhookData.webhook_timeout}
                     onChange={(e) => {
-                      setWebhookData({ ...webhookData, webhook_timeout: e.target.value });
+                      setWebhookData({
+                        ...webhookData,
+                        webhook_timeout: e.target.value,
+                      });
                       setHasChanges(true);
                     }}
                   />
@@ -372,7 +409,10 @@ export default function AdminConfiguracoes() {
                     type="number"
                     value={webhookData.webhook_retries}
                     onChange={(e) => {
-                      setWebhookData({ ...webhookData, webhook_retries: e.target.value });
+                      setWebhookData({
+                        ...webhookData,
+                        webhook_retries: e.target.value,
+                      });
                       setHasChanges(true);
                     }}
                   />
@@ -426,7 +466,10 @@ export default function AdminConfiguracoes() {
                       id="meta_pixel_id"
                       value={integracoesData.meta_pixel_id}
                       onChange={(e) => {
-                        setIntegracoesData({...integracoesData, meta_pixel_id: e.target.value});
+                        setIntegracoesData({
+                          ...integracoesData,
+                          meta_pixel_id: e.target.value,
+                        });
                         setHasChanges(true);
                       }}
                       placeholder="123456789012345"
@@ -439,31 +482,44 @@ export default function AdminConfiguracoes() {
                       type="password"
                       value={integracoesData.meta_access_token}
                       onChange={(e) => {
-                        setIntegracoesData({...integracoesData, meta_access_token: e.target.value});
+                        setIntegracoesData({
+                          ...integracoesData,
+                          meta_access_token: e.target.value,
+                        });
                         setHasChanges(true);
                       }}
                       placeholder="EAAxxxx..."
                     />
                   </div>
                   <div>
-                    <Label htmlFor="meta_conversion_name">Nome da Conversão</Label>
+                    <Label htmlFor="meta_conversion_name">
+                      Nome da Conversão
+                    </Label>
                     <Input
                       id="meta_conversion_name"
                       value={integracoesData.meta_conversion_name}
                       onChange={(e) => {
-                        setIntegracoesData({...integracoesData, meta_conversion_name: e.target.value});
+                        setIntegracoesData({
+                          ...integracoesData,
+                          meta_conversion_name: e.target.value,
+                        });
                         setHasChanges(true);
                       }}
                       placeholder="Lead"
                     />
                   </div>
                   <div>
-                    <Label htmlFor="meta_test_code">Código de Teste (Opcional)</Label>
+                    <Label htmlFor="meta_test_code">
+                      Código de Teste (Opcional)
+                    </Label>
                     <Input
                       id="meta_test_code"
                       value={integracoesData.meta_test_code}
                       onChange={(e) => {
-                        setIntegracoesData({...integracoesData, meta_test_code: e.target.value});
+                        setIntegracoesData({
+                          ...integracoesData,
+                          meta_test_code: e.target.value,
+                        });
                         setHasChanges(true);
                       }}
                       placeholder="TEST23442"
@@ -483,17 +539,24 @@ export default function AdminConfiguracoes() {
                       <input
                         type="checkbox"
                         id="meta_tracking_enabled"
-                        checked={integracoesData.meta_tracking_enabled === "true"}
+                        checked={
+                          integracoesData.meta_tracking_enabled === "true"
+                        }
                         onChange={(e) => {
                           setIntegracoesData({
                             ...integracoesData,
-                            meta_tracking_enabled: e.target.checked ? "true" : "false"
+                            meta_tracking_enabled: e.target.checked
+                              ? "true"
+                              : "false",
                           });
                           setHasChanges(true);
                         }}
                         className="rounded"
                       />
-                      <Label htmlFor="meta_tracking_enabled" className="flex items-center cursor-pointer">
+                      <Label
+                        htmlFor="meta_tracking_enabled"
+                        className="flex items-center cursor-pointer"
+                      >
                         <CheckCircle2 className="w-4 h-4 mr-1 text-green-500" />
                         Ativar Rastreamento Geral
                       </Label>
@@ -507,13 +570,18 @@ export default function AdminConfiguracoes() {
                         onChange={(e) => {
                           setIntegracoesData({
                             ...integracoesData,
-                            meta_track_pageview: e.target.checked ? "true" : "false"
+                            meta_track_pageview: e.target.checked
+                              ? "true"
+                              : "false",
                           });
                           setHasChanges(true);
                         }}
                         className="rounded"
                       />
-                      <Label htmlFor="meta_track_pageview" className="flex items-center cursor-pointer">
+                      <Label
+                        htmlFor="meta_track_pageview"
+                        className="flex items-center cursor-pointer"
+                      >
                         <ViewIcon className="w-4 h-4 mr-1 text-blue-500" />
                         Rastrear Visualizações de Página
                       </Label>
@@ -527,13 +595,18 @@ export default function AdminConfiguracoes() {
                         onChange={(e) => {
                           setIntegracoesData({
                             ...integracoesData,
-                            meta_track_scroll: e.target.checked ? "true" : "false"
+                            meta_track_scroll: e.target.checked
+                              ? "true"
+                              : "false",
                           });
                           setHasChanges(true);
                         }}
                         className="rounded"
                       />
-                      <Label htmlFor="meta_track_scroll" className="flex items-center cursor-pointer">
+                      <Label
+                        htmlFor="meta_track_scroll"
+                        className="flex items-center cursor-pointer"
+                      >
                         <ArrowRight className="w-4 h-4 mr-1 text-purple-500" />
                         Rastrear Profundidade de Scroll
                       </Label>
@@ -547,13 +620,18 @@ export default function AdminConfiguracoes() {
                         onChange={(e) => {
                           setIntegracoesData({
                             ...integracoesData,
-                            meta_track_time: e.target.checked ? "true" : "false"
+                            meta_track_time: e.target.checked
+                              ? "true"
+                              : "false",
                           });
                           setHasChanges(true);
                         }}
                         className="rounded"
                       />
-                      <Label htmlFor="meta_track_time" className="flex items-center cursor-pointer">
+                      <Label
+                        htmlFor="meta_track_time"
+                        className="flex items-center cursor-pointer"
+                      >
                         <Clock className="w-4 h-4 mr-1 text-orange-500" />
                         Rastrear Tempo na Página
                       </Label>
@@ -563,17 +641,24 @@ export default function AdminConfiguracoes() {
                       <input
                         type="checkbox"
                         id="meta_track_interactions"
-                        checked={integracoesData.meta_track_interactions === "true"}
+                        checked={
+                          integracoesData.meta_track_interactions === "true"
+                        }
                         onChange={(e) => {
                           setIntegracoesData({
                             ...integracoesData,
-                            meta_track_interactions: e.target.checked ? "true" : "false"
+                            meta_track_interactions: e.target.checked
+                              ? "true"
+                              : "false",
                           });
                           setHasChanges(true);
                         }}
                         className="rounded"
                       />
-                      <Label htmlFor="meta_track_interactions" className="flex items-center cursor-pointer">
+                      <Label
+                        htmlFor="meta_track_interactions"
+                        className="flex items-center cursor-pointer"
+                      >
                         <MousePointer className="w-4 h-4 mr-1 text-red-500" />
                         Rastrear Interações (Cliques, Hover, FAQ, etc.)
                       </Label>
@@ -593,25 +678,38 @@ export default function AdminConfiguracoes() {
                       Resultado do Teste
                     </h4>
 
-                    <div className={`p-3 rounded-lg ${
-                      testResults.success ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'
-                    }`}>
+                    <div
+                      className={`p-3 rounded-lg ${
+                        testResults.success
+                          ? "bg-green-50 border border-green-200"
+                          : "bg-red-50 border border-red-200"
+                      }`}
+                    >
                       {testResults.success ? (
                         <div className="space-y-2">
-                          <p className="text-green-800 font-medium">✅ Integração funcionando corretamente!</p>
-                          <p className="text-green-700 text-sm">
-                            Eventos estão sendo enviados para o Meta Facebook com sucesso.
+                          <p className="text-green-800 font-medium">
+                            ✅ Integração funcionando corretamente!
                           </p>
-                          {testResults.eventTest?.result?.eventsReceived !== undefined && (
+                          <p className="text-green-700 text-sm">
+                            Eventos estão sendo enviados para o Meta Facebook
+                            com sucesso.
+                          </p>
+                          {testResults.eventTest?.result?.eventsReceived !==
+                            undefined && (
                             <p className="text-green-600 text-sm">
-                              Eventos recebidos: {testResults.eventTest.result.eventsReceived}
+                              Eventos recebidos:{" "}
+                              {testResults.eventTest.result.eventsReceived}
                             </p>
                           )}
                         </div>
                       ) : (
                         <div className="space-y-2">
-                          <p className="text-red-800 font-medium">❌ Erro na integração</p>
-                          <p className="text-red-700 text-sm">{testResults.error}</p>
+                          <p className="text-red-800 font-medium">
+                            ❌ Erro na integração
+                          </p>
+                          <p className="text-red-700 text-sm">
+                            {testResults.error}
+                          </p>
                         </div>
                       )}
                     </div>
@@ -620,12 +718,26 @@ export default function AdminConfiguracoes() {
 
                 {/* Informações importantes */}
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                  <h4 className="font-medium text-blue-900 mb-2">ℹ️ Informações Importantes</h4>
+                  <h4 className="font-medium text-blue-900 mb-2">
+                    ℹ️ Informações Importantes
+                  </h4>
                   <ul className="text-blue-800 text-sm space-y-1">
-                    <li>• O rastreamento é feito via Conversions API para máxima precisão</li>
-                    <li>• Todos os eventos são enviados automaticamente na landing page</li>
-                    <li>• Use o código de teste durante desenvolvimento para não afetar dados reais</li>
-                    <li>• Configure eventos personalizados conforme sua estratégia de marketing</li>
+                    <li>
+                      • O rastreamento é feito via Conversions API para máxima
+                      precisão
+                    </li>
+                    <li>
+                      • Todos os eventos são enviados automaticamente na landing
+                      page
+                    </li>
+                    <li>
+                      • Use o código de teste durante desenvolvimento para não
+                      afetar dados reais
+                    </li>
+                    <li>
+                      • Configure eventos personalizados conforme sua estratégia
+                      de marketing
+                    </li>
                   </ul>
                 </div>
               </div>

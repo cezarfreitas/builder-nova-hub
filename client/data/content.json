@@ -148,31 +148,41 @@
         "id": 1,
         "image_url": "/uploads/gallery/gallery-1753454897687-429252096.jpg",
         "is_active": true,
-        "display_order": 1
+        "display_order": 1,
+        "title": "Moletom Ecko",
+        "alt_text": "Moletom Ecko"
       },
       {
         "id": 2,
         "image_url": "/uploads/gallery/gallery-1753454899086-327960231.jpg",
         "is_active": true,
-        "display_order": 2
+        "display_order": 2,
+        "title": "Camiseta Ecko",
+        "alt_text": "Camiseta Ecko"
       },
       {
         "id": 3,
         "image_url": "/uploads/gallery/gallery-1753454900526-175068983.jpg",
         "is_active": true,
-        "display_order": 3
+        "display_order": 3,
+        "title": "Camiseta Ecko",
+        "alt_text": "Camiseta Ecko"
       },
       {
         "id": 4,
         "image_url": "/uploads/gallery/gallery-1753454901661-650318128.jpg",
         "is_active": true,
-        "display_order": 4
+        "display_order": 4,
+        "title": "Moletom Ecko",
+        "alt_text": "Moletom Ecko"
       },
       {
         "id": 5,
         "image_url": "/uploads/gallery/gallery-1753454902690-474065656.jpg",
         "is_active": true,
-        "display_order": 5
+        "display_order": 5,
+        "title": "Camiseta Ecko",
+        "alt_text": "Camiseta Ecko"
       },
       {
         "id": 6,
@@ -184,7 +194,9 @@
         "id": 7,
         "image_url": "/uploads/gallery/gallery-1753454904403-348350948.jpg",
         "is_active": true,
-        "display_order": 7
+        "display_order": 7,
+        "title": "Jaqueta Ecko",
+        "alt_text": "Jaqueta Ecko"
       }
     ],
     "empty_state_title": "Galeria em Construção",

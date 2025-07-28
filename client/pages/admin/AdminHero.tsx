@@ -11,7 +11,9 @@ import { Badge } from "../../components/ui/badge";
 import { TokenColorEditor } from "../../components/TokenColorEditor";
 import { renderTextWithColorTokens } from "../../utils/colorTokens";
 import { OptimizedImageUpload } from "../../components/OptimizedImageUpload";
-import AdvancedGradientOverlay, { generateGradientCSS } from "../../components/AdvancedGradientOverlay";
+import AdvancedGradientOverlay, {
+  generateGradientCSS,
+} from "../../components/AdvancedGradientOverlay";
 import { useToast } from "../../hooks/use-toast";
 import { useHeroSection } from "../../hooks/useHeroSection";
 import {
@@ -28,11 +30,10 @@ import {
   Sliders,
 } from "lucide-react";
 
-
-
 // Função para gerar CSS do gradiente
 const generateGradientCSS = (settings: any) => {
-  if (!settings.overlay_gradient_enabled) return settings.overlay_color || '#000000';
+  if (!settings.overlay_gradient_enabled)
+    return settings.overlay_color || "#000000";
 
   const hexToRgba = (hex: string, opacity: number) => {
     const r = parseInt(hex.slice(1, 3), 16);
@@ -41,18 +42,27 @@ const generateGradientCSS = (settings: any) => {
     return `rgba(${r}, ${g}, ${b}, ${opacity / 100})`;
   };
 
-  const startColor = hexToRgba(settings.overlay_gradient_start || '#000000', settings.overlay_gradient_start_opacity || 80);
-  const centerColor = hexToRgba(settings.overlay_gradient_center_color || '#000000', settings.overlay_gradient_center_opacity || 0);
-  const endColor = hexToRgba(settings.overlay_gradient_end || '#000000', settings.overlay_gradient_end_opacity || 90);
+  const startColor = hexToRgba(
+    settings.overlay_gradient_start || "#000000",
+    settings.overlay_gradient_start_opacity || 80,
+  );
+  const centerColor = hexToRgba(
+    settings.overlay_gradient_center_color || "#000000",
+    settings.overlay_gradient_center_opacity || 0,
+  );
+  const endColor = hexToRgba(
+    settings.overlay_gradient_end || "#000000",
+    settings.overlay_gradient_end_opacity || 90,
+  );
 
   const startPos = settings.overlay_gradient_start_position || 20;
   const centerPos = settings.overlay_gradient_center_position || 50;
   const endPos = settings.overlay_gradient_end_position || 80;
 
-  if (settings.overlay_gradient_direction === 'radial') {
+  if (settings.overlay_gradient_direction === "radial") {
     return `radial-gradient(ellipse at center, ${startColor} ${startPos}%, ${centerColor} ${centerPos}%, ${endColor} ${endPos}%)`;
   } else {
-    return `linear-gradient(${settings.overlay_gradient_direction || 'to bottom'}, ${startColor} ${startPos}%, ${centerColor} ${centerPos}%, ${endColor} ${endPos}%)`;
+    return `linear-gradient(${settings.overlay_gradient_direction || "to bottom"}, ${startColor} ${startPos}%, ${centerColor} ${centerPos}%, ${endColor} ${endPos}%)`;
   }
 };
 
@@ -61,10 +71,12 @@ export default function AdminHero() {
     heroSettings: settings,
     loading: contentLoading,
     saveHeroSettings,
-    updateField: updateHeroField
+    updateField: updateHeroField,
   } = useHeroSection();
   const [saving, setSaving] = useState(false);
-  const [activeTab, setActiveTab] = useState<"textos" | "visual" | "overlay" | "cta" | "preview">("textos");
+  const [activeTab, setActiveTab] = useState<
+    "textos" | "visual" | "overlay" | "cta" | "preview"
+  >("textos");
   const [hasChanges, setHasChanges] = useState(false);
   const [localSettings, setLocalSettings] = useState(settings || null);
   const { toast } = useToast();
@@ -78,7 +90,8 @@ export default function AdminHero() {
 
   // Detectar mudanças
   useEffect(() => {
-    const hasChanges = JSON.stringify(localSettings) !== JSON.stringify(settings);
+    const hasChanges =
+      JSON.stringify(localSettings) !== JSON.stringify(settings);
     setHasChanges(hasChanges);
   }, [localSettings, settings]);
 
@@ -122,57 +135,57 @@ export default function AdminHero() {
   const applyPreset = (presetName: string) => {
     const presets = {
       blackTransparentBlack: {
-        overlay_gradient_direction: 'radial',
-        overlay_gradient_start: '#000000',
-        overlay_gradient_center_color: '#000000',
-        overlay_gradient_end: '#000000',
+        overlay_gradient_direction: "radial",
+        overlay_gradient_start: "#000000",
+        overlay_gradient_center_color: "#000000",
+        overlay_gradient_end: "#000000",
         overlay_gradient_start_opacity: 90,
         overlay_gradient_center_opacity: 0,
         overlay_gradient_end_opacity: 95,
         overlay_gradient_start_position: 20,
         overlay_gradient_center_position: 50,
         overlay_gradient_end_position: 80,
-        overlay_gradient_enabled: true
+        overlay_gradient_enabled: true,
       },
       centerTransparent: {
-        overlay_gradient_direction: 'radial',
-        overlay_gradient_start: '#000000',
-        overlay_gradient_center_color: '#000000',
-        overlay_gradient_end: '#000000',
+        overlay_gradient_direction: "radial",
+        overlay_gradient_start: "#000000",
+        overlay_gradient_center_color: "#000000",
+        overlay_gradient_end: "#000000",
         overlay_gradient_start_opacity: 0,
         overlay_gradient_center_opacity: 0,
         overlay_gradient_end_opacity: 80,
         overlay_gradient_start_position: 0,
         overlay_gradient_center_position: 30,
         overlay_gradient_end_position: 70,
-        overlay_gradient_enabled: true
+        overlay_gradient_enabled: true,
       },
       darkEdges: {
-        overlay_gradient_direction: 'radial',
-        overlay_gradient_start: '#000000',
-        overlay_gradient_center_color: '#000000',
-        overlay_gradient_end: '#000000',
+        overlay_gradient_direction: "radial",
+        overlay_gradient_start: "#000000",
+        overlay_gradient_center_color: "#000000",
+        overlay_gradient_end: "#000000",
         overlay_gradient_start_opacity: 30,
         overlay_gradient_center_opacity: 10,
         overlay_gradient_end_opacity: 70,
         overlay_gradient_start_position: 10,
         overlay_gradient_center_position: 40,
         overlay_gradient_end_position: 90,
-        overlay_gradient_enabled: true
+        overlay_gradient_enabled: true,
       },
       vignette: {
-        overlay_gradient_direction: 'radial',
-        overlay_gradient_start: '#000000',
-        overlay_gradient_center_color: '#000000',
-        overlay_gradient_end: '#000000',
+        overlay_gradient_direction: "radial",
+        overlay_gradient_start: "#000000",
+        overlay_gradient_center_color: "#000000",
+        overlay_gradient_end: "#000000",
         overlay_gradient_start_opacity: 0,
         overlay_gradient_center_opacity: 20,
         overlay_gradient_end_opacity: 60,
         overlay_gradient_start_position: 30,
         overlay_gradient_center_position: 60,
         overlay_gradient_end_position: 100,
-        overlay_gradient_enabled: true
-      }
+        overlay_gradient_enabled: true,
+      },
     };
 
     const preset = presets[presetName as keyof typeof presets];
@@ -205,7 +218,10 @@ export default function AdminHero() {
 
         {hasChanges && (
           <div className="flex items-center gap-4">
-            <Badge variant="outline" className="text-orange-600 border-orange-300">
+            <Badge
+              variant="outline"
+              className="text-orange-600 border-orange-300"
+            >
               <AlertCircle className="w-3 h-3 mr-1" />
               Alterações pendentes
             </Badge>
@@ -229,55 +245,55 @@ export default function AdminHero() {
       <div className="border-b border-gray-200">
         <nav className="-mb-px flex space-x-8">
           <button
-            onClick={() => setActiveTab('textos')}
+            onClick={() => setActiveTab("textos")}
             className={`py-2 px-1 border-b-2 font-medium text-sm ${
-              activeTab === 'textos'
-                ? 'border-ecko-red text-ecko-red'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              activeTab === "textos"
+                ? "border-ecko-red text-ecko-red"
+                : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
             }`}
           >
             <Type className="w-4 h-4 mr-2 inline" />
             Textos
           </button>
           <button
-            onClick={() => setActiveTab('visual')}
+            onClick={() => setActiveTab("visual")}
             className={`py-2 px-1 border-b-2 font-medium text-sm ${
-              activeTab === 'visual'
-                ? 'border-ecko-red text-ecko-red'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              activeTab === "visual"
+                ? "border-ecko-red text-ecko-red"
+                : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
             }`}
           >
             <Image className="w-4 h-4 mr-2 inline" />
             Visual
           </button>
           <button
-            onClick={() => setActiveTab('overlay')}
+            onClick={() => setActiveTab("overlay")}
             className={`py-2 px-1 border-b-2 font-medium text-sm ${
-              activeTab === 'overlay'
-                ? 'border-ecko-red text-ecko-red'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              activeTab === "overlay"
+                ? "border-ecko-red text-ecko-red"
+                : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
             }`}
           >
             <Sliders className="w-4 h-4 mr-2 inline" />
             Overlay
           </button>
           <button
-            onClick={() => setActiveTab('cta')}
+            onClick={() => setActiveTab("cta")}
             className={`py-2 px-1 border-b-2 font-medium text-sm ${
-              activeTab === 'cta'
-                ? 'border-ecko-red text-ecko-red'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              activeTab === "cta"
+                ? "border-ecko-red text-ecko-red"
+                : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
             }`}
           >
             <MousePointer className="w-4 h-4 mr-2 inline" />
             CTA
           </button>
           <button
-            onClick={() => setActiveTab('preview')}
+            onClick={() => setActiveTab("preview")}
             className={`py-2 px-1 border-b-2 font-medium text-sm ${
-              activeTab === 'preview'
-                ? 'border-ecko-red text-ecko-red'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              activeTab === "preview"
+                ? "border-ecko-red text-ecko-red"
+                : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
             }`}
           >
             <Eye className="w-4 h-4 mr-2 inline" />
@@ -287,38 +303,46 @@ export default function AdminHero() {
       </div>
 
       {/* Content */}
-      {activeTab === 'textos' ? (
+      {activeTab === "textos" ? (
         <div className="space-y-6">
           {/* Color Instructions */}
           <Card className="bg-blue-50 border-blue-200">
             <CardContent className="p-4">
               <div className="flex items-center space-x-2 mb-3">
                 <Lightbulb className="w-4 h-4 text-blue-600" />
-                <h4 className="font-semibold text-blue-900 text-sm">Destaque de Texto</h4>
+                <h4 className="font-semibold text-blue-900 text-sm">
+                  Destaque de Texto
+                </h4>
               </div>
               <p className="text-blue-700 text-xs mb-3">
-                Use <code className="bg-blue-100 px-1 rounded text-blue-800">{"{ecko}texto{/ecko}"}</code> em qualquer campo de texto para destacar palavras.
+                Use{" "}
+                <code className="bg-blue-100 px-1 rounded text-blue-800">
+                  {"{ecko}texto{/ecko}"}
+                </code>{" "}
+                em qualquer campo de texto para destacar palavras.
               </p>
 
               {/* Color Examples */}
               <div className="flex flex-wrap gap-2">
                 <span className="text-xs text-blue-600 mr-2">Cores:</span>
                 {[
-                  { name: 'ecko', color: '#dc2626' },
-                  { name: 'blue', color: '#2563eb' },
-                  { name: 'green', color: '#16a34a' },
-                  { name: 'orange', color: '#ea580c' },
-                  { name: 'yellow', color: '#ca8a04' },
-                  { name: 'white', color: '#ffffff' },
-                  { name: 'black', color: '#000000' }
+                  { name: "ecko", color: "#dc2626" },
+                  { name: "blue", color: "#2563eb" },
+                  { name: "green", color: "#16a34a" },
+                  { name: "orange", color: "#ea580c" },
+                  { name: "yellow", color: "#ca8a04" },
+                  { name: "white", color: "#ffffff" },
+                  { name: "black", color: "#000000" },
                 ].map(({ name, color }) => (
                   <span
                     key={name}
                     className="inline-flex items-center px-2 py-1 rounded text-xs font-medium border"
                     style={{
-                      backgroundColor: color === '#ffffff' ? '#f8f9fa' : color,
-                      color: ['#ffffff', '#ca8a04'].includes(color) ? '#000000' : '#ffffff',
-                      borderColor: color === '#ffffff' ? '#d1d5db' : color
+                      backgroundColor: color === "#ffffff" ? "#f8f9fa" : color,
+                      color: ["#ffffff", "#ca8a04"].includes(color)
+                        ? "#000000"
+                        : "#ffffff",
+                      borderColor: color === "#ffffff" ? "#d1d5db" : color,
                     }}
                   >
                     {name}
@@ -378,7 +402,7 @@ export default function AdminHero() {
             </CardContent>
           </Card>
         </div>
-      ) : activeTab === 'visual' ? (
+      ) : activeTab === "visual" ? (
         <div className="space-y-6">
           {/* Imagens */}
           <Card className="bg-white shadow-sm border border-gray-200">
@@ -431,12 +455,16 @@ export default function AdminHero() {
                     <Input
                       type="color"
                       value={settings.background_color || "#000000"}
-                      onChange={(e) => updateField("background_color", e.target.value)}
+                      onChange={(e) =>
+                        updateField("background_color", e.target.value)
+                      }
                       className="w-12 h-10 p-1 border rounded"
                     />
                     <Input
                       value={settings.background_color || "#000000"}
-                      onChange={(e) => updateField("background_color", e.target.value)}
+                      onChange={(e) =>
+                        updateField("background_color", e.target.value)
+                      }
                       placeholder="#000000"
                     />
                   </div>
@@ -450,12 +478,16 @@ export default function AdminHero() {
                     <Input
                       type="color"
                       value={settings.text_color || "#ffffff"}
-                      onChange={(e) => updateField("text_color", e.target.value)}
+                      onChange={(e) =>
+                        updateField("text_color", e.target.value)
+                      }
                       className="w-12 h-10 p-1 border rounded"
                     />
                     <Input
                       value={settings.text_color || "#ffffff"}
-                      onChange={(e) => updateField("text_color", e.target.value)}
+                      onChange={(e) =>
+                        updateField("text_color", e.target.value)
+                      }
                       placeholder="#ffffff"
                     />
                   </div>
@@ -464,7 +496,7 @@ export default function AdminHero() {
             </CardContent>
           </Card>
         </div>
-      ) : activeTab === 'overlay' ? (
+      ) : activeTab === "overlay" ? (
         <div className="space-y-6">
           {/* Overlay Básico */}
           <Card className="bg-white shadow-sm border border-gray-200">
@@ -484,12 +516,16 @@ export default function AdminHero() {
                     <Input
                       type="color"
                       value={localSettings.overlay_color || "#000000"}
-                      onChange={(e) => updateField("overlay_color", e.target.value)}
+                      onChange={(e) =>
+                        updateField("overlay_color", e.target.value)
+                      }
                       className="w-12 h-10 p-1 border rounded"
                     />
                     <Input
                       value={localSettings.overlay_color || "#000000"}
-                      onChange={(e) => updateField("overlay_color", e.target.value)}
+                      onChange={(e) =>
+                        updateField("overlay_color", e.target.value)
+                      }
                       placeholder="#000000"
                     />
                   </div>
@@ -504,7 +540,9 @@ export default function AdminHero() {
                     min="0"
                     max="100"
                     value={localSettings.overlay_opacity || 70}
-                    onChange={(e) => updateField("overlay_opacity", parseInt(e.target.value))}
+                    onChange={(e) =>
+                      updateField("overlay_opacity", parseInt(e.target.value))
+                    }
                     className="w-full"
                   />
                 </div>
@@ -516,7 +554,9 @@ export default function AdminHero() {
                 </label>
                 <select
                   value={localSettings.overlay_blend_mode || "normal"}
-                  onChange={(e) => updateField("overlay_blend_mode", e.target.value)}
+                  onChange={(e) =>
+                    updateField("overlay_blend_mode", e.target.value)
+                  }
                   className="w-full border border-gray-300 rounded-md px-3 py-2"
                 >
                   <option value="normal">Normal</option>
@@ -548,7 +588,9 @@ export default function AdminHero() {
                   <input
                     type="checkbox"
                     checked={localSettings.overlay_gradient_enabled || false}
-                    onChange={(e) => updateField("overlay_gradient_enabled", e.target.checked)}
+                    onChange={(e) =>
+                      updateField("overlay_gradient_enabled", e.target.checked)
+                    }
                     className="rounded border-gray-300"
                   />
                   <span className="text-sm font-medium text-gray-700">
@@ -567,13 +609,27 @@ export default function AdminHero() {
                       <div className="flex items-center space-x-2">
                         <Input
                           type="color"
-                          value={localSettings.overlay_gradient_start || "#000000"}
-                          onChange={(e) => updateField("overlay_gradient_start", e.target.value)}
+                          value={
+                            localSettings.overlay_gradient_start || "#000000"
+                          }
+                          onChange={(e) =>
+                            updateField(
+                              "overlay_gradient_start",
+                              e.target.value,
+                            )
+                          }
                           className="w-12 h-10 p-1 border rounded"
                         />
                         <Input
-                          value={localSettings.overlay_gradient_start || "#000000"}
-                          onChange={(e) => updateField("overlay_gradient_start", e.target.value)}
+                          value={
+                            localSettings.overlay_gradient_start || "#000000"
+                          }
+                          onChange={(e) =>
+                            updateField(
+                              "overlay_gradient_start",
+                              e.target.value,
+                            )
+                          }
                           placeholder="#000000"
                         />
                       </div>
@@ -586,13 +642,21 @@ export default function AdminHero() {
                       <div className="flex items-center space-x-2">
                         <Input
                           type="color"
-                          value={localSettings.overlay_gradient_end || "#333333"}
-                          onChange={(e) => updateField("overlay_gradient_end", e.target.value)}
+                          value={
+                            localSettings.overlay_gradient_end || "#333333"
+                          }
+                          onChange={(e) =>
+                            updateField("overlay_gradient_end", e.target.value)
+                          }
                           className="w-12 h-10 p-1 border rounded"
                         />
                         <Input
-                          value={localSettings.overlay_gradient_end || "#333333"}
-                          onChange={(e) => updateField("overlay_gradient_end", e.target.value)}
+                          value={
+                            localSettings.overlay_gradient_end || "#333333"
+                          }
+                          onChange={(e) =>
+                            updateField("overlay_gradient_end", e.target.value)
+                          }
                           placeholder="#333333"
                         />
                       </div>
@@ -610,7 +674,10 @@ export default function AdminHero() {
                         variant="outline"
                         size="sm"
                         onClick={() => {
-                          updateField("overlay_gradient_direction", "radial-gradient(ellipse at center, black 20%, transparent 50%, black 80%)");
+                          updateField(
+                            "overlay_gradient_direction",
+                            "radial-gradient(ellipse at center, black 20%, transparent 50%, black 80%)",
+                          );
                           updateField("overlay_gradient_enabled", true);
                         }}
                         className="text-xs"
@@ -622,7 +689,10 @@ export default function AdminHero() {
                         variant="outline"
                         size="sm"
                         onClick={() => {
-                          updateField("overlay_gradient_direction", "radial-gradient(circle at center, transparent 0%, black 60%)");
+                          updateField(
+                            "overlay_gradient_direction",
+                            "radial-gradient(circle at center, transparent 0%, black 60%)",
+                          );
                           updateField("overlay_gradient_enabled", true);
                         }}
                         className="text-xs"
@@ -637,19 +707,40 @@ export default function AdminHero() {
                       Direção do Gradiente
                     </label>
                     <select
-                      value={localSettings.overlay_gradient_direction || "to bottom"}
-                      onChange={(e) => updateField("overlay_gradient_direction", e.target.value)}
+                      value={
+                        localSettings.overlay_gradient_direction || "to bottom"
+                      }
+                      onChange={(e) =>
+                        updateField(
+                          "overlay_gradient_direction",
+                          e.target.value,
+                        )
+                      }
                       className="w-full border border-gray-300 rounded-md px-3 py-2"
                     >
                       <option value="to bottom">Vertical (Topo → Base)</option>
                       <option value="to top">Vertical (Base → Topo)</option>
-                      <option value="to right">Horizontal (Esquerda → Direita)</option>
-                      <option value="to left">Horizontal (Direita → Esquerda)</option>
-                      <option value="to bottom right">Diagonal (Topo-Esq → Base-Dir)</option>
-                      <option value="to bottom left">Diagonal (Topo-Dir → Base-Esq)</option>
-                      <option value="radial-gradient(circle, transparent 30%, black 70%)">Radial Centro Transparente</option>
-                      <option value="radial-gradient(ellipse at center, black 20%, transparent 50%, black 80%)">Preto → Transparente → Preto</option>
-                      <option value="radial-gradient(circle at center, transparent 0%, black 60%)">Transparente Centro → Preto</option>
+                      <option value="to right">
+                        Horizontal (Esquerda → Direita)
+                      </option>
+                      <option value="to left">
+                        Horizontal (Direita → Esquerda)
+                      </option>
+                      <option value="to bottom right">
+                        Diagonal (Topo-Esq → Base-Dir)
+                      </option>
+                      <option value="to bottom left">
+                        Diagonal (Topo-Dir → Base-Esq)
+                      </option>
+                      <option value="radial-gradient(circle, transparent 30%, black 70%)">
+                        Radial Centro Transparente
+                      </option>
+                      <option value="radial-gradient(ellipse at center, black 20%, transparent 50%, black 80%)">
+                        Preto → Transparente → Preto
+                      </option>
+                      <option value="radial-gradient(circle at center, transparent 0%, black 60%)">
+                        Transparente Centro → Preto
+                      </option>
                     </select>
                   </div>
                 </>
@@ -657,7 +748,7 @@ export default function AdminHero() {
             </CardContent>
           </Card>
         </div>
-      ) : activeTab === 'cta' ? (
+      ) : activeTab === "cta" ? (
         <div className="space-y-6">
           {/* CTA Configuration */}
           <Card className="bg-white shadow-sm border border-gray-200">
@@ -722,12 +813,16 @@ export default function AdminHero() {
                     <Input
                       type="color"
                       value={localSettings.cta_text_color || "#ffffff"}
-                      onChange={(e) => updateField("cta_text_color", e.target.value)}
+                      onChange={(e) =>
+                        updateField("cta_text_color", e.target.value)
+                      }
                       className="w-12 h-10 p-1 border rounded"
                     />
                     <Input
                       value={localSettings.cta_text_color || "#ffffff"}
-                      onChange={(e) => updateField("cta_text_color", e.target.value)}
+                      onChange={(e) =>
+                        updateField("cta_text_color", e.target.value)
+                      }
                       placeholder="#ffffff"
                     />
                   </div>
@@ -751,7 +846,9 @@ export default function AdminHero() {
                 className="relative h-96 rounded-lg overflow-hidden"
                 style={{
                   backgroundColor: localSettings.background_color || "#000000",
-                  backgroundImage: localSettings.background_image ? `url(${localSettings.background_image})` : undefined,
+                  backgroundImage: localSettings.background_image
+                    ? `url(${localSettings.background_image})`
+                    : undefined,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                   color: localSettings.text_color || "#ffffff",
@@ -804,7 +901,9 @@ export default function AdminHero() {
                           color: localSettings.cta_text_color || "#ffffff",
                         }}
                       >
-                        {renderTextWithColorTokens(localSettings.cta_primary_text)}
+                        {renderTextWithColorTokens(
+                          localSettings.cta_primary_text,
+                        )}
                       </button>
                     )}
 
@@ -816,7 +915,9 @@ export default function AdminHero() {
                           color: localSettings.text_color || "#ffffff",
                         }}
                       >
-                        {renderTextWithColorTokens(localSettings.cta_secondary_text)}
+                        {renderTextWithColorTokens(
+                          localSettings.cta_secondary_text,
+                        )}
                       </button>
                     )}
                   </div>
