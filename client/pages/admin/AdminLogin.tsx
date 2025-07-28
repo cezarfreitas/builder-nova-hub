@@ -142,7 +142,7 @@ export default function AdminLogin() {
 
           <div className="mt-6 text-center">
             <p className="text-xs text-gray-500">
-              Para acessar, use: <strong>admin / admin</strong>
+              Para acessar, use: <strong>admin / Designer@13</strong>
             </p>
           </div>
         </CardContent>
