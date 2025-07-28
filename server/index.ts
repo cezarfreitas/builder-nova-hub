@@ -93,6 +93,7 @@ import {
   getMetaTags,
   getStructuredData,
 } from "./routes/seo";
+import seoSettingsRouter from "./routes/seo-settings";
 
 export function createServer() {
   const app = express();
