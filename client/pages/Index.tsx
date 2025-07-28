@@ -524,6 +524,33 @@ export default function Index() {
         setWhatsappError("");
         setCnpjError("");
         setCepError("");
+
+        // 🎯 Disparar conversão para Meta de forma independente (não-bloqueante)
+        setTimeout(async () => {
+          try {
+            // Verificar se o tracking está habilitado
+            const configResponse = await fetch('/api/integrations-settings');
+            const configResult = await configResponse.json();
+
+            if (configResult.success && configResult.data.meta_tracking_enabled === 'true') {
+              console.log('🎯 Disparando conversão para Meta - formulário enviado com sucesso');
+              console.log('📊 Dados do lead:', {
+                cidade: formData.cidade,
+                estado: formData.estado,
+                storeType: formData.storeType,
+                formOrigin: formOrigin || 'form-inline'
+              });
+
+              // Usar trackButtonClick que irá usar o nome de conversão configurado dinamicamente
+              trackButtonClick(`form_submission_${formData.storeType || 'unknown'}`, 'lead_conversion');
+            } else {
+              console.log('⏸️ Tracking de conversões desabilitado nas configurações');
+            }
+          } catch (conversionError) {
+            console.error('❌ Erro no tracking de conversão:', conversionError);
+          }
+        }, 100); // Executar depois de 100ms para não bloquear o fluxo principal
+
       } else {
         toast({
           title: "❌ Erro no envio",
