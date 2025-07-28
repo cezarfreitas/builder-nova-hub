@@ -122,6 +122,7 @@ const sidebarItems: SidebarItem[] = [
 export default function AdminLayout() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { logout } = useAuth();
 
   const currentPath = location.pathname;
   const activeSection =
