@@ -490,72 +490,7 @@ export default function AdminAnalytics() {
             disabled={loading || !overview}
           >
             <Download className="w-4 h-4 mr-2" />
-            Exportar Dados Brutos
-          </Button>
-
-          <Button
-            onClick={() => {
-              try {
-                const trafficData = JSON.parse(
-                  localStorage.getItem("traffic_sources") || "[]",
-                );
-                console.table(trafficData);
-                alert(
-                  `${trafficData.length} origens de tráfego encontradas. Veja o console para detalhes.`,
-                );
-              } catch (e) {
-                alert("Erro ao carregar dados de tráfego");
-              }
-            }}
-            variant="outline"
-            size="sm"
-            className="border-blue-300 text-blue-700 hover:bg-blue-50"
-          >
-            <Globe className="w-4 h-4 mr-2" />
-            Ver Origens
-          </Button>
-
-          <Button
-            onClick={async () => {
-              try {
-                const localData = JSON.parse(
-                  localStorage.getItem("traffic_sources") || "[]",
-                );
-                if (localData.length === 0) {
-                  alert("Nenhum dado local para migrar");
-                  return;
-                }
-
-                let migrated = 0;
-                for (const traffic of localData) {
-                  try {
-                    const response = await fetch("/api/traffic/track", {
-                      method: "POST",
-                      headers: { "Content-Type": "application/json" },
-                      body: JSON.stringify(traffic),
-                    });
-                    if (response.ok) migrated++;
-                  } catch (e) {
-                    console.warn("Erro ao migrar item:", e);
-                  }
-                }
-
-                alert(
-                  `${migrated}/${localData.length} registros migrados para o banco!`,
-                );
-                if (migrated > 0) {
-                  refreshData(); // Atualizar dados
-                }
-              } catch (e) {
-                alert("Erro durante migração");
-              }
-            }}
-            variant="outline"
-            size="sm"
-            className="border-purple-300 text-purple-700 hover:bg-purple-50"
-          >
-            <RefreshCw className="w-4 h-4 mr-2" />
-            Migrar para Banco
+            Exportar Excel
           </Button>
 
           <Button
@@ -825,7 +760,7 @@ export default function AdminAnalytics() {
                   </p>
                   <button
                     onClick={() => {
-                      console.log("�� Atualizando dados...");
+                      console.log("🔄 Atualizando dados...");
                       refreshData();
                     }}
                     className="text-xs text-green-600 underline hover:text-green-800"
