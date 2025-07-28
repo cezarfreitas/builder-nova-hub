@@ -776,30 +776,28 @@ export default function Index() {
               }
             </div>
 
-            {/* CTA Buttons - Renderização imediata */}
+            {/* CTA Buttons - Sempre visível com fallback */}
             <div className="flex flex-col items-center">
-              {currentHero.cta_secondary_text && (
-                <div
-                  className="hero-cta-button mb-6 sm:mb-8 group relative overflow-hidden bg-transparent border-2 font-bold px-8 sm:px-10 py-4 sm:py-5 h-auto text-base sm:text-lg uppercase tracking-wider rounded-lg cursor-pointer"
-                  onClick={scrollToContent}
-                  style={{
-                    borderColor: currentHero.cta_color,
-                    color: currentHero.text_color,
-                  }}
+              <div
+                className="hero-cta-button mb-6 sm:mb-8 group relative overflow-hidden bg-transparent border-2 font-bold px-8 sm:px-10 py-4 sm:py-5 h-auto text-base sm:text-lg uppercase tracking-wider rounded-lg cursor-pointer"
+                onClick={scrollToContent}
+                style={{
+                  borderColor: currentHero.cta_color || '#dc2626',
+                  color: currentHero.text_color || '#ffffff',
+                }}
+              >
+                <span
+                  className="absolute inset-0 transform scale-x-0 group-hover:scale-x-100 origin-left"
+                  style={{ backgroundColor: currentHero.cta_color || '#dc2626' }}
+                ></span>
+                <span
+                  className="hero-cta-text relative z-10 flex items-center"
+                  style={{ color: currentHero.text_color || '#ffffff' }}
                 >
-                  <span
-                    className="absolute inset-0 transform scale-x-0 group-hover:scale-x-100 origin-left"
-                    style={{ backgroundColor: currentHero.cta_color }}
-                  ></span>
-                  <span
-                    className="hero-cta-text relative z-10 flex items-center"
-                    style={{ color: currentHero.text_color }}
-                  >
-                    {renderTextWithColorTokens(currentHero.cta_secondary_text)}
-                    <ChevronDown className="ml-2 w-6 h-6" />
-                  </span>
-                </div>
-              )}
+                  {currentHero.cta_secondary_text ? renderTextWithColorTokens(currentHero.cta_secondary_text) : 'DESCUBRA COMO'}
+                  <ChevronDown className="ml-2 w-6 h-6" />
+                </span>
+              </div>
 
               {/* Scroll Indicator */}
               <div
@@ -809,12 +807,12 @@ export default function Index() {
                 <div
                   className="w-1 h-12 rounded-full mb-2"
                   style={{
-                    background: `linear-gradient(to bottom, ${currentHero.cta_color}, transparent)`,
+                    background: `linear-gradient(to bottom, ${currentHero.cta_color || '#dc2626'}, transparent)`,
                   }}
                 ></div>
                 <ChevronDown
                   className="w-6 h-6"
-                  style={{ color: currentHero.cta_color }}
+                  style={{ color: currentHero.cta_color || '#dc2626' }}
                 />
               </div>
             </div>
