@@ -58,6 +58,7 @@ ChartJS.register(
 
 export default function AdminAnalytics() {
   const [selectedPeriod, setSelectedPeriod] = useState(30);
+  const [trackingStatus, setTrackingStatus] = useState<'checking' | 'active' | 'inactive'>('checking');
   const {
     overview,
     dailyStats,
