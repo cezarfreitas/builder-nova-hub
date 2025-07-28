@@ -106,7 +106,7 @@ export async function robustFetch(
 
     clearTimeout(timeoutId);
 
-    console.log(`✅ [ROBUST] Fetch nativo bem-sucedido para ${url}`);
+    devLog(`✅ [ROBUST] Fetch nativo bem-sucedido para ${url}`);
 
     return {
       ok: response.ok,
