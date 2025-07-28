@@ -134,8 +134,29 @@ export function useHeroSection() {
     setHeroSettings(defaultHeroSettings);
   }, []);
 
-  // Carregar configurações na inicialização
+  // Tentar carregar do cache primeiro, depois da API
   useEffect(() => {
+    // Tentar carregar cache local primeiro
+    try {
+      const cached = localStorage.getItem('hero_settings_cache');
+      if (cached) {
+        const cachedData = JSON.parse(cached);
+        const cacheTime = cachedData.timestamp;
+        const now = Date.now();
+
+        // Cache válido por 5 minutos
+        if (now - cacheTime < 5 * 60 * 1000) {
+          setHeroSettings({
+            ...defaultHeroSettings,
+            ...cachedData.data
+          });
+        }
+      }
+    } catch (e) {
+      console.warn('Erro ao carregar cache:', e);
+    }
+
+    // Carregar dados da API em background
     loadHeroSettings();
   }, [loadHeroSettings]);
 
