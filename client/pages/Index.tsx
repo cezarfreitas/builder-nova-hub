@@ -503,6 +503,14 @@ export default function Index() {
       if (result.success) {
         // 🎯 Disparar conversão para Meta quando formulário for enviado com sucesso
         try {
+          // Verificar se o tracking está habilitado
+          const configResponse = await fetch('/api/integrations-settings');
+          const configResult = await configResponse.json();
+
+          if (!configResult.success || configResult.data.meta_tracking_enabled !== 'true') {
+            console.log('⏸️ Tracking de conversões desabilitado nas configurações');
+            return;
+          }
           const conversionResponse = await fetch('/api/meta/track-event', {
             method: 'POST',
             headers: {
@@ -2567,7 +2575,7 @@ export default function Index() {
               <p className="text-gray-400 text-sm">
                 {renderTextWithColorTokens(
                   content.footer?.copyright ||
-                    "�� 2024 Ecko. Todos os direitos reservados. Seja um revendedor oficial e transforme seu negócio.",
+                    "© 2024 Ecko. Todos os direitos reservados. Seja um revendedor oficial e transforme seu negócio.",
                 )}
               </p>
             </div>
