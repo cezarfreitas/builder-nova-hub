@@ -39,12 +39,14 @@ export default function AdminHero() {
   const [saving, setSaving] = useState(false);
   const [activeTab, setActiveTab] = useState<"textos" | "visual" | "overlay" | "cta" | "preview">("textos");
   const [hasChanges, setHasChanges] = useState(false);
-  const [localSettings, setLocalSettings] = useState(settings);
+  const [localSettings, setLocalSettings] = useState(settings || null);
   const { toast } = useToast();
 
   // Sincronizar com as configurações do hero quando carregadas
   useEffect(() => {
-    setLocalSettings(settings);
+    if (settings) {
+      setLocalSettings(settings);
+    }
   }, [settings]);
 
   // Detectar mudanças
@@ -89,7 +91,7 @@ export default function AdminHero() {
     }));
   };
 
-  if (contentLoading) {
+  if (contentLoading || !localSettings) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="text-center">
