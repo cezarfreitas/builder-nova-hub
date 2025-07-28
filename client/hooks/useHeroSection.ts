@@ -107,16 +107,15 @@ export function useHeroSection() {
 
   // Atualizar um campo específico
   const updateField = useCallback((field: keyof HeroSettings, value: any) => {
-    setHeroSettings(prev => ({
-      ...prev,
-      [field]: value
-    }));
-  }, []);
+    if (heroSettings) {
+      setHeroSettings(prev => prev ? ({
+        ...prev,
+        [field]: value
+      }) : null);
+    }
+  }, [heroSettings]);
 
-  // Resetar para configurações padrão
-  const resetToDefaults = useCallback(() => {
-    setHeroSettings(defaultHeroSettings);
-  }, []);
+
 
   // Carregar configurações na inicialização
   useEffect(() => {
@@ -129,7 +128,6 @@ export function useHeroSection() {
     error,
     saveHeroSettings,
     updateField,
-    resetToDefaults,
     reloadHeroSettings: loadHeroSettings
   };
 }
