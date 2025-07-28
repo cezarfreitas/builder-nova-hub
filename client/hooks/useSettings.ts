@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback } from 'react';
-import { robustFetchJson } from '../utils/robustFetch';
+import { useState, useEffect, useCallback } from "react";
+import { robustFetchJson } from "../utils/robustFetch";
 
 interface SettingItem {
   setting_key: string;
@@ -18,7 +18,13 @@ interface UseSettingsResult {
   error: string | null;
   getSetting: (key: string) => string;
   saveSetting: (key: string, value: any, type?: string) => Promise<boolean>;
-  saveSettings: (settingsArray: Array<{setting_key: string, setting_value: string, setting_type: string}>) => Promise<boolean>;
+  saveSettings: (
+    settingsArray: Array<{
+      setting_key: string;
+      setting_value: string;
+      setting_type: string;
+    }>,
+  ) => Promise<boolean>;
   refetch: () => Promise<void>;
 }
 
@@ -32,23 +38,24 @@ export function useSettings(): UseSettingsResult {
       setLoading(true);
       setError(null);
 
-      console.log('🔄 [SETTINGS] Carregando configurações...');
+      console.log("🔄 [SETTINGS] Carregando configurações...");
 
-      const result = await robustFetchJson('/api/settings', {
+      const result = await robustFetchJson("/api/settings", {
         timeout: 8000,
       });
 
       if (result.success) {
-        console.log('✅ [SETTINGS] Configurações carregadas com sucesso');
+        console.log("✅ [SETTINGS] Configurações carregadas com sucesso");
         setSettings(result.data || {});
       } else {
         throw new Error(result.message || "Erro ao carregar configurações");
       }
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Erro desconhecido';
-      console.error('❌ Erro ao carregar configurações:', err);
+      const errorMessage =
+        err instanceof Error ? err.message : "Erro desconhecido";
+      console.error("❌ Erro ao carregar configurações:", err);
       setError(errorMessage);
-      
+
       // Em caso de erro, usar configurações padrão vazias para não quebrar a interface
       setSettings({});
     } finally {
@@ -56,88 +63,109 @@ export function useSettings(): UseSettingsResult {
     }
   }, []);
 
-  const saveSetting = useCallback(async (key: string, value: any, type: string = 'text'): Promise<boolean> => {
-    try {
-      const response = await fetch('/api/settings', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          settings: [{
-            setting_key: key,
-            setting_value: String(value),
-            setting_type: type
-          }]
-        }),
-      });
-
-      const result = await response.json();
-      
-      if (result.success) {
-        // Atualizar o estado local
-        setSettings(prev => ({
-          ...prev,
-          [key]: {
-            setting_key: key,
-            setting_value: String(value),
-            setting_type: type,
-            updated_at: new Date().toISOString(),
+  const saveSetting = useCallback(
+    async (
+      key: string,
+      value: any,
+      type: string = "text",
+    ): Promise<boolean> => {
+      try {
+        const response = await fetch("/api/settings", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
           },
-        }));
-        return true;
-      } else {
-        console.error('Erro ao salvar configuração:', result.message);
-        return false;
-      }
-    } catch (error) {
-      console.error('Erro ao salvar configuração:', error);
-      return false;
-    }
-  }, []);
-
-  const saveSettings = useCallback(async (settingsArray: Array<{setting_key: string, setting_value: string, setting_type: string}>): Promise<boolean> => {
-    try {
-      const response = await fetch('/api/settings', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          settings: settingsArray
-        }),
-      });
-
-      const result = await response.json();
-      
-      if (result.success) {
-        // Atualizar o estado local com todas as configurações salvas
-        setSettings(prev => {
-          const updated = { ...prev };
-          settingsArray.forEach(setting => {
-            updated[setting.setting_key] = {
-              setting_key: setting.setting_key,
-              setting_value: setting.setting_value,
-              setting_type: setting.setting_type,
-              updated_at: new Date().toISOString(),
-            };
-          });
-          return updated;
+          body: JSON.stringify({
+            settings: [
+              {
+                setting_key: key,
+                setting_value: String(value),
+                setting_type: type,
+              },
+            ],
+          }),
         });
-        return true;
-      } else {
-        console.error('Erro ao salvar configurações:', result.message);
+
+        const result = await response.json();
+
+        if (result.success) {
+          // Atualizar o estado local
+          setSettings((prev) => ({
+            ...prev,
+            [key]: {
+              setting_key: key,
+              setting_value: String(value),
+              setting_type: type,
+              updated_at: new Date().toISOString(),
+            },
+          }));
+          return true;
+        } else {
+          console.error("Erro ao salvar configuração:", result.message);
+          return false;
+        }
+      } catch (error) {
+        console.error("Erro ao salvar configuração:", error);
         return false;
       }
-    } catch (error) {
-      console.error('Erro ao salvar configurações:', error);
-      return false;
-    }
-  }, []);
+    },
+    [],
+  );
 
-  const getSetting = useCallback((key: string): string => {
-    return settings[key]?.setting_value || '';
-  }, [settings]);
+  const saveSettings = useCallback(
+    async (
+      settingsArray: Array<{
+        setting_key: string;
+        setting_value: string;
+        setting_type: string;
+      }>,
+    ): Promise<boolean> => {
+      try {
+        const response = await fetch("/api/settings", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            settings: settingsArray,
+          }),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          // Atualizar o estado local com todas as configurações salvas
+          setSettings((prev) => {
+            const updated = { ...prev };
+            settingsArray.forEach((setting) => {
+              updated[setting.setting_key] = {
+                setting_key: setting.setting_key,
+                setting_value: setting.setting_value,
+                setting_type: setting.setting_type,
+                updated_at: new Date().toISOString(),
+              };
+            });
+            return updated;
+          });
+          return true;
+        } else {
+          console.error("Erro ao salvar configurações:", result.message);
+          return false;
+        }
+      } catch (error) {
+        console.error("Erro ao salvar configurações:", error);
+        return false;
+      }
+    },
+    [],
+  );
+
+  const getSetting = useCallback(
+    (key: string): string => {
+      return settings[key]?.setting_value || "";
+    },
+    [settings],
+  );
 
   // Buscar configurações na inicialização
   useEffect(() => {

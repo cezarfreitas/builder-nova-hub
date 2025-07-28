@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback } from 'react';
-import { robustFetchJson } from '../utils/robustFetch';
+import { useState, useEffect, useCallback } from "react";
+import { robustFetchJson } from "../utils/robustFetch";
 
 export interface HeroSettings {
   title: string;
@@ -32,7 +32,8 @@ export interface HeroSettings {
 const defaultHeroSettings: HeroSettings = {
   title: "SEJA UM {ecko}REVENDEDOR{/ecko} OFICIAL",
   subtitle: "O maior programa de parceria do streetwear",
-  description: "Transforme sua paixão por streetwear em um negócio lucrativo. Junte-se a milhares de revendedores que já fazem parte da família {ecko}Ecko{/ecko} e descobra como vender produtos autênticos com margens exclusivas.",
+  description:
+    "Transforme sua paixão por streetwear em um negócio lucrativo. Junte-se a milhares de revendedores que já fazem parte da família {ecko}Ecko{/ecko} e descobra como vender produtos autênticos com margens exclusivas.",
   background_image: "",
   background_color: "#000000",
   text_color: "#ffffff",
@@ -54,7 +55,7 @@ const defaultHeroSettings: HeroSettings = {
   overlay_gradient_start_position: 20,
   overlay_gradient_center_position: 50,
   overlay_gradient_end_position: 80,
-  logo_url: ""
+  logo_url: "",
 };
 
 export function useHeroSection() {
@@ -68,28 +69,28 @@ export function useHeroSection() {
       setError(null);
       setLoading(true);
 
-      console.log('🔄 [HERO] Carregando configurações do hero...');
+      console.log("🔄 [HERO] Carregando configurações do hero...");
 
-      const data = await robustFetchJson('/api/hero', {
+      const data = await robustFetchJson("/api/hero", {
         timeout: 10000,
       });
 
-      console.log('✅ [HERO] Configurações do hero carregadas com sucesso');
+      console.log("✅ [HERO] Configurações do hero carregadas com sucesso");
       setHeroSettings(data);
       setLoading(false);
     } catch (err) {
-      console.error('Erro ao carregar configurações do hero:', err);
+      console.error("Erro ao carregar configurações do hero:", err);
 
       if (err instanceof Error) {
-        if (err.name === 'AbortError') {
-          setError('Timeout - Servidor não responde');
-        } else if (err.message.includes('fetch')) {
-          setError('Erro de conexão');
+        if (err.name === "AbortError") {
+          setError("Timeout - Servidor não responde");
+        } else if (err.message.includes("fetch")) {
+          setError("Erro de conexão");
         } else {
           setError(err.message);
         }
       } else {
-        setError('Erro ao carregar');
+        setError("Erro ao carregar");
       }
 
       setLoading(false);
@@ -102,16 +103,16 @@ export function useHeroSection() {
     try {
       setError(null);
 
-      const response = await fetch('/api/hero', {
-        method: 'POST',
+      const response = await fetch("/api/hero", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(settings),
       });
 
       if (!response.ok) {
-        throw new Error('Erro ao salvar');
+        throw new Error("Erro ao salvar");
       }
 
       const result = await response.json();
@@ -120,29 +121,34 @@ export function useHeroSection() {
         setHeroSettings(settings);
         return { success: true };
       } else {
-        throw new Error('Erro ao salvar');
+        throw new Error("Erro ao salvar");
       }
     } catch (err) {
-      console.error('Erro ao salvar configurações do hero:', err);
-      setError('Erro ao salvar');
+      console.error("Erro ao salvar configurações do hero:", err);
+      setError("Erro ao salvar");
       return {
         success: false,
-        error: 'Erro ao salvar'
+        error: "Erro ao salvar",
       };
     }
   }, []);
 
   // Atualizar um campo específico
-  const updateField = useCallback((field: keyof HeroSettings, value: any) => {
-    if (heroSettings) {
-      setHeroSettings(prev => prev ? ({
-        ...prev,
-        [field]: value
-      }) : null);
-    }
-  }, [heroSettings]);
-
-
+  const updateField = useCallback(
+    (field: keyof HeroSettings, value: any) => {
+      if (heroSettings) {
+        setHeroSettings((prev) =>
+          prev
+            ? {
+                ...prev,
+                [field]: value,
+              }
+            : null,
+        );
+      }
+    },
+    [heroSettings],
+  );
 
   // Carregar configurações na inicialização
   useEffect(() => {
@@ -155,6 +161,6 @@ export function useHeroSection() {
     error,
     saveHeroSettings,
     updateField,
-    reloadHeroSettings: loadHeroSettings
+    reloadHeroSettings: loadHeroSettings,
   };
 }
