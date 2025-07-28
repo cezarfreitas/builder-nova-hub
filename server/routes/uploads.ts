@@ -35,7 +35,7 @@ const fileFilter = (req: Express.Request, file: Express.Multer.File, cb: multer.
   cb(null, true);
 };
 
-// Função para formatar tamanho de arquivo
+// Fun��ão para formatar tamanho de arquivo
 const formatFileSize = (bytes: number): string => {
   if (bytes === 0) return '0 Bytes';
   const k = 1024;
@@ -127,6 +127,56 @@ export const uploadHero = multer({
 });
 
 // POST /api/uploads/seo-image - Upload de imagem para SEO
+// POST /api/uploads/hero - Upload específico para imagens do Hero
+export async function uploadHeroImage(req: Request, res: Response) {
+  try {
+    console.log('Hero upload request received');
+    console.log('Request file:', req.file);
+
+    if (!req.file) {
+      console.log('No file in request');
+      return res.status(400).json({
+        success: false,
+        message: 'Nenhum arquivo enviado'
+      });
+    }
+
+    const file = req.file;
+    const originalSizeFormatted = formatFileSize(file.size);
+
+    console.log('Hero file received:', {
+      filename: file.filename,
+      originalname: file.originalname,
+      size: file.size,
+      sizeFormatted: originalSizeFormatted,
+      mimetype: file.mimetype,
+      path: file.path
+    });
+
+    // URL relativa para acessar a imagem
+    const imageUrl = `/uploads/hero/${file.filename}`;
+
+    res.json({
+      success: true,
+      message: 'Imagem do hero enviada com sucesso',
+      filename: file.filename,
+      url: imageUrl,
+      path: imageUrl,
+      size: file.size,
+      sizeFormatted: originalSizeFormatted,
+      mimetype: file.mimetype
+    });
+
+  } catch (error) {
+    console.error('Erro no upload do hero:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Erro interno do servidor',
+      error: error instanceof Error ? error.message : 'Erro desconhecido'
+    });
+  }
+}
+
 export async function uploadSeoImage(req: Request, res: Response) {
   try {
     console.log('Upload request received');
