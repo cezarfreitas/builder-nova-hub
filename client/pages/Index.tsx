@@ -67,6 +67,14 @@ export default function Index() {
   useScrollTracking();
   useTimeTracking();
 
+  // Section tracking refs
+  const heroRef = useSectionTracking('hero');
+  const aboutRef = useSectionTracking('about');
+  const benefitsRef = useSectionTracking('benefits');
+  const testimonialsRef = useSectionTracking('testimonials');
+  const galleryRef = useSectionTracking('gallery');
+  const faqRef = useSectionTracking('faq');
+
   // Simplificado: não precisamos controlar estado de loading de imagens
 
   const [formData, setFormData] = useState<LeadFormData>({
@@ -273,7 +281,7 @@ export default function Index() {
       return false;
     }
 
-    // Se tem 11 dígitos, o 3�� dígito deve ser 9 (celular)
+    // Se tem 11 dígitos, o 3º dígito deve ser 9 (celular)
     if (numbers.length === 11 && numbers[2] !== "9") {
       return false;
     }
