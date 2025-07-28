@@ -15,9 +15,6 @@ import { TokenColorEditor } from "../../components/TokenColorEditor";
 import { renderTextWithColorTokens } from "../../utils/colorTokens";
 import {
   Save,
-  RefreshCw,
-  Eye,
-  EyeOff,
   Type,
   BarChart3,
   Target,
