@@ -35,10 +35,10 @@ const defaultHeroSettings: HeroSettings = {
   overlay_color: "#000000",
   overlay_opacity: 70,
   overlay_blend_mode: "normal",
-  overlay_gradient_enabled: false,
+  overlay_gradient_enabled: true,
   overlay_gradient_start: "#000000",
   overlay_gradient_end: "#333333",
-  overlay_gradient_direction: "to bottom",
+  overlay_gradient_direction: "radial-gradient(ellipse at center, black 20%, transparent 50%, black 80%)",
   logo_url: ""
 };
 
