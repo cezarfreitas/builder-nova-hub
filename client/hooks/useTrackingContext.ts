@@ -51,9 +51,9 @@ export const useAnalyticsTracking = () => {
     }
 
     try {
-      console.log("📊 Rastreando visita na LP...");
+      console.log("📊 [TRACKING] Rastreando visita na LP...");
 
-      const response = await fetch("/api/analytics/track-visit", {
+      const response = await robustFetch("/api/analytics/track-visit", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -74,6 +74,7 @@ export const useAnalyticsTracking = () => {
           duration_seconds: 0,
           event_type: "page_view",
         }),
+        timeout: 8000,
       });
 
       if (response.ok) {
