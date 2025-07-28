@@ -49,9 +49,8 @@ export default function AdminAbout() {
   const { content, loading: contentLoading, saveContent } = useContent();
   const [settings, setSettings] = useState<AboutSettings>(content.about);
   const [saving, setSaving] = useState(false);
-  const [previewMode, setPreviewMode] = useState(false);
+  const [activeTab, setActiveTab] = useState<"textos" | "historia" | "estatisticas" | "cta">("textos");
   const [hasChanges, setHasChanges] = useState(false);
-  const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const { toast } = useToast();
 
   // Sincronizar com o conteúdo JSON quando carregado
