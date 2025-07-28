@@ -8,6 +8,7 @@ import {
 import { Badge } from "../../components/ui/badge";
 import { Button } from "../../components/ui/button";
 import { useAnalytics } from "../../hooks/useAnalytics";
+import { robustFetchJson } from "../../utils/robustFetch";
 import * as XLSX from "xlsx";
 import {
   Chart as ChartJS,
