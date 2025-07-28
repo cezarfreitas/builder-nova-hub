@@ -688,7 +688,7 @@ export default function Index() {
                   <option value="">Selecione</option>
                   <option value="fisica">Física</option>
                   <option value="online">Online</option>
-                  <option value="ambas">F��sica + Online</option>
+                  <option value="ambas">Física + Online</option>
                 </select>
               </div>
 
