@@ -88,12 +88,12 @@ export async function robustFetch(
 ): Promise<FetchResponse> {
   // Primeiro, tentar fetch nativo
   try {
-    console.log(`🌐 [ROBUST] Tentando fetch nativo para ${url}`);
+    devLog(`🌐 [ROBUST] Tentando fetch nativo para ${url}`);
 
     const controller = new AbortController();
     const timeoutId = setTimeout(
       () => controller.abort(),
-      options.timeout || 10000,
+      options.timeout || config.apiTimeout,
     );
 
     const response = await fetch(url, {
