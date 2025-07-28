@@ -78,9 +78,9 @@ export const useAnalyticsTracking = () => {
       });
 
       if (response.ok) {
-        console.log("✅ Visita rastreada com sucesso");
+        console.log("✅ [TRACKING] Visita rastreada com sucesso");
       } else {
-        console.warn("⚠️ Erro ao rastrear visita:", response.status);
+        console.warn("⚠️ [TRACKING] Erro ao rastrear visita:", response.status);
       }
     } catch (error) {
       console.error("❌ Erro no tracking:", error);
