@@ -88,14 +88,20 @@ export function useAnalytics(selectedPeriod: number = 30) {
 
         // Fetch daily stats
         try {
+          // Criar timeout manual para compatibilidade
+          const dailyController = new AbortController();
+          const dailyTimeoutId = setTimeout(() => dailyController.abort(), 8000);
+
           const dailyResponse = await fetch(
             `/api/analytics/daily-stats?days=${selectedPeriod}`,
             {
               headers: { "Content-Type": "application/json" },
               credentials: 'same-origin',
-              signal: AbortSignal.timeout(8000), // 8s timeout para requisições secundárias
+              signal: dailyController.signal,
             },
           );
+
+          clearTimeout(dailyTimeoutId);
           if (dailyResponse.ok) {
             const dailyResult = await dailyResponse.json();
             if (dailyResult.success) {
