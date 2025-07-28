@@ -786,6 +786,21 @@ export default function AdminConfiguracoes() {
                             ✅ Integração funcionando corretamente!
                           </p>
 
+                          {/* Configurações testadas */}
+                          <div className="bg-blue-50 p-3 rounded border border-blue-200">
+                            <h5 className="font-medium text-blue-900 mb-2">
+                              📋 Configurações Testadas
+                            </h5>
+                            <div className="space-y-1 text-xs">
+                              <p className="text-blue-700">
+                                <strong>Pixel ID:</strong> {integracoesData.meta_pixel_id ? `${integracoesData.meta_pixel_id.substring(0, 8)}...` : 'Não configurado'}
+                              </p>
+                              <p className="text-blue-700">
+                                <strong>Access Token:</strong> {integracoesData.meta_access_token ? `${integracoesData.meta_access_token.substring(0, 12)}...` : 'Não configurado'}
+                              </p>
+                            </div>
+                          </div>
+
                           {/* Resultado do Pixel */}
                           <div className="bg-white p-3 rounded border">
                             <h5 className="font-medium text-gray-900 mb-2 flex items-center">
@@ -961,7 +976,7 @@ export default function AdminConfiguracoes() {
                     />
                     <p className="text-xs text-gray-500 mt-1">
                       Separe por vírgulas. Foque nas mais importantes para seu
-                      neg��cio.
+                      negócio.
                     </p>
                   </div>
 
