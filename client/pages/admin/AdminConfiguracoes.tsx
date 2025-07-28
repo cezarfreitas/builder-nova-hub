@@ -223,6 +223,60 @@ export default function AdminConfiguracoes() {
     }
   };
 
+  // Função específica para salvar configurações de SEO em JSON exclusivo
+  const saveSeoSettings = async () => {
+    setSaving(true);
+    try {
+      const response = await fetch('/api/seo-settings', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(seoData)
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        toast({
+          title: "✅ SEO configurado!",
+          description: "Configurações de SEO salvas em arquivo exclusivo",
+          variant: "default",
+        });
+        setHasChanges(false);
+      } else {
+        throw new Error(result.message || 'Erro ao salvar configurações de SEO');
+      }
+    } catch (error: any) {
+      console.error('Erro ao salvar configurações de SEO:', error);
+      toast({
+        title: "❌ Erro ao salvar SEO",
+        description: error.message || "Erro ao salvar configurações de SEO",
+        variant: "destructive",
+      });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  // Carregar configurações de SEO ao montar o componente
+  useEffect(() => {
+    const loadSeoSettings = async () => {
+      try {
+        const response = await fetch('/api/seo-settings');
+        const result = await response.json();
+
+        if (result.success) {
+          setSeoData(result.data);
+        }
+      } catch (error) {
+        console.error('Erro ao carregar configurações de SEO:', error);
+      }
+    };
+
+    loadSeoSettings();
+  }, []);
+
   const testMetaTracking = async () => {
     setTesting(true);
     setTestResults(null);
