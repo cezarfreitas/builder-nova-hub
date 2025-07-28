@@ -46,7 +46,14 @@ export default function Index() {
   const { toast } = useToast();
   const sessionId = useSessionId();
   const { content, loading: contentLoading } = useContent();
-  const { heroSettings: currentHero, loading: heroLoading } = useHeroSection();
+  const { heroSettings: currentHero, loading: heroLoading, error: heroError } = useHeroSection();
+
+  // Log de erro para debug (não afetar UI)
+  useEffect(() => {
+    if (heroError) {
+      console.warn('Hero settings error (usando fallback):', heroError);
+    }
+  }, [heroError]);
 
   // Simplificado: não precisamos controlar estado de loading de imagens
 
