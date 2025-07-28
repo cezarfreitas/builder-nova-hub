@@ -125,14 +125,19 @@ export function useAnalytics(selectedPeriod: number = 30) {
 
         // Fetch time analysis (optional)
         try {
+          const timeController = new AbortController();
+          const timeTimeoutId = setTimeout(() => timeController.abort(), 8000);
+
           const timeResponse = await fetch(
             `/api/analytics/time-analysis?days=${selectedPeriod}`,
             {
               headers: { "Content-Type": "application/json" },
               credentials: 'same-origin',
-              signal: AbortSignal.timeout(8000),
+              signal: timeController.signal,
             },
           );
+
+          clearTimeout(timeTimeoutId);
           if (timeResponse.ok) {
             const timeResult = await timeResponse.json();
             if (timeResult.success) {
