@@ -94,6 +94,7 @@ import {
   getStructuredData,
 } from "./routes/seo";
 import seoSettingsRouter from "./routes/seo-settings";
+import integrationsSettingsRouter from "./routes/integrations-settings";
 
 export function createServer() {
   const app = express();
