@@ -14,15 +14,16 @@ import { useToast } from "../../hooks/use-toast";
 import { useContent } from "../../hooks/useContent";
 import {
   Save,
-  RefreshCw,
   Eye,
-  EyeOff,
   Palette,
   Type,
   Image,
   AlertCircle,
   Loader2,
   Lightbulb,
+  MousePointer,
+  Settings,
+  Sliders,
 } from "lucide-react";
 
 interface HeroSettings {
@@ -38,6 +39,11 @@ interface HeroSettings {
   cta_text_color: string;
   overlay_color: string;
   overlay_opacity: number;
+  overlay_blend_mode: string;
+  overlay_gradient_enabled: boolean;
+  overlay_gradient_start: string;
+  overlay_gradient_end: string;
+  overlay_gradient_direction: string;
   logo_url: string;
 }
 
@@ -45,8 +51,8 @@ export default function AdminHero() {
   const { content, loading: contentLoading, saveContent } = useContent();
   const [settings, setSettings] = useState<HeroSettings>(content.hero);
   const [saving, setSaving] = useState(false);
+  const [activeTab, setActiveTab] = useState<"textos" | "visual" | "overlay" | "cta" | "preview">("textos");
   const [hasChanges, setHasChanges] = useState(false);
-  const [showPreview, setShowPreview] = useState(true);
   const { toast } = useToast();
 
   // Sincronizar com o conteúdo JSON quando carregado
@@ -56,31 +62,38 @@ export default function AdminHero() {
     }
   }, [content.hero]);
 
-  const handleSave = async () => {
-    if (!hasChanges) return;
+  // Detectar mudanças
+  useEffect(() => {
+    const hasChanges = JSON.stringify(settings) !== JSON.stringify(content.hero);
+    setHasChanges(hasChanges);
+  }, [settings, content.hero]);
 
-    setSaving(true);
+  // Salvar configurações
+  const saveSettings = async () => {
     try {
+      setSaving(true);
+
       const updatedContent = {
         ...content,
         hero: settings,
       };
 
-      const success = await saveContent(updatedContent);
-      
-      if (success) {
+      const result = await saveContent(updatedContent);
+
+      if (result.success) {
         toast({
-          title: "✅ Hero atualizado!",
-          description: "As configurações do hero foram salvas com sucesso.",
+          title: "Hero atualizado!",
+          description: "As configurações foram salvas com sucesso.",
         });
         setHasChanges(false);
       } else {
         throw new Error("Falha ao salvar");
       }
     } catch (error) {
+      console.error("Erro ao salvar hero:", error);
       toast({
-        title: "❌ Erro ao salvar",
-        description: "Erro ao salvar as configurações do hero. Tente novamente.",
+        title: "Erro ao salvar",
+        description: "Não foi possível salvar as configurações.",
         variant: "destructive",
       });
     } finally {
@@ -88,12 +101,12 @@ export default function AdminHero() {
     }
   };
 
-  const handleInputChange = (field: string, value: string | number) => {
-    setSettings(prev => ({
+  // Atualizar campo específico
+  const updateField = (field: keyof HeroSettings, value: any) => {
+    setSettings((prev) => ({
       ...prev,
       [field]: value,
     }));
-    setHasChanges(true);
   };
 
   if (contentLoading) {
