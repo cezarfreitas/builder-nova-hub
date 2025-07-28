@@ -160,55 +160,18 @@ export default function AdminAbout() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Sobre a Ecko</h1>
-          <p className="text-gray-600">
-            Gerencie o conteúdo da seção sobre a história da marca
-          </p>
+          <p className="text-gray-600">Gerencie o conteúdo da seção sobre a história da marca</p>
         </div>
 
-        <div className="flex items-center gap-4">
-          {lastSaved && (
-            <span className="text-sm text-gray-500">
-              Salvo às {lastSaved.toLocaleTimeString()}
-            </span>
-          )}
-
-          {hasChanges && (
-            <Badge
-              variant="outline"
-              className="text-orange-600 border-orange-300"
-            >
+        {hasChanges && (
+          <div className="flex items-center gap-4">
+            <Badge variant="outline" className="text-orange-600 border-orange-300">
               <AlertCircle className="w-3 h-3 mr-1" />
               Alterações pendentes
             </Badge>
-          )}
-
-          <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setPreviewMode(!previewMode)}
-            >
-              {previewMode ? (
-                <>
-                  <EyeOff className="w-4 h-4 mr-2" />
-                  Ocultar Preview
-                </>
-              ) : (
-                <>
-                  <Eye className="w-4 h-4 mr-2" />
-                  Mostrar Preview
-                </>
-              )}
-            </Button>
-
-            <Button variant="outline" size="sm" onClick={resetSettings}>
-              <RefreshCw className="w-4 h-4 mr-2" />
-              Resetar
-            </Button>
-
             <Button
               onClick={saveSettings}
-              disabled={saving || !hasChanges}
+              disabled={saving}
               className="bg-ecko-red hover:bg-ecko-red-dark"
             >
               {saving ? (
@@ -219,7 +182,57 @@ export default function AdminAbout() {
               Salvar Alterações
             </Button>
           </div>
-        </div>
+        )}
+      </div>
+
+      {/* Tabs */}
+      <div className="border-b border-gray-200">
+        <nav className="-mb-px flex space-x-8">
+          <button
+            onClick={() => setActiveTab('textos')}
+            className={`py-2 px-1 border-b-2 font-medium text-sm ${
+              activeTab === 'textos'
+                ? 'border-ecko-red text-ecko-red'
+                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+            }`}
+          >
+            <Type className="w-4 h-4 mr-2 inline" />
+            Textos
+          </button>
+          <button
+            onClick={() => setActiveTab('historia')}
+            className={`py-2 px-1 border-b-2 font-medium text-sm ${
+              activeTab === 'historia'
+                ? 'border-ecko-red text-ecko-red'
+                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+            }`}
+          >
+            <History className="w-4 h-4 mr-2 inline" />
+            História
+          </button>
+          <button
+            onClick={() => setActiveTab('estatisticas')}
+            className={`py-2 px-1 border-b-2 font-medium text-sm ${
+              activeTab === 'estatisticas'
+                ? 'border-ecko-red text-ecko-red'
+                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+            }`}
+          >
+            <BarChart3 className="w-4 h-4 mr-2 inline" />
+            Estatísticas
+          </button>
+          <button
+            onClick={() => setActiveTab('cta')}
+            className={`py-2 px-1 border-b-2 font-medium text-sm ${
+              activeTab === 'cta'
+                ? 'border-ecko-red text-ecko-red'
+                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+            }`}
+          >
+            <Target className="w-4 h-4 mr-2 inline" />
+            CTA
+          </button>
+        </nav>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
