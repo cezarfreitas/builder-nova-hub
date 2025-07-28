@@ -11,6 +11,7 @@ import { Input } from "../../components/ui/input";
 import { useToast } from "../../hooks/use-toast";
 import { useContent } from "../../hooks/useContent";
 import { TokenColorEditor } from "../../components/TokenColorEditor";
+import { renderTextWithColorTokens } from "../../utils/colorTokens";
 import {
   Save,
   Copyright,
