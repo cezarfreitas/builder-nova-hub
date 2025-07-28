@@ -48,13 +48,6 @@ export default function Index() {
   const { content, loading: contentLoading } = useContent();
   const { heroSettings: currentHero, loading: heroLoading, error: heroError } = useHeroSection();
 
-  // Log de erro para debug (não afetar UI)
-  useEffect(() => {
-    if (heroError) {
-      console.warn('Hero settings error (usando fallback):', heroError);
-    }
-  }, [heroError]);
-
   // Simplificado: não precisamos controlar estado de loading de imagens
 
   const [formData, setFormData] = useState<LeadFormData>({
@@ -696,134 +689,135 @@ export default function Index() {
       </style>
       <main className="bg-black pb-4">
         {/* Hero Full Screen Section */}
-        <section
-          className="h-screen relative flex flex-col justify-center items-center overflow-hidden"
-          style={{
-            backgroundColor: currentHero.background_color || '#000000',
-            color: currentHero.text_color || '#ffffff',
-          }}
-        >
-          {/* Background Layer - Sempre visível */}
-          <div className="absolute inset-0">
-            {/* Background color sempre presente */}
-            <div
-              className="w-full h-full"
-              style={{ backgroundColor: currentHero.background_color || '#000000' }}
-            />
-
-            {/* Background image */}
-            {currentHero.background_image && (
-              <img
-                src={currentHero.background_image}
-                alt="Background do Hero"
-                className="absolute inset-0 w-full h-full object-cover hero-image"
-                style={{ zIndex: 1 }}
-                loading="eager"
-                fetchpriority="high"
-              />
-            )}
-
-            {/* Overlays otimizados */}
-            <div className="absolute inset-0 z-10" style={{
-              background: 'linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.5), rgba(0,0,0,0.9))'
-            }}></div>
-            <div className="absolute inset-0 z-10" style={{
-              background: 'linear-gradient(to right, rgba(220,38,38,0.15), transparent, rgba(220,38,38,0.15))'
-            }}></div>
-          </div>
-
-          {/* Content - Sempre visível */}
-          <div className="relative z-20 text-center px-4 sm:px-6 max-w-4xl mx-auto hero-content">
-            {/* Logo - Renderização imediata */}
-            <div className="flex items-center justify-center pt-4 sm:pt-8 lg:pt-12 mb-8 sm:mb-10 lg:mb-12">
-              {currentHero.logo_url ? (
-                <img
-                  src={currentHero.logo_url}
-                  alt="Logo Ecko - Marca líder em streetwear brasileiro"
-                  className="w-40 h-16 sm:w-48 sm:h-20 lg:w-56 lg:h-24 xl:w-64 xl:h-28 object-contain hero-image"
-                  loading="eager"
-                  fetchpriority="high"
-                />
-              ) : (
-                <div className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-white text-center py-4">
-                  <span className="text-ecko-red">ECKO</span>
-                  <span className="text-white"> UNLTD</span>
-                </div>
-              )}
+        <section className="h-screen relative flex flex-col justify-center items-center overflow-hidden bg-black text-white">
+          {heroLoading ? (
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
+              <p>Carregando...</p>
             </div>
-
-            {/* Textos do Hero - Sempre visível com fallbacks */}
-            {/* Subtitle */}
-            <div
-              className="text-lg sm:text-xl lg:text-2xl mb-2 sm:mb-4 font-medium opacity-90 px-2"
-              style={{ color: currentHero.text_color || '#ffffff' }}
-            >
-              {currentHero.subtitle ? renderTextWithColorTokens(currentHero.subtitle) : 'O maior programa de parceria do streetwear'}
+          ) : heroError ? (
+            <div className="text-center">
+              <p className="text-red-500">Erro ao carregar</p>
             </div>
-
-            {/* Main Message */}
-            <div
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black mb-4 sm:mb-6 leading-tight px-2"
-              style={{ color: currentHero.text_color || '#ffffff' }}
-            >
-              {currentHero.title ? renderTextWithColorTokens(currentHero.title) : (
-                <>
-                  SEJA UM <span style={{ color: '#dc2626' }}>REVENDEDOR</span> OFICIAL
-                </>
-              )}
-            </div>
-
-            {/* Description */}
-            <div
-              className="text-lg sm:text-xl lg:text-2xl mb-8 sm:mb-10 lg:mb-12 font-medium max-w-2xl mx-auto px-2 opacity-90"
-              style={{ color: currentHero.text_color || '#ffffff' }}
-            >
-              {currentHero.description ? renderTextWithColorTokens(currentHero.description) :
-                'Transforme sua paixão por streetwear em um negócio lucrativo. Junte-se a milhares de revendedores que já fazem parte da família Ecko e descobra como vender produtos autênticos com margens exclusivas.'
-              }
-            </div>
-
-            {/* CTA Buttons - Sempre visível com fallback */}
-            <div className="flex flex-col items-center">
-              <div
-                className="hero-cta-button mb-6 sm:mb-8 group relative overflow-hidden bg-transparent border-2 font-bold px-8 sm:px-10 py-4 sm:py-5 h-auto text-base sm:text-lg uppercase tracking-wider rounded-lg cursor-pointer"
-                onClick={scrollToContent}
-                style={{
-                  borderColor: currentHero.cta_color || '#dc2626',
-                  color: currentHero.text_color || '#ffffff',
-                }}
-              >
-                <span
-                  className="absolute inset-0 transform scale-x-0 group-hover:scale-x-100 origin-left"
-                  style={{ backgroundColor: currentHero.cta_color || '#dc2626' }}
-                ></span>
-                <span
-                  className="hero-cta-text relative z-10 flex items-center"
-                  style={{ color: currentHero.text_color || '#ffffff' }}
-                >
-                  {currentHero.cta_secondary_text ? renderTextWithColorTokens(currentHero.cta_secondary_text) : 'DESCUBRA COMO'}
-                  <ChevronDown className="ml-2 w-6 h-6" />
-                </span>
-              </div>
-
-              {/* Scroll Indicator */}
-              <div
-                onClick={scrollToContent}
-                className="flex flex-col items-center cursor-pointer"
-              >
+          ) : currentHero ? (
+            <>
+              {/* Background Layer */}
+              <div className="absolute inset-0">
                 <div
-                  className="w-1 h-12 rounded-full mb-2"
-                  style={{
-                    background: `linear-gradient(to bottom, ${currentHero.cta_color || '#dc2626'}, transparent)`,
-                  }}
-                ></div>
-                <ChevronDown
-                  className="w-6 h-6"
-                  style={{ color: currentHero.cta_color || '#dc2626' }}
+                  className="w-full h-full"
+                  style={{ backgroundColor: currentHero.background_color }}
                 />
+
+                {currentHero.background_image && (
+                  <img
+                    src={currentHero.background_image}
+                    alt="Background do Hero"
+                    className="absolute inset-0 w-full h-full object-cover"
+                    style={{ zIndex: 1 }}
+                    loading="eager"
+                    fetchpriority="high"
+                  />
+                )}
+
+                {/* Overlays */}
+                <div className="absolute inset-0 z-10" style={{
+                  background: 'linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.5), rgba(0,0,0,0.9))'
+                }}></div>
+                <div className="absolute inset-0 z-10" style={{
+                  background: 'linear-gradient(to right, rgba(220,38,38,0.15), transparent, rgba(220,38,38,0.15))'
+                }}></div>
               </div>
-            </div>
-          </div>
+
+              {/* Content */}
+              <div className="relative z-20 text-center px-4 sm:px-6 max-w-4xl mx-auto">
+                {/* Logo */}
+                {currentHero.logo_url && (
+                  <div className="flex items-center justify-center pt-4 sm:pt-8 lg:pt-12 mb-8 sm:mb-10 lg:mb-12">
+                    <img
+                      src={currentHero.logo_url}
+                      alt="Logo"
+                      className="w-40 h-16 sm:w-48 sm:h-20 lg:w-56 lg:h-24 xl:w-64 xl:h-28 object-contain"
+                      loading="eager"
+                      fetchpriority="high"
+                    />
+                  </div>
+                )}
+
+                {/* Subtitle */}
+                {currentHero.subtitle && (
+                  <div
+                    className="text-lg sm:text-xl lg:text-2xl mb-2 sm:mb-4 font-medium opacity-90 px-2"
+                    style={{ color: currentHero.text_color }}
+                  >
+                    {renderTextWithColorTokens(currentHero.subtitle)}
+                  </div>
+                )}
+
+                {/* Title */}
+                {currentHero.title && (
+                  <div
+                    className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black mb-4 sm:mb-6 leading-tight px-2"
+                    style={{ color: currentHero.text_color }}
+                  >
+                    {renderTextWithColorTokens(currentHero.title)}
+                  </div>
+                )}
+
+                {/* Description */}
+                {currentHero.description && (
+                  <div
+                    className="text-lg sm:text-xl lg:text-2xl mb-8 sm:mb-10 lg:mb-12 font-medium max-w-2xl mx-auto px-2 opacity-90"
+                    style={{ color: currentHero.text_color }}
+                  >
+                    {renderTextWithColorTokens(currentHero.description)}
+                  </div>
+                )}
+
+                {/* CTA */}
+                {currentHero.cta_secondary_text && (
+                  <div className="flex flex-col items-center">
+                    <div
+                      className="hero-cta-button mb-6 sm:mb-8 group relative overflow-hidden bg-transparent border-2 font-bold px-8 sm:px-10 py-4 sm:py-5 h-auto text-base sm:text-lg uppercase tracking-wider rounded-lg cursor-pointer"
+                      onClick={scrollToContent}
+                      style={{
+                        borderColor: currentHero.cta_color,
+                        color: currentHero.text_color,
+                      }}
+                    >
+                      <span
+                        className="absolute inset-0 transform scale-x-0 group-hover:scale-x-100 origin-left"
+                        style={{ backgroundColor: currentHero.cta_color }}
+                      ></span>
+                      <span
+                        className="hero-cta-text relative z-10 flex items-center"
+                        style={{ color: currentHero.text_color }}
+                      >
+                        {renderTextWithColorTokens(currentHero.cta_secondary_text)}
+                        <ChevronDown className="ml-2 w-6 h-6" />
+                      </span>
+                    </div>
+
+                    {/* Scroll Indicator */}
+                    <div
+                      onClick={scrollToContent}
+                      className="flex flex-col items-center cursor-pointer"
+                    >
+                      <div
+                        className="w-1 h-12 rounded-full mb-2"
+                        style={{
+                          background: `linear-gradient(to bottom, ${currentHero.cta_color}, transparent)`,
+                        }}
+                      ></div>
+                      <ChevronDown
+                        className="w-6 h-6"
+                        style={{ color: currentHero.cta_color }}
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
+            </>
+          ) : null}
         </section>
 
         {/* Content Section */}
