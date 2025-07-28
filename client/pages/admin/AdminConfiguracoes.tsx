@@ -178,7 +178,7 @@ export default function AdminConfiguracoes() {
       
       if (success) {
         toast({
-          title: "✅ Configura��ões salvas!",
+          title: "✅ Configurações salvas!",
           description: "As configurações foram atualizadas com sucesso.",
         });
         setHasChanges(false);
