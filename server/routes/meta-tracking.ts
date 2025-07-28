@@ -34,10 +34,21 @@ interface MetaTrackingEvent {
 // Função para enviar evento individual para Meta Conversions API
 export async function sendMetaTrackingEvent(eventData: MetaTrackingEvent) {
   try {
-    const settings = await readSettingsFromFile();
-    const pixelId = settings.meta_pixel_id?.value;
-    const accessToken = settings.meta_access_token?.value;
-    const testCode = settings.meta_test_code?.value;
+    // Primeiro tenta ler do novo sistema de integrações
+    let pixelId, accessToken, testCode;
+    const integrationsSettings = readIntegrationsSettings();
+
+    if (integrationsSettings) {
+      pixelId = integrationsSettings.meta_pixel_id;
+      accessToken = integrationsSettings.meta_access_token;
+      testCode = integrationsSettings.meta_test_code;
+    } else {
+      // Fallback para o sistema antigo
+      const settings = await readSettingsFromFile();
+      pixelId = settings.meta_pixel_id?.value;
+      accessToken = settings.meta_access_token?.value;
+      testCode = settings.meta_test_code?.value;
+    }
 
     if (!pixelId || !accessToken) {
       console.log("Meta Pixel não configurado - pulando envio");
