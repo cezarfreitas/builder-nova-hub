@@ -126,28 +126,21 @@ export function useAnalytics(selectedPeriod: number = 30) {
 
         // Fetch location conversion (optional)
         try {
-          const locationController = new AbortController();
-          const locationTimeoutId = setTimeout(() => locationController.abort(), 8000);
+          console.log('🔄 [ANALYTICS] Buscando location conversion...');
 
-          const locationResponse = await fetch(
+          const locationResult = await robustFetchJson(
             `/api/analytics/conversion-by-location?days=${selectedPeriod}`,
             {
-              headers: { "Content-Type": "application/json" },
-              credentials: 'same-origin',
-              signal: locationController.signal,
-            },
+              timeout: 8000,
+            }
           );
 
-          clearTimeout(locationTimeoutId);
-          if (locationResponse.ok) {
-            const locationResult = await locationResponse.json();
-            if (locationResult.success) {
-              console.log("✅ Location conversion carregado");
-              setLocationConversion(locationResult.data);
-            }
+          if (locationResult.success) {
+            console.log("✅ [ANALYTICS] Location conversion carregado");
+            setLocationConversion(locationResult.data);
           }
         } catch (error) {
-          console.warn("⚠️ Location conversion não disponível:", error);
+          console.warn("⚠️ [ANALYTICS] Location conversion não disponível:", error);
         }
 
         // Fetch geography conversion (optional)
