@@ -337,8 +337,8 @@ export default function AdminConfiguracoes() {
           user_data: {
             client_ip_address: "test",
             client_user_agent: navigator.userAgent,
-            fbc: "test_fbc",
-            fbp: "test_fbp"
+            fbc: `fb.1.${Date.now()}.test_fbc_parameter`,
+            fbp: `fb.1.${Date.now()}.test_fbp_parameter`
           }
         }),
       });
