@@ -20,7 +20,6 @@ import {
   FileText,
   FormInput,
   History,
-  ArrowUpDown,
   Search,
   Webhook,
   Database,
