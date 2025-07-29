@@ -9,7 +9,7 @@ import {
 import { Badge } from "../../components/ui/badge";
 import { Input } from "../../components/ui/input";
 import { useToast } from "../../hooks/use-toast";
-import { useContent } from "../../hooks/useContent";
+import { useFooter } from "../../hooks/useFooter";
 import { TokenColorEditor } from "../../components/TokenColorEditor";
 import { renderTextWithColorTokens } from "../../utils/colorTokens";
 import {
@@ -33,8 +33,8 @@ interface FooterSettings {
 }
 
 export default function AdminFooter() {
-  const { content, loading: contentLoading, saveContent } = useContent();
-  const [settings, setSettings] = useState<FooterSettings>(content.footer);
+  const { footer, loading: footerLoading, saveFooter } = useFooter();
+  const [settings, setSettings] = useState<FooterSettings>(footer);
   const [saving, setSaving] = useState(false);
   const [activeTab, setActiveTab] = useState<"textos" | "social" | "preview">(
     "textos",
@@ -42,40 +42,35 @@ export default function AdminFooter() {
   const [hasChanges, setHasChanges] = useState(false);
   const { toast } = useToast();
 
-  // Sincronizar com o conteúdo JSON quando carregado
+  // Sincronizar com os dados do footer quando carregados
   useEffect(() => {
-    if (content.footer) {
-      setSettings(content.footer);
+    if (footer) {
+      setSettings(footer);
     }
-  }, [content.footer]);
+  }, [footer]);
 
   // Detectar mudanças
   useEffect(() => {
     const hasChanges =
-      JSON.stringify(settings) !== JSON.stringify(content.footer);
+      JSON.stringify(settings) !== JSON.stringify(footer);
     setHasChanges(hasChanges);
-  }, [settings, content.footer]);
+  }, [settings, footer]);
 
   // Salvar configurações
   const saveSettings = async () => {
     try {
       setSaving(true);
 
-      const updatedContent = {
-        ...content,
-        footer: settings,
-      };
-
-      const result = await saveContent(updatedContent);
+      const result = await saveFooter(settings);
 
       if (result.success) {
         toast({
           title: "Footer atualizado!",
-          description: "As configurações foram salvas com sucesso.",
+          description: "As configurações foram salvas com sucesso no banco de dados.",
         });
         setHasChanges(false);
       } else {
-        throw new Error("Falha ao salvar");
+        throw new Error(result.error || "Falha ao salvar");
       }
     } catch (error) {
       console.error("Erro ao salvar footer:", error);
@@ -108,7 +103,7 @@ export default function AdminFooter() {
     }));
   };
 
-  if (contentLoading) {
+  if (footerLoading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="text-center">
