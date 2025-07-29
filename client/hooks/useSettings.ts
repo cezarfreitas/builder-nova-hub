@@ -32,8 +32,15 @@ export function useSettings(): UseSettingsResult {
   const [settings, setSettings] = useState<SettingsData>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [lastFetch, setLastFetch] = useState<number>(0);
 
   const fetchSettings = useCallback(async () => {
+    // Cache por 5 minutos
+    const now = Date.now();
+    if (now - lastFetch < 300000 && Object.keys(settings).length > 0) {
+      return;
+    }
+
     try {
       setLoading(true);
       setError(null);
@@ -47,6 +54,7 @@ export function useSettings(): UseSettingsResult {
       if (result.success) {
         console.log("✅ [SETTINGS] Configurações carregadas com sucesso");
         setSettings(result.data || {});
+        setLastFetch(now);
       } else {
         throw new Error(result.message || "Erro ao carregar configurações");
       }
@@ -61,7 +69,7 @@ export function useSettings(): UseSettingsResult {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [lastFetch, settings]);
 
   const saveSetting = useCallback(
     async (
@@ -169,8 +177,10 @@ export function useSettings(): UseSettingsResult {
 
   // Buscar configurações na inicialização
   useEffect(() => {
-    fetchSettings();
-  }, [fetchSettings]);
+    if (Object.keys(settings).length === 0) {
+      fetchSettings();
+    }
+  }, []);
 
   return {
     settings,
