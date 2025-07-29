@@ -22,47 +22,22 @@ export default defineConfig(({ mode }) => ({
     chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
-        // Optimized manual chunks to reduce unused code and improve caching
-        manualChunks: (id) => {
-          // Vendor chunks
-          if (id.includes('node_modules')) {
-            // React ecosystem
-            if (id.includes('react') || id.includes('react-dom')) {
-              return 'react';
-            }
-            // Router
-            if (id.includes('react-router')) {
-              return 'router';
-            }
-            // UI components
-            if (id.includes('@radix-ui') || id.includes('lucide-react')) {
-              return 'ui';
-            }
-            // Charts (only for admin)
-            if (id.includes('chart') || id.includes('recharts')) {
-              return 'charts';
-            }
-            // Form handling
-            if (id.includes('react-hook-form') || id.includes('@hookform')) {
-              return 'forms';
-            }
-            // Utilities
-            if (id.includes('date-fns') || id.includes('clsx') || id.includes('tailwind-merge')) {
-              return 'utils';
-            }
-            // Other vendor libraries
-            return 'vendor';
-          }
-
-          // Admin chunks (lazy loaded)
-          if (id.includes('/pages/admin/')) {
-            return 'admin';
-          }
-
-          // Components chunks
-          if (id.includes('/components/')) {
-            return 'components';
-          }
+        // Simplified manual chunks to avoid dependency issues
+        manualChunks: {
+          // Keep React together to avoid createContext issues
+          'react-vendor': ['react', 'react-dom'],
+          // Router can be separate since it's loaded after React
+          'router': ['react-router-dom'],
+          // UI components that don't depend on contexts
+          'ui-components': [
+            'lucide-react',
+            '@radix-ui/react-slot',
+            '@radix-ui/react-separator'
+          ],
+          // Charts for admin only (lazy loaded)
+          'charts': ['chart.js', 'react-chartjs-2', 'recharts'],
+          // Utilities that don't use React
+          'utils': ['date-fns', 'clsx', 'tailwind-merge']
         },
         chunkFileNames: (chunkInfo) => {
           // Better chunk naming for caching
