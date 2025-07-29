@@ -877,6 +877,9 @@ export default function Index() {
                       className="w-40 h-16 sm:w-48 sm:h-20 lg:w-56 lg:h-24 xl:w-64 xl:h-28 object-contain"
                       loading="eager"
                       fetchpriority="high"
+                      width="256"
+                      height="112"
+                      decoding="async"
                     />
                   </div>
                 )}
