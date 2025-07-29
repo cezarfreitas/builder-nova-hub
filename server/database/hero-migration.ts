@@ -155,7 +155,7 @@ export async function getHeroFromDatabase() {
       return await getHeroFromDatabase();
     }
 
-    return results[0];
+    return (results as any)[0];
   } catch (error) {
     console.error("❌ Erro ao buscar hero do banco:", error);
     throw error;
