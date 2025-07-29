@@ -101,7 +101,7 @@ export default defineConfig(({ mode }) => ({
       "react-dom",
       "react/jsx-runtime",
       "react-router-dom",
-      "react-dom/client"
+      "react-dom/client",
     ],
     exclude: [], // Don't exclude anything that might cause issues
     force: true, // Force re-optimization to ensure React is properly bundled
