@@ -45,22 +45,11 @@ router.post("/", async (req, res) => {
     // Salvar no lp_settings
     await saveBenefitsToLpSettings(benefitsSettings);
 
-    // Também atualizar no content.json principal para compatibilidade
-    try {
-      await ensureDataDirectory();
-      const contentData = await fs.readFile(CONTENT_FILE_PATH, "utf-8");
-      const content = JSON.parse(contentData);
-      
-      content.benefits = benefitsSettings;
-      
-      await fs.writeFile(CONTENT_FILE_PATH, JSON.stringify(content, null, 2), "utf-8");
-    } catch (error) {
-      console.warn("Aviso: Não foi possível atualizar content.json:", error);
-    }
+    console.log("✅ Configurações Benefits salvas apenas no MySQL");
 
-    res.json({ 
-      success: true, 
-      message: "Configurações Benefits salvas com sucesso em lp_settings",
+    res.json({
+      success: true,
+      message: "Configurações Benefits salvas com sucesso no MySQL",
       data: benefitsSettings
     });
   } catch (error) {
