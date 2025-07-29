@@ -53,7 +53,7 @@ export const useScrollTracking = () => {
 
 // Hook para time tracking
 export const useTimeTracking = () => {
-  const { trackTimeOnPage } = useMetaTracking();
+  const { trackTimeOnPage } = useMetaTrackingContext();
 
   useEffect(() => {
     const startTime = Date.now();
