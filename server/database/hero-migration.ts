@@ -147,7 +147,7 @@ async function insertDefaultHeroData() {
 export async function getHeroFromDatabase() {
   try {
     const db = await initializeDatabase();
-    const results = await db.query("SELECT * FROM hero_settings WHERE is_active = true ORDER BY updated_at DESC LIMIT 1");
+    const [results] = await db.execute("SELECT * FROM hero_settings WHERE is_active = true ORDER BY updated_at DESC LIMIT 1");
     
     if (results.length === 0) {
       // Se não há dados, migrar do JSON ou inserir dados padrão
