@@ -170,7 +170,7 @@ export async function migrateHeroToLpSettings() {
 
     const heroCount = (verifyResults as any)[0].count;
     console.log(
-      `��� ${heroCount} configurações do hero encontradas em lp_settings`,
+      `✅ ${heroCount} configurações do hero encontradas em lp_settings`,
     );
 
     return { success: true, migratedCount: heroCount };
@@ -609,6 +609,158 @@ export async function saveAboutToLpSettings(aboutData: any) {
     return true;
   } catch (error) {
     console.error("❌ Erro ao salvar about em lp_settings:", error);
+    throw error;
+  }
+}
+
+// Função para migrar dados do footer para lp_settings
+export async function migrateFooterToLpSettings() {
+  try {
+    const db = await initializeDatabase();
+
+    console.log("🔄 Iniciando migração do footer para lp_settings...");
+
+    // 1. Tentar ler dados do arquivo content.json
+    let footerData: any = null;
+    try {
+      const jsonPath = path.join(process.cwd(), "client/data/content.json");
+      if (fs.existsSync(jsonPath)) {
+        const jsonContent = fs.readFileSync(jsonPath, "utf8");
+        const contentData = JSON.parse(jsonContent);
+        footerData = contentData.footer;
+        console.log("✅ Dados encontrados no arquivo content.json");
+      }
+    } catch (error) {
+      console.log("ℹ️ Arquivo content.json não encontrado ou inválido");
+    }
+
+    // 2. Se não tem dados, usar dados padrão
+    if (!footerData) {
+      footerData = {
+        copyright: "© 2024 Ecko. Todos os direitos reservados. Seja um revendedor oficial e transforme seu negócio.",
+        social_links: {
+          facebook: "https://facebook.com/ecko",
+          instagram: "https://instagram.com/ecko"
+        }
+      };
+      console.log("ℹ️ Usando dados padrão do footer");
+    }
+
+    // 3. Converter dados do footer para formato de lp_settings
+    const footerSettings = [
+      { key: "footer_copyright", value: footerData.copyright || "", type: "text" },
+      { key: "footer_social_links", value: JSON.stringify(footerData.social_links || {}), type: "json" }
+    ];
+
+    // 4. Inserir/atualizar dados na tabela lp_settings
+    for (const setting of footerSettings) {
+      await db.execute(
+        `
+        INSERT INTO lp_settings (setting_key, setting_value, setting_type)
+        VALUES (?, ?, ?)
+        ON DUPLICATE KEY UPDATE
+        setting_value = VALUES(setting_value),
+        setting_type = VALUES(setting_type),
+        updated_at = CURRENT_TIMESTAMP
+      `,
+        [setting.key, setting.value, setting.type],
+      );
+    }
+
+    console.log("✅ Dados do footer migrados para lp_settings com sucesso!");
+
+    // 5. Verificar se a migração foi bem-sucedida
+    const [verifyResults] = await db.execute(
+      "SELECT COUNT(*) as count FROM lp_settings WHERE setting_key LIKE 'footer_%'",
+    );
+
+    const footerCount = (verifyResults as any)[0].count;
+    console.log(
+      `✅ ${footerCount} configurações do footer encontradas em lp_settings`,
+    );
+
+    return { success: true, migratedCount: footerCount };
+  } catch (error) {
+    console.error("❌ Erro na migração do footer para lp_settings:", error);
+    throw error;
+  }
+}
+
+// Funções para operações CRUD do footer usando lp_settings
+export async function getFooterFromLpSettings() {
+  try {
+    const db = await initializeDatabase();
+
+    const [results] = await db.execute(`
+      SELECT setting_key, setting_value, setting_type
+      FROM lp_settings
+      WHERE setting_key LIKE 'footer_%'
+    `);
+
+    const footerData: any = {};
+
+    // Converter resultados para formato objeto
+    (results as any).forEach((row: any) => {
+      const key = row.setting_key.replace("footer_", "");
+      let value = row.setting_value;
+
+      // Converter tipos conforme necessário
+      if (row.setting_type === "json") {
+        try {
+          value = JSON.parse(value);
+        } catch {
+          value = {};
+        }
+      }
+
+      footerData[key] = value;
+    });
+
+    // Se não há dados, inserir dados padrão
+    if (Object.keys(footerData).length === 0) {
+      console.log(
+        "ℹ️ Nenhum dado do footer encontrado, inserindo dados padrão...",
+      );
+      await migrateFooterToLpSettings();
+      return await getFooterFromLpSettings();
+    }
+
+    return footerData;
+  } catch (error) {
+    console.error("❌ Erro ao buscar footer do lp_settings:", error);
+    throw error;
+  }
+}
+
+export async function saveFooterToLpSettings(footerData: any) {
+  try {
+    const db = await initializeDatabase();
+
+    // Converter dados do footer para formato de lp_settings
+    const footerSettings = [
+      { key: "footer_copyright", value: footerData.copyright || "", type: "text" },
+      { key: "footer_social_links", value: JSON.stringify(footerData.social_links || {}), type: "json" }
+    ];
+
+    // Atualizar/inserir cada configuração
+    for (const setting of footerSettings) {
+      await db.execute(
+        `
+        INSERT INTO lp_settings (setting_key, setting_value, setting_type)
+        VALUES (?, ?, ?)
+        ON DUPLICATE KEY UPDATE
+        setting_value = VALUES(setting_value),
+        setting_type = VALUES(setting_type),
+        updated_at = CURRENT_TIMESTAMP
+      `,
+        [setting.key, setting.value, setting.type],
+      );
+    }
+
+    console.log("✅ Footer salvo em lp_settings com sucesso!");
+    return true;
+  } catch (error) {
+    console.error("❌ Erro ao salvar footer em lp_settings:", error);
     throw error;
   }
 }
