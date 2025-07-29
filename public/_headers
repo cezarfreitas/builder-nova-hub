@@ -1,0 +1,56 @@
+# JavaScript files
+/assets/*.js
+  Content-Type: application/javascript; charset=utf-8
+  Cache-Control: public, max-age=31536000, immutable
+
+# Module JavaScript files  
+/assets/*.mjs
+  Content-Type: application/javascript; charset=utf-8
+  Cache-Control: public, max-age=31536000, immutable
+
+# TypeScript compiled files
+/assets/*.tsx
+  Content-Type: application/javascript; charset=utf-8
+  Cache-Control: public, max-age=31536000, immutable
+
+# CSS files
+/assets/*.css
+  Content-Type: text/css; charset=utf-8
+  Cache-Control: public, max-age=31536000, immutable
+
+# Images
+/assets/*.png
+  Content-Type: image/png
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/*.jpg
+  Content-Type: image/jpeg
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/*.jpeg
+  Content-Type: image/jpeg
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/*.gif
+  Content-Type: image/gif
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/*.svg
+  Content-Type: image/svg+xml; charset=utf-8
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/*.webp
+  Content-Type: image/webp
+  Cache-Control: public, max-age=31536000, immutable
+
+# Main HTML page - no cache
+/
+  Cache-Control: no-cache, no-store, must-revalidate
+  Pragma: no-cache
+  Expires: 0
+
+# Index.html - no cache
+/index.html
+  Cache-Control: no-cache, no-store, must-revalidate
+  Pragma: no-cache
+  Expires: 0
