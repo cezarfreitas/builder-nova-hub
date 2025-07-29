@@ -240,9 +240,7 @@ export function DynamicHead() {
       link.rel = 'preload';
       link.href = href;
       link.as = as;
-      if (as === 'image') {
-        link.type = 'image/*';
-      }
+      // Don't set type for images to avoid MIME type issues
       document.head.appendChild(link);
     };
 
