@@ -19,28 +19,56 @@ export default defineConfig(({ mode }) => ({
   build: {
     outDir: "dist/spa",
     cssCodeSplit: true,
+    chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
-        // Optimized manual chunks to reduce unused code
-        manualChunks: {
-          // Core React
-          react: ["react", "react-dom"],
-          // Router (só carrega quando necessário)
-          router: ["react-router-dom"],
-          // UI components (lazy load)
-          ui: [
-            "lucide-react",
-            "@radix-ui/react-dialog",
-            "@radix-ui/react-toast",
-            "@radix-ui/react-accordion",
-            "@radix-ui/react-alert-dialog",
-          ],
-          // Charts (só para admin)
-          charts: ["chart.js", "react-chartjs-2"],
-          // Utilities
-          utils: ["date-fns", "clsx", "tailwind-merge"],
+        // Optimized manual chunks to reduce unused code and improve caching
+        manualChunks: (id) => {
+          // Vendor chunks
+          if (id.includes('node_modules')) {
+            // React ecosystem
+            if (id.includes('react') || id.includes('react-dom')) {
+              return 'react';
+            }
+            // Router
+            if (id.includes('react-router')) {
+              return 'router';
+            }
+            // UI components
+            if (id.includes('@radix-ui') || id.includes('lucide-react')) {
+              return 'ui';
+            }
+            // Charts (only for admin)
+            if (id.includes('chart') || id.includes('recharts')) {
+              return 'charts';
+            }
+            // Form handling
+            if (id.includes('react-hook-form') || id.includes('@hookform')) {
+              return 'forms';
+            }
+            // Utilities
+            if (id.includes('date-fns') || id.includes('clsx') || id.includes('tailwind-merge')) {
+              return 'utils';
+            }
+            // Other vendor libraries
+            return 'vendor';
+          }
+
+          // Admin chunks (lazy loaded)
+          if (id.includes('/pages/admin/')) {
+            return 'admin';
+          }
+
+          // Components chunks
+          if (id.includes('/components/')) {
+            return 'components';
+          }
         },
-        chunkFileNames: "assets/[name]-[hash].js",
+        chunkFileNames: (chunkInfo) => {
+          // Better chunk naming for caching
+          const facadeModuleId = chunkInfo.facadeModuleId ? chunkInfo.facadeModuleId.split('/').pop() : 'chunk';
+          return `assets/${chunkInfo.name}-[hash].js`;
+        },
         entryFileNames: "assets/[name]-[hash].js",
         assetFileNames: "assets/[name]-[hash].[ext]",
       },
@@ -48,12 +76,32 @@ export default defineConfig(({ mode }) => ({
         moduleSideEffects: false,
         propertyReadSideEffects: false,
         unknownGlobalSideEffects: false,
+        preset: 'recommended'
       },
+      external: (id) => {
+        // Don't bundle these - load from CDN for better caching
+        return false; // Keep everything bundled for now
+      }
     },
-    minify: true,
-    target: "es2020",
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
+        pure_funcs: ['console.log', 'console.info', 'console.debug', 'console.trace'],
+        passes: 2
+      },
+      mangle: {
+        safari10: true
+      },
+      format: {
+        comments: false
+      }
+    },
+    target: ["es2020", "chrome80", "firefox78", "safari14"],
     sourcemap: false,
     reportCompressedSize: false,
+    assetsInlineLimit: 4096, // Inline smaller assets
   },
   plugins: [react(), expressPlugin()],
   resolve: {
