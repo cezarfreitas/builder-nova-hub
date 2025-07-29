@@ -1,5 +1,6 @@
 import { lazy, Suspense } from "react";
 import { CriticalCSS } from "./components/CriticalCSS";
+import { CSSOptimizer } from "./components/CSSOptimizer";
 import "./global.css";
 
 import { Toaster } from "@/components/ui/toaster";
