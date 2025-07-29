@@ -74,13 +74,7 @@ async function saveHeroSettings(settings: any) {
 
     await saveHeroToLpSettings(validSettings);
 
-    // Também salvar no JSON para backup (opcional)
-    try {
-      ensureDataDirectory();
-      fs.writeFileSync(HERO_DATA_PATH, JSON.stringify(validSettings, null, 2));
-    } catch (jsonError) {
-      console.warn("Aviso: Não foi possível salvar backup em JSON:", jsonError);
-    }
+    console.log("✅ Configurações do hero salvas apenas no MySQL");
 
     return { success: true };
   } catch (error) {
