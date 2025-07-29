@@ -128,6 +128,26 @@ export function createServer() {
     express.static(path.join(process.cwd(), "public", "uploads")),
   );
 
+  // Servir arquivos estáticos do build (SPA) com MIME types corretos
+  app.use(express.static(path.join(process.cwd(), "dist", "spa"), {
+    setHeaders: (res, filePath) => {
+      if (filePath.endsWith('.js')) {
+        res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+      } else if (filePath.endsWith('.css')) {
+        res.setHeader('Content-Type', 'text/css; charset=utf-8');
+      } else if (filePath.endsWith('.html')) {
+        res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+      } else if (filePath.endsWith('.png')) {
+        res.setHeader('Content-Type', 'image/png');
+      } else if (filePath.endsWith('.jpg') || filePath.endsWith('.jpeg')) {
+        res.setHeader('Content-Type', 'image/jpeg');
+      } else if (filePath.endsWith('.svg')) {
+        res.setHeader('Content-Type', 'image/svg+xml; charset=utf-8');
+      }
+    }
+  }));
+
   // Health check
   app.get("/api/ping", (_req, res) => {
     res.json({ message: "Ecko LP Server Running!" });
