@@ -16,11 +16,13 @@ interface PageViewData {
 }
 
 export const useMetaTracking = () => {
-  const { getSetting } = useSettings();
   const [conversionName, setConversionName] = useState("Lead");
+  const [isLoaded, setIsLoaded] = useState(false);
 
   // Buscar nome da conversão das configurações de integração
   useEffect(() => {
+    if (isLoaded) return;
+
     const loadConversionName = async () => {
       try {
         console.log("🔄 [META] Carregando nome da conversão...");
@@ -38,14 +40,13 @@ export const useMetaTracking = () => {
         }
       } catch (error) {
         console.error("⚠️ [META] Erro ao carregar nome da conversão:", error);
-        // Fallback para o sistema antigo
-        const name = getSetting("meta_conversion_name");
-        if (name) setConversionName(name);
+      } finally {
+        setIsLoaded(true);
       }
     };
 
     loadConversionName();
-  }, [getSetting]);
+  }, [isLoaded]);
 
   // Função para enviar eventos para o backend
   const sendEvent = useCallback(async (eventData: TrackingEvent) => {
