@@ -235,9 +235,9 @@ router.delete("/", async (req, res) => {
 });
 
 // GET /api/hero/verify - Verificar integridade completa do hero
-router.get("/verify", (req, res) => {
+router.get("/verify", async (req, res) => {
   try {
-    const settings = loadHeroSettings();
+    const settings = await loadHeroSettings();
     const verification = {
       configExists: true,
       backgroundImage: {
