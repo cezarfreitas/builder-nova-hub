@@ -74,12 +74,14 @@ import {
 import contentRouter from "./routes/content";
 import aboutRouter from "./routes/about";
 import heroRouter from "./routes/hero";
+import footerRouter from "./routes/footer";
 import { initializeDatabase, testConnection } from "./config/database";
 import { testJsonSystem } from "./routes/test-json";
 import {
   migrateHeroToLpSettings,
   dropHeroTable,
   migrateAboutToLpSettings,
+  migrateFooterToLpSettings,
 } from "./database/lp-settings-migration";
 import {
   processLeadIntegrations,
@@ -287,6 +289,9 @@ export function createServer() {
   // Hero section routes
   app.use("/api/hero", heroRouter);
 
+  // Footer section routes
+  app.use("/api/footer", footerRouter);
+
   // Database test routes
   app.get("/api/test-db", testDatabaseConnection);
   app.get("/api/database-info", getDatabaseInfo);
@@ -410,6 +415,17 @@ export function createServer() {
         );
       } catch (aboutMigrationError) {
         console.warn("⚠️ Aviso na migração do about:", aboutMigrationError);
+      }
+
+      // Verificar se precisa migrar footer para lp_settings
+      console.log("🔄 Verificando necessidade de migração do footer...");
+      try {
+        const footerMigrationResult = await migrateFooterToLpSettings();
+        console.log(
+          `✅ Migração do footer concluída: ${footerMigrationResult.migratedCount} configurações`,
+        );
+      } catch (footerMigrationError) {
+        console.warn("⚠️ Aviso na migração do footer:", footerMigrationError);
       }
 
       console.log("✅ Banco de dados inicializado com sucesso!");
