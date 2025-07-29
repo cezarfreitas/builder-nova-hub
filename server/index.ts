@@ -308,6 +308,9 @@ export function createServer() {
   // Gallery settings routes
   app.use("/api/gallery-settings", gallerySettingsRouter);
 
+  // Testimonials settings routes
+  app.use("/api/testimonials-settings", testimonialsSettingsRouter);
+
   // Database test routes
   app.get("/api/test-db", testDatabaseConnection);
   app.get("/api/database-info", getDatabaseInfo);
