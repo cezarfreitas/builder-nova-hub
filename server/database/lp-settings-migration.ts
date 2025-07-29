@@ -953,3 +953,196 @@ export async function saveBenefitsToLpSettings(benefitsData: any) {
     throw error;
   }
 }
+
+// Função para migrar dados do form para lp_settings
+export async function migrateFormToLpSettings() {
+  try {
+    const db = await initializeDatabase();
+
+    console.log("🔄 Iniciando migração do form para lp_settings...");
+
+    // 1. Tentar ler dados do arquivo content.json
+    let formData: any = null;
+    try {
+      const jsonPath = path.join(process.cwd(), "client/data/content.json");
+      if (fs.existsSync(jsonPath)) {
+        const jsonContent = fs.readFileSync(jsonPath, "utf8");
+        const contentData = JSON.parse(jsonContent);
+        formData = contentData.form;
+        console.log("✅ Dados encontrados no arquivo content.json");
+      }
+    } catch (error) {
+      console.log("ℹ️ Arquivo content.json não encontrado ou inválido");
+    }
+
+    // 2. Se não tem dados, usar dados padrão
+    if (!formData) {
+      formData = {
+        main_title: "SEJA PARCEIRO OFICIAL ECKO E TENHA SUCESSO",
+        main_description: "Transforme sua paixão pelo streetwear em um negócio lucrativo",
+        title: "Cadastro de Revendedor",
+        subtitle: "Preencha os dados para receber nossa proposta",
+        fields: {
+          name_label: "Nome Completo",
+          name_placeholder: "Digite seu nome completo",
+          whatsapp_label: "WhatsApp",
+          whatsapp_placeholder: "(11) 99999-9999",
+          whatsapp_error: "Digite um número de WhatsApp válido. Ex: (11) 99999-9999",
+          whatsapp_success: "✅ WhatsApp válido",
+          cep_label: "CEP",
+          cep_placeholder: "Digite seu CEP",
+          endereco_label: "Endereço",
+          endereco_placeholder: "Rua, número",
+          complemento_label: "Complemento",
+          complemento_placeholder: "Apto, bloco, casa...",
+          bairro_label: "Bairro",
+          cidade_label: "Cidade",
+          estado_label: "Estado",
+          cnpj_label: "Tem CNPJ?",
+          cnpj_yes: "Sim",
+          cnpj_no: "Não",
+          cnpj_error: "Para ser um revendedor oficial da Ecko é necessário ter CNPJ.",
+          store_type_label: "Tipo de Loja",
+          store_type_placeholder: "Ex: Loja física, Online, Ambos..."
+        },
+        submit_button: "QUERO SER REVENDEDOR OFICIAL",
+        submit_button_loading: "Enviando...",
+        validation_messages: {
+          whatsapp_invalid: "Digite um número de WhatsApp válido para contato.",
+          address_incomplete: "Aguarde o carregamento do endereço ou verifique o CEP.",
+          cnpj_required: "É necessário ter CNPJ para se tornar um revendedor autorizado."
+        }
+      };
+      console.log("ℹ️ Usando dados padrão do form");
+    }
+
+    // 3. Converter dados do form para formato de lp_settings
+    const formSettings = [
+      { key: "form_main_title", value: formData.main_title || "", type: "text" },
+      { key: "form_main_description", value: formData.main_description || "", type: "text" },
+      { key: "form_title", value: formData.title || "", type: "text" },
+      { key: "form_subtitle", value: formData.subtitle || "", type: "text" },
+      { key: "form_fields", value: JSON.stringify(formData.fields || {}), type: "json" },
+      { key: "form_submit_button", value: formData.submit_button || "", type: "text" },
+      { key: "form_submit_button_loading", value: formData.submit_button_loading || "", type: "text" },
+      { key: "form_validation_messages", value: JSON.stringify(formData.validation_messages || {}), type: "json" }
+    ];
+
+    // 4. Inserir/atualizar dados na tabela lp_settings
+    for (const setting of formSettings) {
+      await db.execute(
+        `
+        INSERT INTO lp_settings (setting_key, setting_value, setting_type)
+        VALUES (?, ?, ?)
+        ON DUPLICATE KEY UPDATE
+        setting_value = VALUES(setting_value),
+        setting_type = VALUES(setting_type),
+        updated_at = CURRENT_TIMESTAMP
+      `,
+        [setting.key, setting.value, setting.type],
+      );
+    }
+
+    console.log("✅ Dados do form migrados para lp_settings com sucesso!");
+
+    // 5. Verificar se a migração foi bem-sucedida
+    const [verifyResults] = await db.execute(
+      "SELECT COUNT(*) as count FROM lp_settings WHERE setting_key LIKE 'form_%'",
+    );
+
+    const formCount = (verifyResults as any)[0].count;
+    console.log(
+      `✅ ${formCount} configurações do form encontradas em lp_settings`,
+    );
+
+    return { success: true, migratedCount: formCount };
+  } catch (error) {
+    console.error("❌ Erro na migração do form para lp_settings:", error);
+    throw error;
+  }
+}
+
+// Funções para operações CRUD do form usando lp_settings
+export async function getFormFromLpSettings() {
+  try {
+    const db = await initializeDatabase();
+
+    const [results] = await db.execute(`
+      SELECT setting_key, setting_value, setting_type
+      FROM lp_settings
+      WHERE setting_key LIKE 'form_%'
+    `);
+
+    const formData: any = {};
+
+    // Converter resultados para formato objeto
+    (results as any).forEach((row: any) => {
+      const key = row.setting_key.replace("form_", "");
+      let value = row.setting_value;
+
+      // Converter tipos conforme necessário
+      if (row.setting_type === "json") {
+        try {
+          value = JSON.parse(value);
+        } catch {
+          value = {};
+        }
+      }
+
+      formData[key] = value;
+    });
+
+    // Se não há dados, inserir dados padrão
+    if (Object.keys(formData).length === 0) {
+      console.log(
+        "ℹ️ Nenhum dado do form encontrado, inserindo dados padrão...",
+      );
+      await migrateFormToLpSettings();
+      return await getFormFromLpSettings();
+    }
+
+    return formData;
+  } catch (error) {
+    console.error("❌ Erro ao buscar form do lp_settings:", error);
+    throw error;
+  }
+}
+
+export async function saveFormToLpSettings(formData: any) {
+  try {
+    const db = await initializeDatabase();
+
+    // Converter dados do form para formato de lp_settings
+    const formSettings = [
+      { key: "form_main_title", value: formData.main_title || "", type: "text" },
+      { key: "form_main_description", value: formData.main_description || "", type: "text" },
+      { key: "form_title", value: formData.title || "", type: "text" },
+      { key: "form_subtitle", value: formData.subtitle || "", type: "text" },
+      { key: "form_fields", value: JSON.stringify(formData.fields || {}), type: "json" },
+      { key: "form_submit_button", value: formData.submit_button || "", type: "text" },
+      { key: "form_submit_button_loading", value: formData.submit_button_loading || "", type: "text" },
+      { key: "form_validation_messages", value: JSON.stringify(formData.validation_messages || {}), type: "json" }
+    ];
+
+    // Atualizar/inserir cada configuração
+    for (const setting of formSettings) {
+      await db.execute(
+        `
+        INSERT INTO lp_settings (setting_key, setting_value, setting_type)
+        VALUES (?, ?, ?)
+        ON DUPLICATE KEY UPDATE
+        setting_value = VALUES(setting_value),
+        setting_type = VALUES(setting_type),
+        updated_at = CURRENT_TIMESTAMP
+      `,
+        [setting.key, setting.value, setting.type],
+      );
+    }
+
+    console.log("✅ Form salvo em lp_settings com sucesso!");
+    return true;
+  } catch (error) {
+    console.error("❌ Erro ao salvar form em lp_settings:", error);
+    throw error;
+  }
+}
