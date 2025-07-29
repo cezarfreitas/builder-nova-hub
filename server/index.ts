@@ -378,6 +378,12 @@ export function createServer() {
     try {
       console.log("🔄 Tentando conectar ao MySQL...");
       await initializeDatabase();
+
+      // Inicializar tabela hero
+      console.log("🔄 Inicializando tabela hero_settings...");
+      await createHeroTable();
+      await migrateHeroDataFromJson();
+
       console.log("✅ Banco de dados inicializado com sucesso!");
     } catch (error) {
       console.error("❌ Falha na inicialização do banco:", error);
