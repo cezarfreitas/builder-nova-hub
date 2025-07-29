@@ -78,6 +78,7 @@ import footerRouter from "./routes/footer";
 import benefitsRouter from "./routes/benefits";
 import formRouter from "./routes/form";
 import gallerySettingsRouter from "./routes/gallery-settings";
+import testimonialsSettingsRouter from "./routes/testimonials-settings";
 import { initializeDatabase, testConnection } from "./config/database";
 import { testJsonSystem } from "./routes/test-json";
 import {
