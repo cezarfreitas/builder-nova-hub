@@ -45,7 +45,7 @@ export async function migrateHeroDataFromJson() {
     const db = await initializeDatabase();
     
     // Verificar se já existe dados na tabela
-    const existingData = await db.query("SELECT COUNT(*) as count FROM hero_settings WHERE is_active = true");
+    const [existingData] = await db.execute("SELECT COUNT(*) as count FROM hero_settings WHERE is_active = true");
     
     if (existingData[0].count > 0) {
       console.log("ℹ️ Dados do hero já existem no banco de dados");
