@@ -49,30 +49,36 @@ function ensureDataDirectory() {
   }
 }
 
-// Função para carregar configurações do hero
-function loadHeroSettings() {
+// Função para carregar configurações do hero do banco de dados
+async function loadHeroSettings() {
   try {
-    ensureDataDirectory();
+    const heroData = await getHeroFromDatabase();
 
-    if (!fs.existsSync(HERO_DATA_PATH)) {
-      // Se o arquivo não existe, criar com configurações padrão
-      fs.writeFileSync(
-        HERO_DATA_PATH,
-        JSON.stringify(defaultHeroSettings, null, 2),
-      );
-      return defaultHeroSettings;
-    }
-
-    const data = fs.readFileSync(HERO_DATA_PATH, "utf8");
-    const settings = JSON.parse(data);
-
-    // Garantir que todas as propriedades necessárias existam
+    // Converter dados do banco para o formato esperado
     return {
-      ...defaultHeroSettings,
-      ...settings,
+      title: heroData.title,
+      subtitle: heroData.subtitle,
+      description: heroData.description,
+      background_image: heroData.background_image,
+      background_color: heroData.background_color,
+      text_color: heroData.text_color,
+      cta_primary_text: heroData.cta_primary_text,
+      cta_secondary_text: heroData.cta_secondary_text,
+      cta_color: heroData.cta_color,
+      cta_text_color: heroData.cta_text_color,
+      overlay_color: heroData.overlay_color,
+      overlay_opacity: heroData.overlay_opacity,
+      overlay_blend_mode: heroData.overlay_blend_mode,
+      overlay_gradient_enabled: heroData.overlay_gradient_enabled,
+      overlay_gradient_start: heroData.overlay_gradient_start,
+      overlay_gradient_end: heroData.overlay_gradient_end,
+      overlay_gradient_direction: heroData.overlay_gradient_direction,
+      logo_url: heroData.logo_url,
     };
   } catch (error) {
-    console.error("Erro ao carregar configurações do hero:", error);
+    console.error("Erro ao carregar configurações do hero do banco:", error);
+
+    // Fallback para configurações padrão
     return defaultHeroSettings;
   }
 }
