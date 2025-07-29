@@ -153,30 +153,32 @@ export function createServer() {
     express.static(path.join(process.cwd(), "public", "uploads")),
   );
 
-  // Servir arquivos estáticos do build (SPA) com MIME types corretos
-  app.use(
-    express.static(path.join(process.cwd(), "dist", "spa"), {
-      setHeaders: (res, filePath) => {
-        if (filePath.endsWith(".js")) {
-          res.setHeader(
-            "Content-Type",
-            "application/javascript; charset=utf-8",
-          );
-        } else if (filePath.endsWith(".css")) {
-          res.setHeader("Content-Type", "text/css; charset=utf-8");
-        } else if (filePath.endsWith(".html")) {
-          res.setHeader("Content-Type", "text/html; charset=utf-8");
-          res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-        } else if (filePath.endsWith(".png")) {
-          res.setHeader("Content-Type", "image/png");
-        } else if (filePath.endsWith(".jpg") || filePath.endsWith(".jpeg")) {
-          res.setHeader("Content-Type", "image/jpeg");
-        } else if (filePath.endsWith(".svg")) {
-          res.setHeader("Content-Type", "image/svg+xml; charset=utf-8");
-        }
-      },
-    }),
-  );
+  // Servir arquivos estáticos do build (SPA) apenas em produção
+  if (process.env.NODE_ENV === 'production') {
+    app.use(
+      express.static(path.join(process.cwd(), "dist", "spa"), {
+        setHeaders: (res, filePath) => {
+          if (filePath.endsWith(".js")) {
+            res.setHeader(
+              "Content-Type",
+              "application/javascript; charset=utf-8",
+            );
+          } else if (filePath.endsWith(".css")) {
+            res.setHeader("Content-Type", "text/css; charset=utf-8");
+          } else if (filePath.endsWith(".html")) {
+            res.setHeader("Content-Type", "text/html; charset=utf-8");
+            res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+          } else if (filePath.endsWith(".png")) {
+            res.setHeader("Content-Type", "image/png");
+          } else if (filePath.endsWith(".jpg") || filePath.endsWith(".jpeg")) {
+            res.setHeader("Content-Type", "image/jpeg");
+          } else if (filePath.endsWith(".svg")) {
+            res.setHeader("Content-Type", "image/svg+xml; charset=utf-8");
+          }
+        },
+      }),
+    );
+  }
 
   // Health check
   app.get("/api/ping", (_req, res) => {
@@ -197,7 +199,7 @@ export function createServer() {
 
       res.json({
         success: true,
-        message: "Sistema de configurações funcionando",
+        message: "Sistema de configuraç��es funcionando",
         file_exists: true,
         file_size: stats.size,
         last_modified: stats.mtime,
