@@ -97,7 +97,6 @@ import {
 import seoSettingsRouter from "./routes/seo-settings";
 import integrationsSettingsRouter from "./routes/integrations-settings";
 import trackingStatusRouter from "./routes/tracking-status";
-import testMigrationRouter from "./routes/test-migration";
 import {
   verifyDataIntegrity,
   generateDataStatusReport,
@@ -317,9 +316,6 @@ export function createServer() {
   // Tracking Status routes
   app.use("/api/tracking-status", trackingStatusRouter);
 
-  // Test Migration routes
-  app.use("/api/test-migration", testMigrationRouter);
-
   // Data status endpoint
   app.get("/api/data-status", (req, res) => {
     try {
@@ -357,7 +353,7 @@ export function createServer() {
       // Limpar referências de imagens quebradas
       cleanBrokenImageReferences();
 
-      // Gerar relat��rio de status
+      // Gerar relatório de status
       const statusReport = generateDataStatusReport();
       console.log("📊 Status dos dados:");
       console.log(
