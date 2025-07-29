@@ -8,7 +8,7 @@ async function getSettingValue(key: string): Promise<string | null> {
     const db = getDatabase();
     const [rows] = await db.execute(
       `SELECT setting_value FROM lp_settings WHERE setting_key = ?`,
-      [key]
+      [key],
     );
     const results = rows as any[];
     return results.length > 0 ? results[0].setting_value : null;
@@ -23,7 +23,8 @@ export async function sendGA4Event(leadData: any) {
   try {
     const measurementId = await getSettingValue("ga4_measurement_id");
     const apiSecret = await getSettingValue("ga4_api_secret");
-    const eventName = await getSettingValue("ga4_conversion_name") || "form_submit";
+    const eventName =
+      (await getSettingValue("ga4_conversion_name")) || "form_submit";
 
     if (!measurementId || !apiSecret) {
       console.log("GA4 não configurado - pulando envio");
@@ -85,7 +86,7 @@ export async function sendMetaPixelEvent(leadData: any) {
   try {
     const pixelId = await getSettingValue("meta_pixel_id");
     const accessToken = await getSettingValue("meta_access_token");
-    const eventName = await getSettingValue("meta_conversion_name") || "Lead";
+    const eventName = (await getSettingValue("meta_conversion_name")) || "Lead";
 
     if (!pixelId || !accessToken) {
       console.log("Meta Pixel não configurado - pulando envio");
@@ -207,7 +208,8 @@ export async function processLeadIntegrations(req: Request, res: Response) {
     results.metaPixel = metaResult;
 
     // Verificar se evento personalizado está ativado
-    const customEnabled = await getSettingValue("custom_conversion_enabled") === "true";
+    const customEnabled =
+      (await getSettingValue("custom_conversion_enabled")) === "true";
 
     if (customEnabled) {
       results.customEvent = { success: true, skipped: false };
@@ -279,8 +281,10 @@ export async function testIntegrations(req: Request, res: Response) {
       metaPixel: await sendMetaPixelEvent(testLeadData),
     };
 
-    const customEnabled = await getSettingValue("custom_conversion_enabled") === "true";
-    const customEventName = await getSettingValue("custom_conversion_event") || "lead_captured";
+    const customEnabled =
+      (await getSettingValue("custom_conversion_enabled")) === "true";
+    const customEventName =
+      (await getSettingValue("custom_conversion_event")) || "lead_captured";
 
     res.json({
       success: true,
