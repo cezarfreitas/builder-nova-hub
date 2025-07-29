@@ -59,14 +59,15 @@ const PageLoading = () => (
 );
 
 const App = () => (
-  <BrowserRouter>
-    <CriticalCSS />
-    <CSSOptimizer />
-    <MetaTrackingProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <Routes>
+  <PerformanceOptimizer>
+    <BrowserRouter>
+      <CriticalCSS />
+      <CSSOptimizer />
+      <MetaTrackingProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <Routes>
           <Route path="/" element={<Index />} />
           <Route
             path="/admin/login"
@@ -314,10 +315,11 @@ const App = () => (
               </Suspense>
             }
           />
-        </Routes>
-      </TooltipProvider>
-    </MetaTrackingProvider>
-  </BrowserRouter>
+          </Routes>
+        </TooltipProvider>
+      </MetaTrackingProvider>
+    </BrowserRouter>
+  </PerformanceOptimizer>
 );
 
 export default App;
