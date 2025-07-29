@@ -113,9 +113,9 @@ async function saveHeroSettings(settings: any) {
 }
 
 // GET /api/hero - Buscar configurações do hero
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
   try {
-    const settings = loadHeroSettings();
+    const settings = await loadHeroSettings();
     res.json(settings);
   } catch (error) {
     console.error("Erro ao buscar configurações do hero:", error);
