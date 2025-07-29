@@ -59,17 +59,15 @@ const PageLoading = () => (
 );
 
 const App = () => (
-  <ReactContextTest>
-    <PerformanceOptimizer>
-      <BrowserRouter>
-        <CriticalCSS />
-        <CSSOptimizer />
-        <ContextTestDisplay />
-        <MetaTrackingProvider>
-          <TooltipProvider>
-            <Toaster />
-            <Sonner />
-            <Routes>
+  <PerformanceOptimizer>
+    <BrowserRouter>
+      <CriticalCSS />
+      <CSSOptimizer />
+      <MetaTrackingProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <Routes>
           <Route path="/" element={<Index />} />
           <Route
             path="/admin/login"
@@ -317,12 +315,11 @@ const App = () => (
               </Suspense>
             }
           />
-            </Routes>
-          </TooltipProvider>
-        </MetaTrackingProvider>
-      </BrowserRouter>
-    </PerformanceOptimizer>
-  </ReactContextTest>
+          </Routes>
+        </TooltipProvider>
+      </MetaTrackingProvider>
+    </BrowserRouter>
+  </PerformanceOptimizer>
 );
 
 export default App;
