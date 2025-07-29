@@ -79,6 +79,7 @@ import { testJsonSystem } from "./routes/test-json";
 import {
   migrateHeroToLpSettings,
   dropHeroTable,
+  migrateAboutToLpSettings,
 } from "./database/lp-settings-migration";
 import {
   processLeadIntegrations,
@@ -398,6 +399,17 @@ export function createServer() {
         }
       } catch (migrationError) {
         console.warn("⚠️ Aviso na migração do hero:", migrationError);
+      }
+
+      // Verificar se precisa migrar about para lp_settings
+      console.log("🔄 Verificando necessidade de migração do about...");
+      try {
+        const aboutMigrationResult = await migrateAboutToLpSettings();
+        console.log(
+          `✅ Migração do about concluída: ${aboutMigrationResult.migratedCount} configurações`,
+        );
+      } catch (aboutMigrationError) {
+        console.warn("⚠️ Aviso na migração do about:", aboutMigrationError);
       }
 
       console.log("✅ Banco de dados inicializado com sucesso!");
