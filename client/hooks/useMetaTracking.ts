@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 // Re-export from context for backwards compatibility
 export { useMetaTracking } from '../contexts/MetaTrackingContext';
 
