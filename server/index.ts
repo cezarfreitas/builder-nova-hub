@@ -317,6 +317,9 @@ export function createServer() {
   // Tracking Status routes
   app.use("/api/tracking-status", trackingStatusRouter);
 
+  // Test Migration routes
+  app.use("/api/test-migration", testMigrationRouter);
+
   // Data status endpoint
   app.get("/api/data-status", (req, res) => {
     try {
