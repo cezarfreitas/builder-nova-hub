@@ -1194,8 +1194,8 @@ export default function Index() {
         </section>
       </main>
 
-      {/* Sistema de ordenação dinâmica removido para evitar duplicações */}
-      {false &&
+      {/* Sistema de ordenação dinâmica removido */}
+      {false && false &&
         content.section_order?.enabled_sections
           ?.filter((section) => section.enabled)
           ?.sort((a, b) => a.order - b.order)
