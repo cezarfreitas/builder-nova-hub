@@ -76,6 +76,7 @@ import aboutRouter from "./routes/about";
 import heroRouter from "./routes/hero";
 import { initializeDatabase, testConnection } from "./config/database";
 import { testJsonSystem } from "./routes/test-json";
+import { createHeroTable, migrateHeroDataFromJson } from "./database/hero-migration";
 import {
   processLeadIntegrations,
   testIntegrations,
