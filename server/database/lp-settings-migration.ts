@@ -764,3 +764,192 @@ export async function saveFooterToLpSettings(footerData: any) {
     throw error;
   }
 }
+
+// Função para migrar dados do benefits para lp_settings
+export async function migrateBenefitsToLpSettings() {
+  try {
+    const db = await initializeDatabase();
+
+    console.log("🔄 Iniciando migração do benefits para lp_settings...");
+
+    // 1. Tentar ler dados do arquivo content.json
+    let benefitsData: any = null;
+    try {
+      const jsonPath = path.join(process.cwd(), "client/data/content.json");
+      if (fs.existsSync(jsonPath)) {
+        const jsonContent = fs.readFileSync(jsonPath, "utf8");
+        const contentData = JSON.parse(jsonContent);
+        benefitsData = contentData.benefits;
+        console.log("✅ Dados encontrados no arquivo content.json");
+      }
+    } catch (error) {
+      console.log("ℹ️ Arquivo content.json não encontrado ou inválido");
+    }
+
+    // 2. Se não tem dados, usar dados padrão
+    if (!benefitsData) {
+      benefitsData = {
+        section_tag: "Por que escolher a Ecko?",
+        section_title: "VANTAGENS EXCLUSIVAS",
+        section_subtitle: "para nossos parceiros",
+        section_description: "Descubra os benefícios únicos que fazem da Ecko a escolha certa para impulsionar seu negócio no mundo da moda streetwear",
+        cards: [
+          {
+            id: 1,
+            title: "MARCA INTERNACIONAL",
+            description: "A Ecko é uma marca reconhecida mundialmente com forte presença no Brasil e grande apelo junto ao público jovem.",
+            icon: "Globe"
+          },
+          {
+            id: 2,
+            title: "PRONTA ENTREGA",
+            description: "Disponibilizamos mais de 100.000 produtos prontos para entrega, para impulsionar suas vendas.",
+            icon: "Truck"
+          },
+          {
+            id: 3,
+            title: "SUPORTE AO LOJISTA",
+            description: "Nossa equipe de especialistas está sempre à disposição para garantir que você tenha a melhor experiência.",
+            icon: "HeadphonesIcon"
+          },
+          {
+            id: 4,
+            title: "TOTALMENTE ONLINE",
+            description: "Oferecemos uma plataforma exclusiva de compras online, com preços de atacado e condições exclusivos.",
+            icon: "Monitor"
+          }
+        ],
+        cta_title: "Junte-se a milhares de parceiros que já confiam na Ecko",
+        cta_button_text: "QUERO FAZER PARTE AGORA"
+      };
+      console.log("ℹ️ Usando dados padrão do benefits");
+    }
+
+    // 3. Converter dados do benefits para formato de lp_settings
+    const benefitsSettings = [
+      { key: "benefits_section_tag", value: benefitsData.section_tag || "", type: "text" },
+      { key: "benefits_section_title", value: benefitsData.section_title || "", type: "text" },
+      { key: "benefits_section_subtitle", value: benefitsData.section_subtitle || "", type: "text" },
+      { key: "benefits_section_description", value: benefitsData.section_description || "", type: "text" },
+      { key: "benefits_cards", value: JSON.stringify(benefitsData.cards || []), type: "json" },
+      { key: "benefits_cta_title", value: benefitsData.cta_title || "", type: "text" },
+      { key: "benefits_cta_button_text", value: benefitsData.cta_button_text || "", type: "text" }
+    ];
+
+    // 4. Inserir/atualizar dados na tabela lp_settings
+    for (const setting of benefitsSettings) {
+      await db.execute(
+        `
+        INSERT INTO lp_settings (setting_key, setting_value, setting_type)
+        VALUES (?, ?, ?)
+        ON DUPLICATE KEY UPDATE
+        setting_value = VALUES(setting_value),
+        setting_type = VALUES(setting_type),
+        updated_at = CURRENT_TIMESTAMP
+      `,
+        [setting.key, setting.value, setting.type],
+      );
+    }
+
+    console.log("✅ Dados do benefits migrados para lp_settings com sucesso!");
+
+    // 5. Verificar se a migração foi bem-sucedida
+    const [verifyResults] = await db.execute(
+      "SELECT COUNT(*) as count FROM lp_settings WHERE setting_key LIKE 'benefits_%'",
+    );
+
+    const benefitsCount = (verifyResults as any)[0].count;
+    console.log(
+      `✅ ${benefitsCount} configurações do benefits encontradas em lp_settings`,
+    );
+
+    return { success: true, migratedCount: benefitsCount };
+  } catch (error) {
+    console.error("❌ Erro na migração do benefits para lp_settings:", error);
+    throw error;
+  }
+}
+
+// Funções para operações CRUD do benefits usando lp_settings
+export async function getBenefitsFromLpSettings() {
+  try {
+    const db = await initializeDatabase();
+
+    const [results] = await db.execute(`
+      SELECT setting_key, setting_value, setting_type
+      FROM lp_settings
+      WHERE setting_key LIKE 'benefits_%'
+    `);
+
+    const benefitsData: any = {};
+
+    // Converter resultados para formato objeto
+    (results as any).forEach((row: any) => {
+      const key = row.setting_key.replace("benefits_", "");
+      let value = row.setting_value;
+
+      // Converter tipos conforme necessário
+      if (row.setting_type === "json") {
+        try {
+          value = JSON.parse(value);
+        } catch {
+          value = [];
+        }
+      }
+
+      benefitsData[key] = value;
+    });
+
+    // Se não há dados, inserir dados padrão
+    if (Object.keys(benefitsData).length === 0) {
+      console.log(
+        "ℹ️ Nenhum dado do benefits encontrado, inserindo dados padrão...",
+      );
+      await migrateBenefitsToLpSettings();
+      return await getBenefitsFromLpSettings();
+    }
+
+    return benefitsData;
+  } catch (error) {
+    console.error("❌ Erro ao buscar benefits do lp_settings:", error);
+    throw error;
+  }
+}
+
+export async function saveBenefitsToLpSettings(benefitsData: any) {
+  try {
+    const db = await initializeDatabase();
+
+    // Converter dados do benefits para formato de lp_settings
+    const benefitsSettings = [
+      { key: "benefits_section_tag", value: benefitsData.section_tag || "", type: "text" },
+      { key: "benefits_section_title", value: benefitsData.section_title || "", type: "text" },
+      { key: "benefits_section_subtitle", value: benefitsData.section_subtitle || "", type: "text" },
+      { key: "benefits_section_description", value: benefitsData.section_description || "", type: "text" },
+      { key: "benefits_cards", value: JSON.stringify(benefitsData.cards || []), type: "json" },
+      { key: "benefits_cta_title", value: benefitsData.cta_title || "", type: "text" },
+      { key: "benefits_cta_button_text", value: benefitsData.cta_button_text || "", type: "text" }
+    ];
+
+    // Atualizar/inserir cada configuração
+    for (const setting of benefitsSettings) {
+      await db.execute(
+        `
+        INSERT INTO lp_settings (setting_key, setting_value, setting_type)
+        VALUES (?, ?, ?)
+        ON DUPLICATE KEY UPDATE
+        setting_value = VALUES(setting_value),
+        setting_type = VALUES(setting_type),
+        updated_at = CURRENT_TIMESTAMP
+      `,
+        [setting.key, setting.value, setting.type],
+      );
+    }
+
+    console.log("✅ Benefits salvo em lp_settings com sucesso!");
+    return true;
+  } catch (error) {
+    console.error("❌ Erro ao salvar benefits em lp_settings:", error);
+    throw error;
+  }
+}
