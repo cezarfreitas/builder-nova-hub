@@ -21,7 +21,7 @@ async function ensureDataDirectory() {
   }
 }
 
-// GET - Buscar configurações da seção About do lp_settings
+// GET - Buscar configura��ões da seção About do lp_settings
 router.get("/", async (req, res) => {
   try {
     const aboutSettings = await getAboutFromLpSettings();
@@ -45,26 +45,7 @@ router.post("/", async (req, res) => {
     // Salvar no lp_settings
     await saveAboutToLpSettings(aboutSettings);
 
-    // Também salvar no arquivo JSON para backup (opcional)
-    try {
-      await ensureDataDirectory();
-      await fs.writeFile(ABOUT_FILE_PATH, JSON.stringify(aboutSettings, null, 2), "utf-8");
-    } catch (jsonError) {
-      console.warn("Aviso: Não foi possível salvar backup em JSON:", jsonError);
-    }
-
-    // Também atualizar no content.json principal para compatibilidade
-    try {
-      const contentPath = path.join(process.cwd(), "client/data/content.json");
-      const contentData = await fs.readFile(contentPath, "utf-8");
-      const content = JSON.parse(contentData);
-
-      content.about = aboutSettings;
-
-      await fs.writeFile(contentPath, JSON.stringify(content, null, 2), "utf-8");
-    } catch (error) {
-      console.warn("Aviso: Não foi possível atualizar content.json:", error);
-    }
+    console.log("✅ Configurações About salvas apenas no MySQL");
 
     res.json({
       success: true,
