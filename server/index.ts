@@ -297,6 +297,22 @@ export function createServer() {
   // Integrations Settings routes
   app.use("/api/integrations-settings", integrationsSettingsRouter);
 
+  // SPA catch-all route - deve ser o último
+  app.get("*", (req, res) => {
+    // Não redirecionar rotas da API
+    if (req.path.startsWith("/api/")) {
+      return res.status(404).json({ error: "API route not found" });
+    }
+
+    // Servir index.html para todas as outras rotas (SPA)
+    res.sendFile(path.join(process.cwd(), "dist", "spa", "index.html"), {
+      headers: {
+        'Content-Type': 'text/html; charset=utf-8',
+        'Cache-Control': 'no-cache, no-store, must-revalidate'
+      }
+    });
+  });
+
   // Initialize settings file
   setTimeout(async () => {
     try {
