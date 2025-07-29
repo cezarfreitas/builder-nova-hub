@@ -46,7 +46,7 @@ export async function testConnection(): Promise<boolean> {
   }
 }
 
-export async function initializeDatabase(): Promise<void> {
+export async function initializeDatabase(): Promise<mysql.Pool> {
   const db = getDatabase();
 
   try {
