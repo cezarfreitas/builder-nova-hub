@@ -76,7 +76,7 @@ import aboutRouter from "./routes/about";
 import heroRouter from "./routes/hero";
 import { initializeDatabase, testConnection } from "./config/database";
 import { testJsonSystem } from "./routes/test-json";
-import { createHeroTable, migrateHeroDataFromJson } from "./database/hero-migration";
+import { migrateHeroToLpSettings, dropHeroTable } from "./database/lp-settings-migration";
 import {
   processLeadIntegrations,
   testIntegrations,
@@ -379,10 +379,13 @@ export function createServer() {
       console.log("🔄 Tentando conectar ao MySQL...");
       await initializeDatabase();
 
-      // Inicializar tabela hero
-      console.log("🔄 Inicializando tabela hero_settings...");
-      await createHeroTable();
-      await migrateHeroDataFromJson();
+      // Migrar dados do hero para lp_settings
+      console.log("🔄 Migrando dados do hero para lp_settings...");
+      await migrateHeroToLpSettings();
+
+      // Excluir tabela hero_settings antiga
+      console.log("🗑️ Excluindo tabela hero_settings...");
+      await dropHeroTable();
 
       console.log("✅ Banco de dados inicializado com sucesso!");
     } catch (error) {
