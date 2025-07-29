@@ -1,14 +1,29 @@
 import { Request, Response } from "express";
-import { readSettingsFromFile } from "./settings";
+import { getDatabase } from "../config/database";
 import * as crypto from "crypto";
+
+// Função para buscar configuração específica do MySQL
+async function getSettingValue(key: string): Promise<string | null> {
+  try {
+    const db = getDatabase();
+    const [rows] = await db.execute(
+      `SELECT setting_value FROM lp_settings WHERE setting_key = ?`,
+      [key]
+    );
+    const results = rows as any[];
+    return results.length > 0 ? results[0].setting_value : null;
+  } catch (error) {
+    console.error(`Erro ao buscar configuração ${key}:`, error);
+    return null;
+  }
+}
 
 // Função para enviar evento para Google Analytics 4
 export async function sendGA4Event(leadData: any) {
   try {
-    const settings = await readSettingsFromFile();
-    const measurementId = settings.ga4_measurement_id?.value;
-    const apiSecret = settings.ga4_api_secret?.value;
-    const eventName = settings.ga4_conversion_name?.value || "form_submit";
+    const measurementId = await getSettingValue("ga4_measurement_id");
+    const apiSecret = await getSettingValue("ga4_api_secret");
+    const eventName = await getSettingValue("ga4_conversion_name") || "form_submit";
 
     if (!measurementId || !apiSecret) {
       console.log("GA4 não configurado - pulando envio");
