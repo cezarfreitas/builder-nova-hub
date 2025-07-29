@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Leads API</title>
+</head>
+<body>
+    <h1>Testing Leads API</h1>
+    <button onclick="testLeadsAPI()">Test /api/leads</button>
+    <button onclick="testLeadsStats()">Test /api/leads/stats</button>
+    <div id="result"></div>
+
+    <script>
+        async function testLeadsAPI() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = 'Testing /api/leads...';
+            
+            try {
+                const response = await fetch('/api/leads');
+                const result = await response.json();
+                resultDiv.innerHTML = `
+                    <h3>Leads API Response:</h3>
+                    <p>Status: ${response.status}</p>
+                    <pre>${JSON.stringify(result, null, 2)}</pre>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <h3>Error:</h3>
+                    <p style="color: red;">${error.message}</p>
+                `;
+            }
+        }
+
+        async function testLeadsStats() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = 'Testing /api/leads/stats...';
+            
+            try {
+                const response = await fetch('/api/leads/stats');
+                const result = await response.json();
+                resultDiv.innerHTML = `
+                    <h3>Leads Stats API Response:</h3>
+                    <p>Status: ${response.status}</p>
+                    <pre>${JSON.stringify(result, null, 2)}</pre>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <h3>Error:</h3>
+                    <p style="color: red;">${error.message}</p>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>
