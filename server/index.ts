@@ -356,28 +356,23 @@ export function createServer() {
     }
   });
 
-  // SPA catch-all route - deve ser o último
-  app.get("*", (req, res) => {
-    // Não redirecionar rotas da API
-    if (req.path.startsWith("/api/")) {
-      return res.status(404).json({ error: "API route not found" });
-    }
+  // SPA catch-all route - apenas em produção
+  if (process.env.NODE_ENV === 'production') {
+    app.get("*", (req, res) => {
+      // Não redirecionar rotas da API
+      if (req.path.startsWith("/api/")) {
+        return res.status(404).json({ error: "API route not found" });
+      }
 
-    // Em desenvolvimento, o Vite handle as rotas SPA
-    if (process.env.NODE_ENV !== 'production') {
-      return res.status(404).json({
-        error: "SPA routes handled by Vite in development"
+      // Servir index.html para todas as outras rotas (SPA)
+      res.sendFile(path.join(process.cwd(), "dist", "spa", "index.html"), {
+        headers: {
+          "Content-Type": "text/html; charset=utf-8",
+          "Cache-Control": "no-cache, no-store, must-revalidate",
+        },
       });
-    }
-
-    // Em produção, servir index.html para todas as outras rotas (SPA)
-    res.sendFile(path.join(process.cwd(), "dist", "spa", "index.html"), {
-      headers: {
-        "Content-Type": "text/html; charset=utf-8",
-        "Cache-Control": "no-cache, no-store, must-revalidate",
-      },
     });
-  });
+  }
 
   // Initialize data integrity and settings
   setTimeout(async () => {
@@ -453,7 +448,7 @@ export function createServer() {
           `✅ Migração do footer concluída: ${footerMigrationResult.migratedCount} configurações`,
         );
       } catch (footerMigrationError) {
-        console.warn("���️ Aviso na migração do footer:", footerMigrationError);
+        console.warn("⚠️ Aviso na migração do footer:", footerMigrationError);
       }
 
       // Verificar se precisa migrar benefits para lp_settings
