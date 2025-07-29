@@ -51,11 +51,8 @@ export async function sendMetaTrackingEvent(eventData: MetaTrackingEvent) {
       accessToken = integrationsSettings.meta_access_token;
       testCode = integrationsSettings.meta_test_code;
     } else {
-      // Fallback para o sistema antigo
-      const settings = await readSettingsFromFile();
-      pixelId = settings.meta_pixel_id?.value;
-      accessToken = settings.meta_access_token?.value;
-      testCode = settings.meta_test_code?.value;
+      console.warn("⚠️ Configurações de integrações não encontradas no MySQL");
+      return { success: false, error: "Configurações não encontradas" };
     }
 
     console.log(`🔍 Verificando credenciais Meta:`);
