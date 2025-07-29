@@ -312,6 +312,9 @@ export function createServer() {
   // Integrations Settings routes
   app.use("/api/integrations-settings", integrationsSettingsRouter);
 
+  // Tracking Status routes
+  app.use("/api/tracking-status", trackingStatusRouter);
+
   // Data status endpoint
   app.get("/api/data-status", (req, res) => {
     try {
