@@ -780,7 +780,7 @@ export async function migrateBenefitsToLpSettings() {
         const jsonContent = fs.readFileSync(jsonPath, "utf8");
         const contentData = JSON.parse(jsonContent);
         benefitsData = contentData.benefits;
-        console.log("✅ Dados encontrados no arquivo content.json");
+        console.log("�� Dados encontrados no arquivo content.json");
       }
     } catch (error) {
       console.log("ℹ️ Arquivo content.json não encontrado ou inválido");
@@ -949,7 +949,7 @@ export async function saveBenefitsToLpSettings(benefitsData: any) {
     console.log("✅ Benefits salvo em lp_settings com sucesso!");
     return true;
   } catch (error) {
-    console.error("❌ Erro ao salvar benefits em lp_settings:", error);
+    console.error("��� Erro ao salvar benefits em lp_settings:", error);
     throw error;
   }
 }
@@ -1143,6 +1143,202 @@ export async function saveFormToLpSettings(formData: any) {
     return true;
   } catch (error) {
     console.error("❌ Erro ao salvar form em lp_settings:", error);
+    throw error;
+  }
+}
+
+// Função para migrar dados de texto da gallery para lp_settings
+export async function migrateGalleryToLpSettings() {
+  try {
+    const db = await initializeDatabase();
+
+    console.log("🔄 Iniciando migração da gallery para lp_settings...");
+
+    // 1. Tentar ler dados do arquivo content.json
+    let galleryData: any = null;
+    try {
+      const jsonPath = path.join(process.cwd(), "client/data/content.json");
+      if (fs.existsSync(jsonPath)) {
+        const jsonContent = fs.readFileSync(jsonPath, "utf8");
+        const contentData = JSON.parse(jsonContent);
+        galleryData = contentData.gallery;
+        console.log("✅ Dados encontrados no arquivo content.json");
+      }
+    } catch (error) {
+      console.log("ℹ️ Arquivo content.json não encontrado ou inválido");
+    }
+
+    // 2. Se não tem dados, usar dados padrão
+    if (!galleryData) {
+      galleryData = {
+        section_tag: "Lifestyle Gallery",
+        section_title: "COLEÇÃO LIFESTYLE",
+        section_subtitle: "Viva o estilo Ecko",
+        section_description: "Descubra o lifestyle autêntico da Ecko através de looks que representam a essência do streetwear e a cultura urbana que define nossa marca",
+        empty_state_title: "Galeria em Construção",
+        empty_state_description: "Em breve nossa galeria estará repleta de looks incríveis!",
+        cta_title: "Tenha Estes Produtos em Sua Loja!",
+        cta_description: "Produtos com alta demanda e excelente margem de lucro",
+        cta_button_text: "QUERO ESSES PRODUTOS NA MINHA LOJA"
+      };
+      console.log("ℹ️ Usando dados padrão da gallery");
+    }
+
+    // 3. Migrar apenas as imagens existentes do JSON para a tabela gallery_images (se ainda não estiverem lá)
+    if (galleryData.items && Array.isArray(galleryData.items) && galleryData.items.length > 0) {
+      console.log(`🔄 Migrando ${galleryData.items.length} imagens da galeria para a tabela gallery_images...`);
+
+      for (const item of galleryData.items) {
+        // Verificar se a imagem já existe na tabela
+        const [existingImage] = await db.execute(
+          "SELECT id FROM gallery_images WHERE image_url = ?",
+          [item.image_url]
+        );
+
+        if ((existingImage as any).length === 0) {
+          // Inserir imagem na tabela
+          await db.execute(`
+            INSERT INTO gallery_images (title, description, image_url, alt_text, is_active, display_order)
+            VALUES (?, ?, ?, ?, ?, ?)
+          `, [
+            item.title || null,
+            item.description || null,
+            item.image_url,
+            item.alt_text || null,
+            item.is_active !== false,
+            item.display_order || 0
+          ]);
+        }
+      }
+    }
+
+    // 4. Converter dados de texto da gallery para formato de lp_settings
+    const gallerySettings = [
+      { key: "gallery_section_tag", value: galleryData.section_tag || "", type: "text" },
+      { key: "gallery_section_title", value: galleryData.section_title || "", type: "text" },
+      { key: "gallery_section_subtitle", value: galleryData.section_subtitle || "", type: "text" },
+      { key: "gallery_section_description", value: galleryData.section_description || "", type: "text" },
+      { key: "gallery_empty_state_title", value: galleryData.empty_state_title || "", type: "text" },
+      { key: "gallery_empty_state_description", value: galleryData.empty_state_description || "", type: "text" },
+      { key: "gallery_cta_title", value: galleryData.cta_title || "", type: "text" },
+      { key: "gallery_cta_description", value: galleryData.cta_description || "", type: "text" },
+      { key: "gallery_cta_button_text", value: galleryData.cta_button_text || "", type: "text" }
+    ];
+
+    // 5. Inserir/atualizar dados na tabela lp_settings
+    for (const setting of gallerySettings) {
+      await db.execute(
+        `
+        INSERT INTO lp_settings (setting_key, setting_value, setting_type)
+        VALUES (?, ?, ?)
+        ON DUPLICATE KEY UPDATE
+        setting_value = VALUES(setting_value),
+        setting_type = VALUES(setting_type),
+        updated_at = CURRENT_TIMESTAMP
+      `,
+        [setting.key, setting.value, setting.type],
+      );
+    }
+
+    console.log("✅ Dados da gallery migrados para lp_settings com sucesso!");
+
+    // 6. Verificar se a migração foi bem-sucedida
+    const [verifyResults] = await db.execute(
+      "SELECT COUNT(*) as count FROM lp_settings WHERE setting_key LIKE 'gallery_%'",
+    );
+    const [verifyImages] = await db.execute(
+      "SELECT COUNT(*) as count FROM gallery_images",
+    );
+
+    const galleryCount = (verifyResults as any)[0].count;
+    const imagesCount = (verifyImages as any)[0].count;
+    console.log(
+      `✅ ${galleryCount} configurações de texto da gallery encontradas em lp_settings`,
+    );
+    console.log(
+      `✅ ${imagesCount} imagens encontradas na tabela gallery_images`,
+    );
+
+    return { success: true, migratedCount: galleryCount, imagesCount: imagesCount };
+  } catch (error) {
+    console.error("❌ Erro na migração da gallery para lp_settings:", error);
+    throw error;
+  }
+}
+
+// Funções para operações CRUD dos textos da gallery usando lp_settings
+export async function getGalleryFromLpSettings() {
+  try {
+    const db = await initializeDatabase();
+
+    const [results] = await db.execute(`
+      SELECT setting_key, setting_value, setting_type
+      FROM lp_settings
+      WHERE setting_key LIKE 'gallery_%'
+    `);
+
+    const galleryData: any = {};
+
+    // Converter resultados para formato objeto
+    (results as any).forEach((row: any) => {
+      const key = row.setting_key.replace("gallery_", "");
+      let value = row.setting_value;
+
+      galleryData[key] = value;
+    });
+
+    // Se não há dados, inserir dados padrão
+    if (Object.keys(galleryData).length === 0) {
+      console.log(
+        "ℹ️ Nenhum dado da gallery encontrado, inserindo dados padrão...",
+      );
+      await migrateGalleryToLpSettings();
+      return await getGalleryFromLpSettings();
+    }
+
+    return galleryData;
+  } catch (error) {
+    console.error("❌ Erro ao buscar gallery do lp_settings:", error);
+    throw error;
+  }
+}
+
+export async function saveGalleryToLpSettings(galleryData: any) {
+  try {
+    const db = await initializeDatabase();
+
+    // Converter dados da gallery para formato de lp_settings (apenas textos)
+    const gallerySettings = [
+      { key: "gallery_section_tag", value: galleryData.section_tag || "", type: "text" },
+      { key: "gallery_section_title", value: galleryData.section_title || "", type: "text" },
+      { key: "gallery_section_subtitle", value: galleryData.section_subtitle || "", type: "text" },
+      { key: "gallery_section_description", value: galleryData.section_description || "", type: "text" },
+      { key: "gallery_empty_state_title", value: galleryData.empty_state_title || "", type: "text" },
+      { key: "gallery_empty_state_description", value: galleryData.empty_state_description || "", type: "text" },
+      { key: "gallery_cta_title", value: galleryData.cta_title || "", type: "text" },
+      { key: "gallery_cta_description", value: galleryData.cta_description || "", type: "text" },
+      { key: "gallery_cta_button_text", value: galleryData.cta_button_text || "", type: "text" }
+    ];
+
+    // Atualizar/inserir cada configuração
+    for (const setting of gallerySettings) {
+      await db.execute(
+        `
+        INSERT INTO lp_settings (setting_key, setting_value, setting_type)
+        VALUES (?, ?, ?)
+        ON DUPLICATE KEY UPDATE
+        setting_value = VALUES(setting_value),
+        setting_type = VALUES(setting_type),
+        updated_at = CURRENT_TIMESTAMP
+      `,
+        [setting.key, setting.value, setting.type],
+      );
+    }
+
+    console.log("✅ Gallery salva em lp_settings com sucesso!");
+    return true;
+  } catch (error) {
+    console.error("❌ Erro ao salvar gallery em lp_settings:", error);
     throw error;
   }
 }
