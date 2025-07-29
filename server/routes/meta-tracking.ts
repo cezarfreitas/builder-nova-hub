@@ -300,9 +300,9 @@ export async function testMetaTrackingEvent(req: Request, res: Response) {
 // Endpoint para verificar configuração do Meta Pixel
 export async function checkMetaPixelConfig(req: Request, res: Response) {
   try {
-    // Primeiro tenta ler do novo sistema de integrações
+    // Ler configurações de integrações do MySQL
     let pixelId, accessToken, testCode, conversionName;
-    const integrationsSettings = readIntegrationsSettings();
+    const integrationsSettings = await readIntegrationsSettings();
 
     if (integrationsSettings) {
       pixelId = integrationsSettings.meta_pixel_id;
