@@ -65,7 +65,7 @@ export async function migrateHeroDataFromJson() {
     const jsonData = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
     
     // Inserir dados na tabela
-    await db.query(`
+    await db.execute(`
       INSERT INTO hero_settings (
         title, subtitle, description, background_image, background_color,
         text_color, cta_primary_text, cta_secondary_text, cta_color,
