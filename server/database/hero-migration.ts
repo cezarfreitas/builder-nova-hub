@@ -47,7 +47,7 @@ export async function migrateHeroDataFromJson() {
     // Verificar se já existe dados na tabela
     const [existingData] = await db.execute("SELECT COUNT(*) as count FROM hero_settings WHERE is_active = true");
     
-    if (existingData[0].count > 0) {
+    if ((existingData as any)[0].count > 0) {
       console.log("ℹ️ Dados do hero já existem no banco de dados");
       return true;
     }
@@ -143,7 +143,7 @@ async function insertDefaultHeroData() {
   }
 }
 
-// Funções para operações CRUD do hero
+// Funç��es para operações CRUD do hero
 export async function getHeroFromDatabase() {
   try {
     const db = await initializeDatabase();
