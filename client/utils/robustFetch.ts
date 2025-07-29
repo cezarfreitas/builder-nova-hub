@@ -118,6 +118,11 @@ export async function robustFetch(
   } catch (nativeFetchError) {
     devWarn(`⚠️ [ROBUST] Fetch nativo falhou para ${url}:`, nativeFetchError);
 
+    // Se é um AbortError, não tentar XHR
+    if (nativeFetchError.name === 'AbortError') {
+      throw new Error('Requisição cancelada por timeout');
+    }
+
     // Se fetch nativo falhar, usar XMLHttpRequest
     try {
       devLog(`🔄 [ROBUST] Tentando XMLHttpRequest para ${url}`);
@@ -129,8 +134,14 @@ export async function robustFetch(
         `❌ [ROBUST] Ambos fetch nativo e XMLHttpRequest falharam para ${url}:`,
         xhrError,
       );
+
+      // Retornar erro mais específico baseado no tipo
+      if (nativeFetchError.message.includes('network') || nativeFetchError.message.includes('Failed to fetch')) {
+        throw new Error('Erro de conexão de rede. Verifique sua conexão com a internet.');
+      }
+
       throw new Error(
-        `Falha em todas as tentativas de requisição: ${nativeFetchError.message} | ${xhrError.message}`,
+        `Falha em todas as tentativas de requisição: ${nativeFetchError.message}`,
       );
     }
   }
