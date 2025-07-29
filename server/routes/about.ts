@@ -1,6 +1,4 @@
 import { Router } from "express";
-import fs from "fs/promises";
-import path from "path";
 import {
   getAboutFromLpSettings,
   saveAboutToLpSettings,
@@ -8,18 +6,6 @@ import {
 } from "../database/lp-settings-migration";
 
 const router = Router();
-
-const ABOUT_FILE_PATH = path.join(process.cwd(), "server/data/about.json");
-
-// Garantir que o diretório existe
-async function ensureDataDirectory() {
-  const dataDir = path.dirname(ABOUT_FILE_PATH);
-  try {
-    await fs.access(dataDir);
-  } catch {
-    await fs.mkdir(dataDir, { recursive: true });
-  }
-}
 
 // GET - Buscar configura��ões da seção About do lp_settings
 router.get("/", async (req, res) => {
