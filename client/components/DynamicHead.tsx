@@ -114,7 +114,7 @@ export function DynamicHead() {
     updateMetaTag('robots', getSetting('seo_robots') || 'index,follow');
 
     // URL Canônica com debug
-    const canonicalUrl = getSetting('seo_canonical_url');
+    const canonicalUrl = getSetting('seo_canonical_url') || window.location.href;
     console.log('🔍 Debug URL Canônica:', canonicalUrl);
     updateCanonical(canonicalUrl);
 
