@@ -186,11 +186,10 @@ export function createServer() {
   // Settings health check
   app.get("/api/settings/health", async (_req, res) => {
     try {
-      const settingsFile = require("path").join(
+      const settingsFile = path.join(
         process.cwd(),
         "server/data/settings.json",
       );
-      const fs = require("fs/promises");
 
       // Verificar se o arquivo existe e é legível
       await fs.access(settingsFile);
