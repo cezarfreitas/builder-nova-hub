@@ -89,6 +89,7 @@ import {
   migrateBenefitsToLpSettings,
   migrateFormToLpSettings,
   migrateGalleryToLpSettings,
+  migrateTestimonialsToLpSettings,
 } from "./database/lp-settings-migration";
 import {
   processLeadIntegrations,
@@ -412,7 +413,7 @@ export function createServer() {
       try {
         const migrationResult = await migrateHeroToLpSettings();
         console.log(
-          `✅ Migração do hero concluída: ${migrationResult.migratedCount} configurações`,
+          `��� Migração do hero concluída: ${migrationResult.migratedCount} configurações`,
         );
 
         // Excluir tabela hero_settings antiga
