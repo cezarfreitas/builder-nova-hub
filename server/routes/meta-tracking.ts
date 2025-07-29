@@ -42,9 +42,9 @@ interface MetaTrackingEvent {
 // Função para enviar evento individual para Meta Conversions API
 export async function sendMetaTrackingEvent(eventData: MetaTrackingEvent) {
   try {
-    // Primeiro tenta ler do novo sistema de integrações
+    // Ler configurações de integrações do MySQL
     let pixelId, accessToken, testCode;
-    const integrationsSettings = readIntegrationsSettings();
+    const integrationsSettings = await readIntegrationsSettings();
 
     if (integrationsSettings) {
       pixelId = integrationsSettings.meta_pixel_id;
