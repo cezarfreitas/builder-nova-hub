@@ -9,11 +9,11 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 8080,
     headers: {
-      'Cache-Control': 'no-cache',
+      "Cache-Control": "no-cache",
     },
     mime: {
-      'application/javascript': ['js', 'mjs'],
-      'text/javascript': ['js'],
+      "application/javascript": ["js", "mjs"],
+      "text/javascript": ["js"],
     },
   },
   build: {

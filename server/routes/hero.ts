@@ -224,41 +224,45 @@ router.get("/verify", (req, res) => {
       backgroundImage: {
         configured: !!settings.background_image,
         path: settings.background_image,
-        exists: false
+        exists: false,
       },
       logo: {
         configured: !!settings.logo_url,
         path: settings.logo_url,
-        exists: false
+        exists: false,
       },
       uploadDirectory: {
         exists: false,
         imageCount: 0,
-        images: []
-      }
+        images: [],
+      },
     };
 
     // Verificar se imagens existem
     if (settings.background_image) {
-      const bgPath = path.join(process.cwd(), 'public', settings.background_image);
+      const bgPath = path.join(
+        process.cwd(),
+        "public",
+        settings.background_image,
+      );
       verification.backgroundImage.exists = fs.existsSync(bgPath);
     }
 
     if (settings.logo_url) {
-      const logoPath = path.join(process.cwd(), 'public', settings.logo_url);
+      const logoPath = path.join(process.cwd(), "public", settings.logo_url);
       verification.logo.exists = fs.existsSync(logoPath);
     }
 
     // Verificar diretório de uploads
-    const uploadsPath = path.join(process.cwd(), 'public', 'uploads', 'hero');
+    const uploadsPath = path.join(process.cwd(), "public", "uploads", "hero");
     if (fs.existsSync(uploadsPath)) {
       verification.uploadDirectory.exists = true;
       const images = fs.readdirSync(uploadsPath);
       verification.uploadDirectory.imageCount = images.length;
-      verification.uploadDirectory.images = images.map(img => ({
+      verification.uploadDirectory.images = images.map((img) => ({
         name: img,
         size: fs.statSync(path.join(uploadsPath, img)).size,
-        url: `/uploads/hero/${img}`
+        url: `/uploads/hero/${img}`,
       }));
     }
 
@@ -266,9 +270,8 @@ router.get("/verify", (req, res) => {
       success: true,
       message: "Verificação completa do hero",
       data: settings,
-      verification
+      verification,
     });
-
   } catch (error) {
     console.error("Erro na verificação do hero:", error);
     res.status(500).json({

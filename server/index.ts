@@ -95,7 +95,11 @@ import {
 } from "./routes/seo";
 import seoSettingsRouter from "./routes/seo-settings";
 import integrationsSettingsRouter from "./routes/integrations-settings";
-import { verifyDataIntegrity, generateDataStatusReport, cleanBrokenImageReferences } from "./middleware/dataIntegrity";
+import {
+  verifyDataIntegrity,
+  generateDataStatusReport,
+  cleanBrokenImageReferences,
+} from "./middleware/dataIntegrity";
 
 export function createServer() {
   const app = express();
@@ -114,10 +118,14 @@ export function createServer() {
     });
 
     // Configurar MIME types corretos para JavaScript
-    if (req.path.endsWith('.js') || req.path.endsWith('.mjs') || req.path.endsWith('.tsx')) {
-      res.type('application/javascript');
-    } else if (req.path.endsWith('.ts')) {
-      res.type('application/javascript');
+    if (
+      req.path.endsWith(".js") ||
+      req.path.endsWith(".mjs") ||
+      req.path.endsWith(".tsx")
+    ) {
+      res.type("application/javascript");
+    } else if (req.path.endsWith(".ts")) {
+      res.type("application/javascript");
     }
 
     next();
@@ -130,24 +138,29 @@ export function createServer() {
   );
 
   // Servir arquivos estáticos do build (SPA) com MIME types corretos
-  app.use(express.static(path.join(process.cwd(), "dist", "spa"), {
-    setHeaders: (res, filePath) => {
-      if (filePath.endsWith('.js')) {
-        res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
-      } else if (filePath.endsWith('.css')) {
-        res.setHeader('Content-Type', 'text/css; charset=utf-8');
-      } else if (filePath.endsWith('.html')) {
-        res.setHeader('Content-Type', 'text/html; charset=utf-8');
-        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-      } else if (filePath.endsWith('.png')) {
-        res.setHeader('Content-Type', 'image/png');
-      } else if (filePath.endsWith('.jpg') || filePath.endsWith('.jpeg')) {
-        res.setHeader('Content-Type', 'image/jpeg');
-      } else if (filePath.endsWith('.svg')) {
-        res.setHeader('Content-Type', 'image/svg+xml; charset=utf-8');
-      }
-    }
-  }));
+  app.use(
+    express.static(path.join(process.cwd(), "dist", "spa"), {
+      setHeaders: (res, filePath) => {
+        if (filePath.endsWith(".js")) {
+          res.setHeader(
+            "Content-Type",
+            "application/javascript; charset=utf-8",
+          );
+        } else if (filePath.endsWith(".css")) {
+          res.setHeader("Content-Type", "text/css; charset=utf-8");
+        } else if (filePath.endsWith(".html")) {
+          res.setHeader("Content-Type", "text/html; charset=utf-8");
+          res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        } else if (filePath.endsWith(".png")) {
+          res.setHeader("Content-Type", "image/png");
+        } else if (filePath.endsWith(".jpg") || filePath.endsWith(".jpeg")) {
+          res.setHeader("Content-Type", "image/jpeg");
+        } else if (filePath.endsWith(".svg")) {
+          res.setHeader("Content-Type", "image/svg+xml; charset=utf-8");
+        }
+      },
+    }),
+  );
 
   // Health check
   app.get("/api/ping", (_req, res) => {
@@ -318,9 +331,9 @@ export function createServer() {
     // Servir index.html para todas as outras rotas (SPA)
     res.sendFile(path.join(process.cwd(), "dist", "spa", "index.html"), {
       headers: {
-        'Content-Type': 'text/html; charset=utf-8',
-        'Cache-Control': 'no-cache, no-store, must-revalidate'
-      }
+        "Content-Type": "text/html; charset=utf-8",
+        "Cache-Control": "no-cache, no-store, must-revalidate",
+      },
     });
   });
 
@@ -338,11 +351,18 @@ export function createServer() {
       // Gerar relatório de status
       const statusReport = generateDataStatusReport();
       console.log("📊 Status dos dados:");
-      console.log(`   - Hero config: ${statusReport.hero.configExists ? '✅' : '❌'}`);
-      console.log(`   - Hero background: ${statusReport.hero.backgroundImageExists ? '✅' : '❌'} ${statusReport.hero.backgroundImagePath}`);
-      console.log(`   - Hero logo: ${statusReport.hero.logoExists ? '✅' : '❌'} ${statusReport.hero.logoPath}`);
-      console.log(`   - Hero images: ${statusReport.uploads.heroImageCount} arquivos`);
-
+      console.log(
+        `   - Hero config: ${statusReport.hero.configExists ? "✅" : "❌"}`,
+      );
+      console.log(
+        `   - Hero background: ${statusReport.hero.backgroundImageExists ? "✅" : "❌"} ${statusReport.hero.backgroundImagePath}`,
+      );
+      console.log(
+        `   - Hero logo: ${statusReport.hero.logoExists ? "✅" : "❌"} ${statusReport.hero.logoPath}`,
+      );
+      console.log(
+        `   - Hero images: ${statusReport.uploads.heroImageCount} arquivos`,
+      );
     } catch (error) {
       console.error("❌ Erro na verificação de integridade:", error);
     }
