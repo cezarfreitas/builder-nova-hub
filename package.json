@@ -21,7 +21,10 @@
     "test": "vitest --run",
     "format.fix": "prettier --write .",
     "typecheck": "tsc",
-    "deploy": "npm run build:prod && npm run start:prod"
+    "deploy": "npm run build:prod && npm run start:prod",
+    "backup-data": "node scripts/backup-data.js",
+    "deploy-check": "node scripts/deploy-production.js",
+    "verify-data": "node -e \"const {generateDataStatusReport} = require('./dist/server/middleware/dataIntegrity.js'); console.log(JSON.stringify(generateDataStatusReport(), null, 2));\""
   },
   "dependencies": {
     "@types/multer": "^2.0.0",
