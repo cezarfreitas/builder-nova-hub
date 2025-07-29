@@ -36,6 +36,8 @@ export default defineConfig(({ mode }) => ({
       },
     },
     minify: true,
+    target: "es2020",
+    sourcemap: false,
   },
   plugins: [react(), expressPlugin()],
   resolve: {
