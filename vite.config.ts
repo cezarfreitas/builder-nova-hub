@@ -22,21 +22,36 @@ export default defineConfig(({ mode }) => ({
     chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
-        // Conservative manual chunks to avoid createContext issues
+        // Simplified chunks to prevent createContext issues
         manualChunks: (id) => {
-          // Keep React and React-DOM together in the main bundle to ensure availability
-          if (id.includes('react') || id.includes('react-dom')) {
-            return 'react-vendor';
+          // Keep React ecosystem in main bundle to avoid dependency issues
+          if (id.includes('react') ||
+              id.includes('react-dom') ||
+              id.includes('@radix-ui') ||
+              id.includes('lucide-react')) {
+            return; // Let these go to main bundle
           }
 
-          // Put all node_modules (except React) in vendor
-          if (id.includes('node_modules')) {
-            return 'vendor';
+          // Charts - only used in admin (safe to separate)
+          if (id.includes('chart') || id.includes('recharts')) {
+            return 'charts';
           }
 
-          // Admin pages in separate chunk
+          // Pure utilities without React dependencies
+          if (id.includes('date-fns') ||
+              id.includes('clsx') ||
+              id.includes('tailwind-merge')) {
+            return 'utils';
+          }
+
+          // Admin pages (lazy loaded, so safe)
           if (id.includes('/pages/admin/')) {
             return 'admin';
+          }
+
+          // Everything else from node_modules
+          if (id.includes('node_modules')) {
+            return 'vendor';
           }
         },
         chunkFileNames: (chunkInfo) => {
