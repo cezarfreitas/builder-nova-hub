@@ -1,6 +1,11 @@
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
 import { robustFetchJson, robustFetch } from '../utils/robustFetch';
 
+// Verificação de segurança para createContext
+if (!React || typeof React.createContext !== 'function') {
+  console.error('React.createContext is not available. React may not be loaded properly.');
+}
+
 interface TrackingEvent {
   event_name: string;
   event_data?: any;
