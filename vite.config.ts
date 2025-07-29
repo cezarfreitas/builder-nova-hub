@@ -21,14 +21,24 @@ export default defineConfig(({ mode }) => ({
     cssCodeSplit: true,
     rollupOptions: {
       output: {
-        // Simplified manual chunks for reliable build
+        // Optimized manual chunks to reduce unused code
         manualChunks: {
-          vendor: ["react", "react-dom"],
+          // Core React
+          react: ["react", "react-dom"],
+          // Router (só carrega quando necessário)
+          router: ["react-router-dom"],
+          // UI components (lazy load)
           ui: [
             "lucide-react",
             "@radix-ui/react-dialog",
             "@radix-ui/react-toast",
+            "@radix-ui/react-accordion",
+            "@radix-ui/react-alert-dialog"
           ],
+          // Charts (só para admin)
+          charts: ["chart.js", "react-chartjs-2"],
+          // Utilities
+          utils: ["date-fns", "clsx", "tailwind-merge"]
         },
         chunkFileNames: "assets/[name]-[hash].js",
         entryFileNames: "assets/[name]-[hash].js",
