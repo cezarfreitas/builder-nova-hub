@@ -4,11 +4,10 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import {
-  getHeroFromDatabase,
-  saveHeroToDatabase,
-  createHeroTable,
-  migrateHeroDataFromJson
-} from "../database/hero-migration";
+  getHeroFromLpSettings,
+  saveHeroToLpSettings,
+  migrateHeroToLpSettings
+} from "../database/lp-settings-migration";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -49,41 +48,19 @@ function ensureDataDirectory() {
   }
 }
 
-// Função para carregar configurações do hero do banco de dados
+// Função para carregar configurações do hero do lp_settings
 async function loadHeroSettings() {
   try {
-    const heroData = await getHeroFromDatabase();
-
-    // Converter dados do banco para o formato esperado
-    return {
-      title: heroData.title,
-      subtitle: heroData.subtitle,
-      description: heroData.description,
-      background_image: heroData.background_image,
-      background_color: heroData.background_color,
-      text_color: heroData.text_color,
-      cta_primary_text: heroData.cta_primary_text,
-      cta_secondary_text: heroData.cta_secondary_text,
-      cta_color: heroData.cta_color,
-      cta_text_color: heroData.cta_text_color,
-      overlay_color: heroData.overlay_color,
-      overlay_opacity: heroData.overlay_opacity,
-      overlay_blend_mode: heroData.overlay_blend_mode,
-      overlay_gradient_enabled: heroData.overlay_gradient_enabled,
-      overlay_gradient_start: heroData.overlay_gradient_start,
-      overlay_gradient_end: heroData.overlay_gradient_end,
-      overlay_gradient_direction: heroData.overlay_gradient_direction,
-      logo_url: heroData.logo_url,
-    };
+    const heroData = await getHeroFromLpSettings();
+    return heroData;
   } catch (error) {
-    console.error("Erro ao carregar configurações do hero do banco:", error);
-
+    console.error("Erro ao carregar configurações do hero do lp_settings:", error);
     // Fallback para configurações padrão
     return defaultHeroSettings;
   }
 }
 
-// Função para salvar configurações do hero no banco de dados
+// Função para salvar configurações do hero no lp_settings
 async function saveHeroSettings(settings: any) {
   try {
     // Garantir que apenas propriedades válidas sejam salvas
@@ -92,7 +69,7 @@ async function saveHeroSettings(settings: any) {
       ...settings,
     };
 
-    await saveHeroToDatabase(validSettings);
+    await saveHeroToLpSettings(validSettings);
 
     // Também salvar no JSON para backup (opcional)
     try {
@@ -143,7 +120,7 @@ router.post("/", async (req, res) => {
     if (result.success) {
       res.json({
         success: true,
-        message: "Configurações do hero salvas com sucesso no banco de dados",
+        message: "Configurações do hero salvas com sucesso em lp_settings",
         data: settings,
       });
     } else {
@@ -188,7 +165,7 @@ router.put("/", async (req, res) => {
     if (result.success) {
       res.json({
         success: true,
-        message: "Configurações do hero atualizadas com sucesso no banco de dados",
+        message: "Configurações do hero atualizadas com sucesso em lp_settings",
         data: updatedSettings,
       });
     } else {
@@ -215,7 +192,7 @@ router.delete("/", async (req, res) => {
     if (result.success) {
       res.json({
         success: true,
-        message: "Configurações do hero resetadas para o padrão no banco de dados",
+        message: "Configurações do hero resetadas para o padrão em lp_settings",
         data: defaultHeroSettings,
       });
     } else {
