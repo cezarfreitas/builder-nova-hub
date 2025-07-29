@@ -272,33 +272,8 @@ export function DynamicHead() {
     }
   }, [getSetting, loading]);
 
-  // Effect para preloading do logo e outras imagens importantes
-  useEffect(() => {
-    const addPreloadLink = (href: string, as: string = "image") => {
-      // Verificar se já existe
-      const existingLink = document.querySelector(
-        `link[rel="preload"][href="${href}"]`,
-      );
-      if (existingLink) return;
-
-      const link = document.createElement("link");
-      link.rel = "preload";
-      link.href = href;
-      link.as = as;
-      // Don't set type for images to avoid MIME type issues
-      document.head.appendChild(link);
-    };
-
-    // Preload do logo padrão imediatamente na inicialização
-    const defaultLogo =
-      "https://www.ntktextil.com.br/wp-content/uploads/2022/08/Logo-Ecko.png";
-    addPreloadLink(defaultLogo);
-
-    // Preload imagem de fundo padrão
-    const defaultBackground =
-      "https://estyle.vteximg.com.br/arquivos/ecko_mosaic5.png?v=638421392678800000";
-    addPreloadLink(defaultBackground);
-  }, []);
+  // Effect removido - preload de imagens não utilizadas causava warnings
+  // O hero agora usa imagens dinâmicas do uploads, não URLs fixas
 
   return null; // Este componente não renderiza nada visível
 }
