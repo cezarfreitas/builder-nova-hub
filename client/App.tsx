@@ -303,25 +303,7 @@ const App = () => (
               }
             />
           </Route>
-          <Route
-            path="/admin/order"
-            element={
-              <Suspense fallback={<PageLoading />}>
-                <ProtectedRoute>
-                  <AdminLayout />
-                </ProtectedRoute>
-              </Suspense>
-            }
-          >
-            <Route
-              index
-              element={
-                <Suspense fallback={<PageLoading />}>
-                  <AdminOrder />
-                </Suspense>
-              }
-            />
-          </Route>
+
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route
             path="*"
