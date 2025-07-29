@@ -97,6 +97,7 @@ import {
 import seoSettingsRouter from "./routes/seo-settings";
 import integrationsSettingsRouter from "./routes/integrations-settings";
 import trackingStatusRouter from "./routes/tracking-status";
+import testMigrationRouter from "./routes/test-migration";
 import {
   verifyDataIntegrity,
   generateDataStatusReport,
