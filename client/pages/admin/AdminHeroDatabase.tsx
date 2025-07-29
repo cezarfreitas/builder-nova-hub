@@ -1,8 +1,13 @@
-import { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card';
-import { Button } from '../../components/ui/button';
-import { Badge } from '../../components/ui/badge';
-import { RefreshCw, Database, CheckCircle, AlertCircle } from 'lucide-react';
+import { useState, useEffect } from "react";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "../../components/ui/card";
+import { Button } from "../../components/ui/button";
+import { Badge } from "../../components/ui/badge";
+import { RefreshCw, Database, CheckCircle, AlertCircle } from "lucide-react";
 
 interface HeroDbData {
   id: number;
@@ -33,23 +38,22 @@ export default function AdminHeroDatabase() {
       setError(null);
 
       // Buscar dados do banco (via API)
-      const heroResponse = await fetch('/api/hero');
+      const heroResponse = await fetch("/api/hero");
       const heroData = await heroResponse.json();
       setJsonData(heroData);
 
       // Buscar dados diretos do banco
-      const dbResponse = await fetch('/api/hero/verify');
+      const dbResponse = await fetch("/api/hero/verify");
       const dbResult = await dbResponse.json();
-      
+
       if (dbResult.success) {
         setDbData(dbResult.data);
       } else {
-        setError('Erro ao buscar dados do banco');
+        setError("Erro ao buscar dados do banco");
       }
-
     } catch (err) {
-      setError('Erro de conexão');
-      console.error('Erro:', err);
+      setError("Erro de conexão");
+      console.error("Erro:", err);
     } finally {
       setLoading(false);
     }
@@ -58,31 +62,31 @@ export default function AdminHeroDatabase() {
   const testSave = async () => {
     try {
       setTestResult(null);
-      
+
       const testData = {
         ...jsonData,
         title: `TESTE BANCO ${Date.now()}`,
-        subtitle: `Teste realizado em ${new Date().toLocaleString()}`
+        subtitle: `Teste realizado em ${new Date().toLocaleString()}`,
       };
 
-      const response = await fetch('/api/hero', {
-        method: 'POST',
+      const response = await fetch("/api/hero", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(testData)
+        body: JSON.stringify(testData),
       });
 
       const result = await response.json();
-      
+
       if (result.success) {
-        setTestResult('✅ Dados salvos com sucesso no banco de dados!');
+        setTestResult("✅ Dados salvos com sucesso no banco de dados!");
         await fetchData(); // Recarregar dados
       } else {
-        setTestResult('❌ Erro ao salvar no banco: ' + result.error);
+        setTestResult("❌ Erro ao salvar no banco: " + result.error);
       }
     } catch (err) {
-      setTestResult('❌ Erro na requisição: ' + err);
+      setTestResult("❌ Erro na requisição: " + err);
     }
   };
 
@@ -152,7 +156,7 @@ export default function AdminHeroDatabase() {
             {jsonData ? (
               <div className="space-y-2">
                 <div>
-                  <strong>Título:</strong> 
+                  <strong>Título:</strong>
                   <p className="text-sm text-gray-600">{jsonData.title}</p>
                 </div>
                 <div>
@@ -161,15 +165,23 @@ export default function AdminHeroDatabase() {
                 </div>
                 <div>
                   <strong>Imagem de Fundo:</strong>
-                  <p className="text-sm text-gray-600">{jsonData.background_image || 'Não definida'}</p>
+                  <p className="text-sm text-gray-600">
+                    {jsonData.background_image || "Não definida"}
+                  </p>
                 </div>
                 <div>
                   <strong>Logo:</strong>
-                  <p className="text-sm text-gray-600">{jsonData.logo_url || 'Não definido'}</p>
+                  <p className="text-sm text-gray-600">
+                    {jsonData.logo_url || "Não definido"}
+                  </p>
                 </div>
                 <div className="flex gap-2 pt-2">
-                  <Badge variant="secondary">Cor Fundo: {jsonData.background_color}</Badge>
-                  <Badge variant="secondary">Cor Texto: {jsonData.text_color}</Badge>
+                  <Badge variant="secondary">
+                    Cor Fundo: {jsonData.background_color}
+                  </Badge>
+                  <Badge variant="secondary">
+                    Cor Texto: {jsonData.text_color}
+                  </Badge>
                 </div>
               </div>
             ) : (
@@ -203,11 +215,15 @@ export default function AdminHeroDatabase() {
                 </div>
                 <div>
                   <strong>Criado em:</strong>
-                  <p className="text-sm text-gray-600">{new Date(dbData.created_at).toLocaleString()}</p>
+                  <p className="text-sm text-gray-600">
+                    {new Date(dbData.created_at).toLocaleString()}
+                  </p>
                 </div>
                 <div>
                   <strong>Atualizado em:</strong>
-                  <p className="text-sm text-gray-600">{new Date(dbData.updated_at).toLocaleString()}</p>
+                  <p className="text-sm text-gray-600">
+                    {new Date(dbData.updated_at).toLocaleString()}
+                  </p>
                 </div>
                 <div className="flex gap-2 pt-2">
                   <Badge variant={dbData.is_active ? "default" : "secondary"}>
@@ -231,19 +247,19 @@ export default function AdminHeroDatabase() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="text-center">
               <div className="text-2xl font-bold text-green-600">
-                {jsonData ? '✅' : '❌'}
+                {jsonData ? "✅" : "❌"}
               </div>
               <div className="text-sm text-gray-500">API Funcionando</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-blue-600">
-                {dbData ? '✅' : '❌'}
+                {dbData ? "✅" : "❌"}
               </div>
               <div className="text-sm text-gray-500">Banco Conectado</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-purple-600">
-                {jsonData && dbData ? '✅' : '❌'}
+                {jsonData && dbData ? "✅" : "❌"}
               </div>
               <div className="text-sm text-gray-500">Sincronizado</div>
             </div>

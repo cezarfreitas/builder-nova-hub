@@ -13,9 +13,9 @@ export async function migrateHeroToLpSettings() {
     let heroData: any = null;
     try {
       const [heroResults] = await db.execute(
-        "SELECT * FROM hero_settings WHERE is_active = true ORDER BY updated_at DESC LIMIT 1"
+        "SELECT * FROM hero_settings WHERE is_active = true ORDER BY updated_at DESC LIMIT 1",
       );
-      
+
       if ((heroResults as any).length > 0) {
         heroData = (heroResults as any)[0];
         console.log("✅ Dados encontrados na tabela hero_settings");
@@ -27,9 +27,9 @@ export async function migrateHeroToLpSettings() {
     // 2. Se não encontrou no banco, tentar ler do JSON
     if (!heroData) {
       try {
-        const jsonPath = path.join(process.cwd(), 'server/data/hero.json');
+        const jsonPath = path.join(process.cwd(), "server/data/hero.json");
         if (fs.existsSync(jsonPath)) {
-          const jsonContent = fs.readFileSync(jsonPath, 'utf8');
+          const jsonContent = fs.readFileSync(jsonPath, "utf8");
           heroData = JSON.parse(jsonContent);
           console.log("✅ Dados encontrados no arquivo hero.json");
         }
@@ -43,7 +43,8 @@ export async function migrateHeroToLpSettings() {
       heroData = {
         title: "SEJA UM {ecko}REVENDEDOR{/ecko} OFICIAL",
         subtitle: "O maior programa de parceria do streetwear",
-        description: "Transforme sua paixão por streetwear em um negócio lucrativo. Junte-se a milhares de revendedores que já fazem parte da família {ecko}Ecko{/ecko} e descobra como vender produtos autênticos com margens exclusivas.",
+        description:
+          "Transforme sua paixão por streetwear em um negócio lucrativo. Junte-se a milhares de revendedores que já fazem parte da família {ecko}Ecko{/ecko} e descobra como vender produtos autênticos com margens exclusivas.",
         background_image: "",
         background_color: "#000000",
         text_color: "#ffffff",
@@ -58,54 +59,119 @@ export async function migrateHeroToLpSettings() {
         overlay_gradient_start: "#000000",
         overlay_gradient_end: "#333333",
         overlay_gradient_direction: "to bottom",
-        logo_url: ""
+        logo_url: "",
       };
       console.log("ℹ️ Usando dados padrão do hero");
     }
 
     // 4. Converter dados do hero para formato de lp_settings
     const heroSettings = [
-      { key: 'hero_title', value: heroData.title || '', type: 'text' },
-      { key: 'hero_subtitle', value: heroData.subtitle || '', type: 'text' },
-      { key: 'hero_description', value: heroData.description || '', type: 'text' },
-      { key: 'hero_background_image', value: heroData.background_image || '', type: 'text' },
-      { key: 'hero_background_color', value: heroData.background_color || '#000000', type: 'text' },
-      { key: 'hero_text_color', value: heroData.text_color || '#ffffff', type: 'text' },
-      { key: 'hero_cta_primary_text', value: heroData.cta_primary_text || '', type: 'text' },
-      { key: 'hero_cta_secondary_text', value: heroData.cta_secondary_text || '', type: 'text' },
-      { key: 'hero_cta_color', value: heroData.cta_color || '#dc2626', type: 'text' },
-      { key: 'hero_cta_text_color', value: heroData.cta_text_color || '#ffffff', type: 'text' },
-      { key: 'hero_overlay_color', value: heroData.overlay_color || '#000000', type: 'text' },
-      { key: 'hero_overlay_opacity', value: String(heroData.overlay_opacity || 70), type: 'number' },
-      { key: 'hero_overlay_blend_mode', value: heroData.overlay_blend_mode || 'normal', type: 'text' },
-      { key: 'hero_overlay_gradient_enabled', value: heroData.overlay_gradient_enabled ? 'true' : 'false', type: 'boolean' },
-      { key: 'hero_overlay_gradient_start', value: heroData.overlay_gradient_start || '#000000', type: 'text' },
-      { key: 'hero_overlay_gradient_end', value: heroData.overlay_gradient_end || '#333333', type: 'text' },
-      { key: 'hero_overlay_gradient_direction', value: heroData.overlay_gradient_direction || 'to bottom', type: 'text' },
-      { key: 'hero_logo_url', value: heroData.logo_url || '', type: 'text' }
+      { key: "hero_title", value: heroData.title || "", type: "text" },
+      { key: "hero_subtitle", value: heroData.subtitle || "", type: "text" },
+      {
+        key: "hero_description",
+        value: heroData.description || "",
+        type: "text",
+      },
+      {
+        key: "hero_background_image",
+        value: heroData.background_image || "",
+        type: "text",
+      },
+      {
+        key: "hero_background_color",
+        value: heroData.background_color || "#000000",
+        type: "text",
+      },
+      {
+        key: "hero_text_color",
+        value: heroData.text_color || "#ffffff",
+        type: "text",
+      },
+      {
+        key: "hero_cta_primary_text",
+        value: heroData.cta_primary_text || "",
+        type: "text",
+      },
+      {
+        key: "hero_cta_secondary_text",
+        value: heroData.cta_secondary_text || "",
+        type: "text",
+      },
+      {
+        key: "hero_cta_color",
+        value: heroData.cta_color || "#dc2626",
+        type: "text",
+      },
+      {
+        key: "hero_cta_text_color",
+        value: heroData.cta_text_color || "#ffffff",
+        type: "text",
+      },
+      {
+        key: "hero_overlay_color",
+        value: heroData.overlay_color || "#000000",
+        type: "text",
+      },
+      {
+        key: "hero_overlay_opacity",
+        value: String(heroData.overlay_opacity || 70),
+        type: "number",
+      },
+      {
+        key: "hero_overlay_blend_mode",
+        value: heroData.overlay_blend_mode || "normal",
+        type: "text",
+      },
+      {
+        key: "hero_overlay_gradient_enabled",
+        value: heroData.overlay_gradient_enabled ? "true" : "false",
+        type: "boolean",
+      },
+      {
+        key: "hero_overlay_gradient_start",
+        value: heroData.overlay_gradient_start || "#000000",
+        type: "text",
+      },
+      {
+        key: "hero_overlay_gradient_end",
+        value: heroData.overlay_gradient_end || "#333333",
+        type: "text",
+      },
+      {
+        key: "hero_overlay_gradient_direction",
+        value: heroData.overlay_gradient_direction || "to bottom",
+        type: "text",
+      },
+      { key: "hero_logo_url", value: heroData.logo_url || "", type: "text" },
     ];
 
     // 5. Inserir/atualizar dados na tabela lp_settings
     for (const setting of heroSettings) {
-      await db.execute(`
+      await db.execute(
+        `
         INSERT INTO lp_settings (setting_key, setting_value, setting_type) 
         VALUES (?, ?, ?)
         ON DUPLICATE KEY UPDATE 
         setting_value = VALUES(setting_value),
         setting_type = VALUES(setting_type),
         updated_at = CURRENT_TIMESTAMP
-      `, [setting.key, setting.value, setting.type]);
+      `,
+        [setting.key, setting.value, setting.type],
+      );
     }
 
     console.log("✅ Dados do hero migrados para lp_settings com sucesso!");
 
     // 6. Verificar se a migração foi bem-sucedida
     const [verifyResults] = await db.execute(
-      "SELECT COUNT(*) as count FROM lp_settings WHERE setting_key LIKE 'hero_%'"
+      "SELECT COUNT(*) as count FROM lp_settings WHERE setting_key LIKE 'hero_%'",
     );
-    
+
     const heroCount = (verifyResults as any)[0].count;
-    console.log(`✅ ${heroCount} configurações do hero encontradas em lp_settings`);
+    console.log(
+      `✅ ${heroCount} configurações do hero encontradas em lp_settings`,
+    );
 
     return { success: true, migratedCount: heroCount };
   } catch (error) {
@@ -132,12 +198,17 @@ export async function dropHeroTable() {
     if ((tableExists as any)[0].count > 0) {
       // Fazer backup dos dados antes de excluir (se necessário)
       const [backupData] = await db.execute("SELECT * FROM hero_settings");
-      
+
       if ((backupData as any).length > 0) {
-        console.log(`ℹ️ Fazendo backup de ${(backupData as any).length} registros da tabela hero_settings`);
-        
+        console.log(
+          `ℹ️ Fazendo backup de ${(backupData as any).length} registros da tabela hero_settings`,
+        );
+
         // Salvar backup em JSON
-        const backupPath = path.join(process.cwd(), 'server/data/hero_settings_backup.json');
+        const backupPath = path.join(
+          process.cwd(),
+          "server/data/hero_settings_backup.json",
+        );
         fs.writeFileSync(backupPath, JSON.stringify(backupData, null, 2));
         console.log(`✅ Backup salvo em: ${backupPath}`);
       }
@@ -146,7 +217,9 @@ export async function dropHeroTable() {
       await db.execute("DROP TABLE hero_settings");
       console.log("✅ Tabela hero_settings excluída com sucesso!");
     } else {
-      console.log("ℹ️ Tabela hero_settings não existe, nenhuma ação necessária");
+      console.log(
+        "ℹ️ Tabela hero_settings não existe, nenhuma ação necessária",
+      );
     }
 
     return { success: true };
@@ -160,7 +233,7 @@ export async function dropHeroTable() {
 export async function getHeroFromLpSettings() {
   try {
     const db = await initializeDatabase();
-    
+
     const [results] = await db.execute(`
       SELECT setting_key, setting_value, setting_type 
       FROM lp_settings 
@@ -168,25 +241,27 @@ export async function getHeroFromLpSettings() {
     `);
 
     const heroData: any = {};
-    
+
     // Converter resultados para formato objeto
     (results as any).forEach((row: any) => {
-      const key = row.setting_key.replace('hero_', '');
+      const key = row.setting_key.replace("hero_", "");
       let value = row.setting_value;
-      
+
       // Converter tipos conforme necessário
-      if (row.setting_type === 'number') {
+      if (row.setting_type === "number") {
         value = parseInt(value) || 0;
-      } else if (row.setting_type === 'boolean') {
-        value = value === 'true';
+      } else if (row.setting_type === "boolean") {
+        value = value === "true";
       }
-      
+
       heroData[key] = value;
     });
 
     // Se não há dados, inserir dados padrão
     if (Object.keys(heroData).length === 0) {
-      console.log("ℹ️ Nenhum dado do hero encontrado, inserindo dados padrão...");
+      console.log(
+        "ℹ️ Nenhum dado do hero encontrado, inserindo dados padrão...",
+      );
       await migrateHeroToLpSettings();
       return await getHeroFromLpSettings();
     }
@@ -204,36 +279,99 @@ export async function saveHeroToLpSettings(heroData: any) {
 
     // Converter dados do hero para formato de lp_settings
     const heroSettings = [
-      { key: 'hero_title', value: heroData.title || '', type: 'text' },
-      { key: 'hero_subtitle', value: heroData.subtitle || '', type: 'text' },
-      { key: 'hero_description', value: heroData.description || '', type: 'text' },
-      { key: 'hero_background_image', value: heroData.background_image || '', type: 'text' },
-      { key: 'hero_background_color', value: heroData.background_color || '#000000', type: 'text' },
-      { key: 'hero_text_color', value: heroData.text_color || '#ffffff', type: 'text' },
-      { key: 'hero_cta_primary_text', value: heroData.cta_primary_text || '', type: 'text' },
-      { key: 'hero_cta_secondary_text', value: heroData.cta_secondary_text || '', type: 'text' },
-      { key: 'hero_cta_color', value: heroData.cta_color || '#dc2626', type: 'text' },
-      { key: 'hero_cta_text_color', value: heroData.cta_text_color || '#ffffff', type: 'text' },
-      { key: 'hero_overlay_color', value: heroData.overlay_color || '#000000', type: 'text' },
-      { key: 'hero_overlay_opacity', value: String(heroData.overlay_opacity || 70), type: 'number' },
-      { key: 'hero_overlay_blend_mode', value: heroData.overlay_blend_mode || 'normal', type: 'text' },
-      { key: 'hero_overlay_gradient_enabled', value: heroData.overlay_gradient_enabled ? 'true' : 'false', type: 'boolean' },
-      { key: 'hero_overlay_gradient_start', value: heroData.overlay_gradient_start || '#000000', type: 'text' },
-      { key: 'hero_overlay_gradient_end', value: heroData.overlay_gradient_end || '#333333', type: 'text' },
-      { key: 'hero_overlay_gradient_direction', value: heroData.overlay_gradient_direction || 'to bottom', type: 'text' },
-      { key: 'hero_logo_url', value: heroData.logo_url || '', type: 'text' }
+      { key: "hero_title", value: heroData.title || "", type: "text" },
+      { key: "hero_subtitle", value: heroData.subtitle || "", type: "text" },
+      {
+        key: "hero_description",
+        value: heroData.description || "",
+        type: "text",
+      },
+      {
+        key: "hero_background_image",
+        value: heroData.background_image || "",
+        type: "text",
+      },
+      {
+        key: "hero_background_color",
+        value: heroData.background_color || "#000000",
+        type: "text",
+      },
+      {
+        key: "hero_text_color",
+        value: heroData.text_color || "#ffffff",
+        type: "text",
+      },
+      {
+        key: "hero_cta_primary_text",
+        value: heroData.cta_primary_text || "",
+        type: "text",
+      },
+      {
+        key: "hero_cta_secondary_text",
+        value: heroData.cta_secondary_text || "",
+        type: "text",
+      },
+      {
+        key: "hero_cta_color",
+        value: heroData.cta_color || "#dc2626",
+        type: "text",
+      },
+      {
+        key: "hero_cta_text_color",
+        value: heroData.cta_text_color || "#ffffff",
+        type: "text",
+      },
+      {
+        key: "hero_overlay_color",
+        value: heroData.overlay_color || "#000000",
+        type: "text",
+      },
+      {
+        key: "hero_overlay_opacity",
+        value: String(heroData.overlay_opacity || 70),
+        type: "number",
+      },
+      {
+        key: "hero_overlay_blend_mode",
+        value: heroData.overlay_blend_mode || "normal",
+        type: "text",
+      },
+      {
+        key: "hero_overlay_gradient_enabled",
+        value: heroData.overlay_gradient_enabled ? "true" : "false",
+        type: "boolean",
+      },
+      {
+        key: "hero_overlay_gradient_start",
+        value: heroData.overlay_gradient_start || "#000000",
+        type: "text",
+      },
+      {
+        key: "hero_overlay_gradient_end",
+        value: heroData.overlay_gradient_end || "#333333",
+        type: "text",
+      },
+      {
+        key: "hero_overlay_gradient_direction",
+        value: heroData.overlay_gradient_direction || "to bottom",
+        type: "text",
+      },
+      { key: "hero_logo_url", value: heroData.logo_url || "", type: "text" },
     ];
 
     // Atualizar/inserir cada configuração
     for (const setting of heroSettings) {
-      await db.execute(`
+      await db.execute(
+        `
         INSERT INTO lp_settings (setting_key, setting_value, setting_type) 
         VALUES (?, ?, ?)
         ON DUPLICATE KEY UPDATE 
         setting_value = VALUES(setting_value),
         setting_type = VALUES(setting_type),
         updated_at = CURRENT_TIMESTAMP
-      `, [setting.key, setting.value, setting.type]);
+      `,
+        [setting.key, setting.value, setting.type],
+      );
     }
 
     console.log("✅ Hero salvo em lp_settings com sucesso!");

@@ -1,6 +1,7 @@
 # Migração do Hero para lp_settings - CONCLUÍDA
 
 ## Resumo
+
 ✅ **Migração concluída com sucesso!**
 
 Os dados do hero foram migrados da tabela `hero_settings` para a tabela `lp_settings` e a tabela antiga foi removida.
@@ -8,6 +9,7 @@ Os dados do hero foram migrados da tabela `hero_settings` para a tabela `lp_sett
 ## O que foi feito
 
 ### 1. Criação do sistema de migração
+
 - **Arquivo:** `server/database/lp-settings-migration.ts`
 - **Funções principais:**
   - `migrateHeroToLpSettings()` - Migra dados do hero para lp_settings
@@ -16,6 +18,7 @@ Os dados do hero foram migrados da tabela `hero_settings` para a tabela `lp_sett
   - `dropHeroTable()` - Remove a tabela hero_settings
 
 ### 2. Atualização das rotas do hero
+
 - **Arquivo:** `server/routes/hero.ts`
 - **Mudanças:**
   - Substituiu imports de `hero-migration` por `lp-settings-migration`
@@ -24,6 +27,7 @@ Os dados do hero foram migrados da tabela `hero_settings` para a tabela `lp_sett
   - Atualizou mensagens de resposta para indicar uso do lp_settings
 
 ### 3. Atualização da inicialização do servidor
+
 - **Arquivo:** `server/index.ts`
 - **Mudanças:**
   - Removeu imports de `hero-migration`

@@ -6,7 +6,7 @@ import { dirname } from "path";
 import {
   getHeroFromLpSettings,
   saveHeroToLpSettings,
-  migrateHeroToLpSettings
+  migrateHeroToLpSettings,
 } from "../database/lp-settings-migration";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -54,7 +54,10 @@ async function loadHeroSettings() {
     const heroData = await getHeroFromLpSettings();
     return heroData;
   } catch (error) {
-    console.error("Erro ao carregar configurações do hero do lp_settings:", error);
+    console.error(
+      "Erro ao carregar configurações do hero do lp_settings:",
+      error,
+    );
     // Fallback para configurações padrão
     return defaultHeroSettings;
   }

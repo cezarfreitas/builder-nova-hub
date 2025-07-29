@@ -76,7 +76,10 @@ import aboutRouter from "./routes/about";
 import heroRouter from "./routes/hero";
 import { initializeDatabase, testConnection } from "./config/database";
 import { testJsonSystem } from "./routes/test-json";
-import { migrateHeroToLpSettings, dropHeroTable } from "./database/lp-settings-migration";
+import {
+  migrateHeroToLpSettings,
+  dropHeroTable,
+} from "./database/lp-settings-migration";
 import {
   processLeadIntegrations,
   testIntegrations,
@@ -383,7 +386,9 @@ export function createServer() {
       console.log("🔄 Verificando necessidade de migração do hero...");
       try {
         const migrationResult = await migrateHeroToLpSettings();
-        console.log(`✅ Migração do hero concluída: ${migrationResult.migratedCount} configurações`);
+        console.log(
+          `✅ Migração do hero concluída: ${migrationResult.migratedCount} configurações`,
+        );
 
         // Excluir tabela hero_settings antiga
         console.log("🗑️ Excluindo tabela hero_settings...");
