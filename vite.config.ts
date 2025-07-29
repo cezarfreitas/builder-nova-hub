@@ -28,8 +28,10 @@ export default defineConfig(({ mode }) => ({
           if (
             id.includes("react") ||
             id.includes("react-dom") ||
+            id.includes("react/") ||
             id.includes("@radix-ui") ||
-            id.includes("lucide-react")
+            id.includes("lucide-react") ||
+            id.includes("react-router")
           ) {
             return; // Let these go to main bundle
           }
