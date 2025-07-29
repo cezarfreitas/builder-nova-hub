@@ -241,7 +241,7 @@
         "company": "Urban Fashion",
         "role": "Diretor Comercial",
         "content": "Em dois anos como revendedor oficial, consegui expandir para 3 lojas. A marca Ecko tem um apelo incrível com o público jovem e a margem de lucro é excelente.",
-        "avatar_url": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+        "avatar_url": "/placeholder.svg",
         "rating": 5,
         "is_active": true,
         "display_order": 3
