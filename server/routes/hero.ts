@@ -127,7 +127,7 @@ router.get("/", async (req, res) => {
 });
 
 // POST /api/hero - Salvar configurações do hero
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const settings = req.body;
 
@@ -138,12 +138,12 @@ router.post("/", (req, res) => {
       });
     }
 
-    const result = saveHeroSettings(settings);
+    const result = await saveHeroSettings(settings);
 
     if (result.success) {
       res.json({
         success: true,
-        message: "Configurações do hero salvas com sucesso",
+        message: "Configurações do hero salvas com sucesso no banco de dados",
         data: settings,
       });
     } else {
