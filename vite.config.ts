@@ -22,44 +22,8 @@ export default defineConfig(({ mode }) => ({
     chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
-        // Simplified chunks to prevent createContext issues
-        manualChunks: (id) => {
-          // Keep React ecosystem in main bundle to avoid dependency issues
-          if (
-            id.includes("react") ||
-            id.includes("react-dom") ||
-            id.includes("react/") ||
-            id.includes("@radix-ui") ||
-            id.includes("lucide-react") ||
-            id.includes("react-router")
-          ) {
-            return; // Let these go to main bundle
-          }
-
-          // Charts - only used in admin (safe to separate)
-          if (id.includes("chart") || id.includes("recharts")) {
-            return "charts";
-          }
-
-          // Pure utilities without React dependencies
-          if (
-            id.includes("date-fns") ||
-            id.includes("clsx") ||
-            id.includes("tailwind-merge")
-          ) {
-            return "utils";
-          }
-
-          // Admin pages (lazy loaded, so safe)
-          if (id.includes("/pages/admin/")) {
-            return "admin";
-          }
-
-          // Everything else from node_modules
-          if (id.includes("node_modules")) {
-            return "vendor";
-          }
-        },
+        // Disable all manual chunks to prevent React dependency issues
+        manualChunks: undefined,
         chunkFileNames: (chunkInfo) => {
           // Better chunk naming for caching
           const facadeModuleId = chunkInfo.facadeModuleId
