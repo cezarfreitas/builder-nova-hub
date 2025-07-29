@@ -167,8 +167,7 @@ export const useContent = () => {
         // Sempre usar dados do JSON para seções principais
         finalContent = {
           ...finalContent,
-          // Section order, Hero, Form, Benefits, Testimonials, Gallery, FAQ, About e Footer sempre do JSON
-          section_order: contentData.section_order,
+          // Hero, Form, Benefits, Testimonials, Gallery, FAQ, About e Footer sempre do JSON
           hero: contentData.hero,
           form: contentData.form,
           benefits: contentData.benefits,
