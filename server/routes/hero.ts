@@ -163,7 +163,7 @@ router.post("/", async (req, res) => {
 });
 
 // PUT /api/hero - Atualizar configurações específicas do hero
-router.put("/", (req, res) => {
+router.put("/", async (req, res) => {
   try {
     const updates = req.body;
 
@@ -175,7 +175,7 @@ router.put("/", (req, res) => {
     }
 
     // Carregar configurações atuais
-    const currentSettings = loadHeroSettings();
+    const currentSettings = await loadHeroSettings();
 
     // Aplicar atualizações
     const updatedSettings = {
@@ -183,12 +183,12 @@ router.put("/", (req, res) => {
       ...updates,
     };
 
-    const result = saveHeroSettings(updatedSettings);
+    const result = await saveHeroSettings(updatedSettings);
 
     if (result.success) {
       res.json({
         success: true,
-        message: "Configurações do hero atualizadas com sucesso",
+        message: "Configurações do hero atualizadas com sucesso no banco de dados",
         data: updatedSettings,
       });
     } else {
