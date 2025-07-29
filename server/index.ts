@@ -95,6 +95,7 @@ import {
 } from "./routes/seo";
 import seoSettingsRouter from "./routes/seo-settings";
 import integrationsSettingsRouter from "./routes/integrations-settings";
+import { verifyDataIntegrity, generateDataStatusReport, cleanBrokenImageReferences } from "./middleware/dataIntegrity";
 
 export function createServer() {
   const app = express();
