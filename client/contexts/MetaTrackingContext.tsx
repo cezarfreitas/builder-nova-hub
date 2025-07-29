@@ -68,16 +68,17 @@ export const MetaTrackingProvider: React.FC<{ children: React.ReactNode }> = ({ 
   // Função para enviar eventos para o backend
   const sendEvent = useCallback(async (eventData: TrackingEvent) => {
     try {
-      const response = await fetch("/api/meta/track-event", {
+      const response = await robustFetch("/api/meta/track-event", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(eventData),
+        timeout: 5000,
       });
 
       if (!response.ok) {
-        console.warn("Erro ao enviar evento Meta:", response.statusText);
+        console.warn("Erro ao enviar evento Meta:", response.status);
       }
     } catch (error) {
       console.warn("Erro ao enviar evento Meta:", error);
