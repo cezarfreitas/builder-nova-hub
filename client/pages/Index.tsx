@@ -836,7 +836,7 @@ export default function Index() {
                 className="absolute inset-0"
                 style={{
                   backgroundColor: currentHero.background_color,
-                  minHeight: '100vh'
+                  minHeight: "100vh",
                 }}
               >
                 {currentHero.background_image && (
@@ -845,7 +845,7 @@ export default function Index() {
                     alt=""
                     className="absolute inset-0 w-full h-full object-cover"
                     style={{
-                      zIndex: 1
+                      zIndex: 1,
                     }}
                     loading="eager"
                     fetchpriority="high"
