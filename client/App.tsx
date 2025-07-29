@@ -59,9 +59,10 @@ const PageLoading = () => (
 const App = () => (
   <BrowserRouter>
     <CriticalCSS />
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
+    <MetaTrackingProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
       <Routes>
         <Route path="/" element={<Index />} />
         <Route
@@ -329,7 +330,8 @@ const App = () => (
           }
         />
       </Routes>
-    </TooltipProvider>
+      </TooltipProvider>
+    </MetaTrackingProvider>
   </BrowserRouter>
 );
 
