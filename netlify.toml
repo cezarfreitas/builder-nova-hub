@@ -3,11 +3,31 @@
   functions = "netlify/functions"
   publish = "dist/spa"
 
-
 [functions]
   external_node_modules = ["express"]
   node_bundler = "esbuild"
-  
+
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Content-Type = "application/javascript; charset=utf-8"
+
+[[headers]]
+  for = "/*.mjs"
+  [headers.values]
+    Content-Type = "application/javascript; charset=utf-8"
+
+[[headers]]
+  for = "/*.tsx"
+  [headers.values]
+    Content-Type = "application/javascript; charset=utf-8"
+
+[[headers]]
+  for = "/assets/*.js"
+  [headers.values]
+    Content-Type = "application/javascript; charset=utf-8"
+    Cache-Control = "public, max-age=31536000, immutable"
+
 [[redirects]]
   force = true
   from = "/api/*"
