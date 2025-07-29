@@ -104,13 +104,21 @@ export function createServer() {
   app.use(express.json({ limit: "10mb" }));
   app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
-  // Middleware para desabilitar cache
+  // Middleware para desabilitar cache e configurar MIME types
   app.use((req, res, next) => {
     res.set({
       "Cache-Control": "no-cache, no-store, must-revalidate",
       Pragma: "no-cache",
       Expires: "0",
     });
+
+    // Configurar MIME types corretos para JavaScript
+    if (req.path.endsWith('.js') || req.path.endsWith('.mjs') || req.path.endsWith('.tsx')) {
+      res.type('application/javascript');
+    } else if (req.path.endsWith('.ts')) {
+      res.type('application/javascript');
+    }
+
     next();
   });
 
