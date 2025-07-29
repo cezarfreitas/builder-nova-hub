@@ -324,53 +324,34 @@ export function createServer() {
     });
   });
 
-  // Initialize settings file
+  // Initialize data integrity and settings
   setTimeout(async () => {
     try {
-      console.log("🔄 Inicializando sistema de configuraç��es JSON...");
+      console.log("🔄 Verificando integridade dos dados...");
 
-      const settingsFile = path.join(
-        process.cwd(),
-        "server/data/settings.json",
-      );
-      const settingsDir = path.dirname(settingsFile);
+      // Verificar e criar estrutura de dados necessária
+      verifyDataIntegrity();
 
-      // Criar diretório se não existir
-      await fs.mkdir(settingsDir, { recursive: true });
+      // Limpar referências de imagens quebradas
+      cleanBrokenImageReferences();
 
-      // Verificar se arquivo existe
-      try {
-        await fs.access(settingsFile);
-        console.log("✅ Arquivo de configurações encontrado");
-      } catch {
-        console.log("📝 Criando arquivo de configurações padrão...");
-        const defaultSettings = {
-          seo_title: {
-            value: "Seja uma Revenda Autorizada da Ecko",
-            type: "text",
-            updated_at: new Date().toISOString(),
-          },
-          webhook_url: {
-            value: "",
-            type: "text",
-            updated_at: new Date().toISOString(),
-          },
-        };
-        await fs.writeFile(
-          settingsFile,
-          JSON.stringify(defaultSettings, null, 2),
-        );
-        console.log("✅ Arquivo de configurações criado com sucesso!");
-      }
+      // Gerar relatório de status
+      const statusReport = generateDataStatusReport();
+      console.log("📊 Status dos dados:");
+      console.log(`   - Hero config: ${statusReport.hero.configExists ? '✅' : '❌'}`);
+      console.log(`   - Hero background: ${statusReport.hero.backgroundImageExists ? '✅' : '❌'} ${statusReport.hero.backgroundImagePath}`);
+      console.log(`   - Hero logo: ${statusReport.hero.logoExists ? '✅' : '❌'} ${statusReport.hero.logoPath}`);
+      console.log(`   - Hero images: ${statusReport.uploads.heroImageCount} arquivos`);
+
     } catch (error) {
-      console.error("❌ Erro ao inicializar configurações:", error);
+      console.error("❌ Erro na verificação de integridade:", error);
     }
-  }, 500);
+  }, 300);
 
   // Initialize database (non-blocking)
   setTimeout(async () => {
     try {
-      console.log("�� Tentando conectar ao MySQL...");
+      console.log("🔄 Tentando conectar ao MySQL...");
       await initializeDatabase();
       console.log("✅ Banco de dados inicializado com sucesso!");
     } catch (error) {
