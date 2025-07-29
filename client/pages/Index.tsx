@@ -2213,10 +2213,14 @@ export default function Index() {
                       className="group relative bg-gray-900 rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden border border-gray-600 hover:border-ecko-red transition-all duration-500 transform hover:-translate-y-1 hover:scale-105"
                     >
                       <div className="aspect-square overflow-hidden">
-                        <img
+                        <OptimizedImage
                           src={image.image_url}
-                          alt={image.alt_text || image.title}
+                          alt={image.alt_text || image.title || "Imagem da galeria"}
+                          width={400}
+                          height={400}
                           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                          loading="lazy"
+                          sizes="(max-width: 768px) 50vw, 25vw"
                         />
                       </div>
 
