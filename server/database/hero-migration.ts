@@ -5,7 +5,7 @@ export async function createHeroTable() {
     const db = await initializeDatabase();
     
     // Criar tabela hero
-    await db.query(`
+    await db.execute(`
       CREATE TABLE IF NOT EXISTS hero_settings (
         id INT PRIMARY KEY AUTO_INCREMENT,
         title TEXT NOT NULL,
