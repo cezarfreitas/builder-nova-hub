@@ -837,7 +837,7 @@ export default function Index() {
                 className="absolute inset-0"
                 style={{
                   backgroundColor: currentHero.background_color,
-                  minHeight: '100vh'
+                  minHeight: "100vh",
                 }}
               >
                 {currentHero.background_image && (
@@ -846,7 +846,7 @@ export default function Index() {
                     alt=""
                     className="absolute inset-0 w-full h-full object-cover"
                     style={{
-                      zIndex: 1
+                      zIndex: 1,
                     }}
                     loading="eager"
                     fetchpriority="high"
@@ -2215,7 +2215,9 @@ export default function Index() {
                       <div className="aspect-square overflow-hidden">
                         <OptimizedImage
                           src={image.image_url}
-                          alt={image.alt_text || image.title || "Imagem da galeria"}
+                          alt={
+                            image.alt_text || image.title || "Imagem da galeria"
+                          }
                           width={400}
                           height={400}
                           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"

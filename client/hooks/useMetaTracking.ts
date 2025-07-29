@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
-import { useMetaTracking as useMetaTrackingContext } from '../contexts/MetaTrackingContext';
+import { useEffect } from "react";
+import { useMetaTracking as useMetaTrackingContext } from "../contexts/MetaTrackingContext";
 
 // Re-export from context for backwards compatibility
-export { useMetaTracking } from '../contexts/MetaTrackingContext';
+export { useMetaTracking } from "../contexts/MetaTrackingContext";
 
 interface PageViewData {
   page_title: string;

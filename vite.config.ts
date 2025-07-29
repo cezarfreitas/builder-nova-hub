@@ -33,12 +33,12 @@ export default defineConfig(({ mode }) => ({
             "@radix-ui/react-dialog",
             "@radix-ui/react-toast",
             "@radix-ui/react-accordion",
-            "@radix-ui/react-alert-dialog"
+            "@radix-ui/react-alert-dialog",
           ],
           // Charts (só para admin)
           charts: ["chart.js", "react-chartjs-2"],
           // Utilities
-          utils: ["date-fns", "clsx", "tailwind-merge"]
+          utils: ["date-fns", "clsx", "tailwind-merge"],
         },
         chunkFileNames: "assets/[name]-[hash].js",
         entryFileNames: "assets/[name]-[hash].js",
