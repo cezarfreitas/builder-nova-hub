@@ -9,7 +9,7 @@ import { Button } from "../../components/ui/button";
 import { Badge } from "../../components/ui/badge";
 import { TokenColorEditor } from "../../components/TokenColorEditor";
 import { useToast } from "../../hooks/use-toast";
-import { useContent } from "../../hooks/useContent";
+import { useBenefits } from "../../hooks/useBenefits";
 import {
   Award,
   Save,
@@ -38,46 +38,41 @@ interface BenefitsSettings {
 }
 
 export default function AdminBenefits() {
-  const { content, loading: contentLoading, saveContent } = useContent();
-  const [settings, setSettings] = useState<BenefitsSettings>(content.benefits);
+  const { benefits, loading: benefitsLoading, saveBenefits } = useBenefits();
+  const [settings, setSettings] = useState<BenefitsSettings>(benefits);
   const [saving, setSaving] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
   const [activeTab, setActiveTab] = useState<'textos' | 'cards' | 'cta'>('textos');
   const { toast } = useToast();
 
-  // Sincronizar com o conteúdo JSON quando carregado
+  // Sincronizar com os dados do benefits quando carregados
   useEffect(() => {
-    if (content.benefits) {
-      setSettings(content.benefits);
+    if (benefits) {
+      setSettings(benefits);
     }
-  }, [content.benefits]);
+  }, [benefits]);
 
   // Detectar mudanças
   useEffect(() => {
-    const hasChanges = JSON.stringify(settings) !== JSON.stringify(content.benefits);
+    const hasChanges = JSON.stringify(settings) !== JSON.stringify(benefits);
     setHasChanges(hasChanges);
-  }, [settings, content.benefits]);
+  }, [settings, benefits]);
 
   // Salvar configurações
   const saveSettings = async () => {
     try {
       setSaving(true);
 
-      const updatedContent = {
-        ...content,
-        benefits: settings,
-      };
-
-      const result = await saveContent(updatedContent);
+      const result = await saveBenefits(settings);
 
       if (result.success) {
         toast({
           title: "Benefícios atualizado!",
-          description: "As configurações foram salvas com sucesso.",
+          description: "As configurações foram salvas com sucesso no banco de dados.",
         });
         setHasChanges(false);
       } else {
-        throw new Error("Falha ao salvar");
+        throw new Error(result.error || "Falha ao salvar");
       }
     } catch (error) {
       console.error("Erro ao salvar configurações de benefits:", error);
@@ -113,7 +108,7 @@ export default function AdminBenefits() {
     }));
   };
 
-  if (contentLoading) {
+  if (benefitsLoading) {
     return (
       <div className="flex items-center justify-center h-64">
         <Loader2 className="h-8 w-8 animate-spin text-ecko-red" />
