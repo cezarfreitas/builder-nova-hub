@@ -86,7 +86,9 @@
     <link rel="preconnect" href="https://www.ntktextil.com.br" />
     <link rel="dns-prefetch" href="https://estyle.vteximg.com.br" />
 
-    <!-- Preload critical resources -->
+    <!-- Preload critical resources - React first -->
+    <link rel="modulepreload" href="/node_modules/react/index.js" />
+    <link rel="modulepreload" href="/node_modules/react-dom/client.js" />
     <link rel="modulepreload" href="/client/App.tsx" />
     <link rel="modulepreload" href="/client/pages/Index.tsx" />
 
