@@ -86,10 +86,16 @@ export default defineConfig(({ mode }) => ({
       "@shared": path.resolve(__dirname, "./shared"),
     },
   },
-  // Optimize dependencies - ensure React is loaded first
+  // Optimize dependencies - ensure React ecosystem is properly bundled
   optimizeDeps: {
-    include: ["react", "react-dom", "react/jsx-runtime"],
-    force: true
+    include: [
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+      "react-router-dom"
+    ],
+    exclude: [], // Don't exclude anything that might cause issues
+    force: false // Let Vite handle this naturally
   },
 
   // CSS optimization
