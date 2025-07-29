@@ -250,6 +250,7 @@ export async function initializeDatabase(): Promise<mysql.Pool> {
     await insertDefaultSettings(db);
 
     console.log("✅ Banco de dados inicializado com sucesso!");
+    return db;
   } catch (error) {
     console.error("❌ Erro ao inicializar banco de dados:", error);
     throw error;
