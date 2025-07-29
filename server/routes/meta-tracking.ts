@@ -307,12 +307,11 @@ export async function checkMetaPixelConfig(req: Request, res: Response) {
       testCode = integrationsSettings.meta_test_code;
       conversionName = integrationsSettings.meta_conversion_name;
     } else {
-      // Fallback para o sistema antigo
-      const settings = await readSettingsFromFile();
-      pixelId = settings.meta_pixel_id?.value;
-      accessToken = settings.meta_access_token?.value;
-      testCode = settings.meta_test_code?.value;
-      conversionName = settings.meta_conversion_name?.value;
+      console.warn("⚠️ Configurações de integrações não encontradas no MySQL");
+      return res.status(500).json({
+        success: false,
+        error: "Configurações não encontradas"
+      });
     }
 
     const config = {
