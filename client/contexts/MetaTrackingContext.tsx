@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
-import { robustFetchJson } from '../utils/robustFetch';
+import { robustFetchJson, robustFetch } from '../utils/robustFetch';
 
 interface TrackingEvent {
   event_name: string;
