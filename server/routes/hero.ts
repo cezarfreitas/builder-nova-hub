@@ -208,14 +208,14 @@ router.put("/", async (req, res) => {
 });
 
 // DELETE /api/hero - Resetar para configurações padrão
-router.delete("/", (req, res) => {
+router.delete("/", async (req, res) => {
   try {
-    const result = saveHeroSettings(defaultHeroSettings);
+    const result = await saveHeroSettings(defaultHeroSettings);
 
     if (result.success) {
       res.json({
         success: true,
-        message: "Configurações do hero resetadas para o padrão",
+        message: "Configurações do hero resetadas para o padrão no banco de dados",
         data: defaultHeroSettings,
       });
     } else {
