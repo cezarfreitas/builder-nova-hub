@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/ca
 import { Badge } from "../../components/ui/badge";
 import { Input } from "../../components/ui/input";
 import { useToast } from "../../hooks/use-toast";
-import { useContent } from "../../hooks/useContent";
+import { useForm } from "../../hooks/useForm";
 import { TokenColorEditor } from "../../components/TokenColorEditor";
 import {
   FormInput,
@@ -56,46 +56,41 @@ interface FormSettings {
 }
 
 export default function AdminForm() {
-  const { content, loading: contentLoading, saveContent } = useContent();
-  const [settings, setSettings] = useState<FormSettings>(content.form);
+  const { form, loading: formLoading, saveForm } = useForm();
+  const [settings, setSettings] = useState<FormSettings>(form);
   const [saving, setSaving] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
   const [activeTab, setActiveTab] = useState<'titulos' | 'campos' | 'mensagens'>('titulos');
   const { toast } = useToast();
 
-  // Sincronizar com o conteúdo JSON quando carregado
+  // Sincronizar com os dados do form quando carregados
   useEffect(() => {
-    if (content.form) {
-      setSettings(content.form);
+    if (form) {
+      setSettings(form);
     }
-  }, [content.form]);
+  }, [form]);
 
   // Detectar mudanças
   useEffect(() => {
-    const hasChanges = JSON.stringify(settings) !== JSON.stringify(content.form);
+    const hasChanges = JSON.stringify(settings) !== JSON.stringify(form);
     setHasChanges(hasChanges);
-  }, [settings, content.form]);
+  }, [settings, form]);
 
   // Salvar configurações
   const saveSettings = async () => {
     try {
       setSaving(true);
 
-      const updatedContent = {
-        ...content,
-        form: settings,
-      };
-
-      const result = await saveContent(updatedContent);
+      const result = await saveForm(settings);
 
       if (result.success) {
         toast({
           title: "Formulário atualizado!",
-          description: "As configurações foram salvas com sucesso.",
+          description: "As configurações foram salvas com sucesso no banco de dados.",
         });
         setHasChanges(false);
       } else {
-        throw new Error("Falha ao salvar");
+        throw new Error(result.error || "Falha ao salvar");
       }
     } catch (error) {
       console.error("Erro ao salvar formulário:", error);
@@ -129,7 +124,7 @@ export default function AdminForm() {
     }
   };
 
-  if (contentLoading) {
+  if (formLoading) {
     return (
       <div className="flex items-center justify-center h-64">
         <Loader2 className="h-8 w-8 animate-spin text-ecko-red" />
