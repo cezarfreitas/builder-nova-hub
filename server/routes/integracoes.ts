@@ -83,10 +83,9 @@ export async function sendGA4Event(leadData: any) {
 // Função para enviar evento para Meta Pixel (Conversions API)
 export async function sendMetaPixelEvent(leadData: any) {
   try {
-    const settings = await readSettingsFromFile();
-    const pixelId = settings.meta_pixel_id?.value;
-    const accessToken = settings.meta_access_token?.value;
-    const eventName = settings.meta_conversion_name?.value || "Lead";
+    const pixelId = await getSettingValue("meta_pixel_id");
+    const accessToken = await getSettingValue("meta_access_token");
+    const eventName = await getSettingValue("meta_conversion_name") || "Lead";
 
     if (!pixelId || !accessToken) {
       console.log("Meta Pixel não configurado - pulando envio");
@@ -94,7 +93,7 @@ export async function sendMetaPixelEvent(leadData: any) {
     }
 
     const eventTime = Math.floor(Date.now() / 1000);
-    const testCode = settings.meta_test_code?.value;
+    const testCode = await getSettingValue("meta_test_code");
 
     // Preparar dados do usuário com hash SHA256
     const phone = leadData.telefone ? leadData.telefone.replace(/\D/g, "") : "";
