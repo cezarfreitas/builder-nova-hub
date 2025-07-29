@@ -10,7 +10,7 @@ import { Badge } from "../../components/ui/badge";
 import { Input } from "../../components/ui/input";
 import { Textarea } from "../../components/ui/textarea";
 import { useToast } from "../../hooks/use-toast";
-import { useContent } from "../../hooks/useContent";
+import { useGallery } from "../../hooks/useGallery";
 import { SmartImageUpload } from "../../components/SmartImageUpload";
 import { MultiImageUpload } from "../../components/MultiImageUpload";
 import { TokenColorEditor } from "../../components/TokenColorEditor";
@@ -58,8 +58,17 @@ interface GallerySettings {
 }
 
 export default function AdminGallery() {
-  const { content, loading: contentLoading, saveContent } = useContent();
-  const [settings, setSettings] = useState<GallerySettings>(content.gallery);
+  const {
+    gallery,
+    loading: galleryLoading,
+    saveGallerySettings,
+    addImage: addImageToDb,
+    updateImage: updateImageInDb,
+    deleteImage: deleteImageFromDb,
+    toggleImage: toggleImageInDb,
+    reorderImages: reorderImagesInDb
+  } = useGallery();
+  const [settings, setSettings] = useState<GallerySettings>(gallery);
   const [saving, setSaving] = useState(false);
   const [activeTab, setActiveTab] = useState<"galeria" | "textos">("galeria");
   const [showForm, setShowForm] = useState(false);
@@ -68,40 +77,56 @@ export default function AdminGallery() {
   const [validation, setValidation] = useState<{ [key: string]: string }>({});
   const { toast } = useToast();
 
-  // Sincronizar com o conteúdo JSON quando carregado
+  // Sincronizar com os dados da galeria quando carregados
   useEffect(() => {
-    if (content.gallery) {
-      setSettings(content.gallery);
+    if (gallery) {
+      setSettings(gallery);
     }
-  }, [content.gallery]);
+  }, [gallery]);
 
-  // Detectar mudanças
+  // Detectar mudanças (apenas nos textos)
   useEffect(() => {
-    const hasChanges =
-      JSON.stringify(settings) !== JSON.stringify(content.gallery);
+    const textFields = {
+      section_tag: settings.section_tag,
+      section_title: settings.section_title,
+      section_subtitle: settings.section_subtitle,
+      section_description: settings.section_description,
+      empty_state_title: settings.empty_state_title,
+      empty_state_description: settings.empty_state_description,
+      cta_title: settings.cta_title,
+      cta_description: settings.cta_description,
+      cta_button_text: settings.cta_button_text
+    };
+    const galleryTextFields = {
+      section_tag: gallery.section_tag,
+      section_title: gallery.section_title,
+      section_subtitle: gallery.section_subtitle,
+      section_description: gallery.section_description,
+      empty_state_title: gallery.empty_state_title,
+      empty_state_description: gallery.empty_state_description,
+      cta_title: gallery.cta_title,
+      cta_description: gallery.cta_description,
+      cta_button_text: gallery.cta_button_text
+    };
+    const hasChanges = JSON.stringify(textFields) !== JSON.stringify(galleryTextFields);
     setHasChanges(hasChanges);
-  }, [settings, content.gallery]);
+  }, [settings, gallery]);
 
-  // Salvar configurações
+  // Salvar configurações de texto
   const saveSettings = async () => {
     try {
       setSaving(true);
 
-      const updatedContent = {
-        ...content,
-        gallery: settings,
-      };
-
-      const result = await saveContent(updatedContent);
+      const result = await saveGallerySettings(settings);
 
       if (result.success) {
         toast({
           title: "Galeria atualizada!",
-          description: "As configurações foram salvas com sucesso.",
+          description: "As configurações de texto foram salvas com sucesso no banco de dados.",
         });
         setHasChanges(false);
       } else {
-        throw new Error("Falha ao salvar");
+        throw new Error(result.error || "Falha ao salvar");
       }
     } catch (error) {
       console.error("Erro ao salvar galeria:", error);
@@ -125,43 +150,37 @@ export default function AdminGallery() {
 
   // Adicionar nova imagem
   const addImage = () => {
-    const newId = Math.max(...settings.items.map((img) => img.id), 0) + 1;
-    const newImage: GalleryItem = {
-      id: newId,
+    const newImage: Omit<GalleryItem, 'id'> = {
       image_url: "",
       is_active: true,
       display_order: settings.items.length + 1,
     };
 
-    setSettings((prev) => ({
-      ...prev,
-      items: [...prev.items, newImage],
-    }));
-    setEditingImage(newImage);
+    setEditingImage({ ...newImage, id: 0 } as GalleryItem);
     setShowForm(true);
   };
 
   // Adicionar múltiplas imagens
-  const addMultipleImages = (urls: string[]) => {
-    const newImages: GalleryItem[] = urls.map((url, index) => {
-      const newId =
-        Math.max(...settings.items.map((img) => img.id), 0) + index + 1;
-      return {
-        id: newId,
+  const addMultipleImages = async (urls: string[]) => {
+    let successCount = 0;
+
+    for (let index = 0; index < urls.length; index++) {
+      const url = urls[index];
+      const imageData: Omit<GalleryItem, 'id'> = {
         image_url: url,
         is_active: true,
         display_order: settings.items.length + index + 1,
       };
-    });
 
-    setSettings((prev) => ({
-      ...prev,
-      items: [...prev.items, ...newImages],
-    }));
+      const result = await addImageToDb(imageData);
+      if (result.success) {
+        successCount++;
+      }
+    }
 
     toast({
       title: "Imagens adicionadas!",
-      description: `${urls.length} ${urls.length === 1 ? "imagem foi adicionada" : "imagens foram adicionadas"} à galeria.`,
+      description: `${successCount} ${successCount === 1 ? "imagem foi adicionada" : "imagens foram adicionadas"} à galeria.`,
     });
   };
 
@@ -172,7 +191,7 @@ export default function AdminGallery() {
   };
 
   // Salvar imagem editada
-  const saveImage = (image: GalleryItem) => {
+  const saveImage = async (image: GalleryItem) => {
     // Validação básica - apenas imagem é obrigatória
     if (!image.image_url.trim()) {
       toast({
@@ -183,63 +202,46 @@ export default function AdminGallery() {
       return;
     }
 
-    setSettings((prev) => ({
-      ...prev,
-      items: prev.items.map((item) => (item.id === image.id ? image : item)),
-    }));
-    setShowForm(false);
-    setEditingImage(null);
+    let result;
+    if (image.id === 0) {
+      // Nova imagem
+      const { id, ...imageData } = image;
+      result = await addImageToDb(imageData);
+    } else {
+      // Atualizar imagem existente
+      result = await updateImageInDb(image.id, image);
+    }
+
+    if (result.success) {
+      toast({
+        title: "Imagem salva!",
+        description: "A imagem foi salva com sucesso.",
+      });
+      setShowForm(false);
+      setEditingImage(null);
+    } else {
+      toast({
+        title: "Erro ao salvar",
+        description: result.error || "Não foi possível salvar a imagem.",
+        variant: "destructive",
+      });
+    }
   };
 
   // Excluir imagem
   const deleteImage = async (id: number) => {
     if (confirm("Tem certeza que deseja excluir esta imagem?")) {
-      const imageToDelete = settings.items.find((item) => item.id === id);
-      const newSettings = {
-        ...settings,
-        items: settings.items.filter((item) => item.id !== id),
-      };
+      const result = await deleteImageFromDb(id);
 
-      setSettings(newSettings);
-
-      // Auto-save após exclusão
-      try {
-        const updatedContent = {
-          ...content,
-          gallery: newSettings,
-        };
-
-        const result = await saveContent(updatedContent);
-
-        if (result.success) {
-          // Tentar remover arquivo físico se for upload local
-          if (imageToDelete?.image_url.startsWith("/uploads/")) {
-            const filename = imageToDelete.image_url.split("/").pop();
-            if (filename) {
-              try {
-                await fetch(`/api/uploads/${filename}`, {
-                  method: "DELETE",
-                });
-              } catch (deleteError) {
-                console.warn("Erro ao deletar arquivo físico:", deleteError);
-                // Não mostrar erro ao usuário, pois a imagem já foi removida do JSON
-              }
-            }
-          }
-
-          toast({
-            title: "Imagem excluída",
-            description: "A imagem foi removida e salva automaticamente.",
-          });
-        } else {
-          throw new Error("Falha ao salvar");
-        }
-      } catch (error) {
-        console.error("Erro ao salvar após exclusão:", error);
+      if (result.success) {
         toast({
-          title: "Imagem removida localmente",
-          description:
-            "Clique em 'Salvar Alterações' para confirmar a exclusão.",
+          title: "Imagem excluída",
+          description: "A imagem foi removida do banco de dados.",
+        });
+      } else {
+        toast({
+          title: "Erro ao excluir",
+          description: result.error || "Não foi possível excluir a imagem.",
           variant: "destructive",
         });
       }
@@ -248,41 +250,24 @@ export default function AdminGallery() {
 
   // Toggle ativo/inativo
   const toggleImage = async (id: number) => {
-    const newSettings = {
-      ...settings,
-      items: settings.items.map((item) =>
-        item.id === id ? { ...item, is_active: !item.is_active } : item,
-      ),
-    };
+    const result = await toggleImageInDb(id);
 
-    setSettings(newSettings);
-
-    // Auto-save após toggle
-    try {
-      const updatedContent = {
-        ...content,
-        gallery: newSettings,
-      };
-
-      await saveContent(updatedContent);
-
-      const toggledImage = newSettings.items.find((item) => item.id === id);
+    if (result.success) {
       toast({
-        title: `Imagem ${toggledImage?.is_active ? "ativada" : "desativada"}`,
-        description: "Alteração salva automaticamente.",
+        title: `Imagem ${result.data?.is_active ? "ativada" : "desativada"}`,
+        description: "Status alterado com sucesso.",
       });
-    } catch (error) {
-      console.error("Erro ao salvar toggle:", error);
+    } else {
       toast({
-        title: "Status alterado localmente",
-        description: "Clique em 'Salvar Alterações' para confirmar.",
+        title: "Erro ao alterar status",
+        description: result.error || "Não foi possível alterar o status.",
         variant: "destructive",
       });
     }
   };
 
   // Reordenar imagens
-  const reorderImages = (fromIndex: number, toIndex: number) => {
+  const reorderImages = async (fromIndex: number, toIndex: number) => {
     const newItems = [...settings.items];
     const [movedItem] = newItems.splice(fromIndex, 1);
     newItems.splice(toIndex, 0, movedItem);
@@ -293,13 +278,18 @@ export default function AdminGallery() {
       display_order: index + 1,
     }));
 
-    setSettings((prev) => ({
-      ...prev,
-      items: reorderedItems,
-    }));
+    const result = await reorderImagesInDb(reorderedItems);
+
+    if (!result.success) {
+      toast({
+        title: "Erro ao reordenar",
+        description: result.error || "Não foi possível reordenar as imagens.",
+        variant: "destructive",
+      });
+    }
   };
 
-  if (contentLoading) {
+  if (galleryLoading) {
     return (
       <div className="flex items-center justify-center h-64">
         <Loader2 className="h-8 w-8 animate-spin text-ecko-red" />
