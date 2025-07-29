@@ -45,22 +45,11 @@ router.post("/", async (req, res) => {
     // Salvar no lp_settings
     await saveFooterToLpSettings(footerSettings);
 
-    // Também atualizar no content.json principal para compatibilidade
-    try {
-      await ensureDataDirectory();
-      const contentData = await fs.readFile(CONTENT_FILE_PATH, "utf-8");
-      const content = JSON.parse(contentData);
-      
-      content.footer = footerSettings;
-      
-      await fs.writeFile(CONTENT_FILE_PATH, JSON.stringify(content, null, 2), "utf-8");
-    } catch (error) {
-      console.warn("Aviso: Não foi possível atualizar content.json:", error);
-    }
+    console.log("✅ Configurações Footer salvas apenas no MySQL");
 
-    res.json({ 
-      success: true, 
-      message: "Configurações Footer salvas com sucesso em lp_settings",
+    res.json({
+      success: true,
+      message: "Configurações Footer salvas com sucesso no MySQL",
       data: footerSettings
     });
   } catch (error) {
