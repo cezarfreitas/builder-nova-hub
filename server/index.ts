@@ -423,7 +423,7 @@ export function createServer() {
           console.log("✅ Tabela hero_settings excluída com sucesso!");
         }
       } catch (migrationError) {
-        console.warn("⚠️ Aviso na migração do hero:", migrationError);
+        console.warn("⚠��� Aviso na migração do hero:", migrationError);
       }
 
       // Verificar se precisa migrar about para lp_settings
@@ -479,6 +479,17 @@ export function createServer() {
         );
       } catch (galleryMigrationError) {
         console.warn("⚠️ Aviso na migração da gallery:", galleryMigrationError);
+      }
+
+      // Verificar se precisa migrar testimonials para lp_settings
+      console.log("🔄 Verificando necessidade de migração dos testimonials...");
+      try {
+        const testimonialsMigrationResult = await migrateTestimonialsToLpSettings();
+        console.log(
+          `✅ Migração dos testimonials concluída: ${testimonialsMigrationResult.migratedCount} configurações de texto, ${testimonialsMigrationResult.itemsCount} depoimentos`,
+        );
+      } catch (testimonialsMigrationError) {
+        console.warn("⚠️ Aviso na migração dos testimonials:", testimonialsMigrationError);
       }
 
       console.log("✅ Banco de dados inicializado com sucesso!");
