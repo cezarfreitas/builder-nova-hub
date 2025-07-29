@@ -831,21 +831,27 @@ export default function Index() {
             </div>
           ) : currentHero ? (
             <>
-              {/* Background Layer */}
-              <div className="absolute inset-0">
-                <div
-                  className="w-full h-full"
-                  style={{ backgroundColor: currentHero.background_color }}
-                />
-
+              {/* Background Layer - Fixed to prevent CLS */}
+              <div
+                className="absolute inset-0"
+                style={{
+                  backgroundColor: currentHero.background_color,
+                  minHeight: '100vh'
+                }}
+              >
                 {currentHero.background_image && (
                   <img
                     src={currentHero.background_image}
-                    alt="Background do Hero"
+                    alt=""
                     className="absolute inset-0 w-full h-full object-cover"
-                    style={{ zIndex: 1 }}
+                    style={{
+                      zIndex: 1
+                    }}
                     loading="eager"
                     fetchpriority="high"
+                    width="1920"
+                    height="1080"
+                    decoding="async"
                   />
                 )}
 
