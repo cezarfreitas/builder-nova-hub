@@ -71,9 +71,10 @@ export default defineConfig(({ mode }) => ({
       "@shared": path.resolve(__dirname, "./shared"),
     },
   },
-  // Optimize dependencies
+  // Optimize dependencies - ensure React is loaded first
   optimizeDeps: {
-    include: ["react", "react-dom"],
+    include: ["react", "react-dom", "react/jsx-runtime"],
+    force: true
   },
 
   // CSS optimization
