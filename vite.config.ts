@@ -96,9 +96,15 @@ export default defineConfig(({ mode }) => ({
   },
   // Optimize dependencies - ensure React ecosystem is properly bundled
   optimizeDeps: {
-    include: ["react", "react-dom", "react/jsx-runtime", "react-router-dom"],
+    include: [
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+      "react-router-dom",
+      "react-dom/client"
+    ],
     exclude: [], // Don't exclude anything that might cause issues
-    force: false, // Let Vite handle this naturally
+    force: true, // Force re-optimization to ensure React is properly bundled
   },
 
   // CSS optimization
