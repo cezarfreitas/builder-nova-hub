@@ -211,7 +211,7 @@
     "section_tag": "Depoimentos",
     "section_title": "O que nossos revendedores dizem",
     "section_subtitle": "casos reais de sucesso",
-    "section_description": "Depoimentos reais de parceiros que transformaram suas paix��es em negócios lucrativos com a Ecko",
+    "section_description": "Depoimentos reais de parceiros que transformaram suas paixões em negócios lucrativos com a Ecko",
     "items": [
       {
         "id": 1,
@@ -219,7 +219,7 @@
         "company": "Silva Streetwear",
         "role": "Proprietário",
         "content": "Trabalhar com a Ecko mudou completamente meu negócio. As vendas triplicaram em apenas 6 meses e os clientes sempre voltam para comprar mais. A qualidade dos produtos é excepcional!",
-        "avatar_url": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+        "avatar_url": "/placeholder.svg",
         "rating": 5,
         "is_active": true,
         "display_order": 1
