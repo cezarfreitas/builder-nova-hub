@@ -30,14 +30,6 @@ const defaultHeroSettings = {
   logo_url: "",
 };
 
-// Função para garantir que o diretório existe
-function ensureDataDirectory() {
-  const dataDir = path.dirname(HERO_DATA_PATH);
-  if (!fs.existsSync(dataDir)) {
-    fs.mkdirSync(dataDir, { recursive: true });
-  }
-}
-
 // Função para carregar configurações do hero do lp_settings
 async function loadHeroSettings() {
   try {
