@@ -1342,3 +1342,215 @@ export async function saveGalleryToLpSettings(galleryData: any) {
     throw error;
   }
 }
+
+// ================================
+// FUNÇÕES PARA TESTIMONIALS
+// ================================
+
+export async function migrateTestimonialsToLpSettings() {
+  try {
+    const db = await initializeDatabase();
+
+    console.log("🔄 Iniciando migração dos testimonials para lp_settings...");
+
+    // 1. Tentar carregar dados do content.json
+    let testimonialsData: any = null;
+    try {
+      const contentPath = path.join(process.cwd(), 'client/data/content.json');
+      const contentFile = await fs.readFile(contentPath, 'utf-8');
+      const contentJson = JSON.parse(contentFile);
+      testimonialsData = contentJson.testimonials;
+      console.log("✅ Dados encontrados no arquivo content.json");
+    } catch (error) {
+      console.log("ℹ️ Arquivo content.json não encontrado ou inválido");
+    }
+
+    // 2. Se não tem dados, usar dados padrão
+    if (!testimonialsData) {
+      testimonialsData = {
+        section_tag: "Depoimentos",
+        section_title: "O que nossos revendedores dizem",
+        section_subtitle: "casos reais de sucesso",
+        section_description: "Depoimentos reais de parceiros que transformaram suas paixões em negócios lucrativos com a Ecko",
+        cta_title: "Seja o próximo case de sucesso!",
+        cta_description: "Junte-se aos revendedores que já transformaram seus negócios",
+        cta_button_text: "QUERO SER UM CASE DE SUCESSO",
+        items: []
+      };
+      console.log("ℹ️ Usando dados padrão dos testimonials");
+    }
+
+    // 3. Migrar textos para lp_settings
+    const testimonialsSettings = [
+      { key: "testimonials_section_tag", value: testimonialsData.section_tag || "", type: "text" },
+      { key: "testimonials_section_title", value: testimonialsData.section_title || "", type: "text" },
+      { key: "testimonials_section_subtitle", value: testimonialsData.section_subtitle || "", type: "text" },
+      { key: "testimonials_section_description", value: testimonialsData.section_description || "", type: "text" },
+      { key: "testimonials_cta_title", value: testimonialsData.cta_title || "", type: "text" },
+      { key: "testimonials_cta_description", value: testimonialsData.cta_description || "", type: "text" },
+      { key: "testimonials_cta_button_text", value: testimonialsData.cta_button_text || "", type: "text" }
+    ];
+
+    // 4. Inserir/atualizar textos na tabela lp_settings
+    for (const setting of testimonialsSettings) {
+      await db.execute(
+        `
+        INSERT INTO lp_settings (setting_key, setting_value, setting_type)
+        VALUES (?, ?, ?)
+        ON DUPLICATE KEY UPDATE
+        setting_value = VALUES(setting_value),
+        setting_type = VALUES(setting_type),
+        updated_at = CURRENT_TIMESTAMP
+      `,
+        [setting.key, setting.value, setting.type],
+      );
+    }
+
+    // 5. Migrar itens para tabela testimonials (se existirem)
+    let migratedItemsCount = 0;
+    if (testimonialsData.items && Array.isArray(testimonialsData.items)) {
+      for (const item of testimonialsData.items) {
+        try {
+          // Verificar se já existe
+          const [existing] = await db.execute(
+            `SELECT id FROM testimonials WHERE name = ? AND content = ?`,
+            [item.name, item.content]
+          );
+
+          if ((existing as any[]).length === 0) {
+            await db.execute(
+              `INSERT INTO testimonials (name, company, role, content, avatar_url, rating, is_active, display_order)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+              [
+                item.name || '',
+                item.company || null,
+                item.role || null,
+                item.content || '',
+                item.avatar_url || null,
+                item.rating || 5,
+                item.is_active !== false, // default true
+                item.display_order || 0
+              ]
+            );
+            migratedItemsCount++;
+          }
+        } catch (itemError) {
+          console.warn(`⚠️ Erro ao migrar item dos testimonials:`, itemError);
+        }
+      }
+    }
+
+    console.log("✅ Dados dos testimonials migrados para lp_settings com sucesso!");
+
+    // 6. Verificar se a migração foi bem-sucedida
+    const [verifyResults] = await db.execute(
+      "SELECT COUNT(*) as count FROM lp_settings WHERE setting_key LIKE 'testimonials_%'"
+    );
+    const textConfigsCount = (verifyResults as any[])[0].count;
+
+    const [verifyItems] = await db.execute(
+      "SELECT COUNT(*) as count FROM testimonials"
+    );
+    const itemsCount = (verifyItems as any[])[0].count;
+
+    console.log(`✅ ${textConfigsCount} configurações de texto dos testimonials encontradas em lp_settings`);
+    console.log(`✅ ${itemsCount} itens encontrados na tabela testimonials`);
+
+    return {
+      success: true,
+      migratedCount: textConfigsCount,
+      itemsCount: migratedItemsCount
+    };
+  } catch (error) {
+    console.error("❌ Erro na migração dos testimonials:", error);
+    throw error;
+  }
+}
+
+export async function getTestimonialsFromLpSettings() {
+  try {
+    const db = await initializeDatabase();
+
+    // Buscar todas as configurações de testimonials
+    const [results] = await db.execute(
+      "SELECT setting_key, setting_value, setting_type FROM lp_settings WHERE setting_key LIKE 'testimonials_%'"
+    );
+
+    const settings = results as Array<{
+      setting_key: string;
+      setting_value: string;
+      setting_type: string;
+    }>;
+
+    // Converter para objeto
+    const testimonialsData: any = {
+      section_tag: "Depoimentos",
+      section_title: "O que nossos revendedores dizem",
+      section_subtitle: "casos reais de sucesso",
+      section_description: "Depoimentos reais de parceiros que transformaram suas paixões em negócios lucrativos com a Ecko",
+      cta_title: "Seja o próximo case de sucesso!",
+      cta_description: "Junte-se aos revendedores que já transformaram seus negócios",
+      cta_button_text: "QUERO SER UM CASE DE SUCESSO"
+    };
+
+    // Mapear configurações
+    settings.forEach(setting => {
+      const key = setting.setting_key.replace('testimonials_', '');
+      let value = setting.setting_value;
+
+      // Parse JSON se necessário
+      if (setting.setting_type === 'json' && value) {
+        try {
+          value = JSON.parse(value);
+        } catch (e) {
+          console.warn(`⚠️ Erro ao fazer parse JSON da configuração ${setting.setting_key}:`, e);
+        }
+      }
+
+      testimonialsData[key] = value;
+    });
+
+    return testimonialsData;
+  } catch (error) {
+    console.error("❌ Erro ao buscar testimonials do lp_settings:", error);
+    throw error;
+  }
+}
+
+export async function saveTestimonialsToLpSettings(testimonialsData: any) {
+  try {
+    const db = await initializeDatabase();
+
+    // Converter dados dos testimonials para formato de lp_settings (apenas textos)
+    const testimonialsSettings = [
+      { key: "testimonials_section_tag", value: testimonialsData.section_tag || "", type: "text" },
+      { key: "testimonials_section_title", value: testimonialsData.section_title || "", type: "text" },
+      { key: "testimonials_section_subtitle", value: testimonialsData.section_subtitle || "", type: "text" },
+      { key: "testimonials_section_description", value: testimonialsData.section_description || "", type: "text" },
+      { key: "testimonials_cta_title", value: testimonialsData.cta_title || "", type: "text" },
+      { key: "testimonials_cta_description", value: testimonialsData.cta_description || "", type: "text" },
+      { key: "testimonials_cta_button_text", value: testimonialsData.cta_button_text || "", type: "text" }
+    ];
+
+    // Atualizar/inserir cada configuração
+    for (const setting of testimonialsSettings) {
+      await db.execute(
+        `
+        INSERT INTO lp_settings (setting_key, setting_value, setting_type)
+        VALUES (?, ?, ?)
+        ON DUPLICATE KEY UPDATE
+        setting_value = VALUES(setting_value),
+        setting_type = VALUES(setting_type),
+        updated_at = CURRENT_TIMESTAMP
+      `,
+        [setting.key, setting.value, setting.type],
+      );
+    }
+
+    console.log("✅ Testimonials salvos em lp_settings com sucesso!");
+    return { success: true, data: testimonialsData };
+  } catch (error) {
+    console.error("❌ Erro ao salvar testimonials em lp_settings:", error);
+    return { success: false, error: error instanceof Error ? error.message : 'Erro desconhecido' };
+  }
+}
