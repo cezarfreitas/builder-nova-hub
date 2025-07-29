@@ -357,7 +357,7 @@ export function createServer() {
       // Limpar referências de imagens quebradas
       cleanBrokenImageReferences();
 
-      // Gerar relatório de status
+      // Gerar relat��rio de status
       const statusReport = generateDataStatusReport();
       console.log("📊 Status dos dados:");
       console.log(
@@ -383,13 +383,21 @@ export function createServer() {
       console.log("🔄 Tentando conectar ao MySQL...");
       await initializeDatabase();
 
-      // Migrar dados do hero para lp_settings
-      console.log("🔄 Migrando dados do hero para lp_settings...");
-      await migrateHeroToLpSettings();
+      // Verificar se precisa migrar hero para lp_settings
+      console.log("🔄 Verificando necessidade de migração do hero...");
+      try {
+        const migrationResult = await migrateHeroToLpSettings();
+        console.log(`✅ Migração do hero concluída: ${migrationResult.migratedCount} configurações`);
 
-      // Excluir tabela hero_settings antiga
-      console.log("🗑️ Excluindo tabela hero_settings...");
-      await dropHeroTable();
+        // Excluir tabela hero_settings antiga
+        console.log("🗑️ Excluindo tabela hero_settings...");
+        const dropResult = await dropHeroTable();
+        if (dropResult.success) {
+          console.log("✅ Tabela hero_settings excluída com sucesso!");
+        }
+      } catch (migrationError) {
+        console.warn("⚠️ Aviso na migração do hero:", migrationError);
+      }
 
       console.log("✅ Banco de dados inicializado com sucesso!");
     } catch (error) {
