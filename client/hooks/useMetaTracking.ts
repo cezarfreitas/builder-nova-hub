@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useMetaTracking as useMetaTrackingContext } from '../contexts/MetaTrackingContext';
 
 // Re-export from context for backwards compatibility
 export { useMetaTracking } from '../contexts/MetaTrackingContext';
@@ -11,7 +12,7 @@ interface PageViewData {
 
 // Hook específico para scroll tracking
 export const useScrollTracking = () => {
-  const { trackScrollDepth } = useMetaTracking();
+  const { trackScrollDepth } = useMetaTrackingContext();
 
   useEffect(() => {
     let isTracking = true;
