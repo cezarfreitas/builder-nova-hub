@@ -207,8 +207,7 @@ export async function processLeadIntegrations(req: Request, res: Response) {
     results.metaPixel = metaResult;
 
     // Verificar se evento personalizado está ativado
-    const settings = await readSettingsFromFile();
-    const customEnabled = settings.custom_conversion_enabled?.value === "true";
+    const customEnabled = await getSettingValue("custom_conversion_enabled") === "true";
 
     if (customEnabled) {
       results.customEvent = { success: true, skipped: false };
