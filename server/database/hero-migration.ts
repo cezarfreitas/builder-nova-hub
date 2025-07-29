@@ -167,10 +167,10 @@ export async function saveHeroToDatabase(heroData: any) {
     const db = await initializeDatabase();
     
     // Marcar configuração atual como inativa
-    await db.query("UPDATE hero_settings SET is_active = false WHERE is_active = true");
-    
+    await db.execute("UPDATE hero_settings SET is_active = false WHERE is_active = true");
+
     // Inserir nova configuração
-    await db.query(`
+    await db.execute(`
       INSERT INTO hero_settings (
         title, subtitle, description, background_image, background_color,
         text_color, cta_primary_text, cta_secondary_text, cta_color,
