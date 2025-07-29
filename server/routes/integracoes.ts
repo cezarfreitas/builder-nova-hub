@@ -279,8 +279,8 @@ export async function testIntegrations(req: Request, res: Response) {
       metaPixel: await sendMetaPixelEvent(testLeadData),
     };
 
-    const settings = await readSettingsFromFile();
-    const customEnabled = settings.custom_conversion_enabled?.value === "true";
+    const customEnabled = await getSettingValue("custom_conversion_enabled") === "true";
+    const customEventName = await getSettingValue("custom_conversion_event") || "lead_captured";
 
     res.json({
       success: true,
@@ -290,7 +290,7 @@ export async function testIntegrations(req: Request, res: Response) {
         customEvent: {
           success: true,
           enabled: customEnabled,
-          eventName: settings.custom_conversion_event?.value || "lead_captured",
+          eventName: customEventName,
         },
       },
     });
