@@ -83,21 +83,7 @@ export default defineConfig(({ mode }) => ({
         return false; // Keep everything bundled for now
       }
     },
-    minify: 'terser',
-    terserOptions: {
-      compress: {
-        drop_console: true,
-        drop_debugger: true,
-        pure_funcs: ['console.log', 'console.info', 'console.debug', 'console.trace'],
-        passes: 2
-      },
-      mangle: {
-        safari10: true
-      },
-      format: {
-        comments: false
-      }
-    },
+    minify: 'esbuild',
     target: ["es2020", "chrome80", "firefox78", "safari14"],
     sourcemap: false,
     reportCompressedSize: false,
