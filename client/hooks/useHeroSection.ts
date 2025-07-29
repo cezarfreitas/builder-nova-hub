@@ -103,12 +103,13 @@ export function useHeroSection() {
     try {
       setError(null);
 
-      const response = await fetch("/api/hero", {
+      const response = await robustFetch("/api/hero", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(settings),
+        timeout: 8000,
       });
 
       if (!response.ok) {
