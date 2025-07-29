@@ -1,21 +1,11 @@
 import express from "express";
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
-import { dirname } from "path";
 import {
   getHeroFromLpSettings,
   saveHeroToLpSettings,
   migrateHeroToLpSettings,
 } from "../database/lp-settings-migration";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
 const router = express.Router();
-
-// Caminho para o arquivo JSON do hero (mantido para compatibilidade)
-const HERO_DATA_PATH = path.join(__dirname, "../data/hero.json");
 
 // Configurações padrão do hero
 const defaultHeroSettings = {
