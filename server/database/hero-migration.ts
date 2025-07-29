@@ -105,8 +105,8 @@ export async function migrateHeroDataFromJson() {
 async function insertDefaultHeroData() {
   try {
     const db = await initializeDatabase();
-    
-    await db.query(`
+
+    await db.execute(`
       INSERT INTO hero_settings (
         title, subtitle, description, background_image, background_color,
         text_color, cta_primary_text, cta_secondary_text, cta_color,
