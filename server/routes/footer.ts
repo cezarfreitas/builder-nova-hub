@@ -2,7 +2,7 @@ import { Router } from "express";
 import {
   getFooterFromLpSettings,
   saveFooterToLpSettings,
-  migrateFooterToLpSettings
+  migrateFooterToLpSettings,
 } from "../database/lp-settings-migration";
 
 const router = Router();
@@ -22,7 +22,7 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     const footerSettings = req.body;
-    
+
     // Validação básica
     if (!footerSettings || typeof footerSettings !== "object") {
       return res.status(400).json({ error: "Dados inválidos" });
@@ -36,7 +36,7 @@ router.post("/", async (req, res) => {
     res.json({
       success: true,
       message: "Configurações Footer salvas com sucesso no MySQL",
-      data: footerSettings
+      data: footerSettings,
     });
   } catch (error) {
     console.error("Erro ao salvar configurações Footer:", error);

@@ -455,7 +455,10 @@ export function createServer() {
           `✅ Migração do benefits concluída: ${benefitsMigrationResult.migratedCount} configurações`,
         );
       } catch (benefitsMigrationError) {
-        console.warn("⚠️ Aviso na migração do benefits:", benefitsMigrationError);
+        console.warn(
+          "⚠️ Aviso na migração do benefits:",
+          benefitsMigrationError,
+        );
       }
 
       // Verificar se precisa migrar form para lp_settings
@@ -483,12 +486,16 @@ export function createServer() {
       // Verificar se precisa migrar testimonials para lp_settings
       console.log("🔄 Verificando necessidade de migração dos testimonials...");
       try {
-        const testimonialsMigrationResult = await migrateTestimonialsToLpSettings();
+        const testimonialsMigrationResult =
+          await migrateTestimonialsToLpSettings();
         console.log(
           `✅ Migração dos testimonials concluída: ${testimonialsMigrationResult.migratedCount} configurações de texto, ${testimonialsMigrationResult.itemsCount} depoimentos`,
         );
       } catch (testimonialsMigrationError) {
-        console.warn("⚠️ Aviso na migração dos testimonials:", testimonialsMigrationError);
+        console.warn(
+          "⚠️ Aviso na migração dos testimonials:",
+          testimonialsMigrationError,
+        );
       }
 
       console.log("✅ Banco de dados inicializado com sucesso!");

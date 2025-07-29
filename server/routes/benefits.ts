@@ -2,7 +2,7 @@ import { Router } from "express";
 import {
   getBenefitsFromLpSettings,
   saveBenefitsToLpSettings,
-  migrateBenefitsToLpSettings
+  migrateBenefitsToLpSettings,
 } from "../database/lp-settings-migration";
 
 const router = Router();
@@ -13,7 +13,10 @@ router.get("/", async (req, res) => {
     const benefitsSettings = await getBenefitsFromLpSettings();
     res.json(benefitsSettings);
   } catch (error) {
-    console.error("Erro ao buscar configurações Benefits do lp_settings:", error);
+    console.error(
+      "Erro ao buscar configurações Benefits do lp_settings:",
+      error,
+    );
     res.status(500).json({ error: "Erro interno do servidor" });
   }
 });
@@ -22,7 +25,7 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     const benefitsSettings = req.body;
-    
+
     // Validação básica
     if (!benefitsSettings || typeof benefitsSettings !== "object") {
       return res.status(400).json({ error: "Dados inválidos" });
@@ -36,7 +39,7 @@ router.post("/", async (req, res) => {
     res.json({
       success: true,
       message: "Configurações Benefits salvas com sucesso no MySQL",
-      data: benefitsSettings
+      data: benefitsSettings,
     });
   } catch (error) {
     console.error("Erro ao salvar configurações Benefits:", error);

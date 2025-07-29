@@ -2,7 +2,7 @@ import { Router } from "express";
 import {
   getFormFromLpSettings,
   saveFormToLpSettings,
-  migrateFormToLpSettings
+  migrateFormToLpSettings,
 } from "../database/lp-settings-migration";
 
 const router = Router();
@@ -22,7 +22,7 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     const formSettings = req.body;
-    
+
     // Validação básica
     if (!formSettings || typeof formSettings !== "object") {
       return res.status(400).json({ error: "Dados inválidos" });
@@ -36,7 +36,7 @@ router.post("/", async (req, res) => {
     res.json({
       success: true,
       message: "Configurações Form salvas com sucesso no MySQL",
-      data: formSettings
+      data: formSettings,
     });
   } catch (error) {
     console.error("Erro ao salvar configurações Form:", error);

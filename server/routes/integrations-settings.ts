@@ -47,12 +47,22 @@ async function readIntegrationsSettings(): Promise<IntegrationsSettings> {
       `SELECT setting_key, setting_value FROM lp_settings 
        WHERE setting_key IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
-        'ga4_measurement_id', 'ga4_api_secret', 'ga4_conversion_name',
-        'meta_pixel_id', 'meta_access_token', 'meta_conversion_name',
-        'meta_test_code', 'meta_tracking_enabled', 'meta_track_pageview',
-        'meta_track_scroll', 'meta_track_time', 'meta_track_interactions',
-        'custom_conversion_enabled', 'custom_conversion_event', 'custom_conversion_value'
-      ]
+        "ga4_measurement_id",
+        "ga4_api_secret",
+        "ga4_conversion_name",
+        "meta_pixel_id",
+        "meta_access_token",
+        "meta_conversion_name",
+        "meta_test_code",
+        "meta_tracking_enabled",
+        "meta_track_pageview",
+        "meta_track_scroll",
+        "meta_track_time",
+        "meta_track_interactions",
+        "custom_conversion_enabled",
+        "custom_conversion_event",
+        "custom_conversion_value",
+      ],
     );
 
     const results = rows as any[];
@@ -61,7 +71,8 @@ async function readIntegrationsSettings(): Promise<IntegrationsSettings> {
     // Aplicar valores do banco sobre os padrões
     results.forEach((row) => {
       if (row.setting_key in settings) {
-        settings[row.setting_key as keyof IntegrationsSettings] = row.setting_value || "";
+        settings[row.setting_key as keyof IntegrationsSettings] =
+          row.setting_value || "";
       }
     });
 
@@ -73,10 +84,12 @@ async function readIntegrationsSettings(): Promise<IntegrationsSettings> {
 }
 
 // Função para salvar configurações de integrações no MySQL
-async function writeIntegrationsSettings(settings: IntegrationsSettings): Promise<void> {
+async function writeIntegrationsSettings(
+  settings: IntegrationsSettings,
+): Promise<void> {
   try {
     const db = getDatabase();
-    
+
     // Salvar cada configuração de integração no banco
     for (const [key, value] of Object.entries(settings)) {
       // Determinar o tipo baseado no valor
@@ -84,7 +97,7 @@ async function writeIntegrationsSettings(settings: IntegrationsSettings): Promis
       if (key.includes("enabled") || value === "true" || value === "false") {
         settingType = "boolean";
       }
-      
+
       await db.execute(
         `INSERT INTO lp_settings (setting_key, setting_value, setting_type) 
          VALUES (?, ?, ?) 
@@ -92,13 +105,16 @@ async function writeIntegrationsSettings(settings: IntegrationsSettings): Promis
          setting_value = VALUES(setting_value),
          setting_type = VALUES(setting_type),
          updated_at = CURRENT_TIMESTAMP`,
-        [key, value || "", settingType]
+        [key, value || "", settingType],
       );
     }
-    
+
     console.log("✅ Configurações de integrações salvas no MySQL");
   } catch (error) {
-    console.error("Erro ao salvar configurações de integrações no MySQL:", error);
+    console.error(
+      "Erro ao salvar configurações de integrações no MySQL:",
+      error,
+    );
     throw error;
   }
 }
@@ -111,7 +127,7 @@ router.get("/", async (req, res) => {
     res.json({
       success: true,
       data: settings,
-      source: "mysql_database"
+      source: "mysql_database",
     });
   } catch (error) {
     console.error("Erro ao buscar configurações de integrações:", error);

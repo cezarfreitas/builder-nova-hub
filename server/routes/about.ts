@@ -2,7 +2,7 @@ import { Router } from "express";
 import {
   getAboutFromLpSettings,
   saveAboutToLpSettings,
-  migrateAboutToLpSettings
+  migrateAboutToLpSettings,
 } from "../database/lp-settings-migration";
 
 const router = Router();
@@ -36,7 +36,7 @@ router.post("/", async (req, res) => {
     res.json({
       success: true,
       message: "Configurações About salvas com sucesso em lp_settings",
-      data: aboutSettings
+      data: aboutSettings,
     });
   } catch (error) {
     console.error("Erro ao salvar configurações About:", error);

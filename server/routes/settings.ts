@@ -17,9 +17,9 @@ async function getSettingFromDB(key: string): Promise<any> {
   const db = getDatabase();
   const [rows] = await db.execute(
     `SELECT setting_value, setting_type, updated_at FROM lp_settings WHERE setting_key = ?`,
-    [key]
+    [key],
   );
-  
+
   const results = rows as any[];
   return results.length > 0 ? results[0] : null;
 }
@@ -28,25 +28,29 @@ async function getSettingFromDB(key: string): Promise<any> {
 async function getAllSettingsFromDB(): Promise<Record<string, any>> {
   const db = getDatabase();
   const [rows] = await db.execute(
-    `SELECT setting_key, setting_value, setting_type, updated_at FROM lp_settings ORDER BY setting_key`
+    `SELECT setting_key, setting_value, setting_type, updated_at FROM lp_settings ORDER BY setting_key`,
   );
-  
+
   const results = rows as any[];
   const settings: Record<string, any> = {};
-  
+
   results.forEach((row) => {
     settings[row.setting_key] = {
       value: row.setting_value,
       type: row.setting_type,
-      updated_at: row.updated_at
+      updated_at: row.updated_at,
     };
   });
-  
+
   return settings;
 }
 
 // Função para salvar configuração no banco
-async function saveSettingToDB(key: string, value: string, type: string): Promise<void> {
+async function saveSettingToDB(
+  key: string,
+  value: string,
+  type: string,
+): Promise<void> {
   const db = getDatabase();
   await db.execute(
     `INSERT INTO lp_settings (setting_key, setting_value, setting_type) 
@@ -55,7 +59,7 @@ async function saveSettingToDB(key: string, value: string, type: string): Promis
      setting_value = VALUES(setting_value),
      setting_type = VALUES(setting_type),
      updated_at = CURRENT_TIMESTAMP`,
-    [key, value, type]
+    [key, value, type],
   );
 }
 
@@ -64,9 +68,9 @@ async function deleteSettingFromDB(key: string): Promise<boolean> {
   const db = getDatabase();
   const [result] = await db.execute(
     `DELETE FROM lp_settings WHERE setting_key = ?`,
-    [key]
+    [key],
   );
-  
+
   const deleteResult = result as mysql.ResultSetHeader;
   return deleteResult.affectedRows > 0;
 }
@@ -271,7 +275,11 @@ export async function updateSettings(req: Request, res: Response) {
             : JSON.stringify(setting.setting_value);
       }
 
-      await saveSettingToDB(setting.setting_key, finalValue, setting.setting_type);
+      await saveSettingToDB(
+        setting.setting_key,
+        finalValue,
+        setting.setting_type,
+      );
     }
 
     console.log(`✅ ${settingsArray.length} configurações salvas no MySQL`);

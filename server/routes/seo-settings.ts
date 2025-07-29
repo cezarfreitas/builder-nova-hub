@@ -43,11 +43,20 @@ async function readSeoSettings(): Promise<SeoSettings> {
       `SELECT setting_key, setting_value FROM lp_settings 
        WHERE setting_key IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
-        'seo_title', 'seo_description', 'seo_keywords', 'seo_canonical_url',
-        'og_title', 'og_description', 'og_image', 'twitter_card',
-        'twitter_title', 'twitter_description', 'twitter_image',
-        'favicon_url', 'apple_icon_url'
-      ]
+        "seo_title",
+        "seo_description",
+        "seo_keywords",
+        "seo_canonical_url",
+        "og_title",
+        "og_description",
+        "og_image",
+        "twitter_card",
+        "twitter_title",
+        "twitter_description",
+        "twitter_image",
+        "favicon_url",
+        "apple_icon_url",
+      ],
     );
 
     const results = rows as any[];
@@ -56,7 +65,8 @@ async function readSeoSettings(): Promise<SeoSettings> {
     // Aplicar valores do banco sobre os padrões
     results.forEach((row) => {
       if (row.setting_key in settings) {
-        settings[row.setting_key as keyof SeoSettings] = row.setting_value || "";
+        settings[row.setting_key as keyof SeoSettings] =
+          row.setting_value || "";
       }
     });
 
@@ -71,7 +81,7 @@ async function readSeoSettings(): Promise<SeoSettings> {
 async function writeSeoSettings(settings: SeoSettings): Promise<void> {
   try {
     const db = getDatabase();
-    
+
     // Salvar cada configuração SEO no banco
     for (const [key, value] of Object.entries(settings)) {
       await db.execute(
@@ -80,10 +90,10 @@ async function writeSeoSettings(settings: SeoSettings): Promise<void> {
          ON DUPLICATE KEY UPDATE 
          setting_value = VALUES(setting_value),
          updated_at = CURRENT_TIMESTAMP`,
-        [key, value || ""]
+        [key, value || ""],
       );
     }
-    
+
     console.log("✅ Configurações de SEO salvas no MySQL");
   } catch (error) {
     console.error("Erro ao salvar configurações de SEO no MySQL:", error);
@@ -101,9 +111,9 @@ async function updateSeoSetting(field: string, value: string): Promise<void> {
        ON DUPLICATE KEY UPDATE 
        setting_value = VALUES(setting_value),
        updated_at = CURRENT_TIMESTAMP`,
-      [field, value || ""]
+      [field, value || ""],
     );
-    
+
     console.log(`✅ Configuração SEO ${field} salva no MySQL`);
   } catch (error) {
     console.error(`Erro ao salvar configuração SEO ${field} no MySQL:`, error);
@@ -119,7 +129,7 @@ router.get("/", async (req, res) => {
     res.json({
       success: true,
       data: settings,
-      source: "mysql_database"
+      source: "mysql_database",
     });
   } catch (error) {
     console.error("Erro ao buscar configurações de SEO:", error);

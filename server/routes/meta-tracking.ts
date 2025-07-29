@@ -10,12 +10,22 @@ async function readIntegrationsSettings() {
       `SELECT setting_key, setting_value FROM lp_settings
        WHERE setting_key IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
-        'ga4_measurement_id', 'ga4_api_secret', 'ga4_conversion_name',
-        'meta_pixel_id', 'meta_access_token', 'meta_conversion_name',
-        'meta_test_code', 'meta_tracking_enabled', 'meta_track_pageview',
-        'meta_track_scroll', 'meta_track_time', 'meta_track_interactions',
-        'custom_conversion_enabled', 'custom_conversion_event', 'custom_conversion_value'
-      ]
+        "ga4_measurement_id",
+        "ga4_api_secret",
+        "ga4_conversion_name",
+        "meta_pixel_id",
+        "meta_access_token",
+        "meta_conversion_name",
+        "meta_test_code",
+        "meta_tracking_enabled",
+        "meta_track_pageview",
+        "meta_track_scroll",
+        "meta_track_time",
+        "meta_track_interactions",
+        "custom_conversion_enabled",
+        "custom_conversion_event",
+        "custom_conversion_value",
+      ],
     );
 
     const results = rows as any[];
@@ -310,7 +320,7 @@ export async function checkMetaPixelConfig(req: Request, res: Response) {
       console.warn("⚠️ Configurações de integrações não encontradas no MySQL");
       return res.status(500).json({
         success: false,
-        error: "Configurações não encontradas"
+        error: "Configurações não encontradas",
       });
     }
 
