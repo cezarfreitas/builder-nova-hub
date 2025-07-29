@@ -130,7 +130,7 @@ export function useSettings(): UseSettingsResult {
       }>,
     ): Promise<boolean> => {
       try {
-        const response = await fetch("/api/settings", {
+        const response = await robustFetch("/api/settings", {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -138,6 +138,7 @@ export function useSettings(): UseSettingsResult {
           body: JSON.stringify({
             settings: settingsArray,
           }),
+          timeout: 8000,
         });
 
         const result = await response.json();
