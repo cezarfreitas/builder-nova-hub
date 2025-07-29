@@ -4,14 +4,7 @@
 
 /* Performance optimizations */
 @layer base {
-  /* Improve font loading performance */
-  @font-face {
-    font-family: "Inter";
-    font-display: swap;
-    src: url("/fonts/inter-var.woff2") format("woff2");
-    font-weight: 100 900;
-    font-style: normal;
-  }
+  /* Use system fonts for better performance and no preload warnings */
 
   /* Optimize rendering performance */
   html {
