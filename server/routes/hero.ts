@@ -83,18 +83,25 @@ async function loadHeroSettings() {
   }
 }
 
-// Função para salvar configurações do hero
-function saveHeroSettings(settings: any) {
+// Função para salvar configurações do hero no banco de dados
+async function saveHeroSettings(settings: any) {
   try {
-    ensureDataDirectory();
-
     // Garantir que apenas propriedades válidas sejam salvas
     const validSettings = {
       ...defaultHeroSettings,
       ...settings,
     };
 
-    fs.writeFileSync(HERO_DATA_PATH, JSON.stringify(validSettings, null, 2));
+    await saveHeroToDatabase(validSettings);
+
+    // Também salvar no JSON para backup (opcional)
+    try {
+      ensureDataDirectory();
+      fs.writeFileSync(HERO_DATA_PATH, JSON.stringify(validSettings, null, 2));
+    } catch (jsonError) {
+      console.warn("Aviso: Não foi possível salvar backup em JSON:", jsonError);
+    }
+
     return { success: true };
   } catch (error) {
     console.error("Erro ao salvar configurações do hero:", error);
