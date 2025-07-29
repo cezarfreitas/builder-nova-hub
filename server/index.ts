@@ -298,6 +298,16 @@ export function createServer() {
   // Integrations Settings routes
   app.use("/api/integrations-settings", integrationsSettingsRouter);
 
+  // Data status endpoint
+  app.get("/api/data-status", (req, res) => {
+    try {
+      const report = generateDataStatusReport();
+      res.json(report);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to generate status report" });
+    }
+  });
+
   // SPA catch-all route - deve ser o último
   app.get("*", (req, res) => {
     // Não redirecionar rotas da API
@@ -317,7 +327,7 @@ export function createServer() {
   // Initialize settings file
   setTimeout(async () => {
     try {
-      console.log("🔄 Inicializando sistema de configurações JSON...");
+      console.log("🔄 Inicializando sistema de configuraç��es JSON...");
 
       const settingsFile = path.join(
         process.cwd(),
@@ -360,7 +370,7 @@ export function createServer() {
   // Initialize database (non-blocking)
   setTimeout(async () => {
     try {
-      console.log("🔄 Tentando conectar ao MySQL...");
+      console.log("�� Tentando conectar ao MySQL...");
       await initializeDatabase();
       console.log("✅ Banco de dados inicializado com sucesso!");
     } catch (error) {
