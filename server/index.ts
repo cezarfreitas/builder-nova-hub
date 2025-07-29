@@ -76,6 +76,7 @@ import aboutRouter from "./routes/about";
 import heroRouter from "./routes/hero";
 import footerRouter from "./routes/footer";
 import benefitsRouter from "./routes/benefits";
+import formRouter from "./routes/form";
 import { initializeDatabase, testConnection } from "./config/database";
 import { testJsonSystem } from "./routes/test-json";
 import {
@@ -84,6 +85,7 @@ import {
   migrateAboutToLpSettings,
   migrateFooterToLpSettings,
   migrateBenefitsToLpSettings,
+  migrateFormToLpSettings,
 } from "./database/lp-settings-migration";
 import {
   processLeadIntegrations,
@@ -297,6 +299,9 @@ export function createServer() {
   // Benefits section routes
   app.use("/api/benefits", benefitsRouter);
 
+  // Form section routes
+  app.use("/api/form", formRouter);
+
   // Database test routes
   app.get("/api/test-db", testDatabaseConnection);
   app.get("/api/database-info", getDatabaseInfo);
@@ -442,6 +447,17 @@ export function createServer() {
         );
       } catch (benefitsMigrationError) {
         console.warn("⚠️ Aviso na migração do benefits:", benefitsMigrationError);
+      }
+
+      // Verificar se precisa migrar form para lp_settings
+      console.log("🔄 Verificando necessidade de migração do form...");
+      try {
+        const formMigrationResult = await migrateFormToLpSettings();
+        console.log(
+          `✅ Migração do form concluída: ${formMigrationResult.migratedCount} configurações`,
+        );
+      } catch (formMigrationError) {
+        console.warn("⚠️ Aviso na migração do form:", formMigrationError);
       }
 
       console.log("✅ Banco de dados inicializado com sucesso!");
