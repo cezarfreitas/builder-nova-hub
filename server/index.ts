@@ -154,7 +154,7 @@ export function createServer() {
   );
 
   // Servir arquivos estáticos do build (SPA) apenas em produção
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === "production") {
     app.use(
       express.static(path.join(process.cwd(), "dist", "spa"), {
         setHeaders: (res, filePath) => {
@@ -167,7 +167,10 @@ export function createServer() {
             res.setHeader("Content-Type", "text/css; charset=utf-8");
           } else if (filePath.endsWith(".html")) {
             res.setHeader("Content-Type", "text/html; charset=utf-8");
-            res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+            res.setHeader(
+              "Cache-Control",
+              "no-cache, no-store, must-revalidate",
+            );
           } else if (filePath.endsWith(".png")) {
             res.setHeader("Content-Type", "image/png");
           } else if (filePath.endsWith(".jpg") || filePath.endsWith(".jpeg")) {
@@ -357,7 +360,7 @@ export function createServer() {
   });
 
   // SPA catch-all route - apenas em produção
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === "production") {
     app.get("*", (req, res) => {
       // Não redirecionar rotas da API
       if (req.path.startsWith("/api/")) {

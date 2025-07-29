@@ -3,6 +3,7 @@
 ## 📊 Problemas Identificados e Soluções Implementadas
 
 ### ❌ **Problemas Originais:**
+
 - Renderizar solicitações de bloqueio (450 ms de economia possível)
 - Causas da troca de layout / Reflow forçado
 - Latência da solicitação de documentos (7 KiB de economia)
@@ -17,10 +18,12 @@
 
 ## ✅ **Soluções Implementadas:**
 
-### 1. **PerformanceOptimizer Component** 
+### 1. **PerformanceOptimizer Component**
+
 `client/components/PerformanceOptimizer.tsx`
 
 **Otimizações:**
+
 - 🖼️ **Lazy Loading de Imagens:** Carregamento automático quando entram no viewport
 - 🧹 **Otimização do DOM:** Remove nós de texto vazios e elementos desnecessários
 - ⚡ **Debounce de Layout:** Previne reflows forçados agrupando mudanças do DOM
@@ -29,9 +32,11 @@
 - 🌐 **Otimização de Scripts de Terceiros:** Adiciona defer e resource hints
 
 ### 2. **OptimizedImage Component**
+
 `client/components/OptimizedImage.tsx`
 
 **Otimizações:**
+
 - 📱 **Imagens Responsivas:** Gera srcset automático para diferentes tamanhos
 - 🎨 **Formato WebP:** Conversão automática quando suportado
 - ⏳ **Estados de Loading:** Placeholders e skeleton screens
@@ -39,45 +44,55 @@
 - 🎯 **Preload Prioritário:** Carregamento imediato para imagens críticas
 
 ### 3. **LazyBundle & Code Splitting**
+
 `client/components/LazyBundle.tsx`
 
 **Otimizações:**
+
 - 📦 **Splitting Inteligente:** Componentes carregados sob demanda
 - 🔄 **Error Boundaries:** Recuperação automática de falhas
 - 🎯 **Preload por Interação:** Carrega componentes ao hover/focus
 - 📊 **Progressive Enhancement:** Adaptação baseada em recursos do dispositivo
 
 ### 4. **CSS Minification & Optimization**
+
 `client/components/CSSMinifier.tsx`
 
 **Otimizações:**
+
 - ✂️ **Remoção de CSS Não Usado:** Purge automático de regras desnecessárias
 - ⚡ **CSS Crítico Inline:** Estilos above-the-fold carregados imediatamente
 - 🔤 **Otimização de Fontes:** font-display: swap e preload
 - 📱 **Defer CSS Não-Crítico:** Carregamento assíncrono de estilos secundários
 
 ### 5. **Vite Build Optimization**
+
 `vite.config.ts`
 
 **Otimizações:**
+
 - 📦 **Chunking Inteligente:** Separação otimizada de vendor/admin/components
 - 🗜️ **Minificação Avançada:** ESBuild com tree-shaking agressivo
 - 🎯 **Target Moderno:** ES2020 + browsers modernos
 - 📊 **Bundle Analysis:** Chunks menores e melhor cache
 
 ### 6. **Service Worker Optimizado**
+
 `public/sw-optimized.js`
 
 **Otimizações:**
+
 - 🏆 **Cache-First:** Recursos estáticos servidos instantaneamente
 - 🌐 **Network-First:** APIs sempre atualizadas
 - 🔄 **Stale-While-Revalidate:** HTML pages com update em background
 - 🧹 **Gestão de Quota:** Limpeza automática quando necessário
 
 ### 7. **Global CSS Performance**
+
 `client/global.css`
 
 **Otimizações:**
+
 - 🔤 **Font Loading:** Otimizações de carregamento de fonte
 - 🎨 **Rendering:** text-rendering e font-smoothing otimizados
 - ♿ **Acessibilidade:** Respeita prefers-reduced-motion
@@ -88,21 +103,25 @@
 ## 📈 **Resultados Esperados:**
 
 ### **JavaScript Bundle Size:**
+
 - ✅ **Antes:** ~432 KiB (index.js monolítico)
 - ✅ **Depois:** Chunks separados (react: 447kb, admin: 649kb, vendor: 364kb)
 - 📊 **Melhoria:** Carregamento inicial ~60% menor (apenas react + components)
 
 ### **CSS Optimization:**
+
 - ✅ **Critical CSS:** Inline para above-the-fold
 - ✅ **Non-critical CSS:** Carregamento assíncrono
 - ✅ **Font Loading:** swap + preload = FOUT reduzido
 
 ### **Image Optimization:**
+
 - ✅ **Lazy Loading:** Economia de ~52 KiB inicial
 - ✅ **WebP Format:** 25-35% menor que JPEG
 - ✅ **Responsive Images:** Tamanho correto para cada dispositivo
 
 ### **Network Optimization:**
+
 - ✅ **Resource Hints:** dns-prefetch, preload, prefetch
 - ✅ **Cache Strategy:** Recursos estáticos cached, APIs atualizadas
 - ✅ **Bundle Splitting:** Melhor cache entre deploys
@@ -111,56 +130,56 @@
 
 ## 🎯 **Métricas de Performance Alvo:**
 
-| Métrica | Antes | Meta | Otimização |
-|---------|--------|------|------------|
-| **First Contentful Paint** | ~2.5s | <1.5s | Critical CSS + Preload |
-| **Largest Contentful Paint** | ~4.0s | <2.5s | Image optimization + Lazy loading |
-| **Cumulative Layout Shift** | >0.25 | <0.1 | Layout optimization + Placeholders |
-| **First Input Delay** | ~300ms | <100ms | Code splitting + Main thread optimization |
-| **Total Blocking Time** | >600ms | <200ms | Bundle splitting + Async loading |
+| Métrica                      | Antes  | Meta   | Otimização                                |
+| ---------------------------- | ------ | ------ | ----------------------------------------- |
+| **First Contentful Paint**   | ~2.5s  | <1.5s  | Critical CSS + Preload                    |
+| **Largest Contentful Paint** | ~4.0s  | <2.5s  | Image optimization + Lazy loading         |
+| **Cumulative Layout Shift**  | >0.25  | <0.1   | Layout optimization + Placeholders        |
+| **First Input Delay**        | ~300ms | <100ms | Code splitting + Main thread optimization |
+| **Total Blocking Time**      | >600ms | <200ms | Bundle splitting + Async loading          |
 
 ---
 
 ## 🔧 **Como Usar:**
 
 ### **Componente Otimizado de Imagem:**
-```tsx
-import { OptimizedImage } from '@/components/OptimizedImage';
 
-<OptimizedImage 
+```tsx
+import { OptimizedImage } from "@/components/OptimizedImage";
+
+<OptimizedImage
   src="/image.jpg"
   alt="Descrição"
   priority={true} // Para imagens above-the-fold
   width={800}
   height={600}
-/>
+/>;
 ```
 
 ### **Bundle Lazy Otimizado:**
+
 ```tsx
-import { LazyBundle, createLazyComponent } from '@/components/LazyBundle';
+import { LazyBundle, createLazyComponent } from "@/components/LazyBundle";
 
 const MyComponent = createLazyComponent(
-  () => import('./MyComponent'),
-  'MyComponent'
+  () => import("./MyComponent"),
+  "MyComponent",
 );
 
 <LazyBundle fallback={<Loading />}>
   <MyComponent />
-</LazyBundle>
+</LazyBundle>;
 ```
 
 ### **Hooks de Performance:**
+
 ```tsx
-import { usePerformanceOptimization } from '@/components/PerformanceOptimizer';
+import { usePerformanceOptimization } from "@/components/PerformanceOptimizer";
 
 const { batchDOMUpdates, deferNonCriticalWork } = usePerformanceOptimization();
 
 // Agrupar mudanças do DOM
-batchDOMUpdates([
-  () => setData1(newData1),
-  () => setData2(newData2)
-]);
+batchDOMUpdates([() => setData1(newData1), () => setData2(newData2)]);
 
 // Adiar trabalho não-crítico
 deferNonCriticalWork(() => {

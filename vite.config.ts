@@ -25,38 +25,44 @@ export default defineConfig(({ mode }) => ({
         // Simplified chunks to prevent createContext issues
         manualChunks: (id) => {
           // Keep React ecosystem in main bundle to avoid dependency issues
-          if (id.includes('react') ||
-              id.includes('react-dom') ||
-              id.includes('@radix-ui') ||
-              id.includes('lucide-react')) {
+          if (
+            id.includes("react") ||
+            id.includes("react-dom") ||
+            id.includes("@radix-ui") ||
+            id.includes("lucide-react")
+          ) {
             return; // Let these go to main bundle
           }
 
           // Charts - only used in admin (safe to separate)
-          if (id.includes('chart') || id.includes('recharts')) {
-            return 'charts';
+          if (id.includes("chart") || id.includes("recharts")) {
+            return "charts";
           }
 
           // Pure utilities without React dependencies
-          if (id.includes('date-fns') ||
-              id.includes('clsx') ||
-              id.includes('tailwind-merge')) {
-            return 'utils';
+          if (
+            id.includes("date-fns") ||
+            id.includes("clsx") ||
+            id.includes("tailwind-merge")
+          ) {
+            return "utils";
           }
 
           // Admin pages (lazy loaded, so safe)
-          if (id.includes('/pages/admin/')) {
-            return 'admin';
+          if (id.includes("/pages/admin/")) {
+            return "admin";
           }
 
           // Everything else from node_modules
-          if (id.includes('node_modules')) {
-            return 'vendor';
+          if (id.includes("node_modules")) {
+            return "vendor";
           }
         },
         chunkFileNames: (chunkInfo) => {
           // Better chunk naming for caching
-          const facadeModuleId = chunkInfo.facadeModuleId ? chunkInfo.facadeModuleId.split('/').pop() : 'chunk';
+          const facadeModuleId = chunkInfo.facadeModuleId
+            ? chunkInfo.facadeModuleId.split("/").pop()
+            : "chunk";
           return `assets/${chunkInfo.name}-[hash].js`;
         },
         entryFileNames: "assets/[name]-[hash].js",
@@ -66,14 +72,14 @@ export default defineConfig(({ mode }) => ({
         moduleSideEffects: false,
         propertyReadSideEffects: false,
         unknownGlobalSideEffects: false,
-        preset: 'recommended'
+        preset: "recommended",
       },
       external: (id) => {
         // Don't bundle these - load from CDN for better caching
         return false; // Keep everything bundled for now
-      }
+      },
     },
-    minify: 'esbuild',
+    minify: "esbuild",
     target: ["es2020", "chrome80", "firefox78", "safari14"],
     sourcemap: false,
     reportCompressedSize: false,
@@ -88,14 +94,9 @@ export default defineConfig(({ mode }) => ({
   },
   // Optimize dependencies - ensure React ecosystem is properly bundled
   optimizeDeps: {
-    include: [
-      "react",
-      "react-dom",
-      "react/jsx-runtime",
-      "react-router-dom"
-    ],
+    include: ["react", "react-dom", "react/jsx-runtime", "react-router-dom"],
     exclude: [], // Don't exclude anything that might cause issues
-    force: false // Let Vite handle this naturally
+    force: false, // Let Vite handle this naturally
   },
 
   // CSS optimization

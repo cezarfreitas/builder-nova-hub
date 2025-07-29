@@ -6,9 +6,9 @@
 @layer base {
   /* Improve font loading performance */
   @font-face {
-    font-family: 'Inter';
+    font-family: "Inter";
     font-display: swap;
-    src: url('/fonts/inter-var.woff2') format('woff2');
+    src: url("/fonts/inter-var.woff2") format("woff2");
     font-weight: 100 900;
     font-style: normal;
   }
@@ -22,7 +22,8 @@
   }
 
   /* Reduce layout shifts */
-  img, video {
+  img,
+  video {
     max-width: 100%;
     height: auto;
   }
@@ -46,8 +47,12 @@
   }
 
   @keyframes loading {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
   }
 }
 

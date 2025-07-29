@@ -29,7 +29,7 @@ export function PerformanceOptimizer({ children }: PerformanceOptimizerProps) {
       {
         rootMargin: "50px",
         threshold: 0.1,
-      }
+      },
     );
 
     // Observe all images with data-src
@@ -45,20 +45,20 @@ export function PerformanceOptimizer({ children }: PerformanceOptimizerProps) {
       NodeFilter.SHOW_TEXT,
       {
         acceptNode: (node) => {
-          return node.textContent?.trim() === "" 
-            ? NodeFilter.FILTER_ACCEPT 
+          return node.textContent?.trim() === ""
+            ? NodeFilter.FILTER_ACCEPT
             : NodeFilter.FILTER_REJECT;
-        }
-      }
+        },
+      },
     );
 
     const emptyNodes: Node[] = [];
     let node;
-    while (node = walker.nextNode()) {
+    while ((node = walker.nextNode())) {
       emptyNodes.push(node);
     }
 
-    emptyNodes.forEach(node => {
+    emptyNodes.forEach((node) => {
       if (node.parentNode) {
         node.parentNode.removeChild(node);
       }
@@ -68,35 +68,35 @@ export function PerformanceOptimizer({ children }: PerformanceOptimizerProps) {
   // Debounce layout changes to prevent forced reflows
   const debounceLayoutChanges = useCallback(() => {
     let layoutTimer: ReturnType<typeof setTimeout>;
-    
+
     const debouncedResize = () => {
       clearTimeout(layoutTimer);
       layoutTimer = setTimeout(() => {
         // Batch DOM reads and writes
         window.requestAnimationFrame(() => {
-          const elements = document.querySelectorAll('[data-auto-resize]');
-          const measurements: Array<{element: Element, height: number}> = [];
-          
+          const elements = document.querySelectorAll("[data-auto-resize]");
+          const measurements: Array<{ element: Element; height: number }> = [];
+
           // Batch all reads first
-          elements.forEach(el => {
+          elements.forEach((el) => {
             measurements.push({
               element: el,
-              height: el.scrollHeight
+              height: el.scrollHeight,
             });
           });
-          
+
           // Then batch all writes
-          measurements.forEach(({element, height}) => {
+          measurements.forEach(({ element, height }) => {
             (element as HTMLElement).style.height = `${height}px`;
           });
         });
       }, 16); // ~60fps
     };
 
-    window.addEventListener('resize', debouncedResize, { passive: true });
-    
+    window.addEventListener("resize", debouncedResize, { passive: true });
+
     return () => {
-      window.removeEventListener('resize', debouncedResize);
+      window.removeEventListener("resize", debouncedResize);
       clearTimeout(layoutTimer);
     };
   }, []);
@@ -105,31 +105,28 @@ export function PerformanceOptimizer({ children }: PerformanceOptimizerProps) {
   const preloadCriticalResources = useCallback(() => {
     // Preload critical fonts
     const criticalFonts = [
-      '/fonts/inter-var.woff2',
-      '/fonts/inter-regular.woff2'
+      "/fonts/inter-var.woff2",
+      "/fonts/inter-regular.woff2",
     ];
 
-    criticalFonts.forEach(font => {
-      const link = document.createElement('link');
-      link.rel = 'preload';
+    criticalFonts.forEach((font) => {
+      const link = document.createElement("link");
+      link.rel = "preload";
       link.href = font;
-      link.as = 'font';
-      link.type = 'font/woff2';
-      link.crossOrigin = 'anonymous';
+      link.as = "font";
+      link.type = "font/woff2";
+      link.crossOrigin = "anonymous";
       document.head.appendChild(link);
     });
 
     // Preload critical images
-    const criticalImages = [
-      '/favicon.svg',
-      '/placeholder.svg'
-    ];
+    const criticalImages = ["/favicon.svg", "/placeholder.svg"];
 
-    criticalImages.forEach(src => {
-      const link = document.createElement('link');
-      link.rel = 'preload';
+    criticalImages.forEach((src) => {
+      const link = document.createElement("link");
+      link.rel = "preload";
       link.href = src;
-      link.as = 'image';
+      link.as = "image";
       document.head.appendChild(link);
     });
   }, []);
@@ -137,24 +134,26 @@ export function PerformanceOptimizer({ children }: PerformanceOptimizerProps) {
   // Optimize third-party scripts
   const optimizeThirdPartyScripts = useCallback(() => {
     // Defer non-critical third-party scripts
-    const scripts = document.querySelectorAll('script[src*="analytics"], script[src*="gtag"], script[src*="facebook"]');
-    
-    scripts.forEach(script => {
-      if (!script.hasAttribute('defer') && !script.hasAttribute('async')) {
-        script.setAttribute('defer', '');
+    const scripts = document.querySelectorAll(
+      'script[src*="analytics"], script[src*="gtag"], script[src*="facebook"]',
+    );
+
+    scripts.forEach((script) => {
+      if (!script.hasAttribute("defer") && !script.hasAttribute("async")) {
+        script.setAttribute("defer", "");
       }
     });
 
     // Add resource hints for third-party domains
     const thirdPartyDomains = [
-      'www.googletagmanager.com',
-      'www.google-analytics.com',
-      'connect.facebook.net'
+      "www.googletagmanager.com",
+      "www.google-analytics.com",
+      "connect.facebook.net",
     ];
 
-    thirdPartyDomains.forEach(domain => {
-      const link = document.createElement('link');
-      link.rel = 'dns-prefetch';
+    thirdPartyDomains.forEach((domain) => {
+      const link = document.createElement("link");
+      link.rel = "dns-prefetch";
       link.href = `https://${domain}`;
       document.head.appendChild(link);
     });
@@ -163,17 +162,17 @@ export function PerformanceOptimizer({ children }: PerformanceOptimizerProps) {
   // Setup performance monitoring
   const setupPerformanceMonitoring = useCallback(() => {
     // Monitor long tasks
-    if ('PerformanceObserver' in window) {
+    if ("PerformanceObserver" in window) {
       const longTaskObserver = new PerformanceObserver((list) => {
         list.getEntries().forEach((entry) => {
           if (entry.duration > 50) {
             console.warn(`Long task detected: ${entry.duration}ms`, entry);
-            
+
             // Track long tasks for optimization
             if (window.gtag) {
-              window.gtag('event', 'long_task', {
+              window.gtag("event", "long_task", {
                 custom_parameter_duration: Math.round(entry.duration),
-                custom_parameter_start_time: Math.round(entry.startTime)
+                custom_parameter_start_time: Math.round(entry.startTime),
               });
             }
           }
@@ -181,9 +180,9 @@ export function PerformanceOptimizer({ children }: PerformanceOptimizerProps) {
       });
 
       try {
-        longTaskObserver.observe({ entryTypes: ['longtask'] });
+        longTaskObserver.observe({ entryTypes: ["longtask"] });
       } catch (e) {
-        console.warn('Long task monitoring not supported');
+        console.warn("Long task monitoring not supported");
       }
 
       // Monitor layout shifts
@@ -194,16 +193,16 @@ export function PerformanceOptimizer({ children }: PerformanceOptimizerProps) {
             clsValue += entry.value;
           }
         });
-        
+
         if (clsValue > 0.1) {
           console.warn(`Layout shift detected: ${clsValue}`);
         }
       });
 
       try {
-        clsObserver.observe({ entryTypes: ['layout-shift'] });
+        clsObserver.observe({ entryTypes: ["layout-shift"] });
       } catch (e) {
-        console.warn('Layout shift monitoring not supported');
+        console.warn("Layout shift monitoring not supported");
       }
 
       return () => {
@@ -239,7 +238,7 @@ export function PerformanceOptimizer({ children }: PerformanceOptimizerProps) {
     }, 500);
 
     return () => {
-      cleanupFunctions.forEach(cleanup => cleanup());
+      cleanupFunctions.forEach((cleanup) => cleanup());
       if (observerRef.current) {
         observerRef.current.disconnect();
       }
@@ -250,7 +249,7 @@ export function PerformanceOptimizer({ children }: PerformanceOptimizerProps) {
     debounceLayoutChanges,
     preloadCriticalResources,
     optimizeThirdPartyScripts,
-    setupPerformanceMonitoring
+    setupPerformanceMonitoring,
   ]);
 
   return <>{children}</>;
@@ -260,12 +259,12 @@ export function PerformanceOptimizer({ children }: PerformanceOptimizerProps) {
 export function usePerformanceOptimization() {
   const batchDOMUpdates = useCallback((updates: (() => void)[]) => {
     window.requestAnimationFrame(() => {
-      updates.forEach(update => update());
+      updates.forEach((update) => update());
     });
   }, []);
 
   const deferNonCriticalWork = useCallback((work: () => void, delay = 0) => {
-    if ('requestIdleCallback' in window) {
+    if ("requestIdleCallback" in window) {
       (window as any).requestIdleCallback(work, { timeout: 5000 });
     } else {
       setTimeout(work, delay);
@@ -273,8 +272,8 @@ export function usePerformanceOptimization() {
   }, []);
 
   const preloadRoute = useCallback((routePath: string) => {
-    const link = document.createElement('link');
-    link.rel = 'prefetch';
+    const link = document.createElement("link");
+    link.rel = "prefetch";
     link.href = routePath;
     document.head.appendChild(link);
   }, []);
@@ -282,6 +281,6 @@ export function usePerformanceOptimization() {
   return {
     batchDOMUpdates,
     deferNonCriticalWork,
-    preloadRoute
+    preloadRoute,
   };
 }

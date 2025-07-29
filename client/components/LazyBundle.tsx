@@ -17,10 +17,10 @@ const DefaultLoader = () => (
   </div>
 );
 
-export function LazyBundle({ 
-  children, 
+export function LazyBundle({
+  children,
   fallback = <DefaultLoader />,
-  minLoadTime = 0 
+  minLoadTime = 0,
 }: LazyBundleProps) {
   const [isReady, setIsReady] = useState(minLoadTime === 0);
 
@@ -38,30 +38,29 @@ export function LazyBundle({
     return <>{fallback}</>;
   }
 
-  return (
-    <Suspense fallback={fallback}>
-      {children}
-    </Suspense>
-  );
+  return <Suspense fallback={fallback}>{children}</Suspense>;
 }
 
 // Factory function for creating lazy components with better error boundaries
 export function createLazyComponent<T extends ComponentType<any>>(
   importFn: () => Promise<{ default: T }>,
-  name?: string
+  name?: string,
 ) {
   const LazyComponent = lazy(async () => {
     try {
       // Add artificial delay in development to test loading states
-      if (process.env.NODE_ENV === 'development') {
-        await new Promise(resolve => setTimeout(resolve, 100));
+      if (process.env.NODE_ENV === "development") {
+        await new Promise((resolve) => setTimeout(resolve, 100));
       }
-      
+
       const module = await importFn();
       return module;
     } catch (error) {
-      console.error(`Failed to load lazy component ${name || 'Unknown'}:`, error);
-      
+      console.error(
+        `Failed to load lazy component ${name || "Unknown"}:`,
+        error,
+      );
+
       // Return a fallback component on error
       return {
         default: (() => (
@@ -71,7 +70,7 @@ export function createLazyComponent<T extends ComponentType<any>>(
               <p className="text-sm text-gray-600">
                 Erro ao carregar componente
               </p>
-              <button 
+              <button
                 onClick={() => window.location.reload()}
                 className="mt-2 text-xs text-blue-600 hover:underline"
               >
@@ -79,12 +78,12 @@ export function createLazyComponent<T extends ComponentType<any>>(
               </button>
             </div>
           </div>
-        )) as T
+        )) as T,
       };
     }
   });
 
-  LazyComponent.displayName = `Lazy(${name || 'Anonymous'})`;
+  LazyComponent.displayName = `Lazy(${name || "Anonymous"})`;
   return LazyComponent;
 }
 
@@ -97,36 +96,38 @@ export function useComponentPreloader() {
 
   const preloadOnInteraction = (
     importFn: () => Promise<any>,
-    element: HTMLElement | null
+    element: HTMLElement | null,
   ) => {
     if (!element) return;
 
     const handleInteraction = () => {
       preloadComponent(importFn);
       // Remove listeners after first interaction
-      element.removeEventListener('mouseenter', handleInteraction);
-      element.removeEventListener('focus', handleInteraction);
+      element.removeEventListener("mouseenter", handleInteraction);
+      element.removeEventListener("focus", handleInteraction);
     };
 
-    element.addEventListener('mouseenter', handleInteraction, { passive: true });
-    element.addEventListener('focus', handleInteraction, { passive: true });
+    element.addEventListener("mouseenter", handleInteraction, {
+      passive: true,
+    });
+    element.addEventListener("focus", handleInteraction, { passive: true });
 
     return () => {
-      element.removeEventListener('mouseenter', handleInteraction);
-      element.removeEventListener('focus', handleInteraction);
+      element.removeEventListener("mouseenter", handleInteraction);
+      element.removeEventListener("focus", handleInteraction);
     };
   };
 
   return {
     preloadComponent,
-    preloadOnInteraction
+    preloadOnInteraction,
   };
 }
 
 // Progressive enhancement for critical routes
 export function withProgressiveEnhancement<P extends object>(
   Component: ComponentType<P>,
-  fallbackComponent?: ComponentType<P>
+  fallbackComponent?: ComponentType<P>,
 ) {
   return function ProgressiveComponent(props: P) {
     const [isEnhanced, setIsEnhanced] = useState(false);
@@ -135,9 +136,13 @@ export function withProgressiveEnhancement<P extends object>(
       // Check if we have enough resources to render the enhanced version
       const checkResources = () => {
         const connection = (navigator as any).connection;
-        const isSlowConnection = connection?.effectiveType === '2g' || connection?.effectiveType === 'slow-2g';
-        const isLowMemory = (navigator as any).deviceMemory && (navigator as any).deviceMemory < 4;
-        
+        const isSlowConnection =
+          connection?.effectiveType === "2g" ||
+          connection?.effectiveType === "slow-2g";
+        const isLowMemory =
+          (navigator as any).deviceMemory &&
+          (navigator as any).deviceMemory < 4;
+
         if (!isSlowConnection && !isLowMemory) {
           setIsEnhanced(true);
         }
@@ -160,30 +165,30 @@ export function withProgressiveEnhancement<P extends object>(
 export const bundleUtils = {
   // Split vendor chunks more aggressively
   getVendorChunkName: (id: string) => {
-    if (id.includes('node_modules')) {
-      if (id.includes('react') || id.includes('react-dom')) return 'react';
-      if (id.includes('lucide')) return 'icons';
-      if (id.includes('chart')) return 'charts';
-      if (id.includes('@radix-ui')) return 'ui';
-      return 'vendor';
+    if (id.includes("node_modules")) {
+      if (id.includes("react") || id.includes("react-dom")) return "react";
+      if (id.includes("lucide")) return "icons";
+      if (id.includes("chart")) return "charts";
+      if (id.includes("@radix-ui")) return "ui";
+      return "vendor";
     }
-    return 'main';
+    return "main";
   },
 
   // Preload critical chunks
   preloadCriticalChunks: () => {
     const criticalChunks = [
-      '/assets/react-*.js',
-      '/assets/router-*.js',
-      '/assets/ui-*.js'
+      "/assets/react-*.js",
+      "/assets/router-*.js",
+      "/assets/ui-*.js",
     ];
 
-    criticalChunks.forEach(pattern => {
-      const link = document.createElement('link');
-      link.rel = 'preload';
-      link.as = 'script';
+    criticalChunks.forEach((pattern) => {
+      const link = document.createElement("link");
+      link.rel = "preload";
+      link.as = "script";
       // In a real implementation, you'd resolve the actual chunk names
       document.head.appendChild(link);
     });
-  }
+  },
 };

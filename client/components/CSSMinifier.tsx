@@ -1,34 +1,36 @@
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
 export function CSSMinifier() {
   useEffect(() => {
     // Remove unused CSS rules
     const removeUnusedCSS = () => {
-      const allElements = document.querySelectorAll('*');
+      const allElements = document.querySelectorAll("*");
       const usedClasses = new Set<string>();
-      
+
       // Collect all used classes
-      allElements.forEach(el => {
-        el.classList.forEach(className => {
+      allElements.forEach((el) => {
+        el.classList.forEach((className) => {
           usedClasses.add(className);
         });
       });
 
       // Find and disable unused stylesheets (only if safe to do so)
       const stylesheets = Array.from(document.styleSheets);
-      
-      stylesheets.forEach(stylesheet => {
+
+      stylesheets.forEach((stylesheet) => {
         try {
-          if (stylesheet.href && stylesheet.href.includes('unused')) {
+          if (stylesheet.href && stylesheet.href.includes("unused")) {
             // Only remove stylesheets that are explicitly marked as unused
-            const linkElement = document.querySelector(`link[href="${stylesheet.href}"]`);
+            const linkElement = document.querySelector(
+              `link[href="${stylesheet.href}"]`,
+            );
             if (linkElement) {
               linkElement.remove();
             }
           }
         } catch (e) {
           // Cross-origin stylesheets can't be accessed
-          console.debug('Cannot access stylesheet:', stylesheet.href);
+          console.debug("Cannot access stylesheet:", stylesheet.href);
         }
       });
     };
@@ -66,29 +68,31 @@ export function CSSMinifier() {
       `;
 
       // Create and inject critical CSS
-      const style = document.createElement('style');
-      style.setAttribute('data-critical', 'true');
+      const style = document.createElement("style");
+      style.setAttribute("data-critical", "true");
       style.textContent = criticalCSS;
       document.head.insertBefore(style, document.head.firstChild);
     };
 
     // Defer non-critical CSS
     const deferNonCriticalCSS = () => {
-      const nonCriticalLinks = document.querySelectorAll('link[rel="stylesheet"]:not([data-critical])');
-      
-      nonCriticalLinks.forEach(link => {
-        const href = link.getAttribute('href');
-        if (href && !href.includes('critical')) {
+      const nonCriticalLinks = document.querySelectorAll(
+        'link[rel="stylesheet"]:not([data-critical])',
+      );
+
+      nonCriticalLinks.forEach((link) => {
+        const href = link.getAttribute("href");
+        if (href && !href.includes("critical")) {
           // Convert to preload and load asynchronously
-          link.setAttribute('rel', 'preload');
-          link.setAttribute('as', 'style');
-          link.setAttribute('onload', "this.onload=null;this.rel='stylesheet'");
-          
+          link.setAttribute("rel", "preload");
+          link.setAttribute("as", "style");
+          link.setAttribute("onload", "this.onload=null;this.rel='stylesheet'");
+
           // Fallback for browsers that don't support preload
-          const noscript = document.createElement('noscript');
-          const fallbackLink = document.createElement('link');
-          fallbackLink.setAttribute('rel', 'stylesheet');
-          fallbackLink.setAttribute('href', href);
+          const noscript = document.createElement("noscript");
+          const fallbackLink = document.createElement("link");
+          fallbackLink.setAttribute("rel", "stylesheet");
+          fallbackLink.setAttribute("href", href);
           noscript.appendChild(fallbackLink);
           link.parentNode?.insertBefore(noscript, link.nextSibling);
         }
@@ -99,7 +103,7 @@ export function CSSMinifier() {
     const optimizeWebFonts = () => {
       // Add font-display: swap to improve loading performance
       const fontFaces = document.styleSheets;
-      
+
       // Create optimized font loading stylesheet
       const fontOptimizationCSS = `
         @font-face {
@@ -115,18 +119,18 @@ export function CSSMinifier() {
         }
       `;
 
-      const fontStyle = document.createElement('style');
-      fontStyle.setAttribute('data-font-optimization', 'true');
+      const fontStyle = document.createElement("style");
+      fontStyle.setAttribute("data-font-optimization", "true");
       fontStyle.textContent = fontOptimizationCSS;
       document.head.appendChild(fontStyle);
 
       // Preload critical fonts
-      const fontPreload = document.createElement('link');
-      fontPreload.rel = 'preload';
-      fontPreload.href = '/fonts/inter-var.woff2';
-      fontPreload.as = 'font';
-      fontPreload.type = 'font/woff2';
-      fontPreload.crossOrigin = 'anonymous';
+      const fontPreload = document.createElement("link");
+      fontPreload.rel = "preload";
+      fontPreload.href = "/fonts/inter-var.woff2";
+      fontPreload.as = "font";
+      fontPreload.type = "font/woff2";
+      fontPreload.crossOrigin = "anonymous";
       document.head.appendChild(fontPreload);
     };
 
@@ -139,11 +143,15 @@ export function CSSMinifier() {
     // Cleanup function
     return () => {
       // Remove injected optimization styles if component unmounts
-      const criticalStyles = document.querySelectorAll('[data-critical="true"]');
-      criticalStyles.forEach(style => style.remove());
-      
-      const fontStyles = document.querySelectorAll('[data-font-optimization="true"]');
-      fontStyles.forEach(style => style.remove());
+      const criticalStyles = document.querySelectorAll(
+        '[data-critical="true"]',
+      );
+      criticalStyles.forEach((style) => style.remove());
+
+      const fontStyles = document.querySelectorAll(
+        '[data-font-optimization="true"]',
+      );
+      fontStyles.forEach((style) => style.remove());
     };
   }, []);
 
@@ -153,7 +161,7 @@ export function CSSMinifier() {
 // Hook for manual CSS optimizations
 export function useCSSOptimization() {
   const purgeUnusedCSS = (selectors: string[]) => {
-    selectors.forEach(selector => {
+    selectors.forEach((selector) => {
       try {
         const elements = document.querySelectorAll(selector);
         if (elements.length === 0) {
@@ -168,7 +176,7 @@ export function useCSSOptimization() {
 
   const inlineSmallCSS = (cssText: string, maxSize = 1024) => {
     if (cssText.length <= maxSize) {
-      const style = document.createElement('style');
+      const style = document.createElement("style");
       style.textContent = cssText;
       document.head.appendChild(style);
       return true;
@@ -177,17 +185,17 @@ export function useCSSOptimization() {
   };
 
   const preloadCSS = (href: string) => {
-    const link = document.createElement('link');
-    link.rel = 'preload';
+    const link = document.createElement("link");
+    link.rel = "preload";
     link.href = href;
-    link.as = 'style';
+    link.as = "style";
     document.head.appendChild(link);
   };
 
   return {
     purgeUnusedCSS,
     inlineSmallCSS,
-    preloadCSS
+    preloadCSS,
   };
 }
 
@@ -195,12 +203,14 @@ export function useCSSOptimization() {
 export const criticalCSSUtils = {
   // Extract critical CSS for above-the-fold content
   extractCritical: () => {
-    const criticalElements = document.querySelectorAll('[data-critical], .hero-section, nav, header');
+    const criticalElements = document.querySelectorAll(
+      "[data-critical], .hero-section, nav, header",
+    );
     const criticalSelectors: string[] = [];
 
-    criticalElements.forEach(el => {
+    criticalElements.forEach((el) => {
       // Collect classes from critical elements
-      el.classList.forEach(className => {
+      el.classList.forEach((className) => {
         criticalSelectors.push(`.${className}`);
       });
     });
@@ -210,16 +220,16 @@ export const criticalCSSUtils = {
 
   // Generate critical CSS string
   generateCriticalCSS: (selectors: string[]) => {
-    let criticalCSS = '';
-    
+    let criticalCSS = "";
+
     try {
-      Array.from(document.styleSheets).forEach(stylesheet => {
+      Array.from(document.styleSheets).forEach((stylesheet) => {
         try {
-          Array.from(stylesheet.cssRules || []).forEach(rule => {
+          Array.from(stylesheet.cssRules || []).forEach((rule) => {
             if (rule instanceof CSSStyleRule) {
               const selector = rule.selectorText;
-              if (selectors.some(s => selector.includes(s))) {
-                criticalCSS += rule.cssText + '\n';
+              if (selectors.some((s) => selector.includes(s))) {
+                criticalCSS += rule.cssText + "\n";
               }
             }
           });
@@ -228,9 +238,9 @@ export const criticalCSSUtils = {
         }
       });
     } catch (e) {
-      console.debug('Could not extract critical CSS');
+      console.debug("Could not extract critical CSS");
     }
 
     return criticalCSS;
-  }
+  },
 };
