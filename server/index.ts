@@ -77,6 +77,7 @@ import heroRouter from "./routes/hero";
 import footerRouter from "./routes/footer";
 import benefitsRouter from "./routes/benefits";
 import formRouter from "./routes/form";
+import gallerySettingsRouter from "./routes/gallery-settings";
 import { initializeDatabase, testConnection } from "./config/database";
 import { testJsonSystem } from "./routes/test-json";
 import {
@@ -86,6 +87,7 @@ import {
   migrateFooterToLpSettings,
   migrateBenefitsToLpSettings,
   migrateFormToLpSettings,
+  migrateGalleryToLpSettings,
 } from "./database/lp-settings-migration";
 import {
   processLeadIntegrations,
@@ -302,6 +304,9 @@ export function createServer() {
   // Form section routes
   app.use("/api/form", formRouter);
 
+  // Gallery settings routes
+  app.use("/api/gallery-settings", gallerySettingsRouter);
+
   // Database test routes
   app.get("/api/test-db", testDatabaseConnection);
   app.get("/api/database-info", getDatabaseInfo);
@@ -458,6 +463,17 @@ export function createServer() {
         );
       } catch (formMigrationError) {
         console.warn("⚠️ Aviso na migração do form:", formMigrationError);
+      }
+
+      // Verificar se precisa migrar gallery para lp_settings
+      console.log("🔄 Verificando necessidade de migração da gallery...");
+      try {
+        const galleryMigrationResult = await migrateGalleryToLpSettings();
+        console.log(
+          `✅ Migração da gallery concluída: ${galleryMigrationResult.migratedCount} configurações de texto, ${galleryMigrationResult.imagesCount} imagens`,
+        );
+      } catch (galleryMigrationError) {
+        console.warn("⚠️ Aviso na migração da gallery:", galleryMigrationError);
       }
 
       console.log("✅ Banco de dados inicializado com sucesso!");
