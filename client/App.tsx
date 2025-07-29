@@ -60,6 +60,7 @@ const PageLoading = () => (
 const App = () => (
   <BrowserRouter>
     <CriticalCSS />
+    <CSSOptimizer />
     <MetaTrackingProvider>
       <TooltipProvider>
         <Toaster />
