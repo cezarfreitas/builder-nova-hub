@@ -211,7 +211,7 @@
     "section_tag": "Depoimentos",
     "section_title": "O que nossos revendedores dizem",
     "section_subtitle": "casos reais de sucesso",
-    "section_description": "Depoimentos reais de parceiros que transformaram suas paixões em negócios lucrativos com a Ecko",
+    "section_description": "Depoimentos reais de parceiros que transformaram suas paix��es em negócios lucrativos com a Ecko",
     "items": [
       {
         "id": 1,
@@ -230,7 +230,7 @@
         "company": "Street Style Store",
         "role": "CEO",
         "content": "A parceria com a Ecko superou todas as expectativas. O suporte é incrível e os produtos têm uma qualidade incomparável. Meus clientes são apaixonados pela marca!",
-        "avatar_url": "https://images.unsplash.com/photo-1494790108755-2616b612b605?w=150&h=150&fit=crop&crop=face",
+        "avatar_url": "/placeholder.svg",
         "rating": 5,
         "is_active": true,
         "display_order": 2
