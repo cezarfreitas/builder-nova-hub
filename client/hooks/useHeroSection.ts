@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { robustFetchJson } from "../utils/robustFetch";
+import { robustFetchJson, robustFetch } from "../utils/robustFetch";
 
 export interface HeroSettings {
   title: string;
