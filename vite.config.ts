@@ -18,7 +18,7 @@ export default defineConfig(({ mode }) => ({
   },
   build: {
     outDir: "dist/spa",
-    cssCodeSplit: true,
+    cssCodeSplit: false,
     chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
