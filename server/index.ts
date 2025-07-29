@@ -199,7 +199,7 @@ export function createServer() {
 
       res.json({
         success: true,
-        message: "Sistema de configuraç��es funcionando",
+        message: "Sistema de configurações funcionando",
         file_exists: true,
         file_size: stats.size,
         last_modified: stats.mtime,
@@ -363,7 +363,14 @@ export function createServer() {
       return res.status(404).json({ error: "API route not found" });
     }
 
-    // Servir index.html para todas as outras rotas (SPA)
+    // Em desenvolvimento, o Vite handle as rotas SPA
+    if (process.env.NODE_ENV !== 'production') {
+      return res.status(404).json({
+        error: "SPA routes handled by Vite in development"
+      });
+    }
+
+    // Em produção, servir index.html para todas as outras rotas (SPA)
     res.sendFile(path.join(process.cwd(), "dist", "spa", "index.html"), {
       headers: {
         "Content-Type": "text/html; charset=utf-8",
@@ -446,7 +453,7 @@ export function createServer() {
           `✅ Migração do footer concluída: ${footerMigrationResult.migratedCount} configurações`,
         );
       } catch (footerMigrationError) {
-        console.warn("⚠️ Aviso na migração do footer:", footerMigrationError);
+        console.warn("���️ Aviso na migração do footer:", footerMigrationError);
       }
 
       // Verificar se precisa migrar benefits para lp_settings
