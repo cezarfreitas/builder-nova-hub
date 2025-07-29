@@ -37,7 +37,7 @@ const AdminFAQ = lazy(() => import("./pages/admin/AdminFAQ"));
 const AdminForm = lazy(() => import("./pages/admin/AdminForm"));
 const AdminFooter = lazy(() => import("./pages/admin/AdminFooter"));
 const AdminAbout = lazy(() => import("./pages/admin/AdminAbout"));
-const AdminOrder = lazy(() => import("./pages/admin/AdminOrder"));
+
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 // Componente de proteção de rotas
