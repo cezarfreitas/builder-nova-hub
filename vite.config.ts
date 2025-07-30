@@ -25,12 +25,12 @@ export default defineConfig(({ mode }) => ({
         // Aggressive strategy: Keep React in main bundle always
         manualChunks: (id) => {
           // Force React ecosystem into main bundle
-          if (id.includes('react') || id.includes('react-dom')) {
+          if (id.includes("react") || id.includes("react-dom")) {
             return;
           }
           // Everything else can be chunked normally
-          if (id.includes('node_modules')) {
-            return 'vendor';
+          if (id.includes("node_modules")) {
+            return "vendor";
           }
         },
         chunkFileNames: "assets/[name]-[hash].js",
@@ -40,7 +40,7 @@ export default defineConfig(({ mode }) => ({
       treeshake: {
         moduleSideEffects: (id) => {
           // Preserve side effects for React ecosystem
-          return id.includes('react') || id.includes('react-dom');
+          return id.includes("react") || id.includes("react-dom");
         },
         propertyReadSideEffects: false,
         unknownGlobalSideEffects: false,
