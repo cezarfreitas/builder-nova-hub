@@ -1,6 +1,18 @@
 import { useState, useEffect, useCallback } from "react";
 import { robustFetchJson, robustFetch } from "../utils/robustFetch";
 
+// Preload critical hero images
+const preloadImage = (url: string) => {
+  if (!url || typeof window === "undefined") return;
+
+  const link = document.createElement("link");
+  link.rel = "preload";
+  link.as = "image";
+  link.href = url;
+  link.crossOrigin = "anonymous";
+  document.head.appendChild(link);
+};
+
 export interface HeroSettings {
   title: string;
   subtitle: string;
