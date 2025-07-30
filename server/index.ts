@@ -414,96 +414,9 @@ export function createServer() {
       console.log("🔄 Tentando conectar ao MySQL...");
       await initializeDatabase();
 
-      // Verificar se precisa migrar hero para lp_settings
-      console.log("🔄 Verificando necessidade de migração do hero...");
-      try {
-        const migrationResult = await migrateHeroToLpSettings();
-        console.log(
-          `��� Migração do hero concluída: ${migrationResult.migratedCount} configurações`,
-        );
-
-        // Excluir tabela hero_settings antiga
-        console.log("🗑️ Excluindo tabela hero_settings...");
-        const dropResult = await dropHeroTable();
-        if (dropResult.success) {
-          console.log("✅ Tabela hero_settings excluída com sucesso!");
-        }
-      } catch (migrationError) {
-        console.warn("⚠��� Aviso na migração do hero:", migrationError);
-      }
-
-      // Verificar se precisa migrar about para lp_settings
-      console.log("🔄 Verificando necessidade de migração do about...");
-      try {
-        const aboutMigrationResult = await migrateAboutToLpSettings();
-        console.log(
-          `✅ Migração do about concluída: ${aboutMigrationResult.migratedCount} configurações`,
-        );
-      } catch (aboutMigrationError) {
-        console.warn("⚠️ Aviso na migração do about:", aboutMigrationError);
-      }
-
-      // Verificar se precisa migrar footer para lp_settings
-      console.log("🔄 Verificando necessidade de migração do footer...");
-      try {
-        const footerMigrationResult = await migrateFooterToLpSettings();
-        console.log(
-          `✅ Migração do footer concluída: ${footerMigrationResult.migratedCount} configurações`,
-        );
-      } catch (footerMigrationError) {
-        console.warn("⚠️ Aviso na migração do footer:", footerMigrationError);
-      }
-
-      // Verificar se precisa migrar benefits para lp_settings
-      console.log("🔄 Verificando necessidade de migração do benefits...");
-      try {
-        const benefitsMigrationResult = await migrateBenefitsToLpSettings();
-        console.log(
-          `✅ Migração do benefits concluída: ${benefitsMigrationResult.migratedCount} configurações`,
-        );
-      } catch (benefitsMigrationError) {
-        console.warn(
-          "⚠️ Aviso na migração do benefits:",
-          benefitsMigrationError,
-        );
-      }
-
-      // Verificar se precisa migrar form para lp_settings
-      console.log("🔄 Verificando necessidade de migração do form...");
-      try {
-        const formMigrationResult = await migrateFormToLpSettings();
-        console.log(
-          `✅ Migração do form concluída: ${formMigrationResult.migratedCount} configurações`,
-        );
-      } catch (formMigrationError) {
-        console.warn("⚠️ Aviso na migração do form:", formMigrationError);
-      }
-
-      // Verificar se precisa migrar gallery para lp_settings
-      console.log("🔄 Verificando necessidade de migração da gallery...");
-      try {
-        const galleryMigrationResult = await migrateGalleryToLpSettings();
-        console.log(
-          `✅ Migração da gallery concluída: ${galleryMigrationResult.migratedCount} configurações de texto, ${galleryMigrationResult.imagesCount} imagens`,
-        );
-      } catch (galleryMigrationError) {
-        console.warn("⚠️ Aviso na migração da gallery:", galleryMigrationError);
-      }
-
-      // Verificar se precisa migrar testimonials para lp_settings
-      console.log("🔄 Verificando necessidade de migração dos testimonials...");
-      try {
-        const testimonialsMigrationResult =
-          await migrateTestimonialsToLpSettings();
-        console.log(
-          `✅ Migração dos testimonials concluída: ${testimonialsMigrationResult.migratedCount} configurações de texto, ${testimonialsMigrationResult.itemsCount} depoimentos`,
-        );
-      } catch (testimonialsMigrationError) {
-        console.warn(
-          "⚠️ Aviso na migração dos testimonials:",
-          testimonialsMigrationError,
-        );
-      }
+      // ✅ Migrações desabilitadas - já foram executadas com sucesso
+      // As migrações foram concluídas e estão causando lentidão no carregamento
+      console.log("✅ Migrações já concluídas - pulando verificações desnecessárias");
 
       console.log("✅ Banco de dados inicializado com sucesso!");
     } catch (error) {
