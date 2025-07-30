@@ -408,22 +408,17 @@ export function createServer() {
     }
   }, 300);
 
-  // Initialize database (non-blocking)
-  setTimeout(async () => {
+  // Initialize database (fast startup)
+  (async () => {
     try {
       console.log("🔄 Tentando conectar ao MySQL...");
       await initializeDatabase();
-
-      // ✅ Migrações desabilitadas - já foram executadas com sucesso
-      // As migrações foram concluídas e estão causando lentidão no carregamento
-      console.log("✅ Migrações já concluídas - pulando verificações desnecessárias");
-
       console.log("✅ Banco de dados inicializado com sucesso!");
     } catch (error) {
       console.error("❌ Falha na inicialização do banco:", error);
       console.log("⚠️  O servidor continuará funcionando sem banco de dados");
     }
-  }, 1000);
+  })();
 
   return app;
 }
