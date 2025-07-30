@@ -153,30 +153,35 @@ export function createServer() {
     express.static(path.join(process.cwd(), "public", "uploads")),
   );
 
-  // Servir arquivos estáticos do build (SPA) com MIME types corretos
-  app.use(
-    express.static(path.join(process.cwd(), "dist", "spa"), {
-      setHeaders: (res, filePath) => {
-        if (filePath.endsWith(".js")) {
-          res.setHeader(
-            "Content-Type",
-            "application/javascript; charset=utf-8",
-          );
-        } else if (filePath.endsWith(".css")) {
-          res.setHeader("Content-Type", "text/css; charset=utf-8");
-        } else if (filePath.endsWith(".html")) {
-          res.setHeader("Content-Type", "text/html; charset=utf-8");
-          res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-        } else if (filePath.endsWith(".png")) {
-          res.setHeader("Content-Type", "image/png");
-        } else if (filePath.endsWith(".jpg") || filePath.endsWith(".jpeg")) {
-          res.setHeader("Content-Type", "image/jpeg");
-        } else if (filePath.endsWith(".svg")) {
-          res.setHeader("Content-Type", "image/svg+xml; charset=utf-8");
-        }
-      },
-    }),
-  );
+  // Servir arquivos estáticos do build (SPA) apenas em produção
+  if (process.env.NODE_ENV === "production") {
+    app.use(
+      express.static(path.join(process.cwd(), "dist", "spa"), {
+        setHeaders: (res, filePath) => {
+          if (filePath.endsWith(".js")) {
+            res.setHeader(
+              "Content-Type",
+              "application/javascript; charset=utf-8",
+            );
+          } else if (filePath.endsWith(".css")) {
+            res.setHeader("Content-Type", "text/css; charset=utf-8");
+          } else if (filePath.endsWith(".html")) {
+            res.setHeader("Content-Type", "text/html; charset=utf-8");
+            res.setHeader(
+              "Cache-Control",
+              "no-cache, no-store, must-revalidate",
+            );
+          } else if (filePath.endsWith(".png")) {
+            res.setHeader("Content-Type", "image/png");
+          } else if (filePath.endsWith(".jpg") || filePath.endsWith(".jpeg")) {
+            res.setHeader("Content-Type", "image/jpeg");
+          } else if (filePath.endsWith(".svg")) {
+            res.setHeader("Content-Type", "image/svg+xml; charset=utf-8");
+          }
+        },
+      }),
+    );
+  }
 
   // Health check
   app.get("/api/ping", (_req, res) => {
@@ -354,21 +359,23 @@ export function createServer() {
     }
   });
 
-  // SPA catch-all route - deve ser o último
-  app.get("*", (req, res) => {
-    // Não redirecionar rotas da API
-    if (req.path.startsWith("/api/")) {
-      return res.status(404).json({ error: "API route not found" });
-    }
+  // SPA catch-all route - apenas em produção
+  if (process.env.NODE_ENV === "production") {
+    app.get("*", (req, res) => {
+      // Não redirecionar rotas da API
+      if (req.path.startsWith("/api/")) {
+        return res.status(404).json({ error: "API route not found" });
+      }
 
-    // Servir index.html para todas as outras rotas (SPA)
-    res.sendFile(path.join(process.cwd(), "dist", "spa", "index.html"), {
-      headers: {
-        "Content-Type": "text/html; charset=utf-8",
-        "Cache-Control": "no-cache, no-store, must-revalidate",
-      },
+      // Servir index.html para todas as outras rotas (SPA)
+      res.sendFile(path.join(process.cwd(), "dist", "spa", "index.html"), {
+        headers: {
+          "Content-Type": "text/html; charset=utf-8",
+          "Cache-Control": "no-cache, no-store, must-revalidate",
+        },
+      });
     });
-  });
+  }
 
   // Initialize data integrity and settings
   setTimeout(async () => {
@@ -401,109 +408,17 @@ export function createServer() {
     }
   }, 300);
 
-  // Initialize database (non-blocking)
-  setTimeout(async () => {
+  // Initialize database (fast startup)
+  (async () => {
     try {
       console.log("🔄 Tentando conectar ao MySQL...");
       await initializeDatabase();
-
-      // Verificar se precisa migrar hero para lp_settings
-      console.log("🔄 Verificando necessidade de migração do hero...");
-      try {
-        const migrationResult = await migrateHeroToLpSettings();
-        console.log(
-          `��� Migração do hero concluída: ${migrationResult.migratedCount} configurações`,
-        );
-
-        // Excluir tabela hero_settings antiga
-        console.log("🗑️ Excluindo tabela hero_settings...");
-        const dropResult = await dropHeroTable();
-        if (dropResult.success) {
-          console.log("✅ Tabela hero_settings excluída com sucesso!");
-        }
-      } catch (migrationError) {
-        console.warn("⚠��� Aviso na migração do hero:", migrationError);
-      }
-
-      // Verificar se precisa migrar about para lp_settings
-      console.log("🔄 Verificando necessidade de migração do about...");
-      try {
-        const aboutMigrationResult = await migrateAboutToLpSettings();
-        console.log(
-          `✅ Migração do about concluída: ${aboutMigrationResult.migratedCount} configurações`,
-        );
-      } catch (aboutMigrationError) {
-        console.warn("⚠️ Aviso na migração do about:", aboutMigrationError);
-      }
-
-      // Verificar se precisa migrar footer para lp_settings
-      console.log("🔄 Verificando necessidade de migração do footer...");
-      try {
-        const footerMigrationResult = await migrateFooterToLpSettings();
-        console.log(
-          `✅ Migração do footer concluída: ${footerMigrationResult.migratedCount} configurações`,
-        );
-      } catch (footerMigrationError) {
-        console.warn("⚠️ Aviso na migração do footer:", footerMigrationError);
-      }
-
-      // Verificar se precisa migrar benefits para lp_settings
-      console.log("🔄 Verificando necessidade de migração do benefits...");
-      try {
-        const benefitsMigrationResult = await migrateBenefitsToLpSettings();
-        console.log(
-          `✅ Migração do benefits concluída: ${benefitsMigrationResult.migratedCount} configurações`,
-        );
-      } catch (benefitsMigrationError) {
-        console.warn(
-          "⚠️ Aviso na migração do benefits:",
-          benefitsMigrationError,
-        );
-      }
-
-      // Verificar se precisa migrar form para lp_settings
-      console.log("🔄 Verificando necessidade de migração do form...");
-      try {
-        const formMigrationResult = await migrateFormToLpSettings();
-        console.log(
-          `✅ Migração do form concluída: ${formMigrationResult.migratedCount} configurações`,
-        );
-      } catch (formMigrationError) {
-        console.warn("⚠️ Aviso na migração do form:", formMigrationError);
-      }
-
-      // Verificar se precisa migrar gallery para lp_settings
-      console.log("🔄 Verificando necessidade de migração da gallery...");
-      try {
-        const galleryMigrationResult = await migrateGalleryToLpSettings();
-        console.log(
-          `✅ Migração da gallery concluída: ${galleryMigrationResult.migratedCount} configurações de texto, ${galleryMigrationResult.imagesCount} imagens`,
-        );
-      } catch (galleryMigrationError) {
-        console.warn("⚠️ Aviso na migração da gallery:", galleryMigrationError);
-      }
-
-      // Verificar se precisa migrar testimonials para lp_settings
-      console.log("🔄 Verificando necessidade de migração dos testimonials...");
-      try {
-        const testimonialsMigrationResult =
-          await migrateTestimonialsToLpSettings();
-        console.log(
-          `✅ Migração dos testimonials concluída: ${testimonialsMigrationResult.migratedCount} configurações de texto, ${testimonialsMigrationResult.itemsCount} depoimentos`,
-        );
-      } catch (testimonialsMigrationError) {
-        console.warn(
-          "⚠️ Aviso na migração dos testimonials:",
-          testimonialsMigrationError,
-        );
-      }
-
       console.log("✅ Banco de dados inicializado com sucesso!");
     } catch (error) {
       console.error("❌ Falha na inicialização do banco:", error);
       console.log("⚠️  O servidor continuará funcionando sem banco de dados");
     }
-  }, 1000);
+  })();
 
   return app;
 }

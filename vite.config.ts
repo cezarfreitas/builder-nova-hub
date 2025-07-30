@@ -18,42 +18,43 @@ export default defineConfig(({ mode }) => ({
   },
   build: {
     outDir: "dist/spa",
-    cssCodeSplit: true,
+    cssCodeSplit: false,
+    chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
-        // Optimized manual chunks to reduce unused code
-        manualChunks: {
-          // Core React
-          react: ["react", "react-dom"],
-          // Router (só carrega quando necessário)
-          router: ["react-router-dom"],
-          // UI components (lazy load)
-          ui: [
-            "lucide-react",
-            "@radix-ui/react-dialog",
-            "@radix-ui/react-toast",
-            "@radix-ui/react-accordion",
-            "@radix-ui/react-alert-dialog",
-          ],
-          // Charts (só para admin)
-          charts: ["chart.js", "react-chartjs-2"],
-          // Utilities
-          utils: ["date-fns", "clsx", "tailwind-merge"],
+        // Aggressive strategy: Keep React in main bundle always
+        manualChunks: (id) => {
+          // Force React ecosystem into main bundle
+          if (id.includes("react") || id.includes("react-dom")) {
+            return;
+          }
+          // Everything else can be chunked normally
+          if (id.includes("node_modules")) {
+            return "vendor";
+          }
         },
         chunkFileNames: "assets/[name]-[hash].js",
         entryFileNames: "assets/[name]-[hash].js",
         assetFileNames: "assets/[name]-[hash].[ext]",
       },
       treeshake: {
-        moduleSideEffects: false,
+        moduleSideEffects: (id) => {
+          // Preserve side effects for React ecosystem
+          return id.includes("react") || id.includes("react-dom");
+        },
         propertyReadSideEffects: false,
         unknownGlobalSideEffects: false,
       },
+      external: (id) => {
+        // Don't bundle these - load from CDN for better caching
+        return false; // Keep everything bundled for now
+      },
     },
-    minify: true,
-    target: "es2020",
+    minify: "esbuild",
+    target: ["es2020", "chrome80", "firefox78", "safari14"],
     sourcemap: false,
     reportCompressedSize: false,
+    assetsInlineLimit: 4096, // Inline smaller assets
   },
   plugins: [react(), expressPlugin()],
   resolve: {
@@ -62,9 +63,17 @@ export default defineConfig(({ mode }) => ({
       "@shared": path.resolve(__dirname, "./shared"),
     },
   },
-  // Optimize dependencies
+  // Optimize dependencies - ensure React ecosystem is properly bundled
   optimizeDeps: {
-    include: ["react", "react-dom"],
+    include: [
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+      "react-router-dom",
+      "react-dom/client",
+    ],
+    exclude: [], // Don't exclude anything that might cause issues
+    force: true, // Force re-optimization to ensure React is properly bundled
   },
 
   // CSS optimization

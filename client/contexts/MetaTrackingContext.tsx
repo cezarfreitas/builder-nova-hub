@@ -1,5 +1,11 @@
-import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
-import { robustFetchJson, robustFetch } from '../utils/robustFetch';
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+} from "react";
+import { robustFetchJson, robustFetch } from "../utils/robustFetch";
 
 interface TrackingEvent {
   event_name: string;
@@ -30,9 +36,13 @@ interface MetaTrackingContextType {
   trackFormAbandonment: (fieldsCompleted: number, totalFields: number) => void;
 }
 
-const MetaTrackingContext = createContext<MetaTrackingContextType | undefined>(undefined);
+const MetaTrackingContext = createContext<MetaTrackingContextType | undefined>(
+  undefined,
+);
 
-export const MetaTrackingProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const MetaTrackingProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [conversionName, setConversionName] = useState("Lead");
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -300,7 +310,9 @@ export const MetaTrackingProvider: React.FC<{ children: React.ReactNode }> = ({ 
 export const useMetaTracking = () => {
   const context = useContext(MetaTrackingContext);
   if (context === undefined) {
-    throw new Error('useMetaTracking must be used within a MetaTrackingProvider');
+    throw new Error(
+      "useMetaTracking must be used within a MetaTrackingProvider",
+    );
   }
   return context;
 };
