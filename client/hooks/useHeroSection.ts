@@ -88,6 +88,15 @@ export function useHeroSection() {
       });
 
       console.log("✅ [HERO] Configurações do hero carregadas com sucesso");
+
+      // Preload critical images
+      if (data.background_image) {
+        preloadImage(data.background_image);
+      }
+      if (data.logo_url) {
+        preloadImage(data.logo_url);
+      }
+
       setHeroSettings(data);
       setLoading(false);
     } catch (err) {
