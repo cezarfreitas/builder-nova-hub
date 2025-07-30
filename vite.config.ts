@@ -22,15 +22,18 @@ export default defineConfig(({ mode }) => ({
     chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
-        // Disable all manual chunks to prevent React dependency issues
-        manualChunks: undefined,
-        chunkFileNames: (chunkInfo) => {
-          // Better chunk naming for caching
-          const facadeModuleId = chunkInfo.facadeModuleId
-            ? chunkInfo.facadeModuleId.split("/").pop()
-            : "chunk";
-          return `assets/${chunkInfo.name}-[hash].js`;
+        // Aggressive strategy: Keep React in main bundle always
+        manualChunks: (id) => {
+          // Force React ecosystem into main bundle
+          if (id.includes('react') || id.includes('react-dom')) {
+            return;
+          }
+          // Everything else can be chunked normally
+          if (id.includes('node_modules')) {
+            return 'vendor';
+          }
         },
+        chunkFileNames: "assets/[name]-[hash].js",
         entryFileNames: "assets/[name]-[hash].js",
         assetFileNames: "assets/[name]-[hash].[ext]",
       },
