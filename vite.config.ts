@@ -38,10 +38,12 @@ export default defineConfig(({ mode }) => ({
         assetFileNames: "assets/[name]-[hash].[ext]",
       },
       treeshake: {
-        moduleSideEffects: false,
+        moduleSideEffects: (id) => {
+          // Preserve side effects for React ecosystem
+          return id.includes('react') || id.includes('react-dom');
+        },
         propertyReadSideEffects: false,
         unknownGlobalSideEffects: false,
-        preset: "recommended",
       },
       external: (id) => {
         // Don't bundle these - load from CDN for better caching
