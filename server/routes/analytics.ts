@@ -839,9 +839,10 @@ export async function trackDuration(req: Request, res: Response) {
     }
 
     // Garantir que duration_seconds seja um número válido ou null
-    const durationValue = duration_seconds !== undefined && duration_seconds !== null
-      ? Number(duration_seconds)
-      : null;
+    const durationValue =
+      duration_seconds !== undefined && duration_seconds !== null
+        ? Number(duration_seconds)
+        : null;
 
     // Atualizar duração da última visita desta sessão
     await db.execute(
