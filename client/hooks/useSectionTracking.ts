@@ -30,9 +30,17 @@ export const useSectionTracking = (
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             if (!trackOnce || !trackedRef.current) {
-              trackSectionView(sectionName);
-              if (trackOnce) {
-                trackedRef.current = true;
+              try {
+                trackSectionView(sectionName);
+                if (trackOnce) {
+                  trackedRef.current = true;
+                }
+              } catch (error) {
+                console.warn('Section tracking error:', error);
+                // Mark as tracked to prevent retry loops
+                if (trackOnce) {
+                  trackedRef.current = true;
+                }
               }
             }
           }
@@ -79,9 +87,17 @@ export const useMultiSectionTracking = (
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             if (!trackOnce || !trackedRef.current) {
-              trackSectionView(`${sectionName}_${itemId}`);
-              if (trackOnce) {
-                trackedRef.current = true;
+              try {
+                trackSectionView(`${sectionName}_${itemId}`);
+                if (trackOnce) {
+                  trackedRef.current = true;
+                }
+              } catch (error) {
+                console.warn('Multi-section tracking error:', error);
+                // Mark as tracked to prevent retry loops
+                if (trackOnce) {
+                  trackedRef.current = true;
+                }
               }
             }
           }

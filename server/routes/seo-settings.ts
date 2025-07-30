@@ -1,15 +1,7 @@
 import express from "express";
-import { readFileSync, writeFileSync, existsSync } from "fs";
-import { join, dirname } from "path";
-import { fileURLToPath } from "url";
-
-// ES module compatibility
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import { getDatabase } from "../config/database";
 
 export const router = express.Router();
-
-const SEO_SETTINGS_PATH = join(__dirname, "../data/seo-settings.json");
 
 interface SeoSettings {
   seo_title: string;
@@ -43,47 +35,101 @@ const defaultSeoSettings: SeoSettings = {
   apple_icon_url: "",
 };
 
-// Função para ler configurações de SEO
-function readSeoSettings(): SeoSettings {
+// Função para ler configurações de SEO do MySQL
+async function readSeoSettings(): Promise<SeoSettings> {
   try {
-    if (!existsSync(SEO_SETTINGS_PATH)) {
-      // Cria o arquivo com configurações padrão se não existir
-      writeFileSync(
-        SEO_SETTINGS_PATH,
-        JSON.stringify(defaultSeoSettings, null, 2),
-        "utf8",
-      );
-      return defaultSeoSettings;
-    }
+    const db = getDatabase();
+    const [rows] = await db.execute(
+      `SELECT setting_key, setting_value FROM lp_settings 
+       WHERE setting_key IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        "seo_title",
+        "seo_description",
+        "seo_keywords",
+        "seo_canonical_url",
+        "og_title",
+        "og_description",
+        "og_image",
+        "twitter_card",
+        "twitter_title",
+        "twitter_description",
+        "twitter_image",
+        "favicon_url",
+        "apple_icon_url",
+      ],
+    );
 
-    const data = readFileSync(SEO_SETTINGS_PATH, "utf8");
-    const settings = JSON.parse(data);
+    const results = rows as any[];
+    const settings = { ...defaultSeoSettings };
 
-    // Garante que todas as propriedades existam (merge com defaults)
-    return { ...defaultSeoSettings, ...settings };
+    // Aplicar valores do banco sobre os padrões
+    results.forEach((row) => {
+      if (row.setting_key in settings) {
+        settings[row.setting_key as keyof SeoSettings] =
+          row.setting_value || "";
+      }
+    });
+
+    return settings;
   } catch (error) {
-    console.error("Erro ao ler configurações de SEO:", error);
+    console.error("Erro ao ler configurações de SEO do MySQL:", error);
     return defaultSeoSettings;
   }
 }
 
-// Função para salvar configurações de SEO
-function writeSeoSettings(settings: SeoSettings): void {
+// Função para salvar configurações de SEO no MySQL
+async function writeSeoSettings(settings: SeoSettings): Promise<void> {
   try {
-    writeFileSync(SEO_SETTINGS_PATH, JSON.stringify(settings, null, 2), "utf8");
+    const db = getDatabase();
+
+    // Salvar cada configuração SEO no banco
+    for (const [key, value] of Object.entries(settings)) {
+      await db.execute(
+        `INSERT INTO lp_settings (setting_key, setting_value, setting_type) 
+         VALUES (?, ?, 'text') 
+         ON DUPLICATE KEY UPDATE 
+         setting_value = VALUES(setting_value),
+         updated_at = CURRENT_TIMESTAMP`,
+        [key, value || ""],
+      );
+    }
+
+    console.log("✅ Configurações de SEO salvas no MySQL");
   } catch (error) {
-    console.error("Erro ao salvar configurações de SEO:", error);
+    console.error("Erro ao salvar configurações de SEO no MySQL:", error);
+    throw error;
+  }
+}
+
+// Função para salvar configuração específica no MySQL
+async function updateSeoSetting(field: string, value: string): Promise<void> {
+  try {
+    const db = getDatabase();
+    await db.execute(
+      `INSERT INTO lp_settings (setting_key, setting_value, setting_type) 
+       VALUES (?, ?, 'text') 
+       ON DUPLICATE KEY UPDATE 
+       setting_value = VALUES(setting_value),
+       updated_at = CURRENT_TIMESTAMP`,
+      [field, value || ""],
+    );
+
+    console.log(`✅ Configuração SEO ${field} salva no MySQL`);
+  } catch (error) {
+    console.error(`Erro ao salvar configuração SEO ${field} no MySQL:`, error);
     throw error;
   }
 }
 
 // GET /api/seo-settings - Buscar configurações
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
   try {
-    const settings = readSeoSettings();
+    console.log("🔄 Buscando configurações de SEO do MySQL...");
+    const settings = await readSeoSettings();
     res.json({
       success: true,
       data: settings,
+      source: "mysql_database",
     });
   } catch (error) {
     console.error("Erro ao buscar configurações de SEO:", error);
@@ -95,7 +141,7 @@ router.get("/", (req, res) => {
 });
 
 // PUT /api/seo-settings - Atualizar configurações
-router.put("/", (req, res) => {
+router.put("/", async (req, res) => {
   try {
     const settings = req.body;
 
@@ -107,17 +153,19 @@ router.put("/", (req, res) => {
       });
     }
 
+    console.log("🔄 Atualizando configurações de SEO no MySQL...");
+
     // Merge com configurações existentes
-    const currentSettings = readSeoSettings();
+    const currentSettings = await readSeoSettings();
     const updatedSettings: SeoSettings = { ...currentSettings, ...settings };
 
-    // Salva as configurações
-    writeSeoSettings(updatedSettings);
+    // Salva as configurações no MySQL
+    await writeSeoSettings(updatedSettings);
 
     res.json({
       success: true,
       data: updatedSettings,
-      message: "Configurações de SEO salvas com sucesso",
+      message: "Configurações de SEO salvas com sucesso no MySQL",
     });
   } catch (error) {
     console.error("Erro ao salvar configurações de SEO:", error);
@@ -129,7 +177,7 @@ router.put("/", (req, res) => {
 });
 
 // PATCH /api/seo-settings - Atualizar configuração específica
-router.patch("/", (req, res) => {
+router.patch("/", async (req, res) => {
   try {
     const { field, value } = req.body;
 
@@ -140,15 +188,18 @@ router.patch("/", (req, res) => {
       });
     }
 
-    const currentSettings = readSeoSettings();
-    const updatedSettings = { ...currentSettings, [field]: value };
+    console.log(`🔄 Atualizando configuração SEO ${field} no MySQL...`);
 
-    writeSeoSettings(updatedSettings);
+    // Atualizar configuração específica no MySQL
+    await updateSeoSetting(field, value);
+
+    // Buscar configurações atualizadas
+    const updatedSettings = await readSeoSettings();
 
     res.json({
       success: true,
       data: updatedSettings,
-      message: "Configuração atualizada com sucesso",
+      message: "Configuração atualizada com sucesso no MySQL",
     });
   } catch (error) {
     console.error("Erro ao atualizar configuração de SEO:", error);

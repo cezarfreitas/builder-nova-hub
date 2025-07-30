@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { z } from "zod";
-import * as fs from "fs/promises";
-import * as path from "path";
+import { getDatabase } from "../config/database";
+import mysql from "mysql2/promise";
 
 // Schema para validação das configurações
 const SettingSchema = z.object({
@@ -12,153 +12,67 @@ const SettingSchema = z.object({
 
 const BulkSettingsSchema = z.array(SettingSchema);
 
-// Caminho para o arquivo de configurações
-const SETTINGS_FILE = path.join(process.cwd(), "server/data/settings.json");
+// Função para buscar configuração específica do banco
+async function getSettingFromDB(key: string): Promise<any> {
+  const db = getDatabase();
+  const [rows] = await db.execute(
+    `SELECT setting_value, setting_type, updated_at FROM lp_settings WHERE setting_key = ?`,
+    [key],
+  );
 
-// Configurações padrão
-const DEFAULT_SETTINGS = {
-  seo_title: {
-    value: "Seja uma Revenda Autorizada da Ecko | Tenha os Melhores Produtos",
-    type: "text",
-    updated_at: new Date().toISOString(),
-  },
-  seo_description: {
-    value:
-      "Seja uma revenda autorizada da Ecko e tenha os melhores produtos de streetwear em sua loja. Transforme sua paixão em lucro com exclusividade territorial e suporte completo.",
-    type: "text",
-    updated_at: new Date().toISOString(),
-  },
-  seo_keywords: {
-    value:
-      "revenda autorizada ecko, melhores produtos streetwear, lojista autorizado",
-    type: "text",
-    updated_at: new Date().toISOString(),
-  },
-  seo_canonical_url: {
-    value: "https://revendedores.ecko.com.br/",
-    type: "text",
-    updated_at: new Date().toISOString(),
-  },
-  og_title: {
-    value: "Seja uma Revenda Autorizada da Ecko",
-    type: "text",
-    updated_at: new Date().toISOString(),
-  },
-  og_description: {
-    value:
-      "Transforme sua paixão em lucro! Seja um revendedor autorizado Ecko e tenha acesso aos melhores produtos de streetwear do mercado.",
-    type: "text",
-    updated_at: new Date().toISOString(),
-  },
-  og_image: {
-    value: "https://estyle.vteximg.com.br/arquivos/ecko_mosaic5.png",
-    type: "text",
-    updated_at: new Date().toISOString(),
-  },
-  og_site_name: {
-    value: "Ecko Revendedores",
-    type: "text",
-    updated_at: new Date().toISOString(),
-  },
-  webhook_url: {
-    value: "",
-    type: "text",
-    updated_at: new Date().toISOString(),
-  },
-  webhook_secret: {
-    value: "",
-    type: "text",
-    updated_at: new Date().toISOString(),
-  },
-  webhook_timeout: {
-    value: "30",
-    type: "number",
-    updated_at: new Date().toISOString(),
-  },
-  webhook_retries: {
-    value: "3",
-    type: "number",
-    updated_at: new Date().toISOString(),
-  },
-  schema_company_name: {
-    value: "Ecko Unltd",
-    type: "text",
-    updated_at: new Date().toISOString(),
-  },
-  schema_contact_phone: {
-    value: "",
-    type: "text",
-    updated_at: new Date().toISOString(),
-  },
-  schema_contact_email: {
-    value: "",
-    type: "text",
-    updated_at: new Date().toISOString(),
-  },
-  schema_address_street: {
-    value: "",
-    type: "text",
-    updated_at: new Date().toISOString(),
-  },
-  schema_address_city: {
-    value: "",
-    type: "text",
-    updated_at: new Date().toISOString(),
-  },
-  schema_address_state: {
-    value: "",
-    type: "text",
-    updated_at: new Date().toISOString(),
-  },
-};
-
-// Função para ler configurações do arquivo JSON
-export async function readSettingsFromFile(): Promise<Record<string, any>> {
-  try {
-    console.log("📖 Tentando ler configurações do arquivo:", SETTINGS_FILE);
-
-    // Verificar se o arquivo existe primeiro
-    try {
-      await fs.access(SETTINGS_FILE);
-    } catch {
-      console.log("📁 Arquivo não existe, criando com configurações padrão...");
-      await writeSettingsToFile(DEFAULT_SETTINGS);
-      return DEFAULT_SETTINGS;
-    }
-
-    const data = await fs.readFile(SETTINGS_FILE, "utf-8");
-    const settings = JSON.parse(data);
-    console.log("✅ Configurações carregadas com sucesso");
-    return settings;
-  } catch (error) {
-    console.error("❌ Erro ao ler configurações:", error);
-    console.log("🔄 Usando configurações padrão como fallback");
-    await writeSettingsToFile(DEFAULT_SETTINGS);
-    return DEFAULT_SETTINGS;
-  }
+  const results = rows as any[];
+  return results.length > 0 ? results[0] : null;
 }
 
-// Função para escrever configurações no arquivo JSON
-async function writeSettingsToFile(
-  settings: Record<string, any>,
+// Função para buscar todas as configurações do banco
+async function getAllSettingsFromDB(): Promise<Record<string, any>> {
+  const db = getDatabase();
+  const [rows] = await db.execute(
+    `SELECT setting_key, setting_value, setting_type, updated_at FROM lp_settings ORDER BY setting_key`,
+  );
+
+  const results = rows as any[];
+  const settings: Record<string, any> = {};
+
+  results.forEach((row) => {
+    settings[row.setting_key] = {
+      value: row.setting_value,
+      type: row.setting_type,
+      updated_at: row.updated_at,
+    };
+  });
+
+  return settings;
+}
+
+// Função para salvar configuração no banco
+async function saveSettingToDB(
+  key: string,
+  value: string,
+  type: string,
 ): Promise<void> {
-  try {
-    console.log("💾 Salvando configurações no arquivo:", SETTINGS_FILE);
+  const db = getDatabase();
+  await db.execute(
+    `INSERT INTO lp_settings (setting_key, setting_value, setting_type) 
+     VALUES (?, ?, ?) 
+     ON DUPLICATE KEY UPDATE 
+     setting_value = VALUES(setting_value),
+     setting_type = VALUES(setting_type),
+     updated_at = CURRENT_TIMESTAMP`,
+    [key, value, type],
+  );
+}
 
-    // Garantir que o diretório existe
-    const dir = path.dirname(SETTINGS_FILE);
-    await fs.mkdir(dir, { recursive: true });
+// Função para deletar configuração do banco
+async function deleteSettingFromDB(key: string): Promise<boolean> {
+  const db = getDatabase();
+  const [result] = await db.execute(
+    `DELETE FROM lp_settings WHERE setting_key = ?`,
+    [key],
+  );
 
-    await fs.writeFile(
-      SETTINGS_FILE,
-      JSON.stringify(settings, null, 2),
-      "utf-8",
-    );
-    console.log("✅ Configurações salvas com sucesso");
-  } catch (error) {
-    console.error("❌ Erro ao salvar configurações:", error);
-    throw error;
-  }
+  const deleteResult = result as mysql.ResultSetHeader;
+  return deleteResult.affectedRows > 0;
 }
 
 // GET /api/settings - Obter todas as configurações
@@ -166,22 +80,11 @@ export async function getSettings(req: Request, res: Response) {
   try {
     console.log("🔄 Requisição GET /api/settings recebida");
 
-    const settings = await readSettingsFromFile();
+    const settings = await getAllSettingsFromDB();
 
     // Processar tipos de dados
     const processedSettings: Record<string, any> = {};
     Object.entries(settings).forEach(([key, setting]: [string, any]) => {
-      // Verificar se o setting tem a estrutura correta
-      if (!setting || typeof setting !== "object") {
-        console.warn(`⚠️ Setting inválido para chave ${key}:`, setting);
-        processedSettings[key] = {
-          value: setting || "",
-          type: "text",
-          updated_at: new Date().toISOString(),
-        };
-        return;
-      }
-
       let value = setting.value;
 
       // Converter tipos conforme necessário
@@ -212,13 +115,13 @@ export async function getSettings(req: Request, res: Response) {
     });
 
     console.log(
-      `✅ Retornando ${Object.keys(processedSettings).length} configurações`,
+      `✅ Retornando ${Object.keys(processedSettings).length} configurações do MySQL`,
     );
 
     res.json({
       success: true,
       data: processedSettings,
-      source: "json_file",
+      source: "mysql_database",
       count: Object.keys(processedSettings).length,
     });
   } catch (error) {
@@ -237,20 +140,19 @@ export async function getSetting(req: Request, res: Response) {
     const { key } = req.params;
     console.log(`🔄 Requisição GET /api/settings/${key} recebida`);
 
-    const settings = await readSettingsFromFile();
+    const setting = await getSettingFromDB(key);
 
-    if (!settings[key]) {
+    if (!setting) {
       return res.status(404).json({
         success: false,
         message: "Configuração não encontrada",
       });
     }
 
-    const setting = settings[key];
-    let value = setting.value;
+    let value = setting.setting_value;
 
     // Converter tipo conforme necessário
-    switch (setting.type) {
+    switch (setting.setting_type) {
       case "boolean":
         value = value === "true" || value === "1" || value === true;
         break;
@@ -271,7 +173,7 @@ export async function getSetting(req: Request, res: Response) {
       data: {
         key,
         value,
-        type: setting.type,
+        type: setting.setting_type,
         updated_at: setting.updated_at,
       },
     });
@@ -310,9 +212,6 @@ export async function updateSetting(req: Request, res: Response) {
       });
     }
 
-    // Ler configurações atuais
-    const settings = await readSettingsFromFile();
-
     // Converter valor para string conforme o tipo
     let finalValue = value;
     if (type === "json") {
@@ -321,15 +220,10 @@ export async function updateSetting(req: Request, res: Response) {
       finalValue = String(value);
     }
 
-    // Atualizar configuração
-    settings[key] = {
-      value: finalValue,
-      type,
-      updated_at: new Date().toISOString(),
-    };
+    // Salvar no banco
+    await saveSettingToDB(key, finalValue, type);
 
-    // Salvar no arquivo
-    await writeSettingsToFile(settings);
+    console.log(`✅ Configuração ${key} salva no MySQL`);
 
     res.json({
       success: true,
@@ -371,10 +265,7 @@ export async function updateSettings(req: Request, res: Response) {
       });
     }
 
-    // Ler configurações atuais
-    const currentSettings = await readSettingsFromFile();
-
-    // Atualizar configurações
+    // Atualizar configurações no banco
     for (const setting of settingsArray) {
       let finalValue = setting.setting_value || "";
       if (setting.setting_type === "json") {
@@ -384,15 +275,14 @@ export async function updateSettings(req: Request, res: Response) {
             : JSON.stringify(setting.setting_value);
       }
 
-      currentSettings[setting.setting_key] = {
-        value: finalValue,
-        type: setting.setting_type,
-        updated_at: new Date().toISOString(),
-      };
+      await saveSettingToDB(
+        setting.setting_key,
+        finalValue,
+        setting.setting_type,
+      );
     }
 
-    // Salvar no arquivo
-    await writeSettingsToFile(currentSettings);
+    console.log(`✅ ${settingsArray.length} configurações salvas no MySQL`);
 
     res.json({
       success: true,
@@ -415,21 +305,16 @@ export async function deleteSetting(req: Request, res: Response) {
 
     console.log(`🔄 Requisição DELETE /api/settings/${key} recebida`);
 
-    // Ler configurações atuais
-    const settings = await readSettingsFromFile();
+    const deleted = await deleteSettingFromDB(key);
 
-    if (!settings[key]) {
+    if (!deleted) {
       return res.status(404).json({
         success: false,
         message: "Configuração não encontrada",
       });
     }
 
-    // Remover configuração
-    delete settings[key];
-
-    // Salvar no arquivo
-    await writeSettingsToFile(settings);
+    console.log(`✅ Configuração ${key} removida do MySQL`);
 
     res.json({
       success: true,
@@ -449,7 +334,7 @@ export async function getHeroSettings(req: Request, res: Response) {
   try {
     console.log("🔄 Requisição GET /api/settings/hero recebida");
 
-    const settings = await readSettingsFromFile();
+    const settings = await getAllSettingsFromDB();
 
     // Configurações padrão do hero
     const defaultSettings = {
@@ -518,7 +403,6 @@ export async function updateHeroSettings(req: Request, res: Response) {
     console.log("🔄 Requisição POST /api/settings/hero recebida");
 
     const heroData = req.body;
-    const settings = await readSettingsFromFile();
 
     // Mapear configurações para o formato da tabela
     const settingsToSave = [
@@ -564,17 +448,12 @@ export async function updateHeroSettings(req: Request, res: Response) {
       },
     ];
 
-    // Atualizar cada configuração
+    // Salvar cada configuração no banco
     for (const setting of settingsToSave) {
-      settings[setting.key] = {
-        value: setting.value,
-        type: setting.type,
-        updated_at: new Date().toISOString(),
-      };
+      await saveSettingToDB(setting.key, setting.value, setting.type);
     }
 
-    // Salvar no arquivo
-    await writeSettingsToFile(settings);
+    console.log(`✅ Configurações do hero salvas no MySQL`);
 
     res.json({
       success: true,

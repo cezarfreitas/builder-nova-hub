@@ -1,16 +1,11 @@
 import express from "express";
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
-import { dirname } from "path";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import {
+  getHeroFromLpSettings,
+  saveHeroToLpSettings,
+  migrateHeroToLpSettings,
+} from "../database/lp-settings-migration";
 
 const router = express.Router();
-
-// Caminho para o arquivo JSON do hero
-const HERO_DATA_PATH = path.join(__dirname, "../data/hero.json");
 
 // Configurações padrão do hero
 const defaultHeroSettings = {
@@ -35,54 +30,34 @@ const defaultHeroSettings = {
   logo_url: "",
 };
 
-// Função para garantir que o diretório existe
-function ensureDataDirectory() {
-  const dataDir = path.dirname(HERO_DATA_PATH);
-  if (!fs.existsSync(dataDir)) {
-    fs.mkdirSync(dataDir, { recursive: true });
-  }
-}
-
-// Função para carregar configurações do hero
-function loadHeroSettings() {
+// Função para carregar configurações do hero do lp_settings
+async function loadHeroSettings() {
   try {
-    ensureDataDirectory();
-
-    if (!fs.existsSync(HERO_DATA_PATH)) {
-      // Se o arquivo não existe, criar com configurações padrão
-      fs.writeFileSync(
-        HERO_DATA_PATH,
-        JSON.stringify(defaultHeroSettings, null, 2),
-      );
-      return defaultHeroSettings;
-    }
-
-    const data = fs.readFileSync(HERO_DATA_PATH, "utf8");
-    const settings = JSON.parse(data);
-
-    // Garantir que todas as propriedades necessárias existam
-    return {
-      ...defaultHeroSettings,
-      ...settings,
-    };
+    const heroData = await getHeroFromLpSettings();
+    return heroData;
   } catch (error) {
-    console.error("Erro ao carregar configurações do hero:", error);
+    console.error(
+      "Erro ao carregar configurações do hero do lp_settings:",
+      error,
+    );
+    // Fallback para configurações padrão
     return defaultHeroSettings;
   }
 }
 
-// Função para salvar configurações do hero
-function saveHeroSettings(settings: any) {
+// Função para salvar configurações do hero no lp_settings
+async function saveHeroSettings(settings: any) {
   try {
-    ensureDataDirectory();
-
     // Garantir que apenas propriedades válidas sejam salvas
     const validSettings = {
       ...defaultHeroSettings,
       ...settings,
     };
 
-    fs.writeFileSync(HERO_DATA_PATH, JSON.stringify(validSettings, null, 2));
+    await saveHeroToLpSettings(validSettings);
+
+    console.log("✅ Configurações do hero salvas apenas no MySQL");
+
     return { success: true };
   } catch (error) {
     console.error("Erro ao salvar configurações do hero:", error);
@@ -94,9 +69,9 @@ function saveHeroSettings(settings: any) {
 }
 
 // GET /api/hero - Buscar configurações do hero
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
   try {
-    const settings = loadHeroSettings();
+    const settings = await loadHeroSettings();
     res.json(settings);
   } catch (error) {
     console.error("Erro ao buscar configurações do hero:", error);
@@ -108,7 +83,7 @@ router.get("/", (req, res) => {
 });
 
 // POST /api/hero - Salvar configurações do hero
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const settings = req.body;
 
@@ -119,12 +94,12 @@ router.post("/", (req, res) => {
       });
     }
 
-    const result = saveHeroSettings(settings);
+    const result = await saveHeroSettings(settings);
 
     if (result.success) {
       res.json({
         success: true,
-        message: "Configurações do hero salvas com sucesso",
+        message: "Configurações do hero salvas com sucesso em lp_settings",
         data: settings,
       });
     } else {
@@ -144,7 +119,7 @@ router.post("/", (req, res) => {
 });
 
 // PUT /api/hero - Atualizar configurações específicas do hero
-router.put("/", (req, res) => {
+router.put("/", async (req, res) => {
   try {
     const updates = req.body;
 
@@ -156,7 +131,7 @@ router.put("/", (req, res) => {
     }
 
     // Carregar configurações atuais
-    const currentSettings = loadHeroSettings();
+    const currentSettings = await loadHeroSettings();
 
     // Aplicar atualizações
     const updatedSettings = {
@@ -164,12 +139,12 @@ router.put("/", (req, res) => {
       ...updates,
     };
 
-    const result = saveHeroSettings(updatedSettings);
+    const result = await saveHeroSettings(updatedSettings);
 
     if (result.success) {
       res.json({
         success: true,
-        message: "Configurações do hero atualizadas com sucesso",
+        message: "Configurações do hero atualizadas com sucesso em lp_settings",
         data: updatedSettings,
       });
     } else {
@@ -189,14 +164,14 @@ router.put("/", (req, res) => {
 });
 
 // DELETE /api/hero - Resetar para configurações padrão
-router.delete("/", (req, res) => {
+router.delete("/", async (req, res) => {
   try {
-    const result = saveHeroSettings(defaultHeroSettings);
+    const result = await saveHeroSettings(defaultHeroSettings);
 
     if (result.success) {
       res.json({
         success: true,
-        message: "Configurações do hero resetadas para o padrão",
+        message: "Configurações do hero resetadas para o padrão em lp_settings",
         data: defaultHeroSettings,
       });
     } else {
@@ -210,6 +185,73 @@ router.delete("/", (req, res) => {
     console.error("Erro ao resetar configurações:", error);
     res.status(500).json({
       error: "Erro interno do servidor",
+      details: error instanceof Error ? error.message : "Erro desconhecido",
+    });
+  }
+});
+
+// GET /api/hero/verify - Verificar integridade completa do hero
+router.get("/verify", async (req, res) => {
+  try {
+    const settings = await loadHeroSettings();
+    const verification = {
+      configExists: true,
+      backgroundImage: {
+        configured: !!settings.background_image,
+        path: settings.background_image,
+        exists: false,
+      },
+      logo: {
+        configured: !!settings.logo_url,
+        path: settings.logo_url,
+        exists: false,
+      },
+      uploadDirectory: {
+        exists: false,
+        imageCount: 0,
+        images: [],
+      },
+    };
+
+    // Verificar se imagens existem
+    if (settings.background_image) {
+      const bgPath = path.join(
+        process.cwd(),
+        "public",
+        settings.background_image,
+      );
+      verification.backgroundImage.exists = fs.existsSync(bgPath);
+    }
+
+    if (settings.logo_url) {
+      const logoPath = path.join(process.cwd(), "public", settings.logo_url);
+      verification.logo.exists = fs.existsSync(logoPath);
+    }
+
+    // Verificar diretório de uploads
+    const uploadsPath = path.join(process.cwd(), "public", "uploads", "hero");
+    if (fs.existsSync(uploadsPath)) {
+      verification.uploadDirectory.exists = true;
+      const images = fs.readdirSync(uploadsPath);
+      verification.uploadDirectory.imageCount = images.length;
+      verification.uploadDirectory.images = images.map((img) => ({
+        name: img,
+        size: fs.statSync(path.join(uploadsPath, img)).size,
+        url: `/uploads/hero/${img}`,
+      }));
+    }
+
+    res.json({
+      success: true,
+      message: "Verificação completa do hero",
+      data: settings,
+      verification,
+    });
+  } catch (error) {
+    console.error("Erro na verificação do hero:", error);
+    res.status(500).json({
+      success: false,
+      error: "Erro na verificação",
       details: error instanceof Error ? error.message : "Erro desconhecido",
     });
   }

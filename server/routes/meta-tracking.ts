@@ -1,28 +1,43 @@
 import { Request, Response } from "express";
-import { readSettingsFromFile } from "./settings";
+import { getDatabase } from "../config/database";
 import * as crypto from "crypto";
-import { readFileSync, existsSync } from "fs";
-import { join, dirname } from "path";
-import { fileURLToPath } from "url";
 
-// ES module compatibility
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-// Função para ler configurações de integrações do novo sistema JSON
-function readIntegrationsSettings() {
+// Função para ler configurações de integrações do MySQL
+async function readIntegrationsSettings() {
   try {
-    const integrationsPath = join(
-      __dirname,
-      "../data/integrations-settings.json",
+    const db = getDatabase();
+    const [rows] = await db.execute(
+      `SELECT setting_key, setting_value FROM lp_settings
+       WHERE setting_key IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        "ga4_measurement_id",
+        "ga4_api_secret",
+        "ga4_conversion_name",
+        "meta_pixel_id",
+        "meta_access_token",
+        "meta_conversion_name",
+        "meta_test_code",
+        "meta_tracking_enabled",
+        "meta_track_pageview",
+        "meta_track_scroll",
+        "meta_track_time",
+        "meta_track_interactions",
+        "custom_conversion_enabled",
+        "custom_conversion_event",
+        "custom_conversion_value",
+      ],
     );
-    if (!existsSync(integrationsPath)) {
-      return null;
-    }
-    const data = readFileSync(integrationsPath, "utf8");
-    return JSON.parse(data);
+
+    const results = rows as any[];
+    const settings: any = {};
+
+    results.forEach((row) => {
+      settings[row.setting_key] = row.setting_value;
+    });
+
+    return settings;
   } catch (error) {
-    console.error("Erro ao ler configurações de integrações:", error);
+    console.error("Erro ao ler configurações de integrações do MySQL:", error);
     return null;
   }
 }
@@ -37,20 +52,17 @@ interface MetaTrackingEvent {
 // Função para enviar evento individual para Meta Conversions API
 export async function sendMetaTrackingEvent(eventData: MetaTrackingEvent) {
   try {
-    // Primeiro tenta ler do novo sistema de integrações
+    // Ler configurações de integrações do MySQL
     let pixelId, accessToken, testCode;
-    const integrationsSettings = readIntegrationsSettings();
+    const integrationsSettings = await readIntegrationsSettings();
 
     if (integrationsSettings) {
       pixelId = integrationsSettings.meta_pixel_id;
       accessToken = integrationsSettings.meta_access_token;
       testCode = integrationsSettings.meta_test_code;
     } else {
-      // Fallback para o sistema antigo
-      const settings = await readSettingsFromFile();
-      pixelId = settings.meta_pixel_id?.value;
-      accessToken = settings.meta_access_token?.value;
-      testCode = settings.meta_test_code?.value;
+      console.warn("⚠️ Configurações de integrações não encontradas no MySQL");
+      return { success: false, error: "Configurações não encontradas" };
     }
 
     console.log(`🔍 Verificando credenciais Meta:`);
@@ -295,9 +307,9 @@ export async function testMetaTrackingEvent(req: Request, res: Response) {
 // Endpoint para verificar configuração do Meta Pixel
 export async function checkMetaPixelConfig(req: Request, res: Response) {
   try {
-    // Primeiro tenta ler do novo sistema de integrações
+    // Ler configurações de integrações do MySQL
     let pixelId, accessToken, testCode, conversionName;
-    const integrationsSettings = readIntegrationsSettings();
+    const integrationsSettings = await readIntegrationsSettings();
 
     if (integrationsSettings) {
       pixelId = integrationsSettings.meta_pixel_id;
@@ -305,12 +317,11 @@ export async function checkMetaPixelConfig(req: Request, res: Response) {
       testCode = integrationsSettings.meta_test_code;
       conversionName = integrationsSettings.meta_conversion_name;
     } else {
-      // Fallback para o sistema antigo
-      const settings = await readSettingsFromFile();
-      pixelId = settings.meta_pixel_id?.value;
-      accessToken = settings.meta_access_token?.value;
-      testCode = settings.meta_test_code?.value;
-      conversionName = settings.meta_conversion_name?.value;
+      console.warn("⚠️ Configurações de integrações não encontradas no MySQL");
+      return res.status(500).json({
+        success: false,
+        error: "Configurações não encontradas",
+      });
     }
 
     const config = {

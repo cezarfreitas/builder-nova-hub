@@ -8,14 +8,13 @@ export interface DatabaseConfig {
   database: string;
 }
 
-// Configuração do banco de dados a partir da URL fornecida
-// mysql://lpdb:52ba0e00cff2c44683f2@5.161.52.206:3040/lpdb
+// Configuração do banco de dados usando variáveis de ambiente
 const dbConfig: DatabaseConfig = {
-  host: "5.161.52.206",
-  port: 3040,
-  user: "lpdb",
-  password: "52ba0e00cff2c44683f2",
-  database: "lpdb",
+  host: process.env.DB_HOST || "5.161.52.206",
+  port: parseInt(process.env.DB_PORT || "3040"),
+  user: process.env.DB_USER || "lpdb",
+  password: process.env.DB_PASSWORD || "52ba0e00cff2c44683f2",
+  database: process.env.DB_NAME || "lpdb",
 };
 
 let pool: mysql.Pool | null = null;
@@ -46,7 +45,7 @@ export async function testConnection(): Promise<boolean> {
   }
 }
 
-export async function initializeDatabase(): Promise<void> {
+export async function initializeDatabase(): Promise<mysql.Pool> {
   const db = getDatabase();
 
   try {
@@ -250,6 +249,7 @@ export async function initializeDatabase(): Promise<void> {
     await insertDefaultSettings(db);
 
     console.log("✅ Banco de dados inicializado com sucesso!");
+    return db;
   } catch (error) {
     console.error("❌ Erro ao inicializar banco de dados:", error);
     throw error;

@@ -74,8 +74,23 @@ import {
 import contentRouter from "./routes/content";
 import aboutRouter from "./routes/about";
 import heroRouter from "./routes/hero";
+import footerRouter from "./routes/footer";
+import benefitsRouter from "./routes/benefits";
+import formRouter from "./routes/form";
+import gallerySettingsRouter from "./routes/gallery-settings";
+import testimonialsSettingsRouter from "./routes/testimonials-settings";
 import { initializeDatabase, testConnection } from "./config/database";
 import { testJsonSystem } from "./routes/test-json";
+import {
+  migrateHeroToLpSettings,
+  dropHeroTable,
+  migrateAboutToLpSettings,
+  migrateFooterToLpSettings,
+  migrateBenefitsToLpSettings,
+  migrateFormToLpSettings,
+  migrateGalleryToLpSettings,
+  migrateTestimonialsToLpSettings,
+} from "./database/lp-settings-migration";
 import {
   processLeadIntegrations,
   testIntegrations,
@@ -95,6 +110,12 @@ import {
 } from "./routes/seo";
 import seoSettingsRouter from "./routes/seo-settings";
 import integrationsSettingsRouter from "./routes/integrations-settings";
+import trackingStatusRouter from "./routes/tracking-status";
+import {
+  verifyDataIntegrity,
+  generateDataStatusReport,
+  cleanBrokenImageReferences,
+} from "./middleware/dataIntegrity";
 
 export function createServer() {
   const app = express();
@@ -113,10 +134,14 @@ export function createServer() {
     });
 
     // Configurar MIME types corretos para JavaScript
-    if (req.path.endsWith('.js') || req.path.endsWith('.mjs') || req.path.endsWith('.tsx')) {
-      res.type('application/javascript');
-    } else if (req.path.endsWith('.ts')) {
-      res.type('application/javascript');
+    if (
+      req.path.endsWith(".js") ||
+      req.path.endsWith(".mjs") ||
+      req.path.endsWith(".tsx")
+    ) {
+      res.type("application/javascript");
+    } else if (req.path.endsWith(".ts")) {
+      res.type("application/javascript");
     }
 
     next();
@@ -128,25 +153,35 @@ export function createServer() {
     express.static(path.join(process.cwd(), "public", "uploads")),
   );
 
-  // Servir arquivos estáticos do build (SPA) com MIME types corretos
-  app.use(express.static(path.join(process.cwd(), "dist", "spa"), {
-    setHeaders: (res, filePath) => {
-      if (filePath.endsWith('.js')) {
-        res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
-      } else if (filePath.endsWith('.css')) {
-        res.setHeader('Content-Type', 'text/css; charset=utf-8');
-      } else if (filePath.endsWith('.html')) {
-        res.setHeader('Content-Type', 'text/html; charset=utf-8');
-        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-      } else if (filePath.endsWith('.png')) {
-        res.setHeader('Content-Type', 'image/png');
-      } else if (filePath.endsWith('.jpg') || filePath.endsWith('.jpeg')) {
-        res.setHeader('Content-Type', 'image/jpeg');
-      } else if (filePath.endsWith('.svg')) {
-        res.setHeader('Content-Type', 'image/svg+xml; charset=utf-8');
-      }
-    }
-  }));
+  // Servir arquivos estáticos do build (SPA) apenas em produção
+  if (process.env.NODE_ENV === "production") {
+    app.use(
+      express.static(path.join(process.cwd(), "dist", "spa"), {
+        setHeaders: (res, filePath) => {
+          if (filePath.endsWith(".js")) {
+            res.setHeader(
+              "Content-Type",
+              "application/javascript; charset=utf-8",
+            );
+          } else if (filePath.endsWith(".css")) {
+            res.setHeader("Content-Type", "text/css; charset=utf-8");
+          } else if (filePath.endsWith(".html")) {
+            res.setHeader("Content-Type", "text/html; charset=utf-8");
+            res.setHeader(
+              "Cache-Control",
+              "no-cache, no-store, must-revalidate",
+            );
+          } else if (filePath.endsWith(".png")) {
+            res.setHeader("Content-Type", "image/png");
+          } else if (filePath.endsWith(".jpg") || filePath.endsWith(".jpeg")) {
+            res.setHeader("Content-Type", "image/jpeg");
+          } else if (filePath.endsWith(".svg")) {
+            res.setHeader("Content-Type", "image/svg+xml; charset=utf-8");
+          }
+        },
+      }),
+    );
+  }
 
   // Health check
   app.get("/api/ping", (_req, res) => {
@@ -156,11 +191,10 @@ export function createServer() {
   // Settings health check
   app.get("/api/settings/health", async (_req, res) => {
     try {
-      const settingsFile = require("path").join(
+      const settingsFile = path.join(
         process.cwd(),
         "server/data/settings.json",
       );
-      const fs = require("fs/promises");
 
       // Verificar se o arquivo existe e é legível
       await fs.access(settingsFile);
@@ -267,6 +301,21 @@ export function createServer() {
   // Hero section routes
   app.use("/api/hero", heroRouter);
 
+  // Footer section routes
+  app.use("/api/footer", footerRouter);
+
+  // Benefits section routes
+  app.use("/api/benefits", benefitsRouter);
+
+  // Form section routes
+  app.use("/api/form", formRouter);
+
+  // Gallery settings routes
+  app.use("/api/gallery-settings", gallerySettingsRouter);
+
+  // Testimonials settings routes
+  app.use("/api/testimonials-settings", testimonialsSettingsRouter);
+
   // Database test routes
   app.get("/api/test-db", testDatabaseConnection);
   app.get("/api/database-info", getDatabaseInfo);
@@ -297,67 +346,70 @@ export function createServer() {
   // Integrations Settings routes
   app.use("/api/integrations-settings", integrationsSettingsRouter);
 
-  // SPA catch-all route - deve ser o último
-  app.get("*", (req, res) => {
-    // Não redirecionar rotas da API
-    if (req.path.startsWith("/api/")) {
-      return res.status(404).json({ error: "API route not found" });
-    }
+  // Tracking Status routes
+  app.use("/api/tracking-status", trackingStatusRouter);
 
-    // Servir index.html para todas as outras rotas (SPA)
-    res.sendFile(path.join(process.cwd(), "dist", "spa", "index.html"), {
-      headers: {
-        'Content-Type': 'text/html; charset=utf-8',
-        'Cache-Control': 'no-cache, no-store, must-revalidate'
-      }
-    });
+  // Data status endpoint
+  app.get("/api/data-status", (req, res) => {
+    try {
+      const report = generateDataStatusReport();
+      res.json(report);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to generate status report" });
+    }
   });
 
-  // Initialize settings file
+  // SPA catch-all route - apenas em produção
+  if (process.env.NODE_ENV === "production") {
+    app.get("*", (req, res) => {
+      // Não redirecionar rotas da API
+      if (req.path.startsWith("/api/")) {
+        return res.status(404).json({ error: "API route not found" });
+      }
+
+      // Servir index.html para todas as outras rotas (SPA)
+      res.sendFile(path.join(process.cwd(), "dist", "spa", "index.html"), {
+        headers: {
+          "Content-Type": "text/html; charset=utf-8",
+          "Cache-Control": "no-cache, no-store, must-revalidate",
+        },
+      });
+    });
+  }
+
+  // Initialize data integrity and settings
   setTimeout(async () => {
     try {
-      console.log("🔄 Inicializando sistema de configurações JSON...");
+      console.log("🔄 Verificando integridade dos dados...");
 
-      const settingsFile = path.join(
-        process.cwd(),
-        "server/data/settings.json",
+      // Verificar e criar estrutura de dados necessária
+      verifyDataIntegrity();
+
+      // Limpar referências de imagens quebradas
+      cleanBrokenImageReferences();
+
+      // Gerar relatório de status
+      const statusReport = generateDataStatusReport();
+      console.log("📊 Status dos dados:");
+      console.log(
+        `   - Hero config: ${statusReport.hero.configExists ? "✅" : "❌"}`,
       );
-      const settingsDir = path.dirname(settingsFile);
-
-      // Criar diretório se não existir
-      await fs.mkdir(settingsDir, { recursive: true });
-
-      // Verificar se arquivo existe
-      try {
-        await fs.access(settingsFile);
-        console.log("✅ Arquivo de configurações encontrado");
-      } catch {
-        console.log("📝 Criando arquivo de configurações padrão...");
-        const defaultSettings = {
-          seo_title: {
-            value: "Seja uma Revenda Autorizada da Ecko",
-            type: "text",
-            updated_at: new Date().toISOString(),
-          },
-          webhook_url: {
-            value: "",
-            type: "text",
-            updated_at: new Date().toISOString(),
-          },
-        };
-        await fs.writeFile(
-          settingsFile,
-          JSON.stringify(defaultSettings, null, 2),
-        );
-        console.log("✅ Arquivo de configurações criado com sucesso!");
-      }
+      console.log(
+        `   - Hero background: ${statusReport.hero.backgroundImageExists ? "✅" : "❌"} ${statusReport.hero.backgroundImagePath}`,
+      );
+      console.log(
+        `   - Hero logo: ${statusReport.hero.logoExists ? "✅" : "❌"} ${statusReport.hero.logoPath}`,
+      );
+      console.log(
+        `   - Hero images: ${statusReport.uploads.heroImageCount} arquivos`,
+      );
     } catch (error) {
-      console.error("❌ Erro ao inicializar configurações:", error);
+      console.error("❌ Erro na verificação de integridade:", error);
     }
-  }, 500);
+  }, 300);
 
-  // Initialize database (non-blocking)
-  setTimeout(async () => {
+  // Initialize database (fast startup)
+  (async () => {
     try {
       console.log("🔄 Tentando conectar ao MySQL...");
       await initializeDatabase();
@@ -366,7 +418,7 @@ export function createServer() {
       console.error("❌ Falha na inicialização do banco:", error);
       console.log("⚠️  O servidor continuará funcionando sem banco de dados");
     }
-  }, 1000);
+  })();
 
   return app;
 }

@@ -17,6 +17,7 @@ import { useSectionTracking } from "../hooks/useSectionTracking";
 import { useAnalyticsTracking } from "../hooks/useTrackingContext";
 import { renderTextWithColorTokens } from "../utils/colorTokens";
 import { generateGradientCSS } from "../components/AdvancedGradientOverlay";
+import { OptimizedImage } from "../components/OptimizedImage";
 import {
   Accordion,
   AccordionContent,
@@ -831,21 +832,27 @@ export default function Index() {
             </div>
           ) : currentHero ? (
             <>
-              {/* Background Layer */}
-              <div className="absolute inset-0">
-                <div
-                  className="w-full h-full"
-                  style={{ backgroundColor: currentHero.background_color }}
-                />
-
+              {/* Background Layer - Fixed to prevent CLS */}
+              <div
+                className="absolute inset-0"
+                style={{
+                  backgroundColor: currentHero.background_color,
+                  minHeight: "100vh",
+                }}
+              >
                 {currentHero.background_image && (
                   <img
                     src={currentHero.background_image}
-                    alt="Background do Hero"
+                    alt=""
                     className="absolute inset-0 w-full h-full object-cover"
-                    style={{ zIndex: 1 }}
+                    style={{
+                      zIndex: 1,
+                    }}
                     loading="eager"
                     fetchpriority="high"
+                    width="1920"
+                    height="1080"
+                    decoding="async"
                   />
                 )}
 
@@ -871,6 +878,9 @@ export default function Index() {
                       className="w-40 h-16 sm:w-48 sm:h-20 lg:w-56 lg:h-24 xl:w-64 xl:h-28 object-contain"
                       loading="eager"
                       fetchpriority="high"
+                      width="256"
+                      height="112"
+                      decoding="async"
                     />
                   </div>
                 )}
@@ -1184,8 +1194,8 @@ export default function Index() {
         </section>
       </main>
 
-      {/* Sistema de ordenação dinâmica removido para evitar duplicações */}
-      {false &&
+      {/* Sistema de ordenação dinâmica removido */}
+      {false && false &&
         content.section_order?.enabled_sections
           ?.filter((section) => section.enabled)
           ?.sort((a, b) => a.order - b.order)
@@ -2203,10 +2213,16 @@ export default function Index() {
                       className="group relative bg-gray-900 rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden border border-gray-600 hover:border-ecko-red transition-all duration-500 transform hover:-translate-y-1 hover:scale-105"
                     >
                       <div className="aspect-square overflow-hidden">
-                        <img
+                        <OptimizedImage
                           src={image.image_url}
-                          alt={image.alt_text || image.title}
+                          alt={
+                            image.alt_text || image.title || "Imagem da galeria"
+                          }
+                          width={400}
+                          height={400}
                           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                          loading="lazy"
+                          sizes="(max-width: 768px) 50vw, 25vw"
                         />
                       </div>
 

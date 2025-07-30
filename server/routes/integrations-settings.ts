@@ -1,18 +1,7 @@
 import express from "express";
-import { readFileSync, writeFileSync, existsSync } from "fs";
-import { join, dirname } from "path";
-import { fileURLToPath } from "url";
-
-// ES module compatibility
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import { getDatabase } from "../config/database";
 
 export const router = express.Router();
-
-const INTEGRATIONS_SETTINGS_PATH = join(
-  __dirname,
-  "../data/integrations-settings.json",
-);
 
 interface IntegrationsSettings {
   ga4_measurement_id: string;
@@ -50,51 +39,95 @@ const defaultIntegrationsSettings: IntegrationsSettings = {
   custom_conversion_value: "1",
 };
 
-// Função para ler configurações de integrações
-function readIntegrationsSettings(): IntegrationsSettings {
+// Função para ler configurações de integrações do MySQL
+async function readIntegrationsSettings(): Promise<IntegrationsSettings> {
   try {
-    if (!existsSync(INTEGRATIONS_SETTINGS_PATH)) {
-      // Cria o arquivo com configurações padrão se não existir
-      writeFileSync(
-        INTEGRATIONS_SETTINGS_PATH,
-        JSON.stringify(defaultIntegrationsSettings, null, 2),
-        "utf8",
-      );
-      return defaultIntegrationsSettings;
-    }
+    const db = getDatabase();
+    const [rows] = await db.execute(
+      `SELECT setting_key, setting_value FROM lp_settings 
+       WHERE setting_key IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        "ga4_measurement_id",
+        "ga4_api_secret",
+        "ga4_conversion_name",
+        "meta_pixel_id",
+        "meta_access_token",
+        "meta_conversion_name",
+        "meta_test_code",
+        "meta_tracking_enabled",
+        "meta_track_pageview",
+        "meta_track_scroll",
+        "meta_track_time",
+        "meta_track_interactions",
+        "custom_conversion_enabled",
+        "custom_conversion_event",
+        "custom_conversion_value",
+      ],
+    );
 
-    const data = readFileSync(INTEGRATIONS_SETTINGS_PATH, "utf8");
-    const settings = JSON.parse(data);
+    const results = rows as any[];
+    const settings = { ...defaultIntegrationsSettings };
 
-    // Garante que todas as propriedades existam (merge com defaults)
-    return { ...defaultIntegrationsSettings, ...settings };
+    // Aplicar valores do banco sobre os padrões
+    results.forEach((row) => {
+      if (row.setting_key in settings) {
+        settings[row.setting_key as keyof IntegrationsSettings] =
+          row.setting_value || "";
+      }
+    });
+
+    return settings;
   } catch (error) {
-    console.error("Erro ao ler configurações de integrações:", error);
+    console.error("Erro ao ler configurações de integrações do MySQL:", error);
     return defaultIntegrationsSettings;
   }
 }
 
-// Função para salvar configurações de integrações
-function writeIntegrationsSettings(settings: IntegrationsSettings): void {
+// Função para salvar configurações de integrações no MySQL
+async function writeIntegrationsSettings(
+  settings: IntegrationsSettings,
+): Promise<void> {
   try {
-    writeFileSync(
-      INTEGRATIONS_SETTINGS_PATH,
-      JSON.stringify(settings, null, 2),
-      "utf8",
-    );
+    const db = getDatabase();
+
+    // Salvar cada configuração de integração no banco
+    for (const [key, value] of Object.entries(settings)) {
+      // Determinar o tipo baseado no valor
+      let settingType = "text";
+      if (key.includes("enabled") || value === "true" || value === "false") {
+        settingType = "boolean";
+      }
+
+      await db.execute(
+        `INSERT INTO lp_settings (setting_key, setting_value, setting_type) 
+         VALUES (?, ?, ?) 
+         ON DUPLICATE KEY UPDATE 
+         setting_value = VALUES(setting_value),
+         setting_type = VALUES(setting_type),
+         updated_at = CURRENT_TIMESTAMP`,
+        [key, value || "", settingType],
+      );
+    }
+
+    console.log("✅ Configurações de integrações salvas no MySQL");
   } catch (error) {
-    console.error("Erro ao salvar configurações de integrações:", error);
+    console.error(
+      "Erro ao salvar configurações de integrações no MySQL:",
+      error,
+    );
     throw error;
   }
 }
 
 // GET /api/integrations-settings - Buscar configurações
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
   try {
-    const settings = readIntegrationsSettings();
+    console.log("🔄 Buscando configurações de integrações do MySQL...");
+    const settings = await readIntegrationsSettings();
     res.json({
       success: true,
       data: settings,
+      source: "mysql_database",
     });
   } catch (error) {
     console.error("Erro ao buscar configurações de integrações:", error);
@@ -106,7 +139,7 @@ router.get("/", (req, res) => {
 });
 
 // PUT /api/integrations-settings - Atualizar configurações
-router.put("/", (req, res) => {
+router.put("/", async (req, res) => {
   try {
     const settings = req.body;
 
@@ -118,20 +151,22 @@ router.put("/", (req, res) => {
       });
     }
 
+    console.log("🔄 Atualizando configurações de integrações no MySQL...");
+
     // Merge com configurações existentes
-    const currentSettings = readIntegrationsSettings();
+    const currentSettings = await readIntegrationsSettings();
     const updatedSettings: IntegrationsSettings = {
       ...currentSettings,
       ...settings,
     };
 
-    // Salva as configurações
-    writeIntegrationsSettings(updatedSettings);
+    // Salva as configurações no MySQL
+    await writeIntegrationsSettings(updatedSettings);
 
     res.json({
       success: true,
       data: updatedSettings,
-      message: "Configurações de integrações salvas com sucesso",
+      message: "Configurações de integrações salvas com sucesso no MySQL",
     });
   } catch (error) {
     console.error("Erro ao salvar configurações de integrações:", error);

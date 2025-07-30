@@ -1,14 +1,30 @@
 import { Request, Response } from "express";
-import { readSettingsFromFile } from "./settings";
+import { getDatabase } from "../config/database";
 import * as crypto from "crypto";
+
+// Função para buscar configuração específica do MySQL
+async function getSettingValue(key: string): Promise<string | null> {
+  try {
+    const db = getDatabase();
+    const [rows] = await db.execute(
+      `SELECT setting_value FROM lp_settings WHERE setting_key = ?`,
+      [key],
+    );
+    const results = rows as any[];
+    return results.length > 0 ? results[0].setting_value : null;
+  } catch (error) {
+    console.error(`Erro ao buscar configuração ${key}:`, error);
+    return null;
+  }
+}
 
 // Função para enviar evento para Google Analytics 4
 export async function sendGA4Event(leadData: any) {
   try {
-    const settings = await readSettingsFromFile();
-    const measurementId = settings.ga4_measurement_id?.value;
-    const apiSecret = settings.ga4_api_secret?.value;
-    const eventName = settings.ga4_conversion_name?.value || "form_submit";
+    const measurementId = await getSettingValue("ga4_measurement_id");
+    const apiSecret = await getSettingValue("ga4_api_secret");
+    const eventName =
+      (await getSettingValue("ga4_conversion_name")) || "form_submit";
 
     if (!measurementId || !apiSecret) {
       console.log("GA4 não configurado - pulando envio");
@@ -68,10 +84,9 @@ export async function sendGA4Event(leadData: any) {
 // Função para enviar evento para Meta Pixel (Conversions API)
 export async function sendMetaPixelEvent(leadData: any) {
   try {
-    const settings = await readSettingsFromFile();
-    const pixelId = settings.meta_pixel_id?.value;
-    const accessToken = settings.meta_access_token?.value;
-    const eventName = settings.meta_conversion_name?.value || "Lead";
+    const pixelId = await getSettingValue("meta_pixel_id");
+    const accessToken = await getSettingValue("meta_access_token");
+    const eventName = (await getSettingValue("meta_conversion_name")) || "Lead";
 
     if (!pixelId || !accessToken) {
       console.log("Meta Pixel não configurado - pulando envio");
@@ -79,7 +94,7 @@ export async function sendMetaPixelEvent(leadData: any) {
     }
 
     const eventTime = Math.floor(Date.now() / 1000);
-    const testCode = settings.meta_test_code?.value;
+    const testCode = await getSettingValue("meta_test_code");
 
     // Preparar dados do usuário com hash SHA256
     const phone = leadData.telefone ? leadData.telefone.replace(/\D/g, "") : "";
@@ -193,8 +208,8 @@ export async function processLeadIntegrations(req: Request, res: Response) {
     results.metaPixel = metaResult;
 
     // Verificar se evento personalizado está ativado
-    const settings = await readSettingsFromFile();
-    const customEnabled = settings.custom_conversion_enabled?.value === "true";
+    const customEnabled =
+      (await getSettingValue("custom_conversion_enabled")) === "true";
 
     if (customEnabled) {
       results.customEvent = { success: true, skipped: false };
@@ -266,8 +281,10 @@ export async function testIntegrations(req: Request, res: Response) {
       metaPixel: await sendMetaPixelEvent(testLeadData),
     };
 
-    const settings = await readSettingsFromFile();
-    const customEnabled = settings.custom_conversion_enabled?.value === "true";
+    const customEnabled =
+      (await getSettingValue("custom_conversion_enabled")) === "true";
+    const customEventName =
+      (await getSettingValue("custom_conversion_event")) || "lead_captured";
 
     res.json({
       success: true,
@@ -277,7 +294,7 @@ export async function testIntegrations(req: Request, res: Response) {
         customEvent: {
           success: true,
           enabled: customEnabled,
-          eventName: settings.custom_conversion_event?.value || "lead_captured",
+          eventName: customEventName,
         },
       },
     });

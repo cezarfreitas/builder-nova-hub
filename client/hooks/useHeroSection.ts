@@ -1,5 +1,17 @@
 import { useState, useEffect, useCallback } from "react";
-import { robustFetchJson } from "../utils/robustFetch";
+import { robustFetchJson, robustFetch } from "../utils/robustFetch";
+
+// Preload critical hero images
+const preloadImage = (url: string) => {
+  if (!url || typeof window === "undefined") return;
+
+  const link = document.createElement("link");
+  link.rel = "preload";
+  link.as = "image";
+  link.href = url;
+  link.crossOrigin = "anonymous";
+  document.head.appendChild(link);
+};
 
 export interface HeroSettings {
   title: string;
@@ -76,6 +88,15 @@ export function useHeroSection() {
       });
 
       console.log("✅ [HERO] Configurações do hero carregadas com sucesso");
+
+      // Preload critical images
+      if (data.background_image) {
+        preloadImage(data.background_image);
+      }
+      if (data.logo_url) {
+        preloadImage(data.logo_url);
+      }
+
       setHeroSettings(data);
       setLoading(false);
     } catch (err) {
@@ -103,12 +124,13 @@ export function useHeroSection() {
     try {
       setError(null);
 
-      const response = await fetch("/api/hero", {
+      const response = await robustFetch("/api/hero", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(settings),
+        timeout: 8000,
       });
 
       if (!response.ok) {

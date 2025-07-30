@@ -2,7 +2,7 @@
   "title": "SEJA UM {ecko}REVENDEDOR{/ecko} OFICIAL",
   "subtitle": "O maior programa de parceria do streetwear",
   "description": "Transforme sua paixão por streetwear em um negócio lucrativo. Junte-se a milhares de revendedores que já fazem parte da família {ecko}Ecko{/ecko} e descobra como vender produtos autênticos com margens exclusivas.",
-  "background_image": "/uploads/hero/hero-1753674392487-413356357.jpg",
+  "background_image": "/uploads/hero/hero-1753793215335-760551227.jpg",
   "background_color": "#000000",
   "text_color": "#ffffff",
   "cta_primary_text": "QUERO SER {ecko}REVENDEDOR{/ecko}",
@@ -10,11 +10,11 @@
   "cta_color": "#dc2626",
   "cta_text_color": "#ffffff",
   "overlay_color": "#000000",
-  "overlay_opacity": 69,
-  "overlay_blend_mode": "multiply",
-  "overlay_gradient_enabled": false,
+  "overlay_opacity": 70,
+  "overlay_blend_mode": "normal",
+  "overlay_gradient_enabled": 0,
   "overlay_gradient_start": "#000000",
   "overlay_gradient_end": "#333333",
   "overlay_gradient_direction": "to bottom",
-  "logo_url": "/uploads/hero/hero-1753674394918-81681447.png"
+  "logo_url": "/uploads/hero/hero-1753793211968-289191980.png"
 }

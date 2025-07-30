@@ -1,5 +1,7 @@
-import { lazy, Suspense } from "react";
+import React, { lazy, Suspense } from "react";
 import { CriticalCSS } from "./components/CriticalCSS";
+import { CSSOptimizer } from "./components/CSSOptimizer";
+import { PerformanceOptimizer } from "./components/PerformanceOptimizer";
 import "./global.css";
 
 import { Toaster } from "@/components/ui/toaster";
@@ -7,6 +9,7 @@ import { createRoot, type Root } from "react-dom/client";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { MetaTrackingProvider } from "./contexts/MetaTrackingContext";
 
 // Extend HTMLElement type to include our root container property
 declare global {
@@ -35,7 +38,7 @@ const AdminFAQ = lazy(() => import("./pages/admin/AdminFAQ"));
 const AdminForm = lazy(() => import("./pages/admin/AdminForm"));
 const AdminFooter = lazy(() => import("./pages/admin/AdminFooter"));
 const AdminAbout = lazy(() => import("./pages/admin/AdminAbout"));
-const AdminOrder = lazy(() => import("./pages/admin/AdminOrder"));
+
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 // Componente de proteção de rotas
@@ -56,280 +59,267 @@ const PageLoading = () => (
 );
 
 const App = () => (
-  <BrowserRouter>
-    <CriticalCSS />
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <Routes>
-        <Route path="/" element={<Index />} />
-        <Route
-          path="/admin/login"
-          element={
-            <Suspense fallback={<PageLoading />}>
-              <AdminLogin />
-            </Suspense>
-          }
-        />
-        <Route
-          path="/admin"
-          element={
-            <Suspense fallback={<PageLoading />}>
-              <ProtectedRoute>
-                <AdminLayout />
-              </ProtectedRoute>
-            </Suspense>
-          }
-        >
-          <Route
-            index
-            element={
-              <Suspense fallback={<PageLoading />}>
-                <AdminDashboard />
-              </Suspense>
-            }
-          />
-        </Route>
-        <Route
-          path="/admin/leads"
-          element={
-            <Suspense fallback={<PageLoading />}>
-              <ProtectedRoute>
-                <AdminLayout />
-              </ProtectedRoute>
-            </Suspense>
-          }
-        >
-          <Route
-            index
-            element={
-              <Suspense fallback={<PageLoading />}>
-                <AdminLeads />
-              </Suspense>
-            }
-          />
-        </Route>
-        <Route
-          path="/admin/analytics"
-          element={
-            <Suspense fallback={<PageLoading />}>
-              <ProtectedRoute>
-                <AdminLayout />
-              </ProtectedRoute>
-            </Suspense>
-          }
-        >
-          <Route
-            index
-            element={
-              <Suspense fallback={<PageLoading />}>
-                <AdminAnalytics />
-              </Suspense>
-            }
-          />
-        </Route>
-        <Route
-          path="/admin/configuracoes"
-          element={
-            <Suspense fallback={<PageLoading />}>
-              <ProtectedRoute>
-                <AdminLayout />
-              </ProtectedRoute>
-            </Suspense>
-          }
-        >
-          <Route
-            index
-            element={
-              <Suspense fallback={<PageLoading />}>
-                <AdminConfiguracoes />
-              </Suspense>
-            }
-          />
-        </Route>
-        <Route
-          path="/admin/hero"
-          element={
-            <Suspense fallback={<PageLoading />}>
-              <ProtectedRoute>
-                <AdminLayout />
-              </ProtectedRoute>
-            </Suspense>
-          }
-        >
-          <Route
-            index
-            element={
-              <Suspense fallback={<PageLoading />}>
-                <AdminHero />
-              </Suspense>
-            }
-          />
-        </Route>
-        <Route
-          path="/admin/benefits"
-          element={
-            <Suspense fallback={<PageLoading />}>
-              <ProtectedRoute>
-                <AdminLayout />
-              </ProtectedRoute>
-            </Suspense>
-          }
-        >
-          <Route
-            index
-            element={
-              <Suspense fallback={<PageLoading />}>
-                <AdminBenefits />
-              </Suspense>
-            }
-          />
-        </Route>
-        <Route
-          path="/admin/testimonials"
-          element={
-            <Suspense fallback={<PageLoading />}>
-              <ProtectedRoute>
-                <AdminLayout />
-              </ProtectedRoute>
-            </Suspense>
-          }
-        >
-          <Route
-            index
-            element={
-              <Suspense fallback={<PageLoading />}>
-                <AdminTestimonials />
-              </Suspense>
-            }
-          />
-        </Route>
-        <Route
-          path="/admin/gallery"
-          element={
-            <Suspense fallback={<PageLoading />}>
-              <ProtectedRoute>
-                <AdminLayout />
-              </ProtectedRoute>
-            </Suspense>
-          }
-        >
-          <Route
-            index
-            element={
-              <Suspense fallback={<PageLoading />}>
-                <AdminGallery />
-              </Suspense>
-            }
-          />
-        </Route>
-        <Route
-          path="/admin/faq"
-          element={
-            <Suspense fallback={<PageLoading />}>
-              <ProtectedRoute>
-                <AdminLayout />
-              </ProtectedRoute>
-            </Suspense>
-          }
-        >
-          <Route
-            index
-            element={
-              <Suspense fallback={<PageLoading />}>
-                <AdminFAQ />
-              </Suspense>
-            }
-          />
-        </Route>
-        <Route
-          path="/admin/form"
-          element={
-            <Suspense fallback={<PageLoading />}>
-              <ProtectedRoute>
-                <AdminLayout />
-              </ProtectedRoute>
-            </Suspense>
-          }
-        >
-          <Route
-            index
-            element={
-              <Suspense fallback={<PageLoading />}>
-                <AdminForm />
-              </Suspense>
-            }
-          />
-        </Route>
-        <Route
-          path="/admin/footer"
-          element={
-            <Suspense fallback={<PageLoading />}>
-              <ProtectedRoute>
-                <AdminLayout />
-              </ProtectedRoute>
-            </Suspense>
-          }
-        >
-          <Route
-            index
-            element={
-              <Suspense fallback={<PageLoading />}>
-                <AdminFooter />
-              </Suspense>
-            }
-          />
-        </Route>
-        <Route
-          path="/admin/about"
-          element={
-            <Suspense fallback={<PageLoading />}>
-              <ProtectedRoute>
-                <AdminLayout />
-              </ProtectedRoute>
-            </Suspense>
-          }
-        >
-          <Route
-            index
-            element={
-              <Suspense fallback={<PageLoading />}>
-                <AdminAbout />
-              </Suspense>
-            }
-          />
-        </Route>
-        <Route
-          path="/admin/order"
-          element={
-            <Suspense fallback={<PageLoading />}>
-              <ProtectedRoute>
-                <AdminLayout />
-              </ProtectedRoute>
-            </Suspense>
-          }
-        >
-          <Route
-            index
-            element={
-              <Suspense fallback={<PageLoading />}>
-                <AdminOrder />
-              </Suspense>
-            }
-          />
-        </Route>
-        {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-        <Route
-          path="*"
-          element={
-            <Suspense fallback={<PageLoading />}>
-              <NotFound />
-            </Suspense>
-          }
-        />
-      </Routes>
-    </TooltipProvider>
-  </BrowserRouter>
+  <PerformanceOptimizer>
+    <BrowserRouter>
+      <CriticalCSS />
+      <CSSOptimizer />
+      <MetaTrackingProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route
+              path="/admin/login"
+              element={
+                <Suspense fallback={<PageLoading />}>
+                  <AdminLogin />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/admin"
+              element={
+                <Suspense fallback={<PageLoading />}>
+                  <ProtectedRoute>
+                    <AdminLayout />
+                  </ProtectedRoute>
+                </Suspense>
+              }
+            >
+              <Route
+                index
+                element={
+                  <Suspense fallback={<PageLoading />}>
+                    <AdminDashboard />
+                  </Suspense>
+                }
+              />
+            </Route>
+            <Route
+              path="/admin/leads"
+              element={
+                <Suspense fallback={<PageLoading />}>
+                  <ProtectedRoute>
+                    <AdminLayout />
+                  </ProtectedRoute>
+                </Suspense>
+              }
+            >
+              <Route
+                index
+                element={
+                  <Suspense fallback={<PageLoading />}>
+                    <AdminLeads />
+                  </Suspense>
+                }
+              />
+            </Route>
+            <Route
+              path="/admin/analytics"
+              element={
+                <Suspense fallback={<PageLoading />}>
+                  <ProtectedRoute>
+                    <AdminLayout />
+                  </ProtectedRoute>
+                </Suspense>
+              }
+            >
+              <Route
+                index
+                element={
+                  <Suspense fallback={<PageLoading />}>
+                    <AdminAnalytics />
+                  </Suspense>
+                }
+              />
+            </Route>
+            <Route
+              path="/admin/configuracoes"
+              element={
+                <Suspense fallback={<PageLoading />}>
+                  <ProtectedRoute>
+                    <AdminLayout />
+                  </ProtectedRoute>
+                </Suspense>
+              }
+            >
+              <Route
+                index
+                element={
+                  <Suspense fallback={<PageLoading />}>
+                    <AdminConfiguracoes />
+                  </Suspense>
+                }
+              />
+            </Route>
+            <Route
+              path="/admin/hero"
+              element={
+                <Suspense fallback={<PageLoading />}>
+                  <ProtectedRoute>
+                    <AdminLayout />
+                  </ProtectedRoute>
+                </Suspense>
+              }
+            >
+              <Route
+                index
+                element={
+                  <Suspense fallback={<PageLoading />}>
+                    <AdminHero />
+                  </Suspense>
+                }
+              />
+            </Route>
+            <Route
+              path="/admin/benefits"
+              element={
+                <Suspense fallback={<PageLoading />}>
+                  <ProtectedRoute>
+                    <AdminLayout />
+                  </ProtectedRoute>
+                </Suspense>
+              }
+            >
+              <Route
+                index
+                element={
+                  <Suspense fallback={<PageLoading />}>
+                    <AdminBenefits />
+                  </Suspense>
+                }
+              />
+            </Route>
+            <Route
+              path="/admin/testimonials"
+              element={
+                <Suspense fallback={<PageLoading />}>
+                  <ProtectedRoute>
+                    <AdminLayout />
+                  </ProtectedRoute>
+                </Suspense>
+              }
+            >
+              <Route
+                index
+                element={
+                  <Suspense fallback={<PageLoading />}>
+                    <AdminTestimonials />
+                  </Suspense>
+                }
+              />
+            </Route>
+            <Route
+              path="/admin/gallery"
+              element={
+                <Suspense fallback={<PageLoading />}>
+                  <ProtectedRoute>
+                    <AdminLayout />
+                  </ProtectedRoute>
+                </Suspense>
+              }
+            >
+              <Route
+                index
+                element={
+                  <Suspense fallback={<PageLoading />}>
+                    <AdminGallery />
+                  </Suspense>
+                }
+              />
+            </Route>
+            <Route
+              path="/admin/faq"
+              element={
+                <Suspense fallback={<PageLoading />}>
+                  <ProtectedRoute>
+                    <AdminLayout />
+                  </ProtectedRoute>
+                </Suspense>
+              }
+            >
+              <Route
+                index
+                element={
+                  <Suspense fallback={<PageLoading />}>
+                    <AdminFAQ />
+                  </Suspense>
+                }
+              />
+            </Route>
+            <Route
+              path="/admin/form"
+              element={
+                <Suspense fallback={<PageLoading />}>
+                  <ProtectedRoute>
+                    <AdminLayout />
+                  </ProtectedRoute>
+                </Suspense>
+              }
+            >
+              <Route
+                index
+                element={
+                  <Suspense fallback={<PageLoading />}>
+                    <AdminForm />
+                  </Suspense>
+                }
+              />
+            </Route>
+            <Route
+              path="/admin/footer"
+              element={
+                <Suspense fallback={<PageLoading />}>
+                  <ProtectedRoute>
+                    <AdminLayout />
+                  </ProtectedRoute>
+                </Suspense>
+              }
+            >
+              <Route
+                index
+                element={
+                  <Suspense fallback={<PageLoading />}>
+                    <AdminFooter />
+                  </Suspense>
+                }
+              />
+            </Route>
+            <Route
+              path="/admin/about"
+              element={
+                <Suspense fallback={<PageLoading />}>
+                  <ProtectedRoute>
+                    <AdminLayout />
+                  </ProtectedRoute>
+                </Suspense>
+              }
+            >
+              <Route
+                index
+                element={
+                  <Suspense fallback={<PageLoading />}>
+                    <AdminAbout />
+                  </Suspense>
+                }
+              />
+            </Route>
+
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route
+              path="*"
+              element={
+                <Suspense fallback={<PageLoading />}>
+                  <NotFound />
+                </Suspense>
+              }
+            />
+          </Routes>
+        </TooltipProvider>
+      </MetaTrackingProvider>
+    </BrowserRouter>
+  </PerformanceOptimizer>
 );
 
 export default App;
