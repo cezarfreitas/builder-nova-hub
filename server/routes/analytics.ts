@@ -830,6 +830,19 @@ export async function trackDuration(req: Request, res: Response) {
     // Dados vindos do fetch normal (JSON) ou sendBeacon (URLSearchParams)
     const { session_id, duration_seconds } = req.body;
 
+    // Validar parâmetros obrigatórios
+    if (!session_id) {
+      return res.status(400).json({
+        success: false,
+        message: "session_id é obrigatório",
+      });
+    }
+
+    // Garantir que duration_seconds seja um número válido ou null
+    const durationValue = duration_seconds !== undefined && duration_seconds !== null
+      ? Number(duration_seconds)
+      : null;
+
     // Atualizar duração da última visita desta sessão
     await db.execute(
       `
@@ -839,7 +852,7 @@ export async function trackDuration(req: Request, res: Response) {
       ORDER BY created_at DESC
       LIMIT 1
     `,
-      [duration_seconds, session_id],
+      [durationValue, session_id],
     );
 
     res.json({
